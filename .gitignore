@@ -1,3 +1,12 @@
+/completion-output-new/
+/completion-output*/
+/wrong-completions/
+/scary-good/
+/generated-python/
+/data/
+
+# github defaults:
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

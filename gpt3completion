@@ -9,17 +9,29 @@ from tqdm import tqdm
 
 openai.api_key = os.environ['OPENAI_API_KEY']
 
+
+completion_models = [
+    "text-davinci-003",
+    "code-davinci-002"
+]
+chat_models = [
+    "gpt-3.5",
+    "gpt-3.5-turbo",
+    "gpt-4",
+]
+
 conf = Namespace()
 conf.prompt = ""
-
-conf.number = 10
-conf.maxTokens = 12
+#conf.model = "text-davinci-003"
+conf.model = "gpt-4"
+conf.maxTokens = 20
+conf.number = 2
 conf.T = 1
 conf.topP = 1
 conf.bestOf = 1
 conf.addTemp0Sample = False
-conf.engine = "text-davinci-002"
 conf.stop =  "" # [")", "\n"] # "\n" # "" # ["\n", "."] #
+conf.logprobs = 0
 conf.reflect = False
 conf.sort = False
 conf.frequency_penalty = 0
@@ -35,7 +47,7 @@ conf.fileNameLength = 72
 conf.columns = 50
 conf.enumSep = ') '
 conf.countFrom = 1
-conf.noSep = True
+conf.noSep = False
 conf.promptLineComment = '#'  # expose at command line
 conf.promptEndComment = '###'
 nonFileNameChars = '\"\',./;:*?!<>|&$\\' # todo
@@ -100,38 +112,48 @@ def gpt3CompletionsSweep(prompt, n, T=conf.T, sweep=[]):
     for prompt in promptsProgress:
         promptLabel, *_ = prompt.split('\n', 1)
         promptsProgress.set_description(f"{promptLabel[:50]} ({n})")
-        completion = gpt3Completions(prompt, n, T, logprobs=20)
+        completion = gpt3Completions(prompt, n, T, logprobs=conf.logprobs)
         completions += completion
     return completions
-
-
-def gpt3YesOrNo(prompt, n, T=conf.T):
-    gpt3Completions(prompt, n, T=conf.T, logprobs=5)
 
 
 def gpt3Completions(prompt, n, T=conf.T, logprobs=0):
     bestOfArg = {'best_of': conf.bestOf} if conf.bestOf > 1 else {}
     if not prompt:
         raise Exception("empty prompt")
-    responses = openai.Completion.create(
-        n=n, engine=conf.engine, prompt=prompt, temperature=T,
-        max_tokens=conf.maxTokens, top_p=conf.topP, **bestOfArg,
-        frequency_penalty=conf.frequency_penalty,
-        presence_penalty=conf.presence_penalty,
-        stop=conf.stop,
-        logprobs=logprobs,
-        #echo=True
-    )
+    if conf.model in chat_models:
+        responses = openai.ChatCompletion.create(
+             model=conf.model,
+             messages=[
+#                 {"role" : "system", "content" : "You are a helpful assistant."},
+                 {"role" : "user", "content" : prompt}
+             ]
+        )
+    elif conf.model in completion_models:
+        responses = openai.Completion.create(
+            n=n, engine=conf.model, prompt=prompt, temperature=T,
+            max_tokens=conf.maxTokens, top_p=conf.topP, **bestOfArg,
+            frequency_penalty=conf.frequency_penalty,
+            presence_penalty=conf.presence_penalty,
+            stop=conf.stop,
+            logprobs=logprobs,
+            # echo=True,
+        )
+    else:
+        raise Exception("unknown model: " + conf.model)
+
     return decodeResponses(responses)
 
 
 def decodeResponses(responses):
-    # print(responses)
     answers = []
     for choice in responses['choices']:
-        print(choice.text.__repr__())
-        answer = choice.text.replace('\n\n', '\n')
-        answer += '[...]' if len(choice.logprobs.tokens) > 1 and choice.finish_reason == "length" else ''
+        if 'text' in choice:
+            answer = choice.text
+        else:
+            answer = choice['message']['content']
+        # answer = answer.replace('\n\n', '\n')
+        answer += '…' if choice.finish_reason == "length" else ''
         answers.append(answer)
     return answers
 
@@ -166,7 +188,7 @@ def prefixEnumerationItems(texts: list[str], sweep=None):
             text = text[1:]
         sep = '\n' if not conf.noSep and (text.count('\n') or sweep) else ' '
         sweepText = str(sweep[int(i / n)]) if sweep else ''
-        step = "Variant '" + sweepText + "':\n" if sweep and sweepText and not i % n else ''
+        step = "\nVariant '" + sweepText + "':\n" if sweep and sweepText and not i % n else ''
         results += ["%s%2d%s%s%s" % (step, (i + conf.countFrom), conf.enumSep, sep, text)]
     return results
 
@@ -226,7 +248,7 @@ def parseMetaLine(metaLine):
 def metaLine(prompt, answers):
     n = len(answers)
     avgLen = round(sum(map(len, answers)) / n)
-    return f"# GPT-3 {conf.engine} T:{conf.T} topP:{conf.topP} freqPen:{conf.frequency_penalty}" +\
+    return f"# GPT-3 {conf.model} T:{conf.T} topP:{conf.topP} freqPen:{conf.frequency_penalty}" +\
            f" presPen:{conf.presence_penalty} bestOf:{conf.bestOf} stop:{conf.stop.__repr__()} sort:{conf.sort}" +\
            f" pLen:{len(prompt)} avgLen:{avgLen} n:{n} maxT:{conf.maxTokens}"
 
@@ -251,6 +273,35 @@ def textNamedFilePath(prompt):
     if not os.path.exists(conf.outDir):
         os.mkdir(conf.outDir)
     return filePath
+
+
+def sortDict(d):
+    return dict(sorted(d.items(), key=lambda x: x[1], reverse=True))
+
+
+def stripQuotes(string):
+    if not string:
+        return ''
+    if len(string) == 1:
+        return string
+    if string[0] + string[-1] in ['""', "''"]:
+        return string[1:-1]
+    return string
+
+def readConfFile(confFile):
+    options = {}
+    with open(confFile) as config:
+        for line in config.readlines():
+            option, *nonFlagValue = line.split("=", 1)
+            option = option[:-1] if not nonFlagValue else option
+            nonFlagValue = nonFlagValue[0][:-1] if nonFlagValue else None # remove one trailing "\n"
+            nonFlagValue = stripQuotes(nonFlagValue)
+            nonFlagValue = nonFlagValue.replace('\\n', '\n') if nonFlagValue else nonFlagValue
+            # print(f"{option=} {nonFlagValue=}")
+            if not option or option[0] == '#':
+                continue
+            options[option] = nonFlagValue
+    return options
 
 
 if __name__ == '__main__': main(sys.argv)

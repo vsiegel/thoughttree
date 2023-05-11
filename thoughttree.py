@@ -18,13 +18,14 @@ from ToolTip import ToolTip
 DEFAULT_SYSTEM_PROMPT_FILE = "thoughttree-system.txt"
 system_prompt = """Allways be terse.
 Never apologize.
+Use markdown to make it more readable.
 """
 # open(DEFAULT_SYSTEM_PROMPT_FILE, 'r').read()
 
 conf = Namespace()
 conf.show_finish_reason = True
 conf.ring_bell_after_completion = True
-conf.scroll_during_completion = False
+conf.scroll_during_completion = True
 
 #NODE_OPEN = '\u25B6'
 #NODE_CLOSED = '\u25BC'
@@ -65,22 +66,21 @@ class GPT:
             return finish_reason
 
         last_event = None
-        deltas = []
-        for event in response :
-            if self.is_canceled:
-                break
-            delta = event['choices'][0]['delta']
-            if 'content' in delta :
-                content = delta["content"]
-                deltas.append(content)
-                output_delta(content)
-            last_event = event
-
-        finish_reason = ""
         try:
+            for event in response :
+                if self.is_canceled:
+                    break
+                delta = event['choices'][0]['delta']
+                if 'content' in delta :
+                    content = delta["content"]
+                    output_delta(content)
+                last_event = event
+
+            finish_reason = ""
+
             finish_reason = last_event['choices'][0]['finish_reason']
-        except TypeError as e:
-            print(f"TypeError: {e}\n{last_event=}")
+        except Exception as e:
+            print(f"Exception: {e}\n{last_event=}")
         if self.is_canceled :
             finish_reason = 'canceled'
         return finish_reason
@@ -171,9 +171,9 @@ class AMenu(tk.Menu) :
             master.add_cascade(label=label, menu=self)
         if type(master) in [tk.Tk, tk.Toplevel]:
             master.config(menu=self)
-            print(f"Added to {master}")
 
-    def item(self, label, accelerator, command) :
+
+    def item(self, label, accelerator, command, bind_key=True) :
         def convert_key_string(key_string) :
             key_parts = key_string.split("+")
             key_parts = [part.strip().lower() for part in key_parts]
@@ -182,6 +182,7 @@ class AMenu(tk.Menu) :
                 "ctrl" : "Control",
                 "alt" : "Alt",
                 "shift" : "Shift",
+                "esc": "Escape",
             }
 
             converted_parts = [key_map.get(part, part) for part in key_parts]
@@ -189,6 +190,8 @@ class AMenu(tk.Menu) :
 
         state = tk.NORMAL if command else tk.DISABLED
         self.add_command(label=label, accelerator=accelerator, command=command, state=state)
+        if bind_key and accelerator:
+            self.master.bind_all(convert_key_string(accelerator), command)
 
 class StatusBar(tk.Frame):
     def __init__(self, master=None, **kwargs):
@@ -335,6 +338,7 @@ class Thoughttree:
         self.vPaned.add(self.system_txt)
         self.vPaned.add(self.chat)
         self.chat.focus_set()
+        print(f"{self.root.focus_get()=}")
 
         self.create_menu()
 
@@ -351,6 +355,26 @@ class Thoughttree:
                 return
             self.status_bar.set_main_text("Code section saved to " + file_name)
 
+        def select_all(event=None):
+            def all_children(wid, finList):
+                _list = wid.winfo_children()
+                for item in _list:
+                    finList.append(item)
+                    all_children(item, finList)
+                return finList
+
+            all_widgetes = all_children(self.root, [])
+            print("all_widgetes: " + str(all_widgetes))
+            focus = self.root.focus_get()
+            print("focus: " + str(focus))
+            focus_widgetes = all_children(focus, [])
+            print(f"{focus_widgetes=}")
+            if (type(focus) == tk.Text):
+                focus.tag_add(tk.SEL, "1.0", tk.END)
+                focus.mark_set(tk.INSERT, "1.0")
+                focus.see(tk.INSERT)
+
+
         bar = tk.Menu(self.root, font=("Arial", 9))
         self.root.config(menu=bar)
 
@@ -366,24 +390,30 @@ class Thoughttree:
         self.root.bind_all("<Control-Shift-KeyPress-S>", save_code_section)
         self.root.bind_all("<Control-n>", self.new_window)
 
-        # menu = AMenu("Edit", bar, **mArgs)
+        menu = AMenu("Edit", bar)
         # menu.add_command(label="Cancel", accelerator="Esc", command=self.gpt.cancel)
+        menu.item("Undo", "Ctrl+Z", self.chat.edit_undo, False)
+        menu.item("Redo", "Ctrl+Shift+Z", self.chat.edit_redo, False)
+        menu.item("Cancel", "Esc", self.gpt.cancel)
+        menu.item(label="Select All", accelerator="Ctrl+A", command=select_all)
+        # self.chat.bind("<Control-a>", select_all)
 
         menu = AMenu("Output", bar)
         menu.item("Cancel", "Esc", self.gpt.cancel)
-        self.root.bind("<Escape>", self.gpt.cancel)
+        # self.root.bind("<Escape>", self.gpt.cancel)
         self.root.bind("<Control-c>", self.gpt.cancel)
 
         menu = AMenu("View", bar)
         menu.item("Show System Prompt", "", None)
         menu.item("Show Tree", "", None)
         menu.item("Count Tokens", "Ctrl+T", self.count_tokens)
-        self.chat.bind("<Control-t>", self.count_tokens)
+        # self.chat.bind("<Control-t>", self.count_tokens)
+        menu.item("Run Code", "", None)
         menu.add_command(label="Highlight Importance", command=self.highlight_importance)
 
         menu = self.context_menu = AMenu("", self.chat)
-        menu.item("Undo", "Ctrl+Z", self.chat.edit_undo)
-        menu.item("Redo", "Ctrl+Shift+Z", self.chat.edit_redo)
+        menu.item("Undo", "Ctrl+Z", self.chat.edit_undo, False)
+        menu.item("Redo", "Ctrl+Shift+Z", self.chat.edit_redo, False)
         menu.add_separator()
         menu.item("Cut", "Ctrl+X", self.cut_text)
         menu.item("Copy", "Ctrl+C", self.copy_text)

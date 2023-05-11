@@ -355,21 +355,20 @@ class Thoughttree:
                 return
             self.status_bar.set_main_text("Code section saved to " + file_name)
 
-        def select_all(event=None):
-            def all_children(wid, finList=[]):
-                _list = wid.winfo_children()
-                for item in _list:
-                    finList.append(item)
-                    all_children(item, finList)
-                return finList
+        def all_children(wid, finList=[], indent=0):
+            print(f"{'   ' * indent}{wid=}")
+            _list = wid.winfo_children()
+            for item in _list:
+                # print(f"{'   ' * indent}{item=}")
+                finList.append(item)
+                all_children(item, finList, indent + 1)
+            return finList
 
-            all_widgetes = all_children(self.root)
-            print("all_widgetes: " + str(all_widgetes))
+        def select_all(event=None):
             focus = self.root.focus_get()
-            print("focus: " + str(focus))
-            focus_widgetes = all_children(focus)
-            print(f"{focus_widgetes=}")
-            if (type(focus) == tk.Text):
+            print(f"{len(all_children(focus))=}")
+            print(f"{len(all_children(focus))=}")
+            if (type(focus) == tk.scrolledtext.ScrolledText):
                 focus.tag_add(tk.SEL, "1.0", tk.END)
                 focus.mark_set(tk.INSERT, "1.0")
                 focus.see(tk.INSERT)
@@ -415,9 +414,9 @@ class Thoughttree:
         menu.item("Undo", "Ctrl+Z", self.chat.edit_undo, False)
         menu.item("Redo", "Ctrl+Shift+Z", self.chat.edit_redo, False)
         menu.add_separator()
-        menu.item("Cut", "Ctrl+X", self.cut_text)
-        menu.item("Copy", "Ctrl+C", self.copy_text)
-        menu.item("Paste", "Ctrl+V", self.paste_text)
+        menu.item("Cut", "Ctrl+X", self.cut_text, False)
+        menu.item("Copy", "Ctrl+C", self.copy_text, False)
+        menu.item("Paste", "Ctrl+V", self.paste_text, False)
 
         self.chat.bind("<Button-3>", self.show_context_menu)
 

@@ -356,18 +356,18 @@ class Thoughttree:
             self.status_bar.set_main_text("Code section saved to " + file_name)
 
         def select_all(event=None):
-            def all_children(wid, finList):
+            def all_children(wid, finList=[]):
                 _list = wid.winfo_children()
                 for item in _list:
                     finList.append(item)
                     all_children(item, finList)
                 return finList
 
-            all_widgetes = all_children(self.root, [])
+            all_widgetes = all_children(self.root)
             print("all_widgetes: " + str(all_widgetes))
             focus = self.root.focus_get()
             print("focus: " + str(focus))
-            focus_widgetes = all_children(focus, [])
+            focus_widgetes = all_children(focus)
             print(f"{focus_widgetes=}")
             if (type(focus) == tk.Text):
                 focus.tag_add(tk.SEL, "1.0", tk.END)

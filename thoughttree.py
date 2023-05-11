@@ -355,7 +355,8 @@ class Thoughttree:
                 return
             self.status_bar.set_main_text("Code section saved to " + file_name)
 
-        def all_children(wid, finList=[], indent=0):
+        def all_children(wid, finList=None, indent=0):
+            finList = finList or []
             print(f"{'   ' * indent}{wid=}")
             _list = wid.winfo_children()
             for item in _list:
@@ -399,8 +400,6 @@ class Thoughttree:
 
         menu = AMenu("Output", bar)
         menu.item("Cancel", "Esc", self.gpt.cancel)
-        # self.root.bind("<Escape>", self.gpt.cancel)
-        self.root.bind("<Control-c>", self.gpt.cancel)
 
         menu = AMenu("View", bar)
         menu.item("Show System Prompt", "", None)

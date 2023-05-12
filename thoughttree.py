@@ -387,16 +387,20 @@ class Thoughttree:
         menu.item(label="Select All", accelerator="Ctrl+A", command=select_all)
         # self.chat.bind("<Control-a>", select_all)
 
-        menu = AMenu("Output", bar)
-        menu.item("Cancel", "Esc", self.gpt.cancel)
-
         menu = AMenu("View", bar)
         menu.item("Show System Prompt", "", None)
         menu.item("Show Tree", "", None)
-        menu.item("Count Tokens", "Ctrl+T", self.count_tokens)
+        menu.item("Count Tokens", "Ctrl+T", self.count_tokens) # todo: count words and chars too
         # self.chat.bind("<Control-t>", self.count_tokens)
         menu.item("Run Code", "", None)
-        menu.add_command(label="Highlight Importance", command=self.highlight_importance)
+        menu.item("Highlight Importance", "", self.highlight_importance)
+
+        menu = AMenu("Navigate", bar)
+        menu.item("Jump to Section", "Ctrl+B", self.jump_to_section_or_definition)
+
+        menu = AMenu("Output", bar)
+        menu.item("Cancel", "Esc", self.gpt.cancel)
+
 
         menu = self.context_menu = AMenu("", self.chat)
         menu.item("Undo", "Ctrl+Z", self.chat.edit_undo, False)
@@ -435,6 +439,35 @@ class Thoughttree:
                 start = f"{i + 1}.{start_index + 1}"
                 end = f"{i + 1}.{end_index}"
                 self.chat.tag_add('importance3', start, end)
+
+    def jump_to_section_or_definition(self, event=None) :
+
+        def find_matching_line(target_line, line_nr, lines):
+            num_lines = len(lines)
+            if num_lines == 0:
+                return 0
+            stripped_target_line = target_line.strip()
+            start = line_nr + 1
+            enum = list(enumerate(lines[start:] + lines[:start], 1))
+            for i, line in enum:
+                if line.strip() == stripped_target_line:
+                    if i == line_nr:
+                        return 0
+                    # print(enum)
+                    print(f" {i=} {num_lines=} {start=} {line.strip()=} {stripped_target_line=}")
+                    return (i + start) % num_lines
+            return 0
+
+        print(f" {self.chat.index('insert lineend')=}")
+        line_nr = int(self.chat.index('insert lineend').split('.')[0])
+        current_line = self.chat.get(f"{line_nr}.0", f"{line_nr}.end")
+        lines = self.chat.get(1.0, tk.END).splitlines()
+        jump_line = find_matching_line(current_line, line_nr, lines)
+        if jump_line :
+            jump_index = f"{jump_line}.{0}"
+            self.chat.mark_set(tk.INSERT, jump_index)
+            self.chat.see(jump_index)
+            print(f" {jump_line=} {jump_index=} {self.chat.get(f'{line_nr}.0', f'{line_nr}.end')=}")
 
     def create_textbox(self, parent, text) :
 

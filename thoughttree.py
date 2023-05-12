@@ -355,20 +355,9 @@ class Thoughttree:
                 return
             self.status_bar.set_main_text("Code section saved to " + file_name)
 
-        def all_children(wid, finList=None, indent=0):
-            finList = finList or []
-            print(f"{'   ' * indent}{wid=}")
-            _list = wid.winfo_children()
-            for item in _list:
-                # print(f"{'   ' * indent}{item=}")
-                finList.append(item)
-                all_children(item, finList, indent + 1)
-            return finList
 
         def select_all(event=None):
             focus = self.root.focus_get()
-            print(f"{len(all_children(focus))=}")
-            print(f"{len(all_children(focus))=}")
             if (type(focus) == tk.scrolledtext.ScrolledText):
                 focus.tag_add(tk.SEL, "1.0", tk.END)
                 focus.mark_set(tk.INSERT, "1.0")

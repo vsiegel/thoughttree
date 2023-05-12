@@ -463,6 +463,7 @@ class Thoughttree:
         return txt
 
     def chatWithGpt(self, postfix="\n\n") :
+
         def insert_label(text, label_text, tool_tip_text=""):
             canvas = tk.Canvas(text, bd=0, highlightthickness=0)
             label = tk.Label(canvas, text=label_text, padx=8, bg="#F0F0F0", fg="grey")
@@ -479,7 +480,9 @@ class Thoughttree:
                 self.chat.see(tk.END)
             self.chat.update()
 
-        self.chat.insert(tk.END, postfix)
+        if postfix :
+            self.chat.insert(tk.END, postfix)
+            self.chat.update()
         history = self.chat_history_from_textboxes()
         reason = self.gpt.chat_complete(history, output_chat_response_delta)
         if self.is_root_destroyed:

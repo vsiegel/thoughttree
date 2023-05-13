@@ -458,33 +458,6 @@ class Thoughttree:
 
         self.chat.bind("<Button-3>", self.show_context_menu)
 
-    def highlight_importance(self) :
-        self.chat.tag_configure('importance1', background='lightyellow')
-        self.chat.tag_configure('importance2', background='bisque')
-        self.chat.tag_configure('importance3', background='lightsalmon')
-
-        content = self.chat.get(1.0, tk.END)
-        content_lines = content.split('\n')
-
-        for i, line in enumerate(content_lines) :
-            if '¹' in line :
-                start_index = line.index('¹')
-                end_index = line.index('¹', start_index + 1)
-                start = f"{i + 1}.{start_index + 1}"
-                end = f"{i + 1}.{end_index}"
-                self.chat.tag_add('importance1', start, end)
-            if '²' in line :
-                start_index = line.index('²')
-                end_index = line.index('²', start_index + 1)
-                start = f"{i + 1}.{start_index + 1}"
-                end = f"{i + 1}.{end_index}"
-                self.chat.tag_add('importance2', start, end)
-            if '³' in line :
-                start_index = line.index('³')
-                end_index = line.index('³', start_index + 1)
-                start = f"{i + 1}.{start_index + 1}"
-                end = f"{i + 1}.{end_index}"
-                self.chat.tag_add('importance3', start, end)
 
     def jump_to_section_or_definition(self, event=None) :
 
@@ -546,12 +519,11 @@ class Thoughttree:
     def chatWithGpt(self, postfix="\n\n") :
 
         def insert_label(text, label_text, tool_tip_text=""):
-            canvas = tk.Canvas(text, bd=0, highlightthickness=0)
-            label = tk.Label(canvas, text=label_text, padx=8, bg="#F0F0F0", fg="grey")
+            label = tk.Label(text, text=label_text, padx=8, bg="#F0F0F0", fg="grey")
             if tool_tip_text:
                 ToolTip(label, tool_tip_text)
-            label.pack(expand=True, fill="both")
-            text.window_create(tk.END, window=canvas)
+            # label.pack(expand=True, fill="both")
+            text.window_create(tk.END, window=label)
 
         def output_response_delta_to_chat(content) :
             if self.is_root_destroyed :
@@ -571,7 +543,8 @@ class Thoughttree:
         if conf.show_finish_reason:
             symbol = self.finish_reasons[reason]["symbol"]
             tool_tip = self.finish_reasons[reason]["tool_tip"]
-            print(f"{reason=}")
+            if reason not in ["stop", "length", "canceled"] :
+                print(f"{reason=}")
             if symbol :
                 insert_label(self.chat, symbol, tool_tip)
         self.chat.insert(tk.END, "\n", "assistant")
@@ -689,6 +662,34 @@ class Thoughttree:
         txt.bind("<Control-Return>", lambda e: txt.insert(tk.INSERT, "\n") or "break")
         txt.bind("<Control-Key>", lambda e : "break")
         txt.bind("<Control_L>", lambda e : "break")
+
+    def highlight_importance(self) :
+        self.chat.tag_configure('importance1', background='lightyellow')
+        self.chat.tag_configure('importance2', background='bisque')
+        self.chat.tag_configure('importance3', background='lightsalmon')
+
+        content = self.chat.get(1.0, tk.END)
+        content_lines = content.split('\n')
+
+        for i, line in enumerate(content_lines) :
+            if '¹' in line :
+                start_index = line.index('¹')
+                end_index = line.index('¹', start_index + 1)
+                start = f"{i + 1}.{start_index + 1}"
+                end = f"{i + 1}.{end_index}"
+                self.chat.tag_add('importance1', start, end)
+            if '²' in line :
+                start_index = line.index('²')
+                end_index = line.index('²', start_index + 1)
+                start = f"{i + 1}.{start_index + 1}"
+                end = f"{i + 1}.{end_index}"
+                self.chat.tag_add('importance2', start, end)
+            if '³' in line :
+                start_index = line.index('³')
+                end_index = line.index('³', start_index + 1)
+                start = f"{i + 1}.{start_index + 1}"
+                end = f"{i + 1}.{end_index}"
+                self.chat.tag_add('importance3', start, end)
 
 
 if __name__ == "__main__":

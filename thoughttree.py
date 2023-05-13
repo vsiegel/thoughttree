@@ -638,14 +638,14 @@ class Thoughttree:
         if column != "#1":  # Only allow editing the "Messages" column
             return
         x, y, width, height = self.tree.bbox(row_id, column)
-        font_width = tkfont.Font(font=self.TEXT_FONT).measure('0')
-        font_height = tkfont.Font(font=self.TEXT_FONT).metrics("linespace")
+        char_width = tkfont.Font(font=self.TEXT_FONT).measure('0')
+        line_height = tkfont.Font(font=self.TEXT_FONT).metrics("linespace")
         width = max(self.tree.column(column)["width"], width)
-        height = max(font_height, height)
+        height = max(line_height, height)
 
         cur_text = self.tree.item(row_id, "values")[0]
-        w = width // font_width
-        h = height // font_height
+        w = width // char_width
+        h = height // line_height
         txt = tk.Text(self.tree, wrap=tk.WORD, width=w, height=h, font=self.TEXT_FONT,
                       highlightthickness=0, highlightbackground="black", padx=4, pady=0)
         txt.insert(tk.END, cur_text)

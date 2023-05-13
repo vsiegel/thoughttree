@@ -254,7 +254,7 @@ class Thoughttree:
     def new_window(self, event=None):
         # new_root = tk.Toplevel(self.root)
         # Thoughttree(new_root)
-        Thoughttree(tk.Toplevel())
+        Thoughttree(tk.Tk())
 
     def show_context_menu(self, event) :
         self.context_menu.tk_popup(event.x_root, event.y_root)
@@ -498,17 +498,16 @@ class Thoughttree:
                 if line.strip() == stripped_target_line:
                     # if i == line_nr:
                     #     return 0
-                    print(f" {i=} {num_lines=} {start=} {line.strip()=} {stripped_target_line=}")
+                    # print(f" {i=} {num_lines=} {start=} {line.strip()=} {stripped_target_line=}")
                     return (i + start) % num_lines
             return 0
 
-        print()
-        print(f" {self.chat.index('insert')=}")
-        print(f" {self.chat.index('insert lineend')=}")
-        line_nr = int(self.chat.index('insert lineend').split('.')[0])
+        # print()
+        # print(f" {self.chat.index('insert')=}")
+        # print(f" {self.chat.index('insert + 1 chars')=}")
+        line_nr = int(self.chat.index('insert + 1 chars').split('.')[0])
         current_line = self.chat.get(f"{line_nr}.0", f"{line_nr}.end")
         if not current_line.strip():
-            print(f"Oops! {current_line=}")
             return
         lines = self.chat.get(1.0, tk.END).splitlines()
         jump_line = find_matching_line(current_line, line_nr, lines)
@@ -516,7 +515,7 @@ class Thoughttree:
             jump_index = f"{jump_line}.{0}"
             self.chat.mark_set(tk.INSERT, jump_index)
             self.chat.see(jump_index)
-            print(f" {jump_line=} {jump_index=} {self.chat.get(f'{line_nr}.0', f'{line_nr}.end')=}")
+            # print(f" {jump_line=} {jump_index=} {self.chat.get(f'{line_nr}.0', f'{line_nr}.end')=}")
 
     def create_textbox(self, parent, text) :
 

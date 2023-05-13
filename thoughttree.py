@@ -44,14 +44,16 @@ class GPT:
     def __init__(self):
         pass
 
-    def chat_complete(self, history, output_delta):
+    def chat_complete(self, history, output_delta, max_tokens=None, temperature=None):
+        max_tokens = max_tokens or self.max_tokens
+        temperature = temperature or self.temperature
         self.is_canceled = False
         try:
             response = openai.ChatCompletion.create(
                 model=self.model,
                 messages=history,
-                max_tokens=self.max_tokens,
-                temperature=self.temperature,
+                max_tokens=max_tokens,
+                temperature=temperature,
                 stream=True
             )
         except Exception as e:
@@ -165,15 +167,17 @@ class FileManager:
             FileManager.load_chat(text_widget, file)
 
 class AMenu(tk.Menu) :
+    FONT = ("Arial", 10)
+
     def __init__(self, label, master) :
-        super().__init__(master, tearoff=0, font=("Arial", 9))
+        super().__init__(master, tearoff=0, font=self.FONT)
         if type(master) == tk.Menu:
             master.add_cascade(label=label, menu=self)
         if type(master) in [tk.Tk, tk.Toplevel]:
             master.config(menu=self)
 
 
-    def item(self, label, accelerator, command, bind_key=True) :
+    def item(self, label, accelerator, command, bind_key=True, context_menu=None) :
         def convert_key_string(key_string) :
             key_parts = key_string.split("+")
             key_parts = [part.strip().lower() for part in key_parts]
@@ -190,6 +194,8 @@ class AMenu(tk.Menu) :
 
         state = tk.NORMAL if command else tk.DISABLED
         self.add_command(label=label, accelerator=accelerator, command=command, state=state)
+        if context_menu :
+            context_menu.add_command(label=label, accelerator=accelerator, command=command, state=state)
         if bind_key and accelerator:
             self.master.bind_all(convert_key_string(accelerator), command)
 
@@ -198,11 +204,15 @@ class StatusBar(tk.Frame):
         super().__init__(master, **kwargs)
         self.master = master
 
-        self.small_label = tk.Label(self, text="", bd=1, relief=tk.SUNKEN, anchor=tk.W, font=("Arial", 9), width=2)
+        defaults = {"text": "", "bd": 1, "relief": tk.SUNKEN, "anchor": tk.W, "font": ("Arial", 9)}
+        self.small_label = tk.Label(self, **defaults, width=2)
         self.small_label.pack(side=tk.LEFT)
 
-        self.main_label = tk.Label(self, text="", bd=1, relief=tk.SUNKEN, anchor=tk.W, font=("Arial", 9))
+        self.main_label = tk.Label(self, **defaults)
         self.main_label.pack(side=tk.LEFT, padx=(5, 0), fill=tk.X, expand=True)
+
+        self.right_label = tk.Label(self, **defaults, width=20)
+        self.right_label.pack(side=tk.LEFT, padx=(5, 0), fill=tk.X)
 
     def set_small_text(self, text):
         self.small_label.config(text=text)
@@ -210,6 +220,10 @@ class StatusBar(tk.Frame):
 
     def set_main_text(self, text):
         self.main_label.config(text=text)
+        self.update()
+
+    def set_right_text(self, text):
+        self.right_label.config(text=text)
         self.update()
 
 
@@ -238,8 +252,9 @@ class Thoughttree:
         self.root.destroy()
 
     def new_window(self, event=None):
-        new_root = tk.Toplevel(self.root)
-        Thoughttree(new_root)
+        # new_root = tk.Toplevel(self.root)
+        # Thoughttree(new_root)
+        Thoughttree(tk.Toplevel())
 
     def show_context_menu(self, event) :
         self.context_menu.tk_popup(event.x_root, event.y_root)
@@ -355,7 +370,6 @@ class Thoughttree:
                 return
             self.status_bar.set_main_text("Code section saved to " + file_name)
 
-
         def select_all(event=None):
             focus = self.root.focus_get()
             if (type(focus) == tk.scrolledtext.ScrolledText):
@@ -363,8 +377,37 @@ class Thoughttree:
                 focus.mark_set(tk.INSERT, "1.0")
                 focus.see(tk.INSERT)
 
+        def update_window_title(event=None):
+            progress_title = "[Generating...]"
 
-        bar = tk.Menu(self.root, font=("Arial", 9))
+            def output_response_delta_to_title(content):
+                if self.is_root_destroyed:
+                    return
+                current_title = self.root.title()
+                if current_title == progress_title:
+                    current_title = ""
+                self.root.title(current_title + content)
+                self.chat.update()
+
+            self.root.title(progress_title)
+            self.chat.update()
+            history = self.chat_history_from_textboxes(
+                "A title for this conversation, about 70 characters. Style does not matter,"
+                " it is about the information. It is used as a one line title for this conversation."
+                " Just the unquoted text of the title, without any prefixes:")
+            self.gpt.chat_complete(history, output_response_delta_to_title, 30, 1)
+
+        def menu_test(event=None):
+            initial_insert_index = "3.0"
+            self.chat.mark_set(tk.INSERT, initial_insert_index)
+            print(f"insert_index set to {initial_insert_index=}")
+            for i in range(10):
+                print()
+                insert_index = self.chat.index(tk.INSERT)
+                print(f"{insert_index=}")
+                self.chat.mark_set(tk.INSERT, "insert + 1 character")
+
+        bar = tk.Menu(self.root, font=AMenu.FONT)
         self.root.config(menu=bar)
 
         menu = AMenu("File", bar)
@@ -379,12 +422,19 @@ class Thoughttree:
         self.root.bind_all("<Control-Shift-KeyPress-S>", save_code_section)
         self.root.bind_all("<Control-n>", self.new_window)
 
+        context = self.context_menu = AMenu("", self.chat)
+        context.item("Undo", "Ctrl+Z", self.chat.edit_undo, False)
+        context.item("Redo", "Ctrl+Shift+Z", self.chat.edit_redo, False)
+        context.add_separator()
+        context.item("Cut", "Ctrl+X", self.cut_text, False)
+        context.item("Copy", "Ctrl+C", self.copy_text, False)
+        context.item("Paste", "Ctrl+V", self.paste_text, False)
+
         menu = AMenu("Edit", bar)
-        # menu.add_command(label="Cancel", accelerator="Esc", command=self.gpt.cancel)
         menu.item("Undo", "Ctrl+Z", self.chat.edit_undo, False)
         menu.item("Redo", "Ctrl+Shift+Z", self.chat.edit_redo, False)
         menu.item("Cancel", "Esc", self.gpt.cancel)
-        menu.item(label="Select All", accelerator="Ctrl+A", command=select_all)
+        menu.item("Select All", "Ctrl+A", command=select_all)
         # self.chat.bind("<Control-a>", select_all)
 
         menu = AMenu("View", bar)
@@ -393,6 +443,7 @@ class Thoughttree:
         menu.item("Count Tokens", "Ctrl+T", self.count_tokens) # todo: count words and chars too
         # self.chat.bind("<Control-t>", self.count_tokens)
         menu.item("Run Code", "", None)
+        menu.item("Update Window Title", "Ctrl+U", update_window_title)
         menu.item("Highlight Importance", "", self.highlight_importance)
 
         menu = AMenu("Navigate", bar)
@@ -401,14 +452,9 @@ class Thoughttree:
         menu = AMenu("Output", bar)
         menu.item("Cancel", "Esc", self.gpt.cancel)
 
-
-        menu = self.context_menu = AMenu("", self.chat)
-        menu.item("Undo", "Ctrl+Z", self.chat.edit_undo, False)
-        menu.item("Redo", "Ctrl+Shift+Z", self.chat.edit_redo, False)
-        menu.add_separator()
-        menu.item("Cut", "Ctrl+X", self.cut_text, False)
-        menu.item("Copy", "Ctrl+C", self.copy_text, False)
-        menu.item("Paste", "Ctrl+V", self.paste_text, False)
+        menu = AMenu("Help", bar)
+        menu.item("Test", "", menu_test)
+        menu.item("About", "", None)
 
         self.chat.bind("<Button-3>", self.show_context_menu)
 
@@ -448,19 +494,22 @@ class Thoughttree:
                 return 0
             stripped_target_line = target_line.strip()
             start = line_nr + 1
-            enum = list(enumerate(lines[start:] + lines[:start], 1))
-            for i, line in enum:
+            for i, line in enumerate(lines[start:] + lines[:start], 1):
                 if line.strip() == stripped_target_line:
-                    if i == line_nr:
-                        return 0
-                    # print(enum)
+                    # if i == line_nr:
+                    #     return 0
                     print(f" {i=} {num_lines=} {start=} {line.strip()=} {stripped_target_line=}")
                     return (i + start) % num_lines
             return 0
 
+        print()
+        print(f" {self.chat.index('insert')=}")
         print(f" {self.chat.index('insert lineend')=}")
         line_nr = int(self.chat.index('insert lineend').split('.')[0])
         current_line = self.chat.get(f"{line_nr}.0", f"{line_nr}.end")
+        if not current_line.strip():
+            print(f"Oops! {current_line=}")
+            return
         lines = self.chat.get(1.0, tk.END).splitlines()
         jump_line = find_matching_line(current_line, line_nr, lines)
         if jump_line :
@@ -505,7 +554,7 @@ class Thoughttree:
             label.pack(expand=True, fill="both")
             text.window_create(tk.END, window=canvas)
 
-        def output_chat_response_delta(content) :
+        def output_response_delta_to_chat(content) :
             if self.is_root_destroyed :
                 return
             self.chat.insert(tk.END, content, "assistant")
@@ -517,7 +566,7 @@ class Thoughttree:
             self.chat.insert(tk.END, postfix)
             self.chat.update()
         history = self.chat_history_from_textboxes()
-        reason = self.gpt.chat_complete(history, output_chat_response_delta)
+        reason = self.gpt.chat_complete(history, output_response_delta_to_chat)
         if self.is_root_destroyed:
             return
         if conf.show_finish_reason:
@@ -536,8 +585,7 @@ class Thoughttree:
                 time.sleep(.5)
                 self.root.bell()
 
-
-    def chat_history_from_textboxes(self):
+    def chat_history_from_textboxes(self, additional_message=None) :
         system = self.system_txt.get(1.0, 'end - 1c').strip()
         history = [{'role': 'system', 'content': system}]
         content = self.chat.dump(1.0, tk.END, text=True, tag=True)
@@ -559,6 +607,8 @@ class Thoughttree:
                 history += [{'role' : 'assistant', 'content' : section}]
             elif history[-1]['role'] in ["assistant", "system"] :
                 history += [{'role' : 'user', 'content' : section}]
+        if additional_message:
+            history += [{'role': 'user', 'content': additional_message}]
         return history
 
     def resize_textbox(self, txt) :

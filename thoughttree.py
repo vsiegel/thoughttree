@@ -398,14 +398,16 @@ class Thoughttree:
             self.gpt.chat_complete(history, output_response_delta_to_title, 30, 1)
 
         def menu_test(event=None):
-            initial_insert_index = "3.0"
-            self.chat.mark_set(tk.INSERT, initial_insert_index)
-            print(f"insert_index set to {initial_insert_index=}")
-            for i in range(10):
-                print()
-                insert_index = self.chat.index(tk.INSERT)
-                print(f"{insert_index=}")
-                self.chat.mark_set(tk.INSERT, "insert + 1 character")
+            notebook = ttk.Notebook(self.chat, height=200, padding=(0, 0, 0, 0))
+            t1 = self.create_textbox(notebook, "Foo")
+            t2 = self.create_textbox(notebook, "Bar")
+            t1.configure(height=20, padx=0, pady=0)
+            t2.configure(height=20, padx=0, pady=0)
+            notebook.add(t1, text='One')
+            notebook.add(t2, text='Two')
+            self.chat.insert(tk.INSERT, '\n')
+            self.chat.window_create(tk.INSERT, window=notebook)
+            self.chat.insert(tk.INSERT, '\n')
 
         bar = tk.Menu(self.root, font=AMenu.FONT)
         self.root.config(menu=bar)
@@ -499,7 +501,7 @@ class Thoughttree:
 
         lines = len(text.splitlines())
         txt = ScrolledText(parent, insertwidth=3, undo=True,
-                      wrap=tk.WORD, height=lines, padx=5, pady=5,
+                      wrap=tk.WORD, height=lines, padx=1, pady=1,
                       font=self.TEXT_FONT, bd=0, background="white",
                       highlightbackground='black', highlightcolor='green',
                       selectbackground="#66a2d4", selectforeground="white")

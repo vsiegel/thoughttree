@@ -90,7 +90,7 @@ class GPT:
         return finish_reason
 
     def count_tokens(self, text):
-        enc = tiktoken.encoding_for_model("gpt-4")
+        enc = tiktoken.encoding_for_model(self.model)
         num_tokens = len(enc.encode(text))
         os.environ['TOKENIZERS_PARALLELISM'] = "false"
         if not GPT.tokenizer :

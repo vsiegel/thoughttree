@@ -60,12 +60,12 @@ class GPT:
                 stream=True
             )
         except Exception as e:
-            if conf.ring_bell_after_completion:
-                for i in range(3):
-                    if i == 1:
-                        self.root.bell()
-                    time.sleep(.5)
-                    self.root.bell()
+            # if conf.ring_bell_after_completion:
+            #     for i in range(3):
+            #         if i == 1:
+            #             self.root.bell()
+            #         time.sleep(.5)
+            #         self.root.bell()
             showerror("Error", f"Exception: {e}")
             finish_reason = 'error'
             return finish_reason

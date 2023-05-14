@@ -311,10 +311,10 @@ class Thoughttree:
 
         self.status_bar = StatusBar(self.root)
         self.status_bar.pack(side=tk.BOTTOM, fill=tk.X)
-
-        self.hPaned = tk.PanedWindow(self.root, orient=tk.HORIZONTAL, sashwidth=7)
+        SASHWIDTH = 8
+        self.hPaned = tk.PanedWindow(self.root, orient=tk.HORIZONTAL, sashwidth=SASHWIDTH)
         self.hPaned.pack(fill=tk.BOTH, expand=True)
-        self.vPaned = tk.PanedWindow(self.hPaned, orient=tk.VERTICAL, sashwidth=7)
+        self.vPaned = tk.PanedWindow(self.hPaned, orient=tk.VERTICAL, sashwidth=SASHWIDTH)
 
         tree = ttk.Treeview(self.hPaned, columns=("C1"), show="tree")
         self.tree = tree

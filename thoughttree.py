@@ -48,6 +48,7 @@ class GPT:
         pass
 
     def chat_complete(self, history, output_delta, max_tokens=None, temperature=None):
+        finish_reason = 'error'
         max_tokens = max_tokens or self.max_tokens
         temperature = temperature or self.temperature
         self.is_canceled = False
@@ -80,8 +81,6 @@ class GPT:
                     content = delta["content"]
                     output_delta(content)
                 last_event = event
-
-            finish_reason = ""
 
             finish_reason = last_event['choices'][0]['finish_reason']
         except Exception as e:

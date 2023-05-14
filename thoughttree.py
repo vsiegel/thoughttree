@@ -255,8 +255,6 @@ class Thoughttree:
         self.root.destroy()
 
     def new_window(self, event=None):
-        # new_root = tk.Toplevel(self.root)
-        # Thoughttree(new_root)
         Thoughttree(tk.Tk())
 
     def show_context_menu(self, event) :

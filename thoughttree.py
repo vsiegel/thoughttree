@@ -11,9 +11,12 @@ from tkinter.scrolledtext import ScrolledText
 import openai
 from tkinter import filedialog
 
+import tiktoken
 from transformers import GPT2TokenizerFast
 
 from ToolTip import ToolTip
+
+CHATGPT_ICO = "chatgpt.ico"
 
 DEFAULT_SYSTEM_PROMPT_FILE = "thoughttree-system.txt"
 system_prompt = """Allways be terse.
@@ -88,12 +91,17 @@ class GPT:
         return finish_reason
 
     def count_tokens(self, text):
+        enc = tiktoken.encoding_for_model("gpt-4")
+        num_tokens = len(enc.encode(text))
         os.environ['TOKENIZERS_PARALLELISM'] = "false"
         if not GPT.tokenizer :
             GPT.tokenizer = GPT2TokenizerFast.from_pretrained("gpt2")
         tokenized = GPT.tokenizer(text)
         tokens = tokenized['input_ids']
-        return len(tokens)
+        print(f"Number of tokens: {num_tokens}")
+        n = len(tokens)
+        print(f"Number of tokens: {n}")
+        return n
 
     def cancel(self, event=None):
         self.is_canceled = True
@@ -245,6 +253,11 @@ class Thoughttree:
         self.root = root
         self.is_root_destroyed = False
         self.root.protocol("WM_DELETE_WINDOW", self.on_root_close)
+        print(f"{os.path.exists(CHATGPT_ICO)}")
+        try :
+            root.iconbitmap(CHATGPT_ICO)
+        except Exception as e:
+            print("Error loading chatgpt.ico:", e)
         self.create_ui()
 
     def on_root_close(self) :
@@ -610,6 +623,7 @@ class Thoughttree:
         n = self.gpt.count_tokens(text)
         self.status_bar.set_main_text("")
         showinfo("Count Tokens", f"The text is {n} GPT tokens long")
+        return "break"
 
     def create_dummy_data(self, tree):
         for r in range(10):

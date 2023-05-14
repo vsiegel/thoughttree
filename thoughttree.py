@@ -92,15 +92,7 @@ class GPT:
     def count_tokens(self, text):
         enc = tiktoken.encoding_for_model(self.model)
         num_tokens = len(enc.encode(text))
-        os.environ['TOKENIZERS_PARALLELISM'] = "false"
-        if not GPT.tokenizer :
-            GPT.tokenizer = GPT2TokenizerFast.from_pretrained("gpt2")
-        tokenized = GPT.tokenizer(text)
-        tokens = tokenized['input_ids']
-        print(f"Number of tokens: {num_tokens}")
-        n = len(tokens)
-        print(f"Number of tokens: {n}")
-        return n
+        return num_tokens
 
     def cancel(self, event=None):
         self.is_canceled = True

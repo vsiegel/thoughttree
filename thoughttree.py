@@ -608,9 +608,16 @@ class Thoughttree:
         except tk.TclError :
             text = self.chat.get(1.0, tk.END)
         self.status_bar.set_main_text("Counting tokens (loading model)")
-        n = self.gpt.count_tokens(text)
+        num_tokens = self.gpt.count_tokens(text)
+        num_lines = text.count("\n")
+        num_words = len(text.split())
+        num_chars = len(text)
         self.status_bar.set_main_text("")
-        showinfo("Count Tokens", f"The text is {n} GPT tokens long")
+        showinfo("Count Tokens", f"The length of the text is:"
+                                 f"{num_tokens} GPT tokens\n"/
+                                 f"{num_lines} lines\n"
+                                 f"{num_words} words\n"
+                                 f"{num_chars} characters")
         return "break"
 
     def create_dummy_data(self, tree):

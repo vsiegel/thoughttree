@@ -7,6 +7,7 @@ from tkinter import ttk, font
 from tkinter import font as tkfont
 from tkinter.messagebox import showinfo, showerror
 from tkinter.scrolledtext import ScrolledText
+from typing import Union
 
 import openai
 from tkinter import filedialog
@@ -168,7 +169,7 @@ class FileManager:
 class AMenu(tk.Menu) :
     FONT = ("Arial", 10)
 
-    def __init__(self, label, master: tk.Tk | tk.Menu, **kwargs):
+    def __init__(self, label, master: Union[tk.Tk, tk.Menu], **kwargs):
         super().__init__(master, tearoff=0, font=self.FONT)
         if type(master) == tk.Menu:
             master.add_cascade(label=label, menu=self)

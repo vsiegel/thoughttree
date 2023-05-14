@@ -123,7 +123,7 @@ class FileManager:
 
     @staticmethod
     def save_chat_dialog(text_widget) :
-        file = filedialog.asksaveasfilename(defaultextension=".txt", initialfile="ttt.txt")
+        file = filedialog.asksaveasfilename(defaultextension=".txt", initialfile="chat.txt")
         if file :
             FileManager.save_chat(text_widget, file)
         return file

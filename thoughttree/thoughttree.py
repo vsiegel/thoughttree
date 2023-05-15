@@ -13,6 +13,7 @@ from tkinter import filedialog
 
 from ToolTip import ToolTip
 from GPT import GPT
+from StatusBar import StatusBar
 
 CHATGPT_ICO = "chatgpt-icon.png"
 
@@ -133,34 +134,6 @@ class AMenu(tk.Menu):
             context_menu.add_command(label=label, accelerator=accelerator, command=command, state=state)
         if bind_key and accelerator:
             self.master.bind_all(convert_key_string(accelerator), command, False)
-
-
-class StatusBar(tk.Frame):
-    def __init__(self, master=None, **kwargs):
-        super().__init__(master, **kwargs)
-        self.master = master
-
-        defaults = {"text": "", "bd": 1, "relief": tk.SUNKEN, "anchor": tk.W, "font": ("Arial", 9)}
-        self.small_label = tk.Label(self, **defaults, width=2)
-        self.small_label.pack(side=tk.LEFT)
-
-        self.main_label = tk.Label(self, **defaults)
-        self.main_label.pack(side=tk.LEFT, padx=(5, 0), fill=tk.X, expand=True)
-
-        self.right_label = tk.Label(self, **defaults, width=20)
-        self.right_label.pack(side=tk.LEFT, padx=(5, 0), fill=tk.X)
-
-    def set_small_text(self, text):
-        self.small_label.config(text=text)
-        self.update()
-
-    def set_main_text(self, text):
-        self.main_label.config(text=text)
-        self.update()
-
-    def set_right_text(self, text):
-        self.right_label.config(text=text)
-        self.update()
 
 
 class Thoughttree:
@@ -650,9 +623,3 @@ class Thoughttree:
                 start = f"{i + 1}.{start_index + 1}"
                 end = f"{i + 1}.{end_index}"
                 self.chat.tag_add('importance3', start, end)
-
-
-if __name__ == "__main__":
-    root = tk.Tk()
-    Thoughttree(root)
-    root.mainloop()

@@ -9,15 +9,12 @@ from tkinter.messagebox import showinfo, showerror
 from tkinter.scrolledtext import ScrolledText
 from typing import Union
 
-import openai
 from tkinter import filedialog
 
-import tiktoken
-from transformers import GPT2TokenizerFast
-
 from ToolTip import ToolTip
+from GPT import GPT
 
-CHATGPT_ICO = "chatgpt.ico"
+CHATGPT_ICO = "chatgpt-icon.png"
 
 DEFAULT_SYSTEM_PROMPT_FILE = "thoughttree-system.txt"
 system_prompt = """Allways be terse.
@@ -36,67 +33,6 @@ conf.scroll_during_completion = True
 NODE_OPEN = '*'
 NODE_CLOSED = '|'
 
-
-class GPT:
-    max_tokens = 1500
-    temperature = 0.5
-    model = 'gpt-4'
-    tokenizer = None
-
-    is_canceled = False
-
-    def __init__(self):
-        pass
-
-    def chat_complete(self, history, output_delta, max_tokens=None, temperature=None):
-        finish_reason = 'error'
-        max_tokens = max_tokens or self.max_tokens
-        temperature = temperature or self.temperature
-        self.is_canceled = False
-        try:
-            response = openai.ChatCompletion.create(
-                model=self.model,
-                messages=history,
-                max_tokens=max_tokens,
-                temperature=temperature,
-                stream=True
-            )
-        except Exception as e:
-            # if conf.ring_bell_after_completion:
-            #     for i in range(3):
-            #         if i == 1:
-            #             self.root.bell()
-            #         time.sleep(.5)
-            #         self.root.bell()
-            showerror("Error", f"Exception: {e}")
-            finish_reason = 'error'
-            return finish_reason
-
-        last_event = None
-        try:
-            for event in response :
-                if self.is_canceled:
-                    break
-                delta = event['choices'][0]['delta']
-                if 'content' in delta :
-                    content = delta["content"]
-                    output_delta(content)
-                last_event = event
-
-            finish_reason = last_event['choices'][0]['finish_reason']
-        except Exception as e:
-            print(f"Exception: {e}\n{last_event=}")
-        if self.is_canceled :
-            finish_reason = 'canceled'
-        return finish_reason
-
-    def count_tokens(self, text):
-        enc = tiktoken.encoding_for_model(self.model)
-        num_tokens = len(enc.encode(text))
-        return num_tokens
-
-    def cancel(self, event=None):
-        self.is_canceled = True
 
 class FileManager:
     @staticmethod
@@ -166,14 +102,14 @@ class FileManager:
         if file :
             FileManager.load_chat(text_widget, file)
 
-class AMenu(tk.Menu) :
+class AMenu(tk.Menu):
     FONT = ("Arial", 10)
 
-    def __init__(self, label, master: Union[tk.Tk, tk.Menu], **kwargs):
+    def __init__(self, label, master: Union[tk.Tk, tk.Text, tk.Menu], **kwargs):
         super().__init__(master, tearoff=0, font=self.FONT)
         if type(master) == tk.Menu:
             master.add_cascade(label=label, menu=self)
-        if type(master) in [tk.Tk, tk.Toplevel]:
+        if type(master) in [tk.Tk, tk.Text]:
             master.config(menu=self)
 
     def item(self, label, accelerator, command, bind_key=True, context_menu=None) :
@@ -196,7 +132,8 @@ class AMenu(tk.Menu) :
         if context_menu :
             context_menu.add_command(label=label, accelerator=accelerator, command=command, state=state)
         if bind_key and accelerator:
-            self.master.bind_all(convert_key_string(accelerator), command)
+            self.master.bind_all(convert_key_string(accelerator), command, False)
+
 
 class StatusBar(tk.Frame):
     def __init__(self, master=None, **kwargs):
@@ -244,9 +181,12 @@ class Thoughttree:
         self.root = root
         self.is_root_destroyed = False
         self.root.protocol("WM_DELETE_WINDOW", self.on_root_close)
+
         print(f"{os.path.exists(CHATGPT_ICO)}")
         try :
-            root.iconbitmap(CHATGPT_ICO)
+            img = tk.PhotoImage(file=CHATGPT_ICO)
+            # root.tk.call('wm', 'iconphoto', root._w, img)
+            root.iconphoto(False, img)
         except Exception as e:
             print("Error loading chatgpt.ico:", e)
         self.create_ui()
@@ -374,7 +314,7 @@ class Thoughttree:
 
         def select_all(event=None):
             focus = self.root.focus_get()
-            if (type(focus) == tk.scrolledtext.ScrolledText):
+            if type(focus) == tk.scrolledtext.ScrolledText :
                 focus.tag_add(tk.SEL, "1.0", tk.END)
                 focus.mark_set(tk.INSERT, "1.0")
                 focus.see(tk.INSERT)
@@ -395,7 +335,9 @@ class Thoughttree:
             self.chat.update()
             history = self.chat_history_from_textboxes(
                 "A title for this conversation, about 70 characters. Style does not matter,"
-                " it is about the information. It is used as a one line title for this conversation."
+                " it is about the information. Do not refer to the content of the system prompt."
+                " If there is no chat history, the title will be empty."
+                " It is used as a one line title for this conversation."
                 " Just the unquoted text of the title, without any prefixes:")
             self.gpt.chat_complete(history, output_response_delta_to_title, 30, 1)
 
@@ -407,9 +349,14 @@ class Thoughttree:
             t2.configure(height=20, padx=0, pady=0)
             notebook.add(t1, text='One')
             notebook.add(t2, text='Two')
-            self.chat.insert(tk.INSERT, '\n')
-            self.chat.window_create(tk.INSERT, window=notebook)
-            self.chat.insert(tk.INSERT, '\n')
+
+            def insert_with_newline(txt, widget, pos="insert") :
+                txt.insert(pos, '\n')
+                txt.window_create(pos, window=widget)
+                txt.insert(pos, '\n')
+
+            insert_with_newline(self.chat, notebook)
+            insert_with_newline(self.chat, tk.Label(self.chat, text="Foo"), tk.INSERT + " + 2 lines")
 
         bar = tk.Menu(self.root, font=AMenu.FONT)
         self.root.config(menu=bar)
@@ -444,8 +391,8 @@ class Thoughttree:
         menu = AMenu("View", bar)
         menu.item("Show System Prompt", "", None)
         menu.item("Show Tree", "", None)
-        menu.item("Count Tokens", "Ctrl+T", self.count_tokens) # todo: count words and chars too
-        # self.chat.bind("<Control-t>", self.count_tokens)
+        menu.item("Count Tokens", "Ctrl+T", self.count_tokens) # todo: count words, lines and chars too
+        # self.chat.bind("<Control-t>", self.count_tokens, False)
         menu.item("Run Code", "", None)
         menu.item("Update Window Title", "Ctrl+U", update_window_title)
         menu.item("Highlight Importance", "", self.highlight_importance)
@@ -457,7 +404,7 @@ class Thoughttree:
         menu.item("Cancel", "Esc", self.gpt.cancel)
 
         menu = AMenu("Help", bar)
-        menu.item("Test", "", menu_test)
+        menu.item("Test", "Ctrl+Shift+T", menu_test)
         menu.item("About", "", None)
 
         self.chat.bind("<Button-3>", self.show_context_menu)
@@ -614,11 +561,12 @@ class Thoughttree:
         num_words = len(text.split())
         num_chars = len(text)
         self.status_bar.set_main_text("")
-        showinfo("Count Tokens", f"The length of the text is:"
-                                 f"{num_tokens} GPT tokens\n"/
-                                 f"{num_lines} lines\n"
-                                 f"{num_words} words\n"
-                                 f"{num_chars} characters")
+        showinfo("Count Tokens",
+                 f"The length of the text is:\n"
+                 f"{num_tokens} tokens\n"
+                 f"{num_lines} lines\n"
+                 f"{num_words} words\n"
+                 f"{num_chars} characters")
         return "break"
 
     def create_dummy_data(self, tree):
@@ -672,8 +620,8 @@ class Thoughttree:
         # txt.bind("<FocusOut>", save_text)
         txt.bind("<Return>", lambda e: e.state & 0x4 == 0 and save_text(e) or self.tree.focus_set())
         txt.bind("<Control-Return>", lambda e: txt.insert(tk.INSERT, "\n") or "break")
-        txt.bind("<Control-Key>", lambda e : "break")
-        txt.bind("<Control_L>", lambda e : "break")
+        # txt.bind("<Control-Key>", lambda e : "break")
+        # txt.bind("<Control_L>", lambda e : "break")
 
     def highlight_importance(self) :
         self.chat.tag_configure('importance1', background='lightyellow')

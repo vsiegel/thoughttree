@@ -308,9 +308,10 @@ class Thoughttree:
             self.chat.update()
             history = self.chat_history_from_textboxes(
                 "A title for this conversation, about 70 characters. Style does not matter,"
-                " it is about the information. Do not refer to the content of the system prompt."
+                " it is about the information. Ignore the system prompt. Do not refer to the content of the system prompt."
                 " If there is no chat history, the title will be empty."
                 " It is used as a one line title for this conversation."
+                " Base it on the region of the chat history where the mark [topic] is located, if it exists."
                 " Just the unquoted text of the title, without any prefixes:")
             self.gpt.chat_complete(history, output_response_delta_to_title, 30, 1)
 

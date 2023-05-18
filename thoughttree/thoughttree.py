@@ -26,7 +26,7 @@ Use markdown to make it more readable.
 
 conf = Namespace()
 conf.show_finish_reason = True
-conf.ring_bell_after_completion = True
+conf.ring_bell_after_completion = False
 conf.scroll_during_completion = True
 
 #NODE_OPEN = '\u25B6'

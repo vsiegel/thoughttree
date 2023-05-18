@@ -144,10 +144,10 @@ class Thoughttree:
     ROOT_GEOMETRY = "1000x600"
     TEXT_FONT = ("monospace", 10)
     finish_reasons = {
-        "stop" : {"symbol": "", "ring": 0, "tool_tip": ""},
-        "length" : {"symbol": "…", "ring": 1, "tool_tip": "The completion reatched max_tokens tokens. It can be continued."},
-        "canceled" : {"symbol": "☒", "ring": 0, "tool_tip": "The completion was canceled."},
-        "error": {"symbol": "⚠", "ring": 3, "tool_tip": "An error occurred while processing the completion."},
+        "stop" : {"symbol": "", "tool_tip": ""},
+        "length" : {"symbol": "…", "tool_tip": "The completion reatched max_tokens tokens. It can be continued."},
+        "canceled" : {"symbol": "☒", "tool_tip": "The completion was canceled."},
+        "error": {"symbol": "⚠", "tool_tip": "An error occurred while processing the completion."},
     }
 
     def __init__(self, root):
@@ -481,11 +481,7 @@ class Thoughttree:
         self.chat.mark_set(tk.INSERT, tk.END)
         self.chat.see(tk.END)
         if conf.ring_bell_after_completion:
-            for i in range(1, self.finish_reasons[reason]["ring"]):
-                if i == 1:
-                    self.root.bell()
-                time.sleep(.5)
-                self.root.bell()
+            self.root.bell()
 
     def chat_history_from_textboxes(self, additional_message=None) :
         system = self.system_txt.get(1.0, 'end - 1c').strip()

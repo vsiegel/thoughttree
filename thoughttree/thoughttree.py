@@ -15,7 +15,7 @@ from ToolTip import ToolTip
 from GPT import GPT
 from StatusBar import StatusBar
 
-CHATGPT_ICO = "chatgpt-icon.png"
+CHATGPT_ICON = "chatgpt-icon.png"
 
 DEFAULT_SYSTEM_PROMPT_FILE = "thoughttree-system.txt"
 system_prompt = """Allways be terse.
@@ -103,6 +103,7 @@ class ChatFileManager:
         if file :
             ChatFileManager.load_chat(text_widget, file)
 
+
 class AMenu(tk.Menu):
     FONT = ("Arial", 10)
 
@@ -154,15 +155,19 @@ class Thoughttree:
         self.root = root
         self.is_root_destroyed = False
         self.root.protocol("WM_DELETE_WINDOW", self.on_root_close)
-
-        print(f"{os.path.exists(CHATGPT_ICO)}")
-        try :
-            img = tk.PhotoImage(file=CHATGPT_ICO)
-            # root.tk.call('wm', 'iconphoto', root._w, img)
-            root.iconphoto(False, img)
-        except Exception as e:
-            print("Error loading chatgpt.ico:", e)
+        self.set_icon()
         self.create_ui()
+
+    def set_icon(self) :
+        def get_icon_file_name(icon_file_name) :
+            return os.path.join(os.path.dirname(os.path.abspath(__file__)), icon_file_name)
+
+        try :
+            abs_name = str(get_icon_file_name(CHATGPT_ICON))
+            self.root.iconphoto(False, tk.PhotoImage(file=abs_name)) # Note: has no effect when running in PyCharm IDE
+        except Exception as e :
+            print("Error loading icon:", e)
+
 
     def on_root_close(self) :
         self.is_root_destroyed = True

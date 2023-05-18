@@ -35,7 +35,7 @@ NODE_OPEN = '*'
 NODE_CLOSED = '|'
 
 
-class FileManager:
+class ChatFileManager:
     @staticmethod
     def save_chat(text_widget, filename) :
         # ROLE_SYMBOLS = {"user":"❯ ", "ai":"⚙ "}
@@ -63,7 +63,7 @@ class FileManager:
     def save_chat_dialog(text_widget) :
         file = filedialog.asksaveasfilename(defaultextension=".txt", initialfile="chat.txt")
         if file :
-            FileManager.save_chat(text_widget, file)
+            ChatFileManager.save_chat(text_widget, file)
         return file
 
     @staticmethod
@@ -80,7 +80,7 @@ class FileManager:
     def save_code_section_dialog(text_widget) :
         file = filedialog.asksaveasfilename(defaultextension=".py", initialfile="code-section.py")
         if file :
-            FileManager.save_code_section(text_widget, file)
+            ChatFileManager.save_code_section(text_widget, file)
         return file
 
     @staticmethod
@@ -101,7 +101,7 @@ class FileManager:
     def load_chat_dialog(text_widget) :
         file = filedialog.askopenfilename(defaultextension=".txt")
         if file :
-            FileManager.load_chat(text_widget, file)
+            ChatFileManager.load_chat(text_widget, file)
 
 class AMenu(tk.Menu):
     FONT = ("Arial", 10)
@@ -274,12 +274,12 @@ class Thoughttree:
 
     def create_menu(self) :
         def save_file(e=None) :
-            file_name = FileManager.save_chat_dialog(self.chat)
+            file_name = ChatFileManager.save_chat_dialog(self.chat)
             base_name = file_name.split("/")[-1]
             self.root.title(base_name)
 
         def save_code_section(e=None):
-            file_name = FileManager.save_code_section_dialog(self.chat)
+            file_name = ChatFileManager.save_code_section_dialog(self.chat)
             # base_name = file_name.split("/")[-1]
             if type(file_name) == tuple:
                 return
@@ -337,7 +337,7 @@ class Thoughttree:
 
         menu = AMenu("File", bar)
         menu.add_command(label="New Window", accelerator="Ctrl+N", command=self.new_window)
-        menu.add_command(label="Load Chat", command=lambda : FileManager.load_chat_dialog(self.chat))
+        menu.add_command(label="Load Chat", command=lambda : ChatFileManager.load_chat_dialog(self.chat))
         menu.add_command(label="Save Chat", accelerator="Ctrl+S", command=save_file)
         menu.add_command(label="Save Code Section", accelerator="Ctrl+Shift+S", command=save_code_section)
         menu.add_command(label="Quit", accelerator="Ctrl+Q", command=self.close)

@@ -168,6 +168,12 @@ class Thoughttree:
         except Exception as e :
             print("Error loading icon:", e)
 
+    def set_model(self, model_name) :
+        if model_name in self.gpt.get_available_models() :
+            self.gpt.set_model(model_name)
+            self.status_bar.set_right_text(model_name)
+        else :
+            showerror(title="Error", message=f"Invalid model: {model_name}")
 
     def on_root_close(self) :
         self.is_root_destroyed = True
@@ -218,6 +224,8 @@ class Thoughttree:
 
         self.status_bar = StatusBar(self.root)
         self.status_bar.pack(side=tk.BOTTOM, fill=tk.X)
+        self.status_bar.set_right_text(self.gpt.model)
+
         SASHWIDTH = 8
         self.hPaned = tk.PanedWindow(self.root, orient=tk.HORIZONTAL, sashwidth=SASHWIDTH)
         self.hPaned.pack(fill=tk.BOTH, expand=True)
@@ -381,6 +389,10 @@ class Thoughttree:
 
         menu = AMenu("Output", bar)
         menu.item("Cancel", "Esc", self.gpt.cancel)
+
+        menu = AMenu("Settings", bar)
+        for model_name in self.gpt.get_available_models() :
+            menu.add_command(label=f"Set Model: {model_name}", command=lambda m=model_name : self.set_model(m))
 
         menu = AMenu("Help", bar)
         menu.item("Test", "Ctrl+Shift+T", menu_test)

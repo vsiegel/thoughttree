@@ -1,3 +1,4 @@
+import re
 from tkinter.messagebox import showerror
 
 import openai
@@ -9,6 +10,8 @@ class GPT:
     temperature = 0.5
     # model = 'gpt-3.5-turbo'
     model = 'gpt-4'
+    MODEL_PATTERN = "gpt"
+    available_models = None
     tokenizer = None
 
     is_canceled = False
@@ -61,3 +64,11 @@ class GPT:
 
     def cancel(self, event=None):
         self.is_canceled = True
+
+    def get_available_models(self):
+        if not self.available_models:
+            self.available_models = [m["id"] for m in openai.Model.list()["data"] if re.search(self.MODEL_PATTERN, m["id"])]
+        return self.available_models
+
+    def set_model(self, model):
+        self.model = model

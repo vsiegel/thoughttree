@@ -390,9 +390,9 @@ class Thoughttree:
         menu = AMenu("Output", bar)
         menu.item("Cancel", "Esc", self.gpt.cancel)
 
-        menu = AMenu("Settings", bar)
+        menu = AMenu("Models", bar)
         for model_name in self.gpt.get_available_models() :
-            menu.add_command(label=f"Set Model: {model_name}", command=lambda m=model_name : self.set_model(m))
+            menu.add_command(label=f"{model_name}", command=lambda m=model_name : self.set_model(m))
 
         menu = AMenu("Help", bar)
         menu.item("Test", "Ctrl+Shift+T", menu_test)

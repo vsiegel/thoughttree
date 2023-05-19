@@ -414,7 +414,7 @@ class Thoughttree:
                       font=self.TEXT_FONT, bd=0,
                       highlightbackground='black', highlightcolor='green',
                       selectbackground="#66a2d4", selectforeground="white")
-        txt.vbar.config(width=16)
+        txt.vbar.config(width=16, takefocus=False)
         txt.pack(pady=0, fill=tk.X, expand=True)
         # txt.tag_configure("user", background="white", selectbackground="#5692c4", selectforeground="white")
         txt.tag_configure("assistant", background="#F0F0F0", selectbackground="#4682b4", selectforeground="white")

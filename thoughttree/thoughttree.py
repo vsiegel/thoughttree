@@ -634,3 +634,9 @@ class Thoughttree:
                 start = f"{i + 1}.{start_index + 1}"
                 end = f"{i + 1}.{end_index}"
                 self.chat.tag_add('importance3', start, end)
+
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    Thoughttree(root)
+    root.mainloop()

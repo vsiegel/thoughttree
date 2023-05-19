@@ -1,6 +1,5 @@
 import tkinter as tk
 
-
 from thoughttree import Thoughttree
 
 if __name__ == "__main__":

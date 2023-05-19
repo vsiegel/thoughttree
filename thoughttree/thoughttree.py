@@ -112,12 +112,6 @@ class Thoughttree:
     CHAT_WIDTH = 400
     ROOT_GEOMETRY = "1000x600"
     TEXT_FONT = ("monospace", 10)
-    finish_reasons = {
-        "stop" : {"symbol": "", "tool_tip": ""},
-        "length" : {"symbol": "…", "tool_tip": "The completion reatched max_tokens tokens. It can be continued."},
-        "canceled" : {"symbol": "☒", "tool_tip": "The completion was canceled."},
-        "error": {"symbol": "⚠", "tool_tip": "An error occurred while processing the completion."},
-    }
 
     def __init__(self, root):
         self.root = root
@@ -444,8 +438,8 @@ class Thoughttree:
         if self.is_root_destroyed:
             return
         if conf.show_finish_reason:
-            symbol = self.finish_reasons[finish_reason]["symbol"]
-            tool_tip = self.finish_reasons[finish_reason]["tool_tip"]
+            symbol = GPT.finish_reasons[finish_reason]["symbol"]
+            tool_tip = GPT.finish_reasons[finish_reason]["tool_tip"]
             if finish_reason not in ["stop", "length", "canceled"] :
                 print(f"{finish_reason=}")
             if symbol :

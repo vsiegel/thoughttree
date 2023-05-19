@@ -13,6 +13,13 @@ class GPT:
     MODEL_PATTERN = "gpt"
     available_models = None
     tokenizer = None
+    finish_reasons = {
+        "stop": {"symbol": "", "tool_tip": ""},
+        "length": {"symbol": "…", "tool_tip": "The completion reached max_tokens tokens. It can be continued."},
+        "canceled": {"symbol": "☒", "tool_tip": "The completion was canceled."},
+        "error": {"symbol": "⚠", "tool_tip": "An error occurred while processing the completion."},
+    }
+
 
     is_canceled = False
 

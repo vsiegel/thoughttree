@@ -487,14 +487,14 @@ class Thoughttree:
             self.chat.insert(tk.END, postfix)
             self.chat.update()
         history = self.chat_history_from_textboxes()
-        reason = self.gpt.chat_complete(history, output_response_delta_to_chat)
+        finish_reason = self.gpt.chat_complete(history, output_response_delta_to_chat)
         if self.is_root_destroyed:
             return
         if conf.show_finish_reason:
-            symbol = self.finish_reasons[reason]["symbol"]
-            tool_tip = self.finish_reasons[reason]["tool_tip"]
-            if reason not in ["stop", "length", "canceled"] :
-                print(f"{reason=}")
+            symbol = self.finish_reasons[finish_reason]["symbol"]
+            tool_tip = self.finish_reasons[finish_reason]["tool_tip"]
+            if finish_reason not in ["stop", "length", "canceled"] :
+                print(f"{finish_reason=}")
             if symbol :
                 insert_label(self.chat, symbol, tool_tip)
         self.chat.insert(tk.END, "\n", "assistant")

@@ -229,6 +229,7 @@ class Thoughttree:
         self.status_bar = StatusBar(self.root)
         self.status_bar.pack(side=tk.BOTTOM, fill=tk.X)
         self.status_bar.set_right_text(self.gpt.model)
+        self.status_bar.set_main_text(f"Max tokens: {self.gpt.max_tokens} T: {self.gpt.temperature}")
 
         SASHWIDTH = 8
         self.hPaned = tk.PanedWindow(self.root, orient=tk.HORIZONTAL, sashwidth=SASHWIDTH)

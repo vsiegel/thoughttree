@@ -70,11 +70,13 @@ class ChatFileManager:
     def save_code_section(text_widget: tk.Text, filename, index=tk.INSERT) :
         try :
             range = text_widget.tag_prevrange("assistant", index)#[0]
+            if not range :
+                raise Exception("No code section found")
             code_message = text_widget.get(*range)
             with open(filename, 'w') as f :
                 f.write(code_message)
-        except tk.TclError :
-            showerror(title="Error", message="Cannot save code section")
+        except Exception as e :
+            showerror(title="Error", message="Cannot save code section\n" + str(e))
 
     @staticmethod
     def save_code_section_dialog(text_widget) :

@@ -127,37 +127,37 @@ class Thoughttree:
         self.set_icon()
         self.create_ui()
 
-    def set_icon(self) :
-        def get_icon_file_name(icon_file_name) :
+    def set_icon(self):
+        def get_icon_file_name(icon_file_name):
             return os.path.join(os.path.dirname(os.path.abspath(__file__)), icon_file_name)
 
-        try :
+        try:
             abs_name = str(get_icon_file_name(CHATGPT_ICON))
             self.root.iconphoto(False, tk.PhotoImage(file=abs_name)) # Note: has no effect when running in PyCharm IDE
-        except Exception as e :
+        except Exception as e:
             print("Error loading icon:", e)
 
-    def set_model(self, model_name) :
+    def set_model(self, model_name):
         self.gpt.set_model(model_name)
         self.status_bar.set_right_text(model_name)
 
-    def on_root_close(self) :
+    def on_root_close(self):
         self.is_root_destroyed = True
         self.root.destroy()
 
     def new_window(self, event=None):
         Thoughttree(tk.Tk())
 
-    def show_context_menu(self, event) :
+    def show_context_menu(self, event):
         self.context_menu.tk_popup(event.x_root, event.y_root)
 
-    def cut_text(self, event=None) :
+    def cut_text(self, event=None):
         self.chat.event_generate("<<Cut>>")
 
-    def copy_text(self, event=None) :
+    def copy_text(self, event=None):
         self.chat.event_generate("<<Copy>>")
 
-    def paste_text(self, event=None) :
+    def paste_text(self, event=None):
         self.chat.event_generate("<<Paste>>")
 
     def create_ui(self):
@@ -174,7 +174,7 @@ class Thoughttree:
             # "TkIconFont" : 24,
             # "TkTooltipFont" : 24
         }
-        for fontname, size in font_sizes.items() :
+        for fontname, size in font_sizes.items():
             default_font = font.nametofont(fontname)
             default_font.configure(size=size, family="Arial")
 
@@ -216,30 +216,24 @@ class Thoughttree:
 
         self.current_cell_editor = None
 
-        #UNICODE = tkfont.Font(family="unicode", size=10)
-        #tree.tag_configure('closed', font=UNICODE, foreground='blue')
-        #tree.tag_configure('leaf', font=UNICODE)
-
-        # Bind the click event to toggle the tree handle icon
-        def on_treeview_click(event) :
+        def on_treeview_click(event):
             item = tree.identify('item', event.x, event.y)
             print(item)
-            if item :
-                if 'closed' in tree.item(item, 'tags') :
+            if item:
+                if 'closed' in tree.item(item, 'tags'):
                     replaced = tree.item(item, 'text').replace(NODE_CLOSED, NODE_OPEN, 1)
                     print(replaced)
                     tree.item(item, text=replaced)
                     tree.item(item, tags='opened')
-                elif 'opened' in tree.item(item, 'tags') :
+                elif 'opened' in tree.item(item, 'tags'):
                     tree.item(item, text=tree.item(item, 'text').replace(NODE_OPEN, NODE_CLOSED, 1))
                     tree.item(item, tags='closed')
 
         #tree.bind('<Double-Button-1>', on_treeview_click)
 
         self.create_dummy_data(tree)
-        tree.bind_class("Treeview", "<KeyPress-Return>", lambda _ : None)
-        tree.bind_class("Treeview", "<KeyRelease-Return>", lambda _ : None)
-        # tree.pack(side=tk.LEFT, fill=tk.BOTH, expand=False)
+        tree.bind_class("Treeview", "<KeyPress-Return>", lambda _: None)
+        tree.bind_class("Treeview", "<KeyRelease-Return>", lambda _: None)
 
         self.hPane.add(tree)
         self.hPane.add(self.vPane)
@@ -248,7 +242,6 @@ class Thoughttree:
         tree.focus(tree.get_children()[0])
         tree.bind("<Double-Button-1>", self.edit_tree_entry)
         tree.bind("<Return>", self.edit_tree_entry)
-
 
         self.system_txt = self.create_textbox(self.vPane, system_prompt)
         self.system_txt.config(pady=5)
@@ -261,8 +254,8 @@ class Thoughttree:
 
         self.create_menu()
 
-    def create_menu(self) :
-        def save_file(e=None) :
+    def create_menu(self):
+        def save_file(e=None):
             file_name = ChatFileManager.save_chat_dialog(self.chat)
             if not file_name:
                 return
@@ -278,7 +271,7 @@ class Thoughttree:
 
         def select_all(event=None):
             focus = self.root.focus_get()
-            if type(focus) == tk.scrolledtext.ScrolledText :
+            if type(focus) == tk.scrolledtext.ScrolledText:
                 focus.tag_add(tk.SEL, "1.0", tk.END)
                 focus.mark_set(tk.INSERT, "1.0")
                 focus.see(tk.INSERT)
@@ -314,7 +307,7 @@ class Thoughttree:
             notebook.add(t1, text='One')
             notebook.add(t2, text='Two')
 
-            def insert_with_newline(txt, widget, pos="insert") :
+            def insert_with_newline(txt, widget, pos="insert"):
                 txt.insert(pos, '\n')
                 txt.window_create(pos, window=widget)
                 txt.insert(pos, '\n')
@@ -326,7 +319,7 @@ class Thoughttree:
 
         menu = Menu(bar, "File")
         menu.item("New Window", "<Control-n>", self.new_window)
-        menu.item("Load Chat", None, lambda : ChatFileManager.load_chat_dialog(self.chat))
+        menu.item("Load Chat", None, lambda: ChatFileManager.load_chat_dialog(self.chat))
         menu.item("Save Chat", "<Control-s>", save_file)
         menu.item("Save Code Section", "<Control-Shift-S>", save_code_section)
         menu.item("Quit", "<Control-q>", self.close)
@@ -343,7 +336,6 @@ class Thoughttree:
         menu.item("Undo", "<Control-z>", self.chat.edit_undo, False)
         menu.item("Redo", "<Control-Shift-Z>", self.chat.edit_redo, False)
         menu.item("Select All", "<Control-a>", command=select_all)
-        # self.chat.bind("<Control-a>", select_all)
 
         menu = Menu(bar, "View")
         menu.item("Show System Prompt", "", None)

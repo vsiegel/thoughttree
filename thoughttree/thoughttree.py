@@ -293,11 +293,15 @@ class Thoughttree:
     def create_menu(self) :
         def save_file(e=None) :
             file_name = ChatFileManager.save_chat_dialog(self.chat)
+            if not file_name:
+                return
             base_name = file_name.split("/")[-1]
             self.root.title(base_name)
 
         def save_code_section(e=None):
             file_name = ChatFileManager.save_code_section_dialog(self.chat)
+            if not file_name:
+                return
             # base_name = file_name.split("/")[-1]
             if type(file_name) == tuple:
                 return

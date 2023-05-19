@@ -180,6 +180,16 @@ class Thoughttree:
 
         self.root.geometry(Thoughttree.ROOT_GEOMETRY)
         self.root.minsize(Thoughttree.MIN_WIDTH, Thoughttree.MIN_HEIGHT)
+
+        self.root.option_add('*Text*insertWidth', '3')
+        # self.root.option_add('*Text*Border', '6')
+        self.root.option_add('*Dialog*Font', ("sans-serif", 10))
+        self.root.option_add('*Menu*Font', ("Arial", 10))
+        self.root.option_add('*Font', ("Arial", 10))
+        # self.root.option_add('*Text*Background', 'red')
+        # self.root.option_add('*Label*Background', 'red')
+        # self.root.option_add('*Label*background', 'red')
+
         font_height = tkfont.Font(font=Thoughttree.TEXT_FONT).metrics("linespace")
         style = ttk.Style(self.root)
 
@@ -399,9 +409,9 @@ class Thoughttree:
             text.config(font=(name, size + delta))
 
         lines = len(text.splitlines())
-        txt = ScrolledText(parent, insertwidth=3, undo=True,
+        txt = ScrolledText(parent, undo=True,
                       wrap=tk.WORD, height=lines, padx=1, pady=1,
-                      font=self.TEXT_FONT, bd=0, background="white",
+                      font=self.TEXT_FONT, bd=0,
                       highlightbackground='black', highlightcolor='green',
                       selectbackground="#66a2d4", selectforeground="white")
         txt.vbar.config(width=16)

@@ -345,7 +345,6 @@ class Thoughttree:
         # self.chat.bind("<Control-t>", self.count_tokens, False)
         menu.item("Run Code", "", None)
         menu.item("Update Window Title", "<Control-u>", update_window_title)
-        menu.item("Highlight Importance", "", self.highlight_importance)
 
         menu = Menu(bar, "Navigate")
         menu.item("Jump to Similar Line", "<Control-b>", self.jump_to_section_or_definition)
@@ -572,34 +571,6 @@ class Thoughttree:
         txt.bind("<Control-Return>", lambda e: txt.insert(tk.INSERT, "\n") or "break")
         # txt.bind("<Control-Key>", lambda e : "break")
         # txt.bind("<Control_L>", lambda e : "break")
-
-    def highlight_importance(self) :
-        self.chat.tag_configure('importance1', background='lightyellow')
-        self.chat.tag_configure('importance2', background='bisque')
-        self.chat.tag_configure('importance3', background='lightsalmon')
-
-        content = self.chat.get(1.0, tk.END)
-        content_lines = content.split('\n')
-
-        for i, line in enumerate(content_lines) :
-            if '¹' in line :
-                start_index = line.index('¹')
-                end_index = line.index('¹', start_index + 1)
-                start = f"{i + 1}.{start_index + 1}"
-                end = f"{i + 1}.{end_index}"
-                self.chat.tag_add('importance1', start, end)
-            if '²' in line :
-                start_index = line.index('²')
-                end_index = line.index('²', start_index + 1)
-                start = f"{i + 1}.{start_index + 1}"
-                end = f"{i + 1}.{end_index}"
-                self.chat.tag_add('importance2', start, end)
-            if '³' in line :
-                start_index = line.index('³')
-                end_index = line.index('³', start_index + 1)
-                start = f"{i + 1}.{start_index + 1}"
-                end = f"{i + 1}.{end_index}"
-                self.chat.tag_add('importance3', start, end)
 
 
 if __name__ == "__main__":

@@ -3,10 +3,9 @@ from typing import Union
 
 
 class Menu(tk.Menu):
-    FONT = ("Arial", 10)
 
     def __init__(self, master: Union[tk.Tk, tk.Text, tk.Menu], label=None, **kwargs) :
-        super().__init__(master, tearoff=0, font=self.FONT)
+        super().__init__(master, tearoff=0)
         if label :
             master.add_cascade(label=label, menu=self)
         if type(master) == tk.Tk:

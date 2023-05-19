@@ -329,8 +329,7 @@ class Thoughttree:
                 " it is about the information. Ignore the system prompt. Do not refer to the content of the system prompt."
                 " If there is no chat history, the title will be empty."
                 " It is used as a one line title for this conversation."
-                " Base it on the region of the chat history where the mark [topic] is located, if it exists."
-                " Just the unquoted text of the title, without any prefixes:")
+                " Give me only the unquoted text of the title, without any prefixes or comments:")
             self.gpt.chat_complete(history, output_response_delta_to_title, 30, 1)
 
         def menu_test(event=None):

@@ -138,11 +138,8 @@ class Thoughttree:
             print("Error loading icon:", e)
 
     def set_model(self, model_name) :
-        if model_name in self.gpt.get_available_models() :
-            self.gpt.set_model(model_name)
-            self.status_bar.set_right_text(model_name)
-        else :
-            showerror(title="Error", message=f"Invalid model: {model_name}")
+        self.gpt.set_model(model_name)
+        self.status_bar.set_right_text(model_name)
 
     def on_root_close(self) :
         self.is_root_destroyed = True

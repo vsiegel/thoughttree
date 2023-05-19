@@ -303,8 +303,6 @@ class Thoughttree:
             if not file_name:
                 return
             # base_name = file_name.split("/")[-1]
-            if type(file_name) == tuple:
-                return
             self.status_bar.set_main_text("Code section saved to " + file_name)
 
         def select_all(event=None):

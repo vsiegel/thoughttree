@@ -118,27 +118,27 @@ class AMenu(tk.Menu):
         if type(master) in [tk.Tk, tk.Text]:
             master.config(menu=self)
 
-    def item(self, label, accelerator, command, bind_key=True, context_menu=None) :
-        def convert_key_string(key_string) :
-            key_parts = key_string.split("+")
-            key_parts = [part.strip().lower() for part in key_parts]
+    def item(self, label, keystroke, command, bind_key=True, context_menu=None) :
+        def convert_key_string(s) :
+            if not keystroke:
+                return ""
+            s = s.replace("<Control", "Ctrl")
+            s = s.replace("<Shift", "Shift")
+            s = s.replace("<Alt", "Alt")
+            s = s.replace("<Escape", "Esc")
+            s = s.replace("-", "+")
+            s = s.replace(">", "")
+            if s[-3] == "-":
+                s[-2] = s[-2].upper()
+            return s
 
-            key_map = {
-                "ctrl" : "Control",
-                "alt" : "Alt",
-                "shift" : "Shift",
-                "esc": "Escape",
-            }
-
-            converted_parts = [key_map.get(part, part) for part in key_parts]
-            return "<{}>".format("-".join(converted_parts))
-
+        accelerator = convert_key_string(keystroke)
         state = tk.NORMAL if command else tk.DISABLED
         self.add_command(label=label, accelerator=accelerator, command=command, state=state)
         if context_menu :
             context_menu.add_command(label=label, accelerator=accelerator, command=command, state=state)
-        if bind_key and accelerator:
-            self.master.bind_all(convert_key_string(accelerator), command, False)
+        if bind_key and keystroke:
+            self.master.bind_all(keystroke, command, False)
 
 
 class Thoughttree:
@@ -155,8 +155,8 @@ class Thoughttree:
     }
 
     def __init__(self, root):
-        self.gpt = GPT()
         self.root = root
+        self.gpt = GPT()
         self.is_root_destroyed = False
         self.root.protocol("WM_DELETE_WINDOW", self.on_root_close)
         self.set_icon()
@@ -361,45 +361,44 @@ class Thoughttree:
 
         self.root.bind_all("<Control-q>", self.close)
         self.root.bind_all("<Control-s>", save_file)
-        self.root.bind_all("<Control-Shift-KeyPress-S>", save_code_section)
+        self.root.bind_all("<Control-Shift-S>", save_code_section)
         self.root.bind_all("<Control-n>", self.new_window)
 
         context = self.context_menu = AMenu("", self.chat)
-        context.item("Undo", "Ctrl+Z", self.chat.edit_undo, False)
-        context.item("Redo", "Ctrl+Shift+Z", self.chat.edit_redo, False)
+        context.item("Undo", "<Control-Z>", self.chat.edit_undo, False)
+        context.item("Redo", "<Control-Shift-Z>", self.chat.edit_redo, False)
         context.add_separator()
-        context.item("Cut", "Ctrl+X", self.cut_text, False)
-        context.item("Copy", "Ctrl+C", self.copy_text, False)
-        context.item("Paste", "Ctrl+V", self.paste_text, False)
+        context.item("Cut", "<Control-X>", self.cut_text, False)
+        context.item("Copy", "<Control-C>", self.copy_text, False)
+        context.item("Paste", "<Control-V>", self.paste_text, False)
 
         menu = AMenu("Edit", bar)
-        menu.item("Undo", "Ctrl+Z", self.chat.edit_undo, False)
-        menu.item("Redo", "Ctrl+Shift+Z", self.chat.edit_redo, False)
-        menu.item("Cancel", "Esc", self.gpt.cancel)
-        menu.item("Select All", "Ctrl+A", command=select_all)
+        menu.item("Undo", "<Control-Z>", self.chat.edit_undo, False)
+        menu.item("Redo", "<Control-Shift-Z>", self.chat.edit_redo, False)
+        menu.item("Select All", "<Control-A>", command=select_all)
         # self.chat.bind("<Control-a>", select_all)
 
         menu = AMenu("View", bar)
         menu.item("Show System Prompt", "", None)
         menu.item("Show Tree", "", None)
-        menu.item("Count Tokens", "Ctrl+T", self.count_tokens) # todo: count words, lines and chars too
+        menu.item("Count Tokens", "<Control-T>", self.count_tokens)
         # self.chat.bind("<Control-t>", self.count_tokens, False)
         menu.item("Run Code", "", None)
-        menu.item("Update Window Title", "Ctrl+U", update_window_title)
+        menu.item("Update Window Title", "<Control-U>", update_window_title)
         menu.item("Highlight Importance", "", self.highlight_importance)
 
         menu = AMenu("Navigate", bar)
-        menu.item("Jump to Section", "Ctrl+B", self.jump_to_section_or_definition)
+        menu.item("Jump to Similar Line", "<Control-B>", self.jump_to_section_or_definition)
 
         menu = AMenu("Output", bar)
-        menu.item("Cancel", "Esc", self.gpt.cancel)
+        menu.item("Cancel", "<Escape>", self.gpt.cancel)
 
         menu = AMenu("Models", bar)
         for model_name in self.gpt.get_available_models() :
             menu.add_command(label=f"{model_name}", command=lambda m=model_name : self.set_model(m))
 
         menu = AMenu("Help", bar)
-        menu.item("Test", "Ctrl+Shift+T", menu_test)
+        menu.item("Test", "<Control-Shift-T>", menu_test)
         menu.item("About", "", None)
 
         self.chat.bind("<Button-3>", self.show_context_menu)

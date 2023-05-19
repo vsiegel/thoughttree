@@ -36,32 +36,32 @@ NODE_CLOSED = '|'
 
 class ChatFileManager:
     @staticmethod
-    def save_chat(text_widget, filename) :
+    def save_chat(text_widget, filename):
         # ROLE_SYMBOLS = {"user":"❯ ", "ai":"⚙ "}
-        ROLE_SYMBOLS = {"user":"", "ai":""}
+        ROLE_SYMBOLS = {"user": "", "ai": ""}
         content = text_widget.dump(1.0, tk.END, text=True, tag=True)
-        with open(filename, 'w') as f :
+        with open(filename, 'w') as f:
             drop_nl = False
-            for item in content :
-                if item[0] == "tagon" :
-                    if item[1] == "assistant" :
+            for item in content:
+                if item[0] == "tagon":
+                    if item[1] == "assistant":
                         f.write(ROLE_SYMBOLS["ai"])
-                elif item[0] == "tagoff" :
-                            if item[1] == "assistant" :
-                                f.write("\n" + ROLE_SYMBOLS["user"])
-                                drop_nl = True
-                elif item[0] == "text" :
-                    if drop_nl :
+                elif item[0] == "tagoff":
+                    if item[1] == "assistant":
+                        f.write("\n" + ROLE_SYMBOLS["user"])
+                        drop_nl = True
+                elif item[0] == "text":
+                    if drop_nl:
                         drop_nl = False
                         if item[1] == "\n":
                             continue
                     f.write(item[1])
 
     @staticmethod
-    def save_chat_dialog(text_widget) :
+    def save_chat_dialog(text_widget):
         file = filedialog.asksaveasfilename(
             defaultextension=".txt", initialfile="chat.txt", title="Save chat")
-        if file :
+        if file:
             ChatFileManager.save_chat(text_widget, file)
         return file
 
@@ -78,16 +78,16 @@ class ChatFileManager:
             showerror(title="Error", message="Cannot save code section\n" + str(e))
 
     @staticmethod
-    def save_code_section_dialog(text_widget) :
+    def save_code_section_dialog(text_widget):
         file = filedialog.asksaveasfilename(
             defaultextension=".py", initialfile="code-section.py", title="Save code section")
-        if file :
+        if file:
             ChatFileManager.save_code_section(text_widget, file)
         return file
 
     @staticmethod
-    def load_chat(text_widget, filename) :
-        with open(filename, 'r') as f :
+    def load_chat(text_widget, filename):
+        with open(filename, 'r') as f:
             content = f.readlines()
 
         text_widget.delete(1.0, tk.END)
@@ -100,9 +100,9 @@ class ChatFileManager:
                 text_widget.insert(tk.END, line)
 
     @staticmethod
-    def load_chat_dialog(text_widget) :
+    def load_chat_dialog(text_widget):
         file = filedialog.askopenfilename(defaultextension=".txt")
-        if file :
+        if file:
             ChatFileManager.load_chat(text_widget, file)
 
 

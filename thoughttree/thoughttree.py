@@ -321,12 +321,12 @@ class Thoughttree:
         menu.item("New Window", "<Control-n>", self.new_window)
         menu.item("Load Chat", None, lambda : ChatFileManager.load_chat_dialog(self.chat))
         menu.item("Save Chat", "<Control-s>", save_file)
-        menu.item("Save Code Section", "<Control-Shift-s>", save_code_section)
+        menu.item("Save Code Section", "<Control-Shift-S>", save_code_section)
         menu.item("Quit", "<Control-q>", self.close)
 
         context = self.context_menu = Menu(self.chat)
         context.item("Undo", "<Control-z>", self.chat.edit_undo, False)
-        context.item("Redo", "<Control-Shift-z>", self.chat.edit_redo, False)
+        context.item("Redo", "<Control-Shift-Z>", self.chat.edit_redo, False)
         context.add_separator()
         context.item("Cut", "<Control-x>", self.cut_text, False)
         context.item("Copy", "<Control-c>", self.copy_text, False)
@@ -334,7 +334,7 @@ class Thoughttree:
 
         menu = Menu(bar, "Edit")
         menu.item("Undo", "<Control-z>", self.chat.edit_undo, False)
-        menu.item("Redo", "<Control-Shift-z>", self.chat.edit_redo, False)
+        menu.item("Redo", "<Control-Shift-Z>", self.chat.edit_redo, False)
         menu.item("Select All", "<Control-a>", command=select_all)
         # self.chat.bind("<Control-a>", select_all)
 
@@ -357,7 +357,7 @@ class Thoughttree:
             menu.item(f"{model_name}", None, lambda m=model_name : self.set_model(m))
 
         menu = Menu(bar, "Help")
-        menu.item("Test", "<Control-Shift-t>", menu_test)
+        menu.item("Test", "<Control-Shift-T>", menu_test)
         menu.item("About", None, None)
 
         self.chat.bind("<Button-3>", self.show_context_menu)

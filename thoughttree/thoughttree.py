@@ -44,7 +44,6 @@ class ChatFileManager:
         with open(filename, 'w') as f :
             drop_nl = False
             for item in content :
-                print(item)
                 if item[0] == "tagon" :
                     if item[1] == "assistant" :
                         f.write(ROLE_SYMBOLS["ai"])
@@ -108,14 +107,14 @@ class ChatFileManager:
             ChatFileManager.load_chat(text_widget, file)
 
 
-class AMenu(tk.Menu):
+class Menu(tk.Menu):
     FONT = ("Arial", 10)
 
-    def __init__(self, label, master: Union[tk.Tk, tk.Text, tk.Menu], **kwargs):
+    def __init__(self, master: Union[tk.Tk, tk.Text, tk.Menu], label=None, **kwargs) :
         super().__init__(master, tearoff=0, font=self.FONT)
-        if type(master) == tk.Menu:
+        if label :
             master.add_cascade(label=label, menu=self)
-        if type(master) in [tk.Tk, tk.Text]:
+        if type(master) == tk.Tk:
             master.config(menu=self)
 
     def item(self, label, keystroke, command, bind_key=True, context_menu=None) :
@@ -286,7 +285,6 @@ class Thoughttree:
         self.vPaned.add(self.system_txt)
         self.vPaned.add(self.chat)
         self.chat.focus_set()
-        print(f"{self.root.focus_get()=}")
 
         self.create_menu()
 
@@ -352,57 +350,51 @@ class Thoughttree:
             insert_with_newline(self.chat, notebook)
             insert_with_newline(self.chat, tk.Label(self.chat, text="Foo"), tk.INSERT + " + 2 lines")
 
-        bar = tk.Menu(self.root, font=AMenu.FONT)
-        self.root.config(menu=bar)
+        bar = Menu(self.root)
 
-        menu = AMenu("File", bar)
-        menu.add_command(label="New Window", accelerator="Ctrl+N", command=self.new_window)
-        menu.add_command(label="Load Chat", command=lambda : ChatFileManager.load_chat_dialog(self.chat))
-        menu.add_command(label="Save Chat", accelerator="Ctrl+S", command=save_file)
-        menu.add_command(label="Save Code Section", accelerator="Ctrl+Shift+S", command=save_code_section)
-        menu.add_command(label="Quit", accelerator="Ctrl+Q", command=self.close)
+        menu = Menu(bar, "File")
+        menu.item("New Window", "<Control-n>", self.new_window)
+        menu.item("Load Chat", None, lambda : ChatFileManager.load_chat_dialog(self.chat))
+        menu.item("Save Chat", "<Control-s>", save_file)
+        menu.item("Save Code Section", "<Control-Shift-s>", save_code_section)
+        menu.item("Quit", "<Control-q>", self.close)
 
-        self.root.bind_all("<Control-q>", self.close)
-        self.root.bind_all("<Control-s>", save_file)
-        self.root.bind_all("<Control-Shift-S>", save_code_section)
-        self.root.bind_all("<Control-n>", self.new_window)
-
-        context = self.context_menu = AMenu("", self.chat)
-        context.item("Undo", "<Control-Z>", self.chat.edit_undo, False)
-        context.item("Redo", "<Control-Shift-Z>", self.chat.edit_redo, False)
+        context = self.context_menu = Menu(self.chat)
+        context.item("Undo", "<Control-z>", self.chat.edit_undo, False)
+        context.item("Redo", "<Control-Shift-z>", self.chat.edit_redo, False)
         context.add_separator()
-        context.item("Cut", "<Control-X>", self.cut_text, False)
-        context.item("Copy", "<Control-C>", self.copy_text, False)
-        context.item("Paste", "<Control-V>", self.paste_text, False)
+        context.item("Cut", "<Control-x>", self.cut_text, False)
+        context.item("Copy", "<Control-c>", self.copy_text, False)
+        context.item("Paste", "<Control-v>", self.paste_text, False)
 
-        menu = AMenu("Edit", bar)
-        menu.item("Undo", "<Control-Z>", self.chat.edit_undo, False)
-        menu.item("Redo", "<Control-Shift-Z>", self.chat.edit_redo, False)
-        menu.item("Select All", "<Control-A>", command=select_all)
+        menu = Menu(bar, "Edit")
+        menu.item("Undo", "<Control-z>", self.chat.edit_undo, False)
+        menu.item("Redo", "<Control-Shift-z>", self.chat.edit_redo, False)
+        menu.item("Select All", "<Control-a>", command=select_all)
         # self.chat.bind("<Control-a>", select_all)
 
-        menu = AMenu("View", bar)
+        menu = Menu(bar, "View")
         menu.item("Show System Prompt", "", None)
         menu.item("Show Tree", "", None)
-        menu.item("Count Tokens", "<Control-T>", self.count_tokens)
+        menu.item("Count Tokens", "<Control-t>", self.count_tokens)
         # self.chat.bind("<Control-t>", self.count_tokens, False)
         menu.item("Run Code", "", None)
-        menu.item("Update Window Title", "<Control-U>", update_window_title)
+        menu.item("Update Window Title", "<Control-u>", update_window_title)
         menu.item("Highlight Importance", "", self.highlight_importance)
 
-        menu = AMenu("Navigate", bar)
-        menu.item("Jump to Similar Line", "<Control-B>", self.jump_to_section_or_definition)
+        menu = Menu(bar, "Navigate")
+        menu.item("Jump to Similar Line", "<Control-b>", self.jump_to_section_or_definition)
 
-        menu = AMenu("Output", bar)
+        menu = Menu(bar, "Output")
         menu.item("Cancel", "<Escape>", self.gpt.cancel)
 
-        menu = AMenu("Models", bar)
+        menu = Menu(bar, "Models")
         for model_name in self.gpt.get_available_models() :
-            menu.add_command(label=f"{model_name}", command=lambda m=model_name : self.set_model(m))
+            menu.item(f"{model_name}", None, lambda m=model_name : self.set_model(m))
 
-        menu = AMenu("Help", bar)
-        menu.item("Test", "<Control-Shift-T>", menu_test)
-        menu.item("About", "", None)
+        menu = Menu(bar, "Help")
+        menu.item("Test", "<Control-Shift-t>", menu_test)
+        menu.item("About", None, None)
 
         self.chat.bind("<Button-3>", self.show_context_menu)
 

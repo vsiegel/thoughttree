@@ -204,11 +204,11 @@ class Thoughttree:
         self.status_bar.set_main_text(f"Max tokens: {self.gpt.max_tokens} T: {self.gpt.temperature}")
 
         SASHWIDTH = 8
-        self.hPaned = tk.PanedWindow(self.root, orient=tk.HORIZONTAL, sashwidth=SASHWIDTH)
-        self.hPaned.pack(fill=tk.BOTH, expand=True)
-        self.vPaned = tk.PanedWindow(self.hPaned, orient=tk.VERTICAL, sashwidth=SASHWIDTH)
+        self.hPane = tk.PanedWindow(self.root, orient=tk.HORIZONTAL, sashwidth=SASHWIDTH)
+        self.hPane.pack(fill=tk.BOTH, expand=True)
+        self.vPane = tk.PanedWindow(self.hPane, orient=tk.VERTICAL, sashwidth=SASHWIDTH)
 
-        tree = ttk.Treeview(self.hPaned, columns=("C1"), show="tree")
+        tree = ttk.Treeview(self.hPane, columns=("C1"), show="tree")
         self.tree = tree
         tree.column("#0", width=160, minwidth=60, anchor=tk.W, stretch=tk.NO)
         tree.column("#1", width=30, minwidth=60, anchor=tk.W, stretch=tk.NO)
@@ -241,22 +241,22 @@ class Thoughttree:
         tree.bind_class("Treeview", "<KeyRelease-Return>", lambda _ : None)
         # tree.pack(side=tk.LEFT, fill=tk.BOTH, expand=False)
 
-        self.hPaned.add(tree)
-        self.hPaned.add(self.vPaned)
-        self.hPaned.sash_place(0, 0, 0)
+        self.hPane.add(tree)
+        self.hPane.add(self.vPane)
+        self.hPane.sash_place(0, 0, 0)
 
         tree.focus(tree.get_children()[0])
         tree.bind("<Double-Button-1>", self.edit_tree_entry)
         tree.bind("<Return>", self.edit_tree_entry)
 
 
-        self.system_txt = self.create_textbox(self.vPaned, system_prompt)
+        self.system_txt = self.create_textbox(self.vPane, system_prompt)
         self.system_txt.config(pady=5)
 
-        self.chat = self.create_textbox(self.vPaned, "")
+        self.chat = self.create_textbox(self.vPane, "")
 
-        self.vPaned.add(self.system_txt)
-        self.vPaned.add(self.chat)
+        self.vPane.add(self.system_txt)
+        self.vPane.add(self.chat)
         self.chat.focus_set()
 
         self.create_menu()

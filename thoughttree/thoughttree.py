@@ -309,6 +309,12 @@ class Thoughttree:
             except tk.TclError:
                 pass # nothing to undo
 
+        def edit_redo():
+            try:
+                focus().edit_redo()
+            except tk.TclError:
+                pass # nothing to redo
+
 
         def menu_test(event=None):
             notebook = ttk.Notebook(self.chat, height=200, padding=(0, 0, 0, 0))

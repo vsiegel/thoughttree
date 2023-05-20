@@ -142,21 +142,6 @@ class Thoughttree:
     def create_ui(self):
         self.root.title("Thoughttree")
 
-        font_sizes = {
-            # "TkDefaultFont" : 10,
-            # "TkTextFont" : 24,
-            # "TkFixedFont" : 24,
-            "TkMenuFont" : 24,
-            # "TkHeadingFont" : 24,
-            # "TkCaptionFont" : 24,
-            # "TkSmallCaptionFont" : 24,
-            # "TkIconFont" : 24,
-            # "TkTooltipFont" : 24
-        }
-        for fontname, size in font_sizes.items():
-            default_font = font.nametofont(fontname)
-            default_font.configure(size=size, family="Arial")
-
         self.root.geometry(Thoughttree.ROOT_GEOMETRY)
         self.root.minsize(Thoughttree.MIN_WIDTH, Thoughttree.MIN_HEIGHT)
 

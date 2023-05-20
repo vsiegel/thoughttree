@@ -75,10 +75,16 @@ class ChatFileManager:
             text_range = text_widget.tag_prevrange("assistant", index)
             if not text_range:
                 raise Exception("No code section found")
-            code_message = text_widget.get(*range)
-            with open(filename, 'w') as f :
-                f.write(code_message)
-        except Exception as e :
+            start, end = text_range
+            print(f"{start=}, {end=}")
+            code_section = text_widget.get(*text_range)
+            if code_section[:3] == "```":
+                code_section = code_section[3:]
+            if code_section[:-4] == "```\n":
+                code_section = code_section[3:]
+            with open(filename, 'w') as f:
+                f.write(code_section)
+        except Exception as e:
             showerror(title="Error", message="Cannot save code section\n" + str(e))
 
     @staticmethod

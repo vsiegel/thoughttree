@@ -279,7 +279,7 @@ class Thoughttree:
         menu.item("Update Window Title", "<Control-u>", update_window_title)
 
         menu = Menu(bar, "Navigate")
-        menu.item("Jump to Similar Line", "<Control-b>", self.jump_to_section_or_definition)
+        menu.item("Jump to Similar Line", "<Control-b>", self.jump_to_similar_line)
 
         menu = Menu(bar, "Output")
         menu.item("Cancel", "<Escape>", self.gpt.cancel)
@@ -304,7 +304,7 @@ class Thoughttree:
         # self.system_txt.bind("<Button-3>", self.show_context_menu)
 
 
-    def jump_to_section_or_definition(self, event=None) :
+    def jump_to_similar_line(self, event=None) :
 
         def find_matching_line(target_line, line_nr, lines):
             num_lines = len(lines)

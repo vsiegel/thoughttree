@@ -139,24 +139,6 @@ class Thoughttree:
         self.is_root_destroyed = True
         self.root.destroy()
 
-    def new_window(self, event=None):
-        Thoughttree(tk.Tk())
-
-    def show_context_menu(self, event):
-        widget = root.winfo_containing(event.x_root, event.y_root)
-        if widget:
-            widget.focus_set()
-        self.context_menu.tk_popup(event.x_root, event.y_root)
-
-    def cut_text(self, event=None):
-        self.chat.event_generate("<<Cut>>")
-
-    def copy_text(self, event=None):
-        self.chat.event_generate("<<Copy>>")
-
-    def paste_text(self, event=None):
-        self.chat.event_generate("<<Paste>>")
-
     def create_ui(self):
         self.root.title("Thoughttree")
 
@@ -268,6 +250,29 @@ class Thoughttree:
 
         def focus():
             return self.root.focus_get()
+
+
+        def new_window(event=None) :
+            Thoughttree(tk.Tk())
+
+
+        def show_context_menu(event) :
+            widget = root.winfo_containing(event.x_root, event.y_root)
+            if widget :
+                widget.focus_set()
+            self.context_menu.tk_popup(event.x_root, event.y_root)
+
+
+        def cut_text(event=None) :
+            focus().event_generate("<<Cut>>")
+
+
+        def copy_text(event=None) :
+            focus().event_generate("<<Copy>>")
+
+
+        def paste_text(event=None) :
+            focus().event_generate("<<Paste>>")
 
         def select_all(event=None):
             txt = focus()

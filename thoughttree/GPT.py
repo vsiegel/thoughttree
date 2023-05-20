@@ -6,11 +6,12 @@ import tiktoken
 
 
 class GPT:
-    TITLE_GENERATION_PROMPT = "A title for this conversation, about 70 characters. Style does not matter," \
-            " it is about the information. Ignore the system prompt. Do not refer to the content of the system prompt." \
-            " If there is no chat history, the title will be empty." \
-            " It is used as a one line title for this conversation." \
-            " Give me only the unquoted text of the title, without any prefixes or comments:"
+    TITLE_GENERATION_PROMPT = \
+        "A title for this conversation, about 50 characters. Style does not matter,\n" \
+        "it is about the information. Ignore the system prompt. Do not refer to the content of the system prompt.\n" \
+        "If there is no chat history, the title will be empty.\n" \
+        "It is used as a one line title for this conversation.\n" \
+        "Give me only the unquoted text of the title, without any prefixes or comments:\n"
 
     max_tokens = 1500
     temperature = 0.5

@@ -327,14 +327,6 @@ class Thoughttree:
         menu.item("Save Code Section", "<Control-Shift-S>", save_code_section)
         menu.item("Quit", "<Control-q>", self.close)
 
-        context = self.context_menu = Menu(self.chat)
-        context.item("Undo", "<Control-z>", self.chat.edit_undo, False)
-        context.item("Redo", "<Control-Shift-Z>", self.chat.edit_redo, False)
-        context.add_separator()
-        context.item("Cut", "<Control-x>", self.cut_text, False)
-        context.item("Copy", "<Control-c>", self.copy_text, False)
-        context.item("Paste", "<Control-v>", self.paste_text, False)
-
         menu = Menu(bar, "Edit")
         menu.item("Undo", "<Control-z>", self.chat.edit_undo, False)
         menu.item("Redo", "<Control-Shift-Z>", self.chat.edit_redo, False)
@@ -362,7 +354,16 @@ class Thoughttree:
         menu.item("Test", "<Control-Shift-T>", menu_test)
         menu.item("About", None, None)
 
-        self.chat.bind("<Button-3>", self.show_context_menu)
+        menu = Menu(self.chat)
+        self.context_menu = menu
+        menu.item("Undo", "<Control-z>", edit_undo, False)
+        menu.item("Redo", "<Control-Shift-Z>", self.chat.edit_redo, False)
+        menu.add_separator()
+        menu.item("Cut", "<Control-x>", self.cut_text, False)
+        menu.item("Copy", "<Control-c>", self.copy_text, False)
+        menu.item("Paste", "<Control-v>", self.paste_text, False)
+        self.chat.bind_class("Text", "<Button-3>", self.show_context_menu)
+        # self.system_txt.bind("<Button-3>", self.show_context_menu)
 
 
     def jump_to_section_or_definition(self, event=None) :

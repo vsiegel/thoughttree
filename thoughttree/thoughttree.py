@@ -144,6 +144,10 @@ class Thoughttree:
         self.create_menu()
 
     def create_menu(self):
+
+        def focus():
+            return self.root.focus_get()
+
         def save_chat(e=None):
             file_name = ChatFileManager.save_chat_dialog(self.chat)
             if not file_name:
@@ -164,9 +168,6 @@ class Thoughttree:
                 return
             # base_name = file_name.split("/")[-1]
             self.status_bar.set_main_text("Code section saved to " + file_name)
-
-        def focus():
-            return self.root.focus_get()
 
         def new_window(event=None) :
             Thoughttree(tk.Tk())

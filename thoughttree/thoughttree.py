@@ -143,6 +143,9 @@ class Thoughttree:
         Thoughttree(tk.Tk())
 
     def show_context_menu(self, event):
+        widget = root.winfo_containing(event.x_root, event.y_root)
+        if widget:
+            widget.focus_set()
         self.context_menu.tk_popup(event.x_root, event.y_root)
 
     def cut_text(self, event=None):
@@ -263,12 +266,15 @@ class Thoughttree:
             # base_name = file_name.split("/")[-1]
             self.status_bar.set_main_text("Code section saved to " + file_name)
 
+        def focus():
+            return self.root.focus_get()
+
         def select_all(event=None):
-            focus = self.root.focus_get()
-            if type(focus) == tk.scrolledtext.ScrolledText:
-                focus.tag_add(tk.SEL, "1.0", tk.END)
-                focus.mark_set(tk.INSERT, "1.0")
-                focus.see(tk.INSERT)
+            txt = focus()
+            if type(txt) == tk.scrolledtext.ScrolledText:
+                txt.tag_add(tk.SEL, "1.0", tk.END)
+                txt.mark_set(tk.INSERT, "1.0")
+                txt.see(tk.INSERT)
 
         def update_window_title(event=None):
             progress_title = "[Generating...]"

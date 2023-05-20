@@ -293,6 +293,14 @@ class Thoughttree:
             history = self.chat_history_from_textboxes(GPT.TITLE_GENERATION_PROMPT)
             self.gpt.chat_complete(history, output_response_delta_to_title, 30, 1)
 
+
+        def edit_undo():
+            try:
+                focus().edit_undo()
+            except tk.TclError:
+                pass # nothing to undo
+
+
         def menu_test(event=None):
             notebook = ttk.Notebook(self.chat, height=200, padding=(0, 0, 0, 0))
             t1 = self.create_textbox(notebook, "Foo")

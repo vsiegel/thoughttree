@@ -493,7 +493,7 @@ class Thoughttree:
     def chat_history_from_textboxes(self, additional_message=None) :
         system = self.system_txt.get(1.0, 'end - 1c').strip()
         history = [{'role': 'system', 'content': system}]
-        content = self.chat.dump(1.0, tk.END, text=True, tag=True)
+        content = self.chat.dump(1.0, tk.END, text=True, tag=True, window=True)
         section = ""
         for item in content :
             if item[0] == "tagon" and item[1] == "assistant":
@@ -506,6 +506,10 @@ class Thoughttree:
                 section = ""
             elif item[0] == "text" :
                 section += item[1]
+            elif item[0] == "window":
+                pass
+            else:
+                print(f"Ignored text widget item: {item}")
         if section!= "" :
             section = section.strip()
             if history[-1]['role'] == "user" :

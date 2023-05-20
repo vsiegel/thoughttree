@@ -486,22 +486,6 @@ class Thoughttree:
             history += [{'role': 'user', 'content': additional_message}]
         return history
 
-    def resize_textbox(self, txt) :
-        n_lines = int(txt.index('end - 1c').split('.')[0])  # Get the total number of lines in the text box
-        wrapped_lines = 0
-        for line in range(1, n_lines + 1) :
-            wrapped_line = txt.count(f"{line}.0", f"{line}.0 lineend", "displaylines")
-            if wrapped_line:
-                wrapped_lines += int(wrapped_line[0])
-        n_lines += wrapped_lines
-        if n_lines != txt.cget('height') :
-            txt.config(height=n_lines)
-
-    def on_key_release(self, event) :
-        # if event.keysym in ('Return', 'BackSpace', 'Delete') :  # Check if the newline character was added
-        txt = self.tree.focus_get()
-        self.resize_textbox(txt)
-
     def count_tokens(self, event=None) :
         try :
             text = self.chat.get(tk.SEL_FIRST, tk.SEL_LAST)

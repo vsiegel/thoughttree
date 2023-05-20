@@ -66,16 +66,28 @@ class ChatFileManager:
         return file
 
     @staticmethod
-    def save_code_section(text_widget: tk.Text, filename, index=tk.INSERT) :
-        try :
-            range = text_widget.tag_prevrange("assistant", index)#[0]
-            if not range :
+    def save_section(text_widget: tk.Text, filename, index=tk.INSERT):
+        raise "not implemented yet"
+
+    @staticmethod
+    def save_code_section(text_widget: tk.Text, filename, index=tk.INSERT):
+        try:
+            text_range = text_widget.tag_prevrange("assistant", index)
+            if not text_range:
                 raise Exception("No code section found")
             code_message = text_widget.get(*range)
             with open(filename, 'w') as f :
                 f.write(code_message)
         except Exception as e :
             showerror(title="Error", message="Cannot save code section\n" + str(e))
+
+    @staticmethod
+    def save_section_dialog(text_widget):
+        file = filedialog.asksaveasfilename(
+            defaultextension=".txt", initialfile="section.txt", title="Save section")
+        if file:
+            ChatFileManager.save_section(text_widget, file)
+        return file
 
     @staticmethod
     def save_code_section_dialog(text_widget):
@@ -225,6 +237,13 @@ class Thoughttree:
                 return
             base_name = file_name.split("/")[-1]
             self.root.title(base_name)
+
+        def save_section(e=None):
+            file_name = ChatFileManager.save_section_dialog(self.chat)
+            if not file_name:
+                return
+            # base_name = file_name.split("/")[-1]
+            self.status_bar.set_main_text("Code section saved to " + file_name)
 
         def save_code_section(e=None):
             file_name = ChatFileManager.save_code_section_dialog(self.chat)

@@ -145,3 +145,5 @@ dmypy.json
 
 ######
 /.idea/.gitignore
+/generated-text/
+/generated-images/

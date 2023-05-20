@@ -219,7 +219,7 @@ class Thoughttree:
         self.create_menu()
 
     def create_menu(self):
-        def save_file(e=None):
+        def save_chat(e=None):
             file_name = ChatFileManager.save_chat_dialog(self.chat)
             if not file_name:
                 return
@@ -311,15 +311,16 @@ class Thoughttree:
         bar = Menu(self.root)
 
         menu = Menu(bar, "File")
-        menu.item("New Window", "<Control-n>", self.new_window)
+        menu.item("New Window", "<Control-n>", new_window)
         menu.item("Load Chat", None, lambda: ChatFileManager.load_chat_dialog(self.chat))
-        menu.item("Save Chat", "<Control-s>", save_file)
-        menu.item("Save Code Section", "<Control-Shift-S>", save_code_section)
+        menu.item("Save Chat", "<Control-s>", save_chat)
+        menu.item("Save Section", "<Control-Shift-S>", save_section)
+        menu.item("Save Code Section", "<Control-Shift-C>", save_code_section)
         menu.item("Quit", "<Control-q>", self.close)
 
         menu = Menu(bar, "Edit")
-        menu.item("Undo", "<Control-z>", self.chat.edit_undo, False)
-        menu.item("Redo", "<Control-Shift-Z>", self.chat.edit_redo, False)
+        menu.item("Undo", "<Control-z>", edit_undo, False)
+        menu.item("Redo", "<Control-Shift-Z>", edit_redo, False)
         menu.item("Select All", "<Control-a>", command=select_all)
 
         menu = Menu(bar, "View")
@@ -347,12 +348,12 @@ class Thoughttree:
         menu = Menu(self.chat)
         self.context_menu = menu
         menu.item("Undo", "<Control-z>", edit_undo, False)
-        menu.item("Redo", "<Control-Shift-Z>", self.chat.edit_redo, False)
+        menu.item("Redo", "<Control-Shift-Z>", edit_redo, False)
         menu.add_separator()
-        menu.item("Cut", "<Control-x>", self.cut_text, False)
-        menu.item("Copy", "<Control-c>", self.copy_text, False)
-        menu.item("Paste", "<Control-v>", self.paste_text, False)
-        self.chat.bind_class("Text", "<Button-3>", self.show_context_menu)
+        menu.item("Cut", "<Control-x>", cut_text, False)
+        menu.item("Copy", "<Control-c>", copy_text, False)
+        menu.item("Paste", "<Control-v>", paste_text, False)
+        self.chat.bind_class("Text", "<Button-3>", show_context_menu)
         # self.system_txt.bind("<Button-3>", self.show_context_menu)
 
 

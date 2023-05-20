@@ -158,10 +158,10 @@ class Thoughttree:
         self.root.minsize(Thoughttree.MIN_WIDTH, Thoughttree.MIN_HEIGHT)
 
         self.root.option_add('*Text*insertWidth', '3')
-        # self.root.option_add('*Text*Border', '6')
         self.root.option_add('*Dialog*Font', ("sans-serif", 10))
         self.root.option_add('*Menu*Font', ("Arial", 10))
         self.root.option_add('*Font', ("Arial", 10))
+        # self.root.option_add('*Text*Border', '6')
         # self.root.option_add('*Text*Background', 'red')
         # self.root.option_add('*Label*Background', 'red')
         # self.root.option_add('*Label*background', 'red')

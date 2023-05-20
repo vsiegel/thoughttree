@@ -290,12 +290,7 @@ class Thoughttree:
 
             self.root.title(progress_title)
             self.chat.update()
-            history = self.chat_history_from_textboxes(
-                "A title for this conversation, about 70 characters. Style does not matter,"
-                " it is about the information. Ignore the system prompt. Do not refer to the content of the system prompt."
-                " If there is no chat history, the title will be empty."
-                " It is used as a one line title for this conversation."
-                " Give me only the unquoted text of the title, without any prefixes or comments:")
+            history = self.chat_history_from_textboxes(GPT.TITLE_GENERATION_PROMPT)
             self.gpt.chat_complete(history, output_response_delta_to_title, 30, 1)
 
         def menu_test(event=None):

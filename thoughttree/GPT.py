@@ -6,6 +6,12 @@ import tiktoken
 
 
 class GPT:
+    TITLE_GENERATION_PROMPT = "A title for this conversation, about 70 characters. Style does not matter," \
+            " it is about the information. Ignore the system prompt. Do not refer to the content of the system prompt." \
+            " If there is no chat history, the title will be empty." \
+            " It is used as a one line title for this conversation." \
+            " Give me only the unquoted text of the title, without any prefixes or comments:"
+
     max_tokens = 1500
     temperature = 0.5
     # model = 'gpt-3.5-turbo'
@@ -59,7 +65,7 @@ class GPT:
 
             finish_reason = last_event['choices'][0]['finish_reason']
         except Exception as e:
-            print(f"Exception: {e}\n{last_event=}")
+            print(f"Exception: {e}\n>>>{last_event=}<<<")
         if self.is_canceled :
             finish_reason = 'canceled'
         return finish_reason

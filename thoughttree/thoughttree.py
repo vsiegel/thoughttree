@@ -40,7 +40,7 @@ class Thoughttree:
     ROOT_GEOMETRY = "1000x600"
     TEXT_FONT = ("monospace", 10)
 
-    def __init__(self, root):
+    def __init__(self, root, argv=None):
         self.root = root
         self.gpt = GPT()
         self.is_root_destroyed = False
@@ -468,8 +468,11 @@ class Thoughttree:
         # txt.bind("<Control-Key>", lambda e : "break")
         # txt.bind("<Control_L>", lambda e : "break")
 
+    @classmethod
+    def main(argv=None) :
+        root = tk.Tk()
+        Thoughttree(root, argv)
+        root.mainloop()
 
 if __name__ == "__main__":
-    root = tk.Tk()
-    Thoughttree(root)
-    root.mainloop()
+    Thoughttree.main()

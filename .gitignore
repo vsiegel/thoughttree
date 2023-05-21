@@ -148,3 +148,4 @@ dmypy.json
 /generated-text/
 /generated-images/
 /prompts/
+/experimental/

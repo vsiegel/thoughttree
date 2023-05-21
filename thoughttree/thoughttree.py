@@ -226,35 +226,10 @@ class Thoughttree:
 
 
         def menu_test(event=None):
+            pass
 
-            def insert_line(txt, widget, pos="insert"):
-                txt.insert(pos, '\n')
-                txt.window_create(pos, window=widget)
-                txt.insert(pos, '\n')
-
-            txt = focus()
-            swidth = txt.vbar.winfo_width()
-            twidth = txt.winfo_width()
-            theight = txt.winfo_height()
-            char_width = tkfont.Font(font=self.TEXT_FONT).measure('0')
-            width = (twidth - swidth)
-            cwidth = int(width / char_width)
-            print(f"{cwidth=}")
-            print(f"{txt.vbar.cget('width')=}")
-            print(f"{txt.vbar.winfo_width()=}")
-            print(f"{txt.cget('width')=}")
-            print(f"{txt.winfo_width()=}")
-
-            notebook = ttk.Notebook(self.chat, height=theight, width=width, padding=(4, 4, 4, 4))
-            t1 = self.create_textbox(notebook, "Foo")
-            t2 = self.create_textbox(notebook, "Bar")
-            t1.configure(height=20, padx=0, pady=0)
-            t2.configure(height=20, padx=0, pady=0)
-            notebook.add(t1, text='One')
-            notebook.add(t2, text='Two')
-
-            insert_line(txt, notebook)
-            # insert_line(txt, tk.Label(txt, text="Foo", cwidth=width), tk.INSERT + " + 2 lines")
+        def item(label, keystroke, command, bind_key=True, context_menu=None):
+            menu.item(label, keystroke, command, bind_key, context_menu)
 
         bar = Menu(self.root)
 

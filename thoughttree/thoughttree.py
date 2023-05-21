@@ -288,15 +288,9 @@ class Thoughttree:
             start = line_nr + 1
             for i, line in enumerate(lines[start:] + lines[:start], 1):
                 if line.strip() == stripped_target_line:
-                    # if i == line_nr:
-                    #     return 0
-                    # print(f" {i=} {num_lines=} {start=} {line.strip()=} {stripped_target_line=}")
                     return (i + start) % num_lines
             return 0
 
-        # print()
-        # print(f" {self.chat.index('insert')=}")
-        # print(f" {self.chat.index('insert + 1 chars')=}")
         line_nr = int(self.chat.index('insert + 1 chars').split('.')[0])
         current_line = self.chat.get(f"{line_nr}.0", f"{line_nr}.end")
         if not current_line.strip():
@@ -307,7 +301,6 @@ class Thoughttree:
             jump_index = f"{jump_line}.{0}"
             self.chat.mark_set(tk.INSERT, jump_index)
             self.chat.see(jump_index)
-            # print(f" {jump_line=} {jump_index=} {self.chat.get(f'{line_nr}.0', f'{line_nr}.end')=}")
 
     def create_textbox(self, parent, text) :
 
@@ -318,10 +311,10 @@ class Thoughttree:
 
         lines = len(text.splitlines())
         txt = ScrolledText(parent, undo=True,
-                      wrap=tk.WORD, height=lines, padx=1, pady=1,
-                      font=self.TEXT_FONT, bd=0,
-                      highlightbackground='black', highlightcolor='green',
-                      selectbackground="#66a2d4", selectforeground="white")
+            wrap=tk.WORD, height=lines, padx=1, pady=1,
+            font=self.TEXT_FONT, bd=0,
+            highlightbackground='black', highlightcolor='green',
+            selectbackground="#66a2d4", selectforeground="white")
         txt.vbar.config(width=16, takefocus=False)
         txt.pack(pady=0, fill=tk.X, expand=True)
         # txt.tag_configure("user", background="white", selectbackground="#5692c4", selectforeground="white")

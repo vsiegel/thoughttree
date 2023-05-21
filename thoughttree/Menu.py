@@ -21,8 +21,8 @@ class Menu(tk.Menu):
             s = s.replace("<Escape", "Esc")
             s = s.replace("-", "+")
             s = s.replace(">", "")
-            if s[-3] == "-":
-                s[-2] = s[-2].upper()
+            if s[-2] == "+":
+                s = s[:-1] + s[-1].upper()
             return s
 
         accelerator = convert_key_string(keystroke)

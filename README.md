@@ -16,6 +16,7 @@ Prompts and linear chats are a powerful method. But there is not only one way it
 - Handle code sections and files. **Save** them, **include** them, **run** them.
 - **Reduce cost** by not including irrelevant text in the context, without deleting it.
 - **Switch models by hotkey** in a second: Ctrl+4 for GPT-4, Ctrl+3 for GPT-3.5 (ChatGPT)
+- Keep topics separate: If you have query on a new topic, the **history does not help**: It may hinder, and it causes costs. 
 
 ----
 

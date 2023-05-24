@@ -27,8 +27,8 @@ class Menu(tk.Menu):
 
         accelerator = convert_key_string(keystroke)
         state = tk.NORMAL if command else tk.DISABLED
-        self.add_command(label=label, accelerator=accelerator, command=command, state=state)
+        self.add_command(label=label, accelerator=accelerator, command=lambda: command(None), state=state)
         if context_menu :
-            context_menu.add_command(label=label, accelerator=accelerator, command=command, state=state)
+            context_menu.add_command(label=label, accelerator=accelerator, command=lambda: command(None), state=state)
         if bind_key and keystroke:
             self.master.bind_all(keystroke, command, False)

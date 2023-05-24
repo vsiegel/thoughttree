@@ -185,7 +185,10 @@ class Thoughttree:
             focus().event_generate("<<Copy>>")
 
         def paste_text(event=None) :
-            focus().event_generate("<<Paste>>")
+            text = focus()
+            text.event_generate("<<Paste>>")
+            print(event)
+            text.see(tk.INSERT)
 
         def select_all(event=None):
             txt = focus()

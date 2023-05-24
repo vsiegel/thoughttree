@@ -284,15 +284,17 @@ class Thoughttree:
 
     def jump_to_similar_line(self, event=None) :
 
-        def find_matching_line(target_line, line_nr, lines):
+        def find_matching_line(target_line, line_nr_1, lines):
+            line_nr_0 = line_nr_1 - 1
             num_lines = len(lines)
             if num_lines == 0:
                 return 0
             stripped_target_line = target_line.strip()
-            start = line_nr + 1
-            for i, line in enumerate(lines[start:] + lines[:start], 1):
+            start = (line_nr_0 + 1) % num_lines
+            numbered_lines = list(enumerate(lines[start :] + lines[:start]))
+            for i, line in numbered_lines :
                 if line.strip() == stripped_target_line:
-                    return (i + start) % num_lines
+                    return ((i + start) % num_lines) + 1
             return 0
 
         line_nr = int(self.chat.index('insert + 1 chars').split('.')[0])

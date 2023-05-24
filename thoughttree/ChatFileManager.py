@@ -1,6 +1,8 @@
 import tkinter as tk
+from textwrap import dedent
 from tkinter import filedialog
 from tkinter.messagebox import showerror
+import re
 
 code_block_extensions = {
     "python": ".py",
@@ -52,57 +54,52 @@ code_block_extensions = {
 }
 
 class ChatFileManager:
-    @staticmethod
-    def save_chat(text_widget, filename):
-        # ROLE_SYMBOLS = {"user":"❯ ", "ai":"⚙ "}
-        ROLE_SYMBOLS = {"user": "", "ai": ""}
-        content = text_widget.dump(1.0, tk.END, text=True, tag=True)
-        with open(filename, 'w') as f:
-            drop_nl = False
-            for item in content:
-                if item[0] == "tagon":
-                    if item[1] == "assistant":
-                        f.write(ROLE_SYMBOLS["ai"])
-                elif item[0] == "tagoff":
-                    if item[1] == "assistant":
-                        f.write("\n" + ROLE_SYMBOLS["user"])
-                        drop_nl = True
-                elif item[0] == "text":
-                    if drop_nl:
-                        drop_nl = False
-                        if item[1] == "\n":
-                            continue
-                    f.write(item[1])
 
     @staticmethod
     def save_chat_dialog(text_widget):
+
+        def save_chat(text_widget, filename) :
+            # ROLE_SYMBOLS = {"user":"❯ ", "ai":"⚙ "}
+            ROLE_SYMBOLS = {"user" : "", "ai" : ""}
+            content = text_widget.dump(1.0, tk.END, text=True, tag=True)
+            with open(filename, 'w') as f :
+                drop_nl = False
+                for item in content :
+                    if item[0] == "tagon" :
+                        if item[1] == "assistant" :
+                            f.write(ROLE_SYMBOLS["ai"])
+                    elif item[0] == "tagoff" :
+                        if item[1] == "assistant" :
+                            f.write("\n" + ROLE_SYMBOLS["user"])
+                            drop_nl = True
+                    elif item[0] == "text" :
+                        if drop_nl :
+                            drop_nl = False
+                            if item[1] == "\n" :
+                                continue
+                        f.write(item[1])
+
         file = filedialog.asksaveasfilename(
             defaultextension=".txt", initialfile="chat.txt", title="Save chat")
         if file:
-            ChatFileManager.save_chat(text_widget, file)
+            save_chat(text_widget, file)
         return file
+
 
     @staticmethod
     def save_section(text_widget: tk.Text, filename, index=tk.INSERT):
-        raise "not implemented yet"
-
-    @staticmethod
-    def save_code_section(text_widget: tk.Text, filename, index=tk.INSERT):
-        try:
+        try :
             text_range = text_widget.tag_prevrange("assistant", index)
-            if not text_range:
-                raise Exception("No code section found")
+            if not text_range :
+                raise Exception("No section found")
             start, end = text_range
-            print(f"{start=}, {end=}")
-            code_section = text_widget.get(*text_range)
-            if code_section[:3] == "```":
-                code_section = code_section[3:]
-            if code_section[:-4] == "```\n":
-                code_section = code_section[3:]
-            with open(filename, 'w') as f:
-                f.write(code_section)
-        except Exception as e:
-            showerror(title="Error", message="Cannot save code section\n" + str(e))
+            section = text_widget.get(*text_range)
+
+            with open(filename, 'w') as f :
+                f.write(section)
+        except Exception as e :
+            showerror(title="Error", message="Cannot save section\n" + str(e))
+
 
     @staticmethod
     def save_section_dialog(text_widget):
@@ -111,6 +108,41 @@ class ChatFileManager:
         if file:
             ChatFileManager.save_section(text_widget, file)
         return file
+
+    @staticmethod
+    def save_code_section(text_widget: tk.Text, filename, index=tk.INSERT):
+
+        def extract_code_block(text) :
+            code_blocks = re.findall(r'```(.*?)```', text, re.DOTALL)
+
+            if not code_blocks :
+                raise ValueError('No code blocks found')
+
+            if len(code_blocks) > 1 :
+                raise ValueError('Multiple code blocks found')
+
+            if len(code_blocks) == 1 :
+                code_block = code_blocks[0]
+                file_type = None
+                match = re.search(r'^([a-zA-Z0-9]+)\n', code_block)
+                if match :
+                    file_type = match.group(1)
+                    code_block = re.sub(r'^[a-zA-Z0-9]+\n', '', code_block)
+                code_block = dedent(code_block)
+                return code_block, file_type
+
+        try:
+            text_range = text_widget.tag_prevrange("assistant", index)
+            if not text_range:
+                raise Exception("No code section found")
+            start, end = text_range
+            code_section = text_widget.get(*text_range)
+            code_block, file_type = extract_code_block(code_section)
+
+            with open(filename, 'w') as f:
+                f.write(code_block)
+        except Exception as e:
+            showerror(title="Error", message="Cannot save code section\n" + str(e))
 
     @staticmethod
     def save_code_section_dialog(text_widget):
@@ -128,7 +160,7 @@ class ChatFileManager:
         text_widget.delete(1.0, tk.END)
         for line in content:
             if ':' in line:
-                tag, text = line.strip().split(': ', 1)
+                tag, text = line.lstrip().split(': ', 1)
                 text_widget.insert(tk.END, text)
                 text_widget.tag_add(tag, text_widget.index(tk.END + '-1c linestart'), text_widget.index(tk.END + '-1c lineend'))
             else:

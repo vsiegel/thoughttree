@@ -255,14 +255,19 @@ class Thoughttree:
         item("Count Tokens", "<Control-t>", self.count_tokens)
         item("Run Code", "", None)
         item("Update Window Title", "<Control-u>", update_window_title)
+        item("Increase Font Size", "<Control-plus>", lambda e: change_text_size(1))
+        item("Decrease Font Size", "<Control-minus>", lambda e: change_text_size(-1))
+        item("Reset Font Size", "<Control-period>", lambda e: change_text_size(0))
+        # txt.bind("<Control-Button-4>", lambda event: change_text_size(event, txt, 1))
+        # txt.bind("<Control-Button-5>", lambda event: change_text_size(event, txt, -1))
 
         menu = Menu(bar, "Navigate")
         item("Jump to Similar Line", "<Control-b>", self.jump_to_similar_line)
 
-        menu = Menu(bar, "Output")
-        item("Cancel", "<Escape>", self.gpt.cancel)
-
-        menu = Menu(bar, "Models")
+        menu = Menu(bar, "Model")
+        item("Continue Chat", "<Control-Return>", lambda : self.chatWithGpt())
+        item("Complete Directly", "<Shift-Return>", lambda : self.chatWithGpt(""))
+        menu.add_separator()
         for model_name in self.gpt.get_available_models() :
             menu.item(f"{model_name}", None, lambda m=model_name : self.set_model(m))
 

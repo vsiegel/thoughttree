@@ -262,7 +262,7 @@ class Thoughttree:
         # txt.bind("<Control-Button-5>", lambda event: change_text_size(event, txt, -1))
 
         menu = Menu(bar, "Navigate")
-        item("Jump to Similar Line", "<Control-b>", self.jump_to_similar_line)
+        item("Jump to Similar Line", "<Control-j>", self.jump_to_similar_line)
 
         menu = Menu(bar, "Model")
         item("Continue Chat", "<Control-Return>", lambda : self.chatWithGpt())

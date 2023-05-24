@@ -253,7 +253,7 @@ class Thoughttree:
         item("Show System Prompt", "", None)
         item("Show Tree", "", None)
         item("Count Tokens", "<Control-t>", self.count_tokens)
-        item("Run Code", "", None)
+        item("Run Code Block", "", None)
         item("Update Window Title", "<Control-u>", update_window_title)
         item("Increase Font Size", "<Control-plus>", lambda e: change_text_size(1))
         item("Decrease Font Size", "<Control-minus>", lambda e: change_text_size(-1))

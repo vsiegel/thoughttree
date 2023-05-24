@@ -326,12 +326,6 @@ class Thoughttree:
         txt.pack(pady=0, fill=tk.X, expand=True)
         # txt.tag_configure("user", background="white", selectbackground="#5692c4", selectforeground="white")
         txt.tag_configure("assistant", background="#F0F0F0", selectbackground="#4682b4", selectforeground="white")
-        txt.bind("<Control-Return>", lambda e : self.chatWithGpt())
-        txt.bind("<Shift-Return>", lambda e : self.chatWithGpt(""))
-        txt.bind("<Control-plus>", lambda event: change_text_size(event, txt, 1))
-        txt.bind("<Control-minus>", lambda event: change_text_size(event, txt, -1))
-        txt.bind("<Control-Button-4>", lambda event: change_text_size(event, txt, 1))
-        txt.bind("<Control-Button-5>", lambda event: change_text_size(event, txt, -1))
         txt.insert(tk.END, text, "user")
         return txt
 

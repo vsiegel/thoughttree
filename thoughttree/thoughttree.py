@@ -297,16 +297,17 @@ class Thoughttree:
                     return ((i + start) % num_lines) + 1
             return 0
 
-        line_nr = int(self.chat.index('insert + 1 chars').split('.')[0])
-        current_line = self.chat.get(f"{line_nr}.0", f"{line_nr}.end")
+        txt = self.root.focus_get()
+        line_nr = int(txt.index('insert + 1 chars').split('.')[0])
+        current_line = txt.get(f"{line_nr}.0", f"{line_nr}.end")
         if not current_line.strip():
             return
-        lines = self.chat.get(1.0, tk.END).splitlines()
+        lines = txt.get(1.0, tk.END).splitlines()
         jump_line = find_matching_line(current_line, line_nr, lines)
         if jump_line :
             jump_index = f"{jump_line}.{0}"
-            self.chat.mark_set(tk.INSERT, jump_index)
-            self.chat.see(jump_index)
+            txt.mark_set(tk.INSERT, jump_index)
+            txt.see(jump_index)
 
     def create_textbox(self, parent, text) :
 

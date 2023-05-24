@@ -269,12 +269,13 @@ class Thoughttree:
 
         menu = Menu(self.chat)
         self.context_menu = menu
-        item("Undo", "<Control-z>", edit_undo, False)
-        item("Redo", "<Control-Shift-Z>", edit_redo, False)
-        menu.add_separator()
         item("Cut", "<Control-x>", cut_text, False)
         item("Copy", "<Control-c>", copy_text, False)
         item("Paste", "<Control-v>", paste_text, False)
+        menu.add_separator()
+        item("Undo", "<Control-z>", edit_undo, False)
+        item("Redo", "<Control-Shift-Z>", edit_redo, False)
+        item("Select All", "<Control-a>", command=select_all)
         self.root.bind_class("Text", "<Button-3>", show_context_menu)
 
 

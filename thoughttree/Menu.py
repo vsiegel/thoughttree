@@ -15,11 +15,14 @@ class Menu(tk.Menu):
         def convert_key_string(s) :
             if not keystroke:
                 return ""
+            s = s.replace("-", "+")
             s = s.replace("<Control", "Ctrl")
             s = s.replace("<Shift", "Shift")
             s = s.replace("<Alt", "Alt")
             s = s.replace("<Escape", "Esc")
-            s = s.replace("-", "+")
+            s = s.replace("plus>", "+")
+            s = s.replace("minus>", "-")
+            s = s.replace("period>", ".")
             s = s.replace(">", "")
             if s[-2] == "+":
                 s = s[:-1] + s[-1].upper()

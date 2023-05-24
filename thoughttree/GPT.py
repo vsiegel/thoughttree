@@ -48,11 +48,10 @@ Give me only the unquoted text of the title, without any prefixes or comments:
                 stream=True
             )
         except Exception as e:
-            # if conf.ring_bell_after_completion:
-            #   self.root.bell()
-            showerror("Error", f"Exception: {e}")
+            message = f"Exception: {e}"
+            showerror("Error in openai.ChatCompletion.create()", message)
             finish_reason = 'error'
-            return finish_reason
+            return finish_reason, message
 
         last_event = None
         try:
@@ -67,10 +66,13 @@ Give me only the unquoted text of the title, without any prefixes or comments:
 
             finish_reason = last_event['choices'][0]['finish_reason']
         except Exception as e:
-            print(f"Exception: {e}\n>>>{last_event=}<<<")
+            message = f"Exception: {e}\n\n{last_event=}"
+            showerror("Error receiving completion response", message)
+            finish_reason = 'error'
+            return finish_reason, message
         if self.is_canceled :
             finish_reason = 'canceled'
-        return finish_reason
+        return finish_reason, ""
 
     def count_tokens(self, text):
         enc = tiktoken.encoding_for_model(self.model)

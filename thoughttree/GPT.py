@@ -36,7 +36,7 @@ Give me only the unquoted text of the title, without any prefixes or comments:
     def __init__(self):
         self.chat_log = open(self.logfile_name, "w")
 
-    def chat_complete(self, history, output_delta, max_tokens=None, temperature=None) -> Tuple[str, str]:
+    def chat_complete(self, history, output_delta_callback, max_tokens=None, temperature=None) -> Tuple[str, str]:
         """:return: Tuple[str, str] - (finish_reason, message)"""
         max_tokens = max_tokens or self.max_tokens
         temperature = temperature or self.temperature

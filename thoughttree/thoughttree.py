@@ -201,7 +201,7 @@ class Thoughttree:
         def update_window_title(event=None):
             progress_title = "[Generating...]"
 
-            def output_response_delta_to_title(content):
+            def output_response_delta_to_title_callback(content):
                 if self.is_root_destroyed:
                     return
                 current_title = self.root.title()
@@ -213,7 +213,7 @@ class Thoughttree:
             self.root.title(progress_title)
             self.chat.update()
             history = self.chat_history_from_textboxes(GPT.TITLE_GENERATION_PROMPT)
-            self.gpt.chat_complete(history, output_response_delta_to_title, 30, 1)
+            self.gpt.chat_complete(history, output_response_delta_to_title_callback, 30, 1)
 
 
         def edit_undo():
@@ -345,10 +345,10 @@ class Thoughttree:
             # label.pack(expand=True, fill="both")
             text.window_create(tk.END, window=label)
 
-        def output_response_delta_to_chat(content) :
+        def output_response_delta_to_chat_callback(text) :
             if self.is_root_destroyed :
                 return
-            self.chat.insert(tk.END, content, "assistant")
+            self.chat.insert(tk.END, text, "assistant")
             if conf.scroll_during_completion:
                 self.chat.see(tk.END)
             self.chat.update()
@@ -357,7 +357,7 @@ class Thoughttree:
             self.chat.insert(tk.END, prefix)
             self.chat.update()
         history = self.chat_history_from_textboxes()
-        finish_reason, message = self.gpt.chat_complete(history, output_response_delta_to_chat)
+        finish_reason, message = self.gpt.chat_complete(history, output_response_delta_to_chat_callback)
         if self.is_root_destroyed:
             return
         if conf.show_finish_reason:

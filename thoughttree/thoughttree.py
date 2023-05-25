@@ -265,8 +265,8 @@ class Thoughttree:
         item("Jump to Similar Line", "<Control-j>", self.jump_to_similar_line)
 
         menu = Menu(bar, "Model")
-        item("Continue Chat", "<Control-Return>", lambda : self.chatWithGpt())
-        item("Complete Directly", "<Shift-Return>", lambda : self.chatWithGpt(""))
+        item("Continue Chat", "<Control-Return>", lambda e: self.chatWithGpt("\n\n"))
+        item("Complete Directly", "<Shift-Return>", lambda e: self.chatWithGpt(""))
         menu.add_separator()
         for model_name in self.gpt.get_available_models() :
             menu.item(f"{model_name}", None, lambda m=model_name : self.set_model(m))

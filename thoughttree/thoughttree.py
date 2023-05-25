@@ -339,7 +339,7 @@ class Thoughttree:
         txt.insert(tk.END, text, "user")
         return txt
 
-    def chatWithGpt(self, postfix="\n\n") :
+    def chatWithGpt(self, prefix="", postfix="\n", number_of_completions=1) :
 
         def insert_label(text, label_text, tool_tip_text=""):
             label = tk.Label(text, text=label_text, padx=8, bg="#F0F0F0", fg="grey")
@@ -356,8 +356,8 @@ class Thoughttree:
                 self.chat.see(tk.END)
             self.chat.update()
 
-        if postfix :
-            self.chat.insert(tk.END, postfix)
+        if prefix :
+            self.chat.insert(tk.END, prefix)
             self.chat.update()
         history = self.chat_history_from_textboxes()
         finish_reason, message = self.gpt.chat_complete(history, output_response_delta_to_chat)
@@ -372,7 +372,8 @@ class Thoughttree:
                 print(f"{finish_reason=}")
             if symbol :
                 insert_label(self.chat, symbol, tool_tip)
-        self.chat.insert(tk.END, "\n", "assistant")
+
+        self.chat.insert(tk.END, postfix, "assistant")
         self.chat.mark_set(tk.INSERT, tk.END)
         self.chat.see(tk.END)
         if conf.ring_bell_after_completion:

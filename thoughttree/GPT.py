@@ -1,6 +1,7 @@
 import re
 from tkinter.messagebox import showerror
 from typing import Tuple
+from datetime import datetime
 
 import openai
 import tiktoken
@@ -14,7 +15,7 @@ If there is no chat history, the title will be empty.
 It is used as a one line title for this conversation.
 Give me only the unquoted text of the title, without any prefixes or comments:
 '''
-
+    logfile_name = f"thoughttree-chat-{datetime.now().strftime('%Y-%m-%d-%H-%M-%S')}.log"
     max_tokens = 1500
     temperature = 0.5
     # model = 'gpt-3.5-turbo'
@@ -33,7 +34,7 @@ Give me only the unquoted text of the title, without any prefixes or comments:
     is_canceled = False
 
     def __init__(self):
-        pass
+        self.chat_log = open(self.logfile_name, "w")
 
     def chat_complete(self, history, output_delta, max_tokens=None, temperature=None) -> Tuple[str, str]:
         """:return: Tuple[str, str] - (finish_reason, message)"""
@@ -60,8 +61,11 @@ Give me only the unquoted text of the title, without any prefixes or comments:
                     return 'canceled', ""
                 delta = event['choices'][0]['delta']
                 if 'content' in delta :
-                    content = delta["content"]
-                    output_delta(content)
+                    text = delta["content"]
+                    if self.chat_log:
+                        self.chat_log.write(text)
+                        self.chat_log.flush()
+                    output_delta_callback(text)
                 last_event = event
 
             if self.is_canceled :

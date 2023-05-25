@@ -271,6 +271,9 @@ class Thoughttree:
         for model_name in self.gpt.get_available_models() :
             menu.item(f"{model_name}", None, lambda m=model_name : self.set_model(m))
 
+        menu = Menu(bar, "Output")
+        item("Cancel", "<Escape>", self.gpt.cancel)
+
         menu = Menu(bar, "Help")
         item("Test", "<Control-Shift-T>", menu_test)
         item("About", None, None)

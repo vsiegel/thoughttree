@@ -193,7 +193,7 @@ class Thoughttree:
 
         def select_all(event=None):
             txt = focus()
-            if type(txt) == tk.scrolledtext.ScrolledText:
+            if type(txt) == Text:
                 txt.tag_add(tk.SEL, "1.0", tk.END)
                 txt.mark_set(tk.INSERT, "1.0")
                 txt.see(tk.INSERT)

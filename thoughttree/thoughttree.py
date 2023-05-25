@@ -7,21 +7,16 @@ from tkinter import font as tkfont
 from tkinter.messagebox import showinfo
 from tkinter.scrolledtext import ScrolledText
 
+import prompts
 from ChatFileManager import ChatFileManager
 from ToolTip import ToolTip
 from GPT import GPT
 from StatusBar import StatusBar
 from Menu import Menu
 from Text import Text
+from prompts import system_prompt
 
 CHATGPT_ICON = "chatgpt-icon.png"
-
-DEFAULT_SYSTEM_PROMPT_FILE = "thoughttree-system.txt"
-system_prompt = """Allways be terse.
-Never apologize.
-Use markdown to make it more readable.
-"""
-# open(DEFAULT_SYSTEM_PROMPT_FILE, 'r').read()
 
 conf = Namespace()
 conf.show_finish_reason = True
@@ -212,7 +207,7 @@ class Thoughttree:
 
             self.root.title(progress_title)
             self.chat.update()
-            history = self.chat_history_from_textboxes(GPT.TITLE_GENERATION_PROMPT)
+            history = self.chat_history_from_textboxes(prompts.TITLE_GENERATION_PROMPT)
             self.gpt.chat_complete(history, output_response_delta_to_title_callback, 30, 1)
 
 

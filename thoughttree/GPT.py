@@ -8,13 +8,6 @@ import tiktoken
 
 
 class GPT:
-    TITLE_GENERATION_PROMPT = '''\
-A title for this conversation, about 50 characters. Style does not matter,
-it is about the information. Ignore the system prompt. Do not refer to the content of the system prompt.
-If there is no chat history, the title will be empty.
-It is used as a one line title for this conversation.
-Give me only the unquoted text of the title, without any prefixes or comments:
-'''
     logfile_name = f"thoughttree-chat-{datetime.now().strftime('%Y-%m-%d-%H-%M-%S')}.log"
     max_tokens = 1500
     temperature = 0.5

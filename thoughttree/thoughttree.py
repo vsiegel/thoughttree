@@ -12,6 +12,7 @@ from ToolTip import ToolTip
 from GPT import GPT
 from StatusBar import StatusBar
 from Menu import Menu
+from Text import Text
 
 CHATGPT_ICON = "chatgpt-icon.png"
 
@@ -327,11 +328,7 @@ class Thoughttree:
     def create_textbox(self, parent, text) :
 
         lines = len(text.splitlines())
-        txt = ScrolledText(parent, undo=True,
-            wrap=tk.WORD, height=lines, padx=1, pady=1,
-            font=self.TEXT_FONT, bd=0,
-            highlightbackground='black', highlightcolor='green',
-            selectbackground="#66a2d4", selectforeground="white")
+        txt = Text(parent, height=lines)
         txt.vbar.config(width=16, takefocus=False)
         txt.pack(pady=0, fill=tk.X, expand=True)
         # txt.tag_configure("user", background="white", selectbackground="#5692c4", selectforeground="white")

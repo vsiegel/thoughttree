@@ -51,29 +51,27 @@ Give me only the unquoted text of the title, without any prefixes or comments:
         except Exception as e:
             message = f"Exception: {e}"
             showerror("Error in openai.ChatCompletion.create()", message)
-            finish_reason = 'error'
-            return finish_reason, message
+            return 'error', message
 
         last_event = None
         try:
             for event in response :
                 if self.is_canceled:
-                    break
+                    return 'canceled', ""
                 delta = event['choices'][0]['delta']
                 if 'content' in delta :
                     content = delta["content"]
                     output_delta(content)
                 last_event = event
 
-            finish_reason = last_event['choices'][0]['finish_reason']
+            if self.is_canceled :
+                return 'canceled', ""
+            else :
+                return last_event['choices'][0]['finish_reason'], ""
         except Exception as e:
             message = f"Exception: {e}\n\n{last_event=}"
             showerror("Error receiving completion response", message)
-            finish_reason = 'error'
-            return finish_reason, message
-        if self.is_canceled :
-            finish_reason = 'canceled'
-        return finish_reason, ""
+            return 'error', message
 
     def count_tokens(self, text):
         enc = tiktoken.encoding_for_model(self.model)

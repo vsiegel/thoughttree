@@ -5,7 +5,6 @@ from argparse import Namespace
 from tkinter import ttk
 from tkinter import font as tkfont
 from tkinter.messagebox import showinfo
-from tkinter.scrolledtext import ScrolledText
 
 import prompts
 from ChatFileManager import ChatFileManager

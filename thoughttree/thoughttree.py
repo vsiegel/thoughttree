@@ -227,6 +227,13 @@ class Thoughttree:
             except tk.TclError:
                 pass # nothing to redo
 
+        def change_text_size(delta):
+            text = focus()
+            if delta == 0:
+                name, size = Thoughttree.TEXT_FONT
+            else:
+                name, size = text.cget("font").split()
+            text.config(font=(name, int(size) + delta))
 
         def menu_test(event=None):
             pass
@@ -318,11 +325,6 @@ class Thoughttree:
             txt.see(jump_index)
 
     def create_textbox(self, parent, text) :
-
-        def change_text_size(event, text, delta):
-            name, size = text.cget("font").split()
-            size = int(size)
-            text.config(font=(name, size + delta))
 
         lines = len(text.splitlines())
         txt = ScrolledText(parent, undo=True,

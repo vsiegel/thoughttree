@@ -144,8 +144,10 @@ dmypy.json
 .pyre/
 
 ######
-/.idea/.gitignore
+/.idea/
 /generated-text/
 /generated-images/
 /prompts/
 /experimental/
+/thoughttree/code-section.py
+/code-section.py

@@ -275,6 +275,9 @@ class Thoughttree:
         menu = Menu(bar, "Model")
         item("Continue Chat", "<Control-Return>", lambda e: self.chatWithGpt("\n\n"))
         item("Complete Directly", "<Shift-Return>", lambda e: self.chatWithGpt(""))
+        item("Complete Two Times", "<Control-2>", lambda e: self.chatWithGpt("", "", 2))
+        item("Complete multiple...", "<Control-m>", lambda e: self.chatWithGpt("", "", 0))
+        item("Complete multiple again", "<Alt-Return>", lambda e: self.chatWithGpt("", "", -1))
         menu.add_separator()
         for model_name in self.gpt.get_available_models() :
             menu.item(f"{model_name}", None, lambda m=model_name : self.set_model(m))

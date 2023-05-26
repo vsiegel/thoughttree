@@ -268,10 +268,13 @@ class Thoughttree:
         item("Complete 10 Times", "<Control-Key-0>", lambda e: self.chat_continue("", "", 10))
         menu.add_separator()
         for model_name in self.gpt.get_available_models() :
-            menu.item(f"{model_name}", None, lambda m=model_name : self.set_model(m))
-
-        menu = Menu(bar, "Output")
-        item("Cancel", "<Escape>", self.gpt.cancel)
+            if model_name == "gpt-4":
+                key = "<Control-Alt-Key-4>"
+            elif model_name == "gpt-3.5-turbo":
+                key = "<Control-Alt-Key-3>"
+            else:
+                key = None
+            item(f"{model_name}", key, lambda e, m=model_name: self.set_model(m))
 
         menu = Menu(bar, "Help")
         item("Test", "<Control-Shift-T>", menu_test)

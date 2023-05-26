@@ -35,7 +35,7 @@ class Thoughttree:
     MIN_HEIGHT = 100
     CHAT_WIDTH = 400
     ROOT_GEOMETRY = "1000x600"
-    TEXT_FONT = ("monospace", 10)
+
     icon = None
 
     def __init__(self, root=None):
@@ -83,11 +83,11 @@ class Thoughttree:
         # self.root.option_add('*Label*Background', 'red')
         # self.root.option_add('*Label*background', 'red')
 
-        font_height = tkfont.Font(font=Thoughttree.TEXT_FONT).metrics("linespace")
+        font_height = tkfont.Font(font=Text.FONT).metrics("linespace")
         style = ttk.Style(self.root)
 
         style.configure("Treeview", rowheight=2 * font_height + 0)
-        # style.configure("Treeview", font=Thoughttree.TEXT_FONT)
+        # style.configure("Treeview", font=Text.TEXT_FONT)
         style.configure("Treeview.Cell", anchor=tk.NW)
         style.configure("Treeview.Cell", padding=(1, 1))
 

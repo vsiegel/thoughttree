@@ -35,6 +35,7 @@ class Thoughttree:
     CHAT_WIDTH = 400
     ROOT_GEOMETRY = "1000x600"
     TEXT_FONT = ("monospace", 10)
+    icon = None
 
     def __init__(self, root=None):
         self.root = root or tk.Tk()
@@ -48,9 +49,13 @@ class Thoughttree:
         def get_icon_file_name(icon_base_name):
             return os.path.join(os.path.dirname(os.path.abspath(__file__)), icon_base_name)
 
+        if Thoughttree.icon:
+            return
         try:
             abs_name = str(get_icon_file_name(CHATGPT_ICON))
-            self.root.iconphoto(False, tk.PhotoImage(file=abs_name)) # Note: has no effect when running in PyCharm IDE
+            photo_image = tk.PhotoImage(file=abs_name)
+            Thoughttree.icon = photo_image
+            self.root.iconphoto(True, photo_image) # Note: has no effect when running in PyCharm IDE
         except Exception as e:
             print("Error loading icon:", e)
 

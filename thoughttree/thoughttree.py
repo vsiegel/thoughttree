@@ -37,6 +37,7 @@ class Thoughttree:
     ROOT_GEOMETRY = "1000x600"
 
     icon = None
+    multi_completions = 3
 
     def __init__(self, root=None):
         self.root = root or tk.Tk()

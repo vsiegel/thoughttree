@@ -196,24 +196,6 @@ class Thoughttree:
                 txt.mark_set(tk.INSERT, "1.0")
                 txt.see(tk.INSERT)
 
-        def update_window_title(event=None):
-            progress_title = "[Generating...]"
-
-            def output_response_delta_to_title_callback(content):
-                if self.is_root_destroyed:
-                    return
-                current_title = self.root.title()
-                if current_title == progress_title:
-                    current_title = ""
-                self.root.title(current_title + content)
-                self.chat.update()
-
-            self.root.title(progress_title)
-            self.chat.update()
-            history = self.chat_history_from_textboxes(prompts.TITLE_GENERATION_PROMPT)
-            self.gpt.chat_complete(history, output_response_delta_to_title_callback, 30, 1)
-
-
         def edit_undo():
             try:
                 focus().edit_undo()
@@ -265,7 +247,7 @@ class Thoughttree:
         item("Show Tree", "", None)
         item("Count Tokens", "<Control-t>", self.count_tokens)
         item("Run Code Block", "", None)
-        item("Update Window Title", "<Control-u>", update_window_title)
+        item("Update Window Title", "<Control-u>", self.update_window_title)
         item("Increase Font Size", "<Control-plus>", lambda e: change_text_size(1))
         item("Decrease Font Size", "<Control-minus>", lambda e: change_text_size(-1))
         item("Reset Font Size", "<Control-period>", lambda e: change_text_size(0))
@@ -302,6 +284,24 @@ class Thoughttree:
         item("Redo", "<Control-Shift-Z>", edit_redo, False)
         item("Select All", "<Control-a>", command=select_all)
         self.root.bind_class("Text", "<Button-3>", show_context_menu)
+
+
+    def update_window_title(self, event=None):
+        progress_title = self.root.title() + "..."
+
+        def output_response_delta_to_title_callback(content):
+            if self.is_root_destroyed:
+                return
+            current_title = self.root.title()
+            if current_title == progress_title:
+                current_title = ""
+            self.root.title(current_title + content)
+            self.chat.update()
+
+        self.root.title(progress_title)
+        self.chat.update()
+        history = self.chat_history_from_textboxes(prompts.TITLE_GENERATION_PROMPT)
+        self.gpt.chat_complete(history, output_response_delta_to_title_callback, 30, 1)
 
 
     def jump_to_similar_line(self, event=None) :

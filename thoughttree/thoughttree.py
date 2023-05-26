@@ -355,12 +355,12 @@ class Thoughttree:
             return
         if conf.show_finish_reason:
             symbol = GPT.finish_reasons[finish_reason]["symbol"]
-            tool_tip = GPT.finish_reasons[finish_reason]["tool_tip"]
-            if message:
-                tool_tip += "\n" + message
             if finish_reason not in ["stop", "length", "canceled", "error"] :
                 print(f"{finish_reason=}")
             if symbol :
+                tool_tip = GPT.finish_reasons[finish_reason]["tool_tip"]
+                if message:
+                    tool_tip += "\n" + message
                 insert_label(txt, symbol, tool_tip)
 
         txt.insert(tk.END, postfix, "assistant")

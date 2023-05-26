@@ -105,8 +105,6 @@ class Thoughttree:
         tree.column("#1", width=30, minwidth=60, anchor=tk.W, stretch=tk.NO)
         tree.heading("C1", text="")
 
-        self.current_cell_editor = None
-
         def on_treeview_click(event):
             item = tree.identify('item', event.x, event.y)
             print(item)

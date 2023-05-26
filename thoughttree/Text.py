@@ -42,13 +42,12 @@ class Text(tk.scrolledtext.ScrolledText):
             width=80, height=lines, insertwidth=3, font=Text.FONT,
             border=0, borderwidth=1, highlightthickness=1,
             selectbackground="#66a2d4", selectforeground="white", **kw)
-        self.vbar.config(borderwidth=2)
 
         self.line_height = tkfont.Font(font=Text.FONT).metrics("linespace")
+        self.vbar.config(width=18, takefocus=False, borderwidth=2)
 
         self.master.unbind_class("Text", "<Control-Shift-T>")
         self.bind("<Control-Shift-T>", lambda e: self.insert_nested_text())
-        self.vbar.config(width=18, takefocus=False)
         self.bind("<Control-Alt-plus>", lambda e: self.change_notebook_height(1))
         self.bind("<Control-Alt-minus>", lambda e: self.change_notebook_height(-1))
         self.bind("<Control-Shift-asterisk>", lambda e: self.change_notebook_height(10))

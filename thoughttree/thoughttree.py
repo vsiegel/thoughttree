@@ -3,7 +3,7 @@ import os
 import tkinter as tk
 from argparse import Namespace
 from datetime import datetime
-from tkinter import ttk
+from tkinter import ttk, simpledialog
 from tkinter import font as tkfont
 from tkinter.messagebox import showinfo
 

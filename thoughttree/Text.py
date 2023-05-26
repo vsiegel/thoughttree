@@ -26,19 +26,20 @@ class Notebook(ttk.Notebook):
         else:
             tab_label = f"{i}"
         frame = tk.Frame(self)
-        txt = Text.create_textbox(frame, text)
+        txt = Text(frame, text)
         self.add(frame, text=f"{tab_label}")
         txt.pack(fill=tk.BOTH, expand=True)
 
 
 class Text(tk.scrolledtext.ScrolledText):
-    # TEXT_FONT = ("monospace", 10)
-    FONT = ("sans-serif", 10)
+    FONT = ("monospace", 10)
+    # FONT = ("sans-serif", 11)
 
-    def __init__(self, master=None, **kw):
+    def __init__(self, master=None, text="", **kw):
+        lines = len(text.splitlines())
         tk.scrolledtext.ScrolledText.__init__(
             self, master, undo=True, wrap=tk.WORD, padx=1, pady=1,
-            width=80, insertwidth=3, font=Text.FONT,
+            width=80, height=lines, insertwidth=3, font=Text.FONT,
             border=0, borderwidth=1, highlightthickness=1,
             selectbackground="#66a2d4", selectforeground="white", **kw)
         self.vbar.config(borderwidth=2)
@@ -52,6 +53,10 @@ class Text(tk.scrolledtext.ScrolledText):
         self.bind("<Control-Alt-minus>", lambda e: self.change_notebook_height(-1))
         self.bind("<Control-Shift-asterisk>", lambda e: self.change_notebook_height(10))
         self.bind("<Control-Shift-underscore>", lambda e: self.change_notebook_height(-10))
+        self.pack(pady=0, fill=tk.X, expand=True)
+        self.tag_configure("assistant", background="#F0F0F0", selectbackground="#4682b4", selectforeground="white")
+        self.insert(tk.END, text)
+
 
     def change_notebook_height(self, delta):
         parent = self.master.focus_get()
@@ -62,17 +67,6 @@ class Text(tk.scrolledtext.ScrolledText):
         old_height = parent.cget("height")
         height = max(old_height + delta * self.line_height, self.line_height)
         parent.configure(height=height)
-
-    @staticmethod
-    def create_textbox(parent, text="") :
-        lines = len(text.splitlines())
-        txt = Text(parent, height=lines)
-        txt.vbar.config(width=16, takefocus=False)
-        txt.pack(pady=0, fill=tk.X, expand=True)
-        # txt.tag_configure("user", background="white", selectbackground="#5692c4", selectforeground="white")
-        txt.tag_configure("assistant", background="#F0F0F0", selectbackground="#4682b4", selectforeground="white")
-        txt.insert(tk.END, text, "user")
-        return txt
 
     def insert_nested_text(self):
         height, width = self.calc_notebook_size()

@@ -133,8 +133,8 @@ class Thoughttree:
         tree.bind("<Double-Button-1>", self.edit_tree_entry)
         tree.bind("<Return>", self.edit_tree_entry)
 
-        self.system = Text.create_textbox(self.vPane, system_prompt)
-        self.chat = Text.create_textbox(self.vPane)
+        self.system = Text(self.vPane, system_prompt)
+        self.chat = Text(self.vPane)
         self.system.config(pady=5)
 
         self.vPane.add(self.system)

@@ -145,7 +145,7 @@ class Thoughttree:
 
     def create_menu(self):
 
-        def focus():
+        def focus() -> Text:
             return self.root.focus_get()
 
         def save(save_dialog, status_bar_label):

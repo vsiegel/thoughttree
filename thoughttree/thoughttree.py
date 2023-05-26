@@ -258,7 +258,7 @@ class Thoughttree:
         item("Jump to Similar Line", "<Control-j>", self.jump_to_similar_line)
 
         menu = Menu(bar, "Model")
-        item("Continue Chat", "<Control-Return>", lambda e: self.chatWithGpt("\n\n"))
+        item("Continue Chat", "<Control-Return>", lambda e: self.chatWithGpt("\n"))
         item("Complete Directly", "<Shift-Return>", lambda e: self.chatWithGpt(""))
         item("Complete Two Times", "<Control-2>", lambda e: self.chatWithGpt("", "", 2))
         item("Complete multiple...", "<Control-m>", lambda e: self.chatWithGpt("", "", 0))

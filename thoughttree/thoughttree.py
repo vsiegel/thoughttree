@@ -45,8 +45,8 @@ class Thoughttree:
         self.create_ui()
 
     def set_icon(self):
-        def get_icon_file_name(icon_file_name):
-            return os.path.join(os.path.dirname(os.path.abspath(__file__)), icon_file_name)
+        def get_icon_file_name(icon_base_name):
+            return os.path.join(os.path.dirname(os.path.abspath(__file__)), icon_base_name)
 
         try:
             abs_name = str(get_icon_file_name(CHATGPT_ICON))

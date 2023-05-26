@@ -36,8 +36,8 @@ class Thoughttree:
     ROOT_GEOMETRY = "1000x600"
     TEXT_FONT = ("monospace", 10)
 
-    def __init__(self, root, argv=None):
-        self.root = root
+    def __init__(self, root=None):
+        self.root = root or tk.Tk()
         self.gpt = GPT()
         self.is_root_destroyed = False
         self.root.protocol("WM_DELETE_WINDOW", self.on_root_close)
@@ -480,9 +480,9 @@ class Thoughttree:
         # txt.bind("<Control_L>", lambda e : "break")
 
     @classmethod
-    def main(argv=None) :
+    def main(cls) :
         root = tk.Tk()
-        Thoughttree(root, argv)
+        Thoughttree(root)
         root.mainloop()
 
 if __name__ == "__main__":

@@ -332,11 +332,11 @@ class Thoughttree:
     def chat_continue(self, prefix="", postfix="\n", number_of_completions=1) :
         txt: Text = self.root.focus_get()
 
-        def insert_label(text, label_text, tool_tip_text=""):
-            label = tk.Label(text, text=label_text, padx=8, bg="#F0F0F0", fg="grey")
+        def insert_label(txt, label_text, tool_tip_text=""):
+            label = tk.Label(txt, text=label_text, padx=8, bg="#F0F0F0", fg="grey")
             if tool_tip_text:
                 ToolTip(label, tool_tip_text)
-            text.window_create(tk.END, window=label)
+            txt.window_create(tk.END, window=label)
 
         def output_response_delta_to_chat_callback(text) :
             if self.is_root_destroyed :

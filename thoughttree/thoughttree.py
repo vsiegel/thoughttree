@@ -308,7 +308,8 @@ class Thoughttree:
         self.root.title(progress_title)
         self.chat.update()
         history = self.chat_history_from_textboxes(prompts.TITLE_GENERATION_PROMPT)
-        self.gpt.chat_complete(history, output_response_delta_to_title_callback, 30, 1)
+        self.gpt.chat_complete(history, output_response_delta_to_title_callback,
+            30, 1, GPT.internal_generation_model)
 
 
     def jump_to_similar_line(self, event=None) :

@@ -13,8 +13,9 @@ class GPT:
     logfile_name = f"thoughttree-chat-{datetime.now().strftime('%Y-%m-%d-%H-%M-%S')}.log"
     max_tokens = 1500
     temperature = 0.5
-    model = 'gpt-3.5-turbo'
     # model = 'gpt-4'
+    model = 'gpt-3.5-turbo'
+    internal_generation_model = 'gpt-3.5-turbo'
     MODEL_PATTERN = "gpt"
     available_models = None
     tokenizer = None
@@ -33,14 +34,15 @@ class GPT:
             GPT.logdir.mkdir(parents=True, exist_ok=True)
         self.chat_log = open(GPT.logdir/self.logfile_name, "w")
 
-    def chat_complete(self, history, output_delta_callback, max_tokens=None, temperature=None) -> Tuple[str, str]:
+    def chat_complete(self, history, output_delta_callback, max_tokens=None, temperature=None, model=None) -> Tuple[str, str]:
         """:return: Tuple[str, str] - (finish_reason, message)"""
         max_tokens = max_tokens or self.max_tokens
         temperature = temperature or self.temperature
+        model = model or self.model
         self.is_canceled = False
         try:
             response = openai.ChatCompletion.create(
-                model=self.model,
+                model=model,
                 messages=history,
                 max_tokens=max_tokens,
                 temperature=temperature,
@@ -48,6 +50,7 @@ class GPT:
             )
         except Exception as e:
             message = f"Exception: {e}"
+            print(message)
             showerror("Error in openai.ChatCompletion.create()", message)
             return 'error', message
 

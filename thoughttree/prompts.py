@@ -9,8 +9,10 @@ system_prompt = ""
 
 TITLE_GENERATION_PROMPT = '''\
 A title for this conversation, about 50 characters. Style does not matter,
-it is about the information. Ignore the system prompt. Do not refer to the content of the system prompt.
-If there is no chat history, the title will be empty.
+it is about the information. Ignore the system prompt.
+Do not refer to the content of the system prompt.
+Do not refer to this prompt.
 It is used as a one line title for this conversation.
 Give me only the unquoted text of the title, without any prefixes or comments:
+If there is no chat history, the title will be the text "Thoughttree" only, that is important.
 '''

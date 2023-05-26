@@ -256,11 +256,11 @@ class Thoughttree:
         item("Jump to Similar Line", "<Control-j>", self.jump_to_similar_line)
 
         menu = Menu(bar, "Model")
-        item("Continue Chat", "<Control-Return>", lambda e: self.chatWithGpt("\n"))
-        item("Complete Directly", "<Shift-Return>", lambda e: self.chatWithGpt(""))
-        item("Complete Two Times", "<Control-2>", lambda e: self.chatWithGpt("", "", 2))
-        item("Complete multiple...", "<Control-m>", lambda e: self.chatWithGpt("", "", 0))
-        item("Complete multiple again", "<Alt-Return>", lambda e: self.chatWithGpt("", "", -1))
+        item("Continue Chat", "<Control-Return>", lambda e: self.chat_continue("\n"))
+        item("Complete Directly", "<Shift-Return>", lambda e: self.chat_continue(""))
+        item("Complete Two Times", "<Control-2>", lambda e: self.chat_continue("", "", 2))
+        item("Complete multiple...", "<Control-m>", lambda e: self.chat_continue("", "", 0))
+        item("Complete multiple again", "<Alt-Return>", lambda e: self.chat_continue("", "", -1))
         menu.add_separator()
         for model_name in self.gpt.get_available_models() :
             menu.item(f"{model_name}", None, lambda m=model_name : self.set_model(m))
@@ -329,14 +329,13 @@ class Thoughttree:
             txt.mark_set(tk.INSERT, jump_index)
             txt.see(jump_index)
 
-    def chatWithGpt(self, prefix="", postfix="\n", number_of_completions=1) :
+    def chat_continue(self, prefix="", postfix="\n", number_of_completions=1) :
         txt: Text = self.root.focus_get()
 
         def insert_label(text, label_text, tool_tip_text=""):
             label = tk.Label(text, text=label_text, padx=8, bg="#F0F0F0", fg="grey")
             if tool_tip_text:
                 ToolTip(label, tool_tip_text)
-            # label.pack(expand=True, fill="both")
             text.window_create(tk.END, window=label)
 
         def output_response_delta_to_chat_callback(text) :

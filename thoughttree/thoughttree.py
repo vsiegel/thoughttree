@@ -125,12 +125,15 @@ class Thoughttree:
         self.create_dummy_data(tree)
         tree.bind_class("Treeview", "<KeyPress-Return>", lambda _: None)
         tree.bind_class("Treeview", "<KeyRelease-Return>", lambda _: None)
+        # self.create_dummy_data(tree)
 
         self.hPane.add(tree)
         self.hPane.add(self.vPane)
         self.hPane.sash_place(0, 0, 0)
 
-        tree.focus(tree.get_children()[0])
+        children = tree.get_children()
+        if children:
+            tree.focus(children[0])
         tree.bind("<Double-Button-1>", self.edit_tree_entry)
         tree.bind("<Return>", self.edit_tree_entry)
 

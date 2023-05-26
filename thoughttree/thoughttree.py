@@ -424,7 +424,8 @@ class Thoughttree:
                  f"{num_chars} characters")
         return "break"
 
-    def create_dummy_data(self, tree):
+    @staticmethod
+    def create_dummy_data(tree):
         for r in range(10):
             key = f"R{r}"
             parent_id = tree.insert("", "end", key, text=key, values=(r,))

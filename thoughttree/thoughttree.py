@@ -171,7 +171,7 @@ class Thoughttree:
             save(ChatFileManager.save_code_block_dialog, "Code block saved to ")
 
         def new_window(event=None) :
-            Thoughttree(tk.Tk())
+            Thoughttree()
 
         def show_context_menu(event) :
             widget = self.root.winfo_containing(event.x_root, event.y_root)

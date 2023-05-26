@@ -25,9 +25,9 @@ class Notebook(ttk.Notebook):
             tab_label = f"{old_tab_label}.{i}"
         else:
             tab_label = f"{i}"
-        f = tk.Frame(self)
-        txt = Text.create_textbox(f, text)
-        self.add(f, text=f"{tab_label}")
+        frame = tk.Frame(self)
+        txt = Text.create_textbox(frame, text)
+        self.add(frame, text=f"{tab_label}")
         txt.pack(fill=tk.BOTH, expand=True)
 
 

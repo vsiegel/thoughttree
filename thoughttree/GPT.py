@@ -2,12 +2,14 @@ import re
 from tkinter.messagebox import showerror
 from typing import Tuple
 from datetime import datetime
+from pathlib import Path
 
 import openai
 import tiktoken
 
 
 class GPT:
+    logdir = Path.home()/"logs"/"thoughttree"
     logfile_name = f"thoughttree-chat-{datetime.now().strftime('%Y-%m-%d-%H-%M-%S')}.log"
     max_tokens = 1500
     temperature = 0.5
@@ -27,7 +29,9 @@ class GPT:
     is_canceled = False
 
     def __init__(self):
-        self.chat_log = open(self.logfile_name, "w")
+        if not GPT.logdir.exists():
+            GPT.logdir.mkdir(parents=True, exist_ok=True)
+        self.chat_log = open(GPT.logdir/self.logfile_name, "w")
 
     def chat_complete(self, history, output_delta_callback, max_tokens=None, temperature=None) -> Tuple[str, str]:
         """:return: Tuple[str, str] - (finish_reason, message)"""

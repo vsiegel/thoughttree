@@ -80,7 +80,7 @@ class ChatFileManager:
                         f.write(item[1])
 
         file = filedialog.asksaveasfilename(
-            defaultextension=".txt", initialfile="chat.txt", title="Save chat")
+            defaultextension=".txt", initialfile="chat.txt", title="Save Chat")
         if file:
             save_chat(text_widget, file)
         return file
@@ -104,7 +104,7 @@ class ChatFileManager:
     @staticmethod
     def save_section_dialog(text_widget):
         file = filedialog.asksaveasfilename(
-            defaultextension=".txt", initialfile="section.txt", title="Save section")
+            defaultextension=".txt", initialfile="section.txt", title="Save Section")
         if file:
             ChatFileManager.save_section(text_widget, file)
         return file
@@ -147,7 +147,7 @@ class ChatFileManager:
     @staticmethod
     def save_code_block_dialog(text_widget):
         file = filedialog.asksaveasfilename(
-            defaultextension=".py", initialfile="code-section.py", title="Save code section")
+            defaultextension=".py", initialfile="code-block.py", title="Save Code Block")
         if file:
             ChatFileManager.save_code_section(text_widget, file)
         return file

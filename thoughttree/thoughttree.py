@@ -137,12 +137,11 @@ class Thoughttree:
         tree.bind("<Double-Button-1>", self.edit_tree_entry)
         tree.bind("<Return>", self.edit_tree_entry)
 
-        self.system_txt = self.create_textbox(self.vPane, system_prompt)
-        self.system_txt.config(pady=5)
+        self.system = Text.create_textbox(self.vPane, system_prompt)
+        self.chat = Text.create_textbox(self.vPane)
+        self.system.config(pady=5)
 
-        self.chat = self.create_textbox(self.vPane, "")
-
-        self.vPane.add(self.system_txt)
+        self.vPane.add(self.system)
         self.vPane.add(self.chat)
         self.chat.focus_set()
 
@@ -377,7 +376,7 @@ class Thoughttree:
             self.update_window_title()
 
     def chat_history_from_textboxes(self, additional_message=None) :
-        system = self.system_txt.get(1.0, 'end - 1c').strip()
+        system = self.system.get(1.0, 'end - 1c').strip()
         history = [{'role': 'system', 'content': system}]
         content = self.chat.dump(1.0, tk.END, text=True, tag=True, window=True)
         section = ""

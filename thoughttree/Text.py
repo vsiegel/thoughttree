@@ -27,7 +27,6 @@ class Notebook(ttk.Notebook):
             tab_label = f"{i}"
         f = tk.Frame(self)
         txt = Text.create_textbox(f, text)
-        # txt.configure(padx=0, pady=0)
         self.add(f, text=f"{tab_label}")
         txt.pack(fill=tk.BOTH, expand=True)
 
@@ -64,10 +63,14 @@ class Text(tk.scrolledtext.ScrolledText):
         parent.configure(height=height)
 
     @staticmethod
-    def create_textbox(parent, text):
-        txt = Text(parent)
-        txt.pack(pady=0, fill=tk.BOTH, expand=True)
-        txt.insert(tk.END, text)
+    def create_textbox(parent, text="") :
+        lines = len(text.splitlines())
+        txt = Text(parent, height=lines)
+        txt.vbar.config(width=16, takefocus=False)
+        txt.pack(pady=0, fill=tk.X, expand=True)
+        # txt.tag_configure("user", background="white", selectbackground="#5692c4", selectforeground="white")
+        txt.tag_configure("assistant", background="#F0F0F0", selectbackground="#4682b4", selectforeground="white")
+        txt.insert(tk.END, text, "user")
         return txt
 
     def insert_nested_text(self):

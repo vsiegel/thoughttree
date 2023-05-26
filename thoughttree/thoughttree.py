@@ -330,17 +330,6 @@ class Thoughttree:
             txt.mark_set(tk.INSERT, jump_index)
             txt.see(jump_index)
 
-    def create_textbox(self, parent, text) :
-
-        lines = len(text.splitlines())
-        txt = Text(parent, height=lines)
-        txt.vbar.config(width=16, takefocus=False)
-        txt.pack(pady=0, fill=tk.X, expand=True)
-        # txt.tag_configure("user", background="white", selectbackground="#5692c4", selectforeground="white")
-        txt.tag_configure("assistant", background="#F0F0F0", selectbackground="#4682b4", selectforeground="white")
-        txt.insert(tk.END, text, "user")
-        return txt
-
     def chatWithGpt(self, prefix="", postfix="\n", number_of_completions=1) :
 
         def insert_label(text, label_text, tool_tip_text=""):

@@ -230,7 +230,7 @@ class Thoughttree:
         item("Load Chat", None, lambda: ChatFileManager.load_chat_dialog(self.chat))
         item("Save Chat", "<Control-s>", save_chat)
         item("Save Section", "<Control-Shift-S>", save_section)
-        item("Save Code Section", "<Control-Shift-C>", save_code_block)
+        item("Save Code Block", "<Control-Shift-B>", save_code_block)
         item("Quit", "<Control-q>", self.close)
 
         menu = Menu(bar, "Edit")

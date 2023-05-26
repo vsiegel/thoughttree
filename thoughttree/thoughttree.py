@@ -404,14 +404,14 @@ class Thoughttree:
 
     def count_tokens(self, event=None) :
         try :
-            text = self.chat.get(tk.SEL_FIRST, tk.SEL_LAST)
+            txt = self.chat.get(tk.SEL_FIRST, tk.SEL_LAST)
         except tk.TclError :
-            text = self.chat.get(1.0, tk.END)
+            txt = self.chat.get(1.0, tk.END)
         self.status_bar.set_main_text("Counting tokens (loading model)")
-        num_tokens = self.gpt.count_tokens(text)
-        num_lines = text.count("\n")
-        num_words = len(text.split())
-        num_chars = len(text)
+        num_tokens = self.gpt.count_tokens(txt)
+        num_lines = txt.count("\n")
+        num_words = len(txt.split())
+        num_chars = len(txt)
         self.status_bar.set_main_text("")
         showinfo("Count Tokens",
                  f"The length of the text is:\n"

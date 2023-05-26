@@ -354,11 +354,48 @@ class Thoughttree:
                 txt.see(tk.END)
             txt.update()
 
+        def output_response_delta_to_label_callback(text) :
+            if self.is_root_destroyed :
+                return
+            txt.insert(tk.END, text, "assistant")
+            if conf.scroll_during_completion:
+                txt.see(tk.END)
+            txt.update()
+
+        if not number_of_completions:
+            number_of_completions = simpledialog.askinteger(
+                "Alternative completions",
+                "How many alternative results do you want?",
+                initialvalue=Thoughttree.multi_completions,
+                minvalue=2, maxvalue=1000)
+            Thoughttree.multi_completions = number_of_completions
+        elif number_of_completions == -1:
+            number_of_completions = Thoughttree.multi_completions
+
         if prefix :
             txt.insert(tk.END, prefix)
             txt.update()
         history = self.chat_history_from_textboxes()
-        finish_reason, message = self.gpt.chat_complete(history, output_response_delta_to_chat_callback)
+        if number_of_completions == 1:
+            finish_reason, message = self.gpt.chat_complete(history, output_response_delta_to_chat_callback)
+        else:
+            frame = tk.Frame(txt)
+            for i in range(number_of_completions):
+                label = tk.Label(frame, borderwidth=4, anchor=tk.E, wraplength=txt.winfo_width(),
+                                 justify=tk.LEFT, font=Text.FONT, relief="ridge")
+                txt.window_create(tk.END, window=frame)
+                txt.insert(tk.END, "\n")
+
+                def callback(text):
+                    if self.is_root_destroyed :
+                        return
+                    label.config(text=label.cget("text") + text)
+                    if conf.scroll_during_completion:
+                        txt.see(tk.END)
+                    txt.update()
+
+                finish_reason, message = self.gpt.chat_complete(history, callback)
+
         if self.is_root_destroyed:
             return
         if conf.show_finish_reason:

@@ -32,17 +32,18 @@ class Notebook(ttk.Notebook):
 
 
 class Text(tk.scrolledtext.ScrolledText):
-    TEXT_FONT = ("monospace", 10)
+    # TEXT_FONT = ("monospace", 10)
+    FONT = ("sans-serif", 10)
 
     def __init__(self, master=None, **kw):
         tk.scrolledtext.ScrolledText.__init__(
             self, master, undo=True, wrap=tk.WORD, padx=1, pady=1,
-            width=80, insertwidth=3, font=self.TEXT_FONT,
+            width=80, insertwidth=3, font=Text.FONT,
             border=0, borderwidth=1, highlightthickness=1,
             selectbackground="#66a2d4", selectforeground="white", **kw)
         self.vbar.config(borderwidth=2)
 
-        self.line_height = tkfont.Font(font=Text.TEXT_FONT).metrics("linespace")
+        self.line_height = tkfont.Font(font=Text.FONT).metrics("linespace")
 
         self.master.unbind_class("Text", "<Control-Shift-T>")
         self.bind("<Control-Shift-T>", lambda e: self.insert_nested_text())

@@ -209,7 +209,7 @@ class Thoughttree:
         def change_text_size(delta):
             txt = focus()
             if delta == 0:
-                name, size = Thoughttree.TEXT_FONT
+                name, size = Text.FONT
             else:
                 name, size = txt.cget("font").split()
             txt.config(font=(name, int(size) + delta))
@@ -449,15 +449,15 @@ class Thoughttree:
         if column != "#1":  # Only allow editing the "Messages" column
             return
         x, y, width, height = self.tree.bbox(row_id, column)
-        char_width = tkfont.Font(font=self.TEXT_FONT).measure('0')
-        line_height = tkfont.Font(font=self.TEXT_FONT).metrics("linespace")
+        char_width = tkfont.Font(font=Text.FONT).measure('0')
+        line_height = tkfont.Font(font=Text.FONT).metrics("linespace")
         width = max(self.tree.column(column)["width"], width)
         height = max(line_height, height)
 
         cur_text = self.tree.item(row_id, "values")[0]
         w = width // char_width
         h = height // line_height
-        txt = tk.Text(self.tree, wrap=tk.WORD, width=w, height=h, font=self.TEXT_FONT,
+        txt = tk.Text(self.tree, wrap=tk.WORD, width=w, height=h, font=Text.FONT,
                       highlightthickness=0, highlightbackground="black", padx=4, pady=0)
         txt.insert(tk.END, cur_text)
         txt.place(x=x, y=y)

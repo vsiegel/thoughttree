@@ -145,7 +145,7 @@ class ChatFileManager:
             showerror(title="Error", message="Cannot save code section\n" + str(e))
 
     @staticmethod
-    def save_code_section_dialog(text_widget):
+    def save_code_block_dialog(text_widget):
         file = filedialog.asksaveasfilename(
             defaultextension=".py", initialfile="code-section.py", title="Save code section")
         if file:

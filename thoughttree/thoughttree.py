@@ -144,26 +144,23 @@ class Thoughttree:
         def focus():
             return self.root.focus_get()
 
-        def save_chat(e=None):
-            file_name = ChatFileManager.save_chat_dialog(self.chat)
+        def save(save_dialog, status_bar_label):
+            file_name = save_dialog(self.chat)
             if not file_name:
                 return
             base_name = file_name.split("/")[-1]
-            self.root.title(base_name)
+            self.status_bar.set_main_text(status_bar_label + base_name)
+            return base_name
+
+        def save_chat(e=None):
+            name = save(ChatFileManager.save_chat_dialog, "Chat saved to ")
+            self.root.title(name)
 
         def save_section(e=None):
-            file_name = ChatFileManager.save_section_dialog(self.chat)
-            if not file_name:
-                return
-            # base_name = file_name.split("/")[-1]
-            self.status_bar.set_main_text("Code section saved to " + file_name)
+            save(ChatFileManager.save_section_dialog, "Section saved to ")
 
-        def save_code_section(e=None):
-            file_name = ChatFileManager.save_code_section_dialog(self.chat)
-            if not file_name:
-                return
-            # base_name = file_name.split("/")[-1]
-            self.status_bar.set_main_text("Code section saved to " + file_name)
+        def save_code_block(e=None):
+            save(ChatFileManager.save_code_block_dialog, "Code block saved to ")
 
         def new_window(event=None) :
             Thoughttree(tk.Tk())
@@ -247,7 +244,7 @@ class Thoughttree:
         item("Load Chat", None, lambda: ChatFileManager.load_chat_dialog(self.chat))
         item("Save Chat", "<Control-s>", save_chat)
         item("Save Section", "<Control-Shift-S>", save_section)
-        item("Save Code Section", "<Control-Shift-C>", save_code_section)
+        item("Save Code Section", "<Control-Shift-C>", save_code_block)
         item("Quit", "<Control-q>", self.close)
 
         menu = Menu(bar, "Edit")

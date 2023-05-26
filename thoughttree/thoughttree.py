@@ -319,7 +319,7 @@ class Thoughttree:
                     return ((i + start) % num_lines) + 1
             return 0
 
-        txt = self.root.focus_get()
+        txt: Text = self.root.focus_get()
         line_nr = int(txt.index('insert + 1 chars').split('.')[0])
         current_line = txt.get(f"{line_nr}.0", f"{line_nr}.end")
         if not current_line.strip():
@@ -332,6 +332,7 @@ class Thoughttree:
             txt.see(jump_index)
 
     def chatWithGpt(self, prefix="", postfix="\n", number_of_completions=1) :
+        txt: Text = self.root.focus_get()
 
         def insert_label(text, label_text, tool_tip_text=""):
             label = tk.Label(text, text=label_text, padx=8, bg="#F0F0F0", fg="grey")
@@ -343,14 +344,14 @@ class Thoughttree:
         def output_response_delta_to_chat_callback(text) :
             if self.is_root_destroyed :
                 return
-            self.chat.insert(tk.END, text, "assistant")
+            txt.insert(tk.END, text, "assistant")
             if conf.scroll_during_completion:
-                self.chat.see(tk.END)
-            self.chat.update()
+                txt.see(tk.END)
+            txt.update()
 
         if prefix :
-            self.chat.insert(tk.END, prefix)
-            self.chat.update()
+            txt.insert(tk.END, prefix)
+            txt.update()
         history = self.chat_history_from_textboxes()
         finish_reason, message = self.gpt.chat_complete(history, output_response_delta_to_chat_callback)
         if self.is_root_destroyed:
@@ -363,11 +364,12 @@ class Thoughttree:
             if finish_reason not in ["stop", "length", "canceled", "error"] :
                 print(f"{finish_reason=}")
             if symbol :
-                insert_label(self.chat, symbol, tool_tip)
+                insert_label(txt, symbol, tool_tip)
 
-        self.chat.insert(tk.END, postfix, "assistant")
-        self.chat.mark_set(tk.INSERT, tk.END)
-        self.chat.see(tk.END)
+        txt.insert(tk.END, postfix, "assistant")
+        txt.mark_set(tk.INSERT, tk.END)
+        txt.see(tk.END)
+
         if conf.ring_bell_after_completion:
             self.root.bell()
         if conf.update_title_after_completion:

@@ -249,8 +249,8 @@ class Thoughttree:
         item("Increase Font Size", "<Control-plus>", lambda e: change_text_size(1))
         item("Decrease Font Size", "<Control-minus>", lambda e: change_text_size(-1))
         item("Reset Font Size", "<Control-period>", lambda e: change_text_size(0))
-        # txt.bind("<Control-Button-4>", lambda event: change_text_size(event, txt, 1))
-        # txt.bind("<Control-Button-5>", lambda event: change_text_size(event, txt, -1))
+        self.root.bind("<Control-Button-4>", lambda event: change_text_size(1))
+        self.root.bind("<Control-Button-5>", lambda event: change_text_size(-1))
 
         menu = Menu(bar, "Navigate")
         item("Jump to Similar Line", "<Control-j>", self.jump_to_similar_line)

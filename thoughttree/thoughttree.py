@@ -21,6 +21,7 @@ CHATGPT_ICON = "chatgpt-icon.png"
 conf = Namespace()
 conf.show_finish_reason = True
 conf.ring_bell_after_completion = False
+conf.update_title_after_completion = True
 conf.scroll_during_completion = True
 
 #NODE_OPEN = '\u25B6'
@@ -369,6 +370,8 @@ class Thoughttree:
         self.chat.see(tk.END)
         if conf.ring_bell_after_completion:
             self.root.bell()
+        if conf.update_title_after_completion:
+            self.update_window_title()
 
     def chat_history_from_textboxes(self, additional_message=None) :
         system = self.system_txt.get(1.0, 'end - 1c').strip()

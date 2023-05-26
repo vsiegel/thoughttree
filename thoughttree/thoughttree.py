@@ -229,12 +229,12 @@ class Thoughttree:
                 pass # nothing to redo
 
         def change_text_size(delta):
-            text = focus()
+            txt = focus()
             if delta == 0:
                 name, size = Thoughttree.TEXT_FONT
             else:
-                name, size = text.cget("font").split()
-            text.config(font=(name, int(size) + delta))
+                name, size = txt.cget("font").split()
+            txt.config(font=(name, int(size) + delta))
 
         def insert_current_time(event=None):
             focus().insert(tk.END, f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")

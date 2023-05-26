@@ -120,9 +120,7 @@ class Thoughttree:
                     tree.item(item, text=tree.item(item, 'text').replace(NODE_OPEN, NODE_CLOSED, 1))
                     tree.item(item, tags='closed')
 
-        #tree.bind('<Double-Button-1>', on_treeview_click)
-
-        self.create_dummy_data(tree)
+        tree.bind('<Double-Button-1>', on_treeview_click)
         tree.bind_class("Treeview", "<KeyPress-Return>", lambda _: None)
         tree.bind_class("Treeview", "<KeyRelease-Return>", lambda _: None)
         # self.create_dummy_data(tree)

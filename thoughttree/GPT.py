@@ -52,7 +52,7 @@ class GPT:
             )
         except Exception as e:
             message = f"Exception: {e}"
-            print(message)
+            message = textwrap.fill(message, 50)
             showerror("Error in openai.ChatCompletion.create()", message)
             return 'error', message
 
@@ -76,6 +76,7 @@ class GPT:
                 return last_event['choices'][0]['finish_reason'], ""
         except Exception as e:
             message = f"Exception: {e}\n\n{last_event=}"
+            message = textwrap.fill(message, 50)
             showerror("Error receiving completion response", message)
             return 'error', message
 

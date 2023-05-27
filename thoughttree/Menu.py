@@ -15,6 +15,7 @@ class Menu(tk.Menu):
         def convert_key_string(s) :
             if not keystroke:
                 return ""
+            s = s.replace("-Key-", "-")
             s = s.replace("-", "+")
             s = s.replace("<Control", "Ctrl")
             s = s.replace("<Shift", "Shift")

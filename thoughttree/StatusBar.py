@@ -19,14 +19,29 @@ class StatusBar(tk.Frame):
         self.pack(side=tk.BOTTOM, fill=tk.X)
 
 
-    def set_small_text(self, text):
+    @property
+    def small_text(self):
+        return self.small_label.cget('text')
+
+    @small_text.setter
+    def small_text(self, text):
         self.small_label.config(text=text)
         self.update()
 
-    def set_main_text(self, text):
+    @property
+    def main_text(self):
+        return self.main_label.cget('text')
+
+    @main_text.setter
+    def main_text(self, text):
         self.main_label.config(text=text)
         self.update()
 
-    def set_right_text(self, text):
+    @property
+    def right_text(self):
+        return self.right_label.cget('text')
+
+    @right_text.setter
+    def right_text(self, text):
         self.right_label.config(text=text)
         self.update()

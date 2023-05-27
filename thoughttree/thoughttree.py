@@ -63,7 +63,7 @@ class Thoughttree:
 
     def set_model(self, model_name):
         self.gpt.set_model(model_name)
-        self.status_bar.set_right_text(model_name)
+        self.status_bar.right_text = model_name
 
     def on_root_close(self):
         self.is_root_destroyed = True
@@ -303,10 +303,10 @@ class Thoughttree:
             if current_title == progress_title:
                 current_title = ""
             self.root.title(current_title + content)
-            self.chat.update()
+            self.root.update()
 
         self.root.title(progress_title)
-        self.chat.update()
+        self.root.update()
         history = self.chat_history_from_textboxes(prompts.TITLE_GENERATION_PROMPT)
         self.gpt.chat_complete(history, output_response_delta_to_title_callback,
             30, 1, GPT.internal_generation_model)
@@ -450,16 +450,18 @@ class Thoughttree:
         return history
 
     def count_tokens(self, event=None) :
+        txt: Text = self.root.focus_get()
         try :
-            txt = self.chat.get(tk.SEL_FIRST, tk.SEL_LAST)
+            text = txt.get(tk.SEL_FIRST, tk.SEL_LAST)
         except tk.TclError :
-            txt = self.chat.get(1.0, tk.END)
-        self.status_bar.set_main_text("Counting tokens (loading model)")
-        num_tokens = self.gpt.count_tokens(txt)
-        num_lines = txt.count("\n")
-        num_words = len(txt.split())
-        num_chars = len(txt)
-        self.status_bar.set_main_text("")
+            text = txt.get(1.0, tk.END)
+        old_status = self.status_bar.main_text
+        self.status_bar.main_text = "Counting tokens (loading model)"
+        num_tokens = self.gpt.count_tokens(text)
+        num_lines = text.count("\n")
+        num_words = len(text.split())
+        num_chars = len(text)
+        self.status_bar.main_text = old_status
         showinfo("Count Tokens",
                  f"The length of the text is:\n"
                  f"{num_tokens} tokens\n"

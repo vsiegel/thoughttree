@@ -1,6 +1,8 @@
 # thoughttree
 Interact with large language models in alternative ways.
 
+[Note: This is only partially implemented, it describes the features of a first release]
+
 Prompts and linear chats are a powerful method. But there is not only one way it can develop. Work in multiple timelines, without deleting what happened before. 
 
 A conversation with **GPT-4** or **ChatGPT** can be linear, so that each line produced depends on everything that was input or output before. That happens - in scientific experiments, but much less often in real life use. If it is not linear, that means there are parts in the context of a completion that are not needed. The model spends just the same attention, it may distort your results. You pay for these tokens. And chances are that you even pay more for them than for the tokens you actually use. That is hard to avoid, with complex manual cut and paste work, or often even impossible. thoughttree solves this problem by providing the right tools. And a lot more.

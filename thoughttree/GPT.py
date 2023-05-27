@@ -1,4 +1,5 @@
 import re
+import textwrap
 from tkinter.messagebox import showerror
 from typing import Tuple
 from datetime import datetime

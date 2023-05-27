@@ -15,8 +15,10 @@ class GPT:
     temperature = 0.5
     # model = 'gpt-4'
     model = 'gpt-3.5-turbo'
-    internal_generation_model = 'gpt-3.5-turbo'
+    # internal_generation_model = 'gpt-3.5-turbo'
+    internal_generation_model = 'gpt-4'
     MODEL_PATTERN = "gpt"
+
     available_models = None
     tokenizer = None
     finish_reasons = {
@@ -25,9 +27,8 @@ class GPT:
         "canceled": {"symbol": "☒", "tool_tip": "The completion was canceled."},
         "error": {"symbol": "⚠", "tool_tip": "An error occurred while processing the completion."},
     }
-
-
     is_canceled = False
+
 
     def __init__(self):
         if not GPT.logdir.exists():

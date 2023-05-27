@@ -385,6 +385,8 @@ class Thoughttree:
                 "How many alternative results do you want?",
                 initialvalue=Thoughttree.multi_completions,
                 minvalue=2, maxvalue=1000)
+            if not number_of_completions:
+                return
             Thoughttree.multi_completions = number_of_completions
         elif number_of_completions == -1:
             number_of_completions = Thoughttree.multi_completions

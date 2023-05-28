@@ -46,8 +46,7 @@ class Text(tk.scrolledtext.ScrolledText):
         self.line_height = tkfont.Font(font=Text.FONT).metrics("linespace")
         self.vbar.config(width=18, takefocus=False, borderwidth=2)
 
-        self.master.unbind_class("Text", "<Control-Shift-T>")
-        self.bind("<Control-Shift-T>", lambda e: self.insert_nested_text())
+        self.bind("<Control-b>", lambda e: self.branch_conversation())
         self.bind("<Control-Alt-plus>", lambda e: self.change_notebook_height(1))
         self.bind("<Control-Alt-minus>", lambda e: self.change_notebook_height(-1))
         self.bind("<Control-Shift-asterisk>", lambda e: self.change_notebook_height(10))
@@ -67,7 +66,7 @@ class Text(tk.scrolledtext.ScrolledText):
         height = max(old_height + delta * self.line_height, self.line_height)
         parent.configure(height=height)
 
-    def insert_nested_text(self):
+    def branch_conversation(self):
         height, width = self.calc_notebook_size()
         notebook = Notebook(self, height=height, width=width)
         old_tab_label = Notebook.find_parent_tab_label(notebook, self)

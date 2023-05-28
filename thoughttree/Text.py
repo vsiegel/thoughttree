@@ -84,6 +84,6 @@ class Text(tk.scrolledtext.ScrolledText):
         twidth = self.winfo_width()
         width = (twidth - 0)
         char_width = tkfont.Font(font=self.cget("font")).measure('0')
-        width = width - width % char_width
+        width -= width % char_width
         height = int(self.winfo_height() * 2 / 3)
         return height, width

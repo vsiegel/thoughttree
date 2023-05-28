@@ -372,14 +372,6 @@ class Thoughttree:
                 txt.see(tk.END)
             txt.update()
 
-        def output_response_delta_to_label_callback(text) :
-            if self.is_root_destroyed :
-                return
-            txt.insert(tk.END, text, "assistant")
-            if conf.scroll_during_completion:
-                txt.see(tk.END)
-            txt.update()
-
         if not number_of_completions:
             number_of_completions = simpledialog.askinteger(
                 "Alternative completions",
@@ -406,15 +398,16 @@ class Thoughttree:
                 txt.window_create(tk.END, window=frame)
                 txt.insert(tk.END, "\n")
 
-                def callback(text):
+                def output_response_delta_to_label_callback(text):
                     if self.is_root_destroyed :
                         return
                     label.config(text=label.cget("text") + text)
+                    # txt.insert(tk.END, text, "assistant")
                     if conf.scroll_during_completion:
                         txt.see(tk.END)
                     txt.update()
 
-                finish_reason, message = self.gpt.chat_complete(history, callback)
+                finish_reason, message = self.gpt.chat_complete(history, output_response_delta_to_label_callback)
 
         if self.is_root_destroyed:
             return

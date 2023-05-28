@@ -35,4 +35,5 @@ class Menu(tk.Menu):
         if context_menu :
             context_menu.add_command(label=label, accelerator=accelerator, command=lambda: command(None), state=state)
         if bind_key and keystroke:
-            self.master.bind_all(keystroke, command, False)
+            self.master.unbind_class("Text", keystroke)
+            self.master.bind_class("Text", keystroke, command)

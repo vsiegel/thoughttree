@@ -14,10 +14,13 @@ class GPT:
     logfile_name = f"thoughttree-chat-{datetime.now().strftime('%Y-%m-%d-%H-%M-%S')}.log"
     max_tokens = 1500
     temperature = 0.5
+
     # model = 'gpt-4'
     model = 'gpt-3.5-turbo'
     # internal_generation_model = 'gpt-3.5-turbo'
-    internal_generation_model = 'gpt-4'
+    # internal_generation_model = 'gpt-4'
+    internal_generation_model = ''
+
     MODEL_PATTERN = "gpt"
 
     available_models = None

@@ -485,7 +485,8 @@ class Thoughttree:
                  f"{num_tokens} tokens\n"
                  f"{num_lines} lines\n"
                  f"{num_words} words\n"
-                 f"{num_chars} characters")
+                 f"{num_chars} characters",
+                 master=txt)
         return "break"
 
     @staticmethod

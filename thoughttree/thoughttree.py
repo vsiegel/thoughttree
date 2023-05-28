@@ -311,7 +311,7 @@ class Thoughttree:
     def update_window_title(self, event=None):
         progress_title = self.root.title() + "..."
 
-        def output_response_delta_to_title_callback(content):
+        def output_delta_to_title_callback(content):
             if self.is_root_destroyed:
                 return
             current_title = self.root.title()
@@ -324,7 +324,7 @@ class Thoughttree:
         self.root.update()
         history = self.chat_history_from_textboxes(prompts.TITLE_GENERATION_PROMPT)
         model = GPT.internal_generation_model or GPT.model
-        self.gpt.chat_complete(history, output_response_delta_to_title_callback,
+        self.gpt.chat_complete(history, output_delta_to_title_callback,
             30, 1, model)
 
 
@@ -364,7 +364,7 @@ class Thoughttree:
                 ToolTip(label, tool_tip_text)
             txt.window_create(tk.END, window=label)
 
-        def output_response_delta_to_chat_callback(text) :
+        def output_delta_to_chat_callback(text) :
             if self.is_root_destroyed :
                 return
             txt.insert(tk.END, text, "assistant")
@@ -389,7 +389,7 @@ class Thoughttree:
             txt.update()
         history = self.chat_history_from_textboxes()
         if number_of_completions == 1:
-            finish_reason, message = self.gpt.chat_complete(history, output_response_delta_to_chat_callback)
+            finish_reason, message = self.gpt.chat_complete(history, output_delta_to_chat_callback)
         else:
             frame = tk.Frame(txt)
             for i in range(number_of_completions):
@@ -398,7 +398,7 @@ class Thoughttree:
                 txt.window_create(tk.END, window=frame)
                 txt.insert(tk.END, "\n")
 
-                def output_response_delta_to_label_callback(text):
+                def output_delta_to_label_callback(text):
                     if self.is_root_destroyed :
                         return
                     label.config(text=label.cget("text") + text)
@@ -407,7 +407,7 @@ class Thoughttree:
                         txt.see(tk.END)
                     txt.update()
 
-                finish_reason, message = self.gpt.chat_complete(history, output_response_delta_to_label_callback)
+                finish_reason, message = self.gpt.chat_complete(history, output_delta_to_label_callback)
 
         if self.is_root_destroyed:
             return

@@ -45,6 +45,7 @@ class GPT:
         temperature = temperature or self.temperature
         model = model or self.model
         self.is_canceled = False
+        self.print_history(history)
         try:
             response = openai.ChatCompletion.create(
                 model=model,
@@ -82,6 +83,12 @@ class GPT:
             message = textwrap.fill(message, 50)
             showerror("Error receiving completion response", message)
             return 'error', message
+
+    @staticmethod
+    def print_history(history):
+        for item in history:
+            print(item)
+        print()
 
     def count_tokens(self, text):
         enc = tiktoken.encoding_for_model(self.model)

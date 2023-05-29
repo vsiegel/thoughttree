@@ -67,9 +67,7 @@ class GPT:
                 delta = event['choices'][0]['delta']
                 if 'content' in delta :
                     text = delta["content"]
-                    if self.chat_log:
-                        self.chat_log.write(text)
-                        self.chat_log.flush()
+                    self.log(text)
                     output_delta_callback(text)
                 last_event = event
 
@@ -82,6 +80,15 @@ class GPT:
             message = textwrap.fill(message, 50)
             showerror("Error receiving completion response", message)
             return 'error', message
+
+
+    def log(self, text):
+        chat_log = self.chat_log
+        if chat_log:
+            chat_log.write(text)
+            chat_log.write('\n')
+            chat_log.flush()
+
 
     @staticmethod
     def print_history(history):

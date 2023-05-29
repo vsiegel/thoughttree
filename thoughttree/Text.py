@@ -36,10 +36,10 @@ class Text(tk.scrolledtext.ScrolledText):
     # FONT = ("sans-serif", 11)
 
     def __init__(self, master=None, text="", **kw):
-        lines = len(text.splitlines())
+        height = len(text.splitlines())
         tk.scrolledtext.ScrolledText.__init__(
             self, master, undo=True, wrap=tk.WORD, padx=1, pady=1,
-            width=80, height=lines, insertwidth=3, font=Text.FONT,
+            width=80, height = height, insertwidth=3, font=Text.FONT,
             border=0, borderwidth=1, highlightthickness=1,
             selectbackground="#66a2d4", selectforeground="white", **kw)
 

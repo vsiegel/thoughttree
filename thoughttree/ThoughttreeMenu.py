@@ -196,16 +196,15 @@ class ThoughttreeMenu(Menu):
         item("Jump to Similar Line", "<Control-j>", self.tt.jump_to_similar_line)
 
         menu = Menu(bar, "Model")
-        item("Cancel", "<Escape>", self.tt.gpt.cancel)
         item("Send Chat Message", "<Control-Return>", lambda e: self.tt.chat_continue("\n"))
-        item("Complete Directly", "<Shift-Return>", lambda e: self.tt.chat_continue(""))
-        item("Complete Multiple...", "<Control-m>", lambda e: self.tt.chat_continue("", "", 0))
-        item("Complete Multiple Again", "<Alt-Return>", lambda e: self.tt.chat_continue("", "", -1))
+        item("Complete Directly", "<Shift-Return>", lambda e: self.tt.chat_continue("", ""))
         menu.add_separator()
         item("Complete 2 Times", "<Control-Key-2>", lambda e: self.tt.chat_continue("", "", 2))
         item("Complete 3 Times", "<Control-Key-3>", lambda e: self.tt.chat_continue("", "", 3))
         item("Complete 5 Times", "<Control-Key-5>", lambda e: self.tt.chat_continue("", "", 5))
-        item("Complete 10 Times", "<Control-Key-0>", lambda e: self.tt.chat_continue("", "", 10))
+        item("Complete Multiple...", "<Control-m>", lambda e: self.tt.chat_continue("", "", 0))
+        item("Complete Multiple Again", "<Alt-Return>", lambda e: self.tt.chat_continue("", "", -1))
+        item("Cancel", "<Escape>", self.tt.gpt.cancel)
         menu.add_separator()
         for model_name in self.tt.gpt.get_available_models() :
             if model_name == "gpt-4":

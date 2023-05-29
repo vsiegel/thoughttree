@@ -367,10 +367,10 @@ class Thoughttree:
         txt: Text = self.focus
 
         def insert_label(txt, label_text, tool_tip_text=""):
-            label = tk.Label(txt, text=label_text, padx=8, bg="#F0F0F0", fg="grey")
+            inserted_label = tk.Label(txt, text=label_text, padx=8, bg="#F0F0F0", fg="grey")
             if tool_tip_text:
-                ToolTip(label, tool_tip_text)
-            txt.window_create(tk.END, window=label)
+                ToolTip(inserted_label, tool_tip_text)
+            txt.window_create(tk.END, window=inserted_label)
 
         def output_delta_to_chat_callback(text) :
             if self.is_root_destroyed :

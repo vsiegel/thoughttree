@@ -66,11 +66,11 @@ class ThoughttreeMenu(Menu):
         def new_window(event=None) :
             Thoughttree()
 
-        def show_context_menu(event) :
+        def show_context_menu(event, menu) :
             widget = self.root.winfo_containing(event.x_root, event.y_root)
             if widget :
                 widget.focus_set()
-            self.context_menu.tk_popup(event.x_root, event.y_root)
+            menu.tk_popup(event.x_root, event.y_root)
 
         def cut_text(event=None) :
             self.focus.event_generate("<<Cut>>")
@@ -91,13 +91,13 @@ class ThoughttreeMenu(Menu):
                 txt.mark_set(tk.INSERT, "1.0")
                 txt.see(tk.INSERT)
 
-        def edit_undo():
+        def edit_undo(event=None):
             try:
                 self.focus.edit_undo()
             except tk.TclError:
                 pass # nothing to undo
 
-        def edit_redo():
+        def edit_redo(event=None):
             try:
                 self.focus.edit_redo()
             except tk.TclError:
@@ -131,11 +131,16 @@ class ThoughttreeMenu(Menu):
         item("Quit", "<Control-q>", self.tt.close)
 
         menu = Menu(bar, "Edit")
-        item("Undo", "<Control-z>", edit_undo, False)
-        item("Redo", "<Control-Shift-Z>", edit_redo, False)
+        edit_menu = menu
+        item("Cut", "<Control-x>", cut_text)
+        item("Copy", "<Control-c>", copy_text)
+        item("Paste", "<Control-v>", paste_text)
+        menu.add_separator()
+        item("Undo", "<Control-z>", edit_undo)
+        item("Redo", "<Control-Shift-Z>", edit_redo)
         item("Select All", "<Control-a>", select_all)
         menu.add_separator()
-        item("Insert Current Time", "", insert_current_time, False)
+        item("Insert Current Time", "<Alt-Shift-T>", insert_current_time)
 
         menu = Menu(bar, "View")
         item("Show System Prompt", "", None)
@@ -177,16 +182,7 @@ class ThoughttreeMenu(Menu):
         item("Test", "<Control-Shift-T>", menu_test)
         item("About", None, None)
 
-        menu = Menu(self.tt.chat)
-        self.context_menu = menu
-        item("Cut", "<Control-x>", cut_text, False)
-        item("Copy", "<Control-c>", copy_text, False)
-        item("Paste", "<Control-v>", paste_text, False)
-        menu.add_separator()
-        item("Undo", "<Control-z>", edit_undo, False)
-        item("Redo", "<Control-Shift-Z>", edit_redo, False)
-        item("Select All", "<Control-a>", command=select_all)
-        self.root.bind_class("Text", "<Button-3>", show_context_menu)
+        self.root.bind_class("Text", "<Button-3>", lambda event: show_context_menu(event, edit_menu))
 
 
 class Thoughttree:

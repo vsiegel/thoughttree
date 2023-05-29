@@ -37,10 +37,13 @@ class ThoughttreeMenu(Menu):
         self.root = thoughttree.root
         self.create_menu()
 
-    def create_menu(self):
 
-        def focus() -> Text:
-            return self.root.focus_get()
+    @property
+    def focus(self) -> Text:
+        return self.root.focus_get()
+
+
+    def create_menu(self):
 
         def save(save_dialog, status_bar_label):
             file_name = save_dialog(self.tt.chat)
@@ -70,19 +73,19 @@ class ThoughttreeMenu(Menu):
             self.context_menu.tk_popup(event.x_root, event.y_root)
 
         def cut_text(event=None) :
-            focus().event_generate("<<Cut>>")
+            self.focus.event_generate("<<Cut>>")
 
         def copy_text(event=None) :
-            focus().event_generate("<<Copy>>")
+            self.focus.event_generate("<<Copy>>")
 
         def paste_text(event=None) :
-            text = focus()
+            text = self.focus
             text.event_generate("<<Paste>>")
             print(event)
             text.see(tk.INSERT)
 
         def select_all(event=None):
-            txt = focus()
+            txt = self.focus
             if type(txt) == Text:
                 txt.tag_add(tk.SEL, "1.0", tk.END)
                 txt.mark_set(tk.INSERT, "1.0")
@@ -90,18 +93,18 @@ class ThoughttreeMenu(Menu):
 
         def edit_undo():
             try:
-                focus().edit_undo()
+                self.focus.edit_undo()
             except tk.TclError:
                 pass # nothing to undo
 
         def edit_redo():
             try:
-                focus().edit_redo()
+                self.focus.edit_redo()
             except tk.TclError:
                 pass # nothing to redo
 
         def change_text_size(delta):
-            txt = focus()
+            txt = self.focus
             if delta == 0:
                 name, size = Text.FONT
             else:
@@ -109,7 +112,7 @@ class ThoughttreeMenu(Menu):
             txt.config(font=(name, int(size) + delta))
 
         def insert_current_time(event=None):
-            focus().insert(tk.END, f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+            self.focus.insert(tk.END, f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 
         def menu_test(event=None):
             pass
@@ -203,6 +206,10 @@ class Thoughttree:
         self.set_icon()
         self.create_ui()
         self.menu = ThoughttreeMenu(self)
+
+    @property
+    def focus(self) -> Text:
+        return self.root.focus_get()
 
 
     def set_icon(self):
@@ -343,7 +350,7 @@ class Thoughttree:
                     return ((i + start) % num_lines) + 1
             return 0
 
-        txt: Text = self.root.focus_get()
+        txt: Text = self.focus
         line_nr = int(txt.index('insert + 1 chars').split('.')[0])
         current_line = txt.get(f"{line_nr}.0", f"{line_nr}.end")
         if not current_line.strip():
@@ -355,8 +362,9 @@ class Thoughttree:
             txt.mark_set(tk.INSERT, jump_index)
             txt.see(jump_index)
 
+
     def chat_continue(self, prefix="", postfix="\n", number_of_completions=1) :
-        txt: Text = self.root.focus_get()
+        txt: Text = self.focus
 
         def insert_label(txt, label_text, tool_tip_text=""):
             label = tk.Label(txt, text=label_text, padx=8, bg="#F0F0F0", fg="grey")
@@ -461,7 +469,7 @@ class Thoughttree:
         return history
 
     def count_tokens(self, event=None) :
-        txt: Text = self.root.focus_get()
+        txt: Text = self.focus
         try :
             text = txt.get(tk.SEL_FIRST, tk.SEL_LAST)
         except tk.TclError :

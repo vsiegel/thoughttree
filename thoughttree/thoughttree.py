@@ -23,6 +23,7 @@ conf.show_finish_reason = True
 conf.ring_bell_after_completion = False
 conf.update_title_after_completion = True
 conf.scroll_during_completion = True
+conf.blinking_caret = True
 
 #NODE_OPEN = '\u25B6'
 #NODE_CLOSED = '\u25BC'
@@ -240,6 +241,8 @@ class Thoughttree:
         self.root.option_add('*Dialog*Font', ("sans-serif", 10))
         self.root.option_add('*Menu*Font', ("Arial", 10))
         self.root.option_add('*Font', ("Arial", 10))
+        if not conf.blinking_caret:
+            self.root.option_add('*Text*insertOffTime', '0')
         # self.root.option_add('*Text*Border', '6')
         # self.root.option_add('*Text*Background', 'red')
         # self.root.option_add('*Label*Background', 'red')

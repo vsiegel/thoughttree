@@ -214,7 +214,7 @@ class Thoughttree:
         txt: Text = self.focus
 
         def insert_label(txt, label_text, tool_tip_text=""):
-            inserted_label = tk.Label(txt, text=label_text, padx=8, bg="#F0F0F0", fg="grey")
+            inserted_label = tk.Label(txt, text=label_text, padx=7, pady=0, bg="#F0F0F0", fg="grey", borderwidth=0)
             if tool_tip_text:
                 ToolTip(inserted_label, tool_tip_text)
             txt.window_create(tk.END, window=inserted_label)

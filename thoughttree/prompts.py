@@ -14,5 +14,5 @@ Do not refer to the content of the system prompt.
 Do not refer to this prompt.
 It is used as a one line title for this conversation.
 Give me only the unquoted text of the title, without any prefixes or comments:
-If there is no chat history, the title will be the text "Thoughttree" only, that is important.
+If there is no chat history, the title will be the text Thoughttree only, that is important.
 '''

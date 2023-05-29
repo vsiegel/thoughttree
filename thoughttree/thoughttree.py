@@ -400,11 +400,13 @@ class Thoughttree:
             finish_reason, message = self.gpt.chat_complete(history, output_delta_to_chat_callback)
         else:
             frame = tk.Frame(txt)
+            txt.window_create(tk.END, window=frame)
+            txt.insert(tk.END, "\n")
+            txt.see(tk.END)
             for i in range(number_of_completions):
                 label = tk.Label(frame, borderwidth=4, anchor=tk.E, wraplength=txt.winfo_width(),
-                                 justify=tk.LEFT, font=Text.FONT, relief="ridge")
-                txt.window_create(tk.END, window=frame)
-                txt.insert(tk.END, "\n")
+                                 justify=tk.LEFT, font=Text.FONT, relief=tk.SUNKEN)
+                label.pack(side=tk.TOP, fill=tk.X, expand=True)
 
                 def output_delta_to_label_callback(text):
                     if self.is_root_destroyed :

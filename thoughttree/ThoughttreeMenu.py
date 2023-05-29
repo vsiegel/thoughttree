@@ -60,7 +60,6 @@ class ThoughttreeMenu(Menu):
         def paste_text(event=None) :
             text = self.focus
             text.event_generate("<<Paste>>")
-            print(event)
             text.see(tk.INSERT)
 
         def select_all(event=None):
@@ -92,6 +91,41 @@ class ThoughttreeMenu(Menu):
 
         def insert_current_time(event=None):
             self.focus.insert(tk.END, f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+
+        def debug_info(event=None):
+
+            def add_bboxes(bbox1, bbox2):
+                x1, y1, w1, h1 = bbox1
+                x2, y2, w2, h2 = bbox2
+                x = min(x1, x2)
+                y = min(y1, y2)
+                w = max(x1 + w1, x2 + w2) - x
+                h = max(y1 + h1, y2 + h2) - y
+                return x, y, w, h
+
+            bbox_start = self.focus.bbox('1.0')
+            bbox_end = self.focus.bbox("end - 1 char")
+            total_bbox = add_bboxes(bbox_start, bbox_end)
+            print(f"{bbox_start=}")
+            print(f"{bbox_end=}")
+            print(f"{total_bbox=}")
+            dlineinfo_start = self.focus.dlineinfo('1.0')[:4]
+            dlineinfo_end = self.focus.dlineinfo("end - 1 char")[:4]
+            total_dlineinfo = add_bboxes(dlineinfo_start, dlineinfo_end)
+            print(f"{dlineinfo_start=}")
+            print(f"{dlineinfo_end=}")
+            print(f"{total_dlineinfo=}")
+            print(f"{self.focus.bbox(tk.INSERT)=}")
+            print(f"{self.focus.dlineinfo(tk.INSERT)=}")
+            print(f"{self.focus.tag_ranges(tk.SEL)=}")
+
+            print(f'{self.focus.compare(tk.INSERT, "==", tk.END)=}')
+            dumped = self.focus.dump("insert - 1 char", window=True)
+            print(f'{ dumped=}')
+            if dumped:
+                print(f'{dumped[0][1].endswith("label")=}')
+                # print(f'{self.focus.window_configure("insert - 1 char" )=}')
+            print()
 
         def menu_test(event=None):
             frame = tk.Frame(self.focus)
@@ -184,6 +218,7 @@ class ThoughttreeMenu(Menu):
 
         menu = Menu(bar, "Help")
         item("Test", "<Control-Shift-T>", menu_test)
+        item("Debug Info", "<Control-i>", debug_info)
         item("About", None, None)
 
         self.root.bind_class("Text", "<Button-3>", lambda event: show_context_menu(event, edit_menu))

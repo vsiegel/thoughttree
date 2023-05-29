@@ -1,9 +1,9 @@
 # thoughttree
 Interact with large language models in alternative ways.
 
-[Note: This is only partially implemented, it describes the features of a first release]
+#### [Note: This is only partially implemented, it describes the features of a first release]
 
-Prompts and linear chats are a powerful method. But there is not only one way it can develop. Work in multiple timelines, without deleting what happened before. 
+Prompts and linear chats are a powerful method. But there is not only one way a conversation can develop. Work in multiple timelines, without deleting what happened before. 
 
 A conversation with **GPT-4** or **ChatGPT** can be linear, so that each line produced depends on everything that was input or output before. That happens - in scientific experiments, but much less often in real life use. If it is not linear, that means there are parts in the context of a completion that are not needed. The model spends just the same attention, it may distort your results. You pay for these tokens. And chances are that you even pay more for them than for the tokens you actually use. That is hard to avoid, with complex manual cut and paste work, or often even impossible. thoughttree solves this problem by providing the right tools. And a lot more.
 
@@ -19,8 +19,9 @@ A conversation with **GPT-4** or **ChatGPT** can be linear, so that each line pr
 - **Navigate the history.** And the history tree.
 - Handle code sections and files. **Save** them, **include** them, **run** them.
 - **Reduce cost** by not including irrelevant text in the context, without deleting it.
-- **Switch models by hotkey** in a second: Ctrl+4 for GPT-4, Ctrl+3 for GPT-3.5 (ChatGPT)
-- Keep topics separate: If you have query on a new topic, the **history does not help**: It may hinder, and it causes costs. 
+- **Switch models by hotkey** in a second: Press Ctrl+4 to switch from ChatGPT to GPT-4.
+- Use a **quick and cheap model first**, and just **rerun** the prompt on a better model. 
+- Keep topics separate: If you have query on a new, related topic,  **have only the relevant parts** of the history in the context: Other parts may hinder, and cause costs. 
 
 ----
 

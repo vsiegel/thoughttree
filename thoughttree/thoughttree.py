@@ -429,7 +429,7 @@ class Thoughttree:
                     tool_tip += "\n" + message
                 insert_label(txt, symbol, tool_tip)
 
-        txt.insert(tk.END, postfix, "assistant")
+        txt.insert(tk.END, postfix)
         txt.mark_set(tk.INSERT, tk.END)
         txt.see(tk.END)
 
@@ -458,8 +458,8 @@ class Thoughttree:
                 pass
             else:
                 print(f"Ignored text widget item: {item}")
-        if section!= "" :
-            section = section.strip()
+        section = section.strip("\n")
+        if section != "" :
             if history[-1]['role'] == "user" :
                 history += [{'role' : 'assistant', 'content' : section}]
             elif history[-1]['role'] in ["assistant", "system"] :

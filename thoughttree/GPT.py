@@ -45,7 +45,6 @@ class GPT:
         temperature = temperature or self.temperature
         model = model or self.model
         self.is_canceled = False
-        self.print_history(history)
         try:
             response = openai.ChatCompletion.create(
                 model=model,

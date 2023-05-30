@@ -86,7 +86,7 @@ class GPT:
         chat_log = self.chat_log
         if chat_log:
             chat_log.write(text)
-            chat_log.write('\n')
+            # chat_log.write('\n')
             chat_log.flush()
 
 

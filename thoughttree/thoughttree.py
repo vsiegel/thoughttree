@@ -290,32 +290,14 @@ class Thoughttree:
     def chat_history_from_system_and_chat(self, additional_message=None) :
         system = self.system.get(1.0, 'end - 1c').strip()
         history = [{'role': 'system', 'content': system}]
-        content = self.chat.dump(1.0, tk.END, text=True, tag=True, window=True)
-        section = ""
-        for item in content :
-            if item[0] == "tagon" and item[1] == "assistant":
-                section = section.strip()
-                history += [{'role' : 'user', 'content' : section}]
-                section = ""
-            elif item[0] == "tagoff" and item[1] == "assistant":
-                section = section.strip()
-                history += [{'role' : 'assistant', 'content' : section}]
-                section = ""
-            elif item[0] == "text" :
-                section += item[1]
-            elif item[0] == "window":
-                pass
-            else:
-                print(f"Ignored text widget item: {item}")
-        section = section.strip("\n")
-        if section != "" :
-            if history[-1]['role'] == "user" :
-                history += [{'role' : 'assistant', 'content' : section}]
-            elif history[-1]['role'] in ["assistant", "system"] :
-                history += [{'role' : 'user', 'content' : section}]
+
+        history = self.chat.chat_history_from_textboxes(history)
+
         if additional_message:
             history += [{'role': 'user', 'content': additional_message}]
+
         return history
+
 
     def count_tokens(self, event=None) :
         txt: Text = self.focus

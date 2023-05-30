@@ -86,3 +86,39 @@ class Text(tk.scrolledtext.ScrolledText):
         width -= width % char_width
         height = int(self.winfo_height() * 2 / 3)
         return height, width
+
+    def chat_history_from_textboxes(self, history=None) :
+        def print_window_objects():
+            window_objects = self.window_names()
+            for window_object in window_objects:
+                print(type(window_object))
+                print(window_object)
+
+        print_window_objects()
+        history = history or []
+        content = self.dump(1.0, tk.END, text=True, tag=True, window=True)
+        section = ""
+        for item in content :
+            if item[0] == "tagon" and item[1] == "assistant":
+                section = section.strip()
+                history += [{'role' : 'user', 'content' : section}]
+                section = ""
+            elif item[0] == "tagoff" and item[1] == "assistant":
+                section = section.strip()
+                history += [{'role' : 'assistant', 'content' : section}]
+                section = ""
+            elif item[0] == "text" :
+                section += item[1]
+            elif item[0] == "window":
+                print(f"{item=}")
+                win_index = item[2]
+                # print(f"{self.window_cget(win_index, 'text')=}")
+            else:
+                print(f"Ignored text widget item: {item}")
+        section = section.strip("\n")
+        if section != "" :
+            if history[-1]['role'] == "user" :
+                history += [{'role' : 'assistant', 'content' : section}]
+            elif history[-1]['role'] in ["assistant", "system"] :
+                history += [{'role' : 'user', 'content' : section}]
+        return history

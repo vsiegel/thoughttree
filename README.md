@@ -18,6 +18,10 @@ A conversation with **GPT-4** or **ChatGPT** can be linear, so that each line pr
 - Manage **what needs to be in the context**, when it gets difficult. 
 - **Navigate the history.** And the history tree.
 - Handle code sections and files. **Save** them, **include** them, **run** them.
+- **Save** sections to files 
+- **Run** code blocks
+- Create **documents** from code sections, like **PDF from LaTex** or **png from SVG**
+- **Include** files
 - **Reduce cost** by not including irrelevant text in the context, without deleting it.
 - **Switch models by hotkey** in a second: Press Ctrl+4 to switch from ChatGPT to GPT-4.
 - Use a **quick and cheap model first**, and just **rerun** the prompt on a better model. 

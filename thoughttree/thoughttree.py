@@ -176,7 +176,7 @@ class Thoughttree:
 
         self.root.title(progress_title)
         self.root.update()
-        history = self.chat_history_from_textboxes(prompts.TITLE_GENERATION_PROMPT)
+        history = self.chat_history_from_system_and_chat(prompts.TITLE_GENERATION_PROMPT)
         model = GPT.internal_generation_model or GPT.model
         self.gpt.chat_complete(history, output_delta_to_title_callback,
             30, 1, model)
@@ -242,7 +242,7 @@ class Thoughttree:
         if prefix :
             txt.insert(tk.END, prefix)
             txt.update()
-        history = self.chat_history_from_textboxes()
+        history = self.chat_history_from_system_and_chat()
         if number_of_completions == 1:
             finish_reason, message = self.gpt.chat_complete(history, output_delta_to_chat_callback)
         else:
@@ -287,7 +287,7 @@ class Thoughttree:
         if conf.update_title_after_completion:
             self.update_window_title()
 
-    def chat_history_from_textboxes(self, additional_message=None) :
+    def chat_history_from_system_and_chat(self, additional_message=None) :
         system = self.system.get(1.0, 'end - 1c').strip()
         history = [{'role': 'system', 'content': system}]
         content = self.chat.dump(1.0, tk.END, text=True, tag=True, window=True)

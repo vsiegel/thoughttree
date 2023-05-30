@@ -211,7 +211,7 @@ class Thoughttree:
 
 
     def chat_continue(self, prefix="", postfix="\n", number_of_completions=1) :
-        txt: Text = self.focus
+        txt = self.focus
 
         def insert_label(txt, label_text, tool_tip_text=""):
             inserted_label = tk.Label(txt, text=label_text, padx=7, pady=0, bg="#F0F0F0", fg="grey", borderwidth=0)

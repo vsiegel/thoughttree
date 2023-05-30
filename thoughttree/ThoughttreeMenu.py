@@ -196,7 +196,7 @@ class ThoughttreeMenu(Menu):
         item("Jump to Similar Line", "<Control-j>", self.tt.jump_to_similar_line)
 
         menu = Menu(bar, "Model")
-        item("Send Chat Message", "<Control-Return>", lambda e: self.tt.chat_continue("\n"))
+        item("Send Chat Message", "<Control-Return>", lambda e: self.tt.chat_continue("\n\n", "\n\n"))
         item("Complete Directly", "<Shift-Return>", lambda e: self.tt.chat_continue("", ""))
         menu.add_separator()
         item("Complete 2 Times", "<Control-Key-2>", lambda e: self.tt.chat_continue("", "", 2))

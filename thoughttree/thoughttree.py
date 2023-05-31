@@ -73,7 +73,7 @@ class Thoughttree:
             print("Error loading icon:", e)
 
     def set_model(self, model_name):
-        self.gpt.set_model(model_name)
+        self.gpt.model = model_name
         self.status_bar.right_text = model_name
 
     def on_root_close(self):

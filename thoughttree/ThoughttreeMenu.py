@@ -29,7 +29,7 @@ class ThoughttreeMenu(Menu):
             if not file_name:
                 return
             base_name = file_name.split("/")[-1]
-            self.tt.status_bar.main_text(status_bar_label + base_name)
+            self.tt.status_bar.main_text = status_bar_label + base_name
             return base_name
 
         def save_chat(e=None):

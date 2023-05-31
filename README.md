@@ -1,7 +1,7 @@
 # thoughttree
 Interact with large language models in alternative ways.
 
-#### [Note: This is only partially implemented, it describes the features of a first release]
+#### [Note: This is only partially implemented. See [ This software is not released](https://github.com/vsiegel/thoughttree/discussions/73) ]
 
 Prompts and linear chats are a powerful method. But there is not only one way a conversation can develop. Work in multiple timelines, without deleting what happened before. 
 

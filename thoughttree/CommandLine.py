@@ -26,7 +26,8 @@ def main(argv):
     add('-b', '--blinking-caret',    dest='blinkingCaret',   default=True, type=bool,help='Should the text input caret blink')
     add('-a', '--autoscroll',        dest='autoscroll',      default=True, type=bool,help='Should the output scroll during completion')
     add('-r', '--ring-on-completion',dest='ringOnCompletion',default=False,type=bool,help='Ring bell on completion long')
-    add('-d', '--display-reason',    dest='displayReason',   default=True,type=bool,help='Display finish reason as icon')
+    add('-d', '--display-reason',    dest='displayReason',   default=True, type=bool,help='Display finish reason as icon')
+    add('-k', '--api-key',           dest='apiKey',          default="",   type=str, help='API key for the OpenAI API')
 
     args = parser.parse_args(argv[1:])
 

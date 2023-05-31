@@ -54,12 +54,7 @@ class GPT:
                 stream=True
             )
         except Exception as e:
-            message = f"Exception: {e}"
-            message = textwrap.fill(message, 50)
-            showerror("Error in openai.ChatCompletion.create()", message)
-            self.log("error:\n")
-            self.log(message)
-            return 'error', message
+            return self.error("", "Error in openai.ChatCompletion.create()", e)
 
         last_event = None
         try:
@@ -80,12 +75,15 @@ class GPT:
             self.log(finish_reason + ":\n")
             return finish_reason, ""
         except Exception as e:
-            message = f"Exception: {e}\n\n{last_event=}"
-            message = textwrap.fill(message, 50)
-            showerror("Error receiving completion response", message)
-            self.log("error:\n")
-            self.log(message)
-            return 'error', message
+            return self.error(f"{last_event=}", "Error receiving completion response", e)
+
+
+    def error(self, message, title, e):
+        message = f"Exception: {e}\n\n{message}"
+        message = textwrap.fill(message, 120)
+        self.log("\n\nerror:\n" + message + '\n')
+        showerror(title, message)
+        return "error", message
 
 
     def log(self, text):

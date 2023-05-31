@@ -94,7 +94,7 @@ class Text(tk.scrolledtext.ScrolledText):
                 print(type(window_object))
                 print(window_object)
 
-        print_window_objects()
+        # print_window_objects()
         history = history or []
         content = self.dump(1.0, tk.END, text=True, tag=True, window=True)
         section = ""
@@ -110,8 +110,9 @@ class Text(tk.scrolledtext.ScrolledText):
             elif item[0] == "text" :
                 section += item[1]
             elif item[0] == "window":
-                print(f"{item=}")
-                win_index = item[2]
+                pass
+                # print(f"{item=}")
+                # win_index = item[2]
                 # print(f"{self.window_cget(win_index, 'text')=}")
             else:
                 print(f"Ignored text widget item: {item}")

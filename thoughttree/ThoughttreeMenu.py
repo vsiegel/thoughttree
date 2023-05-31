@@ -125,9 +125,14 @@ class ThoughttreeMenu(Menu):
             print(f'{self.focus.compare(tk.INSERT, "==", tk.END)=}')
             dumped = self.focus.dump("insert - 1 char", window=True)
             print(f'{ dumped=}')
-            if dumped:
-                print(f'{dumped[0][1].endswith("label")=}')
-                # print(f'{self.focus.window_configure("insert - 1 char" )=}')
+            if dumped and dumped[0][1].endswith("label"):
+                dumped_win = dumped[0][1]
+                dumped_win_pos = dumped[0][2]
+                print(f'{dumped_win=}')
+                print(f'{dumped_win_pos=}')
+                print(f'{type(self.focus.window_configure(dumped_win_pos))=}')
+                # print(f'{self.focus.window_configure(dumped_win_pos)=}')
+                print(f"{type(self.focus.window_cget(dumped_win_pos, 'window'))=}")
             print()
 
         def menu_test(event=None):

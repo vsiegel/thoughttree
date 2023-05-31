@@ -7,6 +7,9 @@ Prompts and linear chats are a powerful method. But there is not only one way a 
 
 A conversation with **GPT-4** or **ChatGPT** can be linear, so that each line produced depends on everything that was input or output before. That happens - in scientific experiments, but much less often in real life use. If it is not linear, that means there are parts in the context of a completion that are not needed. The model spends just the same attention, it may distort your results. You pay for these tokens. And chances are that you even pay more for them than for the tokens you actually use. That is hard to avoid, with complex manual cut and paste work, or often even impossible. thoughttree solves this problem by providing the right tools. And a lot more.
 
+   __An OpenAI API key is required.__  
+   (https://platform.openai.com/signup, https://platform.openai.com/account/api-keys)
+
 ## Features
 
 - Work with **multiple completions**, just like you would generate multiple images with a generative image AI.
@@ -26,6 +29,12 @@ A conversation with **GPT-4** or **ChatGPT** can be linear, so that each line pr
 - **Switch models by hotkey** in a second: Press Ctrl+4 to switch from ChatGPT to GPT-4.
 - Use a **quick and cheap model first**, and just **rerun** the prompt on a better model. 
 - Keep topics separate: If you have query on a new, related topic,  **have only the relevant parts** of the history in the context: Other parts may hinder, and cause costs. 
+
+----
+
+### Notes:
+The program expects an OpenAI API key provided in the shell environment, for example in the file `~/.profile` as 
+`export PENAI_API_KEY="..."`
 
 ----
 

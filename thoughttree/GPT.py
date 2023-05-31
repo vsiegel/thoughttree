@@ -72,7 +72,7 @@ class GPT:
                 finish_reason = 'canceled'
             else :
                 finish_reason = last_event['choices'][0]['finish_reason']
-            self.log(finish_reason + ":\n")
+            self.log("\n" + finish_reason + ":\n")
             return finish_reason, ""
         except Exception as e:
             return self.error(f"{last_event=}", "Error receiving completion response", e)

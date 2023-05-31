@@ -16,7 +16,7 @@ class GPT:
     temperature = 0.5
 
     # model = 'gpt-4'
-    model = 'gpt-3.5-turbo'
+    _model = 'gpt-3.5-turbo'
     # internal_generation_model = 'gpt-3.5-turbo'
     # internal_generation_model = 'gpt-4'
     internal_generation_model = ''
@@ -47,7 +47,7 @@ class GPT:
         self.is_canceled = False
         try:
             response = openai.ChatCompletion.create(
-                model=model,
+                model=self._model,
                 messages=history,
                 max_tokens=max_tokens,
                 temperature=temperature,
@@ -113,5 +113,11 @@ class GPT:
             self.available_models = [m["id"] for m in openai.Model.list()["data"] if re.search(self.MODEL_PATTERN, m["id"])]
         return self.available_models
 
-    def set_model(self, model):
-        self.model = model
+    @property
+    def model(self):
+        return self._model
+
+    @model.setter
+    def model(self, model):
+        self._model = model
+

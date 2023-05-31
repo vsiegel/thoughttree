@@ -23,7 +23,7 @@ class ToolTip :
         tw.wm_geometry(f"+{x}+{y}")
 
         label = tk.Label(tw, text=self.text, background="#FFFFE0", relief="solid",
-                borderwidth=1, justify=tk.LEFT, anchor=tk.W, padx=4, pady=4)
+                borderwidth=1, justify=tk.LEFT, padx=4, pady=4)
         label.pack()
 
 

@@ -13,6 +13,7 @@ from GPT import GPT
 from StatusBar import StatusBar
 from Menu import Menu
 from Text import Text
+from WaitCursor import WaitCursor
 from prompts import system_prompt
 
 CHATGPT_ICON = "chatgpt-icon.png"
@@ -212,80 +213,82 @@ class Thoughttree:
 
     def chat_continue(self, prefix="", postfix="\n", number_of_completions=1) :
         txt = self.focus
+        with WaitCursor(txt):
 
-        def insert_label(txt, label_text, tool_tip_text=""):
-            inserted_label = tk.Label(txt, text=label_text, padx=7, pady=0, bg="#F0F0F0", fg="grey", borderwidth=0)
-            if tool_tip_text:
-                ToolTip(inserted_label, tool_tip_text)
-            txt.window_create(tk.END, window=inserted_label)
+            def insert_label(txt, label_text, tool_tip_text=""):
+                inserted_label = tk.Label(txt, text=label_text, padx=7, pady=0, bg="#F0F0F0", fg="grey", borderwidth=0)
+                if tool_tip_text:
+                    ToolTip(inserted_label, tool_tip_text)
+                txt.window_create(tk.END, window=inserted_label)
 
-        def output_delta_to_chat_callback(text) :
-            if self.is_root_destroyed :
-                return
-            txt.insert(tk.END, text, "assistant")
-            if conf.scroll_during_completion:
-                txt.see(tk.END)
-            txt.update()
+            def output_delta_to_chat_callback(text) :
+                if self.is_root_destroyed :
+                    return
+                txt.insert(tk.END, text, "assistant")
+                if conf.scroll_during_completion:
+                    txt.see(tk.END)
+                txt.update()
 
-        if not number_of_completions:
-            number_of_completions = simpledialog.askinteger(
-                "Alternative completions",
-                "How many alternative results do you want?",
-                initialvalue=Thoughttree.multi_completions,
-                minvalue=2, maxvalue=1000)
             if not number_of_completions:
+                number_of_completions = simpledialog.askinteger(
+                    "Alternative completions",
+                    "How many alternative results do you want?",
+                    initialvalue=Thoughttree.multi_completions,
+                    minvalue=2, maxvalue=1000)
+                if not number_of_completions:
+                    return
+                Thoughttree.multi_completions = number_of_completions
+            elif number_of_completions == -1:
+                number_of_completions = Thoughttree.multi_completions
+
+            if prefix :
+                txt.insert(tk.END, prefix)
+                txt.update()
+            history = self.chat_history_from_system_and_chat()
+            if number_of_completions == 1:
+                finish_reason, message = self.gpt.chat_complete(history, output_delta_to_chat_callback)
+            else:
+                frame = tk.Frame(txt)
+                txt.window_create(tk.END, window=frame)
+                txt.insert(tk.END, "\n")
+                txt.see(tk.END)
+                finish_reason, message = 'unknown', ''
+                for i in range(number_of_completions):
+                    label = tk.Label(frame, borderwidth=4, anchor=tk.E, wraplength=txt.winfo_width(),
+                                     justify=tk.LEFT, font=Text.FONT, relief=tk.SUNKEN)
+                    label.pack(side=tk.TOP, fill=tk.X, expand=True)
+
+                    def output_delta_to_label_callback(text):
+                        if self.is_root_destroyed :
+                            return
+                        label.config(text=label.cget("text") + text)
+                        # txt.insert(tk.END, text, "assistant")
+                        if conf.scroll_during_completion:
+                            txt.see(tk.END)
+                        txt.update()
+
+                    finish_reason, message = self.gpt.chat_complete(history, output_delta_to_label_callback)
+
+            if self.is_root_destroyed:
                 return
-            Thoughttree.multi_completions = number_of_completions
-        elif number_of_completions == -1:
-            number_of_completions = Thoughttree.multi_completions
+            if conf.show_finish_reason:
+                symbol = GPT.finish_reasons[finish_reason]["symbol"]
+                if finish_reason not in ["stop", "length", "canceled", "error"] :
+                    print(f"{finish_reason=}")
+                if symbol :
+                    tool_tip = GPT.finish_reasons[finish_reason]["tool_tip"]
+                    if message:
+                        tool_tip += "\n" + message
+                    insert_label(txt, symbol, tool_tip)
 
-        if prefix :
-            txt.insert(tk.END, prefix)
-            txt.update()
-        history = self.chat_history_from_system_and_chat()
-        if number_of_completions == 1:
-            finish_reason, message = self.gpt.chat_complete(history, output_delta_to_chat_callback)
-        else:
-            frame = tk.Frame(txt)
-            txt.window_create(tk.END, window=frame)
-            txt.insert(tk.END, "\n")
+            txt.insert(tk.END, postfix)
+            txt.mark_set(tk.INSERT, tk.END)
             txt.see(tk.END)
-            for i in range(number_of_completions):
-                label = tk.Label(frame, borderwidth=4, anchor=tk.E, wraplength=txt.winfo_width(),
-                                 justify=tk.LEFT, font=Text.FONT, relief=tk.SUNKEN)
-                label.pack(side=tk.TOP, fill=tk.X, expand=True)
 
-                def output_delta_to_label_callback(text):
-                    if self.is_root_destroyed :
-                        return
-                    label.config(text=label.cget("text") + text)
-                    # txt.insert(tk.END, text, "assistant")
-                    if conf.scroll_during_completion:
-                        txt.see(tk.END)
-                    txt.update()
-
-                finish_reason, message = self.gpt.chat_complete(history, output_delta_to_label_callback)
-
-        if self.is_root_destroyed:
-            return
-        if conf.show_finish_reason:
-            symbol = GPT.finish_reasons[finish_reason]["symbol"]
-            if finish_reason not in ["stop", "length", "canceled", "error"] :
-                print(f"{finish_reason=}")
-            if symbol :
-                tool_tip = GPT.finish_reasons[finish_reason]["tool_tip"]
-                if message:
-                    tool_tip += "\n" + message
-                insert_label(txt, symbol, tool_tip)
-
-        txt.insert(tk.END, postfix)
-        txt.mark_set(tk.INSERT, tk.END)
-        txt.see(tk.END)
-
-        if conf.ring_bell_after_completion:
-            self.root.bell()
-        if conf.update_title_after_completion:
-            self.update_window_title()
+            if conf.ring_bell_after_completion:
+                self.root.bell()
+            if conf.update_title_after_completion:
+                self.update_window_title()
 
     def chat_history_from_system_and_chat(self, additional_message=None) :
         system = self.system.get(1.0, 'end - 1c').strip()

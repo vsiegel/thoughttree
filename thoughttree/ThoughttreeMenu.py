@@ -181,7 +181,7 @@ class ThoughttreeMenu(Menu):
         item("Redo", "<Control-Shift-Z>", edit_redo)
         item("Select All", "<Control-a>", select_all)
         menu.add_separator()
-        item("Insert Current Time", "<Alt-Shift-T>", insert_current_time)
+        item("Insert Current Time", "<Control-Shift-T>", insert_current_time)
 
         menu = Menu(bar, "View")
         item("Show System Prompt", "", None)
@@ -226,7 +226,7 @@ class ThoughttreeMenu(Menu):
             item(f"{model_name}", key, lambda e, m=model_name: self.tt.set_model(m))
 
         menu = Menu(bar, "Help")
-        item("Test", "<Control-Shift-T>", menu_test)
+        item("Test", "<Alt-Shift-T>", menu_test)
         item("Debug Info", "<Control-i>", debug_info)
         item("About", None, None)
 

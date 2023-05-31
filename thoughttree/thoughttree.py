@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 import os
 import tkinter as tk
-from argparse import Namespace
 from tkinter import ttk, simpledialog
 from tkinter import font as tkfont
 from tkinter.messagebox import showinfo
+
+from configargparse import ArgumentParser, Namespace
 
 import prompts
 from ThoughttreeMenu import ThoughttreeMenu
@@ -216,7 +217,8 @@ class Thoughttree:
         with WaitCursor(txt):
 
             def insert_label(txt, label_text, tool_tip_text=""):
-                inserted_label = tk.Label(txt, text=label_text, padx=7, pady=0, bg="#F0F0F0", fg="grey", borderwidth=0)
+                inserted_label = tk.Label(txt, text=label_text, padx=7, pady=0,
+                        bg="#F0F0F0", fg="grey", borderwidth=0)
                 if tool_tip_text:
                     ToolTip(inserted_label, tool_tip_text)
                 txt.window_create(tk.END, window=inserted_label)

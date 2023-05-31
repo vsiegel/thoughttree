@@ -89,6 +89,9 @@ class ThoughttreeMenu(Menu):
                 name, size = txt.cget("font").split()
             txt.config(font=(name, int(size) + delta))
 
+        def wrap(wrap_type):
+            self.focus.configure(wrap=wrap_type)
+
         def insert_current_time(event=None):
             self.focus.insert(tk.INSERT, f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 
@@ -191,6 +194,13 @@ class ThoughttreeMenu(Menu):
         item("Reset Font Size", "<Control-period>", lambda e: change_text_size(0))
         self.root.bind("<Control-Button-4>", lambda event: change_text_size(1))
         self.root.bind("<Control-Button-5>", lambda event: change_text_size(-1))
+        oldmenu = menu
+        menu = Menu(oldmenu, "Wrap")
+        item("Char", None, lambda e: wrap(tk.CHAR))
+        item("Word", None, lambda e: wrap(tk.WORD))
+        item("None", None, lambda e: wrap(tk.NONE))
+        menu = oldmenu
+
 
         menu = Menu(bar, "Navigate")
         item("Jump to Similar Line", "<Control-j>", self.tt.jump_to_similar_line)

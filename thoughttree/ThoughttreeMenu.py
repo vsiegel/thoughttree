@@ -6,6 +6,7 @@ import prompts
 from ChatFileManager import ChatFileManager
 from Menu import Menu
 from Text import Text
+from tools import list_all_bindings, add_bboxes
 
 
 class ThoughttreeMenu(Menu):
@@ -97,14 +98,8 @@ class ThoughttreeMenu(Menu):
 
         def debug_info(event=None):
 
-            def add_bboxes(bbox1, bbox2):
-                x1, y1, w1, h1 = bbox1
-                x2, y2, w2, h2 = bbox2
-                x = min(x1, x2)
-                y = min(y1, y2)
-                w = max(x1 + w1, x2 + w2) - x
-                h = max(y1 + h1, y2 + h2) - y
-                return x, y, w, h
+            # print(f"{self.focus.bind_class('Text')=}")
+            print(f"{list_all_bindings(self.root)=}")
 
             bbox_start = self.focus.bbox('1.0')
             bbox_end = self.focus.bbox("end - 1 char")

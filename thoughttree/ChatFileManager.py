@@ -82,8 +82,8 @@ class ChatFileManager:
             except Exception as e:
                 showerror(title="Error", message="Cannot save chat\n" + str(e), master=txt)
 
-        file = filedialog.asksaveasfilename(
-            defaultextension=".txt", initialfile="chat.txt", title="Save Chat")
+        file = filedialog.asksaveasfilename(defaultextension=".txt",
+                initialfile="chat.txt", title="Save Chat", parent=txt)
         if file:
             save_chat(txt, file)
         return file

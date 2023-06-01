@@ -29,7 +29,9 @@ def main(argv):
     add('-d', '--display-reason',    dest='displayReason',   default=True, type=bool,help='Display finish reason as icon')
     add('-k', '--api-key',           dest='apiKey',          default="",   type=str, help='API key for the OpenAI API')
 
-    args = parser.parse_args(argv[1:])
+    args = parser.parse_args("-h")
+
+    print(args)
 
 if __name__ == "__main__":
     main(sys.argv)

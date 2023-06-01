@@ -114,27 +114,26 @@ class ChatFileManager:
     @staticmethod
     def save_code_block_dialog(txt):
 
+        def extract_code_block(text):
+            code_blocks = re.findall(r'```(.*?)```', text, re.DOTALL)
+
+            if not code_blocks:
+                raise ValueError('No code blocks found')
+
+            if len(code_blocks) > 1:
+                raise ValueError('Multiple code blocks found')
+
+            if len(code_blocks) == 1:
+                block = code_blocks[0]
+                file_type = None
+                match = re.search(r'^([a-zA-Z0-9]+)\n', block)
+                if match:
+                    file_type = match.group(1)
+                    block = re.sub(r'^[a-zA-Z0-9]+\n', '', block)
+                block = dedent(block)
+                return block, file_type
+
         def save_code_section(txt: tk.Text, filename, index=tk.INSERT):
-
-            def extract_code_block(text):
-                code_blocks = re.findall(r'```(.*?)```', text, re.DOTALL)
-
-                if not code_blocks:
-                    raise ValueError('No code blocks found')
-
-                if len(code_blocks) > 1:
-                    raise ValueError('Multiple code blocks found')
-
-                if len(code_blocks) == 1:
-                    code_block = code_blocks[0]
-                    file_type = None
-                    match = re.search(r'^([a-zA-Z0-9]+)\n', code_block)
-                    if match:
-                        file_type = match.group(1)
-                        code_block = re.sub(r'^[a-zA-Z0-9]+\n', '', code_block)
-                    code_block = dedent(code_block)
-                    return code_block, file_type
-
             try:
                 text_range = txt.tag_prevrange("assistant", index)
                 if not text_range:

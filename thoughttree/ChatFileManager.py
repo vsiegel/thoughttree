@@ -106,7 +106,7 @@ class ChatFileManager:
                 showerror(title="Error", message="Cannot save section\n" + str(e), master=txt)
 
         file = filedialog.asksaveasfilename(
-            defaultextension=".txt", initialfile="section.txt", title="Save Section")
+            defaultextension=".txt", initialfile="section.txt", title="Save Section", parent=txt)
         if file:
             save_section(txt, file)
         return file
@@ -149,7 +149,7 @@ class ChatFileManager:
                 showerror(title="Error", message="Cannot save code block\n" + str(e), master=txt)
 
         file = filedialog.asksaveasfilename(
-            defaultextension=".py", initialfile="code-block.py", title="Save Code Block")
+            defaultextension=".py", initialfile="code-block.py", title="Save Code Block", parent=txt)
         if file:
             save_code_section(txt, file)
         return file
@@ -169,7 +169,7 @@ class ChatFileManager:
                 text_widget.insert(tk.END, line)
 
     @staticmethod
-    def load_chat_dialog(text_widget):
-        file = filedialog.askopenfilename(defaultextension=".txt")
+    def load_chat_dialog(txt):
+        file = filedialog.askopenfilename(defaultextension=".txt", parent=txt)
         if file:
             ChatFileManager.load_chat(text_widget, file)

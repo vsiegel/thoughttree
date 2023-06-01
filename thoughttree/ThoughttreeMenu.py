@@ -41,6 +41,7 @@ class ThoughttreeMenu(Menu):
             save(ChatFileManager.save_section_dialog, "Section saved to ")
 
         def save_code_block(e=None):
+            print("scb")
             save(ChatFileManager.save_code_block_dialog, "Code block saved to ")
 
         def new_window(event=None) :
@@ -59,9 +60,9 @@ class ThoughttreeMenu(Menu):
             self.focus.event_generate("<<Copy>>")
 
         def paste_text(event=None) :
-            text = self.focus
-            text.event_generate("<<Paste>>")
-            text.see(tk.INSERT)
+            txt = self.focus
+            txt.event_generate("<<Paste>>")
+            txt.see(tk.INSERT)
 
         def select_all(event=None):
             txt = self.focus

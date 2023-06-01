@@ -46,7 +46,6 @@ class Text(tk.scrolledtext.ScrolledText):
         self.line_height = tkfont.Font(font=Text.FONT).metrics("linespace")
         self.vbar.config(width=18, takefocus=False, borderwidth=2)
 
-        self.bind("<Control-b>", lambda e: self.branch_conversation())
         self.bind("<Control-Alt-plus>", lambda e: self.change_notebook_height(1))
         self.bind("<Control-Alt-minus>", lambda e: self.change_notebook_height(-1))
         self.bind("<Control-Shift-asterisk>", lambda e: self.change_notebook_height(10))

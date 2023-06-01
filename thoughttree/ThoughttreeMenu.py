@@ -203,7 +203,9 @@ class ThoughttreeMenu(Menu):
 
 
         menu = Menu(bar, "Navigate")
+        item("Branch Conversation", "<Control-b>", lambda e: self.focus.branch_conversation())
         item("Jump to Similar Line", "<Control-j>", self.tt.jump_to_similar_line)
+
 
         menu = Menu(bar, "Model")
         item("Send Chat Message", "<Control-Return>", lambda e: self.tt.chat_continue("\n\n", "\n\n"))

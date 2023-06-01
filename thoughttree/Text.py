@@ -50,10 +50,26 @@ class Text(tk.scrolledtext.ScrolledText):
         self.bind("<Control-Alt-minus>", lambda e: self.change_notebook_height(-1))
         self.bind("<Control-Shift-asterisk>", lambda e: self.change_notebook_height(10))
         self.bind("<Control-Shift-underscore>", lambda e: self.change_notebook_height(-10))
+        self.bind('<Key>', lambda _: self.highlightCurrentLine())
+        self.bind('<Button-1>', lambda _: self.highlightCurrentLine())
+        self.bind("<FocusIn>", lambda _: self.highlightCurrentLine())
+        self.bind("<FocusOut>", lambda _: self.tag_remove('currentLine', 1.0, "end"))
+
         self.pack(pady=0, fill=tk.X, expand=True)
         self.tag_configure("assistant", background="#F0F0F0", selectbackground="#4682b4", selectforeground="white")
+        self.tag_configure('currentLine', background='#FCFAED')
         self.insert(tk.END, text)
 
+    def highlightCurrentLine(self, delay=10):
+        def delayedHighlightCurrentLine():
+            self.tag_remove('currentLine', 1.0, "end")
+            self.tag_add('currentLine', 'insert linestart', 'insert lineend+1c')
+        # This bound function is called before the cursor actually moves.
+        # So delay checking the cursor position and moving the highlight 10 ms.
+        self.after(delay, delayedHighlightCurrentLine)
+
+        # self.tag_remove('currentLine', 1.0, "end")
+        # self.tag_add('currentLine', 'insert linestart', 'insert lineend+1c')
 
     def change_notebook_height(self, delta):
         parent = self.master.focus_get()
@@ -114,7 +130,7 @@ class Text(tk.scrolledtext.ScrolledText):
                 # win_index = item[2]
                 # print(f"{self.window_cget(win_index, 'text')=}")
             else:
-                print(f"Ignored text widget item: {item}")
+                print(f"Ignored item: {item}")
         section = section.strip("\n")
         if section != "" :
             if history[-1]['role'] == "user" :

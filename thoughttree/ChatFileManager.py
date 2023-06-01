@@ -138,8 +138,7 @@ class ChatFileManager:
             try:
                 text_range = txt.tag_prevrange("assistant", index)
                 if not text_range:
-                    raise Exception("No code section found")
-                start, end = text_range
+                    raise Exception("No code block found")
                 code_section = txt.get(*text_range)
                 code_block, file_type = extract_code_block(code_section)
 

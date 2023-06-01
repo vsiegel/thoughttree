@@ -154,3 +154,4 @@ dmypy.json
 *-GPT-4.txt
 /sample-data/
 /generated/
+.~lock.*#

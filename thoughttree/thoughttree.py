@@ -168,7 +168,7 @@ class Thoughttree:
     def update_window_title(self, event=None):
         progress_title = self.root.title() + "..."
 
-        def output_delta_to_title_callback(content):
+        def output_to_title(content):
             if self.is_root_destroyed:
                 return
             current_title = self.root.title()
@@ -181,7 +181,7 @@ class Thoughttree:
         self.root.update()
         history = self.chat_history_from_system_and_chat(prompts.TITLE_GENERATION_PROMPT)
         model = GPT.internal_generation_model or GPT.model
-        self.gpt.chat_complete(history, output_delta_to_title_callback,
+        self.gpt.chat_complete(history, output_to_title,
             30, 1, model)
 
 
@@ -224,7 +224,7 @@ class Thoughttree:
                     ToolTip(inserted_label, tool_tip_text)
                 txt.window_create(tk.END, window=inserted_label)
 
-            def output_delta_to_chat_callback(text) :
+            def output_to_chat(text) :
                 if self.is_root_destroyed :
                     return
                 txt.insert(tk.END, text, "assistant")
@@ -249,7 +249,7 @@ class Thoughttree:
                 txt.update()
             history = self.chat_history_from_system_and_chat()
             if number_of_completions == 1:
-                finish_reason, message = self.gpt.chat_complete(history, output_delta_to_chat_callback)
+                finish_reason, message = self.gpt.chat_complete(history, output_to_chat)
             else:
                 frame = tk.Frame(txt)
                 txt.window_create(tk.END, window=frame)
@@ -261,7 +261,7 @@ class Thoughttree:
                                      justify=tk.LEFT, font=Text.FONT, relief=tk.SUNKEN)
                     label.pack(side=tk.TOP, fill=tk.X, expand=True)
 
-                    def output_delta_to_label_callback(text):
+                    def output_to_label(text):
                         if self.is_root_destroyed :
                             return
                         label.config(text=label.cget("text") + text)
@@ -270,7 +270,7 @@ class Thoughttree:
                             txt.see(tk.END)
                         txt.update()
 
-                    finish_reason, message = self.gpt.chat_complete(history, output_delta_to_label_callback)
+                    finish_reason, message = self.gpt.chat_complete(history, output_to_label)
 
             if self.is_root_destroyed:
                 return

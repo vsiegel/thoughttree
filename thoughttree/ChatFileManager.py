@@ -170,4 +170,12 @@ class ChatFileManager:
     def load_chat_dialog(txt):
         file = filedialog.askopenfilename(defaultextension=".txt", parent=txt)
         if file:
-            ChatFileManager.load_chat(text_widget, file)
+            ChatFileManager.load_chat(txt, file)
+
+    @staticmethod
+    def chat_history_from_args(system="", message="") :
+        history = [
+            {'role': 'system', 'content': system},
+            {'role': 'user', 'content': message}
+        ]
+        return history

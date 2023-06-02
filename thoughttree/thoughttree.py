@@ -263,16 +263,16 @@ class Thoughttree(tk.Tk):
                             txt.see(tk.END)
                         txt.update()
 
-                    finish_reason, message = self.gpt.chat_complete(history, output_to_label)
+                    finish_reason, message = self.model.chat_complete(history, write_label)
 
             if self.is_root_destroyed:
                 return
             if conf.show_finish_reason:
-                symbol = GPT.finish_reasons[finish_reason]["symbol"]
+                symbol = Model.finish_reasons[finish_reason]["symbol"]
                 if finish_reason not in ["stop", "length", "canceled", "error"] :
                     print(f"{finish_reason=}")
                 if symbol :
-                    tool_tip = GPT.finish_reasons[finish_reason]["tool_tip"]
+                    tool_tip = Model.finish_reasons[finish_reason]["tool_tip"]
                     if message:
                         tool_tip += "\n" + message
                     insert_label(txt, symbol, tool_tip)
@@ -322,7 +322,7 @@ class Thoughttree(tk.Tk):
             text = txt.get(1.0, tk.END)
         old_status = self.status_bar.main_text
         self.status_bar.main_text = "Counting tokens (loading model)"
-        num_tokens = self.gpt.count_tokens(text)
+        num_tokens = self.model.count_tokens(text)
         num_lines = text.count("\n")
         num_words = len(text.split())
         num_chars = len(text)
@@ -339,7 +339,7 @@ class Thoughttree(tk.Tk):
 
     def close(self, event=None):
         self.is_root_destroyed = True
-        self.root.destroy()
+        self.destroy()
 
     def edit_tree_entry(self, event):
         row_id = self.tree.focus()
@@ -379,9 +379,8 @@ class Thoughttree(tk.Tk):
 
     @classmethod
     def main(cls) :
-        root = tk.Tk()
-        Thoughttree(root)
-        root.mainloop()
+        Thoughttree().mainloop()
+
 
 if __name__ == "__main__":
     Thoughttree.main()

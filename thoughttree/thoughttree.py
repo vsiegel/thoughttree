@@ -236,11 +236,15 @@ class Thoughttree(tk.Tk):
                 Thoughttree.multi_completions = number_of_completions
             elif number_of_completions == -1:
                 number_of_completions = Thoughttree.multi_completions
-
             if prefix :
                 txt.insert(tk.END, prefix)
                 txt.update()
+            tokens_used_in_before = self.model.get_tokens_used_in()
+            tokens_used_out_before = self.model.get_tokens_used_out()
+            tokens_cost_in_before = self.model.get_tokens_cost_in()
+            tokens_cost_out_before = self.model.get_tokens_cost_out()
             history = self.chat_history_from_system_and_chat()
+
             if number_of_completions == 1:
                 finish_reason, message = self.model.chat_complete(history, write_chat)
             else:

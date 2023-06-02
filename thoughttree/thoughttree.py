@@ -96,24 +96,14 @@ class Thoughttree(tk.Tk):
             model.cancel()
 
     def create_ui(self):
-        self.root.title("Thoughttree")
-
-        self.root.geometry(Thoughttree.ROOT_GEOMETRY)
-        self.root.minsize(Thoughttree.MIN_WIDTH, Thoughttree.MIN_HEIGHT)
-
-        self.root.option_add('*Text*insertWidth', '3')
-        self.root.option_add('*Dialog*Font', ("sans-serif", 10))
-        self.root.option_add('*Menu*Font', ("Arial", 10))
-        self.root.option_add('*Font', ("Arial", 10))
+        self.option_add('*Dialog*Font', ("sans-serif", 10))
+        self.option_add('*Menu*Font', ("Arial", 10))
+        self.option_add('*Font', ("Arial", 10))
         if not conf.blinking_caret:
-            self.root.option_add('*Text*insertOffTime', '0')
-        # self.root.option_add('*Text*Border', '6')
-        # self.root.option_add('*Text*Background', 'red')
-        # self.root.option_add('*Label*Background', 'red')
-        # self.root.option_add('*Label*background', 'red')
+            self.option_add('*Text*insertOffTime', '0')
 
         font_height = tkfont.Font(font=Text.FONT).metrics("linespace")
-        style = ttk.Style(self.root)
+        style = ttk.Style(self)
 
         style.configure("Treeview", rowheight=2 * font_height + 0)
         # style.configure("Treeview", font=Text.TEXT_FONT)
@@ -203,7 +193,7 @@ class Thoughttree(tk.Tk):
                     return ((i + start) % num_lines) + 1
             return 0
 
-        txt: Text = self.focus
+        txt: Text = self.focus_get()
         line_nr = int(txt.index('insert + 1 chars').split('.')[0])
         current_line = txt.get(f"{line_nr}.0", f"{line_nr}.end")
         if not current_line.strip():
@@ -217,7 +207,7 @@ class Thoughttree(tk.Tk):
 
 
     def chat_continue(self, prefix="", postfix="\n", number_of_completions=1) :
-        txt = self.focus
+        txt: Text = self.focus_get()
         with WaitCursor(txt):
 
             def insert_label(txt, label_text, tool_tip_text=""):

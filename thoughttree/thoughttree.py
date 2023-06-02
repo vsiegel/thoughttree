@@ -91,9 +91,9 @@ class Thoughttree(tk.Tk):
         self.status_bar.right_text = model_name
         self.status_bar.main_text = f"Max tokens: {self.model.max_tokens} T: {self.model.temperature}"
 
-    def on_root_close(self):
-        self.is_root_destroyed = True
-        self.root.destroy()
+    def cancelModels(self, event=None):
+        for model in self.models.values():
+            model.cancel()
 
     def create_ui(self):
         self.root.title("Thoughttree")

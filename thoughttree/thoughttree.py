@@ -171,14 +171,6 @@ class Thoughttree(tk.Tk):
         self.vPane.add(self.chat)
         self.chat.focus_set()
 
-        menubar = Menu(self.root)
-        filemenu = Menu(menubar, tearoff=0)
-        filemenu.add_command(label="New", command=None)
-
-        self.root.config(menu=menubar)
-        # self.root.config(menu=ThoughttreeMenu(self))
-        # self.create_menu()
-
     def update_window_title(self, event=None):
         progress_title = self.root.title() + "..."
 

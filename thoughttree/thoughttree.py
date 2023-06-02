@@ -8,9 +8,9 @@ from tkinter.messagebox import showinfo
 from configargparse import ArgumentParser, Namespace
 
 import prompts
+from Model import Model
 from ThoughttreeMenu import ThoughttreeMenu
 from ToolTip import ToolTip
-from GPT import GPT
 from StatusBar import StatusBar
 from Menu import Menu
 from Text import Text
@@ -32,7 +32,7 @@ NODE_OPEN = '*'
 NODE_CLOSED = '|'
 
 
-class Thoughttree:
+class Thoughttree(tk.Tk):
     MIN_WIDTH = 250
     MIN_HEIGHT = 100
     CHAT_WIDTH = 400
@@ -41,22 +41,33 @@ class Thoughttree:
     icon = None
     multi_completions = 5
 
-    def __init__(self, root=None):
-        self.root = root or tk.Tk()
-        self.gpt = GPT()
+    # self.model_name = 'gpt-4'
+    model_name = 'gpt-3.5-turbo'
+
+
+    def __init__(self):
+        tk.Tk.__init__(self)
+        self.title("Thoughttree")
+        self.wm_title("Thoughttree")
+        self.geometry(Thoughttree.ROOT_GEOMETRY)
+        self.minsize(Thoughttree.MIN_WIDTH, Thoughttree.MIN_HEIGHT)
+        self.icon = tk.PhotoImage(file=CHATGPT_ICON)
+        # self.set_icon()
+        self.protocol("WM_DELETE_WINDOW", self.close)
+
         self.is_root_destroyed = False
-        self.root.protocol("WM_DELETE_WINDOW", self.on_root_close)
-        self.set_icon()
+        self.is_title_immutable = False
         self.create_ui()
 
         def new_window_callback():
             Thoughttree()
-
-        self.menu = ThoughttreeMenu(self, new_window_callback)
+        self.models = {}
+        self.set_model(self.model_name)
+        self.config(menu=ThoughttreeMenu(self, new_window_callback))
 
     @property
     def focus(self) -> Text:
-        return self.root.focus_get()
+        return self.focus_get()
 
 
     def set_icon(self):
@@ -69,13 +80,16 @@ class Thoughttree:
             abs_name = str(get_icon_file_name(CHATGPT_ICON))
             photo_image = tk.PhotoImage(file=abs_name)
             Thoughttree.icon = photo_image
-            self.root.iconphoto(True, photo_image) # Note: has no effect when running in PyCharm IDE
+            self.iconphoto(True, photo_image) # Note: has no effect when running in PyCharm IDE
         except Exception as e:
             print("Error loading icon:", e)
 
     def set_model(self, model_name):
-        self.gpt.model = model_name
+        if not model_name in self.models:
+            self.models[model_name] = Model(model_name)
+        self.model = self.models[model_name]
         self.status_bar.right_text = model_name
+        self.status_bar.main_text = f"Max tokens: {self.model.max_tokens} T: {self.model.temperature}"
 
     def on_root_close(self):
         self.is_root_destroyed = True

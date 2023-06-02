@@ -120,11 +120,10 @@ class Thoughttree(tk.Tk):
         style.configure("Treeview.Cell", anchor=tk.NW)
         style.configure("Treeview.Cell", padding=(1, 1))
 
-        self.status_bar = StatusBar(self.root, right_text=self.gpt.model,
-            main_text=f"Max tokens: {self.gpt.max_tokens} T: {self.gpt.temperature}")
+        self.status_bar = StatusBar(self)
 
         SASHWIDTH = 8
-        self.hPane = tk.PanedWindow(self.root, orient=tk.HORIZONTAL, sashwidth=SASHWIDTH)
+        self.hPane = tk.PanedWindow(self, orient=tk.HORIZONTAL, sashwidth=SASHWIDTH)
         self.hPane.pack(fill=tk.BOTH, expand=True)
         self.vPane = tk.PanedWindow(self.hPane, orient=tk.VERTICAL, sashwidth=SASHWIDTH)
 
@@ -172,23 +171,21 @@ class Thoughttree(tk.Tk):
         self.chat.focus_set()
 
     def update_window_title(self, event=None):
-        progress_title = self.root.title() + "..."
+        progress_title = self.title() + "..."
 
-        def output_to_title(content):
+        def write_title(content):
             if self.is_root_destroyed:
                 return
-            current_title = self.root.title()
+            current_title = self.title()
             if current_title == progress_title:
                 current_title = ""
-            self.root.title(current_title + content)
-            self.root.update()
+            self.title(current_title + content)
+            self.update()
 
-        self.root.title(progress_title)
-        self.root.update()
+        self.title(progress_title)
+        self.update()
         history = self.chat_history_from_system_and_chat(prompts.TITLE_GENERATION_PROMPT)
-        model = GPT.internal_generation_model or GPT.model
-        self.gpt.chat_complete(history, output_to_title,
-            30, 1, model)
+        self.model.chat_complete(history, write_title, max_tokens=30, temperature=0.3)
 
 
     def jump_to_similar_line(self, event=None) :

@@ -37,7 +37,7 @@ class Thoughttree(tk.Tk):
     MIN_HEIGHT = 100
     CHAT_WIDTH = 400
     ROOT_GEOMETRY = "1000x600"
-
+    GEN_TITLE_THRESHOLD = 20
     icon = None
     multi_completions = 5
 
@@ -303,9 +303,25 @@ class Thoughttree(tk.Tk):
             txt.see(tk.END)
 
             if conf.ring_bell_after_completion:
-                self.root.bell()
-            if conf.update_title_after_completion:
-                self.update_window_title()
+                self.bell()
+            tokens_used_in = self.model.get_tokens_used_in() - tokens_used_in_before
+            tokens_used_out = self.model.get_tokens_used_out() - tokens_used_out_before
+            print(f"{self.model.get_tokens_used_in()=}")
+            print(f"{self.model.get_tokens_used_out()=}")
+            print(f"{self.model.get_tokens_used_total()=}")
+            print(f"{tokens_used_in=}")
+            print(f"{tokens_used_out=}")
+            tokens_cost_in = self.model.get_tokens_cost_in() - tokens_cost_in_before
+            tokens_cost_out = self.model.get_tokens_cost_out() - tokens_cost_out_before
+            print(f"{self.model.get_tokens_cost_in()=}")
+            print(f"{self.model.get_tokens_cost_out()=}")
+            print(f"{self.model.get_tokens_cost_total()=}")
+            print(f"tokens_cost_in    {tokens_cost_in:.5f} $")
+            print(f"tokens_cost_out   {tokens_cost_out:.5f} $")
+            print(f"tokens_cost_total {tokens_cost_in + tokens_cost_out:.5f} $")
+            # if conf.update_title_after_completion:
+            #     if tokens_out > Thoughttree.GEN_TITLE_THRESHOLD:
+            #         self.update_window_title()
 
     def chat_history_from_system_and_chat(self, additional_message=None) :
         system = self.system.get(1.0, 'end - 1c').strip()

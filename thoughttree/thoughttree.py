@@ -217,7 +217,7 @@ class Thoughttree(tk.Tk):
                     ToolTip(inserted_label, tool_tip_text)
                 txt.window_create(tk.END, window=inserted_label)
 
-            def output_to_chat(text) :
+            def write_chat(text) :
                 if self.is_root_destroyed :
                     return
                 txt.insert(tk.END, text, "assistant")
@@ -242,7 +242,7 @@ class Thoughttree(tk.Tk):
                 txt.update()
             history = self.chat_history_from_system_and_chat()
             if number_of_completions == 1:
-                finish_reason, message = self.gpt.chat_complete(history, output_to_chat)
+                finish_reason, message = self.model.chat_complete(history, write_chat)
             else:
                 frame = tk.Frame(txt)
                 txt.window_create(tk.END, window=frame)
@@ -254,7 +254,7 @@ class Thoughttree(tk.Tk):
                                      justify=tk.LEFT, font=Text.FONT, relief=tk.SUNKEN)
                     label.pack(side=tk.TOP, fill=tk.X, expand=True)
 
-                    def output_to_label(text):
+                    def write_label(text):
                         if self.is_root_destroyed :
                             return
                         label.config(text=label.cget("text") + text)
@@ -315,7 +315,7 @@ class Thoughttree(tk.Tk):
 
 
     def count_tokens(self, event=None) :
-        txt: Text = self.focus
+        txt: Text = self.focus_get()
         try :
             text = txt.get(tk.SEL_FIRST, tk.SEL_LAST)
         except tk.TclError :

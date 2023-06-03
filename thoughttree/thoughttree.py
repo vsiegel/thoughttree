@@ -88,8 +88,8 @@ class Thoughttree(tk.Tk):
         if not model_name in self.models:
             self.models[model_name] = Model(model_name)
         self.model = self.models[model_name]
-        self.status_bar.right_text = model_name
-        self.status_bar.main_text = f"Max tokens: {self.model.max_tokens} T: {self.model.temperature}"
+        self.status_bar.model = model_name
+        self.status_bar.message = f"Max tokens: {self.model.max_tokens} T: {self.model.temperature}"
 
     def cancelModels(self, event=None):
         for model in self.models.values():
@@ -324,13 +324,13 @@ class Thoughttree(tk.Tk):
             text = txt.get(tk.SEL_FIRST, tk.SEL_LAST)
         except tk.TclError :
             text = txt.get(1.0, tk.END)
-        old_status = self.status_bar.main_text
-        self.status_bar.main_text = "Counting tokens (loading model)"
+        old_status = self.status_bar.message
+        self.status_bar.message = "Counting tokens (loading model)"
         num_tokens = self.model.count_tokens(text)
         num_lines = text.count("\n")
         num_words = len(text.split())
         num_chars = len(text)
-        self.status_bar.main_text = old_status
+        self.status_bar.message = old_status
         showinfo("Count Tokens",
                  f"The length of the text is:\n"
                  f"{num_tokens} tokens\n"

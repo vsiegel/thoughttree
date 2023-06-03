@@ -41,6 +41,15 @@ class StatusBar(tk.Frame):
         self.update()
 
     @property
+    def note(self):
+        return self.note_label.cget('text')
+
+    @note.setter
+    def note(self, text):
+        self.note_label.config(text=text)
+        self.update()
+
+    @property
     def model(self):
         return self.model_label.cget('text')
 

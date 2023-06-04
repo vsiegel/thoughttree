@@ -91,12 +91,12 @@ class Text(tk.scrolledtext.ScrolledText):
         tab2 = notebook.add_textbox_to_notebook(old_tab_label, 2, "")
         notebook.select(1)
         tab2.focus_set()
-        self.add_notebook_to_textbox(notebook)
+        self.add_notebook_to_textbox(notebook, tk.INSERT)
         self.delete(tk.INSERT, tk.END)
         return "break"
 
-    def add_notebook_to_textbox(self, widget, pos="insert"):
-        self.insert(pos, '\n')
+    def add_notebook_to_textbox(self, widget, pos):
+        # self.insert(pos, '\n')
         self.window_create(pos, window=widget)
         self.see(pos)
 

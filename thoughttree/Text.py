@@ -25,10 +25,9 @@ class Notebook(ttk.Notebook):
             tab_label = f"{old_tab_label}.{i}"
         else:
             tab_label = f"{i}"
-        frame = tk.Frame(self)
-        txt = Text(frame, text)
-        self.add(frame, text=f"{tab_label}")
-        txt.pack(fill=tk.BOTH, expand=True)
+        txt = Text(self, text, scrollbar=False)
+        self.add(txt, text=tab_label)
+        return txt
 
 
 class Text(tk.scrolledtext.ScrolledText):

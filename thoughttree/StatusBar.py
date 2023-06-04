@@ -29,7 +29,6 @@ class StatusBar(tk.Frame):
     @symbol.setter
     def symbol(self, text):
         self.symbol_label.config(text=text)
-        self.update()
 
     @property
     def message(self):
@@ -38,7 +37,6 @@ class StatusBar(tk.Frame):
     @message.setter
     def message(self, text):
         self.message_label.config(text=text)
-        self.update()
 
     @property
     def note(self):
@@ -47,7 +45,6 @@ class StatusBar(tk.Frame):
     @note.setter
     def note(self, text):
         self.note_label.config(text=text)
-        self.update()
 
     @property
     def model(self):
@@ -56,4 +53,3 @@ class StatusBar(tk.Frame):
     @model.setter
     def model(self, text):
         self.model_label.config(text=text)
-        self.update()

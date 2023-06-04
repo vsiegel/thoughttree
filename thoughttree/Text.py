@@ -63,6 +63,8 @@ class Text(tk.scrolledtext.ScrolledText):
         self.insert(tk.END, text)
 
     def highlightCurrentLine(self, add=True):
+        if not self.winfo_exists():
+            return
         self.tag_remove('currentLine', 1.0, "end")
         if add:
             self.tag_add('currentLine', 'insert display linestart', 'insert display lineend+1c')

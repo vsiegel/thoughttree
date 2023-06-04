@@ -285,6 +285,7 @@ class Thoughttree(tk.Tk):
             txt.insert(tk.END, postfix)
             txt.mark_set(tk.INSERT, tk.END)
             txt.see(tk.END)
+            txt.edit_separator()
 
             if conf.ring_bell_after_completion:
                 self.bell()

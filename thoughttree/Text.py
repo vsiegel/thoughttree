@@ -39,7 +39,7 @@ class Text(tk.scrolledtext.ScrolledText):
         tk.scrolledtext.ScrolledText.__init__(
             self, master, undo=True, wrap=tk.WORD, padx=1, pady=1,
             width=80, height = height, insertwidth=4, font=Text.FONT,
-            border=0, borderwidth=1, highlightthickness=1,
+            border=0, borderwidth=0, highlightthickness=0,
             selectbackground="#66a2d4", selectforeground="white", **kw)
 
         self.line_height = tkfont.Font(font=Text.FONT).metrics("linespace")

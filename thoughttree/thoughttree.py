@@ -234,8 +234,9 @@ class Thoughttree(tk.Tk):
                 if not number_of_completions:
                     return
                 Thoughttree.multi_completions = number_of_completions
-            elif number_of_completions == -1:
+            elif number_of_completions == -1: # repeat
                 number_of_completions = Thoughttree.multi_completions
+            txt.edit_separator()
             if prefix :
                 txt.insert(tk.END, prefix)
                 txt.update()

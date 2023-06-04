@@ -158,10 +158,8 @@ class ThoughttreeMenu(Menu):
         def item(label, keystroke, command, bind_key=True, context_menu=None):
             menu.item(label, keystroke, command, bind_key, context_menu)
 
-        # bar = Menu(self.tt)
-        bar = self
 
-        menu = Menu(bar, "File")
+        menu = Menu(self, "File")
         item("New Window", "<Control-n>", new_window)
         item("Load Chat", None, lambda: ChatFileManager.load_chat_dialog(self.tt.chat))
         item("Save Chat", "<Control-s>", save_chat)
@@ -169,7 +167,7 @@ class ThoughttreeMenu(Menu):
         item("Save Code Block", "<Control-Shift-B>", save_code_block)
         item("Quit", "<Control-q>", self.tt.close)
 
-        menu = Menu(bar, "Edit")
+        menu = Menu(self, "Edit")
         edit_menu = menu
         item("Cut", "<Control-x>", cut_text)
         item("Copy", "<Control-c>", copy_text)
@@ -181,7 +179,7 @@ class ThoughttreeMenu(Menu):
         menu.add_separator()
         item("Insert Current Time", "<Control-Shift-T>", insert_current_time)
 
-        menu = Menu(bar, "View")
+        menu = Menu(self, "View")
         item("Show System Prompt", "", None)
         item("Show Tree", "", None)
         item("Count Tokens", "<Control-t>", self.tt.count_tokens)
@@ -199,13 +197,11 @@ class ThoughttreeMenu(Menu):
         item("None", None, lambda e: wrap(tk.NONE))
         menu = oldmenu
 
-
-        menu = Menu(bar, "Navigate")
+        menu = Menu(self, "Navigate")
         item("Branch Conversation", "<Control-b>", lambda e: self.focus.branch_conversation())
         item("Jump to Similar Line", "<Control-j>", self.tt.jump_to_similar_line)
 
-
-        menu = Menu(bar, "Model")
+        menu = Menu(self, "Model")
         item("Send Chat Message", "<Control-Return>", lambda e: self.tt.chat_continue("\n\n", "\n\n"))
         item("Complete Directly", "<Shift-Return>", lambda e: self.tt.chat_continue("", ""))
         menu.add_separator()
@@ -225,7 +221,7 @@ class ThoughttreeMenu(Menu):
                 key = None
             item(f"{model_name}", key, lambda e, m=model_name: self.tt.set_model(m))
 
-        menu = Menu(bar, "Help")
+        menu = Menu(self, "Help")
         item("Test", "<Alt-Shift-T>", menu_test)
         item("Debug Info", "<Control-i>", debug_info)
         item("About", None, None)

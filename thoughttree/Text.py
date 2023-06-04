@@ -82,11 +82,15 @@ class Text(tk.scrolledtext.ScrolledText):
 
     def branch_conversation(self):
         height, width = self.calc_notebook_size()
-        notebook = Notebook(self, height=height, width=width)
+        style = ttk.Style()
+        style.configure('NoBorder.TNotebook', borderwidth=0, hilightthickness=0)
+        notebook = Notebook(self, height=height, width=width, style='NoBorder.TNotebook')
         old_tab_label = Notebook.find_parent_tab_label(notebook, self)
         notebook.add_textbox_to_notebook(old_tab_label, 1, "Text that was replaced by this widget")
         notebook.add_textbox_to_notebook(old_tab_label, 2, "")
         self.add_notebook_to_textbox(notebook)
+        self.delete(tk.INSERT, tk.END)
+        return "break"
 
     def add_notebook_to_textbox(self, widget, pos="insert"):
         self.insert(pos, '\n')

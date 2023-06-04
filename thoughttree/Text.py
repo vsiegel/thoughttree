@@ -34,7 +34,7 @@ class Text(tk.scrolledtext.ScrolledText):
     FONT = ("monospace", 10)
     # FONT = ("sans-serif", 11)
 
-    def __init__(self, master=None, text="", **kw):
+    def __init__(self, master=None, text="", scrollbar=True, **kw):
         height = len(text.splitlines())
         tk.scrolledtext.ScrolledText.__init__(
             self, master, undo=True, wrap=tk.WORD, padx=1, pady=1,
@@ -43,7 +43,10 @@ class Text(tk.scrolledtext.ScrolledText):
             selectbackground="#66a2d4", selectforeground="white", **kw)
 
         self.line_height = tkfont.Font(font=Text.FONT).metrics("linespace")
-        self.vbar.config(width=18, takefocus=False, borderwidth=2)
+        if scrollbar:
+            self.vbar.config(width=18, takefocus=False, borderwidth=2)
+        else:
+            self.vbar.pack_forget()
 
         self.bind("<Control-Alt-plus>", lambda e: self.change_notebook_height(1))
         self.bind("<Control-Alt-minus>", lambda e: self.change_notebook_height(-1))

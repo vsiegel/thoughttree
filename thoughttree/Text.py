@@ -57,7 +57,7 @@ class Text(tk.scrolledtext.ScrolledText):
         self.bind_class("last", "<FocusOut>", lambda _: self.highlightCurrentLine(False))
         self.pack(pady=0, fill=tk.X, expand=True)
         self.tag_configure("assistant", background="#F0F0F0", selectbackground="#4682b4", selectforeground="white")
-        self.tag_configure('currentLine', background='#FCFAED', foreground="black")
+        self.tag_configure('currentLine', background='#FCFAED', foreground="black", selectbackground="#4682b4", selectforeground="white")
         self.insert(tk.END, text)
 
     def highlightCurrentLine(self, add=True):

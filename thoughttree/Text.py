@@ -86,8 +86,11 @@ class Text(tk.scrolledtext.ScrolledText):
         style.configure('NoBorder.TNotebook', borderwidth=0, hilightthickness=0)
         notebook = Notebook(self, height=height, width=width, style='NoBorder.TNotebook')
         old_tab_label = Notebook.find_parent_tab_label(notebook, self)
-        notebook.add_textbox_to_notebook(old_tab_label, 1, "Text that was replaced by this widget")
-        notebook.add_textbox_to_notebook(old_tab_label, 2, "")
+        text = self.get(tk.INSERT, tk.END)
+        notebook.add_textbox_to_notebook(old_tab_label, 1, text)
+        tab2 = notebook.add_textbox_to_notebook(old_tab_label, 2, "")
+        notebook.select(1)
+        tab2.focus_set()
         self.add_notebook_to_textbox(notebook)
         self.delete(tk.INSERT, tk.END)
         return "break"

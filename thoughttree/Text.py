@@ -65,7 +65,7 @@ class Text(tk.scrolledtext.ScrolledText):
         height = max(old_height + delta * self.line_height, self.line_height)
         parent.configure(height=height)
 
-    def branch_conversation(self):
+    def split_conversation(self):
 
         def next_equal(hierarchical_id):
             if hierarchical_id:

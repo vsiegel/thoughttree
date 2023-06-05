@@ -200,7 +200,7 @@ class ThoughttreeMenu(Menu):
         item("Calculate Cost", "", None)
 
         menu = Menu(self, "Navigate")
-        item("Branch Conversation", "<Control-b>", lambda e: self.focussed.branch_conversation())
+        item("Branch Conversation", "<Control-b>", lambda e: self.focussed.split_conversation())
         item("Jump to Similar Line", "<Control-j>", self.tt.jump_to_similar_line)
 
         menu = Menu(self, "Chat")

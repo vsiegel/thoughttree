@@ -65,10 +65,6 @@ class Thoughttree(tk.Tk):
         self.set_model(self.model_name)
         self.config(menu=ThoughttreeMenu(self, new_window_callback))
 
-    @property
-    def focus(self) -> Text:
-        return self.focus_get()
-
 
     def set_icon(self):
         def get_icon_file_name(icon_base_name):

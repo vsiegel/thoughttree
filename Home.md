@@ -1,1 +1,1 @@
-Welcome to the thoughttree wiki!
+[[Examples|Examples]]

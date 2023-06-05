@@ -155,6 +155,10 @@ class ThoughttreeMenu(Menu):
             txt.bind('<<Modified>>', on_text_change)
             pass
 
+        def branch_conversation():
+            self.focussed.split_conversation()
+            self.tt.complete()
+
         def item(label, keystroke, command, bind_key=True, context_menu=None, toggle_variable=None):
             menu.item(label, keystroke, command, bind_key, context_menu, toggle_variable)
 

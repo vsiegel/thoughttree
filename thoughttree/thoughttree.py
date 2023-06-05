@@ -123,11 +123,11 @@ class Thoughttree(tk.Tk):
         self.status_bar = StatusBar(self)
 
         SASHWIDTH = 8
-        self.hPane = tk.PanedWindow(self, orient=tk.HORIZONTAL, sashwidth=SASHWIDTH)
-        self.hPane.pack(fill=tk.BOTH, expand=True)
-        self.vPane = tk.PanedWindow(self.hPane, orient=tk.VERTICAL, sashwidth=SASHWIDTH)
+        hPane = tk.PanedWindow(self, orient=tk.HORIZONTAL, sashwidth=SASHWIDTH)
+        hPane.pack(fill=tk.BOTH, expand=True)
+        vPane = tk.PanedWindow(hPane, orient=tk.VERTICAL, sashwidth=SASHWIDTH)
 
-        tree = ttk.Treeview(self.hPane, columns=("C1"), show="tree")
+        tree = ttk.Treeview(hPane, columns=("C1"), show="tree")
         self.tree = tree
         tree.column("#0", width=160, minwidth=60, anchor=tk.W, stretch=tk.NO)
         tree.column("#1", width=30, minwidth=60, anchor=tk.W, stretch=tk.NO)
@@ -139,9 +139,9 @@ class Thoughttree(tk.Tk):
         from tools import create_dummy_data
         create_dummy_data(tree)
 
-        self.hPane.add(tree)
-        self.hPane.add(self.vPane)
-        self.hPane.sash_place(0, 0, 0)
+        hPane.add(tree)
+        hPane.add(vPane)
+        hPane.sash_place(0, 0, 0)
 
         children = tree.get_children()
         if children:
@@ -149,12 +149,12 @@ class Thoughttree(tk.Tk):
         tree.bind("<Double-Button-1>", self.edit_tree_entry)
         tree.bind("<Return>", self.edit_tree_entry)
 
-        self.system = Text(self.vPane, system_prompt)
-        self.chat = Text(self.vPane)
+        self.system = Text(vPane, system_prompt)
+        self.chat = Text(vPane)
         self.system.config(pady=5)
 
-        self.vPane.add(self.system)
-        self.vPane.add(self.chat)
+        vPane.add(self.system)
+        vPane.add(self.chat)
         self.chat.focus_set()
 
     def update_window_title(self, event=None):

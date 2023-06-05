@@ -206,7 +206,7 @@ class Thoughttree(tk.Tk):
             txt.see(jump_index)
 
 
-    def chat_continue(self, prefix="", postfix="\n", number_of_completions=1) :
+    def chat_continue(self, number_of_completions=1, prefix="", postfix=""):
         txt: Text = self.focus_get()
         with WaitCursor(txt):
 

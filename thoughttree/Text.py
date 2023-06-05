@@ -108,10 +108,10 @@ class Text(tk.scrolledtext.ScrolledText):
             tab_label = next_level(parent_tab_label)
             notebook.add_textbox(tab_label, trailing_text)
         else:
-            tab_label = parent_tab_label
             notebook = parent
         new_txt = Text(notebook, scrollbar=False)
-        notebook.add(new_txt, text=(next_equal(tab_label)))
+        last_tab_label = notebook.tab(len(notebook.tabs()) - 1, "text")
+        notebook.add(new_txt, text=next_equal(last_tab_label))
 
         notebook.select(len(notebook.tabs()) - 1)
         new_txt.focus_set()

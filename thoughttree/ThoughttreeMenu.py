@@ -99,18 +99,6 @@ class ThoughttreeMenu(Menu):
             # print(f"{self.tt.event_info() =}")
             # print(f"{list_all_bindings(self.tt)=}")
 
-            bbox_start = self.focussed.bbox('1.0')
-            bbox_end = self.focussed.bbox("end - 1 char")
-            total_bbox = add_bboxes(bbox_start, bbox_end)
-            print(f"{bbox_start=}")
-            print(f"{bbox_end=}")
-            print(f"{total_bbox=}")
-            dlineinfo_start = self.focussed.dlineinfo('1.0')[:4]
-            dlineinfo_end = self.focussed.dlineinfo("end - 1 char")[:4]
-            total_dlineinfo = add_bboxes(dlineinfo_start, dlineinfo_end)
-            print(f"{dlineinfo_start=}")
-            print(f"{dlineinfo_end=}")
-            print(f"{total_dlineinfo=}")
             print(f"{self.focussed.bbox(tk.INSERT)=}")
             print(f"{self.focussed.dlineinfo(tk.INSERT)=}")
             print(f"{self.focussed.tag_ranges(tk.SEL)=}")

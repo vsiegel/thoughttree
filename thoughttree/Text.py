@@ -96,20 +96,13 @@ class Text(tk.scrolledtext.ScrolledText):
             else:
                 return None, None, ""
 
-
         leading_text = self.get("1.0", tk.INSERT)
         trailing_text = self.get(tk.INSERT, tk.END)
         height, width = self.calc_notebook_size()
         style = ttk.Style()
         style.layout("NoBorder.TNotebook", [])
         parent, parent_tab_id, parent_tab_label = find_parent_tab_label(self)
-        print(f"{parent=}")
-        print(f"{parent_tab_id=}")
-        print(f"{parent_tab_label=}")
-        print(f"{next_level(parent_tab_label)=}")
-        print(f"{next_equal(parent_tab_label)=}")
         new_notebook_needed = not parent or bool(leading_text.strip())
-        print(f"{new_notebook_needed=}")
         if new_notebook_needed:
             notebook = Notebook(self, height=height, width=width, style='NoBorder.TNotebook')
             tab_label = next_level(parent_tab_label)
@@ -120,7 +113,6 @@ class Text(tk.scrolledtext.ScrolledText):
         new_txt = Text(notebook, scrollbar=False)
         notebook.add(new_txt, text=(next_equal(tab_label)))
 
-        # new_txt = notebook.add_textbox(next_equal(tab_label), "")
         notebook.select(len(notebook.tabs()) - 1)
         new_txt.focus_set()
         if new_notebook_needed:
@@ -130,7 +122,6 @@ class Text(tk.scrolledtext.ScrolledText):
         return "break"
 
     def add_notebook_to_textbox(self, widget, pos):
-        # self.insert(pos, '\n')
         self.window_create(pos, window=widget)
         self.see(pos)
 

@@ -1,5 +1,5 @@
 class TokenCounter:
-    def __init__(self, parent=None):
+    def __init__(self, model_name, parent=None):
         if parent:
             self.prompt___tokens_sum = parent.prompt___tokens_sum
             self.complete_tokens_sum = parent.complete_tokens_sum

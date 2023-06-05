@@ -11,7 +11,7 @@ class Menu(tk.Menu):
         if type(master) == tk.Tk:
             master.config(menu=self)
 
-    def item(self, label, keystroke, command, bind_key=True, context_menu=None) :
+    def item(self, label, keystroke, command, bind_key=True, context_menu=None, toggle_variable=None) :
         def convert_key_string(s) :
             if not keystroke:
                 return ""
@@ -31,7 +31,12 @@ class Menu(tk.Menu):
 
         accelerator = convert_key_string(keystroke)
         state = tk.NORMAL if command else tk.DISABLED
-        self.add_command(label=label, accelerator=accelerator, command=lambda: command(None), state=state)
+        if toggle_variable :
+            self.add_checkbutton(label=label, accelerator=accelerator, command=lambda: command(None), state=state, variable=toggle_variable)
+        else:
+            self.add_command(label=label, accelerator=accelerator, command=lambda: command(None), state=state)
+            # self.entryconfigure('last', tooltip=label)
+            # print(f"{self.entryconfigure('last')=}", end="\n\n")
         if context_menu :
             context_menu.add_command(label=label, accelerator=accelerator, command=lambda: command(None), state=state)
         if bind_key and keystroke:

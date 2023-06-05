@@ -208,12 +208,11 @@ class Thoughttree(tk.Tk):
         txt: Text = self.focus_get()
         with WaitCursor(txt):
 
-            def insert_label(txt, label_text, tool_tip_text=""):
-                inserted_label = tk.Label(txt, text=label_text, padx=7, pady=0,
-                        bg="#F0F0F0", fg="grey", borderwidth=0)
-                if tool_tip_text:
-                    ToolTip(inserted_label, tool_tip_text)
-                txt.window_create(tk.END, window=inserted_label)
+            def insert_label(txt, text, tool_tip=""):
+                label = tk.Label(txt, text=text, padx=7, pady=0, bg="#F0F0F0", fg="grey", borderwidth=0)
+                if tool_tip:
+                    ToolTip(label, tool_tip)
+                txt.window_create(tk.END, window=label)
 
             def write_chat(text) :
                 if self.is_root_destroyed :

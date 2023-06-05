@@ -127,6 +127,10 @@ class ThoughttreeMenu(Menu):
                 # print(f'{self.focus.window_configure(dumped_win_pos)=}')
                 print(f"{type(self.focussed.window_cget(dumped_win_pos, 'window'))=}")
             print()
+            dumped = self.focussed.dump("1.0", tk.INSERT, all=True)
+            for item in dumped:
+                print(f'{item=}')
+
 
         def menu_test(event=None):
             frame = tk.Frame(self.focussed)

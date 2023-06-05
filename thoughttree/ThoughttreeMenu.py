@@ -186,12 +186,9 @@ class ThoughttreeMenu(Menu):
         item("Reset Font Size", "<Control-period>", lambda e: change_text_size(0))
         self.tt.bind("<Control-Button-4>", lambda event: change_text_size(1))
         self.tt.bind("<Control-Button-5>", lambda event: change_text_size(-1))
-        oldmenu = menu
-        menu = Menu(oldmenu, "Wrap")
-        item("Char", None, lambda e: wrap(tk.CHAR))
+        item("Wrap lines", None, lambda e: wrap(tk.CHAR))
         item("Word", None, lambda e: wrap(tk.WORD))
         item("None", None, lambda e: wrap(tk.NONE))
-        menu = oldmenu
         item("Generate Titles", "", None)
         item("Calculate Cost", "", None)
 

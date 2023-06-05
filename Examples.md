@@ -5,3 +5,4 @@ The examples are generated using non-trivial prompting methods that are unfeasib
 ## Indexes
 
 ## Long systematic texts
+[[About-Ukrainian-humor]]

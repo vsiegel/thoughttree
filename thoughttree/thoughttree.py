@@ -261,7 +261,8 @@ class Thoughttree(tk.Tk):
                         finish_reason = "canceled"
                         break
                     label = tk.Label(frame, borderwidth=4, anchor=tk.W, wraplength=txt.winfo_width(),
-                                     justify=tk.RIGHT, font=Text.FONT, relief=tk.SUNKEN)
+                                     justify=tk.LEFT, font=Text.FONT, relief=tk.SUNKEN)
+
                     label.pack(side=tk.TOP, fill=tk.X, expand=True)
 
                     def write_label(text):

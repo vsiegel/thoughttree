@@ -8,23 +8,7 @@ class Notebook(ttk.Notebook):
     def __init__(self, master=None, **kw):
         ttk.Notebook.__init__(self, master, padding=(0, 4, 0, 0), **kw)
 
-    def find_parent_tab_label(self, txt):
-        parent = txt
-        while parent and type(parent) not in [Notebook]:
-            parent = parent.master
-        if parent:
-            parent: Notebook = parent
-            tab_id = parent.select()
-            old_tab_label = parent.tab(tab_id, "text")
-        else:
-            old_tab_label = ""
-        return old_tab_label
-
-    def add_textbox_to_notebook(self, old_tab_label, i, text=""):
-        if old_tab_label:
-            tab_label = f"{old_tab_label}.{i}"
-        else:
-            tab_label = f"{i}"
+    def add_textbox(self, tab_label, text=""):
         txt = Text(self, text, scrollbar=False)
         self.add(txt, text=tab_label)
         return txt
@@ -81,17 +65,66 @@ class Text(tk.scrolledtext.ScrolledText):
         parent.configure(height=height)
 
     def branch_conversation(self):
+
+        def next_equal(hierarchical_id):
+            if hierarchical_id:
+                levels = hierarchical_id.split('.')
+            else:
+                levels = ['0']
+            # print(f"{levels}")
+            levels = levels[:-1] + [str(int(levels[-1]) + 1)]
+            return '.'.join(levels)
+
+
+        def next_level(hierarchical_id):
+            if hierarchical_id:
+                levels = hierarchical_id.split('.') + ['1']
+            else:
+                levels = ['1']
+            return '.'.join(levels)
+
+        def find_parent_tab_label(child: tk.Widget):
+            parent = child
+            while parent and type(parent) != Notebook:
+                parent = parent.master
+            if parent:
+                parent: Notebook = parent
+                parent_tab_id = parent.select()
+                parent_tab_label = parent.tab(parent_tab_id, "text")
+                return parent, parent_tab_id, parent_tab_label
+            else:
+                return None, None, ""
+
+
+        leading_text = self.get("1.0", tk.INSERT)
+        trailing_text = self.get(tk.INSERT, tk.END)
         height, width = self.calc_notebook_size()
         style = ttk.Style()
-        style.configure('NoBorder.TNotebook', borderwidth=0, hilightthickness=0)
-        notebook = Notebook(self, height=height, width=width, style='NoBorder.TNotebook')
-        old_tab_label = Notebook.find_parent_tab_label(notebook, self)
-        text = self.get(tk.INSERT, tk.END)
-        notebook.add_textbox_to_notebook(old_tab_label, 1, text)
-        tab2 = notebook.add_textbox_to_notebook(old_tab_label, 2, "")
-        notebook.select(1)
-        tab2.focus_set()
-        self.add_notebook_to_textbox(notebook, tk.INSERT)
+        style.layout("NoBorder.TNotebook", [])
+        parent, parent_tab_id, parent_tab_label = find_parent_tab_label(self)
+        print(f"{parent=}")
+        print(f"{parent_tab_id=}")
+        print(f"{parent_tab_label=}")
+        print(f"{next_level(parent_tab_label)=}")
+        print(f"{next_equal(parent_tab_label)=}")
+        new_notebook_needed = not parent or bool(leading_text.strip())
+        print(f"{new_notebook_needed=}")
+        if new_notebook_needed:
+            notebook = Notebook(self, height=height, width=width, style='NoBorder.TNotebook')
+            tab_label = next_level(parent_tab_label)
+            notebook.add_textbox(tab_label, trailing_text)
+        else:
+            tab_label = parent_tab_label
+            notebook = parent
+        new_txt = Text(notebook, scrollbar=False)
+        notebook.add(new_txt, text=(next_equal(tab_label)))
+
+        # new_txt = notebook.add_textbox(next_equal(tab_label), "")
+        notebook.select(len(notebook.tabs()) - 1)
+        new_txt.focus_set()
+        if new_notebook_needed:
+            self.window_create(tk.INSERT, window=notebook)
+            self.see(tk.INSERT)
         self.delete(tk.INSERT, tk.END)
         return "break"
 

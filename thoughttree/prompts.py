@@ -20,6 +20,6 @@ Give me only the unquoted text of the title, without any prefixes or comments:
 '''
 
 CODE_BLOCK_FILENAME_GENERATION_PROMPT = '''\
-Find a good file name for the code block.
+Find a good file name for the code block above.
 Give me only the unquoted text of the file name, without any prefixes or comments.
 The code block started with the language spec '''

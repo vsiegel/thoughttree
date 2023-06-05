@@ -213,8 +213,9 @@ class ThoughttreeMenu(Menu):
 
         menu = Menu(self, "Chat")
         item("Send Chat Message", "<Control-Return>", lambda e: self.tt.complete(1, "\n\n", "\n\n"))
-        item("Continue Alternative", "<Alt-Return>", lambda e: self.tt.complete(-1, "\n"))
         item("Complete Directly", "<Shift-Return>", lambda e: self.tt.complete())
+        item("Complete in Branch", "<Alt-Return>", lambda e: branch_conversation())
+        item("Continue Alternatives", "<Alt-Shift-Return>", lambda e: self.tt.complete(-1, "\n"))
         menu.add_separator()
         item("Complete 2 Times", "<Control-Key-2>", lambda e: self.tt.complete(2))
         item("Complete 3 Times", "<Control-Key-3>", lambda e: self.tt.complete(3))

@@ -243,6 +243,7 @@ class Thoughttree(tk.Tk):
             tokens_cost_out_before = self.model.get_tokens_cost_out()
             history = self.chat_history_from_system_and_chat()
 
+            finish_reason, message = 'unknown', ''
             if number_of_completions == 1:
                 if self.model.is_canceled:
                     finish_reason = "canceled"

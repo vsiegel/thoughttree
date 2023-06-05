@@ -203,7 +203,7 @@ class Thoughttree(tk.Tk):
             txt.see(jump_index)
 
 
-    def chat(self, number_of_completions=1, prefix="", postfix=""):
+    def complete(self, number_of_completions=1, prefix="", postfix=""):
         self.model.is_canceled = False
         txt: Text = self.focus_get()
         with WaitCursor(txt):

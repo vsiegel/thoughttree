@@ -160,7 +160,7 @@ class Thoughttree(tk.Tk):
         progress_title = self.title() + "..."
 
         def write_title(content):
-            if self.is_root_destroyed:
+            if self.is_root_destroyed or self.mode.is_cancelled:
                 return
             current_title = self.title()
             if current_title == progress_title:
@@ -202,7 +202,8 @@ class Thoughttree(tk.Tk):
             txt.see(jump_index)
 
 
-    def chat_continue(self, number_of_completions=1, prefix="", postfix=""):
+    def chat(self, number_of_completions=1, prefix="", postfix=""):
+        self.model.is_canceled = False
         txt: Text = self.focus_get()
         with WaitCursor(txt):
 
@@ -243,7 +244,10 @@ class Thoughttree(tk.Tk):
             history = self.chat_history_from_system_and_chat()
 
             if number_of_completions == 1:
-                finish_reason, message = self.model.chat_complete(history, write_chat)
+                if self.model.is_canceled:
+                    finish_reason = "canceled"
+                else:
+                    finish_reason, message = self.model.chat_complete(history, write_chat)
             else:
                 frame = tk.Frame(txt)
                 txt.window_create(tk.END, window=frame)
@@ -251,8 +255,11 @@ class Thoughttree(tk.Tk):
                 txt.see(tk.END)
                 finish_reason, message = 'unknown', ''
                 for i in range(number_of_completions):
-                    label = tk.Label(frame, borderwidth=4, anchor=tk.E, wraplength=txt.winfo_width(),
-                                     justify=tk.LEFT, font=Text.FONT, relief=tk.SUNKEN)
+                    if self.model.is_canceled:
+                        finish_reason = "canceled"
+                        break
+                    label = tk.Label(frame, borderwidth=4, anchor=tk.W, wraplength=txt.winfo_width(),
+                                     justify=tk.RIGHT, font=Text.FONT, relief=tk.SUNKEN)
                     label.pack(side=tk.TOP, fill=tk.X, expand=True)
 
                     def write_label(text):
@@ -264,6 +271,9 @@ class Thoughttree(tk.Tk):
                             txt.see(tk.END)
                         txt.update()
 
+                    if self.model.is_canceled:
+                        finish_reason = "canceled"
+                        break
                     finish_reason, message = self.model.chat_complete(history, write_label)
 
             if self.is_root_destroyed:

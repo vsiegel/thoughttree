@@ -1,4 +1,4 @@
-openai~=0.27.2
-future~=0.18.2
-tiktoken~=0.3.3
+openai==0.27.7
+future==0.18.3
+tiktoken==0.4.0
 ConfigArgParse~=1.5.3

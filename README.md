@@ -34,7 +34,7 @@ A conversation with **GPT-4** or **ChatGPT** can be linear, so that each line pr
 
 ### Notes:
 The program expects an OpenAI API key provided in the shell environment, for example in the file `~/.profile` as 
-`export PENAI_API_KEY="..."`
+`export OPENAI_API_KEY="..."`
 
 ----
 

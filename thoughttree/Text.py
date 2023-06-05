@@ -7,6 +7,7 @@ from tkinter import scrolledtext
 class Notebook(ttk.Notebook):
     def __init__(self, master=None, **kw):
         ttk.Notebook.__init__(self, master, padding=(0, 4, 0, 0), **kw)
+        self.enable_traversal()
 
     def add_textbox(self, tab_label, text=""):
         txt = Text(self, text, scrollbar=False)

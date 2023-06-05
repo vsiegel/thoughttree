@@ -92,6 +92,20 @@ class Thoughttree(tk.Tk):
             model.cancel()
 
     def create_ui(self):
+
+        def on_treeview_click(event):
+            item = tree.identify('item', event.x, event.y)
+            print(item)
+            if item:
+                if 'closed' in tree.item(item, 'tags'):
+                    replaced = tree.item(item, 'text').replace(NODE_CLOSED, NODE_OPEN, 1)
+                    print(replaced)
+                    tree.item(item, text=replaced)
+                    tree.item(item, tags='opened')
+                elif 'opened' in tree.item(item, 'tags'):
+                    tree.item(item, text=tree.item(item, 'text').replace(NODE_OPEN, NODE_CLOSED, 1))
+                    tree.item(item, tags='closed')
+
         self.option_add('*Dialog*Font', ("sans-serif", 10))
         self.option_add('*Menu*Font', ("Arial", 10))
         self.option_add('*Font', ("Arial", 10))
@@ -118,19 +132,6 @@ class Thoughttree(tk.Tk):
         tree.column("#0", width=160, minwidth=60, anchor=tk.W, stretch=tk.NO)
         tree.column("#1", width=30, minwidth=60, anchor=tk.W, stretch=tk.NO)
         tree.heading("C1", text="")
-
-        def on_treeview_click(event):
-            item = tree.identify('item', event.x, event.y)
-            print(item)
-            if item:
-                if 'closed' in tree.item(item, 'tags'):
-                    replaced = tree.item(item, 'text').replace(NODE_CLOSED, NODE_OPEN, 1)
-                    print(replaced)
-                    tree.item(item, text=replaced)
-                    tree.item(item, tags='opened')
-                elif 'opened' in tree.item(item, 'tags'):
-                    tree.item(item, text=tree.item(item, 'text').replace(NODE_OPEN, NODE_CLOSED, 1))
-                    tree.item(item, tags='closed')
 
         tree.bind('<Double-Button-1>', on_treeview_click)
         tree.bind_class("Treeview", "<KeyPress-Return>", lambda _: None)

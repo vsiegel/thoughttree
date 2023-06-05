@@ -109,8 +109,13 @@ class Model:
         self.is_canceled = True
 
     def get_available_models(self):
-        if not self.available_models:
-            self.available_models = [m["id"] for m in openai.Model.list()["data"] if re.search(self.MODEL_PATTERN, m["id"])]
+        try:
+            if not self.available_models:
+                self.available_models = [m["id"] for m in openai.Model.list()["data"] if re.search(self.MODEL_PATTERN, m["id"])]
+        except openai.error.AuthenticationError:
+            return []
+        except Exception:
+            return []
         return self.available_models
 
 

@@ -196,6 +196,8 @@ class ThoughttreeMenu(Menu):
         item("Word", None, lambda e: wrap(tk.WORD))
         item("None", None, lambda e: wrap(tk.NONE))
         menu = oldmenu
+        item("Generate Titles", "", None)
+        item("Calculate Cost", "", None)
 
         menu = Menu(self, "Navigate")
         item("Branch Conversation", "<Control-b>", lambda e: self.focussed.branch_conversation())
@@ -212,7 +214,8 @@ class ThoughttreeMenu(Menu):
         item("Complete Multiple...", "<Control-Shift-M>", lambda e: self.tt.chat_continue(0))
         item("Complete Multiple Again", "<Control-m>", lambda e: self.tt.chat_continue(-1))
         item("Cancel", "<Escape>", self.tt.cancelModels)
-        menu.add_separator()
+
+        menu = Menu(self, "Model")
         for model_name in self.tt.model.get_available_models() :
             if model_name == "gpt-4":
                 key = "<Control-Alt-Key-4>"
@@ -220,7 +223,15 @@ class ThoughttreeMenu(Menu):
                 key = "<Control-Alt-Key-3>"
             else:
                 key = None
-            item(f"{model_name}", key, lambda e, m=model_name: self.tt.set_model(m))
+            item(f"OpenAI {model_name}", key, lambda e, m=model_name: self.tt.set_model(m))
+        menu.add_separator()
+        item("Max Tokens...", None, None)
+        item("Temperature...", None, None)
+        item("Increase Temperature", "<Alt-plus>", None)
+        item("Decrease Temperature", "<Alt-minus>", None)
+        item("Temperature 0.0", "<Control-Key-0>", None)
+        menu.add_separator()
+        item("API Key...", "", None)
 
         menu = Menu(self, "Help")
         item("Test", "<Alt-Shift-T>", menu_test)

@@ -312,6 +312,8 @@ class Thoughttree(tk.Tk):
             print(f"tokens_cost_in    {tokens_cost_in:.5f} $")
             print(f"tokens_cost_out   {tokens_cost_out:.5f} $")
             print(f"tokens_cost_total {tokens_cost_in + tokens_cost_out:.5f} $")
+            print()
+
             # if conf.update_title_after_completion:
             #     if tokens_out > Thoughttree.GEN_TITLE_THRESHOLD:
             #         self.update_window_title()

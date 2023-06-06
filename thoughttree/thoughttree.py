@@ -51,9 +51,12 @@ class Thoughttree(tk.Tk):
         self.wm_title("Thoughttree")
         self.geometry(Thoughttree.ROOT_GEOMETRY)
         self.minsize(Thoughttree.MIN_WIDTH, Thoughttree.MIN_HEIGHT)
-        self.icon = tk.PhotoImage(file=CHATGPT_ICON)
-        # self.set_icon()
-        self.protocol("WM_DELETE_WINDOW", self.close)
+        try:
+            self.icon = tk.PhotoImage(file=CHATGPT_ICON)
+            # self.set_icon()
+            self.protocol("WM_DELETE_WINDOW", self.close)
+        except:
+            print("Error loading icon.")
 
         self.is_root_destroyed = False
         self.is_title_immutable = False

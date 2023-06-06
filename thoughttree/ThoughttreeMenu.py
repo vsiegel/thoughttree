@@ -217,7 +217,7 @@ class ThoughttreeMenu(Menu):
                 key = "<Control-Alt-Key-3>"
             else:
                 key = None
-            item(f"OpenAI {model_name}", key, lambda e, m=model_name: self.tt.set_model(m))
+            item(f"{model_name}", key, lambda e, m=model_name: self.tt.set_model(m))
         menu.add_separator()
         item("Max Tokens...", None, None)
         item("Temperature...", None, None)

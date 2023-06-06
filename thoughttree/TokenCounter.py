@@ -11,19 +11,20 @@ class TokenCounter:
             self.span_start = TokenCounter(self)
 
         def since_start(self):
-
-            token_count = TokenCounter()
-            #
-            #
-            #
-            token_count.start()
-            #
-            #
-            token_count.count_promp(history)
-            #
-            #
-            #
-            token_count.count_complete(text)
+            pass
 
 
 
+if __name__ == "__main__":
+    token_count = TokenCounter("a model")
+    #
+    #
+    #
+    token_count.start()
+    #
+    #
+    token_count.count_promp(history)
+    #
+    #
+    #
+    token_count.count_complete(text)

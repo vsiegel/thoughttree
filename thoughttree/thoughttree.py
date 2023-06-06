@@ -271,7 +271,6 @@ class Thoughttree(tk.Tk):
                         if self.is_root_destroyed :
                             return
                         label.config(text=label.cget("text") + text)
-                        # txt.insert(tk.END, text, "assistant")
                         if conf.scroll_during_completion:
                             txt.see(tk.END)
                         txt.update()
@@ -302,15 +301,16 @@ class Thoughttree(tk.Tk):
                 self.bell()
             tokens_used_in = self.model.get_tokens_used_in() - tokens_used_in_before
             tokens_used_out = self.model.get_tokens_used_out() - tokens_used_out_before
-            print(f"{self.model.get_tokens_used_in()=}")
-            print(f"{self.model.get_tokens_used_out()=}")
-            print(f"{self.model.get_tokens_used_total()=}")
-            print(f"{tokens_used_in=}")
-            print(f"{tokens_used_out=}")
             tokens_cost_in = self.model.get_tokens_cost_in() - tokens_cost_in_before
             tokens_cost_out = self.model.get_tokens_cost_out() - tokens_cost_out_before
-            print(f"{self.model.get_tokens_cost_in()=}")
-            print(f"{self.model.get_tokens_cost_out()=}")
+
+            print(f"{self.model.get_tokens_used_in()   =}")
+            print(f"{self.model.get_tokens_used_out()  =}")
+            print(f"{self.model.get_tokens_used_total()=}")
+            print(f"{tokens_used_in =}")
+            print(f"{tokens_used_out=}")
+            print(f"{self.model.get_tokens_cost_in()   =}")
+            print(f"{self.model.get_tokens_cost_out()  =}")
             print(f"{self.model.get_tokens_cost_total()=}")
             print(f"tokens_cost_in    {tokens_cost_in:.5f} $")
             print(f"tokens_cost_out   {tokens_cost_out:.5f} $")

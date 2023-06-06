@@ -6,7 +6,7 @@ class StatusBar(tk.Frame):
         super().__init__(master, **kwargs)
         self.master = master
 
-        defaults = {"bd": 1, "relief": tk.SUNKEN, "anchor": tk.W, "font": ("Arial", 9)}
+        defaults = {"bd": 1, "relief": tk.SUNKEN, "anchor": tk.W, "font": ("Arial", 10)}
         self.symbol_label = tk.Label(self, **defaults, width=2, text=small_text)
         self.symbol_label.pack(side=tk.LEFT)
 

@@ -333,7 +333,7 @@ class Thoughttree(tk.Tk):
         return history
 
 
-    def count_tokens(self, event=None) :
+    def count_text_tokens(self, event=None) :
         txt: Text = self.focus_get()
         try :
             text = txt.get(tk.SEL_FIRST, tk.SEL_LAST)

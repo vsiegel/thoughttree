@@ -126,7 +126,8 @@ class Model:
 
     def observe_tokens_in(self, history):
         for item in history:
-            self.used_tokens_in = self.count_tokens(item['content'])
+            text = item['content']
+            self.used_tokens_in += self.count_tokens(text)
 
 
     def observe_tokens_out(self, text):

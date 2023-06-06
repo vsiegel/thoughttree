@@ -53,7 +53,7 @@ class Model:
         max_tokens = max_tokens or self.max_tokens
         temperature = temperature or self.temperature
         self.is_canceled = False
-        self.count_tokens_in(history)
+        self.observe_tokens_in(history)
         try:
             response = openai.ChatCompletion.create(
                 model=self.model_name,
@@ -75,7 +75,7 @@ class Model:
                 if 'content' in delta :
                     text = delta["content"]
                     self.log(text)
-                    self.count_tokens_out(text)
+                    self.observe_tokens_out(text)
                     output_delta_callback(text)
                 last_event = event
 
@@ -124,12 +124,12 @@ class Model:
         return len(enc.encode(text))
 
 
-    def count_tokens_in(self, history):
+    def observe_tokens_in(self, history):
         for item in history:
             self.used_tokens_in = self.count_tokens(item['content'])
 
 
-    def count_tokens_out(self, text):
+    def observe_tokens_out(self, text):
         self.used_tokens_out += self.count_tokens(text)
 
 

@@ -7,5 +7,8 @@ class WaitCursor():
         self.widget.update()
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        self.widget.config(cursor='')
-        self.widget.update()
+        try:
+            self.widget.config(cursor='')
+            self.widget.update()
+        except:
+            pass

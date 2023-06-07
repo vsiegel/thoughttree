@@ -125,13 +125,6 @@ class Text(tk.scrolledtext.ScrolledText):
         return height, width
 
     def chat_history_from_textboxes(self, history=None) :
-        def print_window_objects():
-            window_objects = self.window_names()
-            for window_object in window_objects:
-                print(type(window_object))
-                print(window_object)
-
-        # print_window_objects()
         history = history or []
         content = self.dump(1.0, tk.END, text=True, tag=True, window=True)
         section = ""

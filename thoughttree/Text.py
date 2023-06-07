@@ -120,10 +120,7 @@ class Text(tk.scrolledtext.ScrolledText):
         self.see(pos)
 
     def calc_notebook_size(self):
-        twidth = self.winfo_width()
-        width = (twidth - 0)
-        char_width = tkfont.Font(font=self.cget("font")).measure('0')
-        width -= width % char_width
+        width = self.winfo_width()
         height = int(self.winfo_height() * 2 / 3)
         return height, width
 

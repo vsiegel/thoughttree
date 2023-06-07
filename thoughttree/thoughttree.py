@@ -308,14 +308,14 @@ class Thoughttree(tk.Tk):
                 self.bell()
             tokens_used_in = self.model.get_tokens_used_in() - tokens_used_in_before
             tokens_used_out = self.model.get_tokens_used_out() - tokens_used_out_before
-            tokens_cost_in = self.model.get_tokens_cost_in() - tokens_cost_in_before
-            tokens_cost_out = self.model.get_tokens_cost_out() - tokens_cost_out_before
-
             print(f"{self.model.get_tokens_used_in()   =}")
             print(f"{self.model.get_tokens_used_out()  =}")
             print(f"{self.model.get_tokens_used_total()=}")
             print(f"{tokens_used_in =}")
             print(f"{tokens_used_out=}")
+
+            tokens_cost_in = self.model.get_tokens_cost_in() - tokens_cost_in_before
+            tokens_cost_out = self.model.get_tokens_cost_out() - tokens_cost_out_before
             print(f"{self.model.get_tokens_cost_in()   =}")
             print(f"{self.model.get_tokens_cost_out()  =}")
             print(f"{self.model.get_tokens_cost_total()=}")

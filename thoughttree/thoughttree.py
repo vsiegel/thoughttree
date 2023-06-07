@@ -205,6 +205,13 @@ class Thoughttree(tk.Tk):
             txt.mark_set(tk.INSERT, jump_index)
             txt.see(jump_index)
 
+    @classmethod
+    def find_parent(cls, child: tk.Widget, parentType):
+        parent = child.master
+        while parent and type(parent) != parentType:
+            parent = parent.master
+        return parent
+
 
     def complete(self, number_of_completions=1, prefix="", postfix=""):
         self.model.is_canceled = False

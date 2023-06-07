@@ -31,16 +31,16 @@ class Text(tk.scrolledtext.ScrolledText):
         self.bind("<Control-Shift-asterisk>", lambda e: self.change_notebook_height(10))
         self.bind("<Control-Shift-underscore>", lambda e: self.change_notebook_height(-10))
         self.bindtags(self.bindtags() + ("last",))
-        self.bind_class("last", '<KeyRelease>', lambda e: self.highlightCurrentLine(e))
-        self.bind_class("last", '<Button-1>', lambda e: self.highlightCurrentLine(e))
-        self.bind_class("last", "<FocusIn>", lambda e: self.highlightCurrentLine(e))
-        self.bind_class("last", "<FocusOut>", lambda e: self.highlightCurrentLine(e, False))
+        self.bind_class("last", '<KeyRelease>', lambda e: self.highlight_current_line(e))
+        self.bind_class("last", '<Button-1>', lambda e: self.highlight_current_line(e))
+        self.bind_class("last", "<FocusIn>", lambda e: self.highlight_current_line(e))
+        self.bind_class("last", "<FocusOut>", lambda e: self.highlight_current_line(e, False))
         self.pack(pady=0, fill=tk.X, expand=True)
         self.tag_configure("assistant", background="#F0F0F0", selectbackground="#4682b4", selectforeground="white")
         self.tag_configure('currentLine', background='#FCFAED', foreground="black", selectbackground="#4682b4", selectforeground="white")
         self.insert(tk.END, text)
 
-    def highlightCurrentLine(self, e, add=True):
+    def highlight_current_line(self, e, add=True):
         if not e.widget.winfo_exists():
             return
         e.widget.tag_remove('currentLine', 1.0, "end")
@@ -124,7 +124,7 @@ class Text(tk.scrolledtext.ScrolledText):
         height = int(self.winfo_height() * 2 / 3)
         return height, width
 
-    def chat_history_from_textboxes(self, history=None) :
+    def chat_history_for_current_path(self, history=None) :
         history = history or []
         content = self.dump(1.0, tk.END, text=True, tag=True, window=True)
         section = ""

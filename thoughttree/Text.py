@@ -97,8 +97,10 @@ class Text(tk.scrolledtext.ScrolledText):
         if new_notebook_needed:
             ttk.Style().layout("NoBorder.TNotebook", [])
             notebook = Notebook(self, height=height, width=width, style='NoBorder.TNotebook')
+            notebook.enable_traversal()
             tab_label = next_level(parent_tab_label)
-            notebook.add_textbox(tab_label, trailing_text)
+            txt = Text(notebook, trailing_text, scrollbar=False)
+            notebook.add(txt, text=tab_label)
         else:
             notebook = parent
         new_txt = Text(notebook, scrollbar=False)

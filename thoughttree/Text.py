@@ -13,9 +13,10 @@ class Text(tk.scrolledtext.ScrolledText):
 
     def __init__(self, master=None, text="", scrollbar=True, **kw):
         height = len(text.splitlines())
+        background = 'white'
         tk.scrolledtext.ScrolledText.__init__(
-            self, master, undo=True, wrap=tk.WORD, padx=1, pady=1,
-            width=80, height = height, insertwidth=4, font=Text.FONT,
+            self, master, undo=True, wrap=tk.WORD, padx=0, pady=0, background=background,
+            width=80, height=height, insertwidth=4, font=Text.FONT,
             border=0, borderwidth=0, highlightthickness=0,
             selectbackground="#66a2d4", selectforeground="white", **kw)
 

@@ -149,6 +149,7 @@ class ThoughttreeMenu(Menu):
 
         def branch_conversation():
             self.focussed.split_conversation()
+            self.tt.update()
             self.tt.complete()
 
         def item(label, keystroke, command, bind_key=True, context_menu=None, toggle_variable=None):

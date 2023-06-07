@@ -85,18 +85,17 @@ class Text(tk.scrolledtext.ScrolledText):
                 parent: Notebook = parent
                 parent_tab_id = parent.select()
                 parent_tab_label = parent.tab(parent_tab_id, "text")
-                return parent, parent_tab_id, parent_tab_label
+                return parent, parent_tab_label
             else:
-                return None, None, ""
+                return None, ""
 
         leading_text = self.get("1.0", tk.INSERT)
         trailing_text = self.get(tk.INSERT, tk.END)
         height, width = self.calc_notebook_size()
-        style = ttk.Style()
-        style.layout("NoBorder.TNotebook", [])
-        parent, parent_tab_id, parent_tab_label = find_parent_tab_label(self)
+        parent, parent_tab_label = find_parent_tab_label(self)
         new_notebook_needed = not parent or bool(leading_text.strip())
         if new_notebook_needed:
+            ttk.Style().layout("NoBorder.TNotebook", [])
             notebook = Notebook(self, height=height, width=width, style='NoBorder.TNotebook')
             tab_label = next_level(parent_tab_label)
             notebook.add_textbox(tab_label, trailing_text)

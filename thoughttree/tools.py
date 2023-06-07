@@ -1,3 +1,6 @@
+import random
+
+
 def create_dummy_data(tree):
     for r in range(10):
         key = f"R{r}"
@@ -33,3 +36,10 @@ def add_bboxes(bbox1, bbox2):
     w = max(x1 + w1, x2 + w2) - x
     h = max(y1 + h1, y2 + h2) - y
     return x, y, w, h
+
+
+def random_pastel_color():
+    r = random.randint(200, 255)
+    g = random.randint(200, 255)
+    b = random.randint(200, 255)
+    return "#{:02x}{:02x}{:02x}".format(r, g, b)

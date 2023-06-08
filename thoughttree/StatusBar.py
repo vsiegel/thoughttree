@@ -10,13 +10,13 @@ class StatusBar(tk.Frame):
         self.symbol_label = tk.Label(self, **defaults, width=2, text=small_text)
         self.symbol_label.pack(side=tk.LEFT)
 
-        self.message_label = tk.Label(self, **defaults, width=30, text=message_text)
+        self.message_label = tk.Label(self, **defaults, width=20, text=message_text)
         self.message_label.pack(side=tk.LEFT, padx=(5, 0), fill=tk.X, expand=True)
 
         self.note_label = tk.Label(self, **defaults, text=note_text)
         self.note_label.pack(side=tk.LEFT, padx=(5, 0), fill=tk.X, expand=True)
 
-        self.model_label = tk.Label(self, **defaults, width=20, text=model_text)
+        self.model_label = tk.Label(self, **defaults, width=12, text=model_text)
         self.model_label.pack(side=tk.LEFT, padx=(5, 0), fill=tk.X)
 
         self.pack(side=tk.BOTTOM, fill=tk.X)

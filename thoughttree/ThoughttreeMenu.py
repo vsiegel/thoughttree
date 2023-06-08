@@ -220,8 +220,8 @@ class ThoughttreeMenu(Menu):
                 key = None
             item(f"{model_name}", key, lambda e, m=model_name: self.tt.set_model(m))
         menu.add_separator()
-        item("Max Tokens...", None, None)
-        item("Temperature...", None, None)
+        item("Max Tokens...", "<Control-Shift-L>", lambda e: self.tt.configure_max_tokens())
+        item("Temperature...", "<Control-Shift-T>", lambda e: self.tt.configure_temperature())
         item("Increase Temperature", "<Alt-plus>", None)
         item("Decrease Temperature", "<Alt-minus>", None)
         item("Temperature 0.0", "<Control-Key-0>", None)

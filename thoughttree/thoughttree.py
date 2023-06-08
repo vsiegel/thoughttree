@@ -213,6 +213,30 @@ class Thoughttree(tk.Tk):
         return parent
 
 
+    def configure_temperature(self):
+        temperature = simpledialog.askfloat(
+            "Query Temperature",
+            "What should be the level of creativity of the model?\n"
+            "0.0 for deterministic, typically 0.5 or 0.7, maximal 2.0?\n"
+            "(Query parameter 'temperature')\n",
+            initialvalue=self.model.temperature,
+            minvalue=0, maxvalue=2.0)
+        if temperature == None:
+            return
+        self.model.temperature = temperature
+
+    def configure_max_tokens(self):
+        max_tokens = simpledialog.askinteger(
+            "Max Tokens",
+            "What should be the model's maximum number of tokens to generate?\n"
+            "(Query parameter 'max_tokens')\n",
+            initialvalue=self.model.max_tokens,
+            minvalue=1, maxvalue=100000)
+        if not max_tokens:
+            return
+        self.model.max_tokens = max_tokens
+
+
     def complete(self, number_of_completions=1, prefix="", postfix=""):
         self.model.is_canceled = False
         txt: Text = self.focus_get()

@@ -174,7 +174,7 @@ class ThoughttreeMenu(Menu):
         item("Redo", "<Control-Shift-Z>", edit_redo)
         item("Select All", "<Control-a>", select_all)
         menu.add_separator()
-        item("Insert Current Time", "<Control-Shift-T>", insert_current_time)
+        item("Insert Current Time", "<Control-Shift-I>", insert_current_time)
 
         menu = Menu(self, "View")
         item("Show System Prompt", "", None)

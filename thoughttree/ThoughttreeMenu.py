@@ -121,12 +121,6 @@ class ThoughttreeMenu(Menu):
 
 
         def menu_test(event=None):
-            frame = tk.Frame(self.focussed)
-            txt = Text(frame)
-            txt.pack(fill='both', expand=True)
-            self.focussed.window_create(tk.END, window=frame)
-            txt.insert(tk.END, prompts.TITLE_GENERATION_PROMPT)
-
 
             def on_text_change(event):
                 print(event)
@@ -141,9 +135,14 @@ class ThoughttreeMenu(Menu):
                 parent_width = event.width
                 txt.configure(width=int(parent_width / char_width))
 
+            print(event)
+            frame = tk.Frame(self.focussed)
+            txt = Text(frame)
+            txt.pack(fill='both', expand=True)
+            self.focussed.window_create(tk.END, window=frame)
+            txt.insert(tk.END, prompts.TITLE_GENERATION_PROMPT)
 
             self.focussed.bind('<Configure>', on_resize)
-
             txt.bind('<<Modified>>', on_text_change)
             pass
 

@@ -127,7 +127,7 @@ class Text(tk.scrolledtext.ScrolledText):
         # height = int(self.winfo_height() * 2 / 3)
         return height, width
 
-    def history_for_current_path(self, history=None) :
+    def history_from_path(self, history=None) :
 
         def find_parent(parentType, child):
             parent = child.master
@@ -138,7 +138,7 @@ class Text(tk.scrolledtext.ScrolledText):
 
         parentText: Text = find_parent(Text, self)
         if parentText:
-            history = parentText.history_for_current_path(history)
+            history = parentText.history_from_path(history)
         else:
             history = history or []
         content = self.dump(1.0, tk.INSERT, text=True, tag=True, window=True)

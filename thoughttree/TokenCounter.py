@@ -23,7 +23,7 @@ if __name__ == "__main__":
     token_count.start()
     #
     #
-    token_count.count_promp(history)
+    token_count.count_prompt(history)
     #
     #
     #

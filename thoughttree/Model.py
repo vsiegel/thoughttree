@@ -56,7 +56,7 @@ class Model:
     }
 
     def __init__(self, model_name):
-        self.model_name = model_name
+        self.name = model_name
         self.used_tokens_in = 0
         self.used_tokens_out = 0
 
@@ -76,10 +76,9 @@ class Model:
         temperature = temperature or self.temperature
         self.is_canceled = False
         self.observe_tokens_in(history)
-        History.print_history_compact(history)
         try:
             response = openai.ChatCompletion.create(
-                model=self.model_name,
+                model=self.name,
                 messages=history,
                 max_tokens=max_tokens,
                 temperature=temperature,
@@ -116,7 +115,7 @@ class Model:
         message = f"Exception: {ex}\n\n{message}"
         message = textwrap.fill(message, 200)
         self.log("\n\nerror:\n" + message + '\n')
-        showerror(title, message)
+        showerror(title, message) #, master=
         return "error", message
 
 
@@ -143,7 +142,7 @@ class Model:
 
 
     def count_tokens(self, text):
-        enc = tiktoken.encoding_for_model(self.model_name)
+        enc = tiktoken.encoding_for_model(self.name)
         return len(enc.encode(text))
 
 

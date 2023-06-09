@@ -117,26 +117,17 @@ class Text(tk.scrolledtext.ScrolledText):
         self.delete(tk.INSERT, tk.END)
         return "break"
 
-    def add_notebook_to_textbox(self, widget, pos):
-        self.window_create(pos, window=widget)
-        self.see(pos)
 
-    def calc_notebook_size(self):
-        width = self.winfo_width()
-        height = self.winfo_height()
-        # height = int(self.winfo_height() * 2 / 3)
-        return height, width
+    def find_parent(self, parentType, child):
+        parent = child.master
+        while parent and type(parent) != parentType:
+            parent = parent.master
+        return parent
+
 
     def history_from_path(self, history=None) :
 
-        def find_parent(parentType, child):
-            parent = child.master
-            while parent and type(parent) != parentType:
-                print(f"{parent=} ({type(parent)})")
-                parent = parent.master
-            return parent
-
-        parentText: Text = find_parent(Text, self)
+        parentText: Text = self.find_parent(Text, self)
         if parentText:
             history = parentText.history_from_path(history)
         else:

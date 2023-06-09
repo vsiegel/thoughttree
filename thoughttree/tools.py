@@ -46,12 +46,14 @@ def random_pastel_color():
     return "#{:02x}{:02x}{:02x}".format(r, g, b)
 
 def shorter(text, n=60):
-    text = text.strip()
+    text = text.strip().replace('\n','\\n')
     if len(text) <= n:
         return text
     leading = int(n / 2) - 3
     trailing = n - leading - 3
     return f'{text[:leading]}...{text[-trailing:]}'
 
-def log_length(text, step='.'):
-    return step * ceil(log2(len(text))) if len(text) > 1 else '.'
+
+def log_length(text, n=1, step='.'):
+    return step * ceil(log2(len(text)-n)) if len(text) > n else ''
+    # return (step * ceil(log2(len(text))) if len(text) > n else '')[3+ceil(log2(n)):]

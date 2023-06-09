@@ -70,7 +70,7 @@ class ChatFileManager:
     @staticmethod
     def save_chat_dialog(txt):
 
-        def save_chat(txt, filename) :
+        def write_chat(txt, filename) :
             try:
                 # ROLE_SYMBOLS = {"user":"❯ ", "ai":"⚙ "}
                 ROLE_SYMBOLS = {"user" : "", "ai" : ""}
@@ -97,14 +97,14 @@ class ChatFileManager:
         file = asksaveasfilename(defaultextension=".txt",
                 initialfile="chat.txt", title="Save Chat", parent=txt)
         if file:
-            save_chat(txt, file)
+            write_chat(txt, file)
         return file
 
 
     @staticmethod
     def save_section_dialog(txt):
 
-        def save_section(txt: tk.Text, filename, index=tk.INSERT):
+        def write_section(txt: tk.Text, filename, index=tk.INSERT):
             try:
                 text_range = txt.tag_prevrange("assistant", index)
                 if not text_range:
@@ -120,7 +120,7 @@ class ChatFileManager:
         file = asksaveasfilename(
             defaultextension=".txt", initialfile="section.txt", title="Save Section", parent=txt)
         if file:
-            save_section(txt, file)
+            write_section(txt, file)
         return file
 
     @staticmethod

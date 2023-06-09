@@ -137,7 +137,7 @@ class Text(tk.scrolledtext.ScrolledText):
                 section = section.strip()
                 history += [{'role' : 'assistant', 'content' : section}]
                 section = ""
-            elif item[0] in ["tagon", "tagoff"] and item[1] in ["currentLine"]:
+            elif item[0] in ["tagon", "tagoff"] and item[1] in ["currentLine", "sel"]:
                 pass
             elif item[0] == "text":
                 section += item[1]

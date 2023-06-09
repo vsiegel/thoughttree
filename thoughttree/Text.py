@@ -20,7 +20,6 @@ class Text(tk.scrolledtext.ScrolledText):
             border=0, borderwidth=0, highlightthickness=0,
             selectbackground="#66a2d4", selectforeground="white", **kw)
 
-        self.line_height = tkfont.Font(font=Text.FONT).metrics("linespace")
         if scrollbar:
             self.vbar.config(width=18, takefocus=False, borderwidth=2)
         else:
@@ -55,6 +54,7 @@ class Text(tk.scrolledtext.ScrolledText):
         if not parent:
             return
         old_height = parent.cget("height")
+        self.line_height = tkfont.Font(font=Text.FONT).metrics("linespace")
         height = max(old_height + delta * self.line_height, self.line_height)
         parent.configure(height=height)
 

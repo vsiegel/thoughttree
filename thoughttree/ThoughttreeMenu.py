@@ -3,7 +3,7 @@ from datetime import datetime
 from tkinter import font as tkfont
 
 import prompts
-from ChatFileManager import ChatFileManager
+from Files import Files
 from Menu import Menu
 from Text import Text
 from tools import list_all_bindings, add_bboxes
@@ -33,14 +33,14 @@ class ThoughttreeMenu(Menu):
             return base_name
 
         def save_chat(e=None):
-            name = save(ChatFileManager.save_chat_dialog, "Chat saved to ")
+            name = save(Files.save_chat_dialog, "Chat saved to ")
             self.tt.title(name)
 
         def save_section(e=None):
-            save(ChatFileManager.save_section_dialog, "Section saved to ")
+            save(Files.save_section_dialog, "Section saved to ")
 
         def save_code_block(e=None):
-            save(ChatFileManager.save_code_block_dialog, "Code block saved to ")
+            save(Files.save_code_block_dialog, "Code block saved to ")
 
         def new_window(event=None) :
             self.new_window_callback()
@@ -157,8 +157,8 @@ class ThoughttreeMenu(Menu):
 
         menu = Menu(self, "File")
         item("New Window", "<Control-n>", new_window)
-        item("Load Chat", None, lambda: ChatFileManager.load_chat_dialog(self.tt.chat))
-        item("Save Chat", "<Control-s>", save_chat)
+        item("Load Chat", None, lambda: Files.load_chat_dialog(self.tt.chat))
+        item("Save Chat", "<Control-s>", Files.save_chat)
         item("Save Section", "<Control-Shift-S>", save_section)
         item("Save Code Block", "<Control-Alt-s>", save_code_block)
         item("Quit", "<Control-q>", self.tt.close)

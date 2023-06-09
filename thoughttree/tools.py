@@ -43,3 +43,11 @@ def random_pastel_color():
     g = random.randint(230, 255)
     b = random.randint(230, 255)
     return "#{:02x}{:02x}{:02x}".format(r, g, b)
+
+def shorter(text, n=60):
+    text = text.strip()
+    if len(text) <= n:
+        return text
+    leading = int(n / 2) - 3
+    trailing = n - leading - 3
+    return f'{text[:leading]}...{text[-trailing:]}'

@@ -24,7 +24,7 @@ conf = Namespace()
 conf.show_finish_reason = True
 conf.ring_bell_after_completion = False
 conf.update_title_after_completion = True
-conf.scroll_during_completion = True
+conf.scroll_output = True
 conf.blinking_caret = True
 
 #NODE_OPEN = '\u25B6'
@@ -58,7 +58,7 @@ class Thoughttree(tk.Tk):
         except:
             print("Error loading icon.")
 
-        self.scroll_during_completion = conf.scroll_during_completion
+        self.scroll_output = conf.scroll_output
         self.is_root_destroyed = False
         self.is_title_immutable = False
         self.create_ui()
@@ -245,7 +245,7 @@ class Thoughttree(tk.Tk):
                 if self.is_root_destroyed :
                     return
                 txt.insert(tk.END, text, "assistant")
-                if conf.scroll_during_completion:
+                if self.scroll_output:
                     txt.see(tk.END)
                 txt.update()
 
@@ -295,7 +295,7 @@ class Thoughttree(tk.Tk):
                         if self.is_root_destroyed :
                             return
                         label.config(text=label.cget("text") + text)
-                        if conf.scroll_during_completion:
+                        if self.scroll_output:
                             txt.see(tk.END)
                         txt.update()
 

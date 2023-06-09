@@ -65,7 +65,7 @@ def filename_from_clipboard():
         return None
 
 
-class ChatFileManager:
+class Files:
 
     @staticmethod
     def save_chat_dialog(txt):
@@ -184,7 +184,7 @@ class ChatFileManager:
     def load_chat_dialog(txt):
         file = filedialog.askopenfilename(defaultextension=".txt", parent=txt)
         if file:
-            ChatFileManager.load_chat(txt, file)
+            Files.load_chat(txt, file)
 
     @staticmethod
     def chat_history_from_args(system="", message="") :

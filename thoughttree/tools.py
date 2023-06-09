@@ -1,5 +1,8 @@
+import re
 from math import ceil, log2
 import random
+
+from pyperclip import paste
 
 
 def create_dummy_data(tree):
@@ -57,3 +60,12 @@ def shorter(text, n=60):
 def log_length(text, n=1, step='.'):
     return step * ceil(log2(len(text)-n)) if len(text) > n else ''
     # return (step * ceil(log2(len(text))) if len(text) > n else '')[3+ceil(log2(n)):]
+
+
+def filename_from_clipboard():
+    text = paste().strip()
+    match = re.match(r'^[^ ]+\.[A-Za-z]{1,5}$', text)
+    if match:
+        return match.group(0)
+    else:
+        return None

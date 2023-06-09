@@ -16,6 +16,7 @@ from Menu import Menu
 from Text import Text
 from WaitCursor import WaitCursor
 from prompts import system_prompt
+from tools import shorter
 
 WINDOW_ICON = "chatgpt-icon.png"
 
@@ -352,6 +353,10 @@ class Thoughttree(tk.Tk):
         history = [{'role': 'system', 'content': system}]
 
         history = self.chat.chat_history_for_current_path(history)
+        for message in history:
+            text = message['content']
+            print(f"{message['role']}: {shorter(text)} {len(text)}")
+        print()
 
         if additional_message:
             history += [{'role': 'user', 'content': additional_message}]

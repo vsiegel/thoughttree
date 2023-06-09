@@ -375,10 +375,7 @@ class Thoughttree(tk.Tk):
         history = [{'role': 'system', 'content': system}]
 
         history = self.chat.chat_history_for_current_path(history)
-        for message in history:
-            text = message['content']
-            print(f"{message['role']}: {shorter(text)} {len(text)}")
-        print()
+        print_history_compact(history)
 
         if additional_message:
             history += [{'role': 'user', 'content': additional_message}]

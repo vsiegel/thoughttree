@@ -69,7 +69,6 @@ class Text(tk.scrolledtext.ScrolledText):
             levels = levels[:-1] + [str(int(levels[-1]) + 1)]
             return '.'.join(levels)
 
-
         def next_level(hierarchical_id):
             if hierarchical_id:
                 levels = hierarchical_id.split('.') + ['1']
@@ -77,32 +76,20 @@ class Text(tk.scrolledtext.ScrolledText):
                 levels = ['1']
             return '.'.join(levels)
 
-        def find_parent(Notebook, child):
-            pass
-        def find_parent_tab_label(child: tk.Widget):
-            parent = child
-            while parent and type(parent) != Notebook:
-                parent = parent.master
-            if parent:
-                parent: Notebook = parent
-                parent_tab_id = parent.select()
-                parent_tab_label = parent.tab(parent_tab_id, "text")
-                return parent, parent_tab_label
-            else:
-                return None, ""
-
         leading_text = self.get("1.0", tk.INSERT)
         trailing_text = self.get(tk.INSERT, tk.END)
-        height, width = self.calc_notebook_size()
-        parent, parent_tab_label = find_parent_tab_label(self)
+        parent = self.find_parent(Notebook, self)
         new_notebook_needed = not parent or bool(leading_text.strip())
         if new_notebook_needed:
             ttk.Style().layout("NoBorder.TNotebook", [])
-            notebook = Notebook(self, height=height, width=width, style='NoBorder.TNotebook')
+            notebook = Notebook(self, height=self.winfo_height(), width=self.winfo_width(), style='NoBorder.TNotebook')
             notebook.enable_traversal()
-            tab_label = next_level(parent_tab_label)
             txt = Text(notebook, trailing_text, scrollbar=False)
-            notebook.add(txt, text=tab_label)
+            if parent:
+               parent_tab_label = parent.tab(parent.select(), "text")
+            else:
+               parent_tab_label = ""
+            notebook.add(txt, text=next_level(parent_tab_label))
         else:
             notebook = parent
         new_txt = Text(notebook, scrollbar=False)

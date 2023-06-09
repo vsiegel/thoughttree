@@ -25,10 +25,10 @@ class Text(tk.scrolledtext.ScrolledText):
         else:
             self.vbar.pack_forget()
 
-        self.bind("<Control-Alt-plus>", lambda e: self.change_notebook_height(1))
-        self.bind("<Control-Alt-minus>", lambda e: self.change_notebook_height(-1))
-        self.bind("<Control-Shift-asterisk>", lambda e: self.change_notebook_height(10))
-        self.bind("<Control-Shift-underscore>", lambda e: self.change_notebook_height(-10))
+        # self.bind("<Control-Alt-plus>", lambda e: self.change_notebook_height(1))
+        # self.bind("<Control-Alt-minus>", lambda e: self.change_notebook_height(-1))
+        self.bind("<Control-Shift-asterisk>", lambda e: self.change_notebook_height(1))
+        self.bind("<Control-Shift-underscore>", lambda e: self.change_notebook_height(-1))
         self.bindtags(self.bindtags() + ("last",))
         self.bind_class("last", '<KeyRelease>', lambda e: self.highlight_current_line(e))
         self.bind_class("last", '<Button-1>', lambda e: self.highlight_current_line(e))

@@ -140,7 +140,6 @@ class ThoughttreeMenu(Menu):
             txt = Text(frame)
             txt.pack(fill='both', expand=True)
             self.focussed.window_create(tk.END, window=frame)
-            txt.insert(tk.END, prompts.TITLE_GENERATION_PROMPT)
 
             self.focussed.bind('<Configure>', on_resize)
             txt.bind('<<Modified>>', on_text_change)

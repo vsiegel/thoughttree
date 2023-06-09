@@ -348,6 +348,7 @@ class Thoughttree(tk.Tk):
 
             if conf.ring_bell_after_completion:
                 self.bell()
+            return
             tokens_used_in = self.model.get_tokens_used_in() - tokens_used_in_before
             tokens_used_out = self.model.get_tokens_used_out() - tokens_used_out_before
             print(f"{self.model.get_tokens_used_in()   =}")

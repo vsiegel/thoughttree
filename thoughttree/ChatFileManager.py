@@ -3,6 +3,8 @@ from textwrap import dedent
 from tkinter import filedialog
 from tkinter.messagebox import showerror
 import re
+import re
+from clipboard import paste
 
 code_block_extensions = {
     "python": ".py",
@@ -52,6 +54,15 @@ code_block_extensions = {
     "tex": ".tex",
     "latex": ".tex",
 }
+
+def filename_from_clipboard():
+    text = paste().strip()
+    match = re.match(r'^[^ ]+\.[A-Za-z]{1,5}$', text)
+    if match:
+        return match.group(0)
+    else:
+        return None
+
 
 class ChatFileManager:
 

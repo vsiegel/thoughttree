@@ -350,7 +350,7 @@ class Thoughttree(tk.Tk):
         system = self.system.get(1.0, 'end - 1c').strip()
         history = [{'role': 'system', 'content': system}]
 
-        history = txt.chat_history_for_current_path(history)
+        history = txt.history_for_current_path(history)
 
         if additional_message:
             history += [{'role': 'user', 'content': additional_message}]

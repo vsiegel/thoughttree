@@ -167,7 +167,7 @@ class Files:
             return None
 
     @staticmethod
-    def chat_history_from_args(system="", message="") :
+    def history_from_args(system="", message="") :
         history = [
             {'role': 'system', 'content': system},
             {'role': 'user', 'content': message}

@@ -8,6 +8,8 @@ from pathlib import Path
 import tiktoken
 import openai
 
+import History
+
 OPENAI_PRICING_USD_PER_1K_TOKENS = {
     'prompt': {
         'gpt-3.5-turbo': 0.002,
@@ -48,12 +50,14 @@ class Model:
             self.logdir.mkdir(parents=True, exist_ok=True)
         self.chat_log = open(self.logdir/self.logfile_name, "w")
 
+
     def chat_complete(self, history, output_delta_callback, max_tokens=None, temperature=None) -> Tuple[str, str]:
         """:return: Tuple[str, str] - (finish_reason, message)"""
         max_tokens = max_tokens or self.max_tokens
         temperature = temperature or self.temperature
         self.is_canceled = False
         self.observe_tokens_in(history)
+        History.print_history_compact(history)
         try:
             response = openai.ChatCompletion.create(
                 model=self.model_name,

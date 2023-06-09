@@ -5,13 +5,13 @@ from typing import Union
 class Menu(tk.Menu):
 
     def __init__(self, master: Union[tk.Tk, tk.Text, tk.Menu], label=None, **kwargs) :
-        super().__init__(master, tearoff=0)
+        super().__init__(master, tearoff=0, borderwidth=2)
         if label :
             master.add_cascade(label=label, menu=self, underline=0)
         if type(master) == tk.Tk:
             master.config(menu=self)
 
-    def item(self, label, keystroke, command, bind_key=True, context_menu=None, toggle_variable=None) :
+    def item(self, label, keystroke, command, bind_key=True, context_menu=None, variable=None) :
         def convert_key_string(s) :
             if not keystroke:
                 return ""
@@ -30,9 +30,9 @@ class Menu(tk.Menu):
             return s
 
         accelerator = convert_key_string(keystroke)
-        state = tk.NORMAL if command else tk.DISABLED
-        if toggle_variable :
-            self.add_checkbutton(label=label, accelerator=accelerator, command=lambda: command(None), state=state, variable=toggle_variable)
+        state = tk.NORMAL if command or variable else tk.DISABLED
+        if variable :
+            self.add_checkbutton(label=label, accelerator=accelerator, state=state, variable=variable)
         else:
             self.add_command(label=label, accelerator=accelerator, command=lambda: command(None), state=state)
             # self.entryconfigure('last', tooltip=label)

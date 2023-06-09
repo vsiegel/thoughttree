@@ -121,7 +121,8 @@ class Text(tk.scrolledtext.ScrolledText):
 
     def calc_notebook_size(self):
         width = self.winfo_width()
-        height = int(self.winfo_height() * 2 / 3)
+        height = self.winfo_height()
+        # height = int(self.winfo_height() * 2 / 3)
         return height, width
 
     def chat_history_for_current_path(self, history=None) :

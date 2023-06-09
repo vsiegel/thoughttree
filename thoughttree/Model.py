@@ -67,8 +67,8 @@ class Model:
                 stream=True,
                 # request_timeout=60, # undocumented
             )
-        except Exception as e:
-            return self.error("", "Error in openai.ChatCompletion.create()", e)
+        except Exception as ex:
+            return self.error("", "Error in openai.ChatCompletion.create()", ex)
 
         last_event = None
         try:
@@ -89,12 +89,12 @@ class Model:
                 finish_reason = last_event['choices'][0]['finish_reason']
             self.log("\n" + finish_reason + ":\n")
             return finish_reason, ""
-        except Exception as e:
-            return self.error(f"{last_event=}", "Error receiving completion response", e)
+        except Exception as ex:
+            return self.error(f"{last_event=}", "Error receiving completion response", ex)
 
 
-    def error(self, message, title, e):
-        message = f"Exception: {e}\n\n{message}"
+    def error(self, message, title, ex):
+        message = f"Exception: {ex}\n\n{message}"
         message = textwrap.fill(message, 200)
         self.log("\n\nerror:\n" + message + '\n')
         showerror(title, message)

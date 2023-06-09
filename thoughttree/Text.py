@@ -1,10 +1,9 @@
 import tkinter as tk
 from tkinter import ttk
-from tkinter import font as tkfont
 from tkinter import scrolledtext
 from tkinter.ttk import Notebook
 
-
+from tools import next_pastel_rainbow_color
 
 
 class Text(tk.scrolledtext.ScrolledText):
@@ -13,7 +12,8 @@ class Text(tk.scrolledtext.ScrolledText):
 
     def __init__(self, master=None, text="", scrollbar=True, **kw):
         height = len(text.splitlines())
-        background = 'white'
+        # background = 'white'
+        background = next_pastel_rainbow_color()
         tk.scrolledtext.ScrolledText.__init__(
             self, master, undo=True, wrap=tk.WORD, padx=0, pady=0, background=background,
             width=80, height=height, insertwidth=4, font=Text.FONT,
@@ -27,8 +27,8 @@ class Text(tk.scrolledtext.ScrolledText):
 
         # self.bind("<Control-Alt-plus>", lambda e: self.change_notebook_height(1))
         # self.bind("<Control-Alt-minus>", lambda e: self.change_notebook_height(-1))
-        self.bind("<Control-Shift-asterisk>", lambda e: self.change_notebook_height(1))
-        self.bind("<Control-Shift-underscore>", lambda e: self.change_notebook_height(-1))
+        self.bind("<Control-Shift-asterisk>", lambda e: self.change_text_height(1))
+        self.bind("<Control-Shift-underscore>", lambda e: self.change_text_height(-1))
         self.bindtags(self.bindtags() + ("last",))
         self.bind_class("last", '<KeyRelease>', lambda e: self.highlight_current_line(e))
         self.bind_class("last", '<Button-1>', lambda e: self.highlight_current_line(e))
@@ -39,6 +39,14 @@ class Text(tk.scrolledtext.ScrolledText):
         self.tag_configure('currentLine', background='#FCFAED', foreground="black", selectbackground="#4682b4", selectforeground="white")
         self.insert(tk.END, text)
 
+        def update_text_height(event=None):
+            text_height = self.count('1.0', 'end', 'displaylines')[0]
+            self.configure(height=text_height)
+
+
+        self.bind('<KeyRelease>', update_text_height)
+
+
     def highlight_current_line(self, e, add=True):
         if not e.widget.winfo_exists():
             return
@@ -46,17 +54,27 @@ class Text(tk.scrolledtext.ScrolledText):
         if add:
             e.widget.tag_add('currentLine', 'insert display linestart', 'insert display lineend+1c')
 
+    # def change_notebook_height(self, delta):
+    #     parent = self.master.focus_get()
+    #     while parent and type(parent) not in [Notebook]:
+    #         parent = parent.master
+    #     if not parent:
+    #         return
+    #     old_height = parent.cget("height")
+    #     self.line_height = tkfont.Font(font=Text.FONT).metrics("linespace")
+    #     height = max(old_height + delta * self.line_height, self.line_height)
+    #     parent.configure(height=height)
 
-    def change_notebook_height(self, delta):
+    def change_text_height(self, delta):
         parent = self.master.focus_get()
-        while parent and type(parent) not in [Notebook]:
+        while parent and type(parent) != Text:
             parent = parent.master
         if not parent:
             return
         old_height = parent.cget("height")
-        self.line_height = tkfont.Font(font=Text.FONT).metrics("linespace")
-        height = max(old_height + delta * self.line_height, self.line_height)
-        parent.configure(height=height)
+        # self.line_height = tkfont.Font(font=Text.FONT).metrics("linespace")
+        # height = max(old_height + delta * self.line_height, self.line_height)
+        parent.configure(height=old_height + delta)
 
     def split_conversation(self):
 

@@ -1,20 +1,41 @@
 import tkinter as tk
 from textwrap import dedent
-from tkinter import filedialog
 from tkinter.filedialog import asksaveasfilename
 from tkinter.messagebox import showerror
 import re
-import re
-from clipboard import paste
+
+from TextSaver import TextSaver
 
 
-def filename_from_clipboard():
-    text = paste().strip()
-    match = re.match(r'^[^ ]+\.[A-Za-z]{1,5}$', text)
-    if match:
-        return match.group(0)
-    else:
-        return None
+class ChatLogSaver(TextSaver):
+
+    def find_text(self):
+        # Implement the method to find the chat log text from the widget
+        pass
+
+    def find_filename(self):
+        # Implement the method to find the filename for the chat log
+        return "chat.txt"
+
+class SectionSaver(TextSaver):
+
+    def find_text(self):
+        # Implement the method to find the section text from the widget
+        pass
+
+    def find_filename(self):
+        # Implement the method to find the filename for the section
+        return "section.txt"
+
+class CodeBlockSaver(TextSaver):
+
+    def find_text(self):
+        # Implement the method to find the code block text from the widget
+        pass
+
+    def find_filename(self):
+        # Implement the method to find the filename for the code block
+        return "code-block.py"
 
 
 class Files:

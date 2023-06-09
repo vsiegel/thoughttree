@@ -48,6 +48,27 @@ def random_pastel_color():
     b = random.randint(230, 255)
     return "#{:02x}{:02x}{:02x}".format(r, g, b)
 
+import colorsys
+
+color_index = 0
+
+def next_pastel_rainbow_color():
+    global color_index
+
+    # HSL color format: (hue, saturation, lightness)
+    hue = (color_index * 30) % 360 / 360.0  # Change hue for each call, and normalize to [0, 1]
+    saturation = 0.6  # Keep saturation constant for pastel colors
+    lightness = 0.85  # Keep lightness constant for pastel colors
+
+    color_index += 1  # Increment the color index for the next call
+
+    # Convert HSL to RGB
+    r, g, b = colorsys.hls_to_rgb(hue, lightness, saturation)
+
+    # Convert RGB to hex string
+    return f"#{int(r * 255):02x}{int(g * 255):02x}{int(b * 255):02x}"
+
+
 def shorter(text, n=60):
     text = text.strip().replace('\n','\\n')
     if len(text) <= n:

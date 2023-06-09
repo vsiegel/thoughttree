@@ -178,7 +178,7 @@ class Thoughttree(tk.Tk):
 
         self.title(progress_title)
         self.update()
-        history = self.chat_history_from_system_and_chat(prompts.TITLE_GENERATION_PROMPT)
+        history = self.history_from_system_and_chat(prompts.TITLE_GENERATION_PROMPT)
         self.model.chat_complete(history, write_title, max_tokens=30, temperature=0.3)
 
 
@@ -267,7 +267,7 @@ class Thoughttree(tk.Tk):
             tokens_used_out_before = self.model.get_tokens_used_out()
             tokens_cost_in_before = self.model.get_tokens_cost_in()
             tokens_cost_out_before = self.model.get_tokens_cost_out()
-            history = self.chat_history_from_system_and_chat()
+            history = self.history_from_system_and_chat()
 
             finish_reason, message = 'unknown', ''
             if number_of_completions == 1:
@@ -345,7 +345,8 @@ class Thoughttree(tk.Tk):
             #     if tokens_out > Thoughttree.GEN_TITLE_THRESHOLD:
             #         self.update_window_title()
 
-    def chat_history_from_system_and_chat(self, additional_message=None) :
+    def history_from_system_and_chat(self, additional_message=None) :
+        txt: Text = self.focus_get()
         system = self.system.get(1.0, 'end - 1c').strip()
         history = [{'role': 'system', 'content': system}]
 

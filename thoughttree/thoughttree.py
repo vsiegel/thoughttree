@@ -168,7 +168,7 @@ class Thoughttree(tk.Tk):
         progress_title = self.title() + "..."
 
         def write_title(content):
-            if self.is_root_destroyed or self.mode.is_cancelled:
+            if self.is_root_destroyed or self.model.is_canceled:
                 return
             current_title = self.title()
             if current_title == progress_title:

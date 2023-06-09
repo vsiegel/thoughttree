@@ -17,7 +17,7 @@ from Text import Text
 from WaitCursor import WaitCursor
 from prompts import system_prompt
 
-CHATGPT_ICON = "chatgpt-icon.png"
+WINDOW_ICON = "chatgpt-icon.png"
 
 conf = Namespace()
 conf.show_finish_reason = True
@@ -76,7 +76,7 @@ class Thoughttree(tk.Tk):
         if Thoughttree.icon:
             return
         try:
-            abs_name = str(get_icon_file_name(CHATGPT_ICON))
+            abs_name = str(get_icon_file_name(WINDOW_ICON))
             photo_image = tk.PhotoImage(file=abs_name)
             Thoughttree.icon = photo_image
             self.iconphoto(True, photo_image) # Note: has no effect when running in PyCharm IDE

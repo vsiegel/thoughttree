@@ -13,28 +13,28 @@ class ThoughttreeMenu(Menu):
     def __init__(self, thoughttree, new_window_callback):
         super().__init__(thoughttree, tearoff=0)
         self.new_window_callback = new_window_callback
-        self.tt = thoughttree
+        self.ui = thoughttree
         self.create_menu()
 
 
     @property
     def focussed(self) -> Text:
-        return self.tt.focus_get()
+        return self.ui.focus_get()
 
 
     def create_menu(self):
 
         def save(save_dialog, status_bar_label):
-            file_name = save_dialog(self.tt.chat)
+            file_name = save_dialog(self.ui.chat)
             if not file_name:
                 return
             base_name = file_name.split("/")[-1]
-            self.tt.status_bar.note = status_bar_label + base_name
+            self.ui.status_bar.note = status_bar_label + base_name
             return base_name
 
         def save_chat(e=None):
             name = save(Files.save_chat_dialog, "Chat saved to ")
-            self.tt.title(name)
+            self.ui.title(name)
 
         def save_section(e=None):
             save(Files.save_section_dialog, "Section saved to ")
@@ -46,7 +46,7 @@ class ThoughttreeMenu(Menu):
             self.new_window_callback()
 
         def show_context_menu(event, menu) :
-            widget = self.tt.winfo_containing(event.x_root, event.y_root)
+            widget = self.ui.winfo_containing(event.x_root, event.y_root)
             if widget :
                 widget.focus_set()
             menu.tk_popup(event.x_root, event.y_root)
@@ -148,8 +148,8 @@ class ThoughttreeMenu(Menu):
 
         def branch_conversation():
             self.focussed.split_conversation()
-            self.tt.update()
-            self.tt.complete()
+            self.ui.update()
+            self.ui.complete()
 
         def item(label, keystroke, command, bind_key=True, context_menu=None, toggle_variable=None):
             menu.item(label, keystroke, command, bind_key, context_menu, toggle_variable)
@@ -157,11 +157,11 @@ class ThoughttreeMenu(Menu):
 
         menu = Menu(self, "File")
         item("New Window", "<Control-n>", new_window)
-        item("Load Chat", None, lambda: Files.load_chat_dialog(self.tt.chat))
+        item("Load Chat", None, lambda: Files.load_chat_dialog(self.ui.chat))
         item("Save Chat", "<Control-s>", Files.save_chat)
         item("Save Section", "<Control-Shift-S>", save_section)
         item("Save Code Block", "<Control-Alt-s>", save_code_block)
-        item("Quit", "<Control-q>", self.tt.close)
+        item("Quit", "<Control-q>", self.ui.close)
 
         menu = Menu(self, "Edit")
         edit_menu = menu
@@ -178,14 +178,14 @@ class ThoughttreeMenu(Menu):
         menu = Menu(self, "View")
         item("Show System Prompt", "", None)
         item("Show Tree", "", None)
-        item("Count Tokens", "<Control-t>", self.tt.count_text_tokens)
+        item("Count Tokens", "<Control-t>", self.ui.count_text_tokens)
         item("Run Code Block", "", None)
-        item("Update Window Title", "<Control-u>", self.tt.update_window_title)
+        item("Update Window Title", "<Control-u>", self.ui.update_window_title)
         item("Increase Font Size", "<Control-plus>", lambda e: change_text_size(1))
         item("Decrease Font Size", "<Control-minus>", lambda e: change_text_size(-1))
         item("Reset Font Size", "<Control-period>", lambda e: change_text_size(0))
-        self.tt.bind("<Control-Button-4>", lambda event: change_text_size(1))
-        self.tt.bind("<Control-Button-5>", lambda event: change_text_size(-1))
+        self.ui.bind("<Control-Button-4>", lambda event: change_text_size(1))
+        self.ui.bind("<Control-Button-5>", lambda event: change_text_size(-1))
         item("Wrap lines", None, lambda e: wrap(tk.CHAR))
         item("Word", None, lambda e: wrap(tk.WORD))
         item("None", None, lambda e: wrap(tk.NONE))
@@ -194,33 +194,33 @@ class ThoughttreeMenu(Menu):
 
         menu = Menu(self, "Navigate")
         item("Split Conversation", "<Control-b>", lambda e: self.focussed.split_conversation())
-        item("Jump to Similar Line", "<Control-j>", self.tt.jump_to_similar_line)
+        item("Jump to Similar Line", "<Control-j>", self.ui.jump_to_similar_line)
 
         menu = Menu(self, "Chat")
-        item("Send Chat Message", "<Control-Return>", lambda e: self.tt.complete(1, "\n\n", "\n\n"))
-        item("Complete Directly", "<Shift-Return>", lambda e: self.tt.complete())
+        item("Send Chat Message", "<Control-Return>", lambda e: self.ui.complete(1, "\n\n", "\n\n"))
+        item("Complete Directly", "<Shift-Return>", lambda e: self.ui.complete())
         item("Complete in Branch", "<Alt-Return>", lambda e: branch_conversation())
-        item("Continue Alternatives", "<Alt-Shift-Return>", lambda e: self.tt.complete(-1, "\n"))
+        item("Continue Alternatives", "<Alt-Shift-Return>", lambda e: self.ui.complete(-1, "\n"))
         menu.add_separator()
-        item("Complete 2 Times", "<Control-Key-2>", lambda e: self.tt.complete(2))
-        item("Complete 3 Times", "<Control-Key-3>", lambda e: self.tt.complete(3))
-        item("Complete 5 Times", "<Control-Key-5>", lambda e: self.tt.complete(5))
-        item("Complete Multiple...", "<Control-Shift-M>", lambda e: self.tt.complete(0))
-        item("Complete Multiple Again", "<Control-m>", lambda e: self.tt.complete(-1))
-        item("Cancel", "<Escape>", self.tt.cancelModels)
+        item("Complete 2 Times", "<Control-Key-2>", lambda e: self.ui.complete(2))
+        item("Complete 3 Times", "<Control-Key-3>", lambda e: self.ui.complete(3))
+        item("Complete 5 Times", "<Control-Key-5>", lambda e: self.ui.complete(5))
+        item("Complete Multiple...", "<Control-Shift-M>", lambda e: self.ui.complete(0))
+        item("Complete Multiple Again", "<Control-m>", lambda e: self.ui.complete(-1))
+        item("Cancel", "<Escape>", self.ui.cancelModels)
 
         menu = Menu(self, "Model")
-        for model_name in self.tt.model.get_available_models() :
+        for model_name in self.ui.model.get_available_models() :
             if model_name == "gpt-4":
                 key = "<Control-Alt-Key-4>"
             elif model_name == "gpt-3.5-turbo":
                 key = "<Control-Alt-Key-3>"
             else:
                 key = None
-            item(f"{model_name}", key, lambda e, m=model_name: self.tt.set_model(m))
+            item(f"{model_name}", key, lambda e, m=model_name: self.ui.set_model(m))
         menu.add_separator()
-        item("Max Tokens...", "<Control-Shift-L>", lambda e: self.tt.configure_max_tokens())
-        item("Temperature...", "<Control-Shift-T>", lambda e: self.tt.configure_temperature())
+        item("Max Tokens...", "<Control-Shift-L>", lambda e: self.ui.configure_max_tokens())
+        item("Temperature...", "<Control-Shift-T>", lambda e: self.ui.configure_temperature())
         item("Increase Temperature", "<Alt-plus>", None)
         item("Decrease Temperature", "<Alt-minus>", None)
         item("Temperature 0.0", "<Control-Key-0>", None)
@@ -232,4 +232,4 @@ class ThoughttreeMenu(Menu):
         item("Debug Info", "<Control-i>", debug_info)
         item("About", None, None)
 
-        self.tt.bind_class("Text", "<Button-3>", lambda event: show_context_menu(event, edit_menu))
+        self.ui.bind_class("Text", "<Button-3>", lambda event: show_context_menu(event, edit_menu))

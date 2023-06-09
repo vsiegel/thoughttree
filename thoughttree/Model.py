@@ -10,18 +10,37 @@ import openai
 
 import History
 
-OPENAI_PRICING_USD_PER_1K_TOKENS = {
-    'prompt': {
-        'gpt-3.5-turbo': 0.002,
-        'gpt-4-32k': 0.06,
-        'gpt-4': 0.03,
+
+# Sources:
+# https://platform.openai.com/docs/models/gpt-4
+# https://platform.openai.com/docs/models/gpt-3-5
+# https://openai.com/pricing
+# as of 2023-06-09
+
+MODEL_DATA = {
+    'gpt-3.5-turbo': {
+        '1k_token_usd': {
+            'prompt': 0.002,
+            'completion': 0.002,
+        },
+        'max_tokens': 4096,
     },
-    'completion': {
-        "gpt-3.5-turbo": 0.002,
-        'gpt-4-32k': 0.12,
-        'gpt-4': 0.06,
-    }
+    'gpt-4': {
+        '1k_token_usd': {
+            'prompt': 0.03,
+            'completion': 0.06,
+        },
+        'max_tokens': 8192,
+    },
+    'gpt-4-32k': {
+        '1k_token_usd': {
+            'prompt': 0.06,
+            'completion': 0.12,
+        },
+        'max_tokens': 32768,
+    },
 }
+
 class Model:
 
     logfile_name = f"thoughttree-chat-{datetime.now().strftime('%Y-%m-%d-%H-%M-%S')}.log"
@@ -150,11 +169,10 @@ class Model:
         return self.used_tokens_in + self.used_tokens_out
 
     def get_tokens_cost_in(self):
-        return (self.used_tokens_in * OPENAI_PRICING_USD_PER_1K_TOKENS['prompt'][self.model_name])/1000.0
-
+        return (self.used_tokens_in * MODEL_DATA[self.name]['1k_token_usd']['prompt']) / 1000.0
 
     def get_tokens_cost_out(self):
-        return (self.used_tokens_out * OPENAI_PRICING_USD_PER_1K_TOKENS['completion'][self.model_name])/1000.0
+        return (self.used_tokens_in * MODEL_DATA[self.name]['1k_token_usd']['completion']) / 1000.0
 
 
     def get_tokens_cost_total(self):

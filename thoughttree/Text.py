@@ -77,6 +77,8 @@ class Text(tk.scrolledtext.ScrolledText):
                 levels = ['1']
             return '.'.join(levels)
 
+        def find_parent(Notebook, child):
+            pass
         def find_parent_tab_label(child: tk.Widget):
             parent = child
             while parent and type(parent) != Notebook:
@@ -126,8 +128,20 @@ class Text(tk.scrolledtext.ScrolledText):
         return height, width
 
     def chat_history_for_current_path(self, history=None) :
-        history = history or []
-        content = self.dump(1.0, tk.END, text=True, tag=True, window=True)
+
+        def find_parent(parentType, child):
+            parent = child.master
+            while parent and type(parent) != parentType:
+                print(f"{parent=} ({type(parent)})")
+                parent = parent.master
+            return parent
+
+        parentText: Text = find_parent(Text, self)
+        if parentText:
+            history = parentText.chat_history_for_current_path(history)
+        else:
+            history = history or []
+        content = self.dump(1.0, tk.INSERT, text=True, tag=True, window=True)
         section = ""
         for item in content :
             if item[0] == "tagon" and item[1] == "assistant":

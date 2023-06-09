@@ -8,6 +8,7 @@ from tkinter.messagebox import showinfo
 from configargparse import ArgumentParser, Namespace
 
 import prompts
+from History import print_history_compact
 from Model import Model
 from ThoughttreeMenu import ThoughttreeMenu
 from ToolTip import ToolTip

@@ -83,6 +83,10 @@ class Thoughttree(tk.Tk):
         except Exception as e:
             print("Error loading icon:", e)
 
+    def close(self, event=None):
+        self.is_root_destroyed = True
+        self.destroy()
+
     def set_model(self, model_name):
         if not model_name in self.models:
             self.models[model_name] = Model(model_name)
@@ -378,10 +382,6 @@ class Thoughttree(tk.Tk):
                  master=txt)
         return "break"
 
-
-    def close(self, event=None):
-        self.is_root_destroyed = True
-        self.destroy()
 
     def edit_tree_entry(self, event):
         row_id = self.tree.focus()

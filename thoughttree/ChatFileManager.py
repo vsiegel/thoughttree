@@ -1,6 +1,7 @@
 import tkinter as tk
 from textwrap import dedent
 from tkinter import filedialog
+from tkinter.filedialog import asksaveasfilename
 from tkinter.messagebox import showerror
 import re
 import re
@@ -93,7 +94,7 @@ class ChatFileManager:
             except Exception as e:
                 showerror(title="Error", message="Cannot save chat\n" + str(e), master=txt)
 
-        file = filedialog.asksaveasfilename(defaultextension=".txt",
+        file = asksaveasfilename(defaultextension=".txt",
                 initialfile="chat.txt", title="Save Chat", parent=txt)
         if file:
             save_chat(txt, file)
@@ -116,7 +117,7 @@ class ChatFileManager:
             except Exception as e:
                 showerror(title="Error", message="Cannot save section\n" + str(e), master=txt)
 
-        file = filedialog.asksaveasfilename(
+        file = asksaveasfilename(
             defaultextension=".txt", initialfile="section.txt", title="Save Section", parent=txt)
         if file:
             save_section(txt, file)

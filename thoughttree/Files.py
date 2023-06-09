@@ -66,6 +66,20 @@ def filename_from_clipboard():
 
 
 class Files:
+    @staticmethod
+    def save_chat(e=None):
+        chat_log_saver = ChatLogSaver(e.widget)
+        chat_log_saver.save()
+
+    @staticmethod
+    def save_section_dialog(txt):
+        section_saver = SectionSaver(txt)
+        section_saver.save()
+
+    @staticmethod
+    def save_code_block_dialog(txt):
+        code_block_saver = CodeBlockSaver(txt)
+        code_block_saver.save()
 
     @staticmethod
     def save_chat(e=None):

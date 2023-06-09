@@ -1,3 +1,4 @@
+from math import ceil, log2
 import random
 
 
@@ -51,3 +52,6 @@ def shorter(text, n=60):
     leading = int(n / 2) - 3
     trailing = n - leading - 3
     return f'{text[:leading]}...{text[-trailing:]}'
+
+def log_length(text, step='.'):
+    return step * ceil(log2(len(text))) if len(text) > 1 else '.'

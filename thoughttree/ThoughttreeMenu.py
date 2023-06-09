@@ -1,6 +1,6 @@
 import tkinter as tk
 from datetime import datetime
-from tkinter import font as tkfont
+from tkinter import font as tkfont, NONE, WORD
 
 import prompts
 from Files import Files

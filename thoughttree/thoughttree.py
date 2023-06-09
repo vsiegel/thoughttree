@@ -232,6 +232,28 @@ class Thoughttree(tk.Tk):
             return
         self.model.max_tokens = max_tokens
 
+    def count_text_tokens(self, event=None) :
+        txt: Text = self.focus_get()
+        try :
+            text = txt.get(tk.SEL_FIRST, tk.SEL_LAST)
+        except tk.TclError :
+            text = txt.get(1.0, tk.END)
+        old_status = self.status_bar.message
+        self.status_bar.message = "Counting tokens (loading model)"
+        num_tokens = self.model.count_tokens(text)
+        num_lines = text.count("\n")
+        num_words = len(text.split())
+        num_chars = len(text)
+        self.status_bar.message = old_status
+        showinfo("Count Tokens",
+                 f"The length of the text is:\n"
+                 f"{num_tokens} tokens\n"
+                 f"{num_lines} lines\n"
+                 f"{num_words} words\n"
+                 f"{num_chars} characters",
+                 master=txt)
+        return "break"
+
 
     def complete(self, number_of_completions=1, prefix="", postfix=""):
         self.model.is_canceled = False
@@ -363,28 +385,6 @@ class Thoughttree(tk.Tk):
 
         return history
 
-
-    def count_text_tokens(self, event=None) :
-        txt: Text = self.focus_get()
-        try :
-            text = txt.get(tk.SEL_FIRST, tk.SEL_LAST)
-        except tk.TclError :
-            text = txt.get(1.0, tk.END)
-        old_status = self.status_bar.message
-        self.status_bar.message = "Counting tokens (loading model)"
-        num_tokens = self.model.count_tokens(text)
-        num_lines = text.count("\n")
-        num_words = len(text.split())
-        num_chars = len(text)
-        self.status_bar.message = old_status
-        showinfo("Count Tokens",
-                 f"The length of the text is:\n"
-                 f"{num_tokens} tokens\n"
-                 f"{num_lines} lines\n"
-                 f"{num_words} words\n"
-                 f"{num_chars} characters",
-                 master=txt)
-        return "break"
 
 
     def edit_tree_entry(self, event):

@@ -17,7 +17,6 @@ from Menu import Menu
 from Text import Text
 from WaitCursor import WaitCursor
 from prompts import system_prompt
-from tools import shorter
 
 WINDOW_ICON = "chatgpt-icon.png"
 

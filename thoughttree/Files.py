@@ -68,6 +68,53 @@ def filename_from_clipboard():
 class Files:
 
     @staticmethod
+    def save_chat(e=None):
+
+        def text_not_found_error():
+            pass
+
+        def find_text(txt):
+            pass
+            return "foo"
+
+        def find_filename():
+            return "bar"
+
+        def ask_filename(initial_filename):
+            return ""
+
+        def write_text(text, filename):
+            pass
+
+        text = find_text(e.widget)
+        if not text:
+            text_not_found_error()
+            return
+        initial_filename = find_filename()
+        filename = ask_filename(initial_filename)
+        if not filename:
+            return
+        write_text(text, filename)
+
+
+
+        print(e)
+        print(e.widget)
+        print(type(e.widget))
+        # name = save(Files.save_chat_dialog, "Chat saved to ")
+        # self.tt.title(name)
+
+
+        # def save(save_dialog, status_bar_label):
+        #     file_name = save_dialog(self.tt.chat)
+        #     if not file_name:
+        #         return
+        #     base_name = file_name.split("/")[-1]
+        #     self.tt.status_bar.note = status_bar_label + base_name
+        #     return base_name
+
+
+    @staticmethod
     def save_chat_dialog(txt):
 
         def write_chat(txt, filename) :

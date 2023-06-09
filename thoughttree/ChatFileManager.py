@@ -109,7 +109,6 @@ class ChatFileManager:
                 text_range = txt.tag_prevrange("assistant", index)
                 if not text_range:
                     raise Exception("No section found")
-                start, end = text_range
                 section = txt.get(*text_range)
 
                 with open(filename, 'w') as f:

@@ -39,7 +39,7 @@ def add_bboxes(bbox1, bbox2):
 
 
 def random_pastel_color():
-    r = random.randint(200, 255)
-    g = random.randint(200, 255)
-    b = random.randint(200, 255)
+    r = random.randint(230, 255)
+    g = random.randint(230, 255)
+    b = random.randint(230, 255)
     return "#{:02x}{:02x}{:02x}".format(r, g, b)

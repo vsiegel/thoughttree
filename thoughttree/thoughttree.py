@@ -58,6 +58,7 @@ class Thoughttree(tk.Tk):
         except:
             print("Error loading icon.")
 
+        self.scroll_during_completion = conf.scroll_during_completion
         self.is_root_destroyed = False
         self.is_title_immutable = False
         self.create_ui()

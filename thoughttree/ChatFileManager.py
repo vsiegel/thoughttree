@@ -144,24 +144,27 @@ class ChatFileManager:
                 block = dedent(block)
                 return block, file_type
 
-        def save_code_section(txt: tk.Text, filename, index=tk.INSERT):
-            try:
-                text_range = txt.tag_prevrange("assistant", index)
-                if not text_range:
-                    raise Exception("No code block found")
-                code_section = txt.get(*text_range)
-                code_block, file_type = extract_code_block(code_section)
+        def find_code_block(txt: tk.Text, index=tk.INSERT):
+            text_range = txt.tag_prevrange("assistant", index)
+            if not text_range:
+                raise Exception("No code block found")
+            code_block_section = txt.get(*text_range)
+            code_block, file_type = extract_code_block(code_block_section)
+            return code_block #, file_type
 
+        try:
+            code_block = find_code_block(txt)
+
+            filename = asksaveasfilename(
+                    defaultextension=".py", initialfile="code-block.py", title="Save Code Block", parent=txt)
+            if filename:
                 with open(filename, 'w') as f:
                     f.write(code_block)
-            except Exception as e:
-                showerror(title="Error", message="Cannot save code block\n" + str(e), master=txt)
 
-        file = filedialog.asksaveasfilename(
-            defaultextension=".py", initialfile="code-block.py", title="Save Code Block", parent=txt)
-        if file:
-            save_code_section(txt, file)
-        return file
+            return filename
+        except Exception as e:
+            showerror(title="Error", message="Cannot save code block\n" + str(e), master=txt)
+            return None
 
     @staticmethod
     def load_chat(text_widget, filename):

@@ -157,7 +157,6 @@ class ThoughttreeMenu(Menu):
 
         menu = Menu(self, "File")
         item("New Window", "<Control-n>", new_window)
-        item("Load Chat", None, lambda: Files.load_chat_dialog(self.ui.chat))
         item("Save Chat", "<Control-s>", Files.save_chat)
         item("Save Section", "<Control-Shift-S>", save_section)
         item("Save Code Block", "<Control-Alt-s>", save_code_block)

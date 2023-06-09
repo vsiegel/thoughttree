@@ -167,26 +167,6 @@ class Files:
             return None
 
     @staticmethod
-    def load_chat(text_widget, filename):
-        with open(filename, 'r') as f:
-            content = f.readlines()
-
-        text_widget.delete(1.0, tk.END)
-        for line in content:
-            if ':' in line:
-                tag, text = line.lstrip().split(': ', 1)
-                text_widget.insert(tk.END, text)
-                text_widget.tag_add(tag, text_widget.index(tk.END + '-1c linestart'), text_widget.index(tk.END + '-1c lineend'))
-            else:
-                text_widget.insert(tk.END, line)
-
-    @staticmethod
-    def load_chat_dialog(txt):
-        file = filedialog.askopenfilename(defaultextension=".txt", parent=txt)
-        if file:
-            Files.load_chat(txt, file)
-
-    @staticmethod
     def chat_history_from_args(system="", message="") :
         history = [
             {'role': 'system', 'content': system},

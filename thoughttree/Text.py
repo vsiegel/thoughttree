@@ -30,13 +30,13 @@ class Text(tk.scrolledtext.ScrolledText):
         self.bind("<Control-Shift-asterisk>", lambda e: self.change_text_height(1))
         self.bind("<Control-Shift-underscore>", lambda e: self.change_text_height(-1))
         self.bindtags(self.bindtags() + ("last",))
-        self.bind_class("last", '<KeyRelease>', lambda e: self.highlight_current_line(e))
-        self.bind_class("last", '<Button-1>', lambda e: self.highlight_current_line(e))
-        self.bind_class("last", "<FocusIn>", lambda e: self.highlight_current_line(e))
-        self.bind_class("last", "<FocusOut>", lambda e: self.highlight_current_line(e, False))
+        self.bind_class("last", '<KeyRelease>', lambda e: self.cursorline(e))
+        self.bind_class("last", '<Button-1>', lambda e: self.cursorline(e))
+        self.bind_class("last", "<FocusIn>", lambda e: self.cursorline(e))
+        self.bind_class("last", "<FocusOut>", lambda e: self.cursorline(e, False))
         self.pack(pady=0, fill=tk.X, expand=True)
         self.tag_configure("assistant", background="#F0F0F0", selectbackground="#4682b4", selectforeground="white")
-        self.tag_configure('currentLine', background='#FCFAED', foreground="black", selectbackground="#4682b4", selectforeground="white")
+        self.tag_configure('cursorline', background='#FCFAED', foreground="black", selectbackground="#4682b4", selectforeground="white")
         self.insert(tk.END, text)
 
         def update_text_height(event=None):
@@ -47,12 +47,12 @@ class Text(tk.scrolledtext.ScrolledText):
         self.bind('<KeyRelease>', update_text_height)
 
 
-    def highlight_current_line(self, e, add=True):
+    def cursorline(self, e, add=True):
         if not e.widget.winfo_exists():
             return
-        e.widget.tag_remove('currentLine', 1.0, "end")
+        e.widget.tag_remove('cursorline', 1.0, "end")
         if add:
-            e.widget.tag_add('currentLine', 'insert display linestart', 'insert display lineend+1c')
+            e.widget.tag_add('cursorline', 'insert display linestart', 'insert display lineend+1c')
 
     # def change_notebook_height(self, delta):
     #     parent = self.master.focus_get()
@@ -148,7 +148,7 @@ class Text(tk.scrolledtext.ScrolledText):
                 section = section.strip()
                 history += [{'role' : 'assistant', 'content' : section}]
                 section = ""
-            elif item[0] in ["tagon", "tagoff"] and item[1] in ["currentLine", "sel"]:
+            elif item[0] in ["tagon", "tagoff"] and item[1] in ["cursorline", "sel"]:
                 pass
             elif item[0] == "text":
                 section += item[1]

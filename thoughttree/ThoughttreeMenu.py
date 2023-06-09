@@ -192,7 +192,7 @@ class ThoughttreeMenu(Menu):
 
         menu = Menu(self, "Navigate")
         item("Split Conversation", "<Control-b>", lambda e: self.focussed.split_conversation())
-        item("Jump to Similar Line", "<Control-j>", self.ui.jump_to_similar_line)
+        item("Jump to Similar Line", "<Control-j>", Text.jump_to_similar_line)
 
         menu = Menu(self, "Chat")
         item("Send Chat Message", "<Control-Return>", lambda e: self.ui.complete(1, "\n\n", "\n\n"))

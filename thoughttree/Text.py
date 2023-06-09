@@ -156,3 +156,31 @@ class Text(tk.scrolledtext.ScrolledText):
             elif history[-1]['role'] in ["assistant", "system"] :
                 history += [{'role' : 'user', 'content' : section}]
         return history
+
+    @classmethod
+    def jump_to_similar_line(cls, event=None) :
+
+        def find_matching_line(target_line, line_nr_1, lines):
+            line_nr_0 = line_nr_1 - 1
+            num_lines = len(lines)
+            if num_lines == 0:
+                return 0
+            stripped_target_line = target_line.strip()
+            start = (line_nr_0 + 1) % num_lines
+            numbered_lines = list(enumerate(lines[start :] + lines[:start]))
+            for i, line in numbered_lines :
+                if line.strip() == stripped_target_line:
+                    return ((i + start) % num_lines) + 1
+            return 0
+
+        txt: Text = event.widget
+        line_nr = int(txt.index('insert + 1 chars').split('.')[0])
+        current_line = txt.get(f"{line_nr}.0", f"{line_nr}.end")
+        if not current_line.strip():
+            return
+        lines = txt.get(1.0, tk.END).splitlines()
+        jump_line = find_matching_line(current_line, line_nr, lines)
+        if jump_line :
+            jump_index = f"{jump_line}.{0}"
+            txt.mark_set(tk.INSERT, jump_index)
+            txt.see(jump_index)

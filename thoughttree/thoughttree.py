@@ -131,9 +131,9 @@ class Thoughttree(tk.Tk):
         self.status_bar = StatusBar(self)
 
         SASHWIDTH = 8
-        hPane = tk.PanedWindow(self, orient=tk.HORIZONTAL, sashwidth=SASHWIDTH)
+        hPane = tk.PanedWindow(self, orient=tk.HORIZONTAL, sashwidth=SASHWIDTH, sashrelief=tk.RIDGE)
         hPane.pack(fill=tk.BOTH, expand=True)
-        vPane = tk.PanedWindow(hPane, orient=tk.VERTICAL, sashwidth=SASHWIDTH)
+        vPane = tk.PanedWindow(hPane, orient=tk.VERTICAL, sashwidth=SASHWIDTH, sashrelief=tk.RIDGE)
 
         tree = ttk.Treeview(hPane, columns=("C1"), show="tree")
         self.tree = tree

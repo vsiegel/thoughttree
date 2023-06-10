@@ -155,6 +155,8 @@ class ThoughttreeMenu(Menu):
         def item(label, keystroke, command, bind_key=True, context_menu=None, toggle_variable=None):
             menu.item(label, keystroke, command, bind_key, context_menu, toggle_variable)
 
+        def toggle_scroll_output(event=None):
+            self.ui.scroll_output = not self.ui.scroll_output
 
         menu = Menu(self, "File")
         item("New Window", "<Control-n>", new_window)

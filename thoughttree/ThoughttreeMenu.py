@@ -187,9 +187,8 @@ class ThoughttreeMenu(Menu):
         item("Increase Font Size", "<Control-plus>", lambda e: font_size(1))
         item("Decrease Font Size", "<Control-minus>", lambda e: font_size(-1))
         item("Reset Font Size", "<Control-period>", lambda e: font_size(0))
-        self.ui.bind("<Control-Button-4>", lambda event: font_size(1))
-        self.ui.bind("<Control-Button-5>", lambda event: font_size(-1))
-
+        item("Toggle monospace", "<Control-Alt-M>", toggle_font_mono)
+        menu.add_separator()
         item("Toggle scrolling output", "<Control-o>", toggle_scroll_output)
         item("Toggle wrap lines", "<Control-l>", lambda e: self.it.configure(wrap=(NONE if self.it.cget("wrap") != NONE else WORD)))
         item("Generate Titles", "", None)
@@ -228,6 +227,9 @@ class ThoughttreeMenu(Menu):
         item("Test", "<Alt-Shift-T>", menu_test)
         item("Debug Info", "<Control-i>", debug_info)
         item("About", None, None)
+
+        self.ui.bind("<Control-Button-4>", lambda event: font_size(1))
+        self.ui.bind("<Control-Button-5>", lambda event: font_size(-1))
 
         self.ui.bind_class("Text", "<Button-3>", lambda event: show_context_menu(event, edit_menu))
 

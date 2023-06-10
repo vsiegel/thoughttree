@@ -59,6 +59,7 @@ class ThoughttreeMenu(Menu):
 
         def paste_text(event=None) :
             txt = self.focussed
+            txt.event_generate("<<Clear>>")
             txt.event_generate("<<Paste>>")
             txt.see(tk.INSERT)
 

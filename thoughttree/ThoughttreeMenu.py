@@ -214,14 +214,7 @@ class ThoughttreeMenu(Menu):
         item("Cancel", "<Escape>", self.ui.cancelModels)
 
         menu = Menu(self, "Model")
-        for model_name in self.ui.model.get_available_models() :
-            if model_name == "gpt-4":
-                key = "<Control-Alt-Key-4>"
-            elif model_name == "gpt-3.5-turbo":
-                key = "<Control-Alt-Key-3>"
-            else:
-                key = None
-            item(f"{model_name}", key, lambda e, m=model_name: self.ui.set_model(m))
+        self.models_items(item)
         menu.add_separator()
         item("Max Tokens...", "<Control-Shift-L>", lambda e: self.ui.configure_max_tokens())
         item("Temperature...", "<Control-Shift-T>", lambda e: self.ui.configure_temperature())
@@ -237,3 +230,14 @@ class ThoughttreeMenu(Menu):
         item("About", None, None)
 
         self.ui.bind_class("Text", "<Button-3>", lambda event: show_context_menu(event, edit_menu))
+
+
+    def models_items(self, item):
+        for model_name in self.ui.model.get_available_models():
+            if model_name == "gpt-4":
+                key = "<Control-Alt-Key-4>"
+            elif model_name == "gpt-3.5-turbo":
+                key = "<Control-Alt-Key-3>"
+            else:
+                key = None
+            item(f"{model_name}", key, lambda e, m=model_name: self.ui.set_model(m))

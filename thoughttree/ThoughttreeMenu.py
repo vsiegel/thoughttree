@@ -93,7 +93,6 @@ class ThoughttreeMenu(Menu):
             self.focussed.insert(tk.INSERT, f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 
         def debug_info(event=None):
-            # print(f"{self.tt.event_info() =}")
             # print(f"{list_all_bindings(self.tt)=}")
 
             print(f"{self.focussed.bbox(tk.INSERT)=}")
@@ -102,7 +101,7 @@ class ThoughttreeMenu(Menu):
 
             print(f'{self.focussed.compare(tk.INSERT, "==", tk.END)=}')
             dumped = self.focussed.dump("insert - 1 char", window=True)
-            print(f'{ dumped=}')
+            # print(f'{ dumped=}')
             if dumped and dumped[0][1].endswith("label"):
                 dumped_win = dumped[0][1]
                 dumped_win_pos = dumped[0][2]

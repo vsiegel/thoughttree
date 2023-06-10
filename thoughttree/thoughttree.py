@@ -230,7 +230,7 @@ class Thoughttree(tk.Tk):
         return "break"
 
 
-    def complete(self, number_of_completions=1, prefix="", postfix=""):
+    def complete(self, n=1, prefix="", postfix=""):
         self.model.is_canceled = False
         txt: Text = self.focus_get()
         with WaitCursor(txt):
@@ -249,17 +249,17 @@ class Thoughttree(tk.Tk):
                     txt.see(tk.END)
                 txt.update()
 
-            if not number_of_completions:
-                number_of_completions = simpledialog.askinteger(
+            if not n:
+                n = simpledialog.askinteger(
                     "Alternative completions",
                     "How many alternative results do you want?",
                     initialvalue=Thoughttree.multi_completions,
                     minvalue=2, maxvalue=1000)
-                if not number_of_completions:
+                if not n:
                     return
-                Thoughttree.multi_completions = number_of_completions
-            elif number_of_completions == -1: # repeat
-                number_of_completions = Thoughttree.multi_completions
+                Thoughttree.multi_completions = n
+            elif n == -1: # repeat
+                n = Thoughttree.multi_completions
             txt.edit_separator()
             if prefix :
                 txt.insert(tk.END, prefix)
@@ -271,7 +271,7 @@ class Thoughttree(tk.Tk):
             history = self.history_from_system_and_chat()
 
             finish_reason, message = 'unknown', ''
-            if number_of_completions == 1:
+            if n == 1:
                 if self.model.is_canceled:
                     finish_reason = "canceled"
                 else:
@@ -282,7 +282,7 @@ class Thoughttree(tk.Tk):
                 txt.insert(tk.END, "\n")
                 txt.see(tk.END)
                 finish_reason, message = 'unknown', ''
-                for i in range(number_of_completions):
+                for i in range(n):
                     if self.model.is_canceled:
                         finish_reason = "canceled"
                         break

@@ -18,7 +18,7 @@ class ThoughttreeMenu(Menu):
 
 
     @property
-    def focussed(self) -> Text:
+    def it(self) -> Text:
         return self.ui.focus_get()
 
 
@@ -52,19 +52,19 @@ class ThoughttreeMenu(Menu):
             menu.tk_popup(event.x_root, event.y_root)
 
         def cut_text(event=None) :
-            self.focussed.event_generate("<<Cut>>")
+            self.it.event_generate("<<Cut>>")
 
         def copy_text(event=None) :
-            self.focussed.event_generate("<<Copy>>")
+            self.it.event_generate("<<Copy>>")
 
         def paste_text(event=None) :
-            txt = self.focussed
+            txt = self.it
             txt.event_generate("<<Clear>>")
             txt.event_generate("<<Paste>>")
             txt.see(tk.INSERT)
 
         def select_all(event=None):
-            txt = self.focussed
+            txt = self.it
             if type(txt) == Text:
                 txt.tag_add(tk.SEL, "1.0", tk.END)
                 txt.mark_set(tk.INSERT, "1.0")
@@ -72,18 +72,18 @@ class ThoughttreeMenu(Menu):
 
         def edit_undo(event=None):
             try:
-                self.focussed.edit_undo()
+                self.it.edit_undo()
             except tk.TclError:
                 pass # nothing to undo
 
         def edit_redo(event=None):
             try:
-                self.focussed.edit_redo()
+                self.it.edit_redo()
             except tk.TclError:
                 pass # nothing to redo
 
         def change_text_size(delta):
-            txt = self.focussed
+            txt = self.it
             if delta == 0:
                 name, size = Text.FONT
             else:
@@ -91,28 +91,33 @@ class ThoughttreeMenu(Menu):
             txt.config(font=(name, int(size) + delta))
 
         def insert_current_time(event=None):
-            self.focussed.insert(tk.INSERT, f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+            self.it.insert(tk.INSERT, f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 
         def debug_info(event=None):
+
+            print(f"{self.it=}")
+            print(f"{self.it.cget('font')=}")
+
+
+            return
             # print(f"{list_all_bindings(self.tt)=}")
+            print(f"{self.it.bbox(tk.INSERT)=}")
+            print(f"{self.it.dlineinfo(tk.INSERT)=}")
+            print(f"{self.it.tag_ranges(tk.SEL)=}")
 
-            print(f"{self.focussed.bbox(tk.INSERT)=}")
-            print(f"{self.focussed.dlineinfo(tk.INSERT)=}")
-            print(f"{self.focussed.tag_ranges(tk.SEL)=}")
-
-            print(f'{self.focussed.compare(tk.INSERT, "==", tk.END)=}')
-            dumped = self.focussed.dump("insert - 1 char", window=True)
+            print(f'{self.it.compare(tk.INSERT, "==", tk.END)=}')
+            dumped = self.it.dump("insert - 1 char", window=True)
             # print(f'{ dumped=}')
             if dumped and dumped[0][1].endswith("label"):
                 dumped_win = dumped[0][1]
                 dumped_win_pos = dumped[0][2]
                 print(f'{dumped_win=}')
                 print(f'{dumped_win_pos=}')
-                print(f'{type(self.focussed.window_configure(dumped_win_pos))=}')
+                print(f'{type(self.it.window_configure(dumped_win_pos))=}')
                 # print(f'{self.focus.window_configure(dumped_win_pos)=}')
-                print(f"{type(self.focussed.window_cget(dumped_win_pos, 'window'))=}")
+                print(f"{type(self.it.window_cget(dumped_win_pos, 'window'))=}")
             print()
-            dumped = self.focussed.dump("1.0", tk.INSERT, all=True)
+            dumped = self.it.dump("1.0", tk.INSERT, all=True)
             for item in dumped:
                 print(f'{item=}')
 
@@ -133,17 +138,17 @@ class ThoughttreeMenu(Menu):
                 txt.configure(width=int(parent_width / char_width))
 
             print(event)
-            frame = tk.Frame(self.focussed)
+            frame = tk.Frame(self.it)
             txt = Text(frame)
             txt.pack(fill='both', expand=True)
-            self.focussed.window_create(tk.END, window=frame)
+            self.it.window_create(tk.END, window=frame)
 
-            self.focussed.bind('<Configure>', on_resize)
+            self.it.bind('<Configure>', on_resize)
             txt.bind('<<Modified>>', on_text_change)
             pass
 
         def branch_conversation():
-            self.focussed.split_conversation()
+            self.it.split_conversation()
             self.ui.update()
             self.ui.complete()
 
@@ -186,12 +191,12 @@ class ThoughttreeMenu(Menu):
         def toggle_scroll_output(event=None):
             self.ui.scroll_output = not self.ui.scroll_output
         item("Toggle scrolling output", "<Control-o>", toggle_scroll_output)
-        item("Toggle wrap lines", "<Control-l>", lambda e: self.focussed.configure(wrap=(NONE if self.focussed.cget("wrap") != NONE else WORD)))
+        item("Toggle wrap lines", "<Control-l>", lambda e: self.it.configure(wrap=(NONE if self.it.cget("wrap") != NONE else WORD)))
         item("Generate Titles", "", None)
         item("Calculate Cost", "", None)
 
         menu = Menu(self, "Navigate")
-        item("Split Conversation", "<Control-b>", lambda e: self.focussed.split_conversation())
+        item("Split Conversation", "<Control-b>", lambda e: self.it.split_conversation())
         item("Jump to Similar Line", "<Control-j>", Text.jump_to_similar_line)
 
         menu = Menu(self, "Chat")

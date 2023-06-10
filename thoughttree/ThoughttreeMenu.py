@@ -181,7 +181,10 @@ class ThoughttreeMenu(Menu):
         item("Reset Font Size", "<Control-period>", lambda e: change_text_size(0))
         self.ui.bind("<Control-Button-4>", lambda event: change_text_size(1))
         self.ui.bind("<Control-Button-5>", lambda event: change_text_size(-1))
-        item("Toggle scrolling output", "<Control-o>", lambda e: self.ui.scroll_output)
+
+        def toggle_scroll_output(event=None):
+            self.ui.scroll_output = not self.ui.scroll_output
+        item("Toggle scrolling output", "<Control-o>", toggle_scroll_output)
         item("Toggle wrap lines", "<Control-l>", lambda e: self.focussed.configure(wrap=(NONE if self.focussed.cget("wrap") != NONE else WORD)))
         item("Generate Titles", "", None)
         item("Calculate Cost", "", None)

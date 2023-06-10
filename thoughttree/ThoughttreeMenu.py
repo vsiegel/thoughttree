@@ -158,6 +158,16 @@ class ThoughttreeMenu(Menu):
         def toggle_scroll_output(event=None):
             self.ui.scroll_output = not self.ui.scroll_output
 
+        def toggle_font_mono(event=None):
+            it = self.it
+            font = it.cget("font")
+            if font.measure('I') != font.measure('M'):
+                ont = ("monospace", 10)
+            else:
+                ont = ("sans-serif", 11)
+
+
+
         menu = Menu(self, "File")
         item("New Window", "<Control-n>", new_window)
         # item("Save Chat", "<Control-s>", Files.save_chat)

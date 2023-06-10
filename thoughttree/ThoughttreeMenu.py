@@ -188,8 +188,6 @@ class ThoughttreeMenu(Menu):
         self.ui.bind("<Control-Button-4>", lambda event: font_size(1))
         self.ui.bind("<Control-Button-5>", lambda event: font_size(-1))
 
-        def toggle_scroll_output(event=None):
-            self.ui.scroll_output = not self.ui.scroll_output
         item("Toggle scrolling output", "<Control-o>", toggle_scroll_output)
         item("Toggle wrap lines", "<Control-l>", lambda e: self.it.configure(wrap=(NONE if self.it.cget("wrap") != NONE else WORD)))
         item("Generate Titles", "", None)

@@ -90,3 +90,6 @@ def filename_from_clipboard():
         return match.group(0)
     else:
         return None
+
+def dummy_paragraphs(paragraphs=20):
+    "\n".join([" ".join(["a" * random.randrange(2, 10) for i in range(random.randrange(5, 200))]) for j in range(paragraphs)])

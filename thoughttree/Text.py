@@ -170,16 +170,16 @@ class Text(tk.scrolledtext.ScrolledText):
     @classmethod
     def jump_to_similar_line(cls, event=None) :
 
-        def find_matching_line(target_line, line_nr_1, lines):
+        def find_matching_line(target, line_nr_1, lines):
             line_nr_0 = line_nr_1 - 1
             num_lines = len(lines)
             if num_lines == 0:
                 return 0
-            stripped_target_line = target_line.strip()
+            target = target.strip()
             start = (line_nr_0 + 1) % num_lines
             numbered_lines = list(enumerate(lines[start :] + lines[:start]))
             for i, line in numbered_lines :
-                if line.strip() == stripped_target_line:
+                if line.strip() == target:
                     return ((i + start) % num_lines) + 1
             return 0
 

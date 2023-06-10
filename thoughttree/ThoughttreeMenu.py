@@ -82,7 +82,7 @@ class ThoughttreeMenu(Menu):
             except tk.TclError:
                 pass # nothing to redo
 
-        def change_text_size(delta):
+        def font_size(delta):
             txt = self.it
             if delta == 0:
                 name, size = Text.FONT
@@ -182,11 +182,11 @@ class ThoughttreeMenu(Menu):
         item("Count Tokens", "<Control-t>", self.ui.count_text_tokens)
         item("Run Code Block", "", None)
         item("Update Window Title", "<Control-u>", self.ui.update_window_title)
-        item("Increase Font Size", "<Control-plus>", lambda e: change_text_size(1))
-        item("Decrease Font Size", "<Control-minus>", lambda e: change_text_size(-1))
-        item("Reset Font Size", "<Control-period>", lambda e: change_text_size(0))
-        self.ui.bind("<Control-Button-4>", lambda event: change_text_size(1))
-        self.ui.bind("<Control-Button-5>", lambda event: change_text_size(-1))
+        item("Increase Font Size", "<Control-plus>", lambda e: font_size(1))
+        item("Decrease Font Size", "<Control-minus>", lambda e: font_size(-1))
+        item("Reset Font Size", "<Control-period>", lambda e: font_size(0))
+        self.ui.bind("<Control-Button-4>", lambda event: font_size(1))
+        self.ui.bind("<Control-Button-5>", lambda event: font_size(-1))
 
         def toggle_scroll_output(event=None):
             self.ui.scroll_output = not self.ui.scroll_output

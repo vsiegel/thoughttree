@@ -27,3 +27,20 @@ CODE_BLOCK_FILENAME_GENERATION_PROMPT = '''\
 Find a good file name for the code block above.
 Give me only the unquoted text of the file name, without any prefixes or comments.
 The code block started with the language spec '''
+
+
+CODE_BLOCK_FILENAME_GENERATION_PROMPT = '''\
+Generate three titles for the three blocks below.
+The total length of the titels combined need to be less than 100 char.
+In one row, sep by | like foo|bar - no spaces around "|":
+---
+1:
+
+---
+2:
+
+---
+3:
+
+---
+'''

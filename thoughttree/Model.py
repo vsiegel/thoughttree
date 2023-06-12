@@ -9,7 +9,7 @@ import tiktoken
 import openai
 
 import History
-
+from TokenCounter import TokenCounter
 
 
 class Model:
@@ -28,8 +28,7 @@ class Model:
 
     def __init__(self, model_name):
         self.name = model_name
-        self.used_tokens_in = 0
-        self.used_tokens_out = 0
+        self.counter = TokenCounter(model_name)
 
         self.logdir = Path.home() / "logs" / "thoughttree"
         self.max_tokens = 1500
@@ -46,7 +45,8 @@ class Model:
         max_tokens = max_tokens or self.max_tokens
         temperature = temperature or self.temperature
         self.is_canceled = False
-        self.observe_tokens_in(history)
+        self.counter.go()
+        self.counter.observe_prompt(history)
         try:
             response = openai.ChatCompletion.create(
                 model=self.name,
@@ -68,7 +68,7 @@ class Model:
                 if 'content' in delta :
                     text = delta["content"]
                     self.log(text)
-                    self.observe_tokens_out(text)
+                    self.counter.observe_completion(text)
                     output_delta_callback(text)
                 last_event = event
 

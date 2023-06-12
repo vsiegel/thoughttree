@@ -29,16 +29,21 @@ class Menu(tk.Menu):
             s = s[:-1] + s[-1].upper()
         return s
 
-        accelerator = convert_key_string(keystroke)
+
+    def item(self, label, keystroke, command, bind_key=True, context_menu=None, variable=None) :
+        accelerator = self.convert_key_string(keystroke)
         state = tk.NORMAL if command or variable else tk.DISABLED
         if variable :
             self.add_checkbutton(label=label, accelerator=accelerator, state=state, variable=variable)
         else:
-            self.add_command(label=label, accelerator=accelerator, command=lambda: command(None), state=state)
+            self.add_command(label=label, accelerator=accelerator, state=state, command=lambda: command(None))
             # self.entryconfigure('last', tooltip=label)
             # print(f"{self.entryconfigure('last')=}", end="\n\n")
-        if context_menu :
-            context_menu.add_command(label=label, accelerator=accelerator, command=lambda: command(None), state=state)
+        # if context_menu :
+        #     context_menu.add_command(label=label, accelerator=accelerator, state=state, command=lambda: command(None))
         if bind_key and keystroke:
+            # print(f"{keystroke} {self.master.bind('Text', keystroke)=}")
+            # print(f"{keystroke} {self.master.bind_class('Text', keystroke)=}")
+            # self.master.unbind("Text", keystroke)
             self.master.unbind_class("Text", keystroke)
             self.master.bind_class("Text", keystroke, command)

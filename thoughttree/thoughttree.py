@@ -222,6 +222,9 @@ class Thoughttree(UI):
     def complete(self, n=1, prefix="", postfix=""):
         self.model.is_canceled = False
         txt: Text = self.focus_get()
+        txt.tag_remove('cursorline', 1.0, "end")
+        if self.scroll_output:
+            txt.see(tk.END)
         with WaitCursor(txt):
 
             def insert_label(txt, text, tool_tip=""):

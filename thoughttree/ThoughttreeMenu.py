@@ -94,16 +94,8 @@ class ThoughttreeMenu(Menu):
             self.it.insert(tk.INSERT, f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 
         def debug_info(event=None):
-
-            print(f"{self.it=}")
-            print(f"{self.it.cget('font')=}")
-
-
+            print(f"{event=}")
             return
-            # print(f"{list_all_bindings(self.tt)=}")
-            print(f"{self.it.bbox(tk.INSERT)=}")
-            print(f"{self.it.dlineinfo(tk.INSERT)=}")
-            print(f"{self.it.tag_ranges(tk.SEL)=}")
 
             print(f'{self.it.compare(tk.INSERT, "==", tk.END)=}')
             dumped = self.it.dump("insert - 1 char", window=True)

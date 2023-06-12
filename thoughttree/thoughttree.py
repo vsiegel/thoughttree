@@ -308,9 +308,11 @@ class Thoughttree(UI):
                         tool_tip += "\n" + message
                     insert_label(txt, symbol, tool_tip)
 
-            txt.insert(tk.END, postfix)
-            txt.mark_set(tk.INSERT, tk.END)
-            txt.see(tk.END)
+            if not self.model.is_canceled:
+                txt.insert(tk.END, postfix)
+            if self.scroll_output:
+                txt.mark_set(tk.INSERT, tk.END)
+                txt.see(tk.END)
             txt.edit_separator()
 
             if conf.ring_bell_after_completion:

@@ -15,6 +15,7 @@ from ToolTip import ToolTip
 from StatusBar import StatusBar
 from Menu import Menu
 from Text import Text
+from UI import UI
 from WaitCursor import WaitCursor
 from prompts import system_prompt
 
@@ -70,23 +71,6 @@ class Thoughttree(UI):
         self.config(menu=ThoughttreeMenu(self, new_window_callback))
 
 
-    def set_icon(self):
-        def get_icon_file_name(icon_base_name):
-            return os.path.join(os.path.dirname(os.path.abspath(__file__)), icon_base_name)
-
-        if Thoughttree.icon:
-            return
-        try:
-            abs_name = str(get_icon_file_name(WINDOW_ICON))
-            photo_image = tk.PhotoImage(file=abs_name)
-            Thoughttree.icon = photo_image
-            self.iconphoto(True, photo_image) # Note: has no effect when running in PyCharm IDE
-        except Exception as e:
-            print("Error loading icon:", e)
-
-    def close(self, event=None):
-        self.is_root_destroyed = True
-        self.destroy()
 
     def set_model(self, model_name):
         if not model_name in self.models:

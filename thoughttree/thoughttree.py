@@ -48,7 +48,7 @@ class Thoughttree(UI):
 
 
     def __init__(self):
-        tk.Tk.__init__(self)
+        UI.__init__(self, WINDOW_ICON)
         self.title("Thoughttree")
         self.wm_title("Thoughttree")
         self.geometry(Thoughttree.ROOT_GEOMETRY)

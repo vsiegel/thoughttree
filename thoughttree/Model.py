@@ -5,7 +5,6 @@ from typing import Tuple
 from datetime import datetime
 from pathlib import Path
 
-import tiktoken
 import openai
 
 import History
@@ -110,40 +109,3 @@ class Model:
         except Exception:
             return []
         return self.available_models
-
-
-    def count_tokens(self, text):
-        enc = tiktoken.encoding_for_model(self.name)
-        return len(enc.encode(text))
-
-
-    def observe_tokens_in(self, history):
-        for item in history:
-            text = item['content']
-            self.used_tokens_in += self.count_tokens(text)
-
-
-    def observe_tokens_out(self, text):
-        self.used_tokens_out += self.count_tokens(text)
-
-
-    def get_tokens_used_in(self):
-        return self.used_tokens_in
-
-
-    def get_tokens_used_out(self):
-        return self.used_tokens_out
-
-
-    def get_tokens_used_total(self):
-        return self.used_tokens_in + self.used_tokens_out
-
-    def get_tokens_cost_in(self):
-        return (self.used_tokens_in * MODEL_DATA[self.name]['1k_token_usd']['prompt']) / 1000.0
-
-    def get_tokens_cost_out(self):
-        return (self.used_tokens_in * MODEL_DATA[self.name]['1k_token_usd']['completion']) / 1000.0
-
-
-    def get_tokens_cost_total(self):
-        return self.get_tokens_cost_in() + self.get_tokens_cost_out()

@@ -159,13 +159,14 @@ class ThoughttreeMenu(Menu):
             self.ui.scroll_output = not self.ui.scroll_output
 
         def toggle_font_mono(event=None):
-            it = self.it
-            font = it.cget("font")
+            font = tkfont.Font(font=self.it.cget("font"))
+            size = font.cget("size")
             if font.measure('I') != font.measure('M'):
-                ont = ("monospace", 10)
+                family = Text.FONT_NAME_MONOSPACE
             else:
-                ont = ("sans-serif", 11)
-
+                family = Text.FONT_NAME_PROPORTIONAL
+            self.it.configure(font=(family, size))
+            return "break"
 
 
         menu = Menu(self, "File")
@@ -197,7 +198,7 @@ class ThoughttreeMenu(Menu):
         item("Increase Font Size", "<Control-plus>", lambda e: font_size(1))
         item("Decrease Font Size", "<Control-minus>", lambda e: font_size(-1))
         item("Reset Font Size", "<Control-period>", lambda e: font_size(0))
-        item("Toggle monospace", "<Control-Alt-M>", toggle_font_mono)
+        item("Toggle Monospace", "<Control-Shift-O>", toggle_font_mono)
         menu.add_separator()
         item("Toggle scrolling output", "<Control-o>", toggle_scroll_output)
         item("Toggle wrap lines", "<Control-l>", lambda e: self.it.configure(wrap=(NONE if self.it.cget("wrap") != NONE else WORD)))

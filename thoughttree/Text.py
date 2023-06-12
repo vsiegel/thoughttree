@@ -194,7 +194,7 @@ class Text(tk.scrolledtext.ScrolledText):
                 history += [{'role' : 'user', 'content' : section}]
         return history
 
-    @classmethod
+
     def jump_to_similar_line(cls, event=None, direction=1) :
 
         def find_matching_line(target, line_nr_1, lines):
@@ -210,7 +210,8 @@ class Text(tk.scrolledtext.ScrolledText):
                     return ((i + start) % num_lines) + 1
             return 0
 
-        txt: Text = event.widget
+        txt: Text = cls.focus_get()
+        # txt: Text = cls.master.focus_get()
         line_nr = int(txt.index('insert + 1 chars').split('.')[0])
         current_line = txt.get(f"{line_nr}.0", f"{line_nr}.end")
         if not current_line.strip():

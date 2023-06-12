@@ -133,6 +133,7 @@ class ThoughttreeMenu(Menu):
 
 
             def on_resize(event):
+                print(event)
                 char_width = tkfont.Font(font=txt.cget("font")).measure('0')
                 parent_width = event.width
                 txt.configure(width=int(parent_width / char_width))
@@ -221,13 +222,17 @@ class ThoughttreeMenu(Menu):
 
         menu = Menu(self, "Navigate")
         item("Split Conversation", "<Control-b>", lambda e: self.it.split_conversation())
-        item("Jump to Similar Line", "<Control-Shift-J>", lambda e: self.it.jump_to_similar_line(-1))
-        item("Jump to Similar Line", "<Control-j>", lambda e: self.it.jump_to_similar_line(1))
+        item("Next Similar Line", "<Control-j>", lambda e: self.it.jump_to_similar_line(direction=1))
+        item("Previous Similar Line", "<Control-Shift-J>", lambda e: self.it.jump_to_similar_line(direction=-1))
+        item("Next Message", "", None)
+        item("Previous Message", "", None)
 
         menu = Menu(self, "Chat")
-        item("Send Chat Message", "<Control-Return>", lambda e: self.ui.complete(1, "\n\n", "\n\n"))
+        item("Next Paragraph", "<Control-Return>", lambda e: self.ui.complete(1, "\n\n", "\n\n"))
+        item("Next Line", "<Shift-Return>", lambda e: self.ui.complete(1, "\n", "\n"))
+        item("Continue Message", "<Alt-Return>", lambda e: self.ui.complete(1, "", ""))
         item("Complete Directly", "<Control-space>", lambda e: self.ui.complete())
-        item("Complete in Branch", "<Alt-Return>", lambda e: branch_conversation())
+        item("Complete in Branch", "<Control-Shift-Return>", lambda e: branch_conversation())
         item("Continue Alternatives", "<Alt-Shift-Return>", lambda e: self.ui.complete(-1, "\n"))
         menu.add_separator()
         item("Complete 2 Times", "<Control-Key-2>", lambda e: self.ui.complete(2))
@@ -236,6 +241,7 @@ class ThoughttreeMenu(Menu):
         item("Complete Multiple...", "<Control-Shift-M>", lambda e: self.ui.complete(0))
         item("Complete Multiple Again", "<Control-m>", lambda e: self.ui.complete(-1))
         item("Cancel", "<Escape>", self.ui.cancelModels)
+        chat_menu = menu
 
         menu = Menu(self, "Model")
         self.models_items(item)

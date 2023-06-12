@@ -7,8 +7,9 @@ from tools import next_pastel_rainbow_color
 
 
 class Text(tk.scrolledtext.ScrolledText):
-    FONT = ("monospace", 10)
-    # FONT = ("sans-serif", 11)
+    FONT_NAME_MONOSPACE = "monospace"
+    FONT_NAME_PROPORTIONAL = "sans-serif"
+    FONT = (FONT_NAME_PROPORTIONAL, 11)
 
     def __init__(self, master=None, text="", scrollbar=True, **kw):
         height = len(text.splitlines())
@@ -39,12 +40,12 @@ class Text(tk.scrolledtext.ScrolledText):
         self.tag_configure('cursorline', background='#FCFAED', foreground="black", selectbackground="#4682b4", selectforeground="white")
         self.insert(tk.END, text)
 
-        def update_text_height(event=None):
-            text_height = self.count('1.0', 'end', 'displaylines')[0]
-            self.configure(height=text_height)
-
-
-        self.bind('<KeyRelease>', update_text_height)
+        # def update_text_height(event=None):
+        #     text_height = self.count('1.0', 'end', 'displaylines')[0]
+        #     print(text_height)
+        #     self.configure(height=text_height)
+        #
+        # self.bind('<KeyRelease>', update_text_height)
 
 
     def cursorline(self, e, add=True):
@@ -76,6 +77,7 @@ class Text(tk.scrolledtext.ScrolledText):
         # height = max(old_height + delta * self.line_height, self.line_height)
         parent.configure(height=old_height + delta)
 
+
     def split_conversation(self):
 
         def next_equal(hierarchical_id):
@@ -83,9 +85,9 @@ class Text(tk.scrolledtext.ScrolledText):
                 levels = hierarchical_id.split('.')
             else:
                 levels = ['0']
-            # print(f"{levels}")
             levels = levels[:-1] + [str(int(levels[-1]) + 1)]
             return '.'.join(levels)
+
 
         def next_level(hierarchical_id):
             if hierarchical_id:
@@ -94,31 +96,55 @@ class Text(tk.scrolledtext.ScrolledText):
                 levels = ['1']
             return '.'.join(levels)
 
-        leading_text = self.get("1.0", tk.INSERT)
+        def new_child(parent):
+            if parent:
+                parent_tab_label = parent.tab(parent.select(), "text")
+            else:
+                parent_tab_label = ""
+            return next_level(parent_tab_label)
+
+        def new_sibling(notebook):
+            last_tab_label = notebook.tab(len(notebook.tabs()) - 1, "text")
+            s = next_equal(last_tab_label)
+            return s
+
+        def intoText(notebook, text):
+            self.window_create(tk.INSERT, window=notebook)
+
+        def intoNotebook(txt, notebook, tab_label):
+            txt.insert("1.0", tab_label + "\n")
+            notebook.add(txt, text=tab_label)
+
+        # Get the leading and trailing text and find the parent Notebook
+        has_leading_text = bool(self.get("1.0", tk.INSERT).strip())
         trailing_text = self.get(tk.INSERT, tk.END)
         parent = self.find_parent(Notebook, self)
-        create_notebook = not parent or bool(leading_text.strip())
+
+        # Determine whether to create a new Notebook or use the parent Notebook
+        create_notebook = not parent or has_leading_text
         if create_notebook:
-            ttk.Style().layout("NoBorder.TNotebook", [])
+            # Create a new Notebook and add the trailing text as a new tab
             notebook = Notebook(self, height=self.winfo_height(), width=self.winfo_width(), style='NoBorder.TNotebook')
             notebook.enable_traversal()
-            txt = Text(notebook, trailing_text, scrollbar=False)
-            if parent:
-               parent_tab_label = parent.tab(parent.select(), "text")
-            else:
-               parent_tab_label = ""
-            notebook.add(txt, text=next_level(parent_tab_label))
+            txt = Text(notebook, trailing_text, scrollbar=True)
+            intoNotebook(txt, notebook, new_child(parent))
         else:
             notebook = parent
-        new_txt = Text(notebook, scrollbar=False)
-        last_tab_label = notebook.tab(len(notebook.tabs()) - 1, "text")
-        notebook.add(new_txt, text=next_equal(last_tab_label))
+        txt = Text(notebook, scrollbar=True)
+        intoNotebook(txt, notebook, new_sibling(notebook))
 
+
+        # Select the new tab and set focus to the new Text widget
         notebook.select(len(notebook.tabs()) - 1)
-        new_txt.focus_set()
+        txt.focus_set()
+
+        # If a new Notebook was created, insert it into the text widget and scroll to the insertion point
         if create_notebook:
+            intoText(notebook, self)
             self.window_create(tk.INSERT, window=notebook)
             self.see(tk.INSERT)
+
+        # Delete the text from the insertion point to the end and return "break"
         self.delete(tk.INSERT, tk.END)
         return "break"
 
@@ -168,7 +194,7 @@ class Text(tk.scrolledtext.ScrolledText):
         return history
 
     @classmethod
-    def jump_to_similar_line(cls, event=None) :
+    def jump_to_similar_line(cls, event=None, direction=1) :
 
         def find_matching_line(target, line_nr_1, lines):
             line_nr_0 = line_nr_1 - 1

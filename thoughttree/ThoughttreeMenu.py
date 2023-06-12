@@ -19,7 +19,7 @@ class ThoughttreeMenu(Menu):
 
     @property
     def it(self) -> Text:
-        return self.ui.it
+        return self.ui.focus_get()
 
 
     def create_menu(self):

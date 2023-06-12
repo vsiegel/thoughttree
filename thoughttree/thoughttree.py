@@ -33,7 +33,7 @@ NODE_OPEN = '*'
 NODE_CLOSED = '|'
 
 
-class Thoughttree(tk.Tk):
+class Thoughttree(UI):
     MIN_WIDTH = 250
     MIN_HEIGHT = 100
     CHAT_WIDTH = 400
@@ -54,7 +54,7 @@ class Thoughttree(tk.Tk):
         self.minsize(Thoughttree.MIN_WIDTH, Thoughttree.MIN_HEIGHT)
         self.protocol("WM_DELETE_WINDOW", self.close)
         try:
-            self.set_icon()
+            self.set_icon(self.WINDOW_ICON)
         except:
             print("Error loading icon.")
 

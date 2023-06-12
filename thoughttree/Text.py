@@ -13,8 +13,8 @@ class Text(tk.scrolledtext.ScrolledText):
 
     def __init__(self, master=None, text="", scrollbar=True, **kw):
         height = len(text.splitlines())
-        # background = 'white'
-        background = next_pastel_rainbow_color()
+        background = 'white'
+        # background = next_pastel_rainbow_color()
         tk.scrolledtext.ScrolledText.__init__(
             self, master, undo=True, wrap=tk.WORD, padx=0, pady=0, background=background,
             width=80, height=height, insertwidth=4, font=Text.FONT,
@@ -25,6 +25,8 @@ class Text(tk.scrolledtext.ScrolledText):
             self.vbar.config(width=18, takefocus=False, borderwidth=2)
         else:
             self.vbar.pack_forget()
+
+        ttk.Style().layout("NoBorder.TNotebook", [])
 
         # self.bind("<Control-Alt-plus>", lambda e: self.change_notebook_height(1))
         # self.bind("<Control-Alt-minus>", lambda e: self.change_notebook_height(-1))

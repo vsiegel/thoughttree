@@ -6,13 +6,13 @@ class UI(tk.Tk):
     icon = None
     WINDOW_ICON = None
 
-    def __init__(self):
+    def __init__(self, icon_path=None):
         tk.Tk.__init__(self)
         self.title("Thoughttree")
         self.wm_title("Thoughttree")
         self.protocol("WM_DELETE_WINDOW", self.close)
         try:
-            self.set_icon(self.WINDOW_ICON)
+            self.set_icon(icon_path)
         except:
             print("Error loading icon.")
 
@@ -23,6 +23,8 @@ class UI(tk.Tk):
 
 
     def set_icon(self, window_icon):
+        if not window_icon:
+            return
         def get_icon_file_name(icon_base_name):
             return join(os.path.dirname(os.path.abspath(__file__)), icon_base_name)
 

@@ -257,11 +257,9 @@ class Thoughttree(UI):
             if prefix :
                 txt.insert(tk.END, prefix)
                 txt.update()
-            tokens_used_in_before = self.model.get_tokens_used_in()
-            tokens_used_out_before = self.model.get_tokens_used_out()
-            tokens_cost_in_before = self.model.get_tokens_cost_in()
-            tokens_cost_out_before = self.model.get_tokens_cost_out()
             history = self.history_from_system_and_chat()
+
+            self.model.counter.go()
 
             finish_reason, message = 'unknown', ''
             if n == 1:
@@ -318,24 +316,8 @@ class Thoughttree(UI):
 
             if conf.ring_bell_after_completion:
                 self.bell()
-            return
-            tokens_used_in = self.model.get_tokens_used_in() - tokens_used_in_before
-            tokens_used_out = self.model.get_tokens_used_out() - tokens_used_out_before
-            print(f"{self.model.get_tokens_used_in()   =}")
-            print(f"{self.model.get_tokens_used_out()  =}")
-            print(f"{self.model.get_tokens_used_total()=}")
-            print(f"{tokens_used_in =}")
-            print(f"{tokens_used_out=}")
 
-            tokens_cost_in = self.model.get_tokens_cost_in() - tokens_cost_in_before
-            tokens_cost_out = self.model.get_tokens_cost_out() - tokens_cost_out_before
-            print(f"{self.model.get_tokens_cost_in()   =}")
-            print(f"{self.model.get_tokens_cost_out()  =}")
-            print(f"{self.model.get_tokens_cost_total()=}")
-            print(f"tokens_cost_in    {tokens_cost_in:.5f} $")
-            print(f"tokens_cost_out   {tokens_cost_out:.5f} $")
-            print(f"tokens_cost_total {tokens_cost_in + tokens_cost_out:.5f} $")
-            print()
+            self.model.counter.summarize()
 
             # if conf.update_title_after_completion:
             #     if tokens_out > Thoughttree.GEN_TITLE_THRESHOLD:

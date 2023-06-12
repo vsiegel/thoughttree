@@ -136,7 +136,7 @@ class Thoughttree(UI):
         tree_and_main_pane.sash_place(0, 0, 0)
 
         self.tree_and_main_pane = tree_and_main_pane
-        self.tree_and_main_pane_old_sash = (20, 20)
+        self.tree_and_main_pane_old_sash = (160, 160)
         self.system_and_chat_pane = system_and_chat_pane
         self.system_and_chat_pane_old_sash = (20, 20)
 
@@ -152,6 +152,7 @@ class Thoughttree(UI):
 
         system_and_chat_pane.add(self.system)
         system_and_chat_pane.add(self.chat)
+
         self.chat.focus_set()
 
     def update_window_title(self, event=None):

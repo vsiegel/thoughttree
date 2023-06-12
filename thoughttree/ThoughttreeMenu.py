@@ -152,8 +152,22 @@ class ThoughttreeMenu(Menu):
             self.ui.update()
             self.ui.complete()
 
-        def item(label, keystroke, command, bind_key=True, context_menu=None, toggle_variable=None):
-            menu.item(label, keystroke, command, bind_key, context_menu, toggle_variable)
+        def item(label, keystroke, command, bind_key=True, context_menu=None, variable=None):
+            menu.item(label, keystroke, command, bind_key, context_menu, variable)
+
+        def toggle_show_system_prompt(event=None):
+            print(f"{event=}")
+            print(f"{self=}")
+            current = self.ui.system_and_chat_pane.sash_coord(0)
+            print(f"{current=}")
+            if current[1] > 1:
+                print(f"Open:  {self.ui.system_and_chat_pane_old_sash=}")
+                self.ui.system_and_chat_pane_old_sash = current
+                self.ui.system_and_chat_pane.sash_place(0, 1, 1)
+            else:
+                print(f"Closed {self.ui.system_and_chat_pane_old_sash=}")
+                x, y = self.ui.system_and_chat_pane_old_sash
+                self.ui.system_and_chat_pane.sash_place(0, x ,y)
 
         def toggle_scroll_output(event=None):
             self.ui.scroll_output = not self.ui.scroll_output
@@ -190,7 +204,7 @@ class ThoughttreeMenu(Menu):
         item("Insert Current Time", "<Control-Shift-I>", insert_current_time)
 
         menu = Menu(self, "View")
-        item("Show System Prompt", "", None)
+        item("Show System Prompt", "<Alt-Shift-P>", toggle_show_system_prompt)
         item("Show Tree", "", None)
         item("Count Tokens", "<Control-t>", self.ui.count_text_tokens)
         item("Run Code Block", "", None)
@@ -200,8 +214,8 @@ class ThoughttreeMenu(Menu):
         item("Reset Font Size", "<Control-period>", lambda e: font_size(0))
         item("Toggle Monospace", "<Control-Shift-O>", toggle_font_mono)
         menu.add_separator()
-        item("Toggle scrolling output", "<Control-o>", toggle_scroll_output)
-        item("Toggle wrap lines", "<Control-l>", lambda e: self.it.configure(wrap=(NONE if self.it.cget("wrap") != NONE else WORD)))
+        item("Toggle Scrolling Output", "<Control-o>", toggle_scroll_output)
+        item("Toggle Wrap Lines", "<Control-l>", lambda e: self.it.configure(wrap=(NONE if self.it.cget("wrap") != NONE else WORD)))
         item("Generate Titles", "", None)
         item("Calculate Cost", "", None)
 

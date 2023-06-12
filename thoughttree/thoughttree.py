@@ -205,7 +205,7 @@ class Thoughttree(UI):
             text = txt.get(1.0, tk.END)
         old_status = self.status_bar.message
         self.status_bar.message = "Counting tokens (loading model)"
-        num_tokens = self.model.count_tokens(text)
+        num_tokens = self.model.counter.count_tokens(text)
         num_lines = text.count("\n")
         num_words = len(text.split())
         num_chars = len(text)

@@ -114,7 +114,6 @@ class Text(tk.scrolledtext.ScrolledText):
             self.window_create(tk.INSERT, window=notebook)
 
         def intoNotebook(txt, notebook, tab_label):
-            txt.insert("1.0", tab_label + "\n")
             notebook.add(txt, text=tab_label)
 
         # Get the leading and trailing text and find the parent Notebook

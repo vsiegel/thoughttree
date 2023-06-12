@@ -148,19 +148,25 @@ class ThoughttreeMenu(Menu):
         def item(label, keystroke, command, bind_key=True, context_menu=None, variable=None):
             menu.item(label, keystroke, command, bind_key, context_menu, variable)
 
-        def toggle_show_system_prompt(event=None):
-            print(f"{event=}")
-            print(f"{self=}")
-            current = self.ui.system_and_chat_pane.sash_coord(0)
-            print(f"{current=}")
-            if current[1] > 1:
-                print(f"Open:  {self.ui.system_and_chat_pane_old_sash=}")
-                self.ui.system_and_chat_pane_old_sash = current
-                self.ui.system_and_chat_pane.sash_place(0, 1, 1)
+        def toggle_show_panel(pane, pane_old_sash):
+            cx, cy = pane.sash_coord(0)
+            print(f"toggle_show_panel {(cx, cy)=}")
+            if cx + cy > 2:
+                pane.sash_place(0, 1, 1)
+                return (cx, cy)
             else:
-                print(f"Closed {self.ui.system_and_chat_pane_old_sash=}")
-                x, y = self.ui.system_and_chat_pane_old_sash
-                self.ui.system_and_chat_pane.sash_place(0, x ,y)
+                x, y = pane_old_sash
+                pane.sash_place(0, x ,y)
+                return (1, 1)
+
+        def toggle_show_tree(event=None):
+            print(f"toggle_show_tree {event=}")
+            self.ui.tree_and_main_pane_old_sash = \
+                toggle_show_panel(self.ui.tree_and_main_pane, self.ui.tree_and_main_pane_old_sash)
+
+        def toggle_show_system_prompt(event=None):
+            self.ui.system_and_chat_pane_old_sash = \
+                toggle_show_panel(self.ui.system_and_chat_pane, self.ui.system_and_chat_pane_old_sash)
 
         def toggle_scroll_output(event=None):
             self.ui.scroll_output = not self.ui.scroll_output
@@ -198,7 +204,7 @@ class ThoughttreeMenu(Menu):
 
         menu = Menu(self, "View")
         item("Show System Prompt", "<Alt-Shift-P>", toggle_show_system_prompt)
-        item("Show Tree", "", None)
+        item("Show Tree", "<Alt-Shift-T>", toggle_show_tree)
         item("Count Tokens", "<Control-t>", self.ui.count_text_tokens)
         item("Run Code Block", "", None)
         item("Update Window Title", "<Control-u>", self.ui.update_window_title)
@@ -208,6 +214,7 @@ class ThoughttreeMenu(Menu):
         item("Toggle Monospace", "<Control-Shift-O>", toggle_font_mono)
         menu.add_separator()
         item("Toggle Scrolling Output", "<Control-o>", toggle_scroll_output)
+        item("Ring Bell When Finished", "<Control-Alt-o>", toggle_scroll_output)
         item("Toggle Wrap Lines", "<Control-l>", lambda e: self.it.configure(wrap=(NONE if self.it.cget("wrap") != NONE else WORD)))
         item("Generate Titles", "", None)
         item("Calculate Cost", "", None)
@@ -247,7 +254,7 @@ class ThoughttreeMenu(Menu):
         item("API Key...", "", None)
 
         menu = Menu(self, "Help")
-        item("Test", "<Alt-Shift-T>", menu_test)
+        item("Test", "<Control-Alt-Shift-T>", menu_test)
         item("Debug Info", "<Control-i>", debug_info)
         item("About", None, None)
 

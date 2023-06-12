@@ -5,7 +5,7 @@ from typing import Union
 class Menu(tk.Menu):
 
     def __init__(self, master: Union[tk.Tk, tk.Text, tk.Menu], label=None, **kwargs) :
-        super().__init__(master, tearoff=0, borderwidth=2)
+        super().__init__(master, tearoff=0, borderwidth=3)
         if label :
             master.add_cascade(label=label, menu=self, underline=0)
         if type(master) == tk.Tk:

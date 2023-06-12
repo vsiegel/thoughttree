@@ -1,3 +1,4 @@
+import re
 import tkinter as tk
 from typing import Union
 
@@ -11,10 +12,24 @@ class Menu(tk.Menu):
         if type(master) == tk.Tk:
             master.config(menu=self)
 
+
     def convert_key_string(self, keystroke) :
+
+        def fix_key_letter_case(keystroke):
+            m = re.search(r"^((<.*-)|<)([a-zA-Z])>", keystroke)
+            if m:
+                letter = m[3]
+                if keystroke.lower().count('shift-'):
+                    letter = letter.upper()
+                else:
+                    letter = letter.lower()
+                return m[1] + letter + ">"
+            else:
+                return keystroke
+
         if not keystroke:
             return ""
-        s = keystroke
+        s = fix_key_letter_case(keystroke)
         s = s.replace("-Key-", "-")
         s = s.replace("-", "+")
         s = s.replace("<Control", "Ctrl")

@@ -78,7 +78,7 @@ def shorter(text, n=60):
     return f'{text[:leading]}...{text[-trailing:]}'
 
 
-def log_length(text, n=1, step='.'):
+def logarithmic_length(text, n=1, step='.'):
     return step * ceil(log2(len(text)-n)) if len(text) > n else ''
     # return (step * ceil(log2(len(text))) if len(text) > n else '')[3+ceil(log2(n)):]
 

@@ -1,9 +1,34 @@
 # thoughttree
 Interact with large language models in alternative ways.
 
-A user interface for GPT-4 and ChatGPT, that supports the common way of chatting with the model, message by message in a linear way. But above that, it supports a whole new perspective: Branch the conversation for less related topics. And work with this conversation as something that is easy to change, instead of seeing it as the static history  of a session.
+## Why?
+
+#### Work with alternative branches of conversation
+   - Your conversation can branch in two or more at any time
+   - Avoid having irrelevant information context 
+   - Easily make a new turn in the conversation, without giving up the old 
+   - No need to delete something interesting  
+   - A model has more answers if you ask it again
+
+#### Know your cost
+   - Your quota may be limited
+   - The cost in tokens or money may be low - but  
+
+#### Edit your history
+   - Edit the history
+   - Remove what is not important
+
+#### Have the tools you need
+   - Safe the code blocks with a generated file name
+   - Run the code
+   - Render the content, like LaTex or SVG
+   - Open applications like CSV
+   - see below under "Features" 
 
 #### [Note: This is only partially implemented. See [ This software is not released](https://github.com/vsiegel/thoughttree/discussions/73) ]
+
+A user interface for GPT-4 and ChatGPT, that supports the common way of chatting with the model, message by message in a linear way. But above that, it supports a whole new perspective: Branch the conversation for less related topics. And work with this conversation as something that is easy to change, instead of seeing it as the static history  of a session.
+
 
 Prompts and linear chats are a powerful method. But there is not only one way a conversation can develop. Work in multiple timelines, without deleting what happened before. 
 

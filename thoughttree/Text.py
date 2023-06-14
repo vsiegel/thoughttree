@@ -164,20 +164,25 @@ class Text(tk.scrolledtext.ScrolledText):
             history = history or []
         content = self.dump(1.0, tk.INSERT, text=True, tag=True, window=True)
         section = ""
+        role = "user"
         for item in content :
-            if item[0] == "tagon" and item[1] == "assistant":
+            text = item[1]
+            category = item[0]
+            if category == "tagon" and text == "assistant":
                 section = section.strip()
-                history += [{'role' : 'user', 'content' : section}]
+                history += [{'role' : role, 'content' : section}]
+                role = "assistant"
                 section = ""
-            elif item[0] == "tagoff" and item[1] == "assistant":
+            elif category == "tagoff" and text == "assistant":
                 section = section.strip()
-                history += [{'role' : 'assistant', 'content' : section}]
+                history += [{'role' : role, 'content' : section}]
+                role = "user"
                 section = ""
-            elif item[0] in ["tagon", "tagoff"] and item[1] in ["cursorline", "sel"]:
+            elif category in ["tagon", "tagoff"] and text in ["cursorline", "sel"]:
                 pass
-            elif item[0] == "text":
-                section += item[1]
-            elif item[0] == "window":
+            elif category == "text":
+                section += text
+            elif category == "window":
                 pass
                 # print(f"{item=}")
                 # win_index = item[2]
@@ -186,10 +191,7 @@ class Text(tk.scrolledtext.ScrolledText):
                 print(f"Ignored item: {item}")
         section = section.strip("\n")
         if section != "" :
-            if history[-1]['role'] == "user" :
-                history += [{'role' : 'assistant', 'content' : section}]
-            elif history[-1]['role'] in ["assistant", "system"] :
-                history += [{'role' : 'user', 'content' : section}]
+            history += [{'role' : role, 'content' : section}]
         return history
 
 

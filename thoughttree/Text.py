@@ -110,7 +110,7 @@ class Text(tk.scrolledtext.ScrolledText):
             s = next_equal(last_tab_label)
             return s
 
-        def intoText(notebook, text):
+        def intoText(notebook):
             self.window_create(tk.INSERT, window=notebook)
 
         def intoNotebook(txt, notebook, tab_label):
@@ -124,9 +124,9 @@ class Text(tk.scrolledtext.ScrolledText):
         # Determine whether to create a new Notebook or use the parent Notebook
         create_notebook = not parent or has_leading_text
         if create_notebook:
-            # Create a new Notebook and add the trailing text as a new tab
             notebook = Notebook(self, height=self.winfo_height(), width=self.winfo_width(), style='NoBorder.TNotebook')
             notebook.enable_traversal()
+
             txt = Text(notebook, trailing_text, scrollbar=True)
             intoNotebook(txt, notebook, new_child(parent))
         else:
@@ -141,9 +141,8 @@ class Text(tk.scrolledtext.ScrolledText):
 
         # If a new Notebook was created, insert it into the text widget and scroll to the insertion point
         if create_notebook:
-            intoText(notebook, self)
-            self.window_create(tk.INSERT, window=notebook)
-            self.see(tk.INSERT)
+            intoText(notebook)
+            # self.see(tk.INSERT)
 
         # Delete the text from the insertion point to the end and return "break"
         self.delete(tk.INSERT, tk.END)

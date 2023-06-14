@@ -234,3 +234,4 @@ class Text(tk.scrolledtext.ScrolledText):
                 print(f"{ text_in_tab=}")
                 if not text_in_tab:
                     notebook.forget(self)
+                    return "break"

@@ -151,8 +151,8 @@ class ThoughttreeMenu(Menu):
             self.ui.update()
             self.ui.complete()
 
-        def item(label, keystroke, command, bind_key=True, context_menu=None, variable=None):
-            menu.item(label, keystroke, command, bind_key, context_menu, variable)
+        def item(label, keystroke, command, bind_key=True, context_menu=None, variable=None, add=True):
+            menu.item(label, keystroke, command, bind_key, context_menu, variable, add)
 
         def toggle_show_panel(pane, pane_old_sash):
             cx, cy = pane.sash_coord(0)

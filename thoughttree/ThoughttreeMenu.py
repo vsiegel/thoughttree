@@ -187,6 +187,8 @@ class ThoughttreeMenu(Menu):
             self.it.configure(font=(family, size))
             return "break"
 
+        def close_empty_tab(event=None):
+            self.it.close_empty_tab()
 
         menu = Menu(self, "File")
         item("New Window", "<Control-n>", new_window)
@@ -194,6 +196,7 @@ class ThoughttreeMenu(Menu):
         item("Save Chat", "<Control-s>", save_chat)
         item("Save Section", "<Control-Shift-S>", save_section)
         item("Save Code Block", "<Control-Alt-s>", save_code_block)
+        item("Close Empty Tab", "<BackSpace>", close_empty_tab)
         item("Quit", "<Control-q>", self.ui.close)
 
         menu = Menu(self, "Edit")

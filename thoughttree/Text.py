@@ -222,3 +222,15 @@ class Text(tk.scrolledtext.ScrolledText):
             jump_index = f"{jump_line}.{0}"
             txt.mark_set(tk.INSERT, jump_index)
             txt.see(jump_index)
+
+
+    def close_empty_tab(self):
+        notebook: Notebook = self.find_parent(Notebook)
+        if notebook:
+            insert_index = self.index(tk.INSERT)
+            print(f"{ insert_index=}")
+            if insert_index == "1.0":
+                text_in_tab = self.get('1.0', tk.END).strip()
+                print(f"{ text_in_tab=}")
+                if not text_in_tab:
+                    notebook.forget(self)

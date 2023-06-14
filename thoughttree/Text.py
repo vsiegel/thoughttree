@@ -119,7 +119,8 @@ class Text(tk.scrolledtext.ScrolledText):
         # Get the leading and trailing text and find the parent Notebook
         has_leading_text = bool(self.get("1.0", tk.INSERT).strip())
         trailing_text = self.get(tk.INSERT, tk.END)
-        parent = self.find_parent(Notebook, self)
+        trailing_text = trailing_text.rstrip()
+        parent = self.find_parent(Notebook)
 
         # Determine whether to create a new Notebook or use the parent Notebook
         create_notebook = not parent or has_leading_text
@@ -139,18 +140,16 @@ class Text(tk.scrolledtext.ScrolledText):
         notebook.select(len(notebook.tabs()) - 1)
         txt.focus_set()
 
-        # If a new Notebook was created, insert it into the text widget and scroll to the insertion point
         if create_notebook:
             intoText(notebook)
             # self.see(tk.INSERT)
 
-        # Delete the text from the insertion point to the end and return "break"
         self.delete(tk.INSERT, tk.END)
         return "break"
 
 
-    def find_parent(self, parentType, child):
-        parent = child.master
+    def find_parent(self, parentType):
+        parent = self.master
         while parent and type(parent) != parentType:
             parent = parent.master
         return parent
@@ -158,7 +157,7 @@ class Text(tk.scrolledtext.ScrolledText):
 
     def history_from_path(self, history=None) :
 
-        parentText: Text = self.find_parent(Text, self)
+        parentText: Text = self.find_parent(Text)
         if parentText:
             history = parentText.history_from_path(history)
         else:

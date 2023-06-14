@@ -63,6 +63,12 @@ class ThoughttreeMenu(Menu):
             txt.event_generate("<<Paste>>")
             txt.see(tk.INSERT)
 
+        def delete_text(event=None):
+            if self.it.tag_ranges(tk.SEL):
+                self.it.event_generate("<<Clear>>")
+            else:
+                self.it.delete(tk.INSERT)
+
         def select_all(event=None):
             txt = self.it
             if type(txt) == Text:
@@ -195,6 +201,7 @@ class ThoughttreeMenu(Menu):
         item("Cut", "<Control-x>", cut_text)
         item("Copy", "<Control-c>", copy_text)
         item("Paste", "<Control-v>", paste_text)
+        item("Delete", "<Delete>", delete_text)
         menu.add_separator()
         item("Undo", "<Control-z>", edit_undo)
         item("Redo", "<Control-Shift-Z>", edit_redo)

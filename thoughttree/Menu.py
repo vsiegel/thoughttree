@@ -45,7 +45,7 @@ class Menu(tk.Menu):
         return s
 
 
-    def item(self, label, keystroke, command, bind_key=True, context_menu=None, variable=None) :
+    def item(self, label, keystroke, command, bind_key=True, context_menu=None, variable=None, add=True) :
         accelerator = self.convert_key_string(keystroke)
         state = tk.NORMAL if command or variable else tk.DISABLED
         if variable :
@@ -61,4 +61,4 @@ class Menu(tk.Menu):
             # print(f"{keystroke} {self.master.bind_class('Text', keystroke)=}")
             # self.master.unbind("Text", keystroke)
             self.master.unbind_class("Text", keystroke)
-            self.master.bind_class("Text", keystroke, command)
+            self.master.bind_class("Text", keystroke, command, add='+')

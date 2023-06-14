@@ -211,6 +211,8 @@ class ThoughttreeMenu(Menu):
         item("Select All", "<Control-a>", select_all)
         menu.add_separator()
         item("Insert Current Time", "<Control-Shift-I>", insert_current_time)
+        item("Include Date in System Prompt", None, None)
+        item("Copy Title", None, None)
 
         menu = Menu(self, "View")
         item("Show System Prompt", "<Alt-Shift-P>", toggle_show_system_prompt)

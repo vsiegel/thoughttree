@@ -135,10 +135,11 @@ class Thoughttree(UI):
         tree_and_main_pane.add(system_and_chat_pane)
         tree_and_main_pane.sash_place(0, 0, 0)
 
-        self.tree_and_main_pane = tree_and_main_pane
         self.tree_and_main_pane_old_sash = (160, 160)
-        self.system_and_chat_pane = system_and_chat_pane
         self.system_and_chat_pane_old_sash = (20, 20)
+
+        self.tree_and_main_pane = tree_and_main_pane
+        self.system_and_chat_pane = system_and_chat_pane
 
         children = tree.get_children()
         if children:

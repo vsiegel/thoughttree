@@ -3,8 +3,6 @@ from tkinter import ttk
 from tkinter import scrolledtext
 from tkinter.ttk import Notebook
 
-from tools import next_pastel_rainbow_color
-
 
 class Text(tk.scrolledtext.ScrolledText):
     FONT_NAME_MONOSPACE = "monospace"
@@ -110,11 +108,6 @@ class Text(tk.scrolledtext.ScrolledText):
             s = next_equal(last_tab_label)
             return s
 
-        def intoText(notebook):
-            self.window_create(tk.INSERT, window=notebook)
-
-        def intoNotebook(txt, notebook, tab_label):
-            notebook.add(txt, text=tab_label)
 
         # Get the leading and trailing text and find the parent Notebook
         has_leading_text = bool(self.get("1.0", tk.INSERT).strip())
@@ -129,20 +122,20 @@ class Text(tk.scrolledtext.ScrolledText):
             notebook.enable_traversal()
 
             txt = Text(notebook, trailing_text, scrollbar=True)
-            intoNotebook(txt, notebook, new_child(parent))
+            label = new_child(parent)
+            notebook.add(txt, text=label)
         else:
             notebook = parent
         txt = Text(notebook, scrollbar=True)
-        intoNotebook(txt, notebook, new_sibling(notebook))
-
+        tab_label = new_sibling(notebook)
+        notebook.add(txt, text=tab_label)
 
         # Select the new tab and set focus to the new Text widget
         notebook.select(len(notebook.tabs()) - 1)
         txt.focus_set()
 
         if create_notebook:
-            intoText(notebook)
-            # self.see(tk.INSERT)
+            self.window_create(tk.INSERT, window=notebook)
 
         self.delete(tk.INSERT, tk.END)
         return "break"

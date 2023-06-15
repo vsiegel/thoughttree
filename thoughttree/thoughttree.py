@@ -325,6 +325,7 @@ class Thoughttree(UI):
             if conf.ring_bell_after_completion:
                 self.bell()
 
+            print("Completion cost:")
             self.model.counter.summarize()
 
             if conf.update_title_after_completion:

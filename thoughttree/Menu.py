@@ -32,14 +32,13 @@ class Menu(tk.Menu):
         s = fix_key_letter_case(keystroke)
         s = s.replace("-Key-", "-")
         s = s.replace("-", "+")
-        s = s.replace("<Control", "Ctrl")
-        s = s.replace("<Shift", "Shift")
-        s = s.replace("<Alt", "Alt")
-        s = s.replace("<Escape", "Esc")
+        s = s.replace("Control", "Ctrl")
+        s = s.replace("Escape", "Esc")
         s = s.replace("plus>", "+")
         s = s.replace("minus>", "-")
         s = s.replace("period>", ".")
-        s = s.replace(">", "")
+        s = s.lstrip("<")
+        s = s.rstrip(">")
         if s[-2] == "+":
             s = s[:-1] + s[-1].upper()
         return s

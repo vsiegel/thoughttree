@@ -10,7 +10,7 @@ import tiktoken
 MODEL_DATA = {
     'gpt-3.5-turbo': {
         '1k_token_usd': {
-            'prompt': 0.002,
+            'prompt': 0.0015,
             'completion': 0.002,
         },
         'max_tokens': 4096,

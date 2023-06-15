@@ -126,8 +126,8 @@ class Text(tk.scrolledtext.ScrolledText):
         else:
             notebook = parent
         txt = Text(notebook, scrollbar=True)
-        tab_label = new_sibling(notebook)
-        notebook.add(txt, text=tab_label)
+        label = new_sibling(notebook)
+        notebook.add(txt, text=label)
 
         notebook.select(len(notebook.tabs()) - 1)
         txt.focus_set()

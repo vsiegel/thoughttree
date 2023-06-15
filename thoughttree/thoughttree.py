@@ -23,9 +23,9 @@ WINDOW_ICON = "chatgpt-icon.png"
 
 conf = Namespace()
 conf.show_finish_reason = True
-conf.ring_bell_after_completion = False
 conf.update_title_after_completion = True
 conf.scroll_output = True
+conf.ring_bell_after_completion = False
 conf.blinking_caret = True
 
 #NODE_OPEN = '\u25B6'
@@ -61,6 +61,7 @@ class Thoughttree(UI):
             print("Error loading icon.")
 
         self.scroll_output = conf.scroll_output
+        self.ring_bell_after_completion = conf.ring_bell_after_completion
         self.is_root_destroyed = False
         self.is_title_immutable = False
         self.create_ui()

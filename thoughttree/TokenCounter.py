@@ -65,7 +65,6 @@ class TokenCounter:
     def tokens_total(self):
         return self.prompt_tokens_total + self.completion_tokens_total
 
-
     def prompt_cost_since_go(self):
         return self.prompt_cost(self.prompt_tokens_since_go())
 
@@ -97,11 +96,22 @@ class TokenCounter:
     def observe_completion(self, text):
         self.completion_tokens_total += self.count_tokens(text)
 
+    def token_cost(self, tokens, direction):
+        model_name = self.model_name
+        if model_name not in MODEL_DATA:
+            match = re.match(r"^(.*)(-[0-9]{4}$)", self.model_name)
+            if match:
+                model_name = match.group(1)
+        if model_name not in MODEL_DATA:
+            return -1
+        else:
+            return (tokens * MODEL_DATA[model_name]['1k_token_usd'][direction]) / 1000.0
+
     def prompt_cost(self, tokens):
-        return (tokens * MODEL_DATA[self.model_name]['1k_token_usd']['prompt']) / 1000.0
+        return self.token_cost(tokens, 'prompt')
 
     def completion_cost(self, tokens):
-        return (tokens * MODEL_DATA[self.model_name]['1k_token_usd']['completion']) / 1000.0
+        return self.token_cost(tokens, 'completion')
 
     def summary_since_go(self):
         return f"{self.model_name} query:   {self.prompt_tokens_since_go():6d}+{self.completion_tokens_since_go():6d}={self.tokens_since_go():6d}t "\

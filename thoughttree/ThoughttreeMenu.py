@@ -103,7 +103,6 @@ class ThoughttreeMenu(Menu):
             print(f"{event=}")
             return
 
-            print(f'{self.it.compare(tk.INSERT, "==", tk.END)=}')
             dumped = self.it.dump("insert - 1 char", window=True)
             # print(f'{ dumped=}')
             if dumped and dumped[0][1].endswith("label"):
@@ -151,7 +150,7 @@ class ThoughttreeMenu(Menu):
             self.ui.update()
             self.ui.complete()
 
-        def item(label, keystroke, command, bind_key=True, context_menu=None, variable=None, add=True):
+        def item(label, keystroke, command, bind_key=True, context_menu=None, variable=None, add=False):
             menu.item(label, keystroke, command, bind_key, context_menu, variable, add)
 
         def toggle_show_panel(pane, pane_old_sash):
@@ -199,7 +198,7 @@ class ThoughttreeMenu(Menu):
         item("Save Chat", "<Control-s>", save_chat)
         item("Save Section", "<Control-Shift-S>", save_section)
         item("Save Code Block", "<Control-Alt-s>", save_code_block)
-        item("Close Empty Tab", "<BackSpace>", close_empty_tab)
+        item("Close Empty Tab", "<BackSpace>", close_empty_tab, add=False)
         item("Quit", "<Control-q>", self.ui.close)
 
         menu = Menu(self, "Edit")

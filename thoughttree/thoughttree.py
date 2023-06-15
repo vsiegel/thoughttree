@@ -45,6 +45,7 @@ class Thoughttree(UI):
 
     # self.model_name = 'gpt-4'
     model_name = 'gpt-3.5-turbo'
+    generation_model_name = 'gpt-3.5-turbo'
 
 
     def __init__(self):
@@ -67,6 +68,7 @@ class Thoughttree(UI):
         def new_window_callback():
             Thoughttree()
         self.models = {}
+        self.generation_model = Model(self.generation_model_name)
         self.set_model(self.model_name)
         self.config(menu=ThoughttreeMenu(self, new_window_callback))
 
@@ -170,8 +172,12 @@ class Thoughttree(UI):
 
         self.title(progress_title)
         self.update()
-        history = self.history_from_system_and_chat(prompts.TITLE_GENERATION_PROMPT)
-        self.model.chat_complete(history, write_title, max_tokens=30, temperature=0.3)
+        history = self.history_from_system_and_chat(prompts.TITLE_GENERATION_PROMPT, maxMessages=5)
+
+        self.generation_model.counter.go()
+        self.generation_model.chat_complete(history, write_title, max_tokens=30, temperature=0.3)
+        print("Title cost:")
+        self.generation_model.counter.summarize()
 
 
 

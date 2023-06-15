@@ -44,7 +44,7 @@ class Menu(tk.Menu):
         return s
 
 
-    def item(self, label, keystroke, command, bind_key=True, context_menu=None, variable=None, add=True) :
+    def item(self, label, keystroke, command, bind_key=True, context_menu=None, variable=None, add=False) :
         accelerator = self.convert_key_string(keystroke)
         state = tk.NORMAL if command or variable else tk.DISABLED
         if variable :
@@ -55,9 +55,7 @@ class Menu(tk.Menu):
             # print(f"{self.entryconfigure('last')=}", end="\n\n")
         # if context_menu :
         #     context_menu.add_command(label=label, accelerator=accelerator, state=state, command=lambda: command(None))
-        if bind_key and keystroke:
-            # print(f"{keystroke} {self.master.bind('Text', keystroke)=}")
-            # print(f"{keystroke} {self.master.bind_class('Text', keystroke)=}")
-            # self.master.unbind("Text", keystroke)
+        if not add:
             self.master.unbind_class("Text", keystroke)
-            self.master.bind_class("Text", keystroke, command, add='+')
+        self.master.bind_class("Text", keystroke, command, add=add)
+

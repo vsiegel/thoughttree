@@ -115,7 +115,6 @@ class Text(tk.scrolledtext.ScrolledText):
         trailing_text = trailing_text.rstrip()
         parent = self.find_parent(Notebook)
 
-        # Determine whether to create a new Notebook or use the parent Notebook
         create_notebook = not parent or has_leading_text
         if create_notebook:
             notebook = Notebook(self, height=self.winfo_height(), width=self.winfo_width(), style='NoBorder.TNotebook')
@@ -130,7 +129,6 @@ class Text(tk.scrolledtext.ScrolledText):
         tab_label = new_sibling(notebook)
         notebook.add(txt, text=tab_label)
 
-        # Select the new tab and set focus to the new Text widget
         notebook.select(len(notebook.tabs()) - 1)
         txt.focus_set()
 
@@ -221,10 +219,8 @@ class Text(tk.scrolledtext.ScrolledText):
         notebook: Notebook = self.find_parent(Notebook)
         if notebook:
             insert_index = self.index(tk.INSERT)
-            print(f"{ insert_index=}")
             if insert_index == "1.0":
                 text_in_tab = self.get('1.0', tk.END).strip()
-                print(f"{ text_in_tab=}")
                 if not text_in_tab:
                     notebook.forget(self)
                     return "break"

@@ -15,6 +15,13 @@ MODEL_DATA = {
         },
         'max_tokens': 4096,
     },
+    'gpt-3.5-turbo-16k': {
+        '1k_token_usd': {
+            'prompt': 0.003,
+            'completion': 0.004,
+        },
+        'max_tokens': 16384,
+    },
     'gpt-4': {
         '1k_token_usd': {
             'prompt': 0.03,

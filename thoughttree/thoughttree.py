@@ -332,7 +332,8 @@ class Thoughttree(UI):
                 if self.model.counter.tokens_since_go() > Thoughttree.GEN_TITLE_THRESHOLD:
                     self.update_window_title()
 
-    def history_from_system_and_chat(self, additional_message=None) :
+
+    def history_from_system_and_chat(self, additional_message=None, maxMessages=0) :
         txt: Text = self.focus_get()
         system = self.system.get(1.0, 'end - 1c').strip()
         history = [{'role': 'system', 'content': system}]
@@ -342,7 +343,9 @@ class Thoughttree(UI):
         if additional_message:
             history += [{'role': 'user', 'content': additional_message}]
 
-        print_history_compact(history)
+        if maxMessages:
+            history = history[-maxMessages:]
+            print_history_compact(history)
         return history
 
 

@@ -88,7 +88,6 @@ class Text(tk.scrolledtext.ScrolledText):
             levels = levels[:-1] + [str(int(levels[-1]) + 1)]
             return '.'.join(levels)
 
-
         def next_level(hierarchical_id):
             if hierarchical_id:
                 levels = hierarchical_id.split('.') + ['1']
@@ -186,7 +185,7 @@ class Text(tk.scrolledtext.ScrolledText):
         return history
 
 
-    def jump_to_similar_line(cls, event=None, direction=1) :
+    def jump_to_similar_line(cls, event=None, direction=1):
 
         def find_matching_line(target, line_nr_1, lines, direction):
             line_nr_0 = line_nr_1 - 1
@@ -207,6 +206,7 @@ class Text(tk.scrolledtext.ScrolledText):
                         return ((start - i + num_lines - 1) % num_lines) + 1
             return 0
 
+
         txt: Text = cls.focus_get()
         # txt: Text = cls.master.focus_get()
         cursor_pos = txt.index(tk.INSERT)
@@ -222,6 +222,7 @@ class Text(tk.scrolledtext.ScrolledText):
             txt.see(jump_index)
 
 
+
     def close_empty_tab(self):
         notebook: Notebook = self.find_parent(Notebook)
         if notebook:
@@ -229,5 +230,19 @@ class Text(tk.scrolledtext.ScrolledText):
             if insert_index == "1.0":
                 text_in_tab = self.get('1.0', tk.END).strip()
                 if not text_in_tab:
-                    notebook.forget(self)
+                    tab = notebook.index(tk.CURRENT)
+                    notebook.forget(tab)
+                    if len(notebook.tabs()):
+                        notebook.select(max(tab - 1, 0))
+                        frame_on_tab = notebook.nametowidget(notebook.select())
+                        text_on_tab = frame_on_tab.winfo_children()[1]
+                        text_on_tab.focus_set()
+                    else:
+                        parent = self.find_parent(Text)
+                        parent.focus_set()
                     return "break"
+
+        if self.tag_ranges("sel"):
+            self.event_generate("<<Clear>>")
+        else:
+            self.delete(tk.INSERT + " - 1 char", tk.INSERT)

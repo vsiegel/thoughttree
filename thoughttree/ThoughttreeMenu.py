@@ -177,6 +177,9 @@ class ThoughttreeMenu(Menu):
         def toggle_scroll_output(event=None):
             self.ui.scroll_output = not self.ui.scroll_output
 
+        def toggle_ring_bell(event=None):
+            self.ui.ring_bell_after_completion = not self.ui.ring_bell_after_completion
+
         def toggle_font_mono(event=None):
             font = tkfont.Font(font=self.it.cget("font"))
             size = font.cget("size")
@@ -226,7 +229,7 @@ class ThoughttreeMenu(Menu):
         item("Toggle Monospace", "<Control-Shift-O>", toggle_font_mono)
         menu.add_separator()
         item("Toggle Scrolling Output", "<Control-o>", toggle_scroll_output)
-        item("Ring Bell When Finished", "<Control-Alt-o>", toggle_scroll_output)
+        item("Ring Bell When Finished", "<Control-Alt-o>", toggle_ring_bell)
         item("Toggle Wrap Lines", "<Control-l>", lambda e: self.it.configure(wrap=(NONE if self.it.cget("wrap") != NONE else WORD)))
         item("Generate Titles", "", None)
         item("Calculate Cost", "", None)

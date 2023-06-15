@@ -327,9 +327,9 @@ class Thoughttree(UI):
 
             self.model.counter.summarize()
 
-            # if conf.update_title_after_completion:
-            #     if tokens_out > Thoughttree.GEN_TITLE_THRESHOLD:
-            #         self.update_window_title()
+            if conf.update_title_after_completion:
+                if self.model.counter.tokens_since_go() > Thoughttree.GEN_TITLE_THRESHOLD:
+                    self.update_window_title()
 
     def history_from_system_and_chat(self, additional_message=None) :
         txt: Text = self.focus_get()

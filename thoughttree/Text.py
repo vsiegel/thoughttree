@@ -188,28 +188,35 @@ class Text(tk.scrolledtext.ScrolledText):
 
     def jump_to_similar_line(cls, event=None, direction=1) :
 
-        def find_matching_line(target, line_nr_1, lines):
+        def find_matching_line(target, line_nr_1, lines, direction):
             line_nr_0 = line_nr_1 - 1
             num_lines = len(lines)
             if num_lines == 0:
                 return 0
             target = target.strip()
-            start = (line_nr_0 + 1) % num_lines
-            numbered_lines = list(enumerate(lines[start :] + lines[:start]))
-            for i, line in numbered_lines :
+            start = (line_nr_0 + direction) % num_lines
+            if direction == 1:
+                numbered_lines = list(enumerate(lines[start:] + lines[:start]))
+            else:
+                numbered_lines = list(enumerate(lines[:start][::-1] + lines[start:][::-1]))
+            for i, line in numbered_lines:
                 if line.strip() == target:
-                    return ((i + start) % num_lines) + 1
+                    if direction == 1:
+                        return ((i + start) % num_lines) + 1
+                    else:
+                        return ((start - i + num_lines - 1) % num_lines) + 1
             return 0
 
         txt: Text = cls.focus_get()
         # txt: Text = cls.master.focus_get()
-        line_nr = int(txt.index('insert + 1 chars').split('.')[0])
+        cursor_pos = txt.index(tk.INSERT)
+        line_nr = int(cursor_pos.split('.')[0])
         current_line = txt.get(f"{line_nr}.0", f"{line_nr}.end")
         if not current_line.strip():
             return
         lines = txt.get(1.0, tk.END).splitlines()
-        jump_line = find_matching_line(current_line, line_nr, lines)
-        if jump_line :
+        jump_line = find_matching_line(current_line, line_nr, lines, direction)
+        if jump_line:
             jump_index = f"{jump_line}.{0}"
             txt.mark_set(tk.INSERT, jump_index)
             txt.see(jump_index)

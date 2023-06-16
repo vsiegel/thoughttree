@@ -78,15 +78,20 @@ class Text(tk.scrolledtext.ScrolledText):
         parent.configure(height=old_height + delta)
 
 
-    def split_conversation(self):
+    def next_equal(self, hierarchical_id):
+        if hierarchical_id:
+            levels = hierarchical_id.split('.')
+        else:
+            levels = ['0']
+        levels = levels[:-1] + [str(int(levels[-1]) + 1)]
+        return '.'.join(levels)
 
-        def next_equal(hierarchical_id):
-            if hierarchical_id:
-                levels = hierarchical_id.split('.')
-            else:
-                levels = ['0']
-            levels = levels[:-1] + [str(int(levels[-1]) + 1)]
-            return '.'.join(levels)
+    def new_sibling(self, notebook):
+        last_tab_label = notebook.tab(len(notebook.tabs()) - 1, "text")
+        s = self.next_equal(last_tab_label)
+        return s
+
+    def split_conversation(self):
 
         def next_level(hierarchical_id):
             if hierarchical_id:
@@ -101,11 +106,6 @@ class Text(tk.scrolledtext.ScrolledText):
             else:
                 parent_tab_label = ""
             return next_level(parent_tab_label)
-
-        def new_sibling(notebook):
-            last_tab_label = notebook.tab(len(notebook.tabs()) - 1, "text")
-            s = next_equal(last_tab_label)
-            return s
 
 
         # Get the leading and trailing text and find the parent Notebook
@@ -125,7 +125,7 @@ class Text(tk.scrolledtext.ScrolledText):
         else:
             notebook = parent
         txt = Text(notebook, scrollbar=True)
-        label = new_sibling(notebook)
+        label = self.new_sibling(notebook)
         notebook.add(txt, text=label)
 
         notebook.select(len(notebook.tabs()) - 1)

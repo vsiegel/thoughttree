@@ -1,4 +1,4 @@
-# thoughttree
+# Thoughttree
 Interact with large language models in alternative ways.
 
 ## Why?

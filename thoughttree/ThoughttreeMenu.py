@@ -1,4 +1,5 @@
 import tkinter as tk
+import webbrowser
 from datetime import datetime
 from tkinter import font as tkfont, NONE, WORD
 
@@ -192,6 +193,14 @@ class ThoughttreeMenu(Menu):
         def close_empty_tab(event=None):
             self.it.close_empty_tab()
 
+        def search_google(event=None):
+            selected_range = self.it.tag_ranges(tk.SEL)
+            if selected_range:
+                selected_text = self.it.get(*selected_range)[:2000]
+                if selected_text:
+                    webbrowser.open_new_tab("https://www.google.com/search?q=" + selected_text)
+
+
         menu = Menu(self, "File")
         item("New Window", "<Control-n>", new_window)
         # item("Save Chat", "<Control-s>", Files.save_chat)
@@ -212,6 +221,7 @@ class ThoughttreeMenu(Menu):
         item("Redo", "<Control-Shift-Z>", edit_redo)
         item("Select All", "<Control-a>", select_all)
         menu.add_separator()
+        item("Search at Google", "<Control-g>", search_google)
         item("Insert Current Time", "<Control-Shift-I>", insert_current_time)
         item("Include Date in System Prompt", None, None)
         item("Copy Title", None, None)

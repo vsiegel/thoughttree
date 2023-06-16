@@ -86,7 +86,7 @@ class Model:
         message = f"Exception: {ex}\n\n{message}"
         message = textwrap.fill(message, 200)
         self.log("\n\nerror:\n" + message + '\n')
-        showerror(title, message) #, master=
+        showerror(title, message) #, master= #todo
         return "error", message
 
 

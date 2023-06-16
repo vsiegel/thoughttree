@@ -26,7 +26,7 @@ class ThoughttreeMenu(Menu):
     def create_menu(self):
 
         def save(save_dialog, status_bar_label):
-            file_name = save_dialog(self.ui.chat)
+            file_name = save_dialog(self.it)
             if not file_name:
                 return
             base_name = file_name.split("/")[-1]

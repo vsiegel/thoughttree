@@ -331,10 +331,10 @@ class Thoughttree(UI):
 
 
     def history_from_system_and_chat(self, additional_message=None, maxMessages=0) :
-        txt: Text = self.focus_get()
         system = self.system.get(1.0, 'end - 1c').strip()
         history = [{'role': 'system', 'content': system}]
 
+        txt: Text = self.focus_get()
         history = txt.history_from_path(history)
 
         if additional_message:

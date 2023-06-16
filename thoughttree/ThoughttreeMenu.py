@@ -269,7 +269,6 @@ class ThoughttreeMenu(Menu):
         item("Complete Multiple...", "<Control-Shift-M>", lambda e: self.ui.complete(0))
         item("Complete Multiple Again", "<Control-m>", lambda e: self.ui.complete(-1))
         item("Cancel", "<Escape>", self.ui.cancelModels)
-        chat_menu = menu
 
         menu = Menu(self, "Model")
         self.models_menu_items(item)

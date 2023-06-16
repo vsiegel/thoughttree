@@ -342,7 +342,6 @@ class Thoughttree(UI):
 
         if maxMessages:
             history = history[-maxMessages:]
-            print_history_compact(history)
         return history
 
 

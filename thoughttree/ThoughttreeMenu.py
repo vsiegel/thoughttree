@@ -46,6 +46,9 @@ class ThoughttreeMenu(Menu):
         def new_window(event=None) :
             self.new_window_callback()
 
+        def new_main_tab(event=None) :
+            self.new_window_callback()
+
         def show_context_menu(event, menu) :
             widget = self.ui.winfo_containing(event.x_root, event.y_root)
             if widget :
@@ -205,6 +208,7 @@ class ThoughttreeMenu(Menu):
 
         menu = Menu(self, "File")
         item("New Window", "<Control-n>", new_window)
+        item("New Main Tab", "<Control-t>", new_main_tab)
         # item("Save Chat", "<Control-s>", Files.save_chat)
         item("Save Chat", "<Control-s>", save_chat)
         item("Save Section", "<Control-Shift-S>", save_section)
@@ -231,7 +235,7 @@ class ThoughttreeMenu(Menu):
         menu = Menu(self, "View")
         item("Show System Prompt", "<Alt-Shift-P>", toggle_show_system_prompt)
         item("Show Tree", "<Alt-Shift-T>", toggle_show_tree)
-        item("Count Tokens", "<Control-t>", self.ui.count_text_tokens)
+        item("Count Tokens", "<Control-Alt-t>", self.ui.count_text_tokens)
         item("Run Code Block", "", None)
         item("Update Window Title", "<Control-u>", self.ui.update_window_title)
         item("Increase Font Size", "<Control-plus>", lambda e: font_size(1))

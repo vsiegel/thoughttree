@@ -46,6 +46,7 @@ class Model:
         self.is_canceled = False
         self.counter.go()
         self.counter.observe_prompt(history)
+        History.log_history_compact(history)
         try:
             response = openai.ChatCompletion.create(
                 model=self.name,

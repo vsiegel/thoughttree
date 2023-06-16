@@ -231,11 +231,19 @@ class Text(tk.scrolledtext.ScrolledText):
                 if not text_in_tab:
                     tab = notebook.index(tk.CURRENT)
                     notebook.forget(tab)
-                    if len(notebook.tabs()):
+                    if len(notebook.tabs()) > 1:
                         notebook.select(max(tab - 1, 0))
                         frame_on_tab = notebook.nametowidget(notebook.select())
                         text_on_tab = frame_on_tab.winfo_children()[1]
                         text_on_tab.focus_set()
+                    elif len(notebook.tabs()) == 1:
+                        frame_on_tab = notebook.nametowidget(notebook.select())
+                        txt_on_tab = frame_on_tab.winfo_children()[1]
+                        text = txt_on_tab.get('1.0', tk.END).strip()
+                        parent = self.find_parent(Text)
+                        parent.delete(tk.END + " - 2 char")
+                        parent.insert(tk.END, text)
+                        parent.focus_set()
                     else:
                         parent = self.find_parent(Text)
                         parent.focus_set()

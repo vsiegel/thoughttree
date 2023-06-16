@@ -8,7 +8,6 @@ from tkinter.messagebox import showinfo
 from configargparse import ArgumentParser, Namespace
 
 import prompts
-from History import print_history_compact
 from Model import Model
 from ThoughttreeMenu import ThoughttreeMenu
 from ToolTip import ToolTip
@@ -35,8 +34,8 @@ NODE_CLOSED = '|'
 
 
 class Thoughttree(UI):
-    MIN_WIDTH = 250
-    MIN_HEIGHT = 100
+    MIN_WIDTH = 600
+    MIN_HEIGHT = 300
     CHAT_WIDTH = 400
     ROOT_GEOMETRY = "1000x600"
     GEN_TITLE_THRESHOLD = 20

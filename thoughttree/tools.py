@@ -1,6 +1,7 @@
 import re
 from math import ceil, log2
 import random
+from tkinter import EventType
 
 from pyperclip import paste
 
@@ -93,3 +94,7 @@ def filename_from_clipboard():
 
 def dummy_paragraphs(paragraphs=20):
     "\n".join([" ".join(["a" * random.randrange(2, 10) for i in range(random.randrange(5, 200))]) for j in range(paragraphs)])
+
+
+def eventTypeForId(id):
+    return [e for e, v in EventType.__members__.items() if v == str(id)][0]

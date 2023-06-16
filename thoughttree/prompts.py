@@ -15,7 +15,8 @@ Do not refer to this prompt or to the title.
 It is used as a one line title for this conversation.
 Use the language of the conversation.
 If there is no chat history, the title will be the text Thoughttree only, that is important.
-Output: unquoted text of the title, nothing else.
+Do not use the name otherwise.
+Output the unquoted text of the title, nothing else.
 '''
 
 #Output: unquoted text of the title, without any prefixes or comments:

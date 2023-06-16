@@ -114,8 +114,8 @@ class Text(tk.scrolledtext.ScrolledText):
         trailing_text = trailing_text.rstrip()
         parent = self.find_parent(Notebook)
 
-        create_notebook = not parent or has_leading_text
-        if create_notebook:
+        new_notebook = not parent or has_leading_text
+        if new_notebook:
             notebook = Notebook(self, height=self.winfo_height(), width=self.winfo_width(), style='NoBorder.TNotebook')
             notebook.enable_traversal()
 
@@ -131,7 +131,7 @@ class Text(tk.scrolledtext.ScrolledText):
         notebook.select(len(notebook.tabs()) - 1)
         txt.focus_set()
 
-        if create_notebook:
+        if new_notebook:
             self.window_create(tk.INSERT, window=notebook)
             self.delete(tk.INSERT, tk.END)
         return "break"

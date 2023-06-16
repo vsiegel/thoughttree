@@ -91,7 +91,7 @@ class Text(tk.scrolledtext.ScrolledText):
         s = self.next_equal(last_tab_label)
         return s
 
-    def split_conversation(self):
+    def fork_conversation(self):
 
         def next_level(hierarchical_id):
             if hierarchical_id:

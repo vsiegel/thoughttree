@@ -150,7 +150,7 @@ class ThoughttreeMenu(Menu):
             pass
 
         def branch_conversation():
-            self.it.split_conversation()
+            self.it.fork_conversation()
             self.ui.update()
             self.ui.complete()
 
@@ -250,7 +250,6 @@ class ThoughttreeMenu(Menu):
         item("Calculate Cost", "", None)
 
         menu = Menu(self, "Navigate")
-        item("Branch Conversation", "<Alt-Return>", lambda e: self.it.split_conversation())
         item("Next Similar Line", "<Control-j>", lambda e: self.it.jump_to_similar_line(direction=1))
         item("Previous Similar Line", "<Control-Shift-J>", lambda e: self.it.jump_to_similar_line(direction=-1))
         item("Next Message", "", None)
@@ -260,6 +259,7 @@ class ThoughttreeMenu(Menu):
         item("Next Paragraph", "<Control-Return>", lambda e: self.ui.complete(1, "\n\n", "\n\n"))
         item("Next Line", "<Shift-Return>", lambda e: self.ui.complete(1, "\n", "\n"))
         item("Continue Directly", "<Control-space>", lambda e: self.ui.complete())
+        item("Fork Conversation", "<Alt-Return>", lambda e: self.it.fork_conversation())
         item("Complete in Branch", "<Control-Shift-Return>", lambda e: branch_conversation())
         item("Complete Alternatives", "<Alt-Shift-Return>", lambda e: self.ui.complete(-1, "\n"))
         menu.add_separator()

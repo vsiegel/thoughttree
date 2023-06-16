@@ -6,10 +6,10 @@ class UI(tk.Tk):
     icon = None
     WINDOW_ICON = None
 
-    def __init__(self, icon_path=None):
+    def __init__(self, name="", icon_path=None):
         tk.Tk.__init__(self)
-        self.title("Thoughttree")
-        self.wm_title("Thoughttree")
+        self.title(name)
+        self.wm_title(name)
         self.protocol("WM_DELETE_WINDOW", self.close)
         try:
             self.set_icon(icon_path)

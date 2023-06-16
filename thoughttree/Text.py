@@ -133,8 +133,7 @@ class Text(tk.scrolledtext.ScrolledText):
 
         if create_notebook:
             self.window_create(tk.INSERT, window=notebook)
-
-        self.delete(tk.INSERT, tk.END)
+            self.delete(tk.INSERT, tk.END)
         return "break"
 
 

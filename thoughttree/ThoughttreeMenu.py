@@ -12,7 +12,7 @@ from tools import list_all_bindings, add_bboxes
 
 class ThoughttreeMenu(Menu):
     def __init__(self, thoughttree, new_window_callback):
-        super().__init__(thoughttree, tearoff=0)
+        super().__init__(thoughttree, tearoff=False)
         self.new_window_callback = new_window_callback
         self.ui = thoughttree
         self.create_menu()

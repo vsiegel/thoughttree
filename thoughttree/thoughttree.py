@@ -170,7 +170,7 @@ class Thoughttree(UI):
 
         self.title(progress_title)
         self.update()
-        history = self.history_from_system_and_chat(prompts.TITLE_GENERATION_PROMPT, maxMessages=5)
+        history = self.history_from_system_and_chat(prompts.TITLE_GENERATION_PROMPT, max_messages=5, max_size=1000) # todo
 
         self.generation_model.counter.go()
         self.generation_model.chat_complete(history, write_title, max_tokens=30, temperature=0.3)
@@ -330,7 +330,7 @@ class Thoughttree(UI):
                     self.update_window_title()
 
 
-    def history_from_system_and_chat(self, additional_message=None, maxMessages=0) :
+    def history_from_system_and_chat(self, additional_message=None, max_messages=None, max_size=None) :
         system = self.system.get(1.0, 'end - 1c').strip()
         history = [{'role': 'system', 'content': system}]
 
@@ -340,8 +340,8 @@ class Thoughttree(UI):
         if additional_message:
             history += [{'role': 'user', 'content': additional_message}]
 
-        if maxMessages:
-            history = history[-maxMessages:]
+        if max_messages:
+            history = history[-max_messages:]
         return history
 
 

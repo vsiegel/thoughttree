@@ -149,8 +149,8 @@ class ThoughttreeMenu(Menu):
             txt.bind('<<Modified>>', on_text_change)
             pass
 
-        def branch_conversation():
-            self.it.fork_conversation()
+        def branch():
+            self.it.fork()
             self.ui.update()
             self.ui.complete()
 
@@ -259,8 +259,8 @@ class ThoughttreeMenu(Menu):
         item("Next Paragraph", "<Control-Return>", lambda e: self.ui.complete(1, "\n\n", "\n\n"))
         item("Next Line", "<Shift-Return>", lambda e: self.ui.complete(1, "\n", "\n"))
         item("Continue Directly", "<Control-space>", lambda e: self.ui.complete())
-        item("Fork Conversation", "<Alt-Return>", lambda e: self.it.fork_conversation())
-        item("Complete in Branch", "<Control-Shift-Return>", lambda e: branch_conversation())
+        item("Fork Conversation", "<Alt-Return>", lambda e: self.it.fork())
+        item("Complete in Branch", "<Control-Shift-Return>", lambda e: branch())
         item("Complete Alternatives", "<Alt-Shift-Return>", lambda e: self.ui.complete(-1, "\n"))
         menu.add_separator()
         item("Complete 2 Times", "<Control-Key-2>", lambda e: self.ui.complete(2))

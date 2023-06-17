@@ -65,4 +65,13 @@ The program expects an OpenAI API key provided in the shell environment, for exa
 
 ----
 
+ - https://www.python.org/downloads/
+ - https://pypi.org/project/thoughttree/
+ - https://github.com/vsiegel/thoughttree
+ - https://openai.com/chatgpt
+ - https://openai.com/gpt-4
+ - https://arxiv.org/abs/2303.08774
+ - https://cdn.openai.com/papers/gpt-4.pdf
+----
+
 Feature requests are welcome - file a "feature request" issue.

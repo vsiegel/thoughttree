@@ -22,6 +22,16 @@ class ThoughttreeMenu(Menu):
     def it(self) -> Text:
         return self.ui.focus_get()
 
+    def models_menu_items(self, item):
+        for model_name in self.ui.model.get_available_models():
+            if model_name == "gpt-4":
+                key = "<Control-Alt-Key-4>"
+            elif model_name == "gpt-3.5-turbo":
+                key = "<Control-Alt-Key-3>"
+            else:
+                key = None
+            item(model_name, key, lambda e, m=model_name: self.ui.set_model(m))
+
 
     def create_menu(self):
 
@@ -290,14 +300,3 @@ class ThoughttreeMenu(Menu):
         self.ui.bind("<Control-Button-5>", lambda event: font_size(-1))
 
         self.ui.bind_class("Text", "<Button-3>", lambda event: show_context_menu(event, edit_menu))
-
-
-    def models_menu_items(self, item):
-        for model_name in self.ui.model.get_available_models():
-            if model_name == "gpt-4":
-                key = "<Control-Alt-Key-4>"
-            elif model_name == "gpt-3.5-turbo":
-                key = "<Control-Alt-Key-3>"
-            else:
-                key = None
-            item(model_name, key, lambda e, m=model_name: self.ui.set_model(m))

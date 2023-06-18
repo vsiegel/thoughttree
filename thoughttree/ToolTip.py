@@ -28,8 +28,6 @@ class ToolTip :
 
 
     def hide_tooltip(self, event=None) :
-        if self.tooltip is None :
-            return
-
-        self.tooltip.destroy()
+        if self.tooltip:
+            self.tooltip.destroy()
         self.tooltip = None

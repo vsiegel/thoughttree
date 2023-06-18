@@ -72,6 +72,10 @@ The program expects an OpenAI API key provided in the shell environment, for exa
  - https://openai.com/gpt-4
  - https://arxiv.org/abs/2303.08774
  - https://cdn.openai.com/papers/gpt-4.pdf
+ - GPT-4 vs. GPT-3.5: A Concise Showdown
+   - DOI:10.36227/techrxiv.22312330
+
+
 ----
 
 Feature requests are welcome - file a "feature request" issue.

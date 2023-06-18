@@ -75,7 +75,3 @@ The program expects an OpenAI API key provided in the shell environment, for exa
  - GPT-4 vs. GPT-3.5: A Concise Showdown
    - DOI:10.36227/techrxiv.22312330
 
-
-----
-
-Feature requests are welcome - file a "feature request" issue.

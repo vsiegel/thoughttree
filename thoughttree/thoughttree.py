@@ -47,6 +47,8 @@ class Thoughttree(UI):
 
     def __init__(self):
         UI.__init__(self, "Thoughttree", WINDOW_ICON)
+        self.model = None
+        self.chat = None
         self.geometry(Thoughttree.ROOT_GEOMETRY)
         self.minsize(Thoughttree.MIN_WIDTH, Thoughttree.MIN_HEIGHT)
         self.protocol("WM_DELETE_WINDOW", self.close)

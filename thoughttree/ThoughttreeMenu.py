@@ -3,11 +3,9 @@ import webbrowser
 from datetime import datetime
 from tkinter import font as tkfont, NONE, WORD
 
-import prompts
 from Files import Files
 from Menu import Menu
 from Text import Text
-from tools import list_all_bindings, add_bboxes
 
 
 class ThoughttreeMenu(Menu):

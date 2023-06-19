@@ -1,19 +1,17 @@
 #!/usr/bin/env python
-import os
 import tkinter as tk
-from tkinter import ttk, simpledialog
 from tkinter import font as tkfont
+from tkinter import ttk, simpledialog
 from tkinter.messagebox import showinfo
 
-from configargparse import ArgumentParser, Namespace
+from configargparse import Namespace
 
 import prompts
 from Model import Model
+from StatusBar import StatusBar
+from Text import Text
 from ThoughttreeMenu import ThoughttreeMenu
 from ToolTip import ToolTip
-from StatusBar import StatusBar
-from Menu import Menu
-from Text import Text
 from UI import UI
 from WaitCursor import WaitCursor
 from prompts import system_prompt

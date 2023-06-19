@@ -57,11 +57,11 @@ class ThoughttreeMenu(Menu):
         def new_main_tab(event=None) :
             self.new_window_callback()
 
-        def show_context_menu(event, menu) :
+        def show_context_menu(event, context_menu) :
             widget = self.ui.winfo_containing(event.x_root, event.y_root)
             if widget :
                 widget.focus_set()
-            menu.tk_popup(event.x_root, event.y_root)
+            context_menu.tk_popup(event.x_root, event.y_root)
 
         def cut_text(event=None) :
             self.it.event_generate("<<Cut>>")
@@ -127,24 +127,24 @@ class ThoughttreeMenu(Menu):
                 print(f"{type(self.it.window_cget(dumped_win_pos, 'window'))=}")
             print()
             dumped = self.it.dump("1.0", tk.INSERT, all=True)
-            for item in dumped:
-                print(f'{item=}')
+            for part in dumped:
+                print(f'{part=}')
 
 
         def menu_test(event=None):
 
-            def on_text_change(event):
-                print(event)
+            def on_text_change(ev):
+                print(ev)
                 new_height = int(txt.index('end-1c').split('.')[0]) + 1
                 print(f"{new_height=}")
                 txt.configure(height=new_height)
                 txt.edit_modified(False)
 
 
-            def on_resize(event):
-                print(event)
+            def on_resize(ev):
+                print(ev)
                 char_width = tkfont.Font(font=txt.cget("font")).measure('0')
-                parent_width = event.width
+                parent_width = ev.width
                 txt.configure(width=int(parent_width / char_width))
 
             print(event)
@@ -170,11 +170,11 @@ class ThoughttreeMenu(Menu):
             print(f"toggle_show_panel {(cx, cy)=}")
             if cx + cy > 2:
                 pane.sash_place(0, 1, 1)
-                return (cx, cy)
+                return cx, cy
             else:
                 x, y = pane_old_sash
                 pane.sash_place(0, x ,y)
-                return (1, 1)
+                return 1, 1
 
         def toggle_show_tree(event=None):
             print(f"toggle_show_tree {event=}")

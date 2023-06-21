@@ -3,6 +3,7 @@ from tkinter import ttk
 from tkinter import scrolledtext
 from tkinter.ttk import Notebook
 
+from typing import Union
 
 class Text(tk.scrolledtext.ScrolledText):
     FONT_NAME_MONOSPACE = "monospace"
@@ -137,7 +138,7 @@ class Text(tk.scrolledtext.ScrolledText):
         return "break"
 
 
-    def find_parent(self, parentType):
+    def find_parent(self, parentType: type) -> Union["Text", Notebook]:
         parent = self.master
         while parent and type(parent) != parentType:
             parent = parent.master

@@ -203,8 +203,11 @@ class ThoughttreeMenu(Menu):
             self.it.configure(font=(family, size))
             return "break"
 
-        def close_empty_tab(event=None):
-            self.it.close_empty_tab()
+        def close_tab(event=None):
+            self.it.close_tab()
+
+        def close_empty_tab_or_backspace(event=None):
+            self.it.close_empty_tab_or_backspace()
 
         def search_google(event=None):
             selected_range = self.it.tag_ranges(tk.SEL)
@@ -221,7 +224,8 @@ class ThoughttreeMenu(Menu):
         item("Save Chat", "<Control-s>", save_chat)
         item("Save Section", "<Control-Shift-S>", save_section)
         item("Save Code Block", "<Control-Alt-s>", save_code_block)
-        item("Close Empty Tab", "<BackSpace>", close_empty_tab, add=False)
+        item("Close Tab", "<Control-w>", close_tab, add=False)
+        item("Close Empty Tab", "<BackSpace>", close_empty_tab_or_backspace, add=False)
         item("Quit", "<Control-q>", self.ui.close)
 
         menu = Menu(self, "Edit")

@@ -280,6 +280,7 @@ class ThoughttreeMenu(Menu):
         item("Complete 5 Times", "<Control-Key-5>", lambda e: self.ui.complete(5))
         item("Complete Multiple...", "<Control-Shift-M>", lambda e: self.ui.complete(0))
         item("Complete Multiple Again", "<Control-m>", lambda e: self.ui.complete(-1))
+        menu.add_separator()
         item("Cancel", "<Escape>", self.ui.cancelModels)
 
         menu = Menu(self, "Model")

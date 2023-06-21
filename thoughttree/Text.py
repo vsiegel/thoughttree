@@ -233,9 +233,7 @@ class Text(tk.scrolledtext.ScrolledText):
                     notebook.forget(tab)
                     if len(notebook.tabs()) > 1:
                         notebook.select(max(tab - 1, 0))
-                        frame_on_tab = notebook.nametowidget(notebook.select())
-                        text_on_tab = frame_on_tab.winfo_children()[1]
-                        text_on_tab.focus_set()
+                        self.focus_text(notebook)
                     elif len(notebook.tabs()) == 1:
                         frame_on_tab = notebook.nametowidget(notebook.select())
                         txt_on_tab = frame_on_tab.winfo_children()[1]

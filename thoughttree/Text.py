@@ -221,8 +221,23 @@ class Text(tk.scrolledtext.ScrolledText):
             txt.see(jump_index)
 
 
+    def close_tab(self):
 
-    def close_empty_tab(self):
+        def focus_text(notebook):
+            frame_on_tab = notebook.nametowidget(notebook.select())
+            text_on_tab = frame_on_tab.winfo_children()[1]
+            text_on_tab.focus_set()
+
+        notebook: Notebook = self.find_parent(Notebook)
+        if notebook:
+            selected = notebook.select()
+            print(f"{ selected=}")
+            if selected:
+                notebook.forget(notebook.index(selected))
+                self.focus_text(notebook)
+
+
+    def close_empty_tab_or_backspace(self):
         notebook: Notebook = self.find_parent(Notebook)
         if notebook:
             insert_index = self.index(tk.INSERT)

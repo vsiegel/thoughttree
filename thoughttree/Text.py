@@ -81,6 +81,7 @@ class Text(tk.scrolledtext.ScrolledText):
 
     def next_equal(self, hierarchical_id):
         if hierarchical_id:
+            hierarchical_id = hierarchical_id.split(' ', 1)[0]
             levels = hierarchical_id.split('.')
         else:
             levels = ['0']
@@ -96,6 +97,7 @@ class Text(tk.scrolledtext.ScrolledText):
 
         def next_level(hierarchical_id):
             if hierarchical_id:
+                hierarchical_id = hierarchical_id.split(' ', 1)[0]
                 levels = hierarchical_id.split('.') + ['1']
             else:
                 levels = ['1']

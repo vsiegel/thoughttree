@@ -245,6 +245,9 @@ class Text(tk.scrolledtext.ScrolledText):
             if insert_index == "1.0":
                 text_in_tab = self.get('1.0', tk.END).strip()
                 if not text_in_tab:
+                    self.close_tab()
+                    return
+
                     tab = notebook.index(tk.CURRENT)
                     notebook.forget(tab)
                     if len(notebook.tabs()) > 1:

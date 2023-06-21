@@ -54,7 +54,7 @@ class Model:
                 max_tokens=max_tokens,
                 temperature=temperature,
                 stream=True,
-                # request_timeout=60, # undocumented
+                request_timeout=30, # undocumented #todo
             )
         except Exception as ex:
             return self.error("", "Error in openai.ChatCompletion.create()", ex)

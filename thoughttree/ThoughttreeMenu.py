@@ -247,7 +247,7 @@ class ThoughttreeMenu(Menu):
         menu = Menu(self, "View")
         item("Show System Prompt", "<Alt-Shift-P>", toggle_show_system_prompt)
         item("Show Tree", "<Alt-Shift-T>", toggle_show_tree)
-        item("Count Tokens", "<Control-Alt-t>", self.ui.count_text_tokens)
+        item("Count Tokens", "<Control-Alt-m>", self.ui.count_text_tokens)
         item("Run Code Block", "", None)
         item("Update Window Title", "<Control-u>", self.ui.update_window_title)
         item("Increase Font Size", "<Control-plus>", lambda e: font_size(1))

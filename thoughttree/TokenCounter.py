@@ -117,11 +117,11 @@ class TokenCounter:
 
     def summary_since_go(self):
         return f"{self.model_name} query:   {self.prompt_tokens_since_go():6d}+{self.completion_tokens_since_go():6d}={self.tokens_since_go():6d}t "\
-               + f"{self.prompt_cost_since_go():.5f}+{self.completion_cost_since_go():.5f}={self.cost_since_go():.5f}$"
+               + f"{self.prompt_cost_since_go():.3f}+{self.completion_cost_since_go():.3f}={self.cost_since_go():.3f}$"
 
     def summary_total(self):
         return f"{self.model_name} session: {self.prompt_tokens_total:6d}+{self.completion_tokens_total:6d}={self.tokens_total():6d}t "\
-               + f"{self.prompt_cost_total():.5f}+{self.completion_cost_total():.5f}={self.cost_total():.5f}$"
+               + f"{self.prompt_cost_total():.3f}+{self.completion_cost_total():.3f}={self.cost_total():.3f}$"
 
     def summary(self):
         return self.summary_since_go() + "\n" + self.summary_total()

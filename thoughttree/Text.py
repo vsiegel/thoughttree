@@ -258,9 +258,6 @@ class Text(tk.scrolledtext.ScrolledText):
                         parent.delete(tk.END + " - 2 char")
                         parent.insert(tk.END, text)
                         parent.focus_set()
-                    else:
-                        parent = self.find_parent(Text)
-                        parent.focus_set()
                     return "break"
 
         if self.tag_ranges("sel"):

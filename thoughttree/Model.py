@@ -1,3 +1,4 @@
+import tkinter as tk
 import re
 import textwrap
 from tkinter.messagebox import showerror
@@ -30,7 +31,8 @@ class Model:
         self.counter = TokenCounter(model_name)
 
         self.logdir = Path.home() / "logs" / "thoughttree"
-        self.max_tokens = 1500
+
+        self.max_tokens = tk.IntVar(value=1500)
         self.temperature = 0.5
 
         self.is_canceled = False
@@ -41,7 +43,7 @@ class Model:
 
     def chat_complete(self, history, output_delta_callback, max_tokens=None, temperature=None) -> Tuple[str, str]:
         """:return: Tuple[str, str] - (finish_reason, message)"""
-        max_tokens = max_tokens or self.max_tokens
+        max_tokens = max_tokens or self.max_tokens.get()
         temperature = temperature or self.temperature
         self.is_canceled = False
         self.counter.go()

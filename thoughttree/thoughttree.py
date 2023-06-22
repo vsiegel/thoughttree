@@ -196,11 +196,11 @@ class Thoughttree(UI):
             "Max Tokens",
             "What should be the model's maximum number of tokens to generate?\n"
             "(Query parameter 'max_tokens')\n",
-            initialvalue=self.model.max_tokens,
+            initialvalue=self.model.max_tokens.get(),
             minvalue=1, maxvalue=100000)
         if not max_tokens:
             return
-        self.model.max_tokens = max_tokens
+        self.model.max_tokens.set(max_tokens)
 
     def count_text_tokens(self, event=None) :
         txt: Text = self.focus_get()

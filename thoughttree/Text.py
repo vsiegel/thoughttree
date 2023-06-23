@@ -233,10 +233,19 @@ class Text(tk.scrolledtext.ScrolledText):
         notebook: Notebook = self.find_parent(Notebook)
         if notebook:
             selected = notebook.select()
-            print(f"{ selected=}")
-            if selected:
-                notebook.forget(notebook.index(selected))
-                self.focus_text(notebook)
+            notebook.forget(selected)
+            if len(notebook.tabs()) > 1:
+                notebook.select(max(selected - 1, 0))
+                selected_txt(notebook).focus_set()
+            elif len(notebook.tabs()) == 1:
+                text = selected_txt(notebook).get('1.0', tk.END)
+                parent = self.find_parent(Text)
+                index = parent.index("end-2 char")
+                parent.delete("end-2 char")
+                parent.insert(tk.END, text)
+                parent.mark_set(tk.INSERT, index)
+                parent.focus_set()
+            return "break"
 
 
     def close_empty_tab_or_backspace(self):
@@ -247,21 +256,6 @@ class Text(tk.scrolledtext.ScrolledText):
                 text_in_tab = self.get('1.0', tk.END).strip()
                 if not text_in_tab:
                     self.close_tab()
-                    return
-
-                    tab = notebook.index(tk.CURRENT)
-                    notebook.forget(tab)
-                    if len(notebook.tabs()) > 1:
-                        notebook.select(max(tab - 1, 0))
-                        self.focus_text(notebook)
-                    elif len(notebook.tabs()) == 1:
-                        frame_on_tab = notebook.nametowidget(notebook.select())
-                        txt_on_tab = frame_on_tab.winfo_children()[1]
-                        text = txt_on_tab.get('1.0', tk.END).strip()
-                        parent = self.find_parent(Text)
-                        parent.delete(tk.END + " - 2 char")
-                        parent.insert(tk.END, text)
-                        parent.focus_set()
                     return "break"
 
         if self.tag_ranges("sel"):

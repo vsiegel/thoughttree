@@ -13,6 +13,9 @@ class ThoughttreeMenu(Menu):
         super().__init__(thoughttree, tearoff=False)
         self.new_window_callback = new_window_callback
         self.ui = thoughttree
+
+        self.set_model_menu = None
+
         self.create_menu()
 
 
@@ -20,7 +23,8 @@ class ThoughttreeMenu(Menu):
     def it(self) -> Text:
         return self.ui.focus_get()
 
-    def models_menu_items(self, item):
+    def create_available_models_menu_items(self):
+        self.update_idletasks()
         for model_name in self.ui.model.get_available_models():
             if model_name == "gpt-4":
                 key = "<Control-Alt-Key-4>"
@@ -28,7 +32,8 @@ class ThoughttreeMenu(Menu):
                 key = "<Control-Alt-Key-3>"
             else:
                 key = None
-            item(model_name, key, lambda e, m=model_name: self.ui.set_model(m))
+            command = lambda e, m=model_name: self.ui.set_model(m)
+            self.set_model_menu.item(model_name, key, command, True, None, None, False)
 
 
     def create_menu(self):

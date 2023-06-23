@@ -68,8 +68,12 @@ class Thoughttree(UI):
         self.models = {}
         self.generation_model = Model(self.generation_model_name)
         self.set_model(self.model_name)
-        self.config(menu=ThoughttreeMenu(self, new_window_callback))
+        menu = ThoughttreeMenu(self, new_window_callback)
+        self.config(menu=menu)
 
+        self.status_bar.note = "Loading available models..."
+        menu.create_available_models_menu_items()
+        self.status_bar.note = ""
 
 
     def set_model(self, model_name):

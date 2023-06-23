@@ -223,13 +223,13 @@ class Text(tk.scrolledtext.ScrolledText):
             txt.see(jump_index)
 
 
-    def focus_text(self, notebook):
-        frame_on_tab = notebook.nametowidget(notebook.select())
-        text_on_tab = frame_on_tab.winfo_children()[1]
-        text_on_tab.focus_set()
-
 
     def close_tab(self):
+
+        def selected_txt(notebook):
+            frame_on_tab = notebook.nametowidget(notebook.select())
+            return frame_on_tab.winfo_children()[1]
+
         notebook: Notebook = self.find_parent(Notebook)
         if notebook:
             selected = notebook.select()

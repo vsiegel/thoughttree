@@ -1,0 +1,29 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "example_package_vsiegel"
+version = "0.0.1"
+authors = [
+  { name="Volker Siegel", email="mail@volker-siegel.de" },
+]
+description = "Packaging test for thoughttree"
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Development Status :: 2 - Pre-Alpha",          
+	"Intended Audience :: Developers",
+	"Intended Audience :: Education",
+	"Intended Audience :: End Users/Desktop",
+	"Intended Audience :: Information Technology",
+	"Intended Audience :: Other Audience",
+	"Intended Audience :: Science/Research",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/vsiegel/thoughttree"
+"Bug Tracker" = "https://github.com/vsiegel/thoughttree/issues"

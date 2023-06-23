@@ -256,13 +256,18 @@ class Thoughttree(UI):
                     ToolTip(label, tool_tip)
                 txt.window_create(tk.END, window=label)
 
+            def scroll():
+                if self.scroll_output:
+                    txt.see(tk.END)
+                txt.update()
+
+
             def write_chat(text) :
                 if self.is_root_destroyed :
                     return
                 txt.insert(tk.END, text, "assistant")
-                if self.scroll_output:
-                    txt.see(tk.END)
-                txt.update()
+                scroll()
+
 
             if not n:
                 n = simpledialog.askinteger(
@@ -278,7 +283,7 @@ class Thoughttree(UI):
             txt.edit_separator()
             if prefix :
                 txt.insert(tk.END, prefix)
-                txt.update()
+                scroll()
             history = self.history_from_system_and_chat()
 
             self.model.counter.go()
@@ -308,9 +313,7 @@ class Thoughttree(UI):
                         if self.is_root_destroyed :
                             return
                         label.config(text=label.cget("text") + text)
-                        if self.scroll_output:
-                            txt.see(tk.END)
-                        txt.update()
+                        scroll()
 
                     if self.model.is_canceled:
                         finish_reason = "canceled"

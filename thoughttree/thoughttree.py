@@ -94,8 +94,94 @@ class Thoughttree(UI):
         for model in self.models.values():
             model.cancel()
 
-
     def create_ui(self):
+
+        self.configure_ui_options()
+
+        self.status_bar = StatusBar(self)
+
+        outer_pane, tree_pane, system_pane = self.create_panes()
+
+        tree = self.create_tree_view(tree_pane, system_pane)
+
+        self.console = self.create_console(outer_pane)
+
+        outer_pane.add(tree_pane)
+        outer_pane.add(self.console)
+
+        self.system, self.chat = self.create_system_and_chat_widgets(system_pane)
+
+        self.chat.focus_set()
+
+    def configure_ui_options(self):
+        self.option_add('*Dialog*Font', ("sans-serif", 10))
+        self.option_add('*Menu*Font', ("Arial", 10))
+        self.option_add('*Font', ("Arial", 10))
+        if not conf.blinking_caret:
+            self.option_add('*Text*insertOffTime', '0')
+
+    def create_panes(self):
+        SASHWIDTH = 8
+        outer_pane = tk.PanedWindow(self, orient=tk.VERTICAL, sashwidth=SASHWIDTH, sashrelief=tk.RIDGE)
+        outer_pane.pack(fill=tk.BOTH, expand=True)
+        tree_pane = tk.PanedWindow(outer_pane, orient=tk.HORIZONTAL, sashwidth=SASHWIDTH, sashrelief=tk.RIDGE)
+        tree_pane.pack(fill=tk.BOTH, expand=True)
+        system_pane = tk.PanedWindow(tree_pane, orient=tk.VERTICAL, sashwidth=SASHWIDTH, sashrelief=tk.RIDGE)
+
+        return outer_pane, tree_pane, system_pane
+
+    def create_tree_view(self, tree_pane, system_pane):
+
+        def on_treeview_click(event):
+            item = tree.identify('item', event.x, event.y)
+            if item:
+                if 'closed' in tree.item(item, 'tags'):
+                    replaced = tree.item(item, 'text').replace(NODE_CLOSED, NODE_OPEN, 1)
+                    tree.item(item, text=replaced)
+                    tree.item(item, tags='opened')
+                elif 'opened' in tree.item(item, 'tags'):
+                    tree.item(item, text=tree.item(item, 'text').replace(NODE_OPEN, NODE_CLOSED, 1))
+                    tree.item(item, tags='closed')
+
+        tree = ttk.Treeview(tree_pane, columns=("C1"), show="tree")
+        self.tree = tree
+        tree.column("#0", width=160, minwidth=60, anchor=tk.W, stretch=tk.NO)
+        tree.column("#1", width=30, minwidth=60, anchor=tk.W, stretch=tk.NO)
+        tree.heading("C1", text="")
+        tree.bind('<Double-Button-1>', on_treeview_click)
+        tree_pane.add(tree)
+        tree_pane.add(system_pane)
+        tree_pane.sash_place(0, 0, 0)
+
+        self.add_dummy_data_to_tree(tree)
+        self.bind_tree_view_events(tree)
+
+    def create_console(self, outer_pane):
+        console = ScrolledText(outer_pane, wrap=tk.WORD, height=Thoughttree.CONSOLE_HEIGHT, font=Text.FONT, padx=4, pady=0)
+        console.pack(side=tk.BOTTOM, fill=tk.X)
+        console.insert(tk.END, "Console:\n")
+        console.config(state=tk.DISABLED)
+
+        return console
+
+    def add_dummy_data_to_tree(self, tree):
+        from tools import create_dummy_data
+        create_dummy_data(tree)
+
+    def bind_tree_view_events(self, tree):
+        tree.bind("<Double-Button-1>", self.edit_tree_entry)
+        tree.bind("<Return>", self.edit_tree_entry)
+
+    def create_system_and_chat_widgets(self, system_pane):
+        system = Text(system_pane, system_prompt)
+        system.config(pady=5)
+        chat = Text(system_pane)
+        system_pane.add(system)
+        system_pane.add(chat)
+
+        return system, chat
+
+    def create_ui_old(self):
 
         def on_treeview_click(event):
             item = tree.identify('item', event.x, event.y)
@@ -199,7 +285,6 @@ class Thoughttree(UI):
         self.generation_model.chat_complete(history, write_title, max_tokens=30, temperature=0.3)
         print("Title cost:")
         self.generation_model.counter.summarize()
-
 
 
     def configure_temperature(self):

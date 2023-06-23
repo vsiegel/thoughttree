@@ -124,17 +124,17 @@ class Text(tk.scrolledtext.ScrolledText):
             notebook = Notebook(self, height=self.winfo_height(), width=self.winfo_width(), style='NoBorder.TNotebook')
             notebook.enable_traversal()
 
-            txt = Text(notebook, trailing_text, scrollbar=True)
-            notebook.add(txt, text=new_child(parent))
+            text = Text(notebook, trailing_text, scrollbar=True)
+            notebook.add(text, text=new_child(parent))
             self.window_create(tk.INSERT, window=notebook)
             self.delete(tk.INSERT, tk.END)
         else:
             notebook = parent
-        txt = Text(notebook, scrollbar=True)
-        notebook.add(txt, text=new_sibling(notebook))
+        text = Text(notebook, scrollbar=True)
+        notebook.add(text, text=new_sibling(notebook))
 
         notebook.select(len(notebook.tabs()) - 1)
-        txt.focus_set()
+        text.focus_set()
 
         return "break"
 
@@ -208,25 +208,24 @@ class Text(tk.scrolledtext.ScrolledText):
             return 0
 
 
-        txt: Text = cls.focus_get()
-        # txt: Text = cls.master.focus_get()
-        cursor_pos = txt.index(tk.INSERT)
+        text: Text = cls.focus_get()
+        cursor_pos = text.index(tk.INSERT)
         line_nr = int(cursor_pos.split('.')[0])
-        current_line = txt.get(f"{line_nr}.0", f"{line_nr}.end")
+        current_line = text.get(f"{line_nr}.0", f"{line_nr}.end")
         if not current_line.strip():
             return
-        lines = txt.get(1.0, tk.END).splitlines()
+        lines = text.get(1.0, tk.END).splitlines()
         jump_line = find_matching_line(current_line, line_nr, lines, direction)
         if jump_line:
             jump_index = f"{jump_line}.{0}"
-            txt.mark_set(tk.INSERT, jump_index)
-            txt.see(jump_index)
+            text.mark_set(tk.INSERT, jump_index)
+            text.see(jump_index)
 
 
 
     def close_tab(self):
 
-        def selected_txt(notebook):
+        def selected_text(notebook):
             frame_on_tab = notebook.nametowidget(notebook.select())
             return frame_on_tab.winfo_children()[1]
 
@@ -236,13 +235,13 @@ class Text(tk.scrolledtext.ScrolledText):
             notebook.forget(selected)
             if len(notebook.tabs()) > 1:
                 notebook.select(max(selected - 1, 0))
-                selected_txt(notebook).focus_set()
+                selected_text(notebook).focus_set()
             elif len(notebook.tabs()) == 1:
-                text = selected_txt(notebook).get('1.0', tk.END)
+                string = selected_text(notebook).get('1.0', tk.END)
                 parent = self.find_parent(Text)
                 index = parent.index("end-2 char")
                 parent.delete("end-2 char")
-                parent.insert(tk.END, text)
+                parent.insert(tk.END, string)
                 parent.mark_set(tk.INSERT, index)
                 parent.focus_set()
             return "break"
@@ -253,8 +252,8 @@ class Text(tk.scrolledtext.ScrolledText):
         if notebook:
             insert_index = self.index(tk.INSERT)
             if insert_index == "1.0":
-                text_in_tab = self.get('1.0', tk.END).strip()
-                if not text_in_tab:
+                string_in_tab = self.get('1.0', tk.END).strip()
+                if not string_in_tab:
                     self.close_tab()
                     return "break"
 

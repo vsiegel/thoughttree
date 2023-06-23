@@ -170,7 +170,7 @@ class ThoughttreeMenu(Menu):
         def item(label, keystroke, command, bind_key=True, context_menu=None, variable=None, add=False):
             menu.item(label, keystroke, command, bind_key, context_menu, variable, add)
 
-        def toggle_panel(pane, pane_old_sash):
+        def fold(pane, pane_old_sash):
             cx, cy = pane.sash_coord(0)
             if cx + cy > 2:
                 pane.sash_place(0, 1, 1)
@@ -180,13 +180,11 @@ class ThoughttreeMenu(Menu):
                 pane.sash_place(0, x ,y)
                 return 1, 1
 
-        def toggle_show_tree(event=None):
-            self.ui.tree_and_main_pane_old_sash = \
-                toggle_panel(self.ui.tree_and_main_pane, self.ui.tree_and_main_pane_old_sash)
+        def fold_tree(event=None):
+            self.ui.tree_pane_pos = fold(self.ui.tree_pane, self.ui.tree_pane_pos)
 
-        def toggle_show_system_prompt(event=None):
-            self.ui.system_and_chat_pane_old_sash = \
-                toggle_panel(self.ui.system_and_chat_pane, self.ui.system_and_chat_pane_old_sash)
+        def fold_system(event=None):
+            self.ui.system_pane_pos = fold(self.ui.system_pane, self.ui.system_pane_pos)
 
         def toggle_scroll_output(event=None):
             self.ui.scroll_output = not self.ui.scroll_output
@@ -194,7 +192,7 @@ class ThoughttreeMenu(Menu):
                 self.it.see(tk.END)
 
         def toggle_ring_bell(event=None):
-            self.ui.ring_bell_after_completion = not self.ui.ring_bell_after_completion
+            self.ui.notify_end = not self.ui.notify_end
 
         def toggle_font_mono(event=None):
             font = tkfont.Font(font=self.it.cget("font"))
@@ -248,8 +246,8 @@ class ThoughttreeMenu(Menu):
         item("Copy Title", None, None)
 
         menu = Menu(self, "View")
-        item("Show System Prompt", "<Alt-Shift-P>", toggle_show_system_prompt)
-        item("Show Tree", "<Alt-Shift-T>", toggle_show_tree)
+        item("Show System Prompt", "<Alt-Shift-P>", fold_system)
+        item("Show Tree", "<Alt-Shift-T>", fold_tree)
         item("Count Tokens", "<Control-Alt-m>", self.ui.count_text_tokens)
         item("Run Code Block", "", None)
         item("Update Window Title", "<Control-u>", self.ui.update_window_title)

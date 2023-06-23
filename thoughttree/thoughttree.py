@@ -119,11 +119,11 @@ class Thoughttree(UI):
         self.status_bar = StatusBar(self)
 
         SASHWIDTH = 8
-        tree_and_main_pane = tk.PanedWindow(self, orient=tk.HORIZONTAL, sashwidth=SASHWIDTH, sashrelief=tk.RIDGE)
-        tree_and_main_pane.pack(fill=tk.BOTH, expand=True)
-        system_and_chat_pane = tk.PanedWindow(tree_and_main_pane, orient=tk.VERTICAL, sashwidth=SASHWIDTH, sashrelief=tk.RIDGE)
+        tree_pane = tk.PanedWindow(self, orient=tk.HORIZONTAL, sashwidth=SASHWIDTH, sashrelief=tk.RIDGE)
+        tree_pane.pack(fill=tk.BOTH, expand=True)
+        system_pane = tk.PanedWindow(tree_pane, orient=tk.VERTICAL, sashwidth=SASHWIDTH, sashrelief=tk.RIDGE)
 
-        tree = ttk.Treeview(tree_and_main_pane, columns=("C1"), show="tree")
+        tree = ttk.Treeview(tree_pane, columns=("C1"), show="tree")
         self.tree = tree
         tree.column("#0", width=160, minwidth=60, anchor=tk.W, stretch=tk.NO)
         tree.column("#1", width=30, minwidth=60, anchor=tk.W, stretch=tk.NO)
@@ -135,15 +135,15 @@ class Thoughttree(UI):
         from tools import create_dummy_data
         create_dummy_data(tree)
 
-        tree_and_main_pane.add(tree)
-        tree_and_main_pane.add(system_and_chat_pane)
-        tree_and_main_pane.sash_place(0, 0, 0)
+        tree_pane.add(tree)
+        tree_pane.add(system_pane)
+        tree_pane.sash_place(0, 0, 0)
 
-        self.tree_and_main_pane_old_sash = (160, 160)
-        self.system_and_chat_pane_old_sash = (20, 20)
+        self.tree_pane_old_sash = (160, 160)
+        self.system_pane_old_sash = (20, 20)
 
-        self.tree_and_main_pane = tree_and_main_pane
-        self.system_and_chat_pane = system_and_chat_pane
+        self.tree_pane = tree_pane
+        self.system_pane = system_pane
 
         children = tree.get_children()
         if children:
@@ -151,12 +151,12 @@ class Thoughttree(UI):
         tree.bind("<Double-Button-1>", self.edit_tree_entry)
         tree.bind("<Return>", self.edit_tree_entry)
 
-        self.system = Text(system_and_chat_pane, system_prompt)
-        self.chat = Text(system_and_chat_pane)
+        self.system = Text(system_pane, system_prompt)
+        self.chat = Text(system_pane)
         self.system.config(pady=5)
 
-        system_and_chat_pane.add(self.system)
-        system_and_chat_pane.add(self.chat)
+        system_pane.add(self.system)
+        system_pane.add(self.chat)
 
         self.chat.focus_set()
 

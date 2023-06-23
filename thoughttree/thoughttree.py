@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import font as tkfont
 from tkinter import ttk, simpledialog
 from tkinter.messagebox import showinfo
+from tkinter.scrolledtext import ScrolledText
 
 from configargparse import Namespace
 
@@ -35,6 +36,7 @@ class Thoughttree(UI):
     MIN_WIDTH = 600
     MIN_HEIGHT = 300
     CHAT_WIDTH = 400
+    CONSOLE_HEIGHT = 10
     ROOT_GEOMETRY = "1000x600"
     GEN_TITLE_THRESHOLD = 20
     icon = None
@@ -47,6 +49,7 @@ class Thoughttree(UI):
 
     def __init__(self):
         UI.__init__(self, "Thoughttree", WINDOW_ICON)
+        self.system = None
         self.model = None
         self.chat = None
         self.geometry(Thoughttree.ROOT_GEOMETRY)
@@ -87,6 +90,7 @@ class Thoughttree(UI):
         for model in self.models.values():
             model.cancel()
 
+
     def create_ui(self):
 
         def on_treeview_click(event):
@@ -119,9 +123,12 @@ class Thoughttree(UI):
         self.status_bar = StatusBar(self)
 
         SASHWIDTH = 8
-        tree_pane = tk.PanedWindow(self, orient=tk.HORIZONTAL, sashwidth=SASHWIDTH, sashrelief=tk.RIDGE)
+        outer_pane = tk.PanedWindow(self, orient=tk.VERTICAL, sashwidth=SASHWIDTH, sashrelief=tk.RIDGE)
+        outer_pane.pack(fill=tk.BOTH, expand=True)
+        tree_pane = tk.PanedWindow(outer_pane, orient=tk.HORIZONTAL, sashwidth=SASHWIDTH, sashrelief=tk.RIDGE)
         tree_pane.pack(fill=tk.BOTH, expand=True)
         system_pane = tk.PanedWindow(tree_pane, orient=tk.VERTICAL, sashwidth=SASHWIDTH, sashrelief=tk.RIDGE)
+
 
         tree = ttk.Treeview(tree_pane, columns=("C1"), show="tree")
         self.tree = tree
@@ -145,6 +152,14 @@ class Thoughttree(UI):
         self.tree_pane = tree_pane
         self.system_pane = system_pane
 
+        self.console = ScrolledText(outer_pane, wrap=tk.WORD, height=Thoughttree.CONSOLE_HEIGHT, font=Text.FONT, padx=4, pady=0)
+        self.console.pack(side=tk.BOTTOM, fill=tk.X)
+        self.console.insert(tk.END, "Console:\n")
+        self.console.config(state=tk.DISABLED)
+
+        outer_pane.add(tree_pane)
+        outer_pane.add(self.console)
+
         children = tree.get_children()
         if children:
             tree.focus(children[0])
@@ -152,8 +167,8 @@ class Thoughttree(UI):
         tree.bind("<Return>", self.edit_tree_entry)
 
         self.system = Text(system_pane, system_prompt)
-        self.chat = Text(system_pane)
         self.system.config(pady=5)
+        self.chat = Text(system_pane)
 
         system_pane.add(self.system)
         system_pane.add(self.chat)

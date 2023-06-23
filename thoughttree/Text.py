@@ -79,20 +79,6 @@ class Text(tk.scrolledtext.ScrolledText):
         parent.configure(height=old_height + delta)
 
 
-    def next_equal(self, hierarchical_id):
-        if hierarchical_id:
-            hierarchical_id = hierarchical_id.split(' ', 1)[0]
-            levels = hierarchical_id.split('.')
-        else:
-            levels = ['0']
-        levels = levels[:-1] + [str(int(levels[-1]) + 1)]
-        return '.'.join(levels)
-
-    def new_sibling(self, notebook):
-        last_tab_label = notebook.tab(len(notebook.tabs()) - 1, "text")
-        s = self.next_equal(last_tab_label)
-        return s
-
     def fork(self):
 
         def next_level(hierarchical_id):
@@ -102,6 +88,22 @@ class Text(tk.scrolledtext.ScrolledText):
             else:
                 levels = ['1']
             return '.'.join(levels)
+
+
+        def next_equal(hierarchical_id):
+            if hierarchical_id:
+                hierarchical_id = hierarchical_id.split(' ', 1)[0]
+                levels = hierarchical_id.split('.')
+            else:
+                levels = ['0']
+            levels = levels[:-1] + [str(int(levels[-1]) + 1)]
+            return '.'.join(levels)
+
+
+        def new_sibling(notebook):
+            last_tab_label = notebook.tab(len(notebook.tabs()) - 1, "text")
+            s = next_equal(last_tab_label)
+            return s
 
         def new_child(parent):
             if parent:
@@ -123,20 +125,17 @@ class Text(tk.scrolledtext.ScrolledText):
             notebook.enable_traversal()
 
             txt = Text(notebook, trailing_text, scrollbar=True)
-            label = new_child(parent)
-            notebook.add(txt, text=label)
+            notebook.add(txt, text=new_child(parent))
+            self.window_create(tk.INSERT, window=notebook)
+            self.delete(tk.INSERT, tk.END)
         else:
             notebook = parent
         txt = Text(notebook, scrollbar=True)
-        label = self.new_sibling(notebook)
-        notebook.add(txt, text=label)
+        notebook.add(txt, text=new_sibling(notebook))
 
         notebook.select(len(notebook.tabs()) - 1)
         txt.focus_set()
 
-        if new_notebook:
-            self.window_create(tk.INSERT, window=notebook)
-            self.delete(tk.INSERT, tk.END)
         return "break"
 
 

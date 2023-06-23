@@ -146,8 +146,8 @@ class Thoughttree(UI):
         tree_pane.add(system_pane)
         tree_pane.sash_place(0, 0, 0)
 
-        self.tree_pane_old_sash = (160, 160)
-        self.system_pane_old_sash = (20, 20)
+        self.tree_pane_pos = (160, 160)
+        self.system_pane_pos = (20, 20)
 
         self.tree_pane = tree_pane
         self.system_pane = system_pane

@@ -287,8 +287,7 @@ class ThoughttreeMenu(Menu):
         item("Cancel", "<Escape>", self.ui.cancelModels)
 
         menu = Menu(self, "Model")
-        self.models_menu_items(item)
-        menu.add_separator()
+        self.set_model_menu = Menu(menu, "Set Model")
         item("Max Tokens...", "<Control-Shift-L>", lambda e: self.ui.configure_max_tokens())
         item("Temperature...", "<Control-Shift-T>", lambda e: self.ui.configure_temperature())
         item("Increase Temperature", "<Alt-plus>", None)

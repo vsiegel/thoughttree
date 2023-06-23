@@ -170,7 +170,7 @@ class ThoughttreeMenu(Menu):
         def item(label, keystroke, command, bind_key=True, context_menu=None, variable=None, add=False):
             menu.item(label, keystroke, command, bind_key, context_menu, variable, add)
 
-        def toggle_show_panel(pane, pane_old_sash):
+        def toggle_panel(pane, pane_old_sash):
             cx, cy = pane.sash_coord(0)
             if cx + cy > 2:
                 pane.sash_place(0, 1, 1)
@@ -182,11 +182,11 @@ class ThoughttreeMenu(Menu):
 
         def toggle_show_tree(event=None):
             self.ui.tree_and_main_pane_old_sash = \
-                toggle_show_panel(self.ui.tree_and_main_pane, self.ui.tree_and_main_pane_old_sash)
+                toggle_panel(self.ui.tree_and_main_pane, self.ui.tree_and_main_pane_old_sash)
 
         def toggle_show_system_prompt(event=None):
             self.ui.system_and_chat_pane_old_sash = \
-                toggle_show_panel(self.ui.system_and_chat_pane, self.ui.system_and_chat_pane_old_sash)
+                toggle_panel(self.ui.system_and_chat_pane, self.ui.system_and_chat_pane_old_sash)
 
         def toggle_scroll_output(event=None):
             self.ui.scroll_output = not self.ui.scroll_output

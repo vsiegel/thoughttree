@@ -172,7 +172,6 @@ class ThoughttreeMenu(Menu):
 
         def toggle_show_panel(pane, pane_old_sash):
             cx, cy = pane.sash_coord(0)
-            print(f"toggle_show_panel {(cx, cy)=}")
             if cx + cy > 2:
                 pane.sash_place(0, 1, 1)
                 return cx, cy
@@ -182,7 +181,6 @@ class ThoughttreeMenu(Menu):
                 return 1, 1
 
         def toggle_show_tree(event=None):
-            print(f"toggle_show_tree {event=}")
             self.ui.tree_and_main_pane_old_sash = \
                 toggle_show_panel(self.ui.tree_and_main_pane, self.ui.tree_and_main_pane_old_sash)
 

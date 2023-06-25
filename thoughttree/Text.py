@@ -87,7 +87,8 @@ class Text(tk.scrolledtext.ScrolledText):
         parent.configure(height=old_height + delta)
 
 
-    def fork(self):
+    def fork(self, index=tk.INSERT, root=False):
+        index = self.index(index)
 
         def next_level(hierarchical_id):
             if hierarchical_id:
@@ -120,9 +121,8 @@ class Text(tk.scrolledtext.ScrolledText):
             return next_level(parent_tab_label)
 
 
-        # Get the leading and trailing text and find the parent Notebook
-        has_leading_text = bool(self.get("1.0", tk.INSERT).strip())
-        trailing_text = self.get(tk.INSERT, tk.END)
+        has_leading_text = bool(self.get("1.0", index).strip())
+        trailing_text = self.get(index, tk.END)
         trailing_text = trailing_text.rstrip()
         parent = self.find_parent(Notebook)
 
@@ -133,8 +133,8 @@ class Text(tk.scrolledtext.ScrolledText):
 
             text = Text(notebook, trailing_text, scrollbar=True)
             notebook.add(text, text=new_child(parent))
-            self.window_create(tk.INSERT, window=notebook)
-            self.delete(tk.INSERT, tk.END)
+            self.window_create(index, window=notebook)
+            self.delete(index + "+1char", tk.END)
         else:
             notebook = parent
         text = Text(notebook, scrollbar=True)

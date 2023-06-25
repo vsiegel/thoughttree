@@ -161,6 +161,7 @@ class Thoughttree(UI):
 
         self.add_dummy_data_to_tree(tree)
         self.bind_tree_view_events(tree)
+        return tree
 
     def create_console(self, console_pane):
         # console = Text(console_pane, wrap=tk.WORD, height=Thoughttree.CONSOLE_HEIGHT, font=Text.FONT, padx=4, pady=0)

@@ -106,16 +106,17 @@ class Thoughttree(UI):
 
         self.status_bar = StatusBar(self)
 
-        outer_pane, tree_pane, system_pane = self.create_panes()
+        self.console_pane, self.tree_pane, self.system_pane = self.create_panes()
 
-        tree = self.create_tree_view(tree_pane, system_pane)
+        self.tree = self.create_tree(self.tree_pane, self.system_pane)
 
-        self.console = self.create_console(outer_pane)
+        self.console = self.create_console(self.console_pane)
 
-        outer_pane.add(tree_pane)
-        outer_pane.add(self.console)
+        self.console_pane.add(self.tree_pane)
+        self.console_pane.add(self.console)
+        self.console_pane.paneconfig(self.console, height=0)
 
-        self.system, self.chat = self.create_system_and_chat_widgets(system_pane)
+        self.system, self.chat = self.create_system_and_chat_widgets(self.system_pane)
 
         self.chat.focus_set()
 
@@ -128,15 +129,14 @@ class Thoughttree(UI):
 
     def create_panes(self):
         SASHWIDTH = 8
-        outer_pane = tk.PanedWindow(self, orient=tk.VERTICAL, sashwidth=SASHWIDTH, sashrelief=tk.RIDGE)
-        outer_pane.pack(fill=tk.BOTH, expand=True)
-        tree_pane = tk.PanedWindow(outer_pane, orient=tk.HORIZONTAL, sashwidth=SASHWIDTH, sashrelief=tk.RIDGE)
+        console_pane = tk.PanedWindow(self, orient=tk.VERTICAL, sashwidth=SASHWIDTH, sashrelief=tk.RIDGE)
+        console_pane.pack(fill=tk.BOTH, expand=True)
+        tree_pane = tk.PanedWindow(console_pane, orient=tk.HORIZONTAL, sashwidth=SASHWIDTH, sashrelief=tk.RIDGE)
         tree_pane.pack(fill=tk.BOTH, expand=True)
         system_pane = tk.PanedWindow(tree_pane, orient=tk.VERTICAL, sashwidth=SASHWIDTH, sashrelief=tk.RIDGE)
+        return console_pane, tree_pane, system_pane
 
-        return outer_pane, tree_pane, system_pane
-
-    def create_tree_view(self, tree_pane, system_pane):
+    def create_tree(self, tree_pane, system_pane):
 
         def on_treeview_click(event):
             item = tree.identify('item', event.x, event.y)
@@ -162,9 +162,10 @@ class Thoughttree(UI):
         self.add_dummy_data_to_tree(tree)
         self.bind_tree_view_events(tree)
 
-    def create_console(self, outer_pane):
-        console = ScrolledText(outer_pane, wrap=tk.WORD, height=Thoughttree.CONSOLE_HEIGHT, font=Text.FONT, padx=4, pady=0)
-        console.pack(side=tk.BOTTOM, fill=tk.X)
+    def create_console(self, console_pane):
+        # console = Text(console_pane, wrap=tk.WORD, height=Thoughttree.CONSOLE_HEIGHT, font=Text.FONT, padx=4, pady=0)
+        console = Text(console_pane)
+        # console.pack(side=tk.BOTTOM, fill=tk.X)
         console.insert(tk.END, "Console:\n")
         console.config(state=tk.DISABLED)
 

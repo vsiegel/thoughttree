@@ -196,7 +196,7 @@ class Text(tk.scrolledtext.ScrolledText):
 
     def jump_to_similar_line(cls, event=None, direction=1):
 
-        def find_matching_line(target, line_nr_1, lines, direction):
+        def find_similar_line(target, line_nr_1, lines, direction):
             line_nr_0 = line_nr_1 - 1
             num_lines = len(lines)
             if num_lines == 0:

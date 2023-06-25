@@ -170,14 +170,13 @@ class ThoughttreeMenu(Menu):
         def item(label, keystroke, command, bind_key=True, context_menu=None, variable=None, add=False):
             menu.item(label, keystroke, command, bind_key, context_menu, variable, add)
 
-        def fold(pane, pane_old_sash):
-            cx, cy = pane.sash_coord(0)
-            if cx + cy > 2:
+        def fold(pane, old_sash):
+            x, y = pane.sash_coord(0)
+            if x + y > 2:
                 pane.sash_place(0, 1, 1)
-                return cx, cy
+                return x, y
             else:
-                x, y = pane_old_sash
-                pane.sash_place(0, x ,y)
+                pane.sash_place(0, *old_sash)
                 return 1, 1
 
         def fold_tree(event=None):

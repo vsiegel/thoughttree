@@ -32,15 +32,11 @@ class Text(tk.scrolledtext.ScrolledText):
         self.bind("<Control-Shift-asterisk>", lambda e: self.change_text_height(1))
         self.bind("<Control-Shift-underscore>", lambda e: self.change_text_height(-1))
         self.bindtags(self.bindtags() + ("last",))
-        self.bind_class("last", '<KeyRelease>', lambda e: self.cursorline(e))
-        self.bind_class("last", '<Button-1>', lambda e: self.cursorline(e))
-        self.bind_class("last", "<FocusIn>", lambda e: self.cursorline(e))
-        self.bind_class("last", "<FocusOut>", lambda e: self.cursorline(e, False))
         self.pack(pady=0, fill=tk.X, expand=True)
         self.tag_configure("assistant", background="#F0F0F0", selectbackground="#4682b4", selectforeground="white")
-        self.tag_configure('cursorline', background='#FCFAED', foreground="black", selectbackground="#4682b4", selectforeground="white")
         self.insert(tk.END, text)
 
+        self.configure_cursorline()
         # def update_text_height(event=None):
         #     text_height = self.count('1.0', 'end', 'displaylines')[0]
         #     print(text_height)
@@ -49,12 +45,24 @@ class Text(tk.scrolledtext.ScrolledText):
         # self.bind('<KeyRelease>', update_text_height)
 
 
-    def cursorline(self, e, add=True):
-        if not e.widget.winfo_exists():
-            return
-        e.widget.tag_remove('cursorline', 1.0, "end")
-        if add:
-            e.widget.tag_add('cursorline', 'insert display linestart', 'insert display lineend+1c')
+    def configure_cursorline(self):
+
+        def cursorline(e, add=True):
+            if not e.widget.winfo_exists():
+                return
+            takefocus = not e.widget.cget("takefocus") == "0"
+            if not takefocus:
+                return
+            e.widget.tag_remove('cursorline', 1.0, "end")
+            if add:
+                e.widget.tag_add('cursorline', 'insert display linestart', 'insert display lineend+1c')
+
+        self.tag_configure('cursorline', background='#FCFAED', foreground="black", selectbackground="#4682b4", selectforeground="white")
+        self.bind_class("last", '<KeyRelease>', lambda e: cursorline(e))
+        self.bind_class("last", '<Button-1>', lambda e: cursorline(e))
+        self.bind_class("last", "<FocusIn>", lambda e: cursorline(e))
+        self.bind_class("last", "<FocusOut>", lambda e: cursorline(e, False))
+
 
     # def change_notebook_height(self, delta):
     #     parent = self.master.focus_get()

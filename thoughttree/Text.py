@@ -222,7 +222,7 @@ class Text(tk.scrolledtext.ScrolledText):
         if not current_line.strip():
             return
         lines = text.get(1.0, tk.END).splitlines()
-        jump_line = find_matching_line(current_line, line_nr, lines, direction)
+        jump_line = find_similar_line(current_line, line_nr, lines, direction)
         if jump_line:
             jump_index = f"{jump_line}.{0}"
             text.mark_set(tk.INSERT, jump_index)

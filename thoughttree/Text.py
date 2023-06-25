@@ -238,7 +238,7 @@ class Text(tk.scrolledtext.ScrolledText):
 
         notebook: Notebook = self.find_parent(Notebook)
         if notebook:
-            selected = notebook.select()
+            selected = notebook.index(tk.CURRENT)
             notebook.forget(selected)
             if len(notebook.tabs()) > 1:
                 notebook.select(max(selected - 1, 0))

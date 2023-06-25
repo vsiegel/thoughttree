@@ -114,7 +114,7 @@ class ThoughttreeMenu(Menu):
             txt.config(font=(name, int(size) + delta))
 
         def insert_current_time(event=None):
-            self.it.insert(tk.INSERT, f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+            self.it.insert(tk.INSERT, f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} ")
 
         def debug_info(event=None):
             print(f"{event=}")

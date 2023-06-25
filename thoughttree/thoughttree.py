@@ -167,7 +167,7 @@ class Thoughttree(UI):
         console = Text(console_pane)
         # console.pack(side=tk.BOTTOM, fill=tk.X)
         console.insert(tk.END, "Console:\n")
-        console.config(state=tk.DISABLED)
+        console.config(state=tk.DISABLED, takefocus=False)
 
         return console
 

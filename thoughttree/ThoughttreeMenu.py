@@ -225,6 +225,7 @@ class ThoughttreeMenu(Menu):
         item("Save Chat", "<Control-s>", save_chat)
         item("Save Section", "<Control-Shift-S>", save_section)
         item("Save Code Block", "<Control-Alt-s>", save_code_block)
+        menu.add_separator()
         item("Close Tab", "<Control-w>", close_tab, add=False)
         item("Close Empty Tab", "<BackSpace>", close_empty_tab_or_backspace, add=False)
         item("Quit", "<Control-q>", self.ui.close)

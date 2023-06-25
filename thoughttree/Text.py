@@ -110,8 +110,7 @@ class Text(tk.scrolledtext.ScrolledText):
 
         def new_sibling(notebook):
             last_tab_label = notebook.tab(len(notebook.tabs()) - 1, "text")
-            s = next_equal(last_tab_label)
-            return s
+            return next_equal(last_tab_label)
 
         def new_child(parent):
             if parent:

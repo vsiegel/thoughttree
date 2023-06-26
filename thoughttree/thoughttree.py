@@ -116,7 +116,7 @@ class Thoughttree(UI):
         self.console_pane.add(self.console)
         self.console_pane.paneconfig(self.console, height=0)
 
-        self.system, self.chat = self.create_system_and_chat_widgets(self.system_pane)
+        self.system, self.chat = self.create_system_and_chat(self.system_pane)
 
         self.chat.focus_set()
 
@@ -180,7 +180,7 @@ class Thoughttree(UI):
         tree.bind("<Double-Button-1>", self.edit_tree_entry)
         tree.bind("<Return>", self.edit_tree_entry)
 
-    def create_system_and_chat_widgets(self, system_pane):
+    def create_system_and_chat(self, system_pane):
         system = Text(system_pane, system_prompt)
         system.config(pady=5)
         chat = Text(system_pane)
@@ -204,7 +204,7 @@ class Thoughttree(UI):
 
         self.title(progress_title)
         self.update()
-        history = self.history_from_system_and_chat(prompts.TITLE_GENERATION_PROMPT, max_messages=5, max_size=1000) # todo
+        history = self.history_from_system_and_chat(prompts.TITLE_GENERATION, max_messages=5, max_size=1000) # todo
 
         self.generation_model.counter.go()
         self.generation_model.chat_complete(history, write_title, max_tokens=30, temperature=0.3)
@@ -264,10 +264,10 @@ class Thoughttree(UI):
         txt.tag_remove('cursorline', 1.0, "end")
         with WaitCursor(txt):
 
-            def insert_label(txt, text, tool_tip=""):
+            def insert_label(txt, text, tooltip=""):
                 label = tk.Label(txt, text=text, padx=7, pady=0, bg="#F0F0F0", fg="grey", borderwidth=0)
-                if tool_tip:
-                    ToolTip(label, tool_tip)
+                if tooltip:
+                    Tooltip(label, tooltip)
                 txt.window_create(tk.END, window=label)
 
             def scroll():

@@ -7,7 +7,7 @@ system_prompt = ""
 # Use markdown to make it more readable.
 # """
 
-TITLE_GENERATION_PROMPT = '''\
+TITLE_GENERATION = '''\
 A title for this conversation, about 50 characters. Style does not matter,
 it is about the information.
 Ignore the system prompt.
@@ -23,13 +23,13 @@ Output the unquoted text of the title, nothing else.
 #Do not refer to the content of the system prompt.
 
 
-CODE_BLOCK_FILENAME_GENERATION_PROMPT = '''\
+CODE_BLOCK_FILENAME_GENERATION = '''\
 Find a good file name for the code block above.
 Give me only the unquoted text of the file name, without any prefixes or comments.
 The code block started with the language spec '''
 
 
-CODE_BLOCK_MULTI_FILENAME_GENERATION_PROMPT = '''\
+CODE_BLOCK_MULTI_FILENAME_GENERATION = '''\
 Generate three titles for the three blocks below.
 The total length of the titels combined need to be less than 100 char.
 In one row, sep by | like foo|bar - no spaces around "|":

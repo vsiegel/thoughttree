@@ -6,11 +6,12 @@ from tkinter import font as tkfont, NONE, WORD
 from Files import Files
 from Menu import Menu
 from Text import Text
+from menu_help import menu_help
 
 
 class ThoughttreeMenu(Menu):
     def __init__(self, thoughttree, new_window_callback):
-        super().__init__(thoughttree, tearoff=False)
+        super().__init__(thoughttree, menu_help=menu_help, tearoff=False)
         self.new_window_callback = new_window_callback
         self.ui = thoughttree
 

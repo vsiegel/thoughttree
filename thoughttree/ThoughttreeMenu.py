@@ -138,30 +138,8 @@ class ThoughttreeMenu(Menu):
 
 
         def menu_test(event=None):
-
-            def on_text_change(ev):
-                print(ev)
-                new_height = int(txt.index('end-1c').split('.')[0]) + 1
-                print(f"{new_height=}")
-                txt.configure(height=new_height)
-                txt.edit_modified(False)
-
-
-            def on_resize(ev):
-                print(ev)
-                char_width = tkfont.Font(font=txt.cget("font")).measure('0')
-                parent_width = ev.width
-                txt.configure(width=int(parent_width / char_width))
-
-            print(event)
-            frame = tk.Frame(self.it)
-            txt = Text(frame)
-            txt.pack(fill='both', expand=True)
-            self.it.window_create(tk.END, window=frame)
-
-            self.it.bind('<Configure>', on_resize)
-            txt.bind('<<Modified>>', on_text_change)
             pass
+
 
         def branch():
             self.it.fork()

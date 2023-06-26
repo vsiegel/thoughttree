@@ -1,5 +1,6 @@
 import re
-from math import ceil, log2
+import textwrap
+from math import ceil, log2, sqrt
 import random
 from tkinter import EventType
 
@@ -78,6 +79,10 @@ def shorter(text, n=60):
     trailing = n - leading - 3
     return f'{text[:leading]}...{text[-trailing:]}'
 
+def text_block(text):
+    width = int(sqrt(len(text) * 5))
+    text = textwrap.fill(text, width=width)
+    return text
 
 def logarithmic_length(text, n=1, step='.'):
     return step * ceil(log2(len(text)-n)) if len(text) > n else ''

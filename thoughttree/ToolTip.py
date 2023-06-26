@@ -4,6 +4,7 @@ from math import sqrt
 
 from Text import Text
 from menu_commands_help import menu_command_help
+from tools import text_block
 
 
 class ToolTip :
@@ -55,8 +56,7 @@ class ToolTip :
                 menu_item = self.widget.entrycget(f'@{self.last_y}', 'label')
                 if menu_item in menu_command_help:
                     help_text = menu_command_help[menu_item]
-                    width = int(sqrt(len(help_text) * 5))
-                    text = textwrap.fill(help_text, width=width)
+                    text = text_block(help_text)
                 else:
                     text = menu_item
                 self.label.configure(text=text)

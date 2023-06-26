@@ -1,10 +1,7 @@
 import textwrap
 import tkinter as tk
-from math import sqrt
 
 from Text import Text
-from menu_commands_help import menu_command_help
-from tools import text_block
 
 
 class Tooltip :
@@ -17,8 +14,6 @@ class Tooltip :
         self.timer = None
         self.last_y = None
         widget.bindtags(("first",) + widget.bindtags())
-        # widget.bind("<Enter>", self.show_tooltip)
-        # widget.bind("<Leave>", self.hide_tooltip)
 
         widget.bind("<Enter>", self.add_tooltip)
         widget.bind("<Motion>", self.refresh_tooltip)
@@ -47,7 +42,6 @@ class Tooltip :
         if event:
             self.last_y = event.y
         if self.tooltip:
-
             px = self.root.winfo_pointerx() + 75
             py = self.root.winfo_pointery() + 25
             self.tooltip.wm_geometry(f"+{px}+{py}")

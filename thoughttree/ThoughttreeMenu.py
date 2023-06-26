@@ -165,7 +165,11 @@ class ThoughttreeMenu(Menu):
             self.ui.system_pane_pos = fold(self.ui.system_pane, self.ui.system_pane_pos)
 
         def fold_console(event=None):
-            self.ui.console_pane_pos = fold(self.ui.console_pane, self.ui.console_pane_pos)
+            # self.ui.console_pane: tk.PanedWindow = self.ui.console_pane
+            print(f"{self.ui.console_pane.panecget(self.ui.console, 'height')=}")
+            self.ui.console_pane.sash_place(0, -1, -1)
+            # self.ui.console_pane.paneconfigure(self.ui.console, height=30)
+            # self.ui.console_pane_pos = fold(self.ui.console_pane, self.ui.console_pane_pos)
 
         def toggle_scroll_output(event=None):
             self.ui.scroll_output = not self.ui.scroll_output
@@ -230,6 +234,7 @@ class ThoughttreeMenu(Menu):
         menu = Menu(self, "View")
         item("Show System Prompt", "<Alt-Shift-P>", fold_system)
         item("Show Tree", "<Alt-Shift-T>", fold_tree)
+        item("Show Console", "<Alt-Shift-C>", fold_console)
         item("Count Tokens", "<Control-Alt-m>", self.ui.count_text_tokens)
         item("Run Code Block", "", None)
         item("Update Window Title", "<Control-u>", self.ui.update_window_title)

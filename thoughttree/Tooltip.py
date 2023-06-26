@@ -7,7 +7,7 @@ from menu_commands_help import menu_command_help
 from tools import text_block
 
 
-class ToolTip :
+class Tooltip :
     def __init__(self, widget, text) :
         self.widget = widget
         self.root = widget.winfo_toplevel()

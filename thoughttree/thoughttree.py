@@ -12,7 +12,7 @@ from Model import Model
 from StatusBar import StatusBar
 from Text import Text
 from ThoughttreeMenu import ThoughttreeMenu
-from ToolTip import ToolTip
+from Tooltip import Tooltip
 from UI import UI
 from WaitCursor import WaitCursor
 from prompts import system_prompt

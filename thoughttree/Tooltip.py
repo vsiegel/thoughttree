@@ -46,16 +46,8 @@ class Tooltip :
             py = self.root.winfo_pointery() + 25
             self.tooltip.wm_geometry(f"+{px}+{py}")
 
-            try:
-                menu_item = self.widget.entrycget(f'@{self.last_y}', 'label')
-                if menu_item in menu_command_help:
-                    help_text = menu_command_help[menu_item]
-                    text = text_block(help_text)
-                else:
-                    text = menu_item
-                self.label.configure(text=text)
-            except: # Menu separators have no "label"
-                self.label.configure(text="-")
+            self.label.configure(text=self.text)
+
 
 
     def remove_tooltip(self, event):

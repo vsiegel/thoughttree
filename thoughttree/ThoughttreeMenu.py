@@ -185,6 +185,9 @@ class ThoughttreeMenu(Menu):
         def fold_system(event=None):
             self.ui.system_pane_pos = fold(self.ui.system_pane, self.ui.system_pane_pos)
 
+        def fold_console(event=None):
+            self.ui.console_pane_pos = fold(self.ui.console_pane, self.ui.console_pane_pos)
+
         def toggle_scroll_output(event=None):
             self.ui.scroll_output = not self.ui.scroll_output
             if self.ui.scroll_output:

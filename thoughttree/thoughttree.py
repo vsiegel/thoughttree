@@ -159,12 +159,9 @@ class Thoughttree(UI):
         return tree
 
     def create_console(self, console_pane):
-        # console = Text(console_pane, wrap=tk.WORD, height=Thoughttree.CONSOLE_HEIGHT, font=Text.FONT, padx=4, pady=0)
         console = Text(console_pane)
-        # console.pack(side=tk.BOTTOM, fill=tk.X)
         console.insert(tk.END, "Console:\n")
         console.config(state=tk.DISABLED, takefocus=False)
-
         return console
 
     def add_dummy_data_to_tree(self, tree):

@@ -232,9 +232,9 @@ class ThoughttreeMenu(Menu):
         item("Copy Title", None, None)
 
         menu = Menu(self, "View")
-        item("Show System Prompt", "<Alt-Shift-P>", fold_system)
-        item("Show Tree", "<Alt-Shift-T>", fold_tree)
-        item("Show Console", "<Alt-Shift-C>", fold_console)
+        item("Show System Prompt", "<Alt-Shift-S>", self.ui.system_pane.fold)
+        item("Show Tree", "<Alt-Shift-T>", self.ui.tree_pane.fold)
+        item("Show Console", "<Alt-Shift-C>", self.ui.console_pane.fold)
         item("Count Tokens", "<Control-Alt-m>", self.ui.count_text_tokens)
         item("Run Code Block", "", None)
         item("Update Window Title", "<Control-u>", self.ui.update_window_title)

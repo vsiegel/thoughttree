@@ -351,7 +351,7 @@ class Thoughttree(UI):
             print("Completion cost:")
             self.model.counter.summarize()
 
-            if conf.update_title_after_completion:
+            if conf.update_title_after_completion and not self.model.is_canceled:
                 if self.model.counter.tokens_since_go() > Thoughttree.GEN_TITLE_THRESHOLD:
                     self.update_window_title()
 

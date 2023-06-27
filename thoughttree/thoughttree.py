@@ -8,6 +8,7 @@ from tkinter.scrolledtext import ScrolledText
 from configargparse import Namespace
 
 import prompts
+from FoldablePane import FoldablePane
 from Model import Model
 from StatusBar import StatusBar
 from Text import Text
@@ -127,13 +128,10 @@ class Thoughttree(UI):
             self.option_add('*Text*insertOffTime', '0')
 
     def create_panes(self):
-        SASHWIDTH = 8
-        console_pane = tk.PanedWindow(self, orient=tk.VERTICAL, sashwidth=SASHWIDTH, sashrelief=tk.RIDGE)
-        console_pane.pack(fill=tk.BOTH, expand=True)
-        tree_pane = tk.PanedWindow(console_pane, orient=tk.HORIZONTAL, sashwidth=SASHWIDTH, sashrelief=tk.RIDGE)
-        tree_pane.pack(fill=tk.BOTH, expand=True)
-        system_pane = tk.PanedWindow(tree_pane, orient=tk.VERTICAL, sashwidth=SASHWIDTH, sashrelief=tk.RIDGE)
-        return console_pane, tree_pane, system_pane
+        self.console_pane = FoldablePane(self, folding_pane=1, folded=True, size=500, orient=tk.VERTICAL)
+        self.console_pane.pack(fill=tk.BOTH, expand=True)
+        self.tree_pane = FoldablePane(self.console_pane, folded=True, size=200, orient=tk.HORIZONTAL)
+        self.system_pane = FoldablePane(self.tree_pane, orient=tk.VERTICAL)
 
     def create_tree(self, tree_pane, system_pane):
 

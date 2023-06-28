@@ -26,7 +26,6 @@ class MenuHelpTooltip(Tooltip):
                     text = menu_item
                     if menu_item and self.previous_missing_item != menu_item:
                         self.previous_missing_item = menu_item
-                        print(f'No help text for "{menu_item}"')
                 self.label.configure(text=text)
             except Exception as ex: # Menu separators have no "label"
                 self.label.configure(text="-")

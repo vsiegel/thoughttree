@@ -149,28 +149,6 @@ class ThoughttreeMenu(Menu):
         def item(label, keystroke, command, bind_key=True, context_menu=None, variable=None, add=False):
             menu.item(label, keystroke, command, bind_key, context_menu, variable, add)
 
-        def fold(pane, old_sash):
-            x, y = pane.sash_coord(0)
-            if x + y > 2:
-                pane.sash_place(0, 1, 1)
-                return x, y
-            else:
-                pane.sash_place(0, *old_sash)
-                return 1, 1
-
-        def fold_tree(event=None):
-            self.ui.tree_pane_pos = fold(self.ui.tree_pane, self.ui.tree_pane_pos)
-
-        def fold_system(event=None):
-            self.ui.system_pane_pos = fold(self.ui.system_pane, self.ui.system_pane_pos)
-
-        def fold_console(event=None):
-            # self.ui.console_pane: tk.PanedWindow = self.ui.console_pane
-            print(f"{self.ui.console_pane.panecget(self.ui.console, 'height')=}")
-            self.ui.console_pane.sash_place(0, -1, -1)
-            # self.ui.console_pane.paneconfigure(self.ui.console, height=30)
-            # self.ui.console_pane_pos = fold(self.ui.console_pane, self.ui.console_pane_pos)
-
         def toggle_scroll_output(event=None):
             self.ui.scroll_output = not self.ui.scroll_output
             if self.ui.scroll_output:

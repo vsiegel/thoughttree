@@ -147,6 +147,8 @@ class ThoughttreeMenu(Menu):
             self.ui.complete()
 
         def item(label, keystroke, command, bind_key=True, context_menu=None, variable=None, add=False):
+            if not label in menu_help:
+                print("Help text missing for menu item \"" + label + "\"")
             menu.item(label, keystroke, command, bind_key, context_menu, variable, add)
 
         def toggle_scroll_output(event=None):

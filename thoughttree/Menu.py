@@ -19,7 +19,8 @@ class Menu(tk.Menu):
         if isinstance(master, tk.Tk):
             master.config(menu=self)
         else:
-            master.add_cascade(label=label, menu=self, underline=0)
+            # master.add_cascade(label=label, menu=self, underline=0)
+            master.add_cascade(label=label, menu=self)
             if self.menu_help:
                 MenuHelpTooltip(self, self.menu_help)
 

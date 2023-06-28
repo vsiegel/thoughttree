@@ -59,9 +59,6 @@ class Thoughttree(UI):
         self.console_pane = None
         self.tree_pane = None
         self.system_pane = None
-        self.console_pane_pos = None
-        self.tree_pane_pos = (190, 190)
-        self.system_pane_pos = None
 
         self.geometry(Thoughttree.ROOT_GEOMETRY)
         self.minsize(Thoughttree.MIN_WIDTH, Thoughttree.MIN_HEIGHT)
@@ -128,9 +125,9 @@ class Thoughttree(UI):
 
     def create_panes(self):
         self.console_pane = FoldablePane(self, folding_pane=1, folded=True, size=500, orient=tk.VERTICAL)
-        self.console_pane.pack(fill=tk.BOTH, expand=True)
         self.tree_pane = FoldablePane(self.console_pane, folded=True, size=200, orient=tk.HORIZONTAL)
         self.system_pane = FoldablePane(self.tree_pane, orient=tk.VERTICAL)
+        self.console_pane.pack(fill=tk.BOTH, expand=True)
 
     def create_tree(self, tree_pane, system_pane):
 

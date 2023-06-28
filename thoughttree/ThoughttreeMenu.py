@@ -186,7 +186,7 @@ class ThoughttreeMenu(Menu):
         item("New Main Tab", "<Control-t>", lambda e: self.it.fork("1.0"))
         # item("Save Chat", "<Control-s>", Files.save_chat)
         item("Save Chat", "<Control-s>", save_chat)
-        item("Save Section", "<Control-Shift-S>", save_section)
+        item("Save Message", "<Control-Shift-S>", save_section)
         item("Save Code Block", "<Control-Alt-s>", save_code_block)
         menu.add_separator()
         item("Close Tab", "<Control-w>", close_tab, add=False)

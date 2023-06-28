@@ -66,7 +66,7 @@ menu_help_old = {
     "New Window": "Opens a new Thoughttree window, allowing you to work on multiple chats simultaneously.",
     "New Main Tab": "Opens a new main tab in the current window, providing a separate workspace within the same window.",
     "Save Chat": "Saves the entire chat content to a file, allowing you to store and review conversations later.",
-    "Save Section": "Saves a selected section of the chat to a file, useful for extracting specific parts of a conversation.",
+    "Save Message": "Saves a selected section of the chat to a file, useful for extracting specific parts of a conversation.",
     "Save Code Block": "Saves a selected code block to a file, enabling you to reuse or share code snippets.",
     "Close Empty Tab": "Closes the current tab if it is empty, helping to declutter your workspace.",
     "Quit": "Closes the Thoughttree application, ending all active sessions.",

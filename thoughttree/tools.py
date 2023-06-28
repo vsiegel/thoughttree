@@ -1,5 +1,5 @@
 import re
-import textwrap
+from textwrap import fill
 from math import ceil, log2, sqrt
 import random
 from tkinter import EventType
@@ -81,7 +81,8 @@ def shorter(text, n=60):
 
 def text_block(text):
     width = int(sqrt(len(text) * 5))
-    text = textwrap.fill(text, width=width)
+    lines = text.splitlines()
+    text = "\n".join([fill(line, width=width) for line in lines])
     return text
 
 def logarithmic_length(text, n=1, step='.'):

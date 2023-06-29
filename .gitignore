@@ -156,3 +156,4 @@ dmypy.json
 .~lock.*#
 #*-GPT-4.txt
 *.txt
+/buch/

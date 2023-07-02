@@ -128,8 +128,7 @@ class Text(tk.scrolledtext.ScrolledText):
 
         new_notebook = not parent or has_leading_text
         if new_notebook:
-            notebook = Notebook(self, height=self.winfo_height(), width=self.winfo_width(), style='NoBorder.TNotebook')
-            notebook.enable_traversal()
+            notebook = Notebook(self, height=self.winfo_height(), width=self.winfo_width(), style='NoBorder.TNotebook', takefocus=False)
 
             text = Text(notebook, trailing_text, scrollbar=True)
             notebook.add(text, text=new_child(parent))
@@ -264,7 +263,17 @@ class Text(tk.scrolledtext.ScrolledText):
                     self.close_tab()
                     return "break"
 
-        if self.tag_ranges("sel"):
+        self.delete(tk.INSERT + "-1c")
+
+
+    def delete(self, index1=tk.INSERT, index2=None):
+        if self.tag_ranges(tk.SEL):
             self.event_generate("<<Clear>>")
         else:
-            self.delete(tk.INSERT + " - 1 char", tk.INSERT)
+            if index2:
+                super().delete(index1, index2)
+            else:
+                dump = self.dump(index1, all=True)
+                if [designation for (designation, value, index) in dump if designation == "text"]:
+                    super().delete(index1)
+

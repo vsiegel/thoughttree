@@ -206,7 +206,7 @@ class ThoughttreeMenu(Menu):
         item("Redo", "<Control-Shift-Z>", edit_redo)
         item("Select All", "<Control-a>", select_all)
         menu.add_separator()
-        item("Search at Google", "<Control-g>", search_google)
+        item("Search with Google", "<Control-g>", search_google)
         item("Insert Current Time", "<Control-Shift-I>", insert_current_time)
         item("Include Date in System Prompt", None, None)
         item("Copy Title", None, None)

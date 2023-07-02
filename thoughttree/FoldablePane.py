@@ -8,7 +8,6 @@ class FoldablePane(tk.PanedWindow):
     SASH_WIDTH = 8
     MIN_SIZE = 20
     def __init__(self, parent=None, folded=False, fold_size=100, **kw):
-        # folding 0 (first) or 1 (second)
         super().__init__(parent, borderwidth=0, sashwidth=FoldablePane.SASH_WIDTH, sashrelief=tk.RIDGE, **kw)
 
         def keep_fold_size(event):
@@ -26,7 +25,7 @@ class FoldablePane(tk.PanedWindow):
             if pane.folded:
                 pane.fold()
 
-            if pane.folding_pane == LAST:
+            if pane.fold_last:
                 pane.bind("<Configure>", keep_fold_size)
                 # pane.foldable_widget.bind("<Configure>", keep_fold_size)
 
@@ -41,7 +40,7 @@ class FoldablePane(tk.PanedWindow):
 
         self.fold_size = fold_size
         self.foldable_widget = None
-        self.folding_pane = None
+        self.fold_last = None
 
         self.folded = folded
         # self.folded = False
@@ -50,45 +49,44 @@ class FoldablePane(tk.PanedWindow):
 
     def addFoldable(self, widget, **kw):
         if self.panes():
-            self.folding_pane = LAST
+            self.fold_last = True
         else:
-            self.folding_pane = FIRST
+            self.fold_last = False
         self.add(widget, **kw)
         self.foldable_widget = widget
-        print(f"aF: {self.foldable_widget=}")
-        print(f"aF: {self.folding_pane=}")
 
 
     def fold(self, event=None, set_folded=None):
-        print(f"FP: {self.folding_pane=}")
+        print(f"FP: {self.fold_last=}")
         print(f"FP: {self.folded=}")
         print(f"FP: {self.fold_size=}")
+        pane_size = self.size1d()
+        sash = max(*self.sash_coord(0))
+        size = pane_size - sash if self.fold_last else sash
         if self.almost_folded():
             self.folded = True
+
         if set_folded is None:
             self.folded = not self.folded
         else:
             self.folded = set_folded
 
-        pane_size = self.size1d()
-        sash = max(*self.sash_coord(0))
-        size = sash if self.folding_pane == FIRST else pane_size - sash
         if self.folded:
-            self.fold_size = pane_size - sash
+            self.fold_size = size
             size = 1
         else:
             size = self.fold_size
-        sash = size if self.folding_pane == FIRST else pane_size - size
+        sash = pane_size - size if self.fold_last else size
         self.sash_place(0, sash, sash)
 
 
     def almost_folded(self):
         sash = max(*self.sash_coord(0))
-        if self.folding_pane == FIRST:
-            return sash < FoldablePane.MIN_SIZE
+        if self.fold_last:
+            size = self.size1d() - sash
         else:
-            pane_size = self.size1d()
-            return pane_size - sash < FoldablePane.MIN_SIZE
+            size = sash
+        return size < FoldablePane.MIN_SIZE
 
 
     def size1d(self, widget=None):
@@ -99,8 +97,8 @@ class FoldablePane(tk.PanedWindow):
             return widget.winfo_height()
 
     def fold_size1d(self):
-        sash_pos = max(*self.sash_coord(0))
-        if self.folding_pane == FIRST:
-            return sash_pos
+        sash = max(*self.sash_coord(0))
+        if self.fold_last:
+            return self.size1d() - sash
         else:
-            return self.size1d() - sash_pos
+            return sash

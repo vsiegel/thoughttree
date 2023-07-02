@@ -157,3 +157,4 @@ dmypy.json
 #*-GPT-4.txt
 *.txt
 /buch/
+*.csv

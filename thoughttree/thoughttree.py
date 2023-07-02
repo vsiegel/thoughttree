@@ -151,8 +151,6 @@ class Thoughttree(UI):
         tree.column("#1", width=30, minwidth=60, anchor=tk.W, stretch=tk.NO)
         tree.heading("C1", text="")
         tree.bind('<Double-Button-1>', on_treeview_click)
-        tree_pane.add(tree)
-        tree_pane.add(system_pane)
 
         self.add_dummy_data_to_tree(tree)
         self.bind_tree_view_events(tree)
@@ -173,11 +171,8 @@ class Thoughttree(UI):
         tree.bind("<Return>", self.edit_tree_entry)
 
     def create_system_and_chat(self, system_pane):
-        self.system = Text(system_pane, system_prompt)
-        self.system.config(pady=5)
+        self.system = Text(system_pane, system_prompt, pady=5)
         self.chat = Text(system_pane)
-        system_pane.add(self.system)
-        system_pane.add(self.chat)
 
     def update_window_title(self, event=None):
         progress_title = self.title() + "..."

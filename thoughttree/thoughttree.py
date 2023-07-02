@@ -36,8 +36,6 @@ NODE_CLOSED = '|'
 class Thoughttree(UI):
     MIN_WIDTH = 600
     MIN_HEIGHT = 300
-    CHAT_WIDTH = 400
-    CONSOLE_HEIGHT = 10
     ROOT_GEOMETRY = "1000x600"
     GEN_TITLE_THRESHOLD = 20
     icon = None
@@ -127,9 +125,9 @@ class Thoughttree(UI):
             self.option_add('*Text*insertOffTime', '0')
 
     def create_panes(self):
-        self.console_pane = FoldablePane(self, folded=True, fold_size=250, orient=tk.VERTICAL)
-        self.tree_pane = FoldablePane(self.console_pane, folded=True, fold_size=200, orient=tk.HORIZONTAL)
-        self.system_pane = FoldablePane(self.tree_pane, folded=False, orient=tk.VERTICAL)
+        self.console_pane = FoldablePane(self, folded=False, fold_size=200, orient=tk.VERTICAL)
+        self.tree_pane = FoldablePane(self.console_pane, folded=False, fold_size=500, orient=tk.HORIZONTAL)
+        self.system_pane = FoldablePane(self.tree_pane, folded=True, orient=tk.VERTICAL)
         self.console_pane.pack(fill=tk.BOTH, expand=True)
 
     def create_tree(self, tree_pane, system_pane):
@@ -157,7 +155,7 @@ class Thoughttree(UI):
         return tree
 
     def create_console(self, console_pane):
-        console = Text(console_pane)
+        console = Text(console_pane, height=20)
         console.insert(tk.END, "Console:\n")
         console.config(state=tk.DISABLED, takefocus=False)
         return console

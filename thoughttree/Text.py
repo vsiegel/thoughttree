@@ -160,7 +160,7 @@ class Text(tk.scrolledtext.ScrolledText):
             history = parentText.history_from_path(history)
         else:
             history = history or []
-        content = self.dump(1.0, tk.INSERT, text=True, tag=True, window=True)
+        content = self.dump(1.0, tk.END, text=True, tag=True, window=True)
         section = ""
         role = "user"
         for item in content :

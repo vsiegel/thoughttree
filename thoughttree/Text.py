@@ -39,12 +39,17 @@ class Text(tk.scrolledtext.ScrolledText):
         self.insert(tk.END, text)
 
         self.configure_cursorline()
-        # def update_text_height(event=None):
-        #     text_height = self.count('1.0', 'end', 'displaylines')[0]
-        #     print(text_height)
-        #     self.configure(height=text_height)
-        #
-        # self.bind('<KeyRelease>', update_text_height)
+
+
+
+    def toggle_tag(self, tag):
+        selected = self.tag_ranges("sel")
+        if selected:
+            tagged = self.tag_nextrange(tag, tk.SEL_FIRST, tk.SEL_LAST)
+            if tagged:
+                self.tag_remove(tag, *tagged)
+            else:
+                self.tag_add(tag, tk.SEL_FIRST, tk.SEL_LAST)
 
 
     def configure_cursorline(self):

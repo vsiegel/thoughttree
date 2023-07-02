@@ -11,14 +11,15 @@ class FoldablePane(tk.PanedWindow):
         # folding 0 (first) or 1 (second)
         super().__init__(parent, borderwidth=0, sashwidth=FoldablePane.SASH_WIDTH, sashrelief=tk.RIDGE, **kw)
 
-        def keep_folded(event):
+        def keep_fold_size(event):
             pane: FoldablePane = event.widget
+
             if pane.folded:
-                pane.sash_max()
-                # print(f"{event.widget.panecget(event.widget.panes()[1], 'height')=}")
-                print(f"FP: {pane.winfo_height()=}")
-                print(f"FP: {pane.winfo_width()=}")
-                print(f"FP: {pane['orient']=}")
+                sash = pane.size1d()
+            else:
+                sash = pane.size1d() - pane.fold_size
+            pane.sash_place(0, sash, sash)
+
 
         def first_folding(event):
             pane: FoldablePane = event.widget

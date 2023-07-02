@@ -5,6 +5,7 @@ import random
 from tkinter import EventType
 
 from pyperclip import paste
+from inspect import currentframe
 
 
 def create_dummy_data(tree):
@@ -104,3 +105,10 @@ def dummy_paragraphs(paragraphs=20):
 
 def eventTypeForId(id):
     return [e for e, v in EventType.__members__.items() if v == str(id)][0]
+
+
+def log(arg=""):
+    frameinfo = currentframe()
+    f = frameinfo.f_code.co_filename
+    l = frameinfo.f_back.f_lineno
+    print(f"{f} {l}: {arg}")

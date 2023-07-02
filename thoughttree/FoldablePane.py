@@ -22,8 +22,7 @@ class FoldablePane(tk.PanedWindow):
 
         def first_folding(event):
             pane: FoldablePane = event.widget
-            if pane.folded:
-                pane.fold()
+            pane.fold(pane.folded)
 
             if pane.fold_last:
                 pane.bind("<Configure>", keep_fold_size)

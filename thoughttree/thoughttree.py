@@ -106,13 +106,16 @@ class Thoughttree(UI):
         self.create_panes()
 
         self.tree = self.create_tree(self.tree_pane, self.system_pane)
-
         self.console = self.create_console(self.console_pane)
+        self.system = Text(self.system_pane, system_prompt, pady=5)
+        self.chat = Text(self.system_pane)
 
         self.console_pane.add(self.tree_pane)
-        self.console_pane.add(self.console)
-
-        self.create_system_and_chat(self.system_pane)
+        self.console_pane.addFoldable(self.console)
+        self.tree_pane.addFoldable(self.tree)
+        self.tree_pane.add(self.system_pane)
+        self.system_pane.addFoldable(self.system)
+        self.system_pane.add(self.chat)
 
         self.chat.focus_set()
 

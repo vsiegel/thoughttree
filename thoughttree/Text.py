@@ -5,6 +5,9 @@ from tkinter.ttk import Notebook
 
 from typing import Union
 
+from Notebook import Notebook
+
+
 class Text(tk.scrolledtext.ScrolledText):
     FONT_NAME_MONOSPACE = "monospace"
     FONT_NAME_PROPORTIONAL = "sans-serif"

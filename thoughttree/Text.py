@@ -10,12 +10,12 @@ class Text(tk.scrolledtext.ScrolledText):
     FONT_NAME_PROPORTIONAL = "sans-serif"
     FONT = (FONT_NAME_PROPORTIONAL, 11)
 
-    def __init__(self, master=None, text="", scrollbar=True, **kw):
+    def __init__(self, master=None, text="", scrollbar=True, padx=0, pady=0, **kw):
         height = len(text.splitlines())
         background = 'white'
         # background = next_pastel_rainbow_color()
         tk.scrolledtext.ScrolledText.__init__(
-            self, master, undo=True, wrap=tk.WORD, padx=0, pady=0, background=background,
+            self, master, undo=True, wrap=tk.WORD, padx=padx, pady=pady, background=background,
             width=80, height=height, insertwidth=4, font=Text.FONT,
             border=0, borderwidth=0, highlightthickness=0,
             selectbackground="#66a2d4", selectforeground="white", **kw)

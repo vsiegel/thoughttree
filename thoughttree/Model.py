@@ -11,6 +11,14 @@ import openai
 import History
 from TokenCounter import TokenCounter
 
+import os
+
+from tools import log
+
+
+def log_file_size(path):
+    log(f'Size: {path} {os.path.getsize(path)} bytes')
+
 
 class Model:
 
@@ -30,15 +38,16 @@ class Model:
         self.name = model_name
         self.counter = TokenCounter(model_name)
 
-        self.logdir = Path.home() / "logs" / "thoughttree"
+        logdir = Path.home()/"logs"/"thoughttree"
+        if not logdir.exists():
+            logdir.mkdir(parents=True, exist_ok=True)
+        self.chat_log_path = logdir/self.logfile_name
+        self.chat_log = open(self.chat_log_path, "a")
+        log_file_size(self.chat_log_path)
 
         self.max_tokens = tk.IntVar(value=1500)
         self.temperature = 0.5
-
         self.is_canceled = False
-        if not self.logdir.exists():
-            self.logdir.mkdir(parents=True, exist_ok=True)
-        self.chat_log = open(self.logdir/self.logfile_name, "w")
 
 
     def chat_complete(self, history, output_delta_callback, max_tokens=None, temperature=None) -> Tuple[str, str]:
@@ -98,6 +107,7 @@ class Model:
             chat_log.write(text)
             # chat_log.write('\n')
             chat_log.flush()
+            log_file_size(self.chat_log_path)
 
 
     def cancel(self):

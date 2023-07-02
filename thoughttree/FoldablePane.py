@@ -23,19 +23,30 @@ class FoldablePane(tk.PanedWindow):
 
         def first_folding(event):
             pane: FoldablePane = event.widget
-            print(f"first_folding: {pane.size1d()=}")
-            if self.folded:
-                self.folded = False
-                self.fold()
+            if pane.folded:
+                pane.fold()
 
-            pane.unbind("<Configure>", pane.first_folding_bind)
+            if pane.folding_pane == LAST:
+                pane.bind("<Configure>", keep_fold_size)
+                # pane.foldable_widget.bind("<Configure>", keep_fold_size)
 
-        self.folding_pane = folding_pane
+            pane.unbind_class(pane.first_folding_tag, "<Configure>")
+
+        def bind_first_folding():
+            self.bindtags(self.bindtags() + (self.first_folding_tag,))
+            self.bind_class(self.first_folding_tag, "<Configure>", first_folding)
+
+        self.first_folding_tag = f"initial{self}"
+        bind_first_folding()
+
+        self.fold_size = fold_size
+        self.foldable_widget = None
+        self.folding_pane = None
+
         self.folded = folded
-        self.size = size
-        if folding_pane != 0:
-            self.bind("<Configure>", keep_folded)
-        self.first_folding_bind = self.bind("<Configure>", first_folding)
+        # self.folded = False
+        # self.folded = True
+
 
     def addFoldable(self, widget, **kw):
         if self.panes():

@@ -72,9 +72,16 @@ class FoldablePane(tk.PanedWindow):
             return pane_size - sash < FoldablePane.MIN_SIZE
 
 
-    def size1d(self):
+    def size1d(self, widget=None):
+        widget = widget or self
         if self['orient'] == 'horizontal':
-            pane_size = self.winfo_width()
+            return widget.winfo_width()
         else:
-            pane_size = self.winfo_height()
-        return pane_size
+            return widget.winfo_height()
+
+    def fold_size1d(self):
+        sash_pos = max(*self.sash_coord(0))
+        if self.folding_pane == FIRST:
+            return sash_pos
+        else:
+            return self.size1d() - sash_pos

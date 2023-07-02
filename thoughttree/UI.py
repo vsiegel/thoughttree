@@ -1,6 +1,8 @@
 import os
 import tkinter as tk
 from os.path import join
+from tkinter import messagebox
+
 
 class UI(tk.Tk):
     icon = None
@@ -18,8 +20,10 @@ class UI(tk.Tk):
 
 
     def close(self, event=None):
-        self.is_root_destroyed = True
-        self.destroy()
+        result = messagebox.askyesno("Quit", "Are you sure you want to quit?", parent=self)
+        if result:
+            self.is_root_destroyed = True
+            self.destroy()
 
 
     def set_icon(self, window_icon):

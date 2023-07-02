@@ -6,10 +6,10 @@ LAST = 1
 
 class FoldablePane(tk.PanedWindow):
     SASH_WIDTH = 8
-    MIN_SIZE = 30
-    def __init__(self, parent=None, folding_pane=0, folded=False, size=10, **kwargs):
+    MIN_SIZE = 20
+    def __init__(self, parent=None, folded=False, fold_size=100, **kw):
         # folding 0 (first) or 1 (second)
-        super().__init__(parent, borderwidth=0, sashwidth=FoldablePane.SASH_WIDTH, sashrelief=tk.RIDGE, **kwargs)
+        super().__init__(parent, borderwidth=0, sashwidth=FoldablePane.SASH_WIDTH, sashrelief=tk.RIDGE, **kw)
 
         def keep_folded(event):
             pane: FoldablePane = event.widget

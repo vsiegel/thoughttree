@@ -67,7 +67,8 @@ class Menu(tk.Menu):
             # print(f"{self.entryconfigure('last')=}", end="\n\n")
         # if context_menu :
         #     context_menu.add_command(label=label, accelerator=accelerator, state=state, command=lambda: command(None))
-        if not add:
-            self.master.unbind_class("Text", keystroke)
-        self.master.bind_class("Text", keystroke, command, add=add)
+        if keystroke:
+            if not add:
+                self.master.unbind_class("Text", keystroke)
+            self.master.bind_class("Text", keystroke, command, add=add)
 

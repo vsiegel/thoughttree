@@ -1,5 +1,9 @@
 import tkinter as tk
 
+FIRST = 0
+LAST = 1
+
+
 class FoldablePane(tk.PanedWindow):
     SASH_WIDTH = 8
     MIN_SIZE = 30

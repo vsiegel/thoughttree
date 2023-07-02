@@ -127,9 +127,9 @@ class Thoughttree(UI):
             self.option_add('*Text*insertOffTime', '0')
 
     def create_panes(self):
-        self.console_pane = FoldablePane(self, folding_pane=1, folded=True, size=500, orient=tk.VERTICAL)
-        self.tree_pane = FoldablePane(self.console_pane, folded=True, size=200, orient=tk.HORIZONTAL)
-        self.system_pane = FoldablePane(self.tree_pane, orient=tk.VERTICAL)
+        self.console_pane = FoldablePane(self, folded=True, fold_size=250, orient=tk.VERTICAL)
+        self.tree_pane = FoldablePane(self.console_pane, folded=True, fold_size=200, orient=tk.HORIZONTAL)
+        self.system_pane = FoldablePane(self.tree_pane, folded=False, orient=tk.VERTICAL)
         self.console_pane.pack(fill=tk.BOTH, expand=True)
 
     def create_tree(self, tree_pane, system_pane):

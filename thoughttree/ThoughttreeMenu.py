@@ -81,12 +81,6 @@ class ThoughttreeMenu(Menu):
             txt.event_generate("<<Paste>>")
             txt.see(tk.INSERT)
 
-        def delete_text(event=None):
-            if self.it.tag_ranges(tk.SEL):
-                self.it.event_generate("<<Clear>>")
-            else:
-                self.it.delete(tk.INSERT)
-
         def select_all(event=None):
             txt = self.it
             if type(txt) == Text:
@@ -172,9 +166,6 @@ class ThoughttreeMenu(Menu):
         def close_tab(event=None):
             self.it.close_tab()
 
-        def close_empty_tab_or_backspace(event=None):
-            self.it.close_empty_tab_or_backspace()
-
         def search_google(event=None):
             selected_range = self.it.tag_ranges(tk.SEL)
             if selected_range:
@@ -192,7 +183,7 @@ class ThoughttreeMenu(Menu):
         item("Save Code Block", "<Control-Alt-s>", save_code_block)
         menu.add_separator()
         item("Close Tab", "<Control-w>", close_tab, add=False)
-        item("Close Empty Tab", "<BackSpace>", close_empty_tab_or_backspace, add=False)
+        item("Close Empty Tab", "<BackSpace>", lambda e: self.it.close_empty_tab_or_backspace(), add=False)
         item("Quit", "<Control-q>", self.ui.close)
 
         menu = Menu(self, "Edit")
@@ -200,7 +191,7 @@ class ThoughttreeMenu(Menu):
         item("Cut", "<Control-x>", cut_text)
         item("Copy", "<Control-c>", copy_text)
         item("Paste", "<Control-v>", paste_text)
-        item("Delete", "<Delete>", delete_text)
+        item("Delete", "<Delete>", lambda e: self.it.delete())
         menu.add_separator()
         item("Undo", "<Control-z>", edit_undo)
         item("Redo", "<Control-Shift-Z>", edit_redo)
@@ -249,6 +240,7 @@ class ThoughttreeMenu(Menu):
         item("Complete Multiple...", "<Control-Shift-M>", lambda e: self.ui.complete(0))
         item("Complete Multiple Again", "<Control-m>", lambda e: self.ui.complete(-1))
         menu.add_separator()
+        # item("Mark assistant message", "<Control-Alt-a>", mark_assistant_message)
         item("Cancel", "<Escape>", self.ui.cancelModels)
 
         menu = Menu(self, "Model")

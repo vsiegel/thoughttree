@@ -46,26 +46,29 @@ class FoldablePane(tk.PanedWindow):
         print(f"aF: {self.foldable_widget=}")
         print(f"aF: {self.folding_pane=}")
 
-    def fold(self, event=None):
+
+    def fold(self, event=None, set_folded=None):
         print(f"FP: {self.folding_pane=}")
         print(f"FP: {self.folded=}")
-        print(f"FP: {self.size=}")
-        if self.folded or self.almost_folded():
-            size = max(self.size, FoldablePane.MIN_SIZE)
-            self.sash_place(0, size, size)
-            self.folded = False
-        else:
-            self.size = max(*self.sash_coord(0))
-            if self.folding_pane == 0:
-                self.sash_place(0, 1, 1)
-            else:
-                self.sash_max()
+        print(f"FP: {self.fold_size=}")
+        if self.almost_folded():
             self.folded = True
+        if set_folded is None:
+            self.folded = not self.folded
+        else:
+            self.folded = set_folded
 
-
-    def sash_max(self):
         pane_size = self.size1d()
-        self.sash_place(0, pane_size, pane_size)
+        sash = max(*self.sash_coord(0))
+        size = sash if self.folding_pane == FIRST else pane_size - sash
+        if self.folded:
+            self.fold_size = pane_size - sash
+            size = 1
+        else:
+            size = self.fold_size
+        sash = size if self.folding_pane == FIRST else pane_size - size
+        self.sash_place(0, sash, sash)
+
 
     def almost_folded(self):
         sash = max(*self.sash_coord(0))

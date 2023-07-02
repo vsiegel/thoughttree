@@ -55,12 +55,12 @@ class FoldablePane(tk.PanedWindow):
         self.sash_place(0, pane_size, pane_size)
 
     def almost_folded(self):
-        size = max(*self.sash_coord(0))
-        if self.folding_pane == 0:
-            return size < FoldablePane.MIN_SIZE
+        sash = max(*self.sash_coord(0))
+        if self.folding_pane == FIRST:
+            return sash < FoldablePane.MIN_SIZE
         else:
             pane_size = self.size1d()
-            return pane_size - size < FoldablePane.MIN_SIZE
+            return pane_size - sash < FoldablePane.MIN_SIZE
 
 
     def size1d(self):

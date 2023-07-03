@@ -59,6 +59,9 @@ class Thoughttree(UI):
         self.tree_pane = None
         self.system_pane = None
 
+        self.max_tokens = None
+        self.temperature = None
+
         self.geometry(Thoughttree.ROOT_GEOMETRY)
         self.minsize(Thoughttree.MIN_WIDTH, Thoughttree.MIN_HEIGHT)
         self.protocol("WM_DELETE_WINDOW", self.close)
@@ -256,7 +259,6 @@ class Thoughttree(UI):
                 if self.scroll_output:
                     txt.see(tk.END)
                 txt.update()
-
 
             def write_chat(text) :
                 if self.is_root_destroyed :

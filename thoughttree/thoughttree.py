@@ -89,6 +89,7 @@ class Thoughttree(UI):
             self.models[model_name] = Model(model_name)
         self.model = self.models[model_name]
         self.status_bar.model = model_name
+        self.status_bar.set_max_token_var(self.model.max_tokens)
         self.status_bar.message = f"Max tokens: {self.model.max_tokens.get()} T: {self.model.temperature}"
 
     def cancelModels(self, event=None):

@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import IntVar
 
 
 class StatusBar(tk.Frame):
@@ -16,11 +17,17 @@ class StatusBar(tk.Frame):
         self.note_label = tk.Label(self, **defaults, width=10, text=note_text, anchor=tk.W)
         self.note_label.pack(side=tk.LEFT, padx=(5, 0), fill=tk.X, expand=True)
 
+        self.max_token_label = tk.Label(self, **defaults, width=10, text="(max_token)", anchor=tk.W)
+        self.max_token_label.pack(side=tk.LEFT, padx=(5, 0), fill=tk.X, expand=True)
+
         self.model_label = tk.Label(self, **defaults, width=20, text=model_text, anchor=tk.E)
         self.model_label.pack(side=tk.LEFT, padx=(5, 0), fill=tk.X)
 
         self.pack(side=tk.BOTTOM, fill=tk.X)
 
+
+    def set_max_token_var(self, var: IntVar):
+        self.max_token_label.config(textvariable=var)
 
     @property
     def symbol(self):

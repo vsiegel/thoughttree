@@ -8,6 +8,7 @@ from tkinter.scrolledtext import ScrolledText
 from configargparse import Namespace
 
 import prompts
+from FinishReasonIcon import FinishReasonIcon
 from FoldablePane import FoldablePane
 from Model import Model
 from StatusBar import StatusBar
@@ -247,11 +248,9 @@ class Thoughttree(UI):
         txt.tag_remove('cursorline', 1.0, "end")
         with WaitCursor(txt):
 
-            def insert_label(txt, text, tooltip=""):
-                label = tk.Label(txt, text=text, padx=7, pady=0, bg="#F0F0F0", fg="grey", borderwidth=0)
-                if tooltip:
-                    Tooltip(label, tooltip)
-                txt.window_create(tk.END, window=label)
+            def insert_label(text, symbol, tooltip=""):
+                label = FinishReasonIcon(text, symbol, tooltip=tooltip)
+                text.window_create(tk.END, window=label)
 
             def scroll():
                 if self.scroll_output:

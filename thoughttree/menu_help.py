@@ -8,7 +8,8 @@ menu_help = {
     "Save Message": "Saves a selected section of the chat to a file, useful for extracting specific parts of a conversation.",
     "Save Code Block": "Saves a selected code block to a file, enabling you to reuse or share code snippets.\nThe saved code block can be imported into other projects or shared with collaborators, streamlining the development process.",
     "Close Empty Tab": "Closes the current tab if it is empty, helping to declutter your workspace.\nThis feature prevents the accumulation of unnecessary empty tabs, ensuring a clean and organized working environment.",
-    "Quit": "Closes the Thoughttree application, ending all active sessions and closing all open windows.\nBefore quitting, ensure that you have saved any important chat content or settings to avoid losing your work.",
+    "Quit": "Closes the current Thoughttree window.\n\n"
+            "Before quitting, ensure that you have saved any important chat content to avoid losing your work.",
 
     "Cut": "Cuts the selected text and stores it in the clipboard, allowing you to move text within or between documents.",
     "Copy": "Copies the selected text to the clipboard without removing it from the document, useful for duplicating content.",

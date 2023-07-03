@@ -158,3 +158,4 @@ dmypy.json
 *.txt
 /buch/
 *.csv
+/misc/

@@ -43,7 +43,6 @@ class Model:
             logdir.mkdir(parents=True, exist_ok=True)
         self.chat_log_path = logdir/self.logfile_name
         self.chat_log = open(self.chat_log_path, "a")
-        log_file_size(self.chat_log_path)
 
         self.max_tokens = tk.IntVar(value=1500)
         self.temperature = 0.5
@@ -107,7 +106,6 @@ class Model:
             chat_log.write(text)
             # chat_log.write('\n')
             chat_log.flush()
-            log_file_size(self.chat_log_path)
 
 
     def cancel(self):

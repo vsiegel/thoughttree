@@ -1,24 +1,24 @@
 import tkinter as tk
-from tkinter import IntVar
+from tkinter import IntVar, W, E, X, LEFT, BOTTOM, SUNKEN
 
 
 class StatusBar(tk.Frame):
-    def __init__(self, master, small_text="", message_text="", note_text="", model_text="", **kwargs):
-        super().__init__(master, **kwargs)
+    def __init__(self, master, small_text="", message_text="", note_text="", model_text="", **kw):
+        super().__init__(master, **kw)
         self.master = master
 
-        defaults = {"bd": 1, "relief": tk.SUNKEN, "font": ("Arial", 10)}
-        self.symbol_label = tk.Label(self, **defaults, width=2, text=small_text, anchor=tk.W)
-        self.symbol_label.pack(side=tk.LEFT)
+        defaults = {"bd": 1, "relief": SUNKEN, "font": ("Arial", 10)}
+        self.symbol_label = tk.Label(self, **defaults, width=2, text=small_text, anchor=W)
+        self.symbol_label.pack(side=LEFT)
 
-        self.message_label = tk.Label(self, **defaults, width=20, text=message_text, anchor=tk.W)
-        self.message_label.pack(side=tk.LEFT, padx=(5, 0), fill=tk.X, expand=True)
+        self.message_label = tk.Label(self, **defaults, width=20, text=message_text, anchor=W)
+        self.message_label.pack(side=LEFT, padx=(5, 0), fill=X, expand=True)
 
-        self.note_label = tk.Label(self, **defaults, width=10, text=note_text, anchor=tk.W)
-        self.note_label.pack(side=tk.LEFT, padx=(5, 0), fill=tk.X, expand=True)
+        self.note_label = tk.Label(self, **defaults, width=10, text=note_text, anchor=W)
+        self.note_label.pack(side=LEFT, padx=(5, 0), fill=X, expand=True)
 
-        self.max_token_label = tk.Label(self, **defaults, width=10, text="(max_token)", anchor=tk.W)
-        self.max_token_label.pack(side=tk.LEFT, padx=(5, 0), fill=tk.X, expand=True)
+        self.max_token_label = tk.Label(self, **defaults, width=10, text="(max_token)", anchor=W)
+        self.max_token_label.pack(side=LEFT, padx=(5, 0), fill=X, expand=True)
 
         self.model_label = tk.Label(self, **defaults, width=20, text=model_text, anchor=tk.E)
         self.model_label.pack(side=tk.LEFT, padx=(5, 0), fill=tk.X)

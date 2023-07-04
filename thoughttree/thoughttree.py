@@ -330,7 +330,7 @@ class Thoughttree(UI):
                         tool_tip += "\n" + message
                     insert_label(txt, symbol, tool_tip)
 
-            if not self.model.is_canceled:
+            if not self.model.is_canceled and not finish_reason == "length":
                 txt.insert(tk.END, postfix)
             if self.scroll_output:
                 txt.mark_set(tk.INSERT, tk.END)

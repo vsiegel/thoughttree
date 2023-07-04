@@ -1,7 +1,7 @@
 import tkinter as tk
 import webbrowser
 from datetime import datetime
-from tkinter import font as tkfont, NONE, WORD
+from tkinter import font as tkfont, NONE, WORD, SEL, END, INSERT
 
 from Files import Files
 from Menu import Menu
@@ -79,14 +79,14 @@ class ThoughttreeMenu(Menu):
             txt = self.it
             txt.event_generate("<<Clear>>")
             txt.event_generate("<<Paste>>")
-            txt.see(tk.INSERT)
+            txt.see(INSERT)
 
         def select_all(event=None):
             txt = self.it
             if type(txt) == Text:
-                txt.tag_add(tk.SEL, "1.0", tk.END)
-                txt.mark_set(tk.INSERT, "1.0")
-                txt.see(tk.INSERT)
+                txt.tag_add(SEL, "1.0", END)
+                txt.mark_set(INSERT, "1.0")
+                txt.see(INSERT)
 
         def edit_undo(event=None):
             try:
@@ -109,7 +109,7 @@ class ThoughttreeMenu(Menu):
             txt.config(font=(name, int(size) + delta))
 
         def insert_current_time(event=None):
-            self.it.insert(tk.INSERT, f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} ")
+            self.it.insert(INSERT, f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} ")
 
         def debug_info(event=None):
             print(f"{event=}")
@@ -126,7 +126,7 @@ class ThoughttreeMenu(Menu):
                 # print(f'{self.focus.window_configure(dumped_win_pos)=}')
                 print(f"{type(self.it.window_cget(dumped_win_pos, 'window'))=}")
             print()
-            dumped = self.it.dump("1.0", tk.INSERT, all=True)
+            dumped = self.it.dump("1.0", INSERT, all=True)
             for part in dumped:
                 print(f'{part=}')
 
@@ -148,7 +148,7 @@ class ThoughttreeMenu(Menu):
         def toggle_scroll_output(event=None):
             self.ui.scroll_output = not self.ui.scroll_output
             if self.ui.scroll_output:
-                self.it.see(tk.END)
+                self.it.see(END)
 
         def toggle_ring_bell(event=None):
             self.ui.notify_end = not self.ui.notify_end
@@ -167,7 +167,7 @@ class ThoughttreeMenu(Menu):
             self.it.close_tab()
 
         def search_google(event=None):
-            selected_range = self.it.tag_ranges(tk.SEL)
+            selected_range = self.it.tag_ranges(SEL)
             if selected_range:
                 selected_text = self.it.get(*selected_range)[:2000]
                 if selected_text:

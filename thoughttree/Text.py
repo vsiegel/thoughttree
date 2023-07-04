@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import scrolledtext
+from tkinter import CURRENT, END, INSERT, S, SEL, WORD, X, SEL_FIRST, SEL_LAST
 
 from typing import Union
 
@@ -18,7 +19,7 @@ class Text(tk.scrolledtext.ScrolledText):
         background = 'white'
         # background = next_pastel_rainbow_color()
         tk.scrolledtext.ScrolledText.__init__(
-            self, master, undo=True, wrap=tk.WORD, padx=padx, pady=pady, background=background,
+            self, master, undo=True, wrap=WORD, padx=padx, pady=pady, background=background,
             width=80, height=height, insertwidth=4, font=Text.FONT,
             border=0, borderwidth=0, highlightthickness=0,
             selectbackground="#66a2d4", selectforeground="white", **kw)
@@ -35,9 +36,9 @@ class Text(tk.scrolledtext.ScrolledText):
         self.bind("<Control-Shift-asterisk>", lambda e: self.change_text_height(1))
         self.bind("<Control-Shift-underscore>", lambda e: self.change_text_height(-1))
         self.bindtags(self.bindtags() + ("last",))
-        self.pack(pady=0, fill=tk.X, expand=True)
+        self.pack(pady=0, fill=X, expand=True)
         self.tag_configure("assistant", background="#F0F0F0", selectbackground="#4682b4", selectforeground="white")
-        self.insert(tk.END, text)
+        self.insert(END, text)
 
         self.configure_cursorline()
 
@@ -46,11 +47,11 @@ class Text(tk.scrolledtext.ScrolledText):
     def toggle_tag(self, tag):
         selected = self.tag_ranges("sel")
         if selected:
-            tagged = self.tag_nextrange(tag, tk.SEL_FIRST, tk.SEL_LAST)
+            tagged = self.tag_nextrange(tag, SEL_FIRST, SEL_LAST)
             if tagged:
                 self.tag_remove(tag, *tagged)
             else:
-                self.tag_add(tag, tk.SEL_FIRST, tk.SEL_LAST)
+                self.tag_add(tag, SEL_FIRST, SEL_LAST)
 
 
     def configure_cursorline(self):
@@ -82,7 +83,7 @@ class Text(tk.scrolledtext.ScrolledText):
         parent.configure(height=old_height + delta)
 
 
-    def fork(self, index=tk.INSERT, root=False):
+    def fork(self, index=INSERT, root=False):
         index = self.index(index)
 
         def next_level(hierarchical_id):
@@ -117,7 +118,7 @@ class Text(tk.scrolledtext.ScrolledText):
 
 
         has_leading_text = bool(self.get("1.0", index).strip())
-        trailing_text = self.get(index, tk.END)
+        trailing_text = self.get(index, END)
         trailing_text = trailing_text.rstrip()
         parent = self.find_parent(Notebook)
 
@@ -128,7 +129,7 @@ class Text(tk.scrolledtext.ScrolledText):
             text = Text(notebook, trailing_text, scrollbar=True)
             notebook.add(text, text=new_child(parent))
             self.window_create(index, window=notebook)
-            self.delete(index + "+1char", tk.END)
+            self.delete(index + "+1char", END)
         else:
             notebook = parent
         text = Text(notebook, scrollbar=True)
@@ -154,7 +155,7 @@ class Text(tk.scrolledtext.ScrolledText):
             history = parentText.history_from_path(history)
         else:
             history = history or []
-        content = self.dump(1.0, tk.END, text=True, tag=True, window=True)
+        content = self.dump(1.0, END, text=True, tag=True, window=True)
         section = ""
         role = "user"
         for item in content :
@@ -207,16 +208,16 @@ class Text(tk.scrolledtext.ScrolledText):
 
 
         text: Text = cls.focus_get()
-        cursor_pos = text.index(tk.INSERT)
+        cursor_pos = text.index(INSERT)
         line_nr = int(cursor_pos.split('.')[0])
         current_line = text.get(f"{line_nr}.0", f"{line_nr}.end")
         if not current_line.strip():
             return
-        lines = text.get(1.0, tk.END).splitlines()
+        lines = text.get(1.0, END).splitlines()
         jump_line = find_similar_line(current_line, line_nr, lines, direction)
         if jump_line:
             jump_index = f"{jump_line}.{0}"
-            text.mark_set(tk.INSERT, jump_index)
+            text.mark_set(INSERT, jump_index)
             text.see(jump_index)
 
 
@@ -229,18 +230,18 @@ class Text(tk.scrolledtext.ScrolledText):
 
         notebook: Notebook = self.find_parent(Notebook)
         if notebook:
-            selected = notebook.index(tk.CURRENT)
+            selected = notebook.index(CURRENT)
             notebook.forget(selected)
             if len(notebook.tabs()) > 1:
                 notebook.select(max(selected - 1, 0))
                 selected_text(notebook).focus_set()
             elif len(notebook.tabs()) == 1:
-                string = selected_text(notebook).get('1.0', tk.END)
+                string = selected_text(notebook).get('1.0', END)
                 parent = self.find_parent(Text)
                 index = parent.index("end-2 char")
                 parent.delete("end-2 char")
-                parent.insert(tk.END, string)
-                parent.mark_set(tk.INSERT, index)
+                parent.insert(END, string)
+                parent.mark_set(INSERT, index)
                 parent.focus_set()
             return "break"
 
@@ -248,23 +249,23 @@ class Text(tk.scrolledtext.ScrolledText):
     def close_empty_tab_or_backspace(self):
         notebook: Notebook = self.find_parent(Notebook)
         if notebook:
-            insert_index = self.index(tk.INSERT)
+            insert_index = self.index(INSERT)
             if insert_index == "1.0":
-                string_in_tab = self.get('1.0', tk.END).strip()
+                string_in_tab = self.get('1.0', END).strip()
                 if not string_in_tab:
                     self.close_tab()
                     return "break"
 
-        self.delete(tk.INSERT + "-1c")
+        self.delete(INSERT + "-1c")
 
 
-    def delete(self, index1=tk.INSERT, index2=None):
+    def delete(self, index1=INSERT, index2=None):
 
         def is_icon(element):
             designation, value, index = element
             return designation == "window" and isinstance(self.nametowidget(value), FinishReasonIcon)
 
-        if self.tag_ranges(tk.SEL):
+        if self.tag_ranges(SEL):
             self.event_generate("<<Clear>>")
         else:
             if index2:

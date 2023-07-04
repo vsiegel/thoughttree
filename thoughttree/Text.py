@@ -159,22 +159,22 @@ class Text(tk.scrolledtext.ScrolledText):
         role = "user"
         for item in content :
             text = item[1]
-            category = item[0]
-            if category == "tagon" and text == "assistant":
+            designation = item[0]
+            if designation == "tagon" and text == "assistant":
                 section = section.strip()
                 history += [{'role' : role, 'content' : section}]
                 role = "assistant"
                 section = ""
-            elif category == "tagoff" and text == "assistant":
+            elif designation == "tagoff" and text == "assistant":
                 section = section.strip()
                 history += [{'role' : role, 'content' : section}]
                 role = "user"
                 section = ""
-            elif category in ["tagon", "tagoff"] and text in ["cursorline", "sel"]:
+            elif designation in ["tagon", "tagoff"] and text in ["cursorline", "sel"]:
                 pass
-            elif category == "text":
+            elif designation == "text":
                 section += text
-            elif category == "window":
+            elif designation == "window":
                 pass
             else:
                 print(f"Ignored item: {item}")

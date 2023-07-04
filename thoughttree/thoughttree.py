@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 import tkinter as tk
+from tkinter import BOTH, DISABLED, END, HORIZONTAL, INSERT, LEFT, NO, SUNKEN, TOP, VERTICAL, W, WORD, X, SEL_FIRST, \
+    SEL_LAST
 from tkinter import font as tkfont
 from tkinter import ttk, simpledialog
 from tkinter.messagebox import showinfo
-from tkinter.scrolledtext import ScrolledText
 
 from configargparse import Namespace
 
@@ -14,7 +15,6 @@ from Model import Model
 from StatusBar import StatusBar
 from Text import Text
 from ThoughttreeMenu import ThoughttreeMenu
-from Tooltip import Tooltip
 from UI import UI
 from WaitCursor import WaitCursor
 from prompts import system_prompt
@@ -130,10 +130,10 @@ class Thoughttree(UI):
             self.option_add('*Text*insertOffTime', '0')
 
     def create_panes(self):
-        self.console_pane = FoldablePane(self, folded=False, fold_size=200, orient=tk.VERTICAL)
-        self.tree_pane = FoldablePane(self.console_pane, folded=False, fold_size=500, orient=tk.HORIZONTAL)
-        self.system_pane = FoldablePane(self.tree_pane, folded=True, orient=tk.VERTICAL)
-        self.console_pane.pack(fill=tk.BOTH, expand=True)
+        self.console_pane = FoldablePane(self, folded=False, fold_size=200, orient=VERTICAL)
+        self.tree_pane = FoldablePane(self.console_pane, folded=False, fold_size=500, orient=HORIZONTAL)
+        self.system_pane = FoldablePane(self.tree_pane, folded=True, orient=VERTICAL)
+        self.console_pane.pack(fill=BOTH, expand=True)
 
     def create_tree(self, tree_pane, system_pane):
 
@@ -150,8 +150,8 @@ class Thoughttree(UI):
 
         tree = ttk.Treeview(tree_pane, columns=("C1"), show="tree")
         self.tree = tree
-        tree.column("#0", width=160, minwidth=60, anchor=tk.W, stretch=tk.NO)
-        tree.column("#1", width=30, minwidth=60, anchor=tk.W, stretch=tk.NO)
+        tree.column("#0", width=160, minwidth=60, anchor=W, stretch=NO)
+        tree.column("#1", width=30, minwidth=60, anchor=W, stretch=NO)
         tree.heading("C1", text="")
         tree.bind('<Double-Button-1>', on_treeview_click)
 
@@ -161,8 +161,8 @@ class Thoughttree(UI):
 
     def create_console(self, console_pane):
         console = Text(console_pane, height=20)
-        console.insert(tk.END, "Console:\n")
-        console.config(state=tk.DISABLED, takefocus=False)
+        console.insert(END, "Console:\n")
+        console.config(state=DISABLED, takefocus=False)
         return console
 
     def add_dummy_data_to_tree(self, tree):
@@ -207,9 +207,8 @@ class Thoughttree(UI):
             "(Query parameter 'temperature')\n",
             initialvalue=self.model.temperature.get(),
             minvalue=0, maxvalue=2.0)
-        if temperature == None:
-            return
-        self.model.temperature.set(temperature)
+        if temperature is not None:
+            self.model.temperature.set(temperature)
 
     def configure_max_tokens(self):
         max_tokens = simpledialog.askinteger(
@@ -218,16 +217,15 @@ class Thoughttree(UI):
             "(Query parameter 'max_tokens')\n",
             initialvalue=self.model.max_tokens.get(),
             minvalue=1, maxvalue=100000)
-        if not max_tokens:
-            return
-        self.model.max_tokens.set(max_tokens)
+        if max_tokens:
+            self.model.max_tokens.set(max_tokens)
 
     def count_text_tokens(self, event=None) :
         txt: Text = self.focus_get()
         try :
-            text = txt.get(tk.SEL_FIRST, tk.SEL_LAST)
+            text = txt.get(SEL_FIRST, SEL_LAST)
         except tk.TclError :
-            text = txt.get(1.0, tk.END)
+            text = txt.get(1.0, END)
         old_status = self.status_bar.message
         self.status_bar.message = "Counting tokens (loading model)"
         num_tokens = self.model.counter.count_tokens(text)
@@ -253,17 +251,17 @@ class Thoughttree(UI):
 
             def insert_label(text, symbol, tooltip=""):
                 icon = FinishReasonIcon(text, symbol, tooltip=tooltip)
-                text.window_create(tk.END, window=icon)
+                text.window_create(END, window=icon)
 
             def scroll():
                 if self.scroll_output:
-                    txt.see(tk.END)
+                    txt.see(END)
                 txt.update()
 
             def write_chat(text) :
                 if self.is_root_destroyed :
                     return
-                txt.insert(tk.END, text, "assistant")
+                txt.insert(END, text, "assistant")
                 scroll()
 
 
@@ -280,7 +278,7 @@ class Thoughttree(UI):
                 n = Thoughttree.multi_completions
             txt.edit_separator()
             if prefix :
-                txt.insert(tk.END, prefix)
+                txt.insert(END, prefix)
                 scroll()
             history = self.history_from_system_and_chat()
 
@@ -294,18 +292,18 @@ class Thoughttree(UI):
                     finish_reason, message = self.model.chat_complete(history, write_chat)
             else:
                 frame = tk.Frame(txt)
-                txt.window_create(tk.END, window=frame)
-                txt.insert(tk.END, "\n")
-                txt.see(tk.END)
+                txt.window_create(END, window=frame)
+                txt.insert(END, "\n")
+                txt.see(END)
                 finish_reason, message = 'unknown', ''
                 for i in range(n):
                     if self.model.is_canceled:
                         finish_reason = "canceled"
                         break
-                    label = tk.Label(frame, borderwidth=4, anchor=tk.W, wraplength=txt.winfo_width(),
-                                     justify=tk.LEFT, font=Text.FONT, relief=tk.SUNKEN)
+                    label = tk.Label(frame, borderwidth=4, anchor=W, wraplength=txt.winfo_width(),
+                                     justify=LEFT, font=Text.FONT, relief=SUNKEN)
 
-                    label.pack(side=tk.TOP, fill=tk.X, expand=True)
+                    label.pack(side=TOP, fill=X, expand=True)
 
                     def write_label(text):
                         if self.is_root_destroyed :
@@ -331,10 +329,10 @@ class Thoughttree(UI):
                     insert_label(txt, symbol, tool_tip)
 
             if not self.model.is_canceled and not finish_reason == "length":
-                txt.insert(tk.END, postfix)
+                txt.insert(END, postfix)
             if self.scroll_output:
-                txt.mark_set(tk.INSERT, tk.END)
-                txt.see(tk.END)
+                txt.mark_set(INSERT, END)
+                txt.see(END)
             txt.edit_separator()
 
             if conf.ring_bell_after_completion:
@@ -380,22 +378,22 @@ class Thoughttree(UI):
         cur_text = self.tree.item(row_id, "values")[0]
         w = width // char_width
         h = height // line_height
-        txt = tk.Text(self.tree, wrap=tk.WORD, width=w, height=h, font=Text.FONT,
+        txt = tk.Text(self.tree, wrap=WORD, width=w, height=h, font=Text.FONT,
                       highlightthickness=0, highlightbackground="black", padx=4, pady=0)
-        txt.insert(tk.END, cur_text)
+        txt.insert(END, cur_text)
         txt.place(x=x, y=y)
         txt.focus_set()
 
         def save_text(event):
             print(event.type)
             if event.type == tk.EventType.FocusOut or int(event.state) & 0x4 == 0 :  # Check if Control key is not pressed
-                text = txt.get(1.0, tk.END).strip()
+                text = txt.get(1.0, END).strip()
                 self.tree.set(row_id, column, text)
                 txt.destroy()
 
         # txt.bind("<FocusOut>", save_text)
         txt.bind("<Return>", lambda e: e.state & 0x4 == 0 and save_text(e) or self.tree.focus_set())
-        txt.bind("<Control-Return>", lambda e: txt.insert(tk.INSERT, "\n") or "break")
+        txt.bind("<Control-Return>", lambda e: txt.insert(INSERT, "\n") or "break")
         # txt.bind("<Control-Key>", lambda e : "break")
         # txt.bind("<Control_L>", lambda e : "break")
 

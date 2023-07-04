@@ -252,8 +252,8 @@ class Thoughttree(UI):
         with WaitCursor(txt):
 
             def insert_label(text, symbol, tooltip=""):
-                label = FinishReasonIcon(text, symbol, tooltip=tooltip)
-                text.window_create(tk.END, window=label)
+                icon = FinishReasonIcon(text, symbol, tooltip=tooltip)
+                text.window_create(tk.END, window=icon)
 
             def scroll():
                 if self.scroll_output:

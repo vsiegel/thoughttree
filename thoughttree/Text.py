@@ -4,6 +4,7 @@ from tkinter import scrolledtext
 
 from typing import Union
 
+from FinishReasonIcon import FinishReasonIcon
 from Notebook import Notebook
 
 
@@ -274,6 +275,11 @@ class Text(tk.scrolledtext.ScrolledText):
 
 
     def delete(self, index1=tk.INSERT, index2=None):
+
+        def is_icon(element):
+            designation, value, index = element
+            return designation == "window" and isinstance(self.nametowidget(value), FinishReasonIcon)
+
         if self.tag_ranges(tk.SEL):
             self.event_generate("<<Clear>>")
         else:
@@ -281,6 +287,6 @@ class Text(tk.scrolledtext.ScrolledText):
                 super().delete(index1, index2)
             else:
                 dump = self.dump(index1, all=True)
-                if [designation for (designation, value, index) in dump if designation == "text"]:
+                if any([element[0] == "text" or is_icon(element) for element in dump]):
                     super().delete(index1)
 

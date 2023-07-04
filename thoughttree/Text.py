@@ -72,17 +72,6 @@ class Text(tk.scrolledtext.ScrolledText):
         self.bind_class("last", "<FocusOut>", lambda e: cursorline(e, False))
 
 
-    # def change_notebook_height(self, delta):
-    #     parent = self.master.focus_get()
-    #     while parent and type(parent) not in [Notebook]:
-    #         parent = parent.master
-    #     if not parent:
-    #         return
-    #     old_height = parent.cget("height")
-    #     self.line_height = tkfont.Font(font=Text.FONT).metrics("linespace")
-    #     height = max(old_height + delta * self.line_height, self.line_height)
-    #     parent.configure(height=height)
-
     def change_text_height(self, delta):
         parent = self.master.focus_get()
         while parent and type(parent) != Text:
@@ -90,8 +79,6 @@ class Text(tk.scrolledtext.ScrolledText):
         if not parent:
             return
         old_height = parent.cget("height")
-        # self.line_height = tkfont.Font(font=Text.FONT).metrics("linespace")
-        # height = max(old_height + delta * self.line_height, self.line_height)
         parent.configure(height=old_height + delta)
 
 
@@ -189,9 +176,6 @@ class Text(tk.scrolledtext.ScrolledText):
                 section += text
             elif category == "window":
                 pass
-                # print(f"{item=}")
-                # win_index = item[2]
-                # print(f"{self.window_cget(win_index, 'text')=}")
             else:
                 print(f"Ignored item: {item}")
         section = section.strip("\n")

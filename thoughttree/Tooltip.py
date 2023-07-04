@@ -13,6 +13,7 @@ class Tooltip :
         self.label = None
         self.timer = None
         self.last_y = None
+        self.delay_ms = 1000
         widget.bindtags(("first",) + widget.bindtags())
 
         widget.bind("<Enter>", self.add_tooltip)
@@ -24,7 +25,7 @@ class Tooltip :
     def add_tooltip(self, event):
         if self.tooltip:
             return
-        self.timer = self.root.after(1000, self.create_tooltip)
+        self.timer = self.root.after(self.delay_ms, self.create_tooltip)
 
 
     def create_tooltip(self, event=None):

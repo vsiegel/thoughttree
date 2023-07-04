@@ -32,6 +32,9 @@ class StatusBar(tk.Frame):
     def set_max_token_var(self, var: IntVar):
         self.max_token_label.config(textvariable=var)
 
+    def set_max_token_var(self, var: IntVar):
+        self.max_token_label.config(textvariable=var)
+
     @property
     def symbol(self):
         return self.symbol_label.cget('text')

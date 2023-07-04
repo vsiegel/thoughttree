@@ -205,11 +205,11 @@ class Thoughttree(UI):
             "What should be the level of creativity of the model?\n"
             "0.0 for deterministic, typically 0.5 or 0.7, maximal 2.0?\n"
             "(Query parameter 'temperature')\n",
-            initialvalue=self.model.temperature,
+            initialvalue=self.model.temperature.get(),
             minvalue=0, maxvalue=2.0)
         if temperature == None:
             return
-        self.model.temperature = temperature
+        self.model.temperature.set(temperature)
 
     def configure_max_tokens(self):
         max_tokens = simpledialog.askinteger(

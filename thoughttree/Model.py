@@ -45,14 +45,14 @@ class Model:
         self.chat_log = open(self.chat_log_path, "a")
 
         self.max_tokens = tk.IntVar(value=1500)
-        self.temperature = 0.5
+        self.temperature = tk.DoubleVar(value=0.5)
         self.is_canceled = False
 
 
     def chat_complete(self, history, output_delta_callback, max_tokens=None, temperature=None) -> Tuple[str, str]:
         """:return: Tuple[str, str] - (finish_reason, message)"""
         max_tokens = max_tokens or self.max_tokens.get()
-        temperature = temperature or self.temperature
+        temperature = temperature or self.temperature.get()
         self.is_canceled = False
         self.counter.go()
         self.counter.observe_prompt(history)

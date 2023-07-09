@@ -82,11 +82,12 @@ class Model:
                     output_delta_callback(text)
                 last_event = event
 
-            if self.is_canceled :
+            print(f"{last_event['model']=}")
+            if self.is_canceled:
                 finish_reason = 'canceled'
-            else :
+            else:
                 finish_reason = last_event['choices'][0]['finish_reason']
-            self.log("\n" + finish_reason + ":\n")
+            self.log(f"\n{last_event['model']}: {finish_reason}\n")
             return finish_reason, ""
         except Exception as ex:
             return self.error(f"{last_event=}", "Error receiving completion response", ex)

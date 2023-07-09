@@ -238,25 +238,23 @@ class Text(tk.scrolledtext.ScrolledText):
             elif len(notebook.tabs()) == 1:
                 string = selected_text(notebook).get('1.0', END)
                 parent = self.find_parent(Text)
-                index = parent.index("end-2 char")
-                parent.delete("end-2 char")
+                parent.delete("end-2 char", "end-1 char") # delete notebook window
                 parent.insert(END, string)
-                parent.mark_set(INSERT, index)
+                parent.mark_set(INSERT, "end-1 char")
                 parent.focus_set()
             return "break"
 
 
     def close_empty_tab_or_backspace(self):
-        notebook: Notebook = self.find_parent(Notebook)
-        if notebook:
-            insert_index = self.index(INSERT)
-            if insert_index == "1.0":
+        if self.index(INSERT) == "1.0":
+            notebook: Notebook = self.find_parent(Notebook)
+            if notebook:
                 string_in_tab = self.get('1.0', END).strip()
                 if not string_in_tab:
                     self.close_tab()
-                    return "break"
-
-        self.delete(INSERT + "-1c")
+            return "break"
+        else:
+            self.delete(INSERT + "-1c")
 
 
     def delete(self, index1=INSERT, index2=None):

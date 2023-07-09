@@ -6,7 +6,7 @@ from LabeledLabel import LabeledLabel
 
 class StatusBar(tk.Frame):
     def __init__(self, master, small_text="", message_text="", note_text="", model_text="", **kw):
-        super().__init__(master, **kw)
+        super().__init__(master, bd=1, relief=SUNKEN, **kw)
         self.master = master
 
         defaults = {"bd": 1, "relief": SUNKEN, "font": ("Arial", 10)}

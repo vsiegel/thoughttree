@@ -1,5 +1,7 @@
 import tkinter as tk
-from tkinter import IntVar, W, E, X, LEFT, BOTTOM, SUNKEN
+from tkinter import IntVar, DoubleVar, W, E, X, LEFT, BOTTOM, SUNKEN
+
+from LabeledLabel import LabeledLabel
 
 
 class StatusBar(tk.Frame):
@@ -17,11 +19,11 @@ class StatusBar(tk.Frame):
         self.note_label = tk.Label(self, **defaults, width=10, text=note_text, anchor=W)
         self.note_label.pack(side=LEFT, padx=(5, 0), fill=X, expand=True)
 
-        self.max_token_label = tk.Label(self, **defaults, width=5, text="(max_token)", anchor=W)
-        self.max_token_label.pack(side=LEFT, padx=(5, 0), fill=X, expand=True)
+        self.max_token_label = LabeledLabel(self, "Max t.:", entry_width=5, relief=SUNKEN, bd=1)
+        self.max_token_label.pack(side=LEFT, padx=(5, 0))
 
-        self.temperature_label = tk.Label(self, **defaults, width=5, text="(temperature)", anchor=W)
-        self.temperature_label.pack(side=LEFT, padx=(5, 0), fill=X, expand=True)
+        self.temperature_label = LabeledLabel(self, "Temp.:", entry_width=3, relief=SUNKEN, bd=1)
+        self.temperature_label.pack(side=LEFT, padx=(5, 0))
 
         self.model_label = tk.Label(self, **defaults, width=20, text=model_text, anchor=E)
         self.model_label.pack(side=LEFT, padx=(5, 0), fill=X)

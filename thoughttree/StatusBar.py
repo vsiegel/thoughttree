@@ -26,16 +26,16 @@ class StatusBar(tk.Frame):
         self.temperature_label.pack(side=LEFT, padx=(5, 0))
 
         self.model_label = tk.Label(self, **defaults, width=20, text=model_text, anchor=E)
-        self.model_label.pack(side=LEFT, padx=(5, 0), fill=X)
+        self.model_label.pack(side=LEFT, padx=(5, 0))
 
         self.pack(side=BOTTOM, fill=X)
 
 
     def set_max_token_var(self, var: IntVar):
-        self.max_token_label.config(textvariable=var)
+        self.max_token_label.entry.config(textvariable=var)
 
-    def set_max_token_var(self, var: IntVar):
-        self.max_token_label.config(textvariable=var)
+    def set_temperature_var(self, var: DoubleVar):
+        self.temperature_label.entry.config(textvariable=var)
 
     @property
     def symbol(self):

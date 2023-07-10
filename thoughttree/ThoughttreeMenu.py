@@ -54,6 +54,9 @@ class ThoughttreeMenu(Menu):
         def save_section(e=None):
             save(Files.save_section_dialog, "Section saved to ")
 
+        def save_selection(e=None):
+            save(Files.save_selection_dialog, "Selection saved to ")
+
         def save_code_block(e=None):
             save(Files.save_code_block_dialog, "Code block saved to ")
 
@@ -180,7 +183,9 @@ class ThoughttreeMenu(Menu):
         # item("Save Chat", "<Control-s>", Files.save_chat)
         item("Save Chat", "<Control-s>", save_chat)
         item("Save Message", "<Control-Shift-S>", save_section)
+        item("Save Selection", "<Alt-S>", save_selection)
         item("Save Code Block", "<Control-Alt-s>", save_code_block)
+        item("Run Code Block", "", None)
         menu.add_separator()
         item("Close Tab", "<Control-w>", close_tab, add=False)
         item("Close Empty Tab", "<BackSpace>", lambda e: self.it.close_empty_tab_or_backspace(), add=False)
@@ -207,12 +212,12 @@ class ThoughttreeMenu(Menu):
         item("Show Tree", "<Alt-Shift-T>", self.ui.tree_pane.fold)
         item("Show Console", "<Alt-Shift-C>", self.ui.console_pane.fold)
         item("Count Tokens", "<Control-Alt-m>", self.ui.count_text_tokens)
-        item("Run Code Block", "", None)
         item("Update Window Title", "<Control-u>", self.ui.update_window_title)
         item("Increase Font Size", "<Control-plus>", lambda e: font_size(1))
         item("Decrease Font Size", "<Control-minus>", lambda e: font_size(-1))
         item("Reset Font Size", "<Control-period>", lambda e: font_size(0))
         item("Toggle Monospace", "<Control-Shift-O>", toggle_font_mono)
+        # menu.add_checkbutton(label="Show Cursor line", variable=self.ui.show_cursor)
         menu.add_separator()
         item("Toggle Scrolling Output", "<Control-o>", toggle_scroll_output)
         item("Ring Bell When Finished", "<Control-Alt-o>", toggle_ring_bell)

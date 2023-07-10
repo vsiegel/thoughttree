@@ -1,5 +1,6 @@
 import tkinter as tk
 from textwrap import dedent
+from tkinter import SEL_FIRST, SEL_LAST
 from tkinter.filedialog import asksaveasfilename
 from tkinter.messagebox import showerror
 import re
@@ -152,6 +153,25 @@ class Files:
 
         file = asksaveasfilename(
             defaultextension=".txt", initialfile="section.txt", title="Save Section", parent=txt)
+        if file:
+            write_section(txt, file)
+        return file
+
+
+    @staticmethod
+    def save_selection_dialog(txt):
+
+        def write_section(txt: tk.Text, filename, index=tk.INSERT):
+            try:
+                string = txt.get(SEL_FIRST, SEL_LAST)
+
+                with open(filename, 'w') as f:
+                    f.write(string)
+            except Exception as e:
+                showerror(title="Error", message="Cannot save section\n" + str(e), master=txt)
+
+        file = asksaveasfilename(
+            defaultextension=".txt", initialfile="selection.txt", title="Save Selection", parent=txt)
         if file:
             write_section(txt, file)
         return file

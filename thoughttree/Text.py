@@ -35,7 +35,6 @@ class Text(tk.scrolledtext.ScrolledText):
         # self.bind("<Control-Alt-minus>", lambda e: self.change_notebook_height(-1))
         self.bind("<Control-Shift-asterisk>", lambda e: self.change_text_height(1))
         self.bind("<Control-Shift-underscore>", lambda e: self.change_text_height(-1))
-        self.bindtags(self.bindtags() + ("last",))
         self.pack(pady=0, fill=X, expand=True)
         self.tag_configure("assistant", background="#F0F0F0", selectbackground="#4682b4", selectforeground="white")
         self.insert(END, text)
@@ -54,23 +53,29 @@ class Text(tk.scrolledtext.ScrolledText):
                 self.tag_add(tag, SEL_FIRST, SEL_LAST)
 
 
+    def cursorline(self, e, add=True):
+        if not e.widget.winfo_exists():
+            return
+        takefocus = not e.widget.cget("takefocus") == "0"
+        if not takefocus:
+            return
+        e.widget.tag_remove('cursorline', 1.0, "end")
+        if add:
+            e.widget.tag_add('cursorline', 'insert display linestart', 'insert display lineend+1c')
+
+
+    def cursorline_remove(self, e):
+        self.cursorline(e, add=False)
+
+
     def configure_cursorline(self):
-
-        def cursorline(e, add=True):
-            if not e.widget.winfo_exists():
-                return
-            takefocus = not e.widget.cget("takefocus") == "0"
-            if not takefocus:
-                return
-            e.widget.tag_remove('cursorline', 1.0, "end")
-            if add:
-                e.widget.tag_add('cursorline', 'insert display linestart', 'insert display lineend+1c')
-
-        self.tag_configure('cursorline', background='#FCFAED', foreground="black", selectbackground="#4682b4", selectforeground="white")
-        self.bind_class("last", '<KeyRelease>', lambda e: cursorline(e))
-        self.bind_class("last", '<Button-1>', lambda e: cursorline(e))
-        self.bind_class("last", "<FocusIn>", lambda e: cursorline(e))
-        self.bind_class("last", "<FocusOut>", lambda e: cursorline(e, False))
+        self.tag_configure('cursorline', background='#FCFAED', foreground="black", selectbackground="#4682b4",
+                           selectforeground="white")
+        self.bindtags(self.bindtags() + ("last",))
+        self.bind_class("last", '<KeyRelease>', self.cursorline)
+        self.bind_class("last", '<Button-1>', self.cursorline)
+        self.bind_class("last", "<FocusIn>", self.cursorline)
+        self.bind_class("last", "<FocusOut>", self.cursorline_remove)
 
 
     def change_text_height(self, delta):

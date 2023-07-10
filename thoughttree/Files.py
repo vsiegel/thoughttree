@@ -35,7 +35,7 @@ class CodeBlockSaver(TextSaver):
 
     def find_filename(self):
         # Implement the method to find the filename for the code block
-        return "code-block.py"
+        return "code_block.py"
 
 
 class Files:

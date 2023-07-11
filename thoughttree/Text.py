@@ -251,7 +251,7 @@ class Text(tk.scrolledtext.ScrolledText):
 
 
     def close_empty_tab_or_backspace(self):
-        if self.index(INSERT) == "1.0":
+        if self.index(INSERT) == "1.0" and not self.tag_ranges(SEL):
             notebook: Notebook = self.find_parent(Notebook)
             if notebook:
                 string_in_tab = self.get('1.0', END).strip()

@@ -210,7 +210,7 @@ class Files:
             code_block = find_code_block(txt)
 
             filename = asksaveasfilename(
-                    defaultextension=".py", initialfile="code-block.py", title="Save Code Block", parent=txt)
+                    defaultextension=".py", initialfile="code_block.py", title="Save Code Block", parent=txt)
             if filename:
                 with open(filename, 'w') as f:
                     f.write(code_block)

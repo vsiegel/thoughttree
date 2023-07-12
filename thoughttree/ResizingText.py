@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
 
+from Notebook import Notebook
+
 
 class ResizingText(tk.Text):
     def __init__(self, parent, wrap="word", highlightthickness=0, borderwidth=0, *args, **kwargs):
@@ -11,6 +13,7 @@ class ResizingText(tk.Text):
             self.insert(tk.INSERT, "\n")
             self.adjust_height()
             return "break"
+
         self.bind("<Return>", on_return)
 
         self.old_num_lines = 0
@@ -22,5 +25,5 @@ class ResizingText(tk.Text):
             print(f"Change {self.old_num_lines} -> {num_lines}")
             self.old_num_lines = num_lines
             self.configure(height=num_lines)
-            if type(self.master) is ttk.Notebook:
+            if type(self.master) is Notebook:
                 self.master.event_generate("<<NotebookTabChanged>>")

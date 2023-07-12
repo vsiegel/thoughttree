@@ -6,7 +6,9 @@ menu_help = {
     "New Main Tab": "Opens a new main tab in the current window, providing a separate workspace within the same window.\nThis allows you to keep multiple chats organized and accessible without opening additional windows.",
     "Save Chat": "Saves the entire chat content to a file, allowing you to store and review conversations later.\nThe saved file can be opened and edited in any text editor, making it easy to share or reference the chat content.",
     "Save Message": "Saves a selected section of the chat to a file, useful for extracting specific parts of a conversation.",
+    "Save Selection": "Saves the selected text in the chat to a file, allowing you to save specific parts of the conversation for later reference or sharing.",
     "Save Code Block": "Saves a selected code block to a file, enabling you to reuse or share code snippets.\nThe saved code block can be imported into other projects or shared with collaborators, streamlining the development process.",
+    "Close Tab": "Closes the current tab in the Thoughttree window, removing it from the workspace.",
     "Close Empty Tab": "Closes the current tab if it is empty, helping to declutter your workspace.\nThis feature prevents the accumulation of unnecessary empty tabs, ensuring a clean and organized working environment.",
     "Quit": "Closes the current Thoughttree window.\n\n"
             "Before quitting, ensure that you have saved any important chat content to avoid losing your work.",
@@ -24,6 +26,7 @@ menu_help = {
     "Copy Title": "Copies the title of the current chat to the clipboard, allowing you to easily share or reference the chat title.\nThis feature is useful for sharing chat titles with collaborators, referencing chat titles in other documents, or for organizing your chats based on their titles.",
     "Show System Prompt": "Toggles the visibility of the system prompt, allowing you to hide or display the prompt as needed.\nHiding the system prompt can help declutter your workspace, while displaying the prompt provides context and guidance for the conversation.",
     "Show Tree": "Toggles the visibility of the tree view, enabling you to show or hide the tree structure of your chats.\nThe tree view provides a visual representation of the chat hierarchy, making it easy to navigate and manage complex conversations.",
+    "Show Console": "Displays the console pane in the Thoughttree window, allowing you to view and interact with the console output of the chatbot model.",
     "Count Tokens": "Counts the tokens in the current text, providing an estimate of the text's complexity and cost for text generation.\nToken count is an important factor when working with text generation services, as it can affect the cost and processing time for generating content.",
     "Run Code Block": "Runs the selected code block, executing any embedded code within the chat.\nThis feature is useful for testing and debugging code snippets, as well as for executing commands or scripts directly within the chat environment.",
     "Update Window Title": "Updates the window title based on the current chat, providing a clear identifier for the active chat.\nThis feature ensures that the window title accurately reflects the content of the chat, making it easier to manage and navigate multiple chats.",

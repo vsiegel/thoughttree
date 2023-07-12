@@ -1,10 +1,12 @@
 from tkinter import ttk
 
-ttk.Style().layout("NoBorder.TNotebook", [])
 
 
 class Notebook(ttk.Notebook):
-    def __init__(self, parent, style="NoBorder.TNotebook", takefocus=False, **kw):
+    def __init__(self, parent, style=None, takefocus=False, **kw):
+        if not style:
+            style = "NoBorder.TNotebook"
+            ttk.Style().layout("NoBorder.TNotebook", [])
         super().__init__(parent, style=style, takefocus=takefocus, **kw)
         self.enable_traversal()
 

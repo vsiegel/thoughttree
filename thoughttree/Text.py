@@ -29,8 +29,6 @@ class Text(tk.scrolledtext.ScrolledText):
         else:
             self.vbar.pack_forget()
 
-        ttk.Style().layout("NoBorder.TNotebook", [])
-
         # self.bind("<Control-Alt-plus>", lambda e: self.change_notebook_height(1))
         # self.bind("<Control-Alt-minus>", lambda e: self.change_notebook_height(-1))
         self.bind("<Control-Shift-asterisk>", lambda e: self.change_text_height(1))
@@ -129,7 +127,7 @@ class Text(tk.scrolledtext.ScrolledText):
 
         new_notebook = not parent or has_leading_text
         if new_notebook:
-            notebook = Notebook(self, height=self.winfo_height(), width=self.winfo_width(), style='NoBorder.TNotebook', takefocus=False)
+            notebook = Notebook(self, height=self.winfo_height(), width=self.winfo_width())
 
             text = Text(notebook, trailing_text, scrollbar=True)
             notebook.add(text, text=new_child(parent))

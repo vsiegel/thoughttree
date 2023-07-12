@@ -244,7 +244,7 @@ class Thoughttree(UI):
         return "break"
 
 
-    def complete(self, n=1, prefix="", postfix=""):
+    def complete_old(self, n=1, prefix="", postfix=""):
         self.model.is_canceled = False
         txt: Text = self.focus_get()
         txt.tag_remove('cursorline', 1.0, "end")
@@ -345,6 +345,147 @@ class Thoughttree(UI):
             if conf.update_title_after_completion and not self.model.is_canceled:
                 if self.model.counter.tokens_since_go() > Thoughttree.GEN_TITLE_THRESHOLD:
                     self.update_window_title()
+
+
+    def complete(self, n=1, prefix="", postfix=""):
+        self.model.is_canceled = False
+        txt: Text = self.focus_get()
+        txt.tag_remove('cursorline', 1.0, "end")
+
+        with WaitCursor(txt):
+            def insert_label(text, symbol, tooltip=""):
+                icon = FinishReasonIcon(text, symbol, tooltip=tooltip)
+                text.window_create(END, window=icon)
+
+
+            def scroll():
+                if self.scroll_output:
+                    txt.see(END)
+                txt.update()
+
+
+            def write_chat(text):
+                if self.is_root_destroyed:
+                    return
+                txt.insert(END, text, "assistant")
+                scroll()
+
+
+            n = self._process_number_of_completions(n)
+            if n is None:
+                return
+
+            txt.edit_separator()
+            self._insert_prefix_and_scroll(txt, prefix)
+
+            history = self.history_from_system_and_chat()
+            self.model.counter.go()
+
+            frame, finish_reason, message = self._process_completions(txt, n, history, write_chat)
+
+            self._handle_completion_finish(txt, finish_reason, message, postfix)
+            self._post_completion_tasks()
+
+    def _scroll(self, txt):
+        if self.scroll_output:
+            txt.see(END)
+        txt.update()
+
+    def _process_number_of_completions(self, n):
+        if not n:
+            n = simpledialog.askinteger(
+                "Alternative completions",
+                "How many alternative results do you want?",
+                initialvalue=Thoughttree.multi_completions,
+                minvalue=2, maxvalue=1000)
+            if not n:
+                return
+            Thoughttree.multi_completions = n
+        elif n == -1:  # repeat
+            n = Thoughttree.multi_completions
+        return n
+
+
+    def _insert_prefix_and_scroll(self, txt, prefix):
+        if prefix:
+            txt.insert(END, prefix)
+            self._scroll(txt)
+
+
+    def _process_completions(self, txt, n, history, write_chat):
+        finish_reason, message = 'unknown', ''
+        frame = None
+        if n == 1:
+            if self.model.is_canceled:
+                finish_reason = "canceled"
+            else:
+                finish_reason, message = self.model.chat_complete(history, write_chat)
+        else:
+            frame = tk.Frame(txt)
+            txt.window_create(END, window=frame)
+            txt.insert(END, "\n")
+            txt.see(END)
+            finish_reason, message = 'unknown', ''
+            for i in range(n):
+                if self.model.is_canceled:
+                    finish_reason = "canceled"
+                    break
+                label = self._create_label(frame, txt)
+                finish_reason, message = self.model.chat_complete(history, self._create_write_label(label, txt))
+        return frame, finish_reason, message
+
+
+    def _create_label(self, frame, txt):
+        label = tk.Label(frame, borderwidth=4, anchor=W, wraplength=txt.winfo_width(),
+                         justify=LEFT, font=Text.FONT, relief=SUNKEN)
+        label.pack(side=TOP, fill=X, expand=True)
+        return label
+
+
+    def _create_write_label(self, label, txt):
+        def write_label(text):
+            if self.is_root_destroyed:
+                return
+            label.config(text=label.cget("text") + text)
+            self._scroll(txt)
+
+        return write_label
+
+
+    def _handle_completion_finish(self, txt, finish_reason, message, postfix):
+        if self.is_root_destroyed:
+            return
+        if conf.show_finish_reason:
+            self._show_finish_reason(txt, finish_reason, message)
+        if not self.model.is_canceled and not finish_reason == "length":
+            txt.insert(END, postfix)
+        if self.scroll_output:
+            txt.mark_set(INSERT, END)
+            txt.see(END)
+        txt.edit_separator()
+
+
+    def _show_finish_reason(self, txt, finish_reason, message):
+        symbol = Model.finish_reasons[finish_reason]["symbol"]
+        if finish_reason not in ["stop", "length", "canceled", "error"]:
+            print(f"{finish_reason=}")
+        if symbol:
+            tool_tip = Model.finish_reasons[finish_reason]["tool_tip"]
+            if message:
+                tool_tip += "\n" + message
+            self._insert_label(txt, symbol, tool_tip)
+
+
+    def _post_completion_tasks(self):
+        if conf.ring_bell_after_completion:
+            self.bell()
+
+        print("Completion cost:")
+        self.model.counter.summarize()
+
+        if conf.update_title_after_completion and not self.model.is_canceled:
+            if self.model.counter.tokens_since_go() > Thoughttree.GEN_TITLE_THRESHOLD:
+                self.update_window_title()
 
 
     def history_from_system_and_chat(self, additional_message=None, max_messages=None, max_size=None) :

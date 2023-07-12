@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 
 from Notebook import Notebook
+from ResizingText import ResizingText
 
 
 class Scrollable(tk.Frame):
@@ -28,31 +29,6 @@ class Scrollable(tk.Frame):
         self.canvas.itemconfig(self.frame_id, width=event.width)
 
 
-class AutoResizingText(tk.Text):
-    def __init__(self, parent, wrap="word", highlightthickness=0, borderwidth=0, *args, **kwargs):
-        super().__init__(parent, wrap=wrap, highlightthickness=highlightthickness, borderwidth=borderwidth, *args, **kwargs)
-        self.bind("<KeyRelease>", self.adjust_height)
-
-        def on_return(event=None):
-            self.insert(tk.INSERT, "\n")
-            self.adjust_height()
-            return "break"
-        self.bind("<Return>", on_return)
-
-        self.old_num_lines = 0
-        self.adjust_height()
-
-    def adjust_height(self, event=None):
-        num_lines = self.count("1.0", "end", 'displaylines')[0]
-        if num_lines != self.old_num_lines:
-            print(f"Change {self.old_num_lines} -> {num_lines}")
-            self.old_num_lines = num_lines
-            self.configure(height=num_lines)
-            if type(self.master) is ttk.Notebook:
-                self.master.event_generate("<<NotebookTabChanged>>")
-
-
-
 def update_notebook_height(event):
     notebook = event.widget
     current_tab = notebook.nametowidget(notebook.select())
@@ -75,14 +51,14 @@ def main():
     scrollable = Scrollable(root)
     scrollable.pack(fill="both", expand=True)
 
-    text = AutoResizingText(scrollable.frame)
+    text = ResizingText(scrollable.frame)
     text.pack(fill="both", expand=True)
 
     notebook = Notebook(scrollable.frame)
     notebook.pack(fill="both", expand=True, side="left", anchor="nw") # , sticky="ew")  # Add sticky="ew"
 
-    text_tab1 = AutoResizingText(notebook)
-    text_tab2 = AutoResizingText(notebook)
+    text_tab1 = ResizingText(notebook)
+    text_tab2 = ResizingText(notebook)
     notebook.add(text_tab1, text="Tab 1")
     notebook.add(text_tab2, text="Tab 2")
 

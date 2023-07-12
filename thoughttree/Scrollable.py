@@ -29,20 +29,6 @@ class Scrollable(tk.Frame):
         self.canvas.itemconfig(self.frame_id, width=event.width)
 
 
-def update_notebook_height(event):
-    notebook = event.widget
-    current_tab = notebook.nametowidget(notebook.select())
-    current_tab.update_idletasks()
-    notebook.configure(height=current_tab.winfo_reqheight())
-
-# def create_tab(notebook):
-#     tab = tk.Frame(notebook)
-#     notebook.add(tab, text=f"Tab {len(notebook.tabs()) + 1}")
-#     text = AutoResizingText(tab, notebook, wrap="word")
-#     text.pack(fill="both", expand=True, padx=1, pady=1)
-#     notebook.bind("<<NotebookTabChanged>>", update_notebook_height)
-#     return tab
-
 def main():
     from UI import UI
     root = UI()
@@ -61,6 +47,13 @@ def main():
     text_tab2 = ResizingText(notebook)
     notebook.add(text_tab1, text="Tab 1")
     notebook.add(text_tab2, text="Tab 2")
+
+
+    def update_notebook_height(event):
+        notebook = event.widget
+        current_tab = notebook.nametowidget(notebook.select())
+        current_tab.update_idletasks()
+        notebook.configure(height=current_tab.winfo_reqheight())
 
     notebook.bind("<<NotebookTabChanged>>", update_notebook_height)
 

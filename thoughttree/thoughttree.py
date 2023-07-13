@@ -84,7 +84,8 @@ class Thoughttree(UI):
         menu = ThoughttreeMenu(self, new_window_callback)
 
         self.status_bar.note = "Loading available models..."
-        menu.create_available_models_menu_items()
+        self.update_idletasks()
+        menu.load_available_models()
         self.status_bar.note = ""
 
 

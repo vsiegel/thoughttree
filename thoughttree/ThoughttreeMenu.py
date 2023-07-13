@@ -166,8 +166,10 @@ class ThoughttreeMenu(Menu):
             self.it.configure(font=(family, size))
             return "break"
 
-        def close_tab(event=None):
-            self.it.close_tab()
+        def close_text_tab(event=None):
+            it = self.it
+            if type(it) == Text:
+                it.close_text_tab()
 
         def search_google(event=None):
             selected_range = self.it.tag_ranges(SEL)
@@ -188,7 +190,7 @@ class ThoughttreeMenu(Menu):
         item("Save Code Block", "<Control-Alt-s>", save_code_block)
         item("Run Code Block", "", None)
         menu.add_separator()
-        item("Close Tab", "<Control-w>", close_tab, add=False)
+        item("Close Tab", "<Control-w>", close_text_tab, add=False)
         item("Close Empty Tab", "<BackSpace>", lambda e: self.it.close_empty_tab_or_backspace(), add=False)
         item("Quit", "<Control-q>", ui.close)
 

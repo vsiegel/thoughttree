@@ -2,6 +2,15 @@
 # not contain comments) and minimal prompting.
 
 menu_help = {
+# Main Menus
+    "File": "Contains options for creating new windows or tabs, saving chat content, and closing the application.",
+    "Edit": "Provides options for manipulating text, such as cut, copy, paste, delete, and undo/redo actions.",
+    "View": "Allows you to customize the display of the application, including font size and visibility of different panes.",
+    "Navigate": "Provides options for moving through the chat, such as jumping to similar lines or moving between messages.",
+    "Chat": "Contains options for managing and controlling the chat, including completing lines, forking conversations, and cancelling models.",
+    "Query": "Allows you to adjust query parameters, such as max tokens and temperature.",
+    "Models": "Provides options for managing the GPT models used in the application.",
+    "Help": "Contains options for accessing application help, debug info, and about details.",
 # File
     "New Window": "Opens a new Thoughttree window, allowing you to work on multiple chats simultaneously.\nEach new window operates independently, enabling you to manage and organize your conversations more efficiently.",
     "New Main Tab": "Opens a new main tab in the current window, providing a separate workspace within the same window.\nThis allows you to keep multiple chats organized and accessible without opening additional windows.",
@@ -59,13 +68,89 @@ menu_help = {
     "Complete Multiple...": "Prompts for the number of completions to generate, allowing you to specify the desired number of alternatives.\nBy entering a custom number, you can generate a specific number of alternative completions, providing a tailored set of options for continuing the conversation.",
     "Complete Multiple Again": "Generates the same number of completions as the last multiple completion, providing consistency in the number of alternatives.\nThis feature is useful for generating a consistent set of options across multiple completions, ensuring a similar level of variety in each set of alternatives.",
     "Cancel": "Cancels the current text generation, stopping the generation process and discarding the generated content.",
-# Model:
+# Query:
     "Max Tokens...": "Configures the maximum number of tokens for text generation, allowing you to control the length and complexity of generated text.\nBy setting a limit on tokens, you can ensure that the generated content stays within a specific length or complexity range, making it more manageable and easier to read.",
     "Temperature...": "Configures the temperature for text generation, adjusting the randomness and creativity of the generated content.\nA higher temperature results in more diverse and creative output, while a lower temperature produces more focused and conservative text.\nThis setting allows you to fine-tune the balance between creativity and coherence in the generated content.",
     "Increase Temperature": "Increases the temperature for text generation, resulting in more random and creative output.",
     "Decrease Temperature": "Decreases the temperature for text generation, producing more focused and conservative output.",
     "Temperature 0.0": "Sets the temperature for text generation to 0.0, generating deterministic and highly focused output.",
     "API Key...": "Configures the API key for the text generation service, enabling access to the text generation features.\nBy entering a valid API key, you can connect to the text generation service and use its capabilities to generate content within the Thoughttree application.",
+# Models:
+    "gpt-3.5-turbo": "This is the default version of the ChatGPT (GPT-3.5) model.\n"
+                     "\n"
+                     "Most capable GPT-3.5 model and optimized for chat\n"
+                     "at 1/10th the cost of text-davinci-003.\n"
+                     "Will be updated with our latest model iteration\n"
+                     "2 weeks after it is released.\n"
+                     "\n"
+                     "Max tokens: 4,096 tokens\n"
+                     "Training data: Up to Sep 2021",
+    "gpt-3.5-turbo-0301": "This is a snapshot of the ChatGPT (GPT-3.5) model taken on March 1st.\n"
+                          "\n"
+                          "This model has the same capabilities as the default version\n"
+                          "but will not receive updates.\n"
+                          "\n"
+                          "Max tokens: 4,096 tokens\n"
+                          "Training data: Up to Sep 2021",
+    "gpt-3.5-turbo-0613": "This is a snapshot of the ChatGPT (GPT-3.5) model taken on June 13th.\n"
+                          "\n"
+                          "This model has the same capabilities as the default version\n"
+                          "but will not receive updates and will be deprecated 3 months after a new version is released.\n"
+                          "\n"
+                          "Max tokens: 4,096 tokens\n"
+                          "Training data: Up to Sep 2021",
+    "gpt-3.5-turbo-16k": "This is a variant of ChatGPT (GPT-3.5) with 4 times the context.\n"
+                         "\n"
+                         "This model has the same capabilities as the standard gpt-3.5-turbo model\n"
+                         "but can handle longer pieces of text.\n"
+                         "\n"
+                         "Max tokens: 16,384 tokens\n"
+                         "Training data: Up to Sep 2021",
+    "gpt-3.5-turbo-16k-0613": "This is a snapshot of the gpt-3.5-turbo-16k model taken on June 13th.\n"
+                              "\n"
+                              "This model has the same capabilities as the gpt-3.5-turbo-16k version\n"
+                              "but will not receive updates and will be deprecated 3 months after a new version is released.\n"
+                              "\n"
+                              "Max tokens: 16,384 tokens\n"
+                              "Training data: Up to Sep 2021",
+    "gpt-4": "This is the default version of the GPT-4 model.\n"
+             "\n"
+             "More capable than any GPT-3.5 model, able to do more complex tasks, and optimized for chat.\n"
+             "Will be updated with our latest model iteration 2 weeks after it is released.\n"
+             "\n"
+             "Max tokens: 8,192 tokens\n"
+             "Training data: Up to Sep 2021",
+    "gpt-4-0314": "This is a snapshot of the GPT-4 model taken on March 14th.\n"
+                  "\n"
+                  "This model has the same capabilities as the default version\n"
+                  "but will not receive updates.\n"
+                  "\n"
+                  "Max tokens: 8,192 tokens\n"
+                  "Training data: Up to Sep 2021",
+    "gpt-4-0613": "This is a snapshot of the GPT-4 model taken on June 13th.\n"
+                  "\n"
+                  "This model has the same capabilities as the default version\n"
+                  "but will not receive updates and will be deprecated 3 months after a new version is released.\n"
+                  "\n"
+                  "Max tokens: 8,192 tokens\n"
+                  "Training data: Up to Sep 2021",
+    "gpt-4-32k": "This is a variant of GPT-4 with 4 times the context.\n"
+                 "\n"
+                 "This model has the same capabilities as the base gpt-4 model\n"
+                 "but can handle longer pieces of text.\n"
+                 "Will be updated with our latest model iteration.\n"
+                 "\n"
+                 "Max tokens: 32,768 tokens\n"
+                 "Training data: Up to Sep 2021",
+    "gpt-4-32k-0613": "This is a snapshot of the gpt-4-32k model taken on June 13th.\n"
+                      "\n"
+                      "This model has the same capabilities as the gpt-4-32k version\n"
+                      "but will not receive updates and will be deprecated 3 months after a new version is released.\n"
+                      "\n"
+                      "Max tokens: 32,768 tokens\n"
+                      "Training data: Up to Sep 2021",
+    "Reload available models": "Refreshes the list of available models for text generation."
+                               "This is useful if it failed at program start.",
 # Help:
     "Test": "Runs a test function, useful for debugging and experimentation.",
     "Debug Info": "Displays debug information, providing insights into the internal workings of the application.",

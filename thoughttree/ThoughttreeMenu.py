@@ -119,7 +119,7 @@ class ThoughttreeMenu(Menu):
             self.it.insert(INSERT, f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} ")
 
         def debug_info(event=None):
-            print(f"{event=}")
+            print(f"{self.focus_get()=}")
             return
 
             dumped = self.it.dump("insert - 1 char", window=True)
@@ -147,7 +147,7 @@ class ThoughttreeMenu(Menu):
             self.ui.update()
             self.ui.complete()
 
-        def item(label, keystroke, command, bind_key=True, context_menu=None, variable=None, add=False):
+        def item(label, keystroke=None, command=None, bind_key=True, context_menu=None, variable=None, add=False):
             if not label in menu_help:
                 print("Help text missing for menu item \"" + label + "\"")
             menu.item(label, keystroke, command, bind_key, context_menu, variable, add)
@@ -255,8 +255,7 @@ class ThoughttreeMenu(Menu):
         # item("Mark assistant message", "<Control-Alt-a>", mark_assistant_message)
         item("Cancel", "<Escape>", ui.cancelModels)
 
-        menu = Menu(self, "Model")
-        self.set_model_menu = Menu(menu, "Set Model")
+        menu = Menu(self, "Query")
         item("Max Tokens...", "<Control-Shift-L>", ui.configure_max_tokens)
         item("Temperature...", "<Control-Shift-T>", ui.configure_temperature)
         item("Increase Temperature", "<Alt-plus>", None)
@@ -264,6 +263,11 @@ class ThoughttreeMenu(Menu):
         item("Temperature 0.0", "<Control-Key-0>", None)
         menu.add_separator()
         item("API Key...", "", None)
+
+        menu = Menu(self, "Models")
+        menu.add_separator()
+        item("Reload available models", None, self.load_available_models)
+        self.model_menu = menu
 
         menu = Menu(self, "Help")
         item("Test", "<Control-Alt-Shift-T>", menu_test)

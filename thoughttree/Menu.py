@@ -16,13 +16,12 @@ class Menu(tk.Menu):
                 self.menu_help = master.menu_help
             else:
                 self.menu_help = None
+        if self.menu_help:
+            MenuHelpTooltip(self, self.menu_help)
         if isinstance(master, tk.Tk):
             master.config(menu=self)
         else:
-            # master.add_cascade(label=label, menu=self, underline=0)
             master.add_cascade(label=label, menu=self)
-            if self.menu_help:
-                MenuHelpTooltip(self, self.menu_help)
 
 
     def convert_key_string(self, keystroke) :

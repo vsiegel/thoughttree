@@ -22,7 +22,6 @@ class ResizingText(tk.Text):
     def adjust_height(self, event=None):
         num_lines = self.count("1.0", "end", 'displaylines')[0]
         if num_lines != self.old_num_lines:
-            print(f"Change {self.old_num_lines} -> {num_lines}")
             self.old_num_lines = num_lines
             self.configure(height=num_lines)
             if type(self.master) is Notebook:

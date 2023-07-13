@@ -81,7 +81,7 @@ def shorter(text, n=60):
     return f'{text[:leading]}...{text[-trailing:]}'
 
 def text_block(text):
-    width = int(sqrt(len(text) * 5))
+    width = int(sqrt(len(text) * 10))
     lines = text.splitlines()
     text = "\n".join([fill(line, width=width) for line in lines])
     return text

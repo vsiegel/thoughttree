@@ -55,17 +55,13 @@ class Menu(tk.Menu):
         return s
 
 
-    def item(self, label, keystroke, command, bind_key=True, context_menu=None, variable=None, add=False) :
+    def item(self, label, keystroke, command, bind_key=True, context_menu=None, variable=None, add=False, index=tk.END) :
         accelerator = self.convert_key_string(keystroke)
         state = tk.NORMAL if command or variable else tk.DISABLED
         if variable :
-            self.add_checkbutton(label=label, accelerator=accelerator, state=state, variable=variable)
+            self.insert_checkbutton(index, label=label, accelerator=accelerator, state=state, variable=variable)
         else:
-            self.add_command(label=label, accelerator=accelerator, state=state, command=lambda: command(None))
-            # self.entryconfigure('last', tooltip=label)
-            # print(f"{self.entryconfigure('last')=}", end="\n\n")
-        # if context_menu :
-        #     context_menu.add_command(label=label, accelerator=accelerator, state=state, command=lambda: command(None))
+            self.insert_command(index, label=label, accelerator=accelerator, state=state, command=lambda: command(None))
         if keystroke:
             if not add:
                 self.master.unbind_class("Text", keystroke)

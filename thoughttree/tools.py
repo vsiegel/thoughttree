@@ -9,7 +9,7 @@ from inspect import currentframe
 import subprocess
 
 
-def create_dummy_data(tree):
+def create_mock_data(tree):
     for r in range(10):
         key = f"R{r}"
         parent_id = tree.insert("", "end", key, text=key, values=(r,))

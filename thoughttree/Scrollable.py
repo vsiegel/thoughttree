@@ -9,7 +9,7 @@ class Scrollable(tk.Frame):
     def __init__(self, parent):
         super().__init__(parent)
 
-        self.canvas = tk.Canvas(self, bg="white", highlightthickness=0, borderwidth=0)
+        self.canvas = tk.Canvas(self, bg="#fbfbfb", highlightthickness=0, bd=0)
         self.scrollbar = ttk.Scrollbar(self, orient="vertical", command=self.canvas.yview)
         self.canvas.configure(yscrollcommand=self.scrollbar.set)
 

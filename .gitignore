@@ -161,3 +161,4 @@ dmypy.json
 /misc/
 *.out
 *.tex
+/out/

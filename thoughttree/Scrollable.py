@@ -16,7 +16,7 @@ class Scrollable(tk.Frame):
         self.canvas.pack(side="left", fill="both", expand=True)
         self.scrollbar.pack(side="right", fill="y")
 
-        self.frame = tk.Frame(self.canvas, background="white")
+        self.frame = tk.Frame(self.canvas, bg="white")
         self.frame_id = self.canvas.create_window((0, 0), window=self.frame, anchor="nw")
 
         self.frame.bind("<Configure>", self.update_scrollregion)

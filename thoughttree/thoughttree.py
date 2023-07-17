@@ -163,26 +163,38 @@ class Thoughttree(UI):
         print("Title cost:")
         self.generation_model.counter.summarize()
 
+
+    def configure_parameter(self, title, message, variable, minvalue, maxvalue):
+        askfunction = simpledialog.askinteger if isinstance(variable, tk.IntVar) else simpledialog.askfloat
+        value = askfunction(
+            title,
+            message,
+            initialvalue=variable.get(),
+            minvalue=minvalue,
+            maxvalue=maxvalue)
+        if value is not None:
+            variable.set(value)
+
+
     def configure_max_tokens(self, event=None):
-        max_tokens = simpledialog.askinteger(
+        self.configure_parameter(
             "Max Tokens",
             "What should be the model's maximum number of tokens to generate?\n"
             "(Query parameter 'max_tokens')\n",
-            initialvalue=self.model.max_tokens.get(),
-            minvalue=1, maxvalue=100000)
-        if max_tokens:
-            self.model.max_tokens.set(max_tokens)
+            self.model.max_tokens,
+            1,
+            100000)
+
 
     def configure_temperature(self, event=None):
-        temperature = simpledialog.askfloat(
+        self.configure_parameter(
             "Query Temperature",
             "What should be the level of creativity of the model?\n"
             "0.0 for deterministic, typically 0.5 or 0.7, maximal 2.0?\n"
             "(Query parameter 'temperature')\n",
-            initialvalue=self.model.temperature.get(),
-            minvalue=0, maxvalue=2.0)
-        if temperature is not None:
-            self.model.temperature.set(temperature)
+            self.model.temperature,
+            0,
+            2.0)
 
 
     def count_text_tokens(self, event=None) :

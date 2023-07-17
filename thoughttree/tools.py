@@ -6,6 +6,7 @@ from tkinter import EventType
 
 from pyperclip import paste
 from inspect import currentframe
+import subprocess
 
 
 def create_dummy_data(tree):
@@ -112,3 +113,6 @@ def log(arg=""):
     f = frameinfo.f_code.co_filename
     l = frameinfo.f_back.f_lineno
     print(f"{f} {l}: {arg}")
+
+def get_git_head():
+    return subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD']).decode('utf-8').strip()

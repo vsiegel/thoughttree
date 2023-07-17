@@ -301,10 +301,10 @@ class Thoughttree(UI):
                 if finish_reason not in ["stop", "length", "canceled", "error"] :
                     print(f"{finish_reason=}")
                 if symbol :
-                    tool_tip = Model.finish_reasons[finish_reason]["tool_tip"]
+                    tooltip = Model.finish_reasons[finish_reason]["tooltip"]
                     if message:
-                        tool_tip += "\n" + message
-                    insert_label(txt, symbol, tool_tip)
+                        tooltip += "\n" + message
+                    insert_label(txt, symbol, tooltip)
 
             if not self.model.is_canceled and not finish_reason == "length":
                 txt.insert(END, postfix)
@@ -330,10 +330,6 @@ class Thoughttree(UI):
         txt.tag_remove('cursorline', 1.0, "end")
 
         with WaitCursor(txt):
-            def insert_label(text, symbol, tooltip=""):
-                icon = FinishReasonIcon(text, symbol, tooltip=tooltip)
-                text.window_create(END, window=icon)
-
 
             def scroll():
                 if self.scroll_output:
@@ -447,10 +443,11 @@ class Thoughttree(UI):
         if finish_reason not in ["stop", "length", "canceled", "error"]:
             print(f"{finish_reason=}")
         if symbol:
-            tool_tip = Model.finish_reasons[finish_reason]["tool_tip"]
+            tooltip = Model.finish_reasons[finish_reason]["tooltip"]
             if message:
-                tool_tip += "\n" + message
-            self._insert_label(txt, symbol, tool_tip)
+                tooltip += "\n" + message
+
+            txt.window_create(END, window=FinishReasonIcon(txt, symbol, tooltip=tooltip))
 
 
     def _post_completion_tasks(self):

@@ -28,10 +28,10 @@ class Model:
 
     available_models = None
     finish_reasons = {
-        "stop": {"symbol": "", "tool_tip": ""},
-        "length": {"symbol": "…", "tool_tip": "The completion reached max_tokens tokens. It can be continued."},
-        "canceled": {"symbol": "☒", "tool_tip": "The completion was canceled."},
-        "error": {"symbol": "⚠", "tool_tip": "An error occurred while processing the completion."},
+        "stop": {"symbol": "", "tooltip": ""},
+        "length": {"symbol": "…", "tooltip": "The completion reached max_tokens tokens. It can be continued."},
+        "canceled": {"symbol": "☒", "tooltip": "The completion was canceled."},
+        "error": {"symbol": "⚠", "tooltip": "An error occurred while processing the completion."},
     }
 
     def __init__(self, model_name):

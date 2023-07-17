@@ -15,6 +15,7 @@ from Model import Model
 from StatusBar import StatusBar
 from Text import Text
 from ThoughttreeMenu import ThoughttreeMenu
+from Tree import Tree
 from UI import UI
 from WaitCursor import WaitCursor
 from prompts import system_prompt
@@ -27,11 +28,6 @@ conf.update_title_after_completion = True
 conf.scroll_output = True
 conf.ring_bell_after_completion = False
 conf.blinking_caret = True
-
-#NODE_OPEN = '\u25B6'
-#NODE_CLOSED = '\u25BC'
-NODE_OPEN = '*'
-NODE_CLOSED = '|'
 
 
 class Thoughttree(UI):
@@ -109,7 +105,7 @@ class Thoughttree(UI):
 
         self.create_panes()
 
-        self.tree = self.create_tree(self.tree_pane, self.system_pane)
+        self.tree = Tree(self.tree_pane)
         self.console = self.create_console(self.console_pane)
         self.system = Text(self.system_pane, system_prompt, pady=5)
         self.chat = Text(self.system_pane)
@@ -136,43 +132,11 @@ class Thoughttree(UI):
         self.system_pane = FoldablePane(self.tree_pane, folded=True, orient=VERTICAL)
         self.console_pane.pack(fill=BOTH, expand=True)
 
-    def create_tree(self, tree_pane, system_pane):
-
-        def on_treeview_click(event):
-            item = tree.identify('item', event.x, event.y)
-            if item:
-                if 'closed' in tree.item(item, 'tags'):
-                    replaced = tree.item(item, 'text').replace(NODE_CLOSED, NODE_OPEN, 1)
-                    tree.item(item, text=replaced)
-                    tree.item(item, tags='opened')
-                elif 'opened' in tree.item(item, 'tags'):
-                    tree.item(item, text=tree.item(item, 'text').replace(NODE_OPEN, NODE_CLOSED, 1))
-                    tree.item(item, tags='closed')
-
-        tree = ttk.Treeview(tree_pane, columns=("C1"), show="tree")
-        self.tree = tree
-        tree.column("#0", width=160, minwidth=60, anchor=W, stretch=NO)
-        tree.column("#1", width=30, minwidth=60, anchor=W, stretch=NO)
-        tree.heading("C1", text="")
-        tree.bind('<Double-Button-1>', on_treeview_click)
-
-        self.add_dummy_data_to_tree(tree)
-        self.bind_tree_view_events(tree)
-        return tree
-
     def create_console(self, console_pane):
         console = Text(console_pane, height=20)
         console.insert(END, "Console:\n")
         console.config(state=DISABLED, takefocus=False)
         return console
-
-    def add_dummy_data_to_tree(self, tree):
-        from tools import create_dummy_data
-        create_dummy_data(tree)
-
-    def bind_tree_view_events(self, tree):
-        tree.bind("<Double-Button-1>", self.edit_tree_entry)
-        tree.bind("<Return>", self.edit_tree_entry)
 
     def create_system_and_chat(self, system_pane):
         self.system = Text(system_pane, system_prompt, pady=5)
@@ -502,43 +466,6 @@ class Thoughttree(UI):
         if max_messages:
             history = history[-max_messages:]
         return history
-
-
-
-    def edit_tree_entry(self, event):
-        row_id = self.tree.focus()
-        if not row_id:
-            return
-        column = self.tree.identify_column(event.x)
-        if column != "#1":  # Only allow editing the "Messages" column
-            return
-        x, y, width, height = self.tree.bbox(row_id, column)
-        char_width = tkfont.Font(font=Text.FONT).measure('0')
-        line_height = tkfont.Font(font=Text.FONT).metrics("linespace")
-        width = max(self.tree.column(column)["width"], width)
-        height = max(line_height, height)
-
-        cur_text = self.tree.item(row_id, "values")[0]
-        w = width // char_width
-        h = height // line_height
-        txt = tk.Text(self.tree, wrap=WORD, width=w, height=h, font=Text.FONT,
-                      highlightthickness=0, highlightbackground="black", padx=4, pady=0)
-        txt.insert(END, cur_text)
-        txt.place(x=x, y=y)
-        txt.focus_set()
-
-        def save_text(event):
-            print(event.type)
-            if event.type == tk.EventType.FocusOut or int(event.state) & 0x4 == 0 :  # Check if Control key is not pressed
-                text = txt.get(1.0, END).strip()
-                self.tree.set(row_id, column, text)
-                txt.destroy()
-
-        # txt.bind("<FocusOut>", save_text)
-        txt.bind("<Return>", lambda e: e.state & 0x4 == 0 and save_text(e) or self.tree.focus_set())
-        txt.bind("<Control-Return>", lambda e: txt.insert(INSERT, "\n") or "break")
-        # txt.bind("<Control-Key>", lambda e : "break")
-        # txt.bind("<Control_L>", lambda e : "break")
 
 
     @classmethod

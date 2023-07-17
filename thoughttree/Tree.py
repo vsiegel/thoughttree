@@ -14,7 +14,7 @@ NODE_CLOSED = '|'
 
 class Tree(ttk.Treeview):
     def __init__(self, parent, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super().__init__(parent, *args, **kwargs)
 
         def on_treeview_click(event):
             item = tree.identify('item', event.x, event.y)

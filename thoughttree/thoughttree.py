@@ -81,7 +81,7 @@ class Thoughttree(UI):
 
         self.status_bar.note = "Loading available models..."
         self.update_idletasks()
-        menu.load_available_models()
+        menu.models_menu.load_available_models()
         self.status_bar.note = ""
 
 

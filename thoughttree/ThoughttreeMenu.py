@@ -5,6 +5,7 @@ from tkinter import font as tkfont, NONE, WORD, SEL, END, INSERT
 
 from Files import Files
 from Menu import Menu
+from ModelsMenu import ModelsMenu
 from Text import Text
 from menu_help import menu_help
 
@@ -15,8 +16,8 @@ class ThoughttreeMenu(Menu):
         self.new_window_callback = new_window_callback
         self.ui = thoughttree
 
-        self.model_menu = None
         self.fixed_model_menu_items = -1
+        self.models_menu = None
         self.create_menu()
 
 
@@ -24,21 +25,6 @@ class ThoughttreeMenu(Menu):
     def it(self) -> Text:
         return self.ui.focus_get()
 
-    def load_available_models(self, event=None):
-        if self.fixed_model_menu_items == -1:
-            self.fixed_model_menu_items = self.model_menu.index(tk.END) + 1
-        present_items = self.model_menu.index(tk.END) + 1
-        if present_items > self.fixed_model_menu_items:
-            self.model_menu.delete(0, present_items - self.fixed_model_menu_items - 1)
-        for i, model_name in enumerate(self.ui.model.get_available_models()):
-            if model_name == "gpt-4":
-                key = "<Control-Alt-Key-4>"
-            elif model_name == "gpt-3.5-turbo":
-                key = "<Control-Alt-Key-3>"
-            else:
-                key = None
-            command = lambda e, m=model_name: self.ui.set_model(m)
-            self.model_menu.item(model_name, key, command, index=i)
 
 
     def create_menu(self):
@@ -264,10 +250,7 @@ class ThoughttreeMenu(Menu):
         menu.add_separator()
         item("API Key...", "", None)
 
-        menu = Menu(self, "Models")
-        menu.add_separator()
-        item("Reload available models", None, self.load_available_models)
-        self.model_menu = menu
+        self.models_menu = ModelsMenu(self, ui, "Models")
 
         menu = Menu(self, "Help")
         item("Test", "<Control-Alt-Shift-T>", menu_test)

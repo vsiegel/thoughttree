@@ -128,17 +128,17 @@ class Sheet(tk.scrolledtext.ScrolledText):
         if new_notebook:
             notebook = Notebook(self, height=self.winfo_height(), width=self.winfo_width())
 
-            txt = Sheet(notebook, trailing_text, scrollbar=True)
-            notebook.add(txt, text=new_child(parent))
+            sheet = Sheet(notebook, trailing_text, scrollbar=True)
+            notebook.add(sheet, text=new_child(parent))
             self.window_create(index, window=notebook)
             self.delete(index + "+1char", END)
         else:
             notebook = parent
-        txt = Sheet(notebook, scrollbar=True)
-        notebook.add(txt, text=new_sibling(notebook))
+        sheet = Sheet(notebook, scrollbar=True)
+        notebook.add(sheet, text=new_sibling(notebook))
 
         notebook.select(len(notebook.tabs()) - 1)
-        txt.focus_set()
+        sheet.focus_set()
 
         return "break"
 
@@ -209,19 +209,19 @@ class Sheet(tk.scrolledtext.ScrolledText):
             return 0
 
 
-        txt: Sheet = self.focus_get()
-        print(f"{txt == self}")
-        cursor_pos = txt.index(INSERT)
+        sheet: Sheet = self.focus_get()
+        print(f"{sheet == self}")
+        cursor_pos = sheet.index(INSERT)
         line_nr = int(cursor_pos.split('.')[0])
-        current_line = txt.get(f"{line_nr}.0", f"{line_nr}.end")
+        current_line = sheet.get(f"{line_nr}.0", f"{line_nr}.end")
         if not current_line.strip():
             return
-        lines = txt.get(1.0, END).splitlines()
+        lines = sheet.get(1.0, END).splitlines()
         jump_line = find_similar_line(current_line, line_nr, lines, direction)
         if jump_line:
             jump_index = f"{jump_line}.{0}"
-            txt.mark_set(INSERT, jump_index)
-            txt.see(jump_index)
+            sheet.mark_set(INSERT, jump_index)
+            sheet.see(jump_index)
 
 
 
@@ -229,9 +229,9 @@ class Sheet(tk.scrolledtext.ScrolledText):
 
         def selected_text(notebook):
             frame_on_tab = notebook.nametowidget(notebook.select())
-            txt = frame_on_tab.winfo_children()[1]
-            print(f"{txt == self}")
-            return txt
+            sheet = frame_on_tab.winfo_children()[1]
+            print(f"{sheet == self}")
+            return sheet
 
         notebook: Notebook = self.find_parent(Notebook)
         if notebook:

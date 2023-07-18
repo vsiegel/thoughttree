@@ -68,17 +68,17 @@ class ThoughttreeMenu(Menu):
             self.it.event_generate("<<Copy>>")
 
         def paste_text(event=None) :
-            txt = self.it
-            txt.event_generate("<<Clear>>")
-            txt.event_generate("<<Paste>>")
-            txt.see(INSERT)
+            sheet = self.it
+            sheet.event_generate("<<Clear>>")
+            sheet.event_generate("<<Paste>>")
+            sheet.see(INSERT)
 
         def select_all(event=None):
-            txt = self.it
-            if type(txt) == Sheet:
-                txt.tag_add(SEL, "1.0", END)
-                txt.mark_set(INSERT, "1.0")
-                txt.see(INSERT)
+            sheet = self.it
+            if type(sheet) == Sheet:
+                sheet.tag_add(SEL, "1.0", END)
+                sheet.mark_set(INSERT, "1.0")
+                sheet.see(INSERT)
 
         def edit_undo(event=None):
             try:
@@ -93,12 +93,12 @@ class ThoughttreeMenu(Menu):
                 pass # nothing to redo
 
         def font_size(delta):
-            txt = self.it
+            sheet = self.it
             if delta == 0:
                 name, size = Sheet.FONT
             else:
-                name, size = txt.cget("font").split()
-            txt.config(font=(name, int(size) + delta))
+                name, size = sheet.cget("font").split()
+            sheet.config(font=(name, int(size) + delta))
 
         def insert_current_time(event=None):
             self.it.insert(INSERT, f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} ")

@@ -190,11 +190,11 @@ class Thoughttree(UI):
 
 
     def count_text_tokens(self, event=None) :
-        txt: Sheet = self.focus_get()
+        sheet: Sheet = self.focus_get()
         try :
-            text = txt.get(SEL_FIRST, SEL_LAST)
+            text = sheet.get(SEL_FIRST, SEL_LAST)
         except tk.TclError :
-            text = txt.get(1.0, END)
+            text = sheet.get(1.0, END)
         old_status = self.status_bar.message
         self.status_bar.message = "Counting tokens (loading model)"
         self.status_bar.update()
@@ -209,35 +209,35 @@ class Thoughttree(UI):
                  f"{num_lines} lines\n"
                  f"{num_words} words\n"
                  f"{num_chars} characters",
-                 master=txt)
+                 master=sheet)
         return "break"
 
 
     def complete(self, n=1, prefix="", postfix=""):
         self.model.is_canceled = False
-        txt: Sheet = self.focus_get()
-        txt.tag_remove('cursorline', 1.0, "end")
+        sheet: Sheet = self.focus_get()
+        sheet.tag_remove('cursorline', 1.0, "end")
 
         n = self.find_number_of_completions(n)
         if n is None:
             return
 
-        with WaitCursor(txt):
-            txt.edit_separator()
-            self._insert_prefix_and_scroll(txt, prefix)
+        with WaitCursor(sheet):
+            sheet.undo_separator()
+            self._insert_prefix_and_scroll(sheet, prefix)
 
             history = self.history_from_system_and_chat()
             self.model.counter.go()
 
-            finish_reason, message = self._process_completions(txt, n, history)
+            finish_reason, message = self._process_completions(sheet, n, history)
 
-            self._handle_completion_finish(txt, finish_reason, message, postfix)
+            self._handle_completion_finish(sheet, finish_reason, message, postfix)
             self._post_completion_tasks()
 
-    def scroll(self, txt):
+    def scroll(self, sheet):
         if self.scroll_output:
-            txt.see(END)
-        txt.update()
+            sheet.see(END)
+        sheet.update()
 
     def find_number_of_completions(self, n):
         if not n:
@@ -254,13 +254,13 @@ class Thoughttree(UI):
         return n
 
 
-    def _insert_prefix_and_scroll(self, txt, prefix):
+    def _insert_prefix_and_scroll(self, sheet, prefix):
         if prefix:
-            txt.insert(END, prefix)
-            self.scroll(txt)
+            sheet.insert(END, prefix)
+            self.scroll(sheet)
 
 
-    def _process_completions(self, txt, n, history):
+    def _process_completions(self, sheet, n, history):
         finish_reason, message = 'unknown', ''
         frame = None
         if n == 1:
@@ -270,51 +270,51 @@ class Thoughttree(UI):
                 def write_chat(text):
                     if self.is_root_destroyed:
                         return
-                    txt.insert(END, text, "assistant")
-                    self.scroll(txt)
+                    sheet.insert(END, text, "assistant")
+                    self.scroll(sheet)
 
                 finish_reason, message = self.model.chat_complete(history, write_chat)
         else:
-            frame = tk.Frame(txt)
-            txt.window_create(END, window=frame)
-            txt.insert(END, "\n")
-            txt.see(END)
+            frame = tk.Frame(sheet)
+            sheet.window_create(END, window=frame)
+            sheet.insert(END, "\n")
+            sheet.see(END)
             finish_reason, message = 'unknown', ''
 
             for i in range(n):
                 if self.model.is_canceled:
                     finish_reason = "canceled"
                     break
-                label = self._create_label(frame, txt)
+                label = self._create_label(frame, sheet)
 
                 def write_label(text):
                     if self.is_root_destroyed:
                         return
                     label.config(text=label.cget("text") + text)
-                    self.scroll(txt)
+                    self.scroll(sheet)
 
                 finish_reason, message = self.model.chat_complete(history, write_label)
         return finish_reason, message
 
 
-    def _create_label(self, frame, txt):
-        label = tk.Label(frame, borderwidth=4, anchor=W, wraplength=txt.winfo_width(),
+    def _create_label(self, frame, sheet):
+        label = tk.Label(frame, borderwidth=4, anchor=W, wraplength=sheet.winfo_width(),
                          justify=LEFT, font=Sheet.FONT, relief=SUNKEN)
         label.pack(side=TOP, fill=X, expand=True)
         return label
 
 
-    def _handle_completion_finish(self, txt, finish_reason, message, postfix):
+    def _handle_completion_finish(self, sheet, finish_reason, message, postfix):
         if self.is_root_destroyed:
             return
         if conf.show_finish_reason:
-            self.show_finish_reason_icon(txt, finish_reason, message)
+            self.show_finish_reason_icon(sheet, finish_reason, message)
         if not self.model.is_canceled and not finish_reason == "length":
-            txt.insert(END, postfix)
+            sheet.insert(END, postfix)
         if self.scroll_output:
-            txt.mark_set(INSERT, END)
-            txt.see(END)
-        txt.edit_separator()
+            sheet.mark_set(INSERT, END)
+            sheet.see(END)
+        sheet.undo_separator()
 
 
     def show_finish_reason_icon(self, txt, finish_reason, message):

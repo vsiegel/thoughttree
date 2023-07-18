@@ -38,6 +38,8 @@ class Sheet(tk.scrolledtext.ScrolledText):
         self.configure_cursorline()
 
 
+    def undo_separator(self):
+        self.edit_separator()
 
     def toggle_tag(self, tag):
         selected = self.tag_ranges("sel")

@@ -334,21 +334,13 @@ class Thoughttree(UI):
             return
 
         with WaitCursor(txt):
-
-            def write_chat(text):
-                if self.is_root_destroyed:
-                    return
-                txt.insert(END, text, "assistant")
-                self.scroll(txt)
-
-
             txt.edit_separator()
             self._insert_prefix_and_scroll(txt, prefix)
 
             history = self.history_from_system_and_chat()
             self.model.counter.go()
 
-            finish_reason, message = self._process_completions(txt, n, history, write_chat)
+            finish_reason, message = self._process_completions(txt, n, history)
 
             self._handle_completion_finish(txt, finish_reason, message, postfix)
             self._post_completion_tasks()
@@ -379,13 +371,19 @@ class Thoughttree(UI):
             self.scroll(txt)
 
 
-    def _process_completions(self, txt, n, history, write_chat):
+    def _process_completions(self, txt, n, history):
         finish_reason, message = 'unknown', ''
         frame = None
         if n == 1:
             if self.model.is_canceled:
                 finish_reason = "canceled"
             else:
+                def write_chat(text):
+                    if self.is_root_destroyed:
+                        return
+                    txt.insert(END, text, "assistant")
+                    self.scroll(txt)
+
                 finish_reason, message = self.model.chat_complete(history, write_chat)
         else:
             frame = tk.Frame(txt)
@@ -393,12 +391,20 @@ class Thoughttree(UI):
             txt.insert(END, "\n")
             txt.see(END)
             finish_reason, message = 'unknown', ''
+
             for i in range(n):
                 if self.model.is_canceled:
                     finish_reason = "canceled"
                     break
                 label = self._create_label(frame, txt)
-                finish_reason, message = self.model.chat_complete(history, self._create_write_label(label, txt))
+
+                def write_label(text):
+                    if self.is_root_destroyed:
+                        return
+                    label.config(text=label.cget("text") + text)
+                    self.scroll(txt)
+
+                finish_reason, message = self.model.chat_complete(history, write_label)
         return finish_reason, message
 
 
@@ -407,16 +413,6 @@ class Thoughttree(UI):
                          justify=LEFT, font=Text.FONT, relief=SUNKEN)
         label.pack(side=TOP, fill=X, expand=True)
         return label
-
-
-    def _create_write_label(self, label, txt):
-        def write_label(text):
-            if self.is_root_destroyed:
-                return
-            label.config(text=label.cget("text") + text)
-            self.scroll(txt)
-
-        return write_label
 
 
     def _handle_completion_finish(self, txt, finish_reason, message, postfix):

@@ -219,11 +219,3 @@ class Files:
         except Exception as e:
             showerror(title="Error", message="Cannot save code block\n" + str(e), master=txt)
             return None
-
-    @staticmethod
-    def history_from_args(system="", message="") :
-        history = [
-            {'role': 'system', 'content': system},
-            {'role': 'user', 'content': message}
-        ]
-        return history

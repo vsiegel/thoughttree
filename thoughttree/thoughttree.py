@@ -160,8 +160,7 @@ class Thoughttree(UI):
 
         self.generation_model.counter.go()
         self.generation_model.chat_complete(history, write_title, max_tokens=30, temperature=0.3)
-        print("Title cost:")
-        self.generation_model.counter.summarize()
+        self.generation_model.counter.summarize("Title cost:")
 
 
     def configure_parameter(self, title, message, variable, minvalue, maxvalue):
@@ -444,8 +443,7 @@ class Thoughttree(UI):
         if conf.ring_bell_after_completion:
             self.bell()
 
-        print("Completion cost:")
-        self.model.counter.summarize()
+        self.model.counter.summarize("Completion cost:")
 
         if conf.update_title_after_completion and not self.model.is_canceled:
             if self.model.counter.tokens_since_go() > Thoughttree.GEN_TITLE_THRESHOLD:

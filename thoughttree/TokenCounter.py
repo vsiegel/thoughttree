@@ -90,5 +90,6 @@ class TokenCounter:
     def summary(self):
         return self.summary_since_go() + "\n" + self.summary_total()
 
-    def summarize(self):
+    def summarize(self, title=""):
+        title and print(title)
         print(self.summary())

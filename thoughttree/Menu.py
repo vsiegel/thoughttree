@@ -16,11 +16,11 @@ class Menu(tk.Menu):
                 self.menu_help = master.menu_help
             else:
                 self.menu_help = None
-        if self.menu_help:
-            MenuHelpTooltip(self, self.menu_help)
         if isinstance(master, tk.Tk):
             master.config(menu=self)
         else:
+            if self.menu_help:
+                MenuHelpTooltip(self, self.menu_help)
             master.add_cascade(label=label, menu=self)
 
 

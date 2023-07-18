@@ -2,15 +2,16 @@
 # not contain comments) and minimal prompting.
 
 menu_help = {
-# Main Menus
-    "File": "Contains options for creating new windows or tabs, saving chat content, and closing the application.",
-    "Edit": "Provides options for manipulating text, such as cut, copy, paste, delete, and undo/redo actions.",
-    "View": "Allows you to customize the display of the application, including font size and visibility of different panes.",
-    "Navigate": "Provides options for moving through the chat, such as jumping to similar lines or moving between messages.",
-    "Chat": "Contains options for managing and controlling the chat, including completing lines, forking conversations, and cancelling models.",
-    "Query": "Allows you to adjust query parameters, such as max tokens and temperature.",
-    "Models": "Provides options for managing the GPT models used in the application.",
-    "Help": "Contains options for accessing application help, debug info, and about details.",
+# # Main Menus
+#     "File": "Contains options for creating new windows or tabs, saving chat content, and closing the application.",
+#     "Edit": "Provides options for manipulating text, such as cut, copy, paste, delete, and undo/redo actions.",
+#     "View": "Allows you to customize the display of the application, including font size and visibility of different panes.",
+#     "Navigate": "Provides options for moving through the chat, such as jumping to similar lines or moving between messages.",
+#     "Chat": "Contains options for managing and controlling the chat, including completing lines, forking conversations, and cancelling models.",
+#     "Query": "Allows you to adjust query parameters, such as max tokens and temperature.",
+#     "Models": "Provides options for managing the GPT models used in the application.",
+#     "Help": "Contains options for accessing application help, debug info, and about details.",
+
 # File
     "New Window": "Opens a new Thoughttree window, allowing you to work on multiple chats simultaneously.\nEach new window operates independently, enabling you to manage and organize your conversations more efficiently.",
     "New Main Tab": "Opens a new main tab in the current window, providing a separate workspace within the same window.\nThis allows you to keep multiple chats organized and accessible without opening additional windows.",

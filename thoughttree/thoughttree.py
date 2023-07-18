@@ -331,17 +331,11 @@ class Thoughttree(UI):
 
         with WaitCursor(txt):
 
-            def scroll():
-                if self.scroll_output:
-                    txt.see(END)
-                txt.update()
-
-
             def write_chat(text):
                 if self.is_root_destroyed:
                     return
                 txt.insert(END, text, "assistant")
-                scroll()
+                self.scroll(txt)
 
 
             n = self._process_number_of_completions(n)
@@ -359,7 +353,7 @@ class Thoughttree(UI):
             self._handle_completion_finish(txt, finish_reason, message, postfix)
             self._post_completion_tasks()
 
-    def _scroll(self, txt):
+    def scroll(self, txt):
         if self.scroll_output:
             txt.see(END)
         txt.update()
@@ -382,7 +376,7 @@ class Thoughttree(UI):
     def _insert_prefix_and_scroll(self, txt, prefix):
         if prefix:
             txt.insert(END, prefix)
-            self._scroll(txt)
+            self.scroll(txt)
 
 
     def _process_completions(self, txt, n, history, write_chat):
@@ -420,7 +414,7 @@ class Thoughttree(UI):
             if self.is_root_destroyed:
                 return
             label.config(text=label.cget("text") + text)
-            self._scroll(txt)
+            self.scroll(txt)
 
         return write_label
 

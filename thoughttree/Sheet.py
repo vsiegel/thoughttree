@@ -1,15 +1,13 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import CURRENT, END, INSERT, SEL, WORD, X, SEL_FIRST, SEL_LAST
 from tkinter import scrolledtext
-from tkinter import CURRENT, END, INSERT, S, SEL, WORD, X, SEL_FIRST, SEL_LAST
-
 from typing import Union
 
 from FinishReasonIcon import FinishReasonIcon
 from Notebook import Notebook
 
 
-class Text(tk.scrolledtext.ScrolledText):
+class Sheet(tk.scrolledtext.ScrolledText):
     FONT_NAME_MONOSPACE = "monospace"
     FONT_NAME_PROPORTIONAL = "sans-serif"
     FONT = (FONT_NAME_PROPORTIONAL, 11)
@@ -20,7 +18,7 @@ class Text(tk.scrolledtext.ScrolledText):
         # background = next_pastel_rainbow_color()
         tk.scrolledtext.ScrolledText.__init__(
             self, master, undo=True, wrap=WORD, padx=padx, pady=pady, background=background,
-            width=80, height=height, insertwidth=4, font=Text.FONT,
+            width=80, height=height, insertwidth=4, font=Sheet.FONT,
             border=0, borderwidth=0, highlightthickness=0,
             selectbackground="#66a2d4", selectforeground="white", **kw)
 
@@ -51,7 +49,8 @@ class Text(tk.scrolledtext.ScrolledText):
                 self.tag_add(tag, SEL_FIRST, SEL_LAST)
 
 
-    def cursorline(self, e, add=True):
+    @staticmethod
+    def cursorline(e, add=True):
         if not e.widget.winfo_exists():
             return
         takefocus = not e.widget.cget("takefocus") == "0"
@@ -78,7 +77,7 @@ class Text(tk.scrolledtext.ScrolledText):
 
     def change_text_height(self, delta):
         parent = self.master.focus_get()
-        while parent and type(parent) != Text:
+        while parent and type(parent) != Sheet:
             parent = parent.master
         if not parent:
             return
@@ -108,8 +107,8 @@ class Text(tk.scrolledtext.ScrolledText):
             return '.'.join(levels)
 
 
-        def new_sibling(notebook):
-            last_tab_label = notebook.tab(len(notebook.tabs()) - 1, "text")
+        def new_sibling(sibling_notebook):
+            last_tab_label = sibling_notebook.tab(len(sibling_notebook.tabs()) - 1, "text")
             return next_equal(last_tab_label)
 
         def new_child(parent):
@@ -129,22 +128,22 @@ class Text(tk.scrolledtext.ScrolledText):
         if new_notebook:
             notebook = Notebook(self, height=self.winfo_height(), width=self.winfo_width())
 
-            text = Text(notebook, trailing_text, scrollbar=True)
-            notebook.add(text, text=new_child(parent))
+            txt = Sheet(notebook, trailing_text, scrollbar=True)
+            notebook.add(txt, text=new_child(parent))
             self.window_create(index, window=notebook)
             self.delete(index + "+1char", END)
         else:
             notebook = parent
-        text = Text(notebook, scrollbar=True)
-        notebook.add(text, text=new_sibling(notebook))
+        txt = Sheet(notebook, scrollbar=True)
+        notebook.add(txt, text=new_sibling(notebook))
 
         notebook.select(len(notebook.tabs()) - 1)
-        text.focus_set()
+        txt.focus_set()
 
         return "break"
 
 
-    def find_parent(self, parentType: type) -> Union["Text", Notebook]:
+    def find_parent(self, parentType: type) -> Union["Sheet", Notebook]:
         parent = self.master
         while parent and type(parent) != parentType:
             parent = parent.master
@@ -153,7 +152,7 @@ class Text(tk.scrolledtext.ScrolledText):
 
     def history_from_path(self, history=None) :
 
-        parentText: Text = self.find_parent(Text)
+        parentText: Sheet = self.find_parent(Sheet)
         if parentText:
             history = parentText.history_from_path(history)
         else:
@@ -188,7 +187,7 @@ class Text(tk.scrolledtext.ScrolledText):
         return history
 
 
-    def jump_to_similar_line(cls, event=None, direction=1):
+    def jump_to_similar_line(self, event=None, direction=1):
 
         def find_similar_line(target, line_nr_1, lines, direction):
             line_nr_0 = line_nr_1 - 1
@@ -210,18 +209,19 @@ class Text(tk.scrolledtext.ScrolledText):
             return 0
 
 
-        text: Text = cls.focus_get()
-        cursor_pos = text.index(INSERT)
+        txt: Sheet = self.focus_get()
+        print(f"{txt == self}")
+        cursor_pos = txt.index(INSERT)
         line_nr = int(cursor_pos.split('.')[0])
-        current_line = text.get(f"{line_nr}.0", f"{line_nr}.end")
+        current_line = txt.get(f"{line_nr}.0", f"{line_nr}.end")
         if not current_line.strip():
             return
-        lines = text.get(1.0, END).splitlines()
+        lines = txt.get(1.0, END).splitlines()
         jump_line = find_similar_line(current_line, line_nr, lines, direction)
         if jump_line:
             jump_index = f"{jump_line}.{0}"
-            text.mark_set(INSERT, jump_index)
-            text.see(jump_index)
+            txt.mark_set(INSERT, jump_index)
+            txt.see(jump_index)
 
 
 
@@ -229,7 +229,9 @@ class Text(tk.scrolledtext.ScrolledText):
 
         def selected_text(notebook):
             frame_on_tab = notebook.nametowidget(notebook.select())
-            return frame_on_tab.winfo_children()[1]
+            txt = frame_on_tab.winfo_children()[1]
+            print(f"{txt == self}")
+            return txt
 
         notebook: Notebook = self.find_parent(Notebook)
         if notebook:
@@ -240,7 +242,7 @@ class Text(tk.scrolledtext.ScrolledText):
                 selected_text(notebook).focus_set()
             elif len(notebook.tabs()) == 1:
                 string = selected_text(notebook).get('1.0', END)
-                parent = self.find_parent(Text)
+                parent = self.find_parent(Sheet)
                 parent.delete("end-2 char", "end-1 char") # delete notebook window
                 parent.insert(END, string)
                 parent.mark_set(INSERT, "end-1 char")

@@ -13,7 +13,7 @@ from FinishReasonIcon import FinishReasonIcon
 from FoldablePane import FoldablePane
 from Model import Model
 from StatusBar import StatusBar
-from Text import Text
+from Text import Sheet
 from ThoughttreeMenu import ThoughttreeMenu
 from Tree import Tree
 from UI import UI
@@ -104,8 +104,8 @@ class Thoughttree(UI):
 
         self.tree = Tree(self.tree_pane)
         self.console = self.create_console(self.console_pane)
-        self.system = Text(self.system_pane, system_prompt, pady=5)
-        self.chat = Text(self.system_pane)
+        self.system = Sheet(self.system_pane, system_prompt, pady=5)
+        self.chat = Sheet(self.system_pane)
 
         self.console_pane.add(self.tree_pane)
         self.console_pane.addFoldable(self.console)
@@ -130,14 +130,10 @@ class Thoughttree(UI):
         self.console_pane.pack(fill=BOTH, expand=True)
 
     def create_console(self, console_pane):
-        console = Text(console_pane, height=20)
+        console = Sheet(console_pane, height=20)
         console.insert(END, "Console:\n")
         console.config(state=DISABLED, takefocus=False)
         return console
-
-    def create_system_and_chat(self, system_pane):
-        self.system = Text(system_pane, system_prompt, pady=5)
-        self.chat = Text(system_pane)
 
     def update_window_title(self, event=None):
         progress_title = self.title() + "..."
@@ -194,7 +190,7 @@ class Thoughttree(UI):
 
 
     def count_text_tokens(self, event=None) :
-        txt: Text = self.focus_get()
+        txt: Sheet = self.focus_get()
         try :
             text = txt.get(SEL_FIRST, SEL_LAST)
         except tk.TclError :
@@ -219,7 +215,7 @@ class Thoughttree(UI):
 
     def complete(self, n=1, prefix="", postfix=""):
         self.model.is_canceled = False
-        txt: Text = self.focus_get()
+        txt: Sheet = self.focus_get()
         txt.tag_remove('cursorline', 1.0, "end")
 
         n = self.find_number_of_completions(n)
@@ -303,7 +299,7 @@ class Thoughttree(UI):
 
     def _create_label(self, frame, txt):
         label = tk.Label(frame, borderwidth=4, anchor=W, wraplength=txt.winfo_width(),
-                         justify=LEFT, font=Text.FONT, relief=SUNKEN)
+                         justify=LEFT, font=Sheet.FONT, relief=SUNKEN)
         label.pack(side=TOP, fill=X, expand=True)
         return label
 
@@ -348,7 +344,7 @@ class Thoughttree(UI):
         system = self.system.get(1.0, 'end - 1c').strip()
         history = [{'role': 'system', 'content': system}]
 
-        txt: Text = self.focus_get()
+        txt: Sheet = self.focus_get()
         history = txt.history_from_path(history)
 
         if additional_message:

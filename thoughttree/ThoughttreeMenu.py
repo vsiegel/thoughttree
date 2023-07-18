@@ -6,7 +6,7 @@ from tkinter import font as tkfont, NONE, WORD, SEL, END, INSERT
 from Files import Files
 from Menu import Menu
 from ModelsMenu import ModelsMenu
-from Text import Text
+from Text import Sheet
 from menu_help import menu_help
 
 
@@ -22,9 +22,8 @@ class ThoughttreeMenu(Menu):
 
 
     @property
-    def it(self) -> Text:
+    def it(self) -> Sheet:
         return self.ui.focus_get()
-
 
 
     def create_menu(self):
@@ -76,7 +75,7 @@ class ThoughttreeMenu(Menu):
 
         def select_all(event=None):
             txt = self.it
-            if type(txt) == Text:
+            if type(txt) == Sheet:
                 txt.tag_add(SEL, "1.0", END)
                 txt.mark_set(INSERT, "1.0")
                 txt.see(INSERT)
@@ -96,7 +95,7 @@ class ThoughttreeMenu(Menu):
         def font_size(delta):
             txt = self.it
             if delta == 0:
-                name, size = Text.FONT
+                name, size = Sheet.FONT
             else:
                 name, size = txt.cget("font").split()
             txt.config(font=(name, int(size) + delta))
@@ -145,15 +144,15 @@ class ThoughttreeMenu(Menu):
             font = tkfont.Font(font=self.it.cget("font"))
             size = font.cget("size")
             if font.measure('I') != font.measure('M'):
-                family = Text.FONT_NAME_MONOSPACE
+                family = Sheet.FONT_NAME_MONOSPACE
             else:
-                family = Text.FONT_NAME_PROPORTIONAL
+                family = Sheet.FONT_NAME_PROPORTIONAL
             self.it.configure(font=(family, size))
             return "break"
 
         def close_text_tab(event=None):
             it = self.it
-            if type(it) == Text:
+            if type(it) == Sheet:
                 it.close_text_tab()
 
         def search_google(event=None):

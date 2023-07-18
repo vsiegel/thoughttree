@@ -13,7 +13,6 @@ class Tooltip :
         self.timer = None
         self.last_y = None
         self.delay_ms = 1000
-        widget.bindtags(("first",) + widget.bindtags())
 
         widget.bind("<Enter>", self.add_tooltip)
         widget.bind("<Motion>", self.refresh_tooltip)

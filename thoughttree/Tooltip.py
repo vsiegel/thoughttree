@@ -1,4 +1,3 @@
-import textwrap
 import tkinter as tk
 
 
@@ -44,9 +43,10 @@ class Tooltip :
             px = self.root.winfo_pointerx() + 75
             py = self.root.winfo_pointery() + 25
             self.tooltip.wm_geometry(f"+{px}+{py}")
+            self.refresh_tooltip_text()
 
-            self.label.configure(text=self.text)
-
+    def refresh_tooltip_text(self):
+        self.label.configure(text=self.text)
 
 
     def remove_tooltip(self, event):
@@ -55,26 +55,3 @@ class Tooltip :
         if self.tooltip:
             self.tooltip.destroy()
         self.tooltip = None
-
-
-    # def show_tooltip(self, event=None) :
-    #     if self.tooltip is not None :
-    #         return
-    #
-    #     x, y, _, _ = self.widget.bbox("insert")
-    #     x += self.widget.winfo_rootx() + 25
-    #     y += self.widget.winfo_rooty() + 25
-    #
-    #     self.tooltip = tooltip = tk.Toplevel(self.widget)
-    #     tooltip.wm_overrideredirect(True)
-    #     tooltip.wm_geometry(f"+{x}+{y}")
-    #
-    #     label = tk.Label(tooltip, text=self.text, background="#FFFFE0", relief="solid",
-    #             borderwidth=1, justify=tk.LEFT, padx=4, pady=4)
-    #     label.pack()
-    #
-    #
-    # def hide_tooltip(self, event=None) :
-    #     if self.tooltip:
-    #         self.tooltip.destroy()
-    #     self.tooltip = None

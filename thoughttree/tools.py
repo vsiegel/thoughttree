@@ -1,4 +1,5 @@
 import re
+import tkinter as tk
 from textwrap import fill
 from math import ceil, log2, sqrt
 import random
@@ -116,3 +117,11 @@ def log(arg=""):
 
 def get_git_head():
     return subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD']).decode('utf-8').strip()
+
+
+def bind_all_events(widget, on_event):
+    invalid_events = ["Keymap", "GraphicsExpose", "NoExpose", "CirculateRequest", "SelectionClear",
+              "SelectionRequest", "Selection", "ClientMessage", "Mapping", "VirtualEvent"]
+    for ev in [f"<{e.name}>" for e in tk.EventType if e.name not in invalid_events]:
+        print(ev)
+        widget.bind(ev, on_event)

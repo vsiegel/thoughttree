@@ -348,7 +348,7 @@ class Thoughttree(UI):
             history = self.history_from_system_and_chat()
             self.model.counter.go()
 
-            frame, finish_reason, message = self._process_completions(txt, n, history, write_chat)
+            finish_reason, message = self._process_completions(txt, n, history, write_chat)
 
             self._handle_completion_finish(txt, finish_reason, message, postfix)
             self._post_completion_tasks()
@@ -399,7 +399,7 @@ class Thoughttree(UI):
                     break
                 label = self._create_label(frame, txt)
                 finish_reason, message = self.model.chat_complete(history, self._create_write_label(label, txt))
-        return frame, finish_reason, message
+        return finish_reason, message
 
 
     def _create_label(self, frame, txt):

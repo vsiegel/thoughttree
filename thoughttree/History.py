@@ -1,6 +1,13 @@
 from tools import shorter, logarithmic_length
 
 
+# class ExtendedList(list):
+#     def __init__(self, initial_data):
+#         super().__init__(initial_data)  # call the parent class (list) constructor
+#
+# my_list = ExtendedList([1, 2, 3, 4, 5])
+
+
 def log_history_compact(history):
     for message in history:
         text = message['content']

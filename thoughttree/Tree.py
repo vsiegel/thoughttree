@@ -56,21 +56,21 @@ class Tree(ttk.Treeview):
         cur_text = self.item(row_id, "values")[0]
         w = width // char_width
         h = height // line_height
-        txt = tk.Text(self, wrap=WORD, width=w, height=h, font=Sheet.FONT,
+        cell_editor = tk.Text(self, wrap=WORD, width=w, height=h, font=Sheet.FONT,
                       highlightthickness=0, highlightbackground="black", padx=4, pady=0)
-        txt.insert(END, cur_text)
-        txt.place(x=x, y=y)
-        txt.focus_set()
+        cell_editor.insert(END, cur_text)
+        cell_editor.place(x=x, y=y)
+        cell_editor.focus_set()
 
         def save_text(event):
             print(event.type)
             if event.type == tk.EventType.FocusOut or int(event.state) & 0x4 == 0 :  # Check if Control key is not pressed
-                text = txt.get(1.0, END).strip()
+                text = cell_editor.get(1.0, END).strip()
                 self.set(row_id, column, text)
-                txt.destroy()
+                cell_editor.destroy()
 
-        # txt.bind("<FocusOut>", save_text)
-        txt.bind("<Return>", lambda e: e.state & 0x4 == 0 and save_text(e) or self.focus_set())
-        txt.bind("<Control-Return>", lambda e: txt.insert(INSERT, "\n") or "break")
-        # txt.bind("<Control-Key>", lambda e : "break")
-        # txt.bind("<Control_L>", lambda e : "break")
+        # cell_editor.bind("<FocusOut>", save_text)
+        cell_editor.bind("<Return>", lambda e: e.state & 0x4 == 0 and save_text(e) or self.focus_set())
+        cell_editor.bind("<Control-Return>", lambda e: cell_editor.insert(INSERT, "\n") or "break")
+        # cell_editor.bind("<Control-Key>", lambda e : "break")
+        # cell_editor.bind("<Control_L>", lambda e : "break")

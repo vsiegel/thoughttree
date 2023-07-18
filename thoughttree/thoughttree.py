@@ -423,7 +423,7 @@ class Thoughttree(UI):
         if self.is_root_destroyed:
             return
         if conf.show_finish_reason:
-            self._show_finish_reason(txt, finish_reason, message)
+            self.show_finish_reason_icon(txt, finish_reason, message)
         if not self.model.is_canceled and not finish_reason == "length":
             txt.insert(END, postfix)
         if self.scroll_output:
@@ -432,7 +432,7 @@ class Thoughttree(UI):
         txt.edit_separator()
 
 
-    def _show_finish_reason(self, txt, finish_reason, message):
+    def show_finish_reason_icon(self, txt, finish_reason, message):
         symbol = Model.finish_reasons[finish_reason]["symbol"]
         if finish_reason not in ["stop", "length", "canceled", "error"]:
             print(f"{finish_reason=}")

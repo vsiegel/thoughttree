@@ -29,7 +29,7 @@ class Tooltip :
         if not self.tooltip:
             self.tooltip = tk.Toplevel(self.root)
             self.tooltip.wm_overrideredirect(True)
-            self.label = tk.Label(self.tooltip, text="text", background="#FFFFE0", relief="solid",
+            self.label = tk.Label(self.tooltip, text="", background="#FFFFE0", relief="solid",
                              borderwidth=1, justify=tk.LEFT, padx=6, pady=5, font=("sans-serif", 11))
             self.label.pack()
             self.tooltip.bind("<Leave>", self.remove_tooltip)

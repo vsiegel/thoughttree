@@ -329,6 +329,10 @@ class Thoughttree(UI):
         txt: Text = self.focus_get()
         txt.tag_remove('cursorline', 1.0, "end")
 
+        n = self.find_number_of_completions(n)
+        if n is None:
+            return
+
         with WaitCursor(txt):
 
             def write_chat(text):
@@ -337,10 +341,6 @@ class Thoughttree(UI):
                 txt.insert(END, text, "assistant")
                 self.scroll(txt)
 
-
-            n = self._process_number_of_completions(n)
-            if n is None:
-                return
 
             txt.edit_separator()
             self._insert_prefix_and_scroll(txt, prefix)
@@ -358,7 +358,7 @@ class Thoughttree(UI):
             txt.see(END)
         txt.update()
 
-    def _process_number_of_completions(self, n):
+    def find_number_of_completions(self, n):
         if not n:
             n = simpledialog.askinteger(
                 "Alternative completions",

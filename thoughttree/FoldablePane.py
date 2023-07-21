@@ -11,6 +11,8 @@ class FoldablePane(tk.PanedWindow):
         super().__init__(parent, borderwidth=0, sashwidth=FoldablePane.SASH_WIDTH, sashrelief=tk.RIDGE, **kw)
 
         def keep_fold_size(event):
+            self.master.update_idletasks()
+
             pane: FoldablePane = event.widget
 
             if pane.folded:

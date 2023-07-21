@@ -4,7 +4,7 @@ from tkinter import BOTH, DISABLED, END, HORIZONTAL, INSERT, LEFT, NO, SUNKEN, T
 from tkinter import font as tkfont
 from tkinter import ttk, simpledialog
 
-from Text import Sheet
+from Sheet import Sheet
 
 #NODE_OPEN = '\u25B6'
 #NODE_CLOSED = '\u25BC'

@@ -7,7 +7,7 @@ from AboutDialog import AboutDialog
 from Files import Files
 from Menu import Menu
 from ModelsMenu import ModelsMenu
-from Text import Sheet
+from Sheet import Sheet
 from menu_help import menu_help
 
 

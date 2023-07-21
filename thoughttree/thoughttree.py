@@ -13,7 +13,7 @@ from FinishReasonIcon import FinishReasonIcon
 from FoldablePane import FoldablePane
 from Model import Model
 from StatusBar import StatusBar
-from Text import Sheet
+from Sheet import Sheet
 from ThoughttreeMenu import ThoughttreeMenu
 from Tree import Tree
 from UI import UI

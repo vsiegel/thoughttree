@@ -1,7 +1,6 @@
 import tkinter as tk
 
 from Menu import Menu
-from Text import Sheet
 from menu_help import menu_help
 
 

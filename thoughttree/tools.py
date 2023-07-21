@@ -115,9 +115,15 @@ def log(arg=""):
     l = frameinfo.f_back.f_lineno
     print(f"{f} {l}: {arg}")
 
-def get_git_head():
-    return subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD']).decode('utf-8').strip()
 
+def git(*command):
+    return subprocess.check_output(['git'] + list(command)).decode('utf8').strip()
+
+def get_git_commit():
+    return git('rev-parse', '--short', 'HEAD')
+
+def get_git_describe_version():
+    return git('describe', '--tags')
 
 def bind_all_events(widget, on_event):
     invalid_events = ["Keymap", "GraphicsExpose", "NoExpose", "CirculateRequest", "SelectionClear",

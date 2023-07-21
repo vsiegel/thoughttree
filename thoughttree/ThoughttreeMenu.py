@@ -3,6 +3,7 @@ import webbrowser
 from datetime import datetime
 from tkinter import font as tkfont, NONE, WORD, SEL, END, INSERT
 
+from AboutDialog import AboutDialog
 from Files import Files
 from Menu import Menu
 from ModelsMenu import ModelsMenu
@@ -251,7 +252,7 @@ class ThoughttreeMenu(Menu):
         self.menu = Menu(self, "Help")
         item("Test", "<Control-Alt-Shift-T>", menu_test)
         item("Debug Info", "<Control-i>", debug_info)
-        item("About", None, None)
+        item("About ", None, lambda event: AboutDialog(self))
 
         ui.bind("<Control-Button-4>", lambda event: font_size(1))
         ui.bind("<Control-Button-5>", lambda event: font_size(-1))

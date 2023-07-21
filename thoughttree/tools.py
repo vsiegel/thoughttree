@@ -53,6 +53,10 @@ def random_pastel_color():
     b = random.randint(230, 255)
     return "#{:02x}{:02x}{:02x}".format(r, g, b)
 
+def pastel(widget: tk.Widget) -> tk.Widget:
+    widget.config(bg=next_pastel_rainbow_color())
+    return widget
+
 import colorsys
 
 color_index = 0

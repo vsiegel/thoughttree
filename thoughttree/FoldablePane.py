@@ -17,7 +17,11 @@ class FoldablePane(tk.PanedWindow):
                 sash = pane.size1d()
             else:
                 sash = pane.size1d() - pane.fold_size
-            pane.sash_place(0, sash, sash)
+
+            if self.previous_sash != sash:
+                print(f"sash changed: {self.previous_sash - sash}")
+                pane.sash_place(0, sash, sash)
+            self.previous_sash = sash
 
 
         def first_folding(event):
@@ -41,10 +45,8 @@ class FoldablePane(tk.PanedWindow):
         self.foldable_widget = None
         self.fold_last = None
         self.takefocus = None
-
         self.folded = folded
-        # self.folded = False
-        # self.folded = True
+        self.previous_sash = -1
 
 
     def addFoldable(self, widget, **kw):

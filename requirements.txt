@@ -1,4 +1,4 @@
-openai==0.27.7
+openai==0.27.8
 future==0.18.3
 tiktoken==0.4.0
-ConfigArgParse~=1.5.3
+ConfigArgParse==1.5.5

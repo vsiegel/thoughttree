@@ -17,6 +17,7 @@ Interact with large language models in alternative ways.
 #### Edit your history
    - Edit the history
    - Remove what is not important
+   - Have a console log including what you deleted for reference
 
 #### Have the tools you need
    - Safe the code blocks with a generated file name

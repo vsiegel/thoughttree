@@ -82,7 +82,7 @@ class Model:
                     output_delta_callback(text)
                 last_event = event
 
-            print(f"{last_event['model']=}")
+            print(f"{last_event['model']}")
             if self.is_canceled:
                 finish_reason = 'canceled'
             else:

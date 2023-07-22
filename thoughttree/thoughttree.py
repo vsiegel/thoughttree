@@ -46,6 +46,7 @@ class Thoughttree(UI):
 
     def __init__(self):
         UI.__init__(self, "Thoughttree", WINDOW_ICON)
+        self.status = None
         self.console = None
         self.tree = None
         self.system = None
@@ -77,19 +78,19 @@ class Thoughttree(UI):
         self.set_model(self.model_name)
         menu = ThoughttreeMenu(self, new_window_callback)
 
-        self.status_bar.note = "Loading available models..."
+        self.status.note = "Loading available models..."
         self.update_idletasks()
         menu.models_menu.load_available_models()
-        self.status_bar.note = ""
+        self.status.note = ""
 
 
     def set_model(self, model_name):
         if not model_name in self.models:
             self.models[model_name] = Model(model_name)
         self.model = self.models[model_name]
-        self.status_bar.model = model_name
-        self.status_bar.set_max_token_var(self.model.max_tokens)
-        self.status_bar.set_temperature_var(self.model.temperature)
+        self.status.model = model_name
+        self.status.set_max_token_var(self.model.max_tokens)
+        self.status.set_temperature_var(self.model.temperature)
 
     def cancelModels(self, event=None):
         for model in self.models.values():
@@ -99,13 +100,16 @@ class Thoughttree(UI):
 
         self.configure_ui_options()
 
-        self.status_bar = StatusBar(self)
+
+        self.status_hider = HidableFrame(self)
+        self.status_hider.pack(side=BOTTOM, fill=BOTH, expand=True)
+        self.status = StatusBar(self.status_hider)
+        # self.status.pack(side=BOTTOM, fill=BOTH, expand=True)
 
         self.create_panes()
 
         self.console = Console(self.console_pane)
         self.tree = Tree(self.tree_pane)
-        self.console = self.create_console(self.console_pane)
         self.system = Sheet(self.system_pane, system_prompt, pady=5)
         self.chat = Sheet(self.system_pane)
 
@@ -194,11 +198,11 @@ class Thoughttree(UI):
             text = sheet.get(SEL_FIRST, SEL_LAST)
         except tk.TclError :
             text = sheet.get(1.0, END)
-        old_status = self.status_bar.message
-        self.status_bar.message = "Counting tokens (loading model)"
-        self.status_bar.update()
+        old_status = self.status.message
+        self.status.message = "Counting tokens (loading model)"
+        self.status.update()
         num_tokens = self.model.counter.count_tokens(text)
-        self.status_bar.message = old_status
+        self.status.message = old_status
         num_lines = text.count("\n")
         num_words = len(text.split())
         num_chars = len(text)
@@ -237,6 +241,7 @@ class Thoughttree(UI):
         if self.scroll_output:
             sheet.see(END)
         sheet.update()
+
 
     def find_number_of_completions(self, n):
         if not n:

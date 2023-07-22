@@ -9,6 +9,7 @@ from tkinter.messagebox import showinfo
 from configargparse import Namespace
 
 import prompts
+from Console import Console
 from FinishReasonIcon import FinishReasonIcon
 from FoldablePane import FoldablePane
 from Model import Model
@@ -102,6 +103,7 @@ class Thoughttree(UI):
 
         self.create_panes()
 
+        self.console = Console(self.console_pane)
         self.tree = Tree(self.tree_pane)
         self.console = self.create_console(self.console_pane)
         self.system = Sheet(self.system_pane, system_prompt, pady=5)
@@ -114,6 +116,8 @@ class Thoughttree(UI):
         self.system_pane.addFoldable(self.system)
         self.system_pane.add(self.chat)
 
+        sys.stdout = self.console
+
         self.chat.focus_set()
 
     def configure_ui_options(self):
@@ -124,16 +128,11 @@ class Thoughttree(UI):
             self.option_add('*Text*insertOffTime', '0')
 
     def create_panes(self):
-        self.console_pane = FoldablePane(self, folded=False, fold_size=200, orient=VERTICAL)
-        self.tree_pane = FoldablePane(self.console_pane, folded=False, fold_size=500, orient=HORIZONTAL)
+        self.console_pane = FoldablePane(self, folded=False, fold_size=100, orient=VERTICAL)
+        self.tree_pane = FoldablePane(self.console_pane, folded=False, fold_size=300, orient=HORIZONTAL)
         self.system_pane = FoldablePane(self.tree_pane, folded=True, orient=VERTICAL)
         self.console_pane.pack(fill=BOTH, expand=True)
 
-    def create_console(self, console_pane):
-        console = Sheet(console_pane, height=20)
-        console.insert(END, "Console:\n")
-        console.config(state=DISABLED, takefocus=False)
-        return console
 
     def update_window_title(self, event=None):
         progress_title = self.title() + "..."

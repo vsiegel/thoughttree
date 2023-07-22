@@ -5,6 +5,7 @@ from typing import Union
 
 from FinishReasonIcon import FinishReasonIcon
 from Notebook import Notebook
+from ThoughttreeConfig import conf
 
 
 class Sheet(tk.scrolledtext.ScrolledText):

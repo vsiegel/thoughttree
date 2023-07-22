@@ -9,9 +9,7 @@ class StatusBar(tk.Frame):
         super().__init__(master, bd=1, relief=SUNKEN, **kw)
         self.master = master
 
-        defaults = {"bd": 1, "relief": SUNKEN, "font": ("Arial", 10)}
-        self.symbol_label = tk.Label(self, **defaults, width=2, text=small_text, anchor=W)
-        self.symbol_label.pack(side=LEFT)
+        defaults = {"bd": 1, "relief": SUNKEN}
 
         self.message_label = tk.Label(self, **defaults, width=20, text=message_text, anchor=W)
         self.message_label.pack(side=LEFT, padx=(5, 0), fill=X, expand=True)
@@ -19,10 +17,10 @@ class StatusBar(tk.Frame):
         self.note_label = tk.Label(self, **defaults, width=10, text=note_text, anchor=W)
         self.note_label.pack(side=LEFT, padx=(5, 0), fill=X, expand=True)
 
-        self.max_token_label = LabeledLabel(self, "Max t.:", entry_width=5, relief=SUNKEN, bd=1)
+        self.max_token_label = LabeledLabel(self, "Max t.:", entry_width=5, **defaults)
         self.max_token_label.pack(side=LEFT, padx=(5, 0))
 
-        self.temperature_label = LabeledLabel(self, "Temp.:", entry_width=3, relief=SUNKEN, bd=1)
+        self.temperature_label = LabeledLabel(self, "Temp.:", entry_width=3, **defaults)
         self.temperature_label.pack(side=LEFT, padx=(5, 0))
 
         self.model_label = tk.Label(self, **defaults, width=20, text=model_text, anchor=E)

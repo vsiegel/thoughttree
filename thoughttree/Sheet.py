@@ -22,20 +22,35 @@ class Sheet(tk.scrolledtext.ScrolledText):
             border=0, borderwidth=0, highlightthickness=0,
             selectbackground="#66a2d4", selectforeground="white", **kw)
 
+
+        def jump_to_limit(e: tk.Event):
+            top, bottom = self.vbar.get()
+            if e.keysym == 'Prior' and top == 0.0:
+                limit = "1.0"
+            elif e.keysym == 'Next' and bottom == 1.0:
+                limit = tk.END
+            else:
+                return
+
+            self.mark_set(tk.INSERT, limit)
+            self.see(tk.INSERT)
+
+
         if scrollbar:
             self.vbar.config(width=18, takefocus=False, borderwidth=2)
         else:
             self.vbar.pack_forget()
 
-        # self.bind("<Control-Alt-plus>", lambda e: self.change_notebook_height(1))
-        # self.bind("<Control-Alt-minus>", lambda e: self.change_notebook_height(-1))
-        self.bind("<Control-Shift-asterisk>", lambda e: self.change_text_height(1))
-        self.bind("<Control-Shift-underscore>", lambda e: self.change_text_height(-1))
+        self.scroll_output = conf.scroll_output
+
+
+        self.bind('<Prior>', jump_to_limit)
+        self.bind('<Next>', jump_to_limit)
         self.pack(pady=0, fill=X, expand=True)
         self.tag_configure("assistant", background="#F0F0F0", selectbackground="#4682b4", selectforeground="white")
-        self.insert(END, text)
-
         self.configure_cursorline()
+
+        self.insert(END, text)
 
 
     def undo_separator(self):
@@ -75,16 +90,6 @@ class Sheet(tk.scrolledtext.ScrolledText):
         self.bind_class("last", '<Button-1>', self.cursorline)
         self.bind_class("last", "<FocusIn>", self.cursorline)
         self.bind_class("last", "<FocusOut>", self.cursorline_remove)
-
-
-    def change_text_height(self, delta):
-        parent = self.master.focus_get()
-        while parent and type(parent) != Sheet:
-            parent = parent.master
-        if not parent:
-            return
-        old_height = parent.cget("height")
-        parent.configure(height=old_height + delta)
 
 
     def fork(self, index=INSERT, root=False):

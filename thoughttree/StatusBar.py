@@ -35,13 +35,6 @@ class StatusBar(tk.Frame):
     def set_temperature_var(self, var: DoubleVar):
         self.temperature_label.entry.config(textvariable=var)
 
-    @property
-    def symbol(self):
-        return self.symbol_label.cget('text')
-
-    @symbol.setter
-    def symbol(self, text):
-        self.symbol_label.config(text=text)
 
     @property
     def message(self):

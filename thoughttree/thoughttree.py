@@ -107,7 +107,10 @@ class Thoughttree(UI):
         self.status = StatusBar(self.status_hider)
         # self.status.pack(side=BOTTOM, fill=BOTH, expand=True)
 
-        self.create_panes()
+        self.console_pane = FoldablePane(self, folded=False, fold_size=50, orient=VERTICAL, name="console_pane")
+        self.tree_pane = FoldablePane(self.console_pane, folded=False, fold_size=300, orient=HORIZONTAL)
+        self.system_pane = FoldablePane(self.tree_pane, folded=True, orient=VERTICAL)
+        self.console_pane.pack(fill=BOTH, expand=True, )
 
         self.console = Console(self.console_pane)
         self.tree = Tree(self.tree_pane)
@@ -125,18 +128,13 @@ class Thoughttree(UI):
 
         self.chat.focus_set()
 
+
     def configure_ui_options(self):
         self.option_add('*Dialog*Font', ("sans-serif", 10))
         self.option_add('*Menu*Font', ("Arial", 10))
         self.option_add('*Font', ("Arial", 10))
         if not conf.blinking_caret:
             self.option_add('*Text*insertOffTime', '0')
-
-    def create_panes(self):
-        self.console_pane = FoldablePane(self, folded=False, fold_size=100, orient=VERTICAL)
-        self.tree_pane = FoldablePane(self.console_pane, folded=False, fold_size=300, orient=HORIZONTAL)
-        self.system_pane = FoldablePane(self.tree_pane, folded=True, orient=VERTICAL)
-        self.console_pane.pack(fill=BOTH, expand=True)
 
 
     def update_window_title(self, event=None):

@@ -12,6 +12,7 @@ import prompts
 from Console import Console
 from FinishReasonIcon import FinishReasonIcon
 from FoldablePane import FoldablePane
+from HidableFrame import HidableFrame
 from Model import Model
 from StatusBar import StatusBar
 from Sheet import Sheet

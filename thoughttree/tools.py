@@ -127,7 +127,10 @@ def get_git_commit():
     return git('rev-parse', '--short', 'HEAD')
 
 def get_git_describe_version():
-    return git('describe', '--tags')
+    try:
+        return git('describe', '--tags')
+    except Exception as e:
+        return "(error accessing git describe version)"
 
 def bind_all_events(widget, on_event):
     invalid_events = ["Keymap", "GraphicsExpose", "NoExpose", "CirculateRequest", "SelectionClear",

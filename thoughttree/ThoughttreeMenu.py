@@ -95,6 +95,8 @@ class ThoughttreeMenu(Menu):
 
         def font_size(delta):
             sheet = self.it
+            if not sheet:
+                return
             if delta == 0:
                 name, size = Sheet.FONT
             else:

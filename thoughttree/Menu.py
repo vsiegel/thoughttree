@@ -11,11 +11,11 @@ class Menu(tk.Menu):
         super().__init__(master, tearoff=False, borderwidth=3)
         if menu_help:
             self.menu_help = menu_help
+        elif hasattr(master, "menu_help"):
+            self.menu_help = master.menu_help
         else:
-            if isinstance(master, Menu):
-                self.menu_help = master.menu_help
-            else:
-                self.menu_help = None
+            self.menu_help = None
+
         if isinstance(master, tk.Tk):
             master.config(menu=self)
         else:

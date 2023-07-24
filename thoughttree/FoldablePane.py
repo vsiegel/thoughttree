@@ -10,39 +10,6 @@ class FoldablePane(tk.PanedWindow):
     def __init__(self, parent=None, folded=False, fold_size=100, **kw):
         super().__init__(parent, borderwidth=0, sashwidth=FoldablePane.SASH_WIDTH, sashrelief=tk.RIDGE, **kw)
 
-        def keep_fold_size(event):
-            self.master.update_idletasks()
-
-            pane: FoldablePane = event.widget
-
-            if pane.folded:
-                sash = pane.size1d()
-            else:
-                sash = pane.size1d() - pane.fold_size
-
-            if self.previous_sash != sash:
-                print(f"sash changed: {self.previous_sash - sash}")
-                pane.sash_place(0, sash, sash)
-            self.previous_sash = sash
-
-
-        def first_folding(event):
-            pane: FoldablePane = event.widget
-            pane.fold(pane.folded)
-
-            if pane.fold_last:
-                pane.bind("<Configure>", keep_fold_size)
-                # pane.foldable_widget.bind("<Configure>", keep_fold_size)
-
-            pane.unbind_class(pane.first_folding_tag, "<Configure>")
-
-        def bind_first_folding():
-            self.bindtags(self.bindtags() + (self.first_folding_tag,))
-            self.bind_class(self.first_folding_tag, "<Configure>", first_folding)
-
-        self.first_folding_tag = f"initial{self}"
-        bind_first_folding()
-
         self.fold_size = fold_size
         self.foldable_widget = None
         self.fold_last = None

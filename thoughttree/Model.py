@@ -26,7 +26,6 @@ class Model:
 
     MODEL_PATTERN = "gpt"
 
-    available_models = None
     finish_reasons = {
         "stop": {"symbol": "", "tooltip": ""},
         "length": {"symbol": "…", "tooltip": "The completion reached max_tokens tokens. It can be continued."},
@@ -47,6 +46,7 @@ class Model:
         self.max_tokens = tk.IntVar(value=1500)
         self.temperature = tk.DoubleVar(value=0.5)
         self.is_canceled = False
+        self.available_models = None
 
 
     def chat_complete(self, history, output_delta_callback, max_tokens=None, temperature=None) -> Tuple[str, str]:

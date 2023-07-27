@@ -2,9 +2,17 @@ import sys
 
 from configargparse import Namespace, ArgumentParser
 
+import tools
+
 conf = Namespace()
 
 conf.show_finish_reason = True
+conf.update_title_after_completion = True
+conf.scroll_output = True
+conf.ring_bell_after_completion = False
+conf.blinking_caret = True
+
+conf.git_describe_version = tools.get_git_describe_version()
 
 
 def main(argv):

@@ -53,9 +53,6 @@ class ThoughttreeMenu(Menu):
         def new_window(event=None) :
             self.new_window_callback()
 
-        def new_main_tab(event=None) :
-            self.new_window_callback()
-
         def show_context_menu(event, context_menu) :
             widget = self.ui.winfo_containing(event.x_root, event.y_root)
             if widget :

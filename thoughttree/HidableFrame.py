@@ -7,9 +7,7 @@ class HidableFrame(tk.Frame):
         super().__init__(master, *args, **kwargs)
         self.hidden = hidden
         self.child_pack_info = None
-        def on_move(self):
-            print(f"{self}")
-        self.bind("<Configure>", on_move)
+
 
     def hide(self, e=None):
         # child = self.children[list(self.children.keys())[0]]

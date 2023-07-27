@@ -20,6 +20,9 @@ class AboutDialog(tk.Toplevel):
 
         tk.Button(self, text="OK", command=self.destroy).pack(padx=8, pady=12)
 
+        def close_dialog(event):
+            self.destroy()
+        self.bind("<Escape>", close_dialog)
 
 # testing the AboutDialog
 if __name__ == "__main__":

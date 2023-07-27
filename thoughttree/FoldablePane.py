@@ -1,8 +1,5 @@
 import tkinter as tk
 
-FIRST = 0
-LAST = 1
-
 
 class FoldablePane(tk.PanedWindow):
     SASH_WIDTH = 8
@@ -14,8 +11,8 @@ class FoldablePane(tk.PanedWindow):
         self.foldable_child = None
         self.fold_last = None
         self.takefocus = None
-        self.folded = folded
         self.previous_sash = -1
+        self.folded = folded
 
         def on_double_click(event):
             self.fold(set_folded=not self.folded)
@@ -34,13 +31,13 @@ class FoldablePane(tk.PanedWindow):
         pane_size = self.size1d()
         sash = max(*self.sash_coord(0))
         size = pane_size - sash if self.fold_last else sash
-        if self.almost_folded():
-            self.folded = True
 
         if set_folded is None:
             self.folded = not self.folded
         else:
             self.folded = set_folded
+        if self.almost_folded():
+            self.folded = True
 
         if not self.folded:
             self.takefocus = self.foldable_child.cget("takefocus")

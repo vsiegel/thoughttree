@@ -163,3 +163,4 @@ dmypy.json
 *.tex
 /out/
 /thoughttree/code_block.py
+/latex/

@@ -11,7 +11,7 @@ class FoldablePane(tk.PanedWindow):
         super().__init__(parent, borderwidth=0, sashwidth=FoldablePane.SASH_WIDTH, sashrelief=tk.RIDGE, **kw)
 
         self.fold_size = fold_size
-        self.foldable_widget = None
+        self.foldable_child = None
         self.fold_last = None
         self.takefocus = None
         self.folded = folded
@@ -21,13 +21,13 @@ class FoldablePane(tk.PanedWindow):
             self.fold(set_folded=not self.folded)
         self.bind("<Double-Button-1>", on_double_click)
 
-    def addFoldable(self, widget, **kw):
-        if self.panes():
-            self.fold_last = True
-        else:
-            self.fold_last = False
-        self.add(widget, **kw)
-        self.foldable_widget = widget
+    def add(self, child, stretch="always", **kw) -> None:
+        super().add(child, stretch=stretch, **kw)
+
+    def addFoldable(self, child, **kw):
+        self.fold_last =  bool(self.panes())
+        self.add(child, stretch="never", **kw)
+        self.foldable_child = child
 
 
     def fold(self, event=None, set_folded=None):
@@ -42,13 +42,13 @@ class FoldablePane(tk.PanedWindow):
         else:
             self.folded = set_folded
 
-        if self.folded:
-            self.takefocus = self.foldable_widget.cget("takefocus")
-            self.foldable_widget.configure(takefocus=False)
+        if not self.folded:
+            self.takefocus = self.foldable_child.cget("takefocus")
+            self.foldable_child.configure(takefocus=False)
             self.fold_size = size
-            size = 1
+            size = 0
         else:
-            self.foldable_widget.configure(takefocus=self.takefocus)
+            self.foldable_child.configure(takefocus=self.takefocus)
             size = self.fold_size
 
         sash = pane_size - size if self.fold_last else size

@@ -232,9 +232,9 @@ class ThoughttreeMenu(Menu):
         item("Complete in Branch", "<Control-Shift-Return>", lambda e: branch())
         item("Complete Alternatives", "<Alt-Shift-Return>", lambda e: ui.complete(-1, "\n"))
         self.menu.add_separator()
-        item("Complete 2 Times", "<Control-Key-2>", lambda e: ui.complete(2))
-        item("Complete 3 Times", "<Control-Key-3>", lambda e: ui.complete(3))
-        item("Complete 5 Times", "<Control-Key-5>", lambda e: ui.complete(5))
+        item("Complete 3 Times", "<Control-Key-3>", lambda e: ui.complete(3), add=False)
+        [self.bind_class("Text", f"<Control-Key-{i}>", lambda e, i=i: ui.complete(i)) for i in [2,4,5,6,7,8,9]]
+
         item("Complete Multiple...", "<Control-Shift-M>", lambda e: ui.complete(0))
         item("Complete Multiple Again", "<Control-m>", lambda e: ui.complete(-1))
         self.menu.add_separator()

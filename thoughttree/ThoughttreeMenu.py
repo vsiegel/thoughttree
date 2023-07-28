@@ -249,8 +249,6 @@ class ThoughttreeMenu(Menu):
         item("Increase Temperature", "<Alt-plus>", None)
         item("Decrease Temperature", "<Alt-minus>", None)
         item("Temperature 0.0", "<Control-Key-0>", None)
-        self.menu.add_separator()
-        item("API Key...", "", None)
 
         self.models_menu = ModelsMenu(self, ui, "Models")
 

@@ -24,7 +24,9 @@ class ThoughttreeMenu(Menu):
 
     @property
     def it(self) -> Sheet:
-        return self.ui.focus_get()
+        widget = self.ui.focus_get()
+        if isinstance(widget, Sheet):
+            return widget
 
 
     def create_menu(self):

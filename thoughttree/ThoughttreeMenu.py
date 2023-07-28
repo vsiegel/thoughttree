@@ -138,7 +138,7 @@ class ThoughttreeMenu(Menu):
                 self.it.see(END)
 
         def toggle_ring_bell(event=None):
-            self.ui.notify_end = not self.ui.notify_end
+            self.ui.ring_bell_after_completion = not self.ui.ring_bell_after_completion
 
         def toggle_font_mono(event=None):
             font = tkfont.Font(font=self.it.cget("font"))

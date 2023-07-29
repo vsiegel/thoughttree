@@ -26,8 +26,6 @@ class StatusBar(tk.Frame):
         self.model_label = tk.Label(self, **defaults, width=20, text=model_text, anchor=E)
         self.model_label.pack(side=LEFT, padx=(5, 0))
 
-        self.pack(side=BOTTOM, fill=X)
-
 
     def set_max_token_var(self, var: IntVar):
         self.max_token_label.entry.config(textvariable=var)

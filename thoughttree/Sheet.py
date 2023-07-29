@@ -235,7 +235,7 @@ class Sheet(tk.scrolledtext.ScrolledText):
 
     def close_tab(self):
 
-        def selected_text(notebook):
+        def selected_sheet(notebook):
             frame_on_tab = notebook.nametowidget(notebook.select())
             sheet = frame_on_tab.winfo_children()[1]
             print(f"{sheet == self}")
@@ -247,9 +247,9 @@ class Sheet(tk.scrolledtext.ScrolledText):
             notebook.forget(selected)
             if len(notebook.tabs()) > 1:
                 notebook.select(max(selected - 1, 0))
-                selected_text(notebook).focus_set()
+                selected_sheet(notebook).focus_set()
             elif len(notebook.tabs()) == 1:
-                string = selected_text(notebook).get('1.0', END)
+                string = selected_sheet(notebook).get('1.0', END)
                 parent = self.find_parent(Sheet)
                 parent.delete("end-2 char", "end-1 char") # delete notebook window
                 parent.insert(END, string)

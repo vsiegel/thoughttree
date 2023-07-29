@@ -66,7 +66,7 @@ class Menu(tk.Menu):
             # if not add:
             #     self.master.unbind_all(keystroke)
             # self.master.bind_all(keystroke, command, add=add)
-            if not add:
-                self.master.unbind_class("Text", keystroke)
+            # if not add:
+            #     self.master.unbind_class("Text", keystroke)
             self.master.bind_class("Text", keystroke, command, add=add)
 

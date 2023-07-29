@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import HORIZONTAL
 
 
 class FoldablePane(tk.PanedWindow):
@@ -63,7 +64,7 @@ class FoldablePane(tk.PanedWindow):
 
     def size1d(self, widget=None):
         widget = widget or self
-        if self['orient'] == 'horizontal':
+        if self['orient'] == HORIZONTAL:
             return widget.winfo_width()
         else:
             return widget.winfo_height()

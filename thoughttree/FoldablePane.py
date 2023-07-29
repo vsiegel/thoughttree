@@ -22,9 +22,9 @@ class FoldablePane(tk.PanedWindow):
     def add(self, child, stretch="always", **kw) -> None:
         super().add(child, stretch=stretch, **kw)
 
-    def addFoldable(self, child, **kw):
+    def addFoldable(self, child, stretch="never", **kw):
         self.fold_last =  bool(self.panes())
-        self.add(child, stretch="never", **kw)
+        self.add(child, stretch=stretch, **kw)
         self.foldable_child = child
 
 

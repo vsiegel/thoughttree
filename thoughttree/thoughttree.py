@@ -68,7 +68,6 @@ class Thoughttree(UI):
 
         self.scroll_output = conf.scroll_output
         self.ring_bell_after_completion = conf.ring_bell_after_completion
-        self.is_root_destroyed = False
         self.create_ui()
 
         def new_window_callback():

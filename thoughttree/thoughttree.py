@@ -234,6 +234,7 @@ class Thoughttree(UI):
 
             self._handle_completion_finish(sheet, finish_reason, message, postfix)
             self._post_completion_tasks()
+        return "break"
 
     def scroll(self, sheet):
         if self.scroll_output:

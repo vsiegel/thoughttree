@@ -113,7 +113,7 @@ class Thoughttree(UI):
 
         self.console = Console(self.console_pane)
         self.tree = Tree(self.tree_pane)
-        self.system = Sheet(self.system_pane, system_prompt, pady=5)
+        self.system = Sheet(self.system_pane, height=3)
         self.chat = Sheet(self.system_pane)
 
         self.console_pane.add(self.tree_pane)

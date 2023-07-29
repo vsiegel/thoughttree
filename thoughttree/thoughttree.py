@@ -248,7 +248,7 @@ class Thoughttree(UI):
                 "Alternative completions",
                 "How many alternative results do you want?",
                 initialvalue=Thoughttree.multi_completions,
-                minvalue=2, maxvalue=1000)
+                minvalue=2, maxvalue=1000, parent=self)
             if not n:
                 return
         elif n == -1:  # repeat

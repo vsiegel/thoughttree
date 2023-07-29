@@ -7,9 +7,11 @@ from tkinter import messagebox
 class UI(tk.Tk):
     icon = None
     WINDOW_ICON = None
+    uis = []
 
     def __init__(self, name="", icon_path=None):
         tk.Tk.__init__(self)
+        UI.uis.append(self)
         self.title(name)
         self.wm_title(name)
         self.protocol("WM_DELETE_WINDOW", self.close)

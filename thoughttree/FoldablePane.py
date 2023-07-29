@@ -40,7 +40,7 @@ class FoldablePane(tk.PanedWindow):
         if self.almost_folded():
             self.folded = True
 
-        if not self.folded:
+        if self.folded:
             self.takefocus = self.foldable_child.cget("takefocus")
             self.foldable_child.configure(takefocus=False)
             self.fold_size = size

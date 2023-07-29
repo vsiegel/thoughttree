@@ -233,7 +233,7 @@ class Sheet(tk.scrolledtext.ScrolledText):
 
 
 
-    def close_text_tab(self):
+    def close_tab(self):
 
         def selected_text(notebook):
             frame_on_tab = notebook.nametowidget(notebook.select())
@@ -264,7 +264,7 @@ class Sheet(tk.scrolledtext.ScrolledText):
             if notebook:
                 string_in_tab = self.get('1.0', END).strip()
                 if not string_in_tab:
-                    self.close_text_tab()
+                    self.close_tab()
             return "break"
         else:
             self.delete(INSERT + "-1c")

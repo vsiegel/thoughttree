@@ -9,6 +9,6 @@ class LabeledLabel(tk.Frame):
         self.label = tk.Label(self, text=label_text)
         self.label.pack(side="left")
 
-        self.entry = tk.Entry(self, width=entry_width, state="readonly", takefocus=False,
+        self.entry = tk.Entry(self, width=entry_width, # state="readonly", takefocus=False,
                               textvariable=self.textvariable, bd=0, highlightthickness=0)
         self.entry.pack(side="left")

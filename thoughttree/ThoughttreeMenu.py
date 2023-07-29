@@ -255,7 +255,7 @@ class ThoughttreeMenu(Menu):
         self.menu = Menu(self, "Help")
         item("Test", "<Control-Alt-Shift-T>", menu_test)
         item("Debug Info", "<Control-i>", debug_info)
-        item("About ", None, lambda event: AboutDialog(self))
+        item("About", None, lambda: AboutDialog(self.ui))
 
         ui.bind("<Control-Button-4>", lambda event: font_size(1))
         ui.bind("<Control-Button-5>", lambda event: font_size(-1))

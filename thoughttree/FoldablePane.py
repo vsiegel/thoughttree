@@ -15,7 +15,7 @@ class FoldablePane(tk.PanedWindow):
         self.folded = folded
 
         def on_double_click(event):
-            self.fold(set_folded=not self.folded)
+            self.fold()
         self.bind("<Double-Button-1>", on_double_click)
 
     def add(self, child, stretch="always", **kw) -> None:

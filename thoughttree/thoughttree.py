@@ -115,12 +115,13 @@ class Thoughttree(UI):
         self.system = Sheet(self.system_pane, height=3)
         self.chat = Sheet(self.system_pane)
 
-        self.console_pane.add(self.tree_pane)
-        self.console_pane.addFoldable(self.console)
-        self.tree_pane.addFoldable(self.tree)
-        self.tree_pane.add(self.system_pane)
-        self.system_pane.addFoldable(self.system)
-        self.system_pane.add(self.chat)
+        self.console_pane.add(self.tree_pane, stretch="always")
+        self.console_pane.addFoldable(self.console, stretch="never")
+        self.tree_pane.addFoldable(self.tree, stretch="never")
+        self.tree_pane.add(self.system_pane, stretch="always")
+        self.system_pane.addFoldable(self.system, stretch="never")
+        self.system_pane.add(self.chat, stretch="always")
+
 
         sys.stdout = self.console
 

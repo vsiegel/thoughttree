@@ -21,7 +21,7 @@ class Menu(tk.Menu):
         else:
             if self.menu_help:
                 MenuHelpTooltip(self, self.menu_help)
-            master.add_cascade(label=label, menu=self)
+            master.add_cascade(label=label, underline=0, menu=self)
 
 
     def convert_key_string(self, keystroke) :
@@ -61,7 +61,7 @@ class Menu(tk.Menu):
         if variable :
             self.insert_checkbutton(index, label=label, accelerator=accelerator, state=state, variable=variable)
         else:
-            self.insert_command(index, label=label, accelerator=accelerator, state=state, command=lambda: command(None))
+            self.insert_command(index, label=label, underline=0, accelerator=accelerator, state=state, command=command)
         if keystroke:
             # if not add:
             #     self.master.unbind_all(keystroke)

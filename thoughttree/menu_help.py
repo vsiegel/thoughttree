@@ -150,7 +150,7 @@ menu_help = {
                       "\n"
                       "Max tokens: 32,768 tokens\n"
                       "Training data: Up to Sep 2021",
-    "Reload available models": "Refreshes the list of available models for text generation."
+    "Reload Available Models": "Refreshes the list of available models for text generation."
                                "This is useful if it failed at program start.",
 # Help:
     "Test": "Runs a test function, useful for debugging and experimentation.",

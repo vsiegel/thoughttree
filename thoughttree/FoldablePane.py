@@ -61,10 +61,3 @@ class FoldablePane(tk.PanedWindow):
             return widget.winfo_width()
         else:
             return widget.winfo_height()
-
-    def fold_size1d(self):
-        sash = max(*self.sash_coord(0))
-        if self.fold_last:
-            return self.size1d() - sash
-        else:
-            return sash

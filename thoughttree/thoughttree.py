@@ -250,9 +250,9 @@ class Thoughttree(UI):
                 minvalue=2, maxvalue=1000)
             if not n:
                 return
-            Thoughttree.multi_completions = n
         elif n == -1:  # repeat
             n = Thoughttree.multi_completions
+        Thoughttree.multi_completions = n
         return n
 
 

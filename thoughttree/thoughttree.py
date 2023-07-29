@@ -122,6 +122,12 @@ class Thoughttree(UI):
         self.system_pane.addFoldable(self.system, stretch="never")
         self.system_pane.add(self.chat, stretch="always")
 
+        def on_first_configure(ev=None):
+            self.system_pane.fold(set_folded=True)
+            self.console_pane.fold(set_folded=True)
+            self.tree_pane.fold(set_folded=True)
+            self.console_pane.unbind("<Configure>")
+        self.console_pane.bind("<Configure>", on_first_configure)
 
         sys.stdout = self.console
 

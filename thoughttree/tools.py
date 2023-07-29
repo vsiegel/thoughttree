@@ -1,4 +1,5 @@
 import re
+import time
 import tkinter as tk
 from textwrap import fill
 from math import ceil, log2, sqrt
@@ -138,3 +139,18 @@ def bind_all_events(widget, on_event):
     for ev in [f"<{e.name}>" for e in tk.EventType if e.name not in invalid_events]:
         print(ev)
         widget.bind(ev, on_event)
+
+
+def show_widget_under_pointer(widget):
+    global last_time
+    last_time = 0
+    root = widget.winfo_toplevel()
+    def track_pointer(event):
+        global last_time
+        current_time = time.time()
+        if current_time - last_time > 0.5:
+            widget = event.widget
+            print(f"Pointer is over: {widget}")
+            last_time = current_time
+
+    root.bind('<Motion>', track_pointer)

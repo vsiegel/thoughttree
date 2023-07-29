@@ -59,7 +59,7 @@ class Menu(tk.Menu):
         accelerator = self.convert_key_string(keystroke)
         state = tk.NORMAL if command or variable else tk.DISABLED
         if variable :
-            self.insert_checkbutton(index, label=label, accelerator=accelerator, state=state, variable=variable)
+            self.insert_radiobutton(index, label=label, accelerator=accelerator, state=state, variable=variable)
         else:
             self.insert_command(index, label=label, underline=0, accelerator=accelerator, state=state, command=command)
         if keystroke:

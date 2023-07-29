@@ -1,9 +1,9 @@
 #!/usr/bin/env python
+import sys
 import tkinter as tk
-from tkinter import BOTH, DISABLED, END, HORIZONTAL, INSERT, LEFT, NO, SUNKEN, TOP, VERTICAL, W, WORD, X, SEL_FIRST, \
-    SEL_LAST
-from tkinter import font as tkfont
-from tkinter import ttk, simpledialog
+from tkinter import BOTH, END, HORIZONTAL, INSERT, LEFT, SUNKEN, TOP, VERTICAL, W, X, SEL_FIRST, \
+    SEL_LAST, BOTTOM
+from tkinter import simpledialog
 from tkinter.messagebox import showinfo
 
 from configargparse import Namespace

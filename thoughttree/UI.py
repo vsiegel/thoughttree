@@ -11,6 +11,7 @@ class UI(tk.Tk):
 
     def __init__(self, name="", icon_path=None):
         tk.Tk.__init__(self)
+        self.is_root_destroyed = False
         UI.uis.append(self)
         self.title(name)
         self.wm_title(name)

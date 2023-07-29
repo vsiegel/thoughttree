@@ -93,6 +93,22 @@ class Sheet(tk.scrolledtext.ScrolledText):
         self.bind_class("last", "<FocusOut>", self.cursorline_remove)
 
 
+    def transfer_content(self, to_sheet):
+        content = self.get("1.0", tk.END)
+        to_sheet.insert("1.0", content)
+
+        for tag in self.tag_names():
+            ranges = self.tag_ranges(tag)
+            for i in range(0, len(ranges), 2):
+                to_sheet.tag_add(tag, ranges[i], ranges[i + 1])
+                to_sheet.tag_config(tag, **{k: v[4] for k, v in self.tag_configure(tag).items() if v[4]})
+
+        for name in self.window_names():
+            index = self.index(name)
+            window = self.nametowidget(name)
+            to_sheet.window_create(index, window=window)
+
+
     def fork(self, index=INSERT, root=False):
         index = self.index(index)
 

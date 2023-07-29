@@ -257,10 +257,10 @@ class ThoughttreeMenu(Menu):
         item("Debug Info", "<Control-i>", debug_info)
         item("About", None, lambda: AboutDialog(self.ui))
 
-        ui.bind("<Control-Button-4>", lambda event: font_size(1))
-        ui.bind("<Control-Button-5>", lambda event: font_size(-1))
+        ui.bind("<Control-Button-4>", lambda e: font_size(1))
+        ui.bind("<Control-Button-5>", lambda e: font_size(-1))
 
-        ui.bind_class("Text", "<Button-3>", lambda event: show_context_menu(event, edit_menu))
+        ui.bind_class("Text", "<Button-3>", lambda e: show_context_menu(e, edit_menu))
 
     def sub_item(self, label, keystroke=None, command=None, bind_key=True, context_menu=None, variable=None, add=False):
         if not label in menu_help:

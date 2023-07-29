@@ -41,7 +41,7 @@ class Thoughttree(UI):
     multi_completions = 5
 
     # self.model_name = 'gpt-4'
-    model_name = 'gpt-3.5-turbo'
+    interactive_model_name = 'gpt-3.5-turbo'
     generation_model_name = 'gpt-3.5-turbo'
 
 
@@ -76,7 +76,7 @@ class Thoughttree(UI):
             Thoughttree()
         self.models = {}
         self.generation_model = Model(self.generation_model_name)
-        self.set_model(self.model_name)
+        self.set_model(self.interactive_model_name)
         menu = ThoughttreeMenu(self, new_window_callback)
 
         self.status.note = "Loading available models..."
@@ -93,7 +93,7 @@ class Thoughttree(UI):
         self.status.set_max_token_var(self.model.max_tokens)
         self.status.set_temperature_var(self.model.temperature)
 
-    def cancelModels(self, event=None):
+    def cancel_models(self, event=None):
         for model in self.models.values():
             model.cancel()
 
@@ -264,7 +264,7 @@ class Thoughttree(UI):
 
     def _process_completions(self, sheet, n, history):
         finish_reason, message = 'unknown', ''
-        frame = None
+        label_frame = None
         if n == 1:
             if self.model.is_canceled:
                 finish_reason = "canceled"
@@ -277,8 +277,8 @@ class Thoughttree(UI):
 
                 finish_reason, message = self.model.chat_complete(history, write_chat)
         else:
-            frame = tk.Frame(sheet)
-            sheet.window_create(END, window=frame)
+            label_frame = tk.Frame(sheet, borderwidth=4)
+            sheet.window_create(END, window=label_frame)
             sheet.insert(END, "\n")
             sheet.see(END)
             finish_reason, message = 'unknown', ''
@@ -287,7 +287,7 @@ class Thoughttree(UI):
                 if self.model.is_canceled:
                     finish_reason = "canceled"
                     break
-                label = self._create_label(frame, sheet)
+                label = self.create_label(label_frame, sheet)
 
                 def write_label(text):
                     if self.is_root_destroyed:
@@ -299,7 +299,7 @@ class Thoughttree(UI):
         return finish_reason, message
 
 
-    def _create_label(self, frame, sheet):
+    def create_label(self, frame, sheet):
         label = tk.Label(frame, borderwidth=4, anchor=W, wraplength=sheet.winfo_width(),
                          justify=LEFT, font=Sheet.FONT, relief=SUNKEN)
         label.pack(side=TOP, fill=X, expand=True)

@@ -1,7 +1,5 @@
-# Thoughttree
+## Thoughttree
 Interact with large language models in alternative ways.
-
-## Why?
 
 #### Work with alternative branches of conversation
    - Your conversation can branch in two or more at any time

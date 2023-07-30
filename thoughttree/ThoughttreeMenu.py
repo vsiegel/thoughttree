@@ -9,7 +9,7 @@ from Menu import Menu
 from ModelsMenu import ModelsMenu
 from Sheet import Sheet
 from menu_help import menu_help
-
+from functools import partial
 
 class ThoughttreeMenu(Menu):
     def __init__(self, thoughttree, new_window_callback):
@@ -170,7 +170,7 @@ class ThoughttreeMenu(Menu):
 
         self.menu = Menu(self, "File")
         item("New Window", "<Control-n>", new_window)
-        item("New Main Tab", "<Control-t>", lambda e: self.it.fork("1.0"))
+        item("New Main Tab", "<Control-t>", lambda e=None: self.it.fork("1.0"))
         # item("Save Chat", "<Control-s>", Files.save_chat)
         item("Save Chat", "<Control-s>", save_chat)
         item("Save Message", "<Control-Shift-S>", save_section)
@@ -179,7 +179,7 @@ class ThoughttreeMenu(Menu):
         item("Run Code Block", "", None)
         self.menu.add_separator()
         item("Close Tab", "<Control-w>", close_tab, add=False)
-        item("Close Empty Tab", "<BackSpace>", lambda e: self.it.close_empty_tab_or_backspace(), add=False)
+        item("Close Empty Tab", "<BackSpace>", lambda e=None: self.it.close_empty_tab_or_backspace(), add=False)
         item("Quit", "<Control-q>", ui.close)
 
         self.menu = Menu(self, "Edit")
@@ -187,7 +187,7 @@ class ThoughttreeMenu(Menu):
         item("Cut", "<Control-x>", cut_text)
         item("Copy", "<Control-c>", copy_text)
         item("Paste", "<Control-v>", paste_text)
-        item("Delete", "<Delete>", lambda e: self.it.delete())
+        item("Delete", "<Delete>", lambda e=None: self.it.delete())
         self.menu.add_separator()
         item("Undo", "<Control-z>", edit_undo)
         item("Redo", "<Control-Shift-Z>", edit_redo)
@@ -208,37 +208,37 @@ class ThoughttreeMenu(Menu):
         item("Count Tokens", "<Control-Alt-m>", ui.count_text_tokens)
         item("Update Window Title", "<Control-u>", ui.update_window_title)
         self.menu.add_separator()
-        item("Increase Font Size", "<Control-plus>", lambda e: font_size(1))
-        item("Decrease Font Size", "<Control-minus>", lambda e: font_size(-1))
-        item("Reset Font Size", "<Control-period>", lambda e: font_size(0))
+        item("Increase Font Size", "<Control-plus>", lambda e=None: font_size(1))
+        item("Decrease Font Size", "<Control-minus>", lambda e=None: font_size(-1))
+        item("Reset Font Size", "<Control-period>", lambda e=None: font_size(0))
         item("Toggle Monospace", "<Control-Shift-O>", toggle_font_mono)
         # self.menu.add_checkbutton(label="Show Cursor line", variable=ui.show_cursor)
         self.menu.add_separator()
         item("Toggle Scrolling Output", "<Control-o>", toggle_scroll_output)
         item("Ring Bell When Finished", "<Control-Alt-o>", toggle_ring_bell)
-        item("Toggle Wrap Lines", "<Control-l>", lambda e: self.it.configure(wrap=(NONE if self.it.cget("wrap") != NONE else WORD)))
+        item("Toggle Wrap Lines", "<Control-l>", lambda e=None: self.it.configure(wrap=(NONE if self.it.cget("wrap") != NONE else WORD)))
         item("Generate Titles", "", None)
         item("Calculate Cost", "", None)
 
         self.menu = Menu(self, "Navigate")
-        item("Next Similar Line", "<Control-j>", lambda e: self.it.jump_to_similar_line(direction=1))
-        item("Previous Similar Line", "<Control-Shift-J>", lambda e: self.it.jump_to_similar_line(direction=-1))
+        item("Next Similar Line", "<Control-j>", lambda e=None: self.it.jump_to_similar_line(direction=1))
+        item("Previous Similar Line", "<Control-Shift-J>", lambda e=None: self.it.jump_to_similar_line(direction=-1))
         item("Next Message", "", None)
         item("Previous Message", "", None)
 
         self.menu = Menu(self, "Chat")
-        item("Next Paragraph", "<Control-Return>", lambda e: ui.complete(1, "\n\n", "\n\n"))
-        item("Next Line", "<Shift-Return>", lambda e: ui.complete(1, "\n", "\n"))
-        item("Continue Directly", "<Control-space>", lambda e: ui.complete())
-        item("Fork Conversation", "<Alt-Return>", lambda e: self.it.fork())
-        item("Complete in Branch", "<Control-Shift-Return>", lambda e: branch())
-        item("Complete Alternatives", "<Alt-Shift-Return>", lambda e: ui.complete(-1, "\n"))
+        item("Next Paragraph", "<Control-Return>", lambda e=None: ui.complete(1, "\n\n", "\n\n"))
+        item("Next Line", "<Shift-Return>", lambda e=None: ui.complete(1, "\n", "\n"))
+        item("Continue Directly", "<Control-space>", lambda e=None: ui.complete())
+        item("Fork Conversation", "<Alt-Return>", lambda e=None: self.it.fork())
+        item("Complete in Branch", "<Control-Shift-Return>", lambda e=None: branch())
+        item("Complete Alternatives", "<Alt-Shift-Return>", lambda e=None: ui.complete(-1, "\n"))
         self.menu.add_separator()
-        item("Complete 3 Times", "<Control-Key-3>", lambda e: ui.complete(3), add=False)
-        [self.bind_class("Text", f"<Control-Key-{i}>", lambda e, i=i: ui.complete(i)) for i in [2,4,5,6,7,8,9]]
+        item("Complete 3 Times", "<Control-Key-3>", lambda e=None: ui.complete(3), add=False)
+        [self.bind_class("Text", f"<Control-Key-{i}>", lambda e=None, i=i: ui.complete(i)) for i in [2,4,5,6,7,8,9]]
 
-        item("Complete Multiple...", "<Control-Shift-M>", lambda e: ui.complete(0))
-        item("Complete Multiple Again", "<Control-m>", lambda e: ui.complete(-1))
+        item("Complete Multiple...", "<Control-Shift-M>", lambda e=None: ui.complete(0))
+        item("Complete Multiple Again", "<Control-m>", lambda e=None: ui.complete(-1))
         self.menu.add_separator()
         # item("Mark assistant message", "<Control-Alt-a>", mark_assistant_message)
         item("Cancel", "<Escape>", ui.cancel_models)
@@ -255,12 +255,13 @@ class ThoughttreeMenu(Menu):
         self.menu = Menu(self, "Help")
         item("Test", "<Control-Alt-Shift-T>", menu_test)
         item("Debug Info", "<Control-i>", debug_info)
-        item("About", "<Shift-Alt-F1>", lambda e: AboutDialog(self.ui))
+        item("About", "<Shift-Alt-F1>", lambda e=None: AboutDialog(self.ui))
 
-        ui.bind("<Control-Button-4>", lambda e: font_size(1))
-        ui.bind("<Control-Button-5>", lambda e: font_size(-1))
+        ui.bind("<Control-Button-4>", lambda e=None: font_size(1))
+        ui.bind("<Control-Button-5>", lambda e=None: font_size(-1))
 
-        ui.bind_class("Text", "<Button-3>", lambda e: show_context_menu(e, edit_menu))
+        ui.bind_class("Text", "<Button-3>", lambda e=None: show_context_menu(e, edit_menu))
+
 
     def sub_item(self, label, keystroke=None, command=None, bind_key=True, context_menu=None, variable=None, add=False):
         if not label in menu_help:

@@ -21,7 +21,7 @@ from ThoughttreeMenu import ThoughttreeMenu
 from Tree import Tree
 from UI import UI
 from WaitCursor import WaitCursor
-from prompts import system_prompt
+from finish_reasons import finish_reasons
 
 WINDOW_ICON = "chatgpt-icon.png"
 
@@ -319,16 +319,16 @@ class Thoughttree(UI):
         sheet.undo_separator()
 
 
-    def show_finish_reason_icon(self, txt, finish_reason, message):
-        symbol = Model.finish_reasons[finish_reason]["symbol"]
+    def show_finish_reason_icon(self, sheet, finish_reason, message):
+        symbol = finish_reasons[finish_reason]["symbol"]
         if finish_reason not in ["stop", "length", "canceled", "error"]:
             print(f"{finish_reason=}")
         if symbol:
-            tooltip = Model.finish_reasons[finish_reason]["tooltip"]
+            tooltip = finish_reasons[finish_reason]["tooltip"]
             if message:
                 tooltip += "\n" + message
 
-            txt.window_create(END, window=FinishReasonIcon(txt, symbol, tooltip=tooltip))
+            sheet.window_create(END, window=FinishReasonIcon(sheet, symbol, tooltip=tooltip))
 
 
     def _post_completion_tasks(self):
@@ -346,8 +346,8 @@ class Thoughttree(UI):
         system = self.system.get(1.0, 'end - 1c').strip()
         history = [{'role': 'system', 'content': system}]
 
-        txt: Sheet = self.focus_get()
-        history = txt.history_from_path(history)
+        sheet: Sheet = self.focus_get()
+        history = sheet.history_from_path(history)
 
         if additional_message:
             history += [{'role': 'user', 'content': additional_message}]

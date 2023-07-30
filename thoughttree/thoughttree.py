@@ -14,6 +14,7 @@ from FinishReasonIcon import FinishReasonIcon
 from FoldablePane import FoldablePane
 from HidableFrame import HidableFrame
 from Model import Model
+from MultiTextboxLabel import MultiTextboxLabel
 from StatusBar import StatusBar
 from Sheet import Sheet
 from ThoughttreeMenu import ThoughttreeMenu
@@ -293,7 +294,7 @@ class Thoughttree(UI):
                 if self.model.is_canceled:
                     finish_reason = "canceled"
                     break
-                label = self.create_label(label_frame, sheet)
+                label = MultiTextboxLabel(label_frame, sheet)
 
                 def write_label(text):
                     if self.is_root_destroyed:
@@ -303,13 +304,6 @@ class Thoughttree(UI):
 
                 finish_reason, message = self.model.chat_complete(history, write_label)
         return finish_reason, message
-
-
-    def create_label(self, frame, sheet):
-        label = tk.Label(frame, borderwidth=4, anchor=W, wraplength=sheet.winfo_width(),
-                         justify=LEFT, font=Sheet.FONT, relief=SUNKEN)
-        label.pack(side=TOP, fill=X, expand=True)
-        return label
 
 
     def _handle_completion_finish(self, sheet, finish_reason, message, postfix):

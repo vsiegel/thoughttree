@@ -26,13 +26,6 @@ class Model:
 
     MODEL_PATTERN = "gpt"
 
-    finish_reasons = {
-        "stop": {"symbol": "", "tooltip": ""},
-        "length": {"symbol": "…", "tooltip": "The completion reached max_tokens tokens. It can be continued."},
-        "canceled": {"symbol": "☒", "tooltip": "The completion was canceled."},
-        "error": {"symbol": "⚠", "tooltip": "An error occurred while processing the completion."},
-    }
-
     def __init__(self, model_name):
         self.name = model_name
         self.counter = TokenCounter(model_name)

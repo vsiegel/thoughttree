@@ -135,9 +135,9 @@ class ThoughttreeMenu(Menu):
             self.ui.complete()
 
         def toggle_scroll_output(event=None):
-            self.ui.scroll_output = not self.ui.scroll_output
             if self.ui.scroll_output:
                 self.it.see(END)
+            self.ui.scroll_output = not self.ui.scroll_output
 
         def toggle_ring_bell(event=None):
             self.ui.ring_bell_after_completion = not self.ui.ring_bell_after_completion

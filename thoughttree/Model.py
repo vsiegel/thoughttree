@@ -20,10 +20,7 @@ def log_file_size(path):
     log(f'Size: {path} {os.path.getsize(path)} bytes')
 
 
-class Model:
-
-    logfile_name = f"thoughttree-chat-{datetime.now().strftime('%Y-%m-%d-%H-%M-%S')}.log"
-
+class Model():
     MODEL_PATTERN = "gpt"
 
     def __init__(self, model_name):
@@ -33,7 +30,9 @@ class Model:
         logdir = Path.home()/"logs"/"thoughttree"
         if not logdir.exists():
             logdir.mkdir(parents=True, exist_ok=True)
-        self.chat_log_path = logdir/self.logfile_name
+
+        logfile_name = f"thoughttree-chat-{datetime.now().strftime('%Y-%m-%d-%H-%M-%S')}{model_name}.log"
+        self.chat_log_path = logdir/logfile_name
         self.chat_log = open(self.chat_log_path, "a")
 
         self.max_tokens = tk.IntVar(value=1500)

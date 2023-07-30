@@ -217,5 +217,5 @@ class Files:
 
             return filename
         except Exception as e:
-            showerror(title="Error", message="Cannot save code block\n" + str(e), master=txt)
+            showerror(title="Error", message="Cannot save code block\n" + str(e), master=sheet)
             return None

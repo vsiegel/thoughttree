@@ -27,19 +27,22 @@ class Scrollable(tk.Frame):
     def update_frame_width(self, event):
         self.canvas.itemconfig(self.frame_id, width=event.width)
 
+from UI import UI
 
-def main():
-    from UI import UI
-    root = UI()
-    root.geometry("500x500")
+class ScrollableTest(UI):
+    def __init__(self):
+        super().__init__()
 
-    scrollable = Scrollable(root)
-    scrollable.pack(fill="both", expand=True)
+        self.root.title("Forkable Text")
+        self.root.geometry("500x500")
 
-    forkable_text = ForkableText(scrollable.frame)
-    forkable_text.pack(fill="both", expand=False)
+        self.scrollable = Scrollable(self.root)
+        self.forkable_text = ForkableText(self.scrollable.frame)
 
-    root.mainloop()
+        self.scrollable.pack(fill="both", expand=True)
+        self.forkable_text.pack(fill="both", expand=False)
+        self.mainloop()
+
 
 if __name__ == "__main__":
-    main()
+    ScrollableTest()

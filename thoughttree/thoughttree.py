@@ -81,11 +81,15 @@ class Thoughttree(UI):
         menu.models_menu.load_available_models()
         self.status.note = ""
 
+        self.pack(fill=BOTH, expand=True)
+        self.root.mainloop()
+
 
     def set_model(self, model_name):
         if not model_name in self.models:
             self.models[model_name] = Model(model_name)
         self.model = self.models[model_name]
+
         self.status.model = model_name
         self.status.set_max_token_var(self.model.max_tokens)
         self.status.set_temperature_var(self.model.temperature)
@@ -95,7 +99,6 @@ class Thoughttree(UI):
             model.cancel()
 
     def create_ui(self):
-
         self.configure_ui_options()
 
         self.status_hider = HidableFrame(self)
@@ -106,7 +109,7 @@ class Thoughttree(UI):
         self.console_pane = FoldablePane(self, orient=VERTICAL, name="console_pane")
         self.tree_pane = FoldablePane(self.console_pane, orient=HORIZONTAL)
         self.system_pane = FoldablePane(self.tree_pane, orient=VERTICAL)
-        self.console_pane.pack(fill=BOTH, expand=True )
+        self.console_pane.pack(side=TOP, fill=BOTH, expand=True)
 
         self.console = Console(self.console_pane)
         self.tree = Tree(self.tree_pane)

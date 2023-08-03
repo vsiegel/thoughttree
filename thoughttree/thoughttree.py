@@ -144,18 +144,18 @@ class Thoughttree(UI):
 
 
     def update_window_title(self, event=None):
-        progress_title = self.title() + "..."
+        progress_title = self.root.title() + "..."
 
         def write_title(content):
             if self.is_root_destroyed or self.model.is_canceled:
                 return
-            current_title = self.title()
+            current_title = self.root.title()
             if current_title == progress_title:
                 current_title = ""
-            self.title(current_title + content)
+            self.root.title(current_title + content)
             self.update()
 
-        self.title(progress_title)
+        self.root.title(progress_title)
         self.update()
         history = self.history_from_system_and_chat(prompts.TITLE_GENERATION, max_messages=5, max_size=1000) # todo
 

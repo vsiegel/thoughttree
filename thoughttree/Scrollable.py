@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, BOTH, LEFT, RIGHT, VERTICAL, NW, Y
 
 from ForkableText import ForkableText
 
@@ -9,14 +9,14 @@ class Scrollable(tk.Frame):
         super().__init__(parent)
 
         self.canvas = tk.Canvas(self, bg="#fbfbfb", highlightthickness=0, bd=0)
-        self.scrollbar = ttk.Scrollbar(self, orient="vertical", command=self.canvas.yview)
+        self.scrollbar = tk.Scrollbar(self, orient=VERTICAL, command=self.canvas.yview)
         self.canvas.configure(yscrollcommand=self.scrollbar.set)
 
-        self.canvas.pack(side="left", fill="both", expand=True)
-        self.scrollbar.pack(side="right", fill="y")
+        self.canvas.pack(side=LEFT, fill=BOTH, expand=True)
+        self.scrollbar.pack(side=RIGHT, fill=Y)
 
         self.frame = tk.Frame(self.canvas, bg="white")
-        self.frame_id = self.canvas.create_window((0, 0), window=self.frame, anchor="nw")
+        self.frame_id = self.canvas.create_window((0, 0), window=self.frame, anchor=NW)
 
         self.frame.bind("<Configure>", self.update_scrollregion)
         self.canvas.bind("<Configure>", self.update_frame_width)

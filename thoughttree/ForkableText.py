@@ -6,15 +6,16 @@ from ResizingText import ResizingText
 
 class ForkableText(tk.Frame):
     def __init__(self, parent):
-        super().__init__()
+        super().__init__(parent)
 
-        self.sheet = ResizingText(parent)
-        self.sheet.pack(fill="both", expand=True)
+        self.sheet = ResizingText(self)
         self.sheet.insert(tk.END, "This is a test\n" * 5)
 
-        self.notebook = Notebook(parent)
-        self.notebook.pack(fill="both", expand=True)
+        self.notebook = Notebook(self)
         self.bind_all("<Control-o>", self.step2)
+
+        self.sheet.pack(fill="both", expand=True)
+        self.notebook.pack(fill="both", expand=True)
 
 
     def step2(self, event=None):
@@ -25,7 +26,6 @@ class ForkableText(tk.Frame):
             current_tab.update_idletasks()
             notebook.configure(height=current_tab.winfo_reqheight())
 
-        print("Step 2")
         text_tab1 = ResizingText(self.notebook)
         text_tab2 = ResizingText(self.notebook)
         self.notebook.add(text_tab1, text="Tab 1")

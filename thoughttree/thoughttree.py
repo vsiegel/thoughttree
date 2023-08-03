@@ -59,9 +59,8 @@ class Thoughttree(UI):
         self.tree_pane = None
         self.system_pane = None
 
-        self.geometry(Thoughttree.ROOT_GEOMETRY)
-        self.minsize(Thoughttree.MIN_WIDTH, Thoughttree.MIN_HEIGHT)
-        self.protocol("WM_DELETE_WINDOW", self.close)
+        self.root.geometry(Thoughttree.ROOT_GEOMETRY)
+        self.root.minsize(*Thoughttree.MIN_SIZE)
         try:
             self.set_icon(self.WINDOW_ICON)
         except:
@@ -357,10 +356,5 @@ class Thoughttree(UI):
         return history
 
 
-    @classmethod
-    def main(cls) :
-        Thoughttree().mainloop()
-
-
 if __name__ == "__main__":
-    Thoughttree.main()
+    Thoughttree()

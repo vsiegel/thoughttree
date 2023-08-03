@@ -9,6 +9,30 @@ class StatusBar(tk.Frame):
         super().__init__(master, bd=1, relief=SUNKEN, **kw)
         self.master = master
 
+        def validate_max_tokens(entry_value):
+            if entry_value.isdigit() and 1 <= int(entry_value) <= 100000:
+                return True
+            else:
+                return False
+
+        # vcmd = (root.register(validate_max_tokens), '%P')
+        # entry = tk.Entry(root, validate="key", validatecommand=vcmd)
+
+        def validate_temperature(entry_value):
+            try:
+                value = float(entry_value)
+                if 0 <= value <= 2:
+                    return True
+                else:
+                    return False
+            except ValueError:
+                return False
+
+        # vcmd = (root.register(validate_temperature), '%P')
+        # entry = tk.Entry(root, validate="key", validatecommand=vcmd)
+
+
+
         defaults = {"bd": 1, "relief": SUNKEN}
 
         self.message_label = tk.Label(self, **defaults, width=20, text=message_text, anchor=W)
@@ -20,7 +44,7 @@ class StatusBar(tk.Frame):
         self.max_token_label = LabeledLabel(self, "Max t.:", entry_width=5, **defaults)
         self.max_token_label.pack(side=LEFT, padx=(5, 0))
 
-        self.temperature_label = LabeledLabel(self, "Temp.:", entry_width=3, **defaults)
+        self.temperature_label = LabeledLabel(self, "Temp.:", entry_width=3, validatecommand=validate_temperature, **defaults)
         self.temperature_label.pack(side=LEFT, padx=(5, 0))
 
         self.model_label = tk.Label(self, **defaults, width=20, text=model_text, anchor=E)

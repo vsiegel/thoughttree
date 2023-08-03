@@ -1,8 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
-from Notebook import Notebook
-from ResizingText import ResizingText
+from ForkableText import ForkableText
 
 
 class Scrollable(tk.Frame):
@@ -37,25 +36,8 @@ def main():
     scrollable = Scrollable(root)
     scrollable.pack(fill="both", expand=True)
 
-    text = ResizingText(scrollable.frame)
-    text.pack(fill="both", expand=True)
-
-    notebook = Notebook(scrollable.frame)
-    notebook.pack(fill="both", expand=True, side="left", anchor="nw") # , sticky="ew")  # Add sticky="ew"
-
-    text_tab1 = ResizingText(notebook)
-    text_tab2 = ResizingText(notebook)
-    notebook.add(text_tab1, text="Tab 1")
-    notebook.add(text_tab2, text="Tab 2")
-
-
-    def update_notebook_height(event):
-        notebook = event.widget
-        current_tab = notebook.nametowidget(notebook.select())
-        current_tab.update_idletasks()
-        notebook.configure(height=current_tab.winfo_reqheight())
-
-    notebook.bind("<<NotebookTabChanged>>", update_notebook_height)
+    forkable_text = ForkableText(scrollable.frame)
+    forkable_text.pack(fill="both", expand=False)
 
     root.mainloop()
 

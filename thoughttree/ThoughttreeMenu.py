@@ -8,6 +8,7 @@ from Files import Files
 from Menu import Menu
 from ModelsMenu import ModelsMenu
 from Sheet import Sheet
+from Console import Console
 from menu_help import menu_help
 from functools import partial
 
@@ -25,7 +26,7 @@ class ThoughttreeMenu(Menu):
     @property
     def it(self) -> Sheet:
         widget = self.ui.focus_get()
-        if isinstance(widget, Sheet):
+        if isinstance(widget, Sheet) or isinstance(widget, Console):
             return widget
 
 

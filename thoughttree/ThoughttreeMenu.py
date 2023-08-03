@@ -264,8 +264,78 @@ class ThoughttreeMenu(Menu):
         ui.bind_class("Text", "<Button-3>", lambda e=None: show_context_menu(e, edit_menu))
 
 
-    def sub_item(self, label, keystroke=None, command=None, bind_key=True, context_menu=None, variable=None, add=False):
+    def sub_item(self, label, keystroke=None, command=None, variable=None, add=False):
         if not label in menu_help:
             print("Help text missing for menu item \"" + label + "\"")
-        self.menu.item(label, keystroke, command, bind_key, context_menu, variable, add)
+        self.menu.item(label, keystroke, command, variable, add)
 
+
+
+'''
+"New Window", 4,
+"New Main Tab", 4,
+"Save Chat", 5,
+"Save Message", 5,
+"Save Selection", 5,
+"Save Code Block", 5,
+"Run Code Block", 4,
+"Close Tab", 6,
+"Close Empty Tab", 6,
+"Quit", 0,
+
+"Cut", 1,
+"Copy", 1,
+"Paste", 0,
+"Delete", 0,
+"Undo", 1,
+"Redo", 0,
+"Select All", 7,
+"Search with Google", 7,
+"Insert Current Time", 7,
+"Include Date in System Prompt", 8,
+"Copy Title", 5,
+
+"Show Main Menu", 5,
+"Show System Prompt", 5,
+"Show Tree", 5,
+"Show Console", 5,
+"Show Status Bar", 5,
+"Count Tokens", 6,
+"Update Window Title", 7,
+"Increase Font Size", 9,
+"Decrease Font Size", 9,
+"Reset Font Size", 6,
+"Toggle Monospace", 7,
+"Toggle Scrolling Output", 7,
+"Ring Bell When Finished", 10,
+"Toggle Wrap Lines", 7,
+"Generate Titles", 9,
+"Calculate Cost", 9,
+
+"Next Similar Line", 5,
+"Previous Similar Line", 9,
+"Next Message", 5,
+"Previous Message", 9,
+
+"Next Paragraph", 5,
+"Next Line", 5,
+"Continue Directly", 9,
+"Fork Conversation", 5,
+"Complete in Branch", 9,
+"Complete Alternatives", 9,
+"Complete 3 Times", 9,
+"Complete Multiple...", 9,
+"Complete Multiple Again", 9,
+"Cancel", 0,
+
+"Max Tokens...", 4,
+"Temperature...", 0,
+"Increase Temperature", 9,
+"Decrease Temperature", 9,
+"Temperature 0.0", 11,
+
+"Test", 0,
+"Debug Info", 6,
+"About", 0.
+
+'''

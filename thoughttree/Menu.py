@@ -56,7 +56,7 @@ class Menu(tk.Menu):
         return s
 
 
-    def item(self, label, keystroke, command, bind_key=True, context_menu=None, variable=None, add=False, index=tk.END) :
+    def item(self, label, keystroke, command, variable=None, add=False, index=tk.END) :
         accelerator = self.convert_key_string(keystroke)
         state = tk.NORMAL if command or variable else tk.DISABLED
         if variable :
@@ -64,9 +64,6 @@ class Menu(tk.Menu):
         else:
             self.insert_command(index, label=label, underline=0, accelerator=accelerator, state=state, command=command)
         if keystroke:
-            # if not add:
-            #     self.master.unbind_all(keystroke)
-            # self.master.bind_all(keystroke, command, add=add)
             # if not add:
             #     self.master.unbind_class("Text", keystroke)
             self.master.bind_class("Text", keystroke, command, add=add)

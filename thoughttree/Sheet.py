@@ -97,6 +97,8 @@ class Sheet(tk.scrolledtext.ScrolledText):
         content = self.get("1.0", tk.END)
         to_sheet.insert("1.0", content)
 
+        # self.compare('2.0', '<=', END)
+
         for tag in self.tag_names():
             ranges = self.tag_ranges(tag)
             for i in range(0, len(ranges), 2):

@@ -13,23 +13,9 @@ class HidableFrame(tk.Frame):
     def hide(self, e=None):
         child = list(self.children.values())[0]
         if self.hidden:
-            # for widget, pack_info in self.info.items():
-            #     self.info[widget.name] = widget.pack_info()
-
-            child.pack(self.child_pack_info)
-            self.pack(self.own_pack_info)
-            # print(f'    hidden: {self.master.pack_slaves()}')
+            other = [slave for slave in self.master.pack_slaves() if slave != self][0]
+            self.pack(self.own_pack_info, before=other)
         else:
-            # slaves = self.master.pack_slaves()
-            # self.info = {}
-            # for widget in slaves:
-            #     self.info[widget.name] = widget.pack_info()
-
-            # print(f'not hidden: {self.master.pack_slaves()}')
-            self.child_pack_info = child.pack_info()
             self.own_pack_info = self.pack_info()
-            child.pack_forget()
             self.pack_forget()
-
-
         self.hidden = not self.hidden

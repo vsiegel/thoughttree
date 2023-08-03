@@ -46,6 +46,6 @@ class UI(tk.Frame):
             abs_name = str(get_icon_file_name(window_icon))
             photo_image = tk.PhotoImage(file=abs_name)
             UI.icon = photo_image
-            self.iconphoto(True, photo_image) # Note: has no effect when running in PyCharm IDE
+            self.root.iconphoto(True, photo_image) # Note: has no effect when running in PyCharm IDE
         except Exception as e:
             print("Error loading icon:", e)

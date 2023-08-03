@@ -45,8 +45,8 @@ class Thoughttree(UI):
     generation_model_name = 'gpt-3.5-turbo'
 
 
-    def __init__(self):
-        UI.__init__(self, "Thoughttree", WINDOW_ICON)
+    def __init__(self, title="Thoughttree"):
+        UI.__init__(self, title, WINDOW_ICON)
         self.status_hider = None
         self.status = None
         self.console = None

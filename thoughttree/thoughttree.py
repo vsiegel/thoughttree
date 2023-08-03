@@ -34,8 +34,7 @@ conf.blinking_caret = True
 
 
 class Thoughttree(UI):
-    MIN_WIDTH = 600
-    MIN_HEIGHT = 300
+    MIN_SIZE = (600, 300)
     ROOT_GEOMETRY = "1000x600"
     GEN_TITLE_THRESHOLD = 20
     icon = None

@@ -3,6 +3,7 @@ from tkinter import CURRENT, END, INSERT, SEL, WORD, X, SEL_FIRST, SEL_LAST
 from tkinter import scrolledtext
 from typing import Union
 
+from Cursorline import Cursorline
 from FinishReasonIcon import FinishReasonIcon
 from Notebook import Notebook
 from ThoughttreeConfig import conf
@@ -49,7 +50,7 @@ class Sheet(tk.scrolledtext.ScrolledText):
         self.bind('<Next>', jump_to_limit)
         self.pack(pady=0, fill=X, expand=True)
         self.tag_configure("assistant", background="#F0F0F0", selectbackground="#4682b4", selectforeground="white")
-        self.configure_cursorline()
+        Cursorline(self)
 
         self.insert(END, text)
 
@@ -65,32 +66,6 @@ class Sheet(tk.scrolledtext.ScrolledText):
                 self.tag_remove(tag, *tagged)
             else:
                 self.tag_add(tag, SEL_FIRST, SEL_LAST)
-
-
-    @staticmethod
-    def cursorline(e, add=True):
-        if not e.widget.winfo_exists():
-            return
-        takefocus = not e.widget.cget("takefocus") == "0"
-        if not takefocus:
-            return
-        e.widget.tag_remove('cursorline', 1.0, "end")
-        if add:
-            e.widget.tag_add('cursorline', 'insert display linestart', 'insert display lineend+1c')
-
-
-    def cursorline_remove(self, e):
-        self.cursorline(e, add=False)
-
-
-    def configure_cursorline(self):
-        self.tag_configure('cursorline', background='#FCFAED', foreground="black", selectbackground="#4682b4",
-                           selectforeground="white")
-        self.bindtags(self.bindtags() + ("last",))
-        self.bind_class("last", '<KeyRelease>', self.cursorline)
-        self.bind_class("last", '<Button-1>', self.cursorline)
-        self.bind_class("last", "<FocusIn>", self.cursorline)
-        self.bind_class("last", "<FocusOut>", self.cursorline_remove)
 
 
     def transfer_content(self, to_sheet):

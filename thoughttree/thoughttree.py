@@ -212,6 +212,7 @@ class Thoughttree(UI):
         num_lines = text.count("\n")
         num_words = len(text.split())
         num_chars = len(text)
+        # todo: align numbers, using TextDialog or so
         showinfo("Count Tokens",
                  f"The length of the text is:\n"
                  f"{num_tokens:,} tokens\n"

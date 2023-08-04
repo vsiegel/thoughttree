@@ -214,10 +214,10 @@ class Thoughttree(UI):
         num_chars = len(text)
         showinfo("Count Tokens",
                  f"The length of the text is:\n"
-                 f"{num_tokens} tokens\n"
-                 f"{num_lines} lines\n"
-                 f"{num_words} words\n"
-                 f"{num_chars} characters",
+                 f"{num_tokens:,} tokens\n"
+                 f"{num_lines:,} lines\n"
+                 f"{num_words:,} words\n"
+                 f"{num_chars:,} characters",
                  master=sheet)
         return "break"
 

@@ -8,8 +8,6 @@ from tkinter.messagebox import showinfo
 
 from configargparse import Namespace
 
-import GeneratedTitle
-import prompts
 from Console import Console
 from FinishReasonIcon import FinishReasonIcon
 from FoldablePane import FoldablePane
@@ -41,8 +39,8 @@ class Thoughttree(UI):
     icon = None
     multi_completions = 5
 
-    # self.model_name = 'gpt-4'
-    interactive_model_name = 'gpt-3.5-turbo'
+    interactive_model_name = 'gpt-4'
+    # interactive_model_name = 'gpt-3.5-turbo'
     generation_model_name = 'gpt-3.5-turbo'
 
 

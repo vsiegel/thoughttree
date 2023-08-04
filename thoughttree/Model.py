@@ -14,7 +14,7 @@ from TokenCounter import TokenCounter
 
 import os
 
-from tools import log
+from tools import log, shorter, logarithmic_length
 
 
 def log_file_size(path):
@@ -64,16 +64,20 @@ class Model():
 
         last_event = None
         try:
+            texts = []
             for event in response :
                 if self.is_canceled:
                     return 'canceled', ""
                 delta = event['choices'][0]['delta']
                 if 'content' in delta :
                     text = delta["content"]
-                    self.log(text)
-                    self.counter.observe_completion(text)
                     output_delta_callback(text)
+                    self.counter.observe_completion(text)
+                    self.log(text)
+                    texts.append(text)
                 last_event = event
+            full_text = "".join(texts)
+            print(f"result: {shorter(full_text, 120)} {logarithmic_length(full_text, 120)}")
 
             print(f"{last_event['model']}")
             if self.is_canceled:

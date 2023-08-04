@@ -8,6 +8,7 @@ from tkinter.messagebox import showinfo
 
 from configargparse import Namespace
 
+import GeneratedTitle
 import prompts
 from Console import Console
 from FinishReasonIcon import FinishReasonIcon
@@ -157,7 +158,7 @@ class Thoughttree(UI):
 
         self.root.title(progress_title)
         self.update()
-        history = self.history_from_system_and_chat(prompts.TITLE_GENERATION, max_messages=5, max_size=1000) # todo
+        history = self.history_from_system_and_chat(GeneratedTitle.TITLE_GENERATION, max_messages=5, max_size=1000) # todo limit, do not use system for title
 
         self.generation_model.counter.go()
         self.generation_model.chat_complete(history, write_title, max_tokens=30, temperature=0.3)

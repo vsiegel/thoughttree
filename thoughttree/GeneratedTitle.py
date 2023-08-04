@@ -1,7 +1,7 @@
 
 class GeneratedTitle():
 
-TITLE_GENERATION = '''\
+    TITLE_GENERATION = '''\
 A title for this conversation, about 50 characters. Style does not matter,
 it is about the information.
 Ignore the system prompt.
@@ -10,7 +10,7 @@ It is used as a one line title for this conversation.
 Use the language of the conversation.
 If there is no chat history, the title will be the text Thoughttree only, that is important.
 Do not use the name otherwise.
-Do not use a prefix like "Title:".
+Do not use a prefix like "Title:"!.
 Output the unquoted text of the title, nothing else.
 '''
 

@@ -13,6 +13,7 @@ import prompts
 from Console import Console
 from FinishReasonIcon import FinishReasonIcon
 from FoldablePane import FoldablePane
+from GeneratedTitle import GeneratedTitle
 from HidableFrame import HidableFrame
 from Model import Model
 from MultiTextboxLabel import MultiTextboxLabel
@@ -37,7 +38,6 @@ conf.blinking_caret = True
 class Thoughttree(UI):
     MIN_SIZE = (600, 300)
     ROOT_GEOMETRY = "1000x600"
-    GEN_TITLE_THRESHOLD = 20
     icon = None
     multi_completions = 5
 
@@ -341,7 +341,7 @@ class Thoughttree(UI):
         self.model.counter.summarize("Completion cost:")
 
         if conf.update_title_after_completion and not self.model.is_canceled:
-            if self.model.counter.tokens_since_go() > Thoughttree.GEN_TITLE_THRESHOLD:
+            if self.model.counter.tokens_since_go() > GeneratedTitle.GEN_TITLE_THRESHOLD:
                 self.update_window_title()
 
 

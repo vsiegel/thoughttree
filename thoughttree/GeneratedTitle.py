@@ -1,4 +1,5 @@
 
+class GeneratedTitle():
 
 TITLE_GENERATION = '''\
 A title for this conversation, about 50 characters. Style does not matter,
@@ -16,3 +17,4 @@ Output the unquoted text of the title, nothing else.
 #Output: unquoted text of the title, without any prefixes or comments:
 #Do not refer to the content of the system prompt.
 
+    GEN_TITLE_THRESHOLD = 20

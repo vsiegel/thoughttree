@@ -11,8 +11,10 @@ class UI(tk.Frame):
 
     def __init__(self, name="", icon_path=None):
         if tk._default_root:
+            self.first_window = False
             self.root = tk.Toplevel()
         else:
+            self.first_window = True
             self.root = tk.Tk()
         tk.Frame.__init__(self, self.root)
 

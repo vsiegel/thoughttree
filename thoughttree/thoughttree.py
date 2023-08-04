@@ -81,7 +81,8 @@ class Thoughttree(UI):
         self.status.note = ""
 
         self.pack(fill=BOTH, expand=True)
-        self.root.mainloop()
+        if self.first_window:
+            self.root.mainloop()
 
 
     def set_model(self, model_name):

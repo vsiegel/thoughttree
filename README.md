@@ -1,5 +1,6 @@
 ## Thoughttree
-Interact with large language models in alternative ways.
+
+Interact with **ChatGPT** in alternative ways.
 
 #### Work with alternative branches of conversation
    - Your conversation can branch in two or more at any time
@@ -9,8 +10,9 @@ Interact with large language models in alternative ways.
    - A model has more answers if you ask it again
 
 #### Know your cost
-   - Your quota per month may be limiting
+   - Your budget or your quota per month may be limiting
    - Models have vastly different prices per token
+   - See the traffic in the console log, learn to optimize
 
 #### Edit your history
    - Edit the history

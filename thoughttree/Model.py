@@ -9,6 +9,7 @@ from pathlib import Path
 import openai
 
 import History
+from TextDialog import TextDialog
 from TokenCounter import TokenCounter
 
 import os
@@ -89,7 +90,7 @@ class Model():
         message = f"Exception: {ex}\n\n{message}"
         message = textwrap.fill(message, 200)
         self.log("\n\nerror:\n" + message + '\n')
-        showerror(title, message) #, master= #todo
+        TextDialog(message, title)
         return "error", message
 
 

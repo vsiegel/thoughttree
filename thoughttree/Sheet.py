@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import CURRENT, END, INSERT, SEL, WORD, X, SEL_FIRST, SEL_LAST
 from tkinter import scrolledtext
+from tkinter.font import Font
 from typing import Union
 
 from Cursorline import Cursorline
@@ -50,6 +51,10 @@ class Sheet(tk.scrolledtext.ScrolledText):
         self.bind('<Next>', jump_to_limit)
         self.pack(pady=0, fill=X, expand=True)
         self.tag_configure("assistant", background="#F0F0F0", selectbackground="#4682b4", selectforeground="white")
+        bold_font = Font(font=("Courier", 10, "bold"))
+        bold_font.configure(weight='bold')
+        self.tag_configure('bold', font=bold_font)
+
         Cursorline(self)
 
         self.insert(END, text)

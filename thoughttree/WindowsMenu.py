@@ -16,5 +16,5 @@ class WindowsMenu(Menu):
         for open_ui in UI.current_open_uis:
             title = open_ui.root.title()
 
-            command = lambda e, ui=open_ui: ui.toTop()
+            command = lambda e=None, ui=open_ui: ui.toTop()
             self.item(title, None, command)

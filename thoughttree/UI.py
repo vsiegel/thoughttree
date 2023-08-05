@@ -7,7 +7,7 @@ from tkinter import messagebox
 class UI(tk.Frame):
     icon = None
     WINDOW_ICON = None
-    uis = []
+    current_open_uis = []
 
     def __init__(self, name="", icon_path=None):
         if tk._default_root:
@@ -19,7 +19,8 @@ class UI(tk.Frame):
         tk.Frame.__init__(self, self.root)
 
         self.is_root_destroyed = False
-        UI.uis.append(self)
+        UI.current_open_uis.append(self)
+        name = f"{name} {len(UI.current_open_uis)}"
         self.root.title(name)
         self.root.wm_title(name)
         self.root.protocol("WM_DELETE_WINDOW", self.close)

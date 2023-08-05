@@ -14,8 +14,8 @@ Interact with **ChatGPT** in alternative ways.
    - Models have vastly different prices per token
    - See the traffic in the console log, learn to optimize
 
-#### Edit your history
-   - Edit the history
+#### Edit your chat history
+   - Fix problems you spot directly, even in programm code
    - Remove what is not important
    - Have a console log including what you deleted for reference
 

@@ -23,8 +23,8 @@ class TextDialog(tk.simpledialog.Dialog):
 
         box = tk.Frame(self)
 
-        w = tk.Button(box, text="OK", width=10, command=self.ok, default=ACTIVE)
-        w.pack(side=LEFT, padx=5, pady=5)
+        button = tk.Button(box, text="OK", width=10, command=self.ok, default=ACTIVE)
+        button.pack(side=LEFT, padx=15, pady=15)
         self.pack_slaves()[0].pack(fill=BOTH, expand=True, padx=15, pady=15) # hack to repack dialog content to expand
 
         self.bind("<Return>", self.ok)

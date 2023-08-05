@@ -5,9 +5,7 @@ from tkinter import font as tkfont, NONE, WORD, SEL, END, INSERT
 
 from AboutDialog import AboutDialog
 from Files import Files
-from Menu import Menu
-from ModelsMenu import ModelsMenu
-from WindowsMenu import WindowsMenu
+from Imports import Menu, ModelsMenu, WindowsMenu
 from Sheet import Sheet
 from Console import Console
 from menu_help import menu_help

@@ -32,7 +32,7 @@ class Model():
         if not logdir.exists():
             logdir.mkdir(parents=True, exist_ok=True)
 
-        logfile_name = f"thoughttree-chat-{datetime.now().strftime('%Y-%m-%d-%H-%M-%S')}{model_name}.log"
+        logfile_name = f"thoughttree-chat-{datetime.now().strftime('%Y-%m-%d-%H-%M-%S')}-{model_name}.log"
         self.chat_log_path = logdir/logfile_name
         self.chat_log = open(self.chat_log_path, "a")
 
@@ -92,7 +92,7 @@ class Model():
 
     def error(self, message, title, ex):
         message = f"Exception: {ex}\n\n{message}"
-        message = textwrap.fill(message, 200)
+        # message = textwrap.fill(message, 200)
         self.log("\n\nerror:\n" + message + '\n')
         TextDialog(message, title)
         return "error", message

@@ -15,7 +15,7 @@ from functools import partial
 
 class ThoughttreeMenu(Menu):
     def __init__(self, thoughttree, new_window_callback):
-        super().__init__(thoughttree, menu_help=menu_help, tearoff=False)
+        super().__init__(thoughttree, menu_help=menu_help)
         self.new_window_callback = new_window_callback
         self.ui = thoughttree
 

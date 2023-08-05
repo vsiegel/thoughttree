@@ -6,7 +6,7 @@ from menu_help import menu_help
 
 class ModelsMenu(Menu):
     def __init__(self, parent, thoughttree, label):
-        super().__init__(parent, label, menu_help=menu_help, tearoff=False)
+        super().__init__(parent, label, menu_help=menu_help)
         self.ui = thoughttree
 
         self.fixed_model_menu_items = -1

@@ -165,12 +165,12 @@ class Sheet(tk.scrolledtext.ScrolledText):
             text = item[1]
             designation = item[0]
             if designation == "tagon" and text == "assistant":
-                section = section.strip()
+                # section = section.strip()
                 history += [{'role' : role, 'content' : section}]
                 role = "assistant"
                 section = ""
             elif designation == "tagoff" and text == "assistant":
-                section = section.strip()
+                # section = section.strip()
                 history += [{'role' : role, 'content' : section}]
                 role = "user"
                 section = ""

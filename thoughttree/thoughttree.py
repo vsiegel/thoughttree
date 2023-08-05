@@ -157,7 +157,7 @@ class Thoughttree(UI):
 
         self.root.title(progress_title)
         self.update()
-        history = self.history_from_system_and_chat(GeneratedTitle.TITLE_GENERATION, max_messages=5, max_size=1000) # todo limit, do not use system for title
+        history = self.history_from_system_and_chat(GeneratedTitle.PROMPT, max_messages=5, max_size=1000) # todo limit, do not use system for title
 
         self.generation_model.counter.go()
         self.generation_model.chat_complete(history, write_title, max_tokens=30, temperature=0.3)
@@ -340,7 +340,7 @@ class Thoughttree(UI):
         self.model.counter.summarize("Completion cost:")
 
         if conf.update_title_after_completion and not self.model.is_canceled:
-            if self.model.counter.tokens_since_go() > GeneratedTitle.GEN_TITLE_THRESHOLD:
+            if self.model.counter.tokens_since_go() > GeneratedTitle.GEN_THRESHOLD:
                 self.update_window_title()
 
 

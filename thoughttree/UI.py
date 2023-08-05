@@ -28,6 +28,9 @@ class UI(tk.Frame):
         except:
             print("Error loading icon.")
 
+    def toTop(self):
+        self.root.attributes("-topmost", True)
+        self.root.attributes("-topmost", False)
 
     def close(self, event=None):
         result = messagebox.askyesno("Quit", "Are you sure you want to quit?", parent=self)

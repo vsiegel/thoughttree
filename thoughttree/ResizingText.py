@@ -5,8 +5,8 @@ from Notebook import Notebook
 
 
 class ResizingText(tk.Text):
-    def __init__(self, parent, wrap="word", highlightthickness=0, borderwidth=0, padx=0, pady=0, *args, **kwargs):
-        super().__init__(parent, wrap=wrap, highlightthickness=highlightthickness, borderwidth=borderwidth, padx=padx, pady=pady, *args, **kwargs)
+    def __init__(self, parent, wrap="word", highlightthickness=0, borderwidth=0, padx=0, pady=0, *args, **kw):
+        super().__init__(parent, wrap=wrap, highlightthickness=highlightthickness, borderwidth=borderwidth, padx=padx, pady=pady, *args, **kw)
         self.bind("<KeyRelease>", self.adjust_height)
 
         def on_return(event=None):

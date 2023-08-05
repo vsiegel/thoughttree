@@ -8,8 +8,8 @@ from UI import UI
 
 class Menu(tk.Menu):
 
-    def __init__(self, master: Union[tk.Tk, tk.Text, tk.Menu], label=None, menu_help=None, **kwargs) : #1
-        super().__init__(master, tearoff=False, borderwidth=3)
+    def __init__(self, master: Union[tk.Tk, tk.Text, tk.Menu], label=None, menu_help=None, **kw) : #1
+        super().__init__(master, tearoff=False, borderwidth=3, **kw)
         if menu_help:
             self.menu_help = menu_help
         elif hasattr(master, "menu_help"):

@@ -40,6 +40,11 @@ class CodeBlockSaver(TextSaver):
 
 
 class Files:
+    @staticmethod
+    def open_file(e=None):
+        pass
+
+
     # @staticmethod
     # def save_chat(e=None):
     #     chat_log_saver = ChatLogSaver(e.widget)

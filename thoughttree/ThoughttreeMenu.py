@@ -7,6 +7,7 @@ from AboutDialog import AboutDialog
 from Files import Files
 from Menu import Menu
 from ModelsMenu import ModelsMenu
+from WindowsMenu import WindowsMenu
 from Sheet import Sheet
 from Console import Console
 from menu_help import menu_help
@@ -252,6 +253,8 @@ class ThoughttreeMenu(Menu):
         item("Temperature 0.0", "<Control-Key-0>", None)
 
         self.models_menu = ModelsMenu(self, ui, "Models")
+
+        self.windows_menu = WindowsMenu(self, "Windows")
 
         self.menu = Menu(self, "Help")
         item("Test", "<Control-Alt-Shift-T>", menu_test)

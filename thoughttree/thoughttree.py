@@ -144,6 +144,7 @@ class Thoughttree(UI):
 
 
     def update_window_title(self, event=None):
+        print(f"{id(self)}")
         progress_title = self.root.title() + "..."
 
         def write_title(content):

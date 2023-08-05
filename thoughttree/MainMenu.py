@@ -41,7 +41,7 @@ class ThoughttreeMenu(Menu):
 
         def save_chat(e=None):
             name = save(Files.save_chat_dialog, "Chat saved to ")
-            self.ui.title(name)
+            self.ui.root.title(name)
 
         def save_section(e=None):
             save(Files.save_section_dialog, "Section saved to ")

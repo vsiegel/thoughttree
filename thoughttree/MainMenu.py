@@ -271,8 +271,8 @@ class MainMenu(Menu):
         item("Debug Info", "<Control-i>", debug_info)
         item("About", "<Shift-Alt-F1>", lambda e=None: AboutDialog(self.ui))
 
-        ui.bind("<Control-Button-4>", lambda e=None: font_size(1))
-        ui.bind("<Control-Button-5>", lambda e=None: font_size(-1))
+        ui.bind_class("Text", "<Control-Button-4>", lambda e=None: font_size(1))
+        ui.bind_class("Text", "<Control-Button-5>", lambda e=None: font_size(-1))
 
         ui.bind_class("Text", "<Button-3>", lambda e=None: show_context_menu(e, edit_menu))
 

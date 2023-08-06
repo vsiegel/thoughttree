@@ -51,9 +51,13 @@ class Sheet(tk.scrolledtext.ScrolledText):
         self.bind('<Next>', jump_to_limit)
         self.pack(pady=0, fill=X, expand=True)
         self.tag_configure("assistant", background="#F0F0F0", selectbackground="#4682b4", selectforeground="white")
-        bold_font = Font(font=("Courier", 10, "bold"))
-        bold_font.configure(weight='bold')
+        bold_font1 = Font(font=("Courier", 10, "bold"))
+        print(f"{(bold_font1)=}")
+        bold_font = self.cget("font")
+        print(f"{(bold_font)}=")
+        # bold_font.configure(weight='bold')
         self.tag_configure('bold', font=bold_font)
+        self.tag_configure('strikethrough', overstrike=True)
 
         Cursorline(self)
 
@@ -62,6 +66,24 @@ class Sheet(tk.scrolledtext.ScrolledText):
 
     def undo_separator(self):
         self.edit_separator()
+
+    def bold(self):
+        self.toggle_tag('bold')
+
+    def bold(self):
+        name, size = self.cget("font").rsplit(1)
+        self.config(font=(name, int(size)))
+
+    def strikethrough(self):
+        self.tag_selection('strikethrough')
+
+
+    def tag_selection(self, tag):
+        if self.tag_nextrange(tag, SEL_FIRST, SEL_LAST) or self.tag_prevrange(tag, SEL_FIRST, SEL_LAST):
+            self.tag_remove(tag, SEL_FIRST, SEL_LAST)
+        else:
+            self.tag_add(tag, SEL_FIRST, SEL_LAST)
+
 
     def toggle_tag(self, tag):
         selected = self.tag_ranges("sel")

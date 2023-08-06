@@ -102,6 +102,15 @@ class MainMenu(Menu):
                 name, size = sheet.cget("font").split()
             sheet.config(font=(name, int(size) + delta))
 
+
+        def bold(event):
+            self.it.bold()
+
+
+        def strikethrough(event):
+            self.it.strikethrough()
+
+
         def insert_current_time(event=None):
             self.it.insert(INSERT, f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} ")
 
@@ -194,6 +203,8 @@ class MainMenu(Menu):
         item("Redo", "<Control-Shift-Z>", edit_redo)
         item("Select All", "<Control-a>", select_all)
         self.menu.add_separator()
+        item("Bold", "<Control-b>", bold)
+        item("Strikethrough", "<Control-d>", strikethrough)
         item("Search with Google", "<Control-g>", search_google)
         item("Insert Current Time", "<Control-Shift-I>", insert_current_time)
         item("Include Date in System Prompt", None, None)

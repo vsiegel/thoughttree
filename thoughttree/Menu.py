@@ -3,7 +3,7 @@ import tkinter as tk
 from typing import Union
 
 from MenuHelpTooltip import MenuHelpTooltip
-from UI import UI
+from Ui import Ui
 
 
 class Menu(tk.Menu):
@@ -17,7 +17,7 @@ class Menu(tk.Menu):
         else:
             self.menu_help = None
 
-        if isinstance(master, UI):
+        if isinstance(master, Ui):
             master.root.config(menu=self)
         else:
             if self.menu_help:

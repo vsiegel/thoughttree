@@ -1,7 +1,7 @@
 import tkinter as tk
 
 from Menu import Menu
-from UI import UI
+from Ui import Ui
 from menu_help import menu_help
 
 
@@ -13,7 +13,7 @@ class WindowsMenu(Menu):
         print("create_current_window_items")
 
         self.delete(0, tk.END)
-        for open_ui in UI.current_open_uis:
+        for open_ui in Ui.current_open_uis:
             title = open_ui.root.title()
 
             command = lambda e=None, ui=open_ui: ui.toTop()

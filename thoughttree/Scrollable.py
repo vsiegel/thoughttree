@@ -27,9 +27,9 @@ class Scrollable(tk.Frame):
     def update_frame_width(self, event):
         self.canvas.itemconfig(self.frame_id, width=event.width)
 
-from UI import UI
+from Ui import Ui
 
-class ScrollableTest(UI):
+class ScrollableTest(Ui):
     def __init__(self):
         super().__init__()
 

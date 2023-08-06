@@ -7,7 +7,7 @@ from menu_help import menu_help
 
 class WindowsMenu(Menu):
     def __init__(self, parent, label):
-        super().__init__(parent, label, menu_help=menu_help, postcommand=self.create_current_window_items)
+        super().__init__(parent, label, menu_help=None, postcommand=self.create_current_window_items)
 
     def create_current_window_items(self, event=None):
         print("create_current_window_items")

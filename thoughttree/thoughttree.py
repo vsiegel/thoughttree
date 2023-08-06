@@ -15,11 +15,11 @@ from GeneratedTitle import GeneratedTitle
 from HidableFrame import HidableFrame
 from Model import Model
 from MultiTextboxLabel import MultiTextboxLabel
+from PrimaryUi import PrimaryUi
 from StatusBar import StatusBar
 from Sheet import Sheet
-from ThoughttreeMenu import ThoughttreeMenu
+from MainMenu import MainMenu
 from Tree import Tree
-from UI import UI
 from WaitCursor import WaitCursor
 from finish_reasons import finish_reasons
 
@@ -33,7 +33,7 @@ conf.ring_bell_after_completion = False
 conf.blinking_caret = True
 
 
-class Thoughttree(UI):
+class Thoughttree(PrimaryUi):
     MIN_SIZE = (600, 300)
     ROOT_GEOMETRY = "1000x600"
     icon = None
@@ -44,8 +44,8 @@ class Thoughttree(UI):
     generation_model_name = 'gpt-3.5-turbo'
 
 
-    def __init__(self, title="Thoughttree"):
-        UI.__init__(self, title, WINDOW_ICON)
+    def __init__(self):
+        PrimaryUi.__init__(self, "Thoughttree", WINDOW_ICON)
         self.status_hider = None
         self.status = None
         self.console = None
@@ -73,7 +73,7 @@ class Thoughttree(UI):
         self.models = {}
         self.generation_model = Model(self.generation_model_name)
         self.set_model(self.interactive_model_name)
-        menu = ThoughttreeMenu(self, new_window_callback)
+        menu = MainMenu(self, new_window_callback)
 
         self.status.note = "Loading available models..."
         self.update_idletasks()

@@ -267,8 +267,6 @@ class MainMenu(Menu):
 
 
     def sub_item(self, label, keystroke=None, command=None, variable=None, add=False):
-        if not label in menu_help:
-            print("Help text missing for menu item \"" + label + "\"")
         self.menu.item(label, keystroke, command, variable, add)
 
 

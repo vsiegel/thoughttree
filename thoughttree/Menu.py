@@ -56,7 +56,10 @@ class Menu(tk.Menu):
         return s
 
 
-    def item(self, label, keystroke, command, variable=None, add=False, index=tk.END) :
+    def item(self, label, keystroke, command, variable=None, add=False, index=tk.END):
+        if not label in self.menu_help:
+            print("Help text missing for menu item \"" + label + "\"")
+
         accelerator = self.convert_key_string(keystroke)
         state = tk.NORMAL if command or variable else tk.DISABLED
         if variable :

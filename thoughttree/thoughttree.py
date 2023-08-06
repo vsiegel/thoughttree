@@ -106,7 +106,7 @@ class Thoughttree(PrimaryUi):
         self.status = StatusBar(self.status_hider)
         self.status.pack(side=BOTTOM, fill=X, expand=True)
 
-        self.console_pane = FoldablePane(self, orient=VERTICAL, name="console_pane")
+        self.console_pane = FoldablePane(self, orient=VERTICAL)
         self.tree_pane = FoldablePane(self.console_pane, orient=HORIZONTAL)
         self.system_pane = FoldablePane(self.tree_pane, orient=VERTICAL)
         self.console_pane.pack(side=TOP, fill=BOTH, expand=True)

@@ -73,10 +73,38 @@ class Sheet(tk.scrolledtext.ScrolledText):
 
 
     def tag_selection(self, tag):
-        if self.tag_nextrange(tag, SEL_FIRST, SEL_LAST) or self.tag_prevrange(tag, SEL_FIRST, SEL_LAST):
-            self.tag_remove(tag, SEL_FIRST, SEL_LAST)
+        def min(i1, i2):
+            if self.compare(i1, '<=', i2):
+                return i1
+            else:
+                return i2
+
+        def max(i1, i2):
+            if self.compare(i1, '>=', i2):
+                return i1
+            else:
+                return i2
+
+        def range_intersection(ranges, single_range):
+            intersections = []
+            for range in ranges:
+                if  self.compare(max(range[0], single_range[0]), "<", min(range[1], single_range[1])):
+                    intersections.append((max(range[0], single_range[0]), min(range[1], single_range[1])))
+            return intersections
+
+
+        if not self.tag_ranges(SEL):
+            return
+        tag_ranges = self.tag_ranges(tag)
+        iters = [iter(tag_ranges)] * 2
+        ranges = list(zip(*iters))
+        sel = (self.index(SEL_FIRST), self.index(SEL_LAST))
+        tag_in_selection = range_intersection(ranges, sel)
+
+        if tag_in_selection:
+            self.tag_remove(tag, *sel)
         else:
-            self.tag_add(tag, SEL_FIRST, SEL_LAST)
+            self.tag_add(tag, *sel)
 
 
     def toggle_tag(self, tag):
@@ -92,8 +120,6 @@ class Sheet(tk.scrolledtext.ScrolledText):
     def transfer_content(self, to_sheet):
         content = self.get("1.0", tk.END)
         to_sheet.insert("1.0", content)
-
-        # self.compare('2.0', '<=', END)
 
         for tag in self.tag_names():
             ranges = self.tag_ranges(tag)

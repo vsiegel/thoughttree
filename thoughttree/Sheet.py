@@ -65,7 +65,7 @@ class Sheet(tk.scrolledtext.ScrolledText):
         self.edit_separator()
 
     def bold(self):
-        self.toggle_tag('bold')
+        self.tag_selection('bold')
 
 
     def strikethrough(self):

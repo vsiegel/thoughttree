@@ -50,14 +50,12 @@ class Sheet(tk.scrolledtext.ScrolledText):
         self.bind('<Prior>', jump_to_limit)
         self.bind('<Next>', jump_to_limit)
         self.pack(pady=0, fill=X, expand=True)
-        self.tag_configure("assistant", background="#F0F0F0", selectbackground="#4682b4", selectforeground="white")
-        bold_font1 = Font(font=("Courier", 10, "bold"))
-        print(f"{(bold_font1)=}")
-        bold_font = self.cget("font")
-        print(f"{(bold_font)}=")
-        # bold_font.configure(weight='bold')
-        self.tag_configure('bold', font=bold_font)
+
+        name, size = self.cget("font").rsplit(None, 1)
+        self.tag_configure('bold', font=(name, int(size), "bold"))
         self.tag_configure('strikethrough', overstrike=True)
+        self.tag_configure("assistant", background="#F0F0F0", selectbackground="#4682b4", selectforeground="white")
+
 
         Cursorline(self)
         self.insert(END, text)

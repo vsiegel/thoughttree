@@ -60,7 +60,6 @@ class Sheet(tk.scrolledtext.ScrolledText):
         self.tag_configure('strikethrough', overstrike=True)
 
         Cursorline(self)
-
         self.insert(END, text)
 
 
@@ -70,9 +69,6 @@ class Sheet(tk.scrolledtext.ScrolledText):
     def bold(self):
         self.toggle_tag('bold')
 
-    def bold(self):
-        name, size = self.cget("font").rsplit(1)
-        self.config(font=(name, int(size)))
 
     def strikethrough(self):
         self.tag_selection('strikethrough')

@@ -9,7 +9,6 @@ from Imports import Menu, ModelsMenu, WindowsMenu
 from Sheet import Sheet
 from Console import Console
 from menu_help import menu_help
-from functools import partial
 
 class MainMenu(Menu):
     def __init__(self, thoughttree, new_window_callback):
@@ -99,7 +98,7 @@ class MainMenu(Menu):
             if delta == 0:
                 name, size = Sheet.FONT
             else:
-                name, size = sheet.cget("font").split()
+                name, size = sheet.cget("font").rsplit(None, 1)
             sheet.config(font=(name, int(size) + delta))
 
 

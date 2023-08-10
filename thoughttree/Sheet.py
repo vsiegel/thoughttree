@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import CURRENT, END, INSERT, SEL, WORD, X, SEL_FIRST, SEL_LAST
 from tkinter import scrolledtext
-from tkinter.font import Font
 from typing import Union
 
 from Cursorline import Cursorline
@@ -106,15 +105,6 @@ class Sheet(tk.scrolledtext.ScrolledText):
         else:
             self.tag_add(tag, *sel)
 
-
-    def toggle_tag(self, tag):
-        selected = self.tag_ranges("sel")
-        if selected:
-            tagged = self.tag_nextrange(tag, SEL_FIRST, SEL_LAST)
-            if tagged:
-                self.tag_remove(tag, *tagged)
-            else:
-                self.tag_add(tag, SEL_FIRST, SEL_LAST)
 
 
     def transfer_content(self, to_sheet):
@@ -258,7 +248,6 @@ class Sheet(tk.scrolledtext.ScrolledText):
 
 
         sheet: Sheet = self.focus_get()
-        print(f"{sheet == self}")
         cursor_pos = sheet.index(INSERT)
         line_nr = int(cursor_pos.split('.')[0])
         current_line = sheet.get(f"{line_nr}.0", f"{line_nr}.end")
@@ -278,7 +267,6 @@ class Sheet(tk.scrolledtext.ScrolledText):
         def selected_sheet(notebook):
             frame_on_tab = notebook.nametowidget(notebook.select())
             sheet = frame_on_tab.winfo_children()[1]
-            print(f"{sheet == self}")
             return sheet
 
         notebook: Notebook = self.find_parent(Notebook)

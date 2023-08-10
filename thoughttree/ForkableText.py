@@ -24,8 +24,8 @@ class ForkableText(tk.Frame):
             current_tab.update_idletasks()
             self.notebook.configure(height=current_tab.winfo_reqheight())
 
-        text_tab1 = ResizingText(self.notebook)
-        text_tab2 = ResizingText(self.notebook)
+        text_tab1 = ForkableText(self.notebook)
+        text_tab2 = ForkableText(self.notebook)
         self.notebook.add(text_tab1, text="Tab 1")
         self.notebook.add(text_tab2, text="Tab 2")
         self.notebook.bind("<<NotebookTabChanged>>", update_notebook_height)

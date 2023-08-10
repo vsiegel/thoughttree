@@ -11,7 +11,11 @@ from ThoughttreeConfig import conf
 
 class Sheet(tk.scrolledtext.ScrolledText):
     FONT_NAME_MONOSPACE = "monospace"
+    # FONT_NAME_MONOSPACE = "DejaVu Sans Mono ExCond"
+    # FONT_NAME_MONOSPACE = "DejaVu Sans Mono"
     FONT_NAME_PROPORTIONAL = "sans-serif"
+    # FONT_NAME_PROPORTIONAL = "DejaVu Sans"
+    # FONT_NAME_PROPORTIONAL = "DejaVu Sans Mono ExCond"
     FONT = (FONT_NAME_PROPORTIONAL, 11)
 
     def __init__(self, master=None, text="", scrollbar=True, padx=0, pady=0, height=0, **kw):

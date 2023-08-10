@@ -73,13 +73,13 @@ class Sheet(tk.scrolledtext.ScrolledText):
 
 
     def tag_selection(self, tag):
-        def min(i1, i2):
+        def min_index(i1, i2):
             if self.compare(i1, '<=', i2):
                 return i1
             else:
                 return i2
 
-        def max(i1, i2):
+        def max_index(i1, i2):
             if self.compare(i1, '>=', i2):
                 return i1
             else:
@@ -87,9 +87,9 @@ class Sheet(tk.scrolledtext.ScrolledText):
 
         def range_intersection(ranges, single_range):
             intersections = []
-            for range in ranges:
-                if  self.compare(max(range[0], single_range[0]), "<", min(range[1], single_range[1])):
-                    intersections.append((max(range[0], single_range[0]), min(range[1], single_range[1])))
+            for index_range in ranges:
+                if  self.compare(max_index(index_range[0], single_range[0]), "<", min_index(index_range[1], single_range[1])):
+                    intersections.append((max_index(index_range[0], single_range[0]), min_index(index_range[1], single_range[1])))
             return intersections
 
 

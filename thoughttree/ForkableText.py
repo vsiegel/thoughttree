@@ -20,10 +20,9 @@ class ForkableText(tk.Frame):
     def fork(self, event=None):
 
         def update_notebook_height(event):
-            notebook = event.widget
-            current_tab = notebook.nametowidget(notebook.select())
+            current_tab = self.notebook.nametowidget(self.notebook.select())
             current_tab.update_idletasks()
-            notebook.configure(height=current_tab.winfo_reqheight())
+            self.notebook.configure(height=current_tab.winfo_reqheight())
 
         text_tab1 = ResizingText(self.notebook)
         text_tab2 = ResizingText(self.notebook)

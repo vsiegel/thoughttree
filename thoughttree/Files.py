@@ -214,9 +214,12 @@ class Files:
         try:
             code_block = find_code_block(sheet)
 
+            ext = ".py"
             filename = asksaveasfilename(
-                    defaultextension=".py", initialfile="code_block.py", title="Save Code Block", parent=sheet)
+                    defaultextension=ext, initialfile="code_block.py", title="Save Code Block", parent=sheet)
             if filename:
+                if not re.match(".*\..{1,5}$", filename):
+                    filename = filename + ext
                 with open(filename, 'w') as f:
                     f.write(code_block)
 

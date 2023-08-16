@@ -20,10 +20,8 @@ class Sheet(tk.scrolledtext.ScrolledText):
 
     def __init__(self, master=None, text="", scrollbar=True, padx=0, pady=0, height=0, grow=True, **kw):
         height = height or len(text.splitlines())
-        background = 'white'
-        # background = next_pastel_rainbow_color()
         tk.scrolledtext.ScrolledText.__init__(
-            self, master, undo=True, wrap=WORD, padx=padx, pady=pady, background=background,
+            self, master, undo=True, wrap=WORD, padx=padx, pady=pady, background='white',
             width=80, height=height, insertwidth=4, font=Sheet.FONT,
             border=0, borderwidth=0, highlightthickness=0,
             selectbackground="#66a2d4", selectforeground="white", **kw)

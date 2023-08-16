@@ -61,6 +61,13 @@ class Sheet(tk.scrolledtext.ScrolledText):
         Cursorline(self)
         self.insert(END, text)
 
+    def grow_to_displaylines(self, event):
+        sheet = event.widget
+        num_display_lines = sheet.count("1.0", "end", 'displaylines')[0]
+        if num_display_lines != self.old_num_display_lines:
+            sheet.configure(height=num_display_lines)
+            self.old_num_display_lines = num_display_lines
+        sheet.edit_modified(False)
 
     def undo_separator(self):
         self.edit_separator()

@@ -11,4 +11,5 @@ class Notebook(ttk.Notebook):
             style.configure(styleName, bd=0, highlightthickness=0, background="white")
         super().__init__(parent, style=styleName, takefocus=takefocus, **kw)
         self.enable_traversal()
+        self.winfo_toplevel().unbind('<Control-Tab>')
 

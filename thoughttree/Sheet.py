@@ -18,7 +18,7 @@ class Sheet(tk.scrolledtext.ScrolledText):
     # FONT_NAME_PROPORTIONAL = "DejaVu Sans Mono ExCond"
     FONT = (FONT_NAME_PROPORTIONAL, 11)
 
-    def __init__(self, master=None, text="", scrollbar=True, padx=0, pady=0, height=0, **kw):
+    def __init__(self, master=None, text="", scrollbar=True, padx=0, pady=0, height=0, grow=True, **kw):
         height = height or len(text.splitlines())
         background = 'white'
         # background = next_pastel_rainbow_color()

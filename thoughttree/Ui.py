@@ -29,6 +29,11 @@ class Ui(tk.Frame):
         except:
             print("Error loading icon.")
 
+        # def close(event):
+        #     self.root.destroy()
+        # self.root.bind("<Escape>", close)
+
+
     def toTop(self):
         self.root.attributes("-topmost", True)
         self.root.attributes("-topmost", False)

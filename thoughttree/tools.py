@@ -133,12 +133,20 @@ def get_git_describe_version():
     except Exception as e:
         return "(error accessing git describe version)"
 
-def bind_all_events(widget, on_event):
-    invalid_events = ["Keymap", "GraphicsExpose", "NoExpose", "CirculateRequest", "SelectionClear",
-              "SelectionRequest", "Selection", "ClientMessage", "Mapping", "VirtualEvent"]
+def bind_all_events(widget, on_event=None):
+    invalid_events = ["Motion"]
+    # invalid_events = ["Keymap", "GraphicsExpose", "NoExpose", "CirculateRequest", "SelectionClear",
+    #           "SelectionRequest", "Selection", "ClientMessage", "Mapping", "VirtualEvent"]
+    def print_event(event):
+        print(f"Event: {event.widget}: {event}")
+
+    on_event = on_event or print_event
     for ev in [f"<{e.name}>" for e in tk.EventType if e.name not in invalid_events]:
-        print(ev)
-        widget.bind(ev, on_event)
+        try:
+            widget.bind(ev, on_event)
+            print(f"Bound {ev}")
+        except Exception:
+            pass
 
 
 def show_widget_under_pointer(widget):

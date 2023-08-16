@@ -52,7 +52,7 @@ class Sheet(tk.scrolledtext.ScrolledText):
 
         self.bind('<Prior>', jump_to_limit)
         self.bind('<Next>', jump_to_limit)
-        self.pack(pady=0, fill=X, expand=True)
+        self.pack(padx=0, pady=0, fill=X, expand=True)
 
         name, size = self.cget("font").rsplit(None, 1)
         self.tag_configure('bold', font=(name, int(size), "bold"))
@@ -108,7 +108,6 @@ class Sheet(tk.scrolledtext.ScrolledText):
             self.tag_remove(tag, *sel)
         else:
             self.tag_add(tag, *sel)
-
 
 
     def transfer_content(self, to_sheet):

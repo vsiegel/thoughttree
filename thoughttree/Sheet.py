@@ -57,6 +57,9 @@ class Sheet(tk.scrolledtext.ScrolledText):
         self.tag_configure('strikethrough', overstrike=True)
         self.tag_configure("assistant", background="#F0F0F0", selectbackground="#4682b4", selectforeground="white")
 
+        self.old_num_display_lines = 0
+        if grow:
+            self.bind('<<Modified>>', self.grow_to_displaylines)
 
         Cursorline(self)
         self.insert(END, text)

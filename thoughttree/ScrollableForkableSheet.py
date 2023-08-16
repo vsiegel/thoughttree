@@ -1,9 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, BOTH, LEFT, RIGHT, VERTICAL, NW, Y, X
 
-from ForkableText import ForkableText
-from ResizingText import ResizingText
-from tools import next_pastel_rainbow_color
+from ForkableSheet import ForkableSheet
 
 
 class ScrollableForkableSheet(tk.Frame):
@@ -21,7 +19,7 @@ class ScrollableForkableSheet(tk.Frame):
         self.frame_id = self.canvas.create_window((0, 0), window=self.frame, anchor=NW)
 
         ## self.sheet = ResizingText(self.frame, bg=next_pastel_rainbow_color(), height=1)
-        self.sheet = ForkableText(self.frame, height=1)
+        self.sheet = ForkableSheet(self.frame, height=1)
         self.sheet.pack(expand=True, fill=X)
         self.frame.bind("<Configure>", self.configure_scrollregion)
         self.canvas.bind("<Configure>", self.configure_width)

@@ -18,8 +18,7 @@ class Sheet(tk.scrolledtext.ScrolledText):
     # FONT_NAME_PROPORTIONAL = "DejaVu Sans Mono ExCond"
     FONT = (FONT_NAME_PROPORTIONAL, 11)
 
-    def __init__(self, master=None, text="", scrollbar=True, padx=0, pady=0, height=0, grow=True, **kw):
-        height = height or len(text.splitlines())
+    def __init__(self, master=None, scrollbar=True, padx=0, pady=0, height=0, grow=True, **kw):
         tk.scrolledtext.ScrolledText.__init__(
             self, master, undo=True, wrap=WORD, padx=padx, pady=pady, background='white',
             width=80, height=height, insertwidth=4, font=Sheet.FONT,
@@ -62,7 +61,6 @@ class Sheet(tk.scrolledtext.ScrolledText):
             self.bind('<<Modified>>', self.grow_to_displaylines)
 
         Cursorline(self)
-        self.insert(END, text)
 
     def grow_to_displaylines(self, event):
         sheet = event.widget
@@ -177,7 +175,8 @@ class Sheet(tk.scrolledtext.ScrolledText):
         if new_notebook:
             notebook = Notebook(self, height=self.winfo_height(), width=self.winfo_width())
 
-            sheet = Sheet(notebook, trailing_text, scrollbar=True)
+            sheet = Sheet(notebook, scrollbar=True)
+            sheet.insert(END, trailing_text)
             notebook.add(sheet, text=new_child(parent))
             self.window_create(index, window=notebook)
             self.delete(index + "+1char", END)

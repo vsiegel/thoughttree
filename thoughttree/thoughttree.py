@@ -76,12 +76,12 @@ class Thoughttree(PrimaryUi):
         self.set_model(self.interactive_model_name)
         menu = MainMenu(self, new_window_callback)
 
+        self.pack(fill=BOTH, expand=True)
         self.status.note = "Loading available models..."
         self.update_idletasks()
         menu.models_menu.load_available_models()
         self.status.note = ""
 
-        self.pack(fill=BOTH, expand=True)
         if self.first_window:
             self.root.mainloop()
 

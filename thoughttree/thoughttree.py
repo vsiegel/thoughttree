@@ -46,6 +46,7 @@ class Thoughttree(PrimaryUi):
 
     def __init__(self):
         PrimaryUi.__init__(self, "Thoughttree", WINDOW_ICON)
+        self.previous_current_sheet = None
         self.status_hider = None
         self.status = None
         self.console = None
@@ -199,7 +200,7 @@ class Thoughttree(PrimaryUi):
 
 
     def count_text_tokens(self, event=None) :
-        sheet: Sheet = self.focus_get()
+        sheet = self.current_sheet()
         try :
             text = sheet.get(SEL_FIRST, SEL_LAST)
         except tk.TclError :
@@ -225,7 +226,7 @@ class Thoughttree(PrimaryUi):
 
     def complete(self, n=1, prefix="", postfix=""):
         self.model.is_canceled = False
-        sheet: Sheet = self.focus_get()
+        sheet = self.current_sheet()
         sheet.tag_remove('cursorline', 1.0, "end")
 
         n = self.find_number_of_completions(n)
@@ -244,6 +245,16 @@ class Thoughttree(PrimaryUi):
             self._handle_completion_finish(sheet, finish_reason, message, postfix)
             self._post_completion_tasks()
         return "break"
+
+
+    def current_sheet(self) -> Sheet:
+        focussed_widget = self.focus_get()
+        if isinstance(focussed_widget, Sheet):
+            self.previous_current_sheet = focussed_widget
+            return focussed_widget
+        else:
+            return self.previous_current_sheet
+
 
     def scroll(self, sheet):
         if self.scroll_output:
@@ -349,8 +360,7 @@ class Thoughttree(PrimaryUi):
         system = self.system.get(1.0, 'end - 1c').strip()
         history = [{'role': 'system', 'content': system}]
 
-        sheet: Sheet = self.focus_get()
-        history = sheet.history_from_path(history)
+        history = self.current_sheet().history_from_path(history)
 
         if additional_message:
             history += [{'role': 'user', 'content': additional_message}]

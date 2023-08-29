@@ -26,10 +26,7 @@ class Thought:
         add('-n', '--n-completions',     dest='number',          default=1,    type=int, help='Number of completions to request')
         add('-k', '--api-key',           dest='apiKey',          default="",   type=str, help='API key for the OpenAI API')
 
-        # args = parser.parse_args()
-        # args = parser.parse_args("-h")
-        args = parser.parse_args("-s /home/siegel/manuscript/review_prompt.txt -p /home/siegel/manuscript/2.6_neuronale_netze.tex")
-
+        args = parser.parse_args()
         print(args)
 
         openai.api_key = args.apiKey or os.getenv("OPENAI_API_KEY")

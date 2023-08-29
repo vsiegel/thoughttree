@@ -17,9 +17,9 @@ class ForkableSheet(tk.Frame):
         self.notebook = Notebook(self)
         self.notebook.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
 
-        self.sheet.bind("<Control-o>", self.fork)
+        self.sheet.bind("<Control-o>", self.fork_mock)
 
-    def fork(self, event=None):
+    def fork_mock(self, event=None):
         text_tab1 = ForkableSheet(self.notebook)
         text_tab2 = ForkableSheet(self.notebook)
         self.notebook.add(text_tab1, text="Tab 1")

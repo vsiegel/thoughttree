@@ -132,7 +132,7 @@ class Sheet(tk.scrolledtext.ScrolledText):
             to_sheet.window_create(index, window=window)
 
 
-    def fork(self, index=INSERT, root=False):
+    def fork(self, index=INSERT):
         index = self.index(index)
 
         def next_level(hierarchical_id):

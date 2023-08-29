@@ -6,6 +6,7 @@ from math import ceil, log2, sqrt
 import random
 from tkinter import EventType
 
+from pathlib import Path
 from pyperclip import paste
 from inspect import currentframe
 import subprocess
@@ -122,7 +123,8 @@ def log(arg=""):
 
 
 def git(*command):
-    return subprocess.check_output(['git'] + list(command)).decode('utf8').strip()
+    source_dir = Path(__file__).resolve().parent
+    return subprocess.check_output(['git'] + list(command), cwd=source_dir).decode('utf8').strip()
 
 def get_git_commit():
     return git('rev-parse', '--short', 'HEAD')

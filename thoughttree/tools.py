@@ -122,16 +122,16 @@ def log(arg=""):
     print(f"{f} {l}: {arg}")
 
 
-def git(*command):
-    source_dir = Path(__file__).resolve().parent
-    return subprocess.check_output(['git'] + list(command), cwd=source_dir).decode('utf8').strip()
+def git(*command, cwd=None):
+    return subprocess.check_output(['git'] + list(command), cwd=cwd).decode('utf8').strip()
 
 def get_git_commit():
     return git('rev-parse', '--short', 'HEAD')
 
 def get_git_describe_version():
+    source_dir = Path(__file__).resolve().parent
     try:
-        return git('describe', '--tags')
+        return git('describe', '--tags', cwd=source_dir)
     except Exception as e:
         return "(error accessing git describe version)"
 

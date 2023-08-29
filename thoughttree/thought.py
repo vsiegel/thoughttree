@@ -41,15 +41,22 @@ class Thought:
         except KeyboardInterrupt:
             sys.exit(1)
 
+        now = datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
+        outputFile = None
         if args.outputFile:
             if args.datedOutputFile:
-                filename, ext = os.path.splitext(args.outputFile)
-                now = datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
-                outputFile = f"{filename}_{now}{ext}"
+                name, ext = os.path.splitext(args.outputFile)
+                outputFile = f"{name}-{now}{ext}"
             else:
                 outputFile = args.outputFile
+        elif args.deriveName and args.promptFile:
+            name, ext = os.path.splitext(args.promptFile)
+            if args.datedOutputFile:
+                outputFile = f"{name}-{now}{ext}"
+            else:
+                outputFile = f"{name}{args.suffix}{ext}"
 
-
+        if outputFile:
             with open(outputFile, 'w') as f:
                 f.write(completion)
 

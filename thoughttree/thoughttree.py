@@ -52,7 +52,7 @@ class Thoughttree(PrimaryUi):
         self.console = None
         self.tree = None
         self.system = None
-        self.chat = None
+        self.chat_sheet = None
         self.model = None
         self.console_pane = None
         self.tree_pane = None
@@ -115,14 +115,14 @@ class Thoughttree(PrimaryUi):
         self.console = Console(self.console_pane)
         self.tree = Tree(self.tree_pane)
         self.system = Sheet(self.system_pane, height=3)
-        self.chat = Sheet(self.system_pane)
+        self.chat_sheet = Sheet(self.system_pane)
 
         self.console_pane.add(self.tree_pane, stretch="always")
         self.console_pane.addFoldable(self.console, stretch="never")
         self.tree_pane.addFoldable(self.tree, stretch="never")
         self.tree_pane.add(self.system_pane, stretch="always")
         self.system_pane.addFoldable(self.system, stretch="never")
-        self.system_pane.add(self.chat, stretch="always")
+        self.system_pane.add(self.chat_sheet, stretch="always")
 
         def on_first_configure(ev=None):
             self.system_pane.fold(set_folded=True)
@@ -134,7 +134,7 @@ class Thoughttree(PrimaryUi):
         sys.stdout = self.console
         sys.stderr = self.console.err
 
-        self.chat.focus_set()
+        self.chat_sheet.focus_set()
 
 
     def configure_ui_options(self):

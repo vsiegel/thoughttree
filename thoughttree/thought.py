@@ -1,6 +1,6 @@
 from configargparse import ArgumentParser
 
-from tools import maybe
+from tools import maybe_file
 
 
 class Thought:
@@ -27,8 +27,10 @@ class Thought:
 
         print(args)
 
-        prompt = args.prompt or maybe(args.promptFile)
-        systemPrompt = args.systemPrompt or maybe(args.systemPromptFile)
+        openai.api_key = args.apiKey or os.getenv("OPENAI_API_KEY")
+
+        prompt = args.prompt or maybe_file(args.promptFile)
+        systemPrompt = args.systemPrompt or maybe_file(args.systemPromptFile)
 
 
 

@@ -164,7 +164,7 @@ def show_widget_under_pointer(widget):
     root.bind('<Motion>', track_pointer)
 
 
-def maybe(file_name):
+def maybe_file(file_name):
     try:
         with open(file_name) as f:
             return f.read()

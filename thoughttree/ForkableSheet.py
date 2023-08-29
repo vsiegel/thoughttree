@@ -12,9 +12,9 @@ class ForkableSheet(tk.Frame):
         super().__init__(parent, *args, **kw)
 
         self.sheet = Sheet(self, height=1, scrollbar=False, grow=True)
+        self.sheet.pack(side=tk.TOP, fill=X, expand=False)
 
         self.notebook = Notebook(self)
-        self.sheet.pack(side=tk.TOP, fill=X, expand=False)
         self.notebook.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
 
         self.sheet.bind("<Control-o>", self.fork)

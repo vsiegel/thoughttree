@@ -2,12 +2,10 @@ import tkinter as tk
 from tkinter import X
 
 from Notebook import Notebook
-from ResizingText import ResizingText
 from Sheet import Sheet
-from tools import next_pastel_rainbow_color
 
 
-class ForkableSheet(tk.Frame):
+class ForkableSheet(Sheet):
     def __init__(self, parent, *args, **kw):
         super().__init__(parent, *args, **kw)
 

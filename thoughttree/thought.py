@@ -12,8 +12,7 @@ from tools import maybe_file
 class Thought:
     def __init__(self):
         parser = ArgumentParser(prog="thought",
-            description='Interact with a large language model on the command line',
-            exit_on_error=False)
+            description='Interact with a large language model on the command line')
         add = parser.add_argument
         add('prompt',                    nargs='?',              default="",   type=str, help='Prompt for the model, text to be completed')
         add('-p', '--prompt-file',       dest='promptFile',      default="",   type=str, help='File containing the prompt')

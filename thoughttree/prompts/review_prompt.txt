@@ -1,0 +1,15 @@
+Gib mir ein review des Textes.
+Der Zweck ist, den Author in der Verbesserung des Textes zu unterstützen.
+
+Im folgenden können Teile mit '#' auskommentiert bzw deaktiviert sein.
+
+Ignoriere folgende Probleme:
+
+#- auskommentierte Zeilen
+- Überprüfung von Quellen
+- korrekte Verwendung von LaTeX-Befehlen
+
+Liste Verbesserungsvorschläge in kurzen Stichpunkten auf.
+Drücke Änderungen als context diff aus.
+Schreibe in Deutscher Sprache.
+Zeige Rechtschreibfehler.

@@ -19,12 +19,14 @@ class Thought:
         add('-s', '--system-prompt',     dest='systemPrompt',    default="",   type=str, help='System prompt for the model')
         add('-f', '--system-prompt-file',dest='systemPromptFile',default="",   type=str, help='File containing the system prompt')
         add('-o', '--output',            dest='outputFile',      default="",   type=str, help='File to write the output to')
-        add('-d', '--dated',             dest='datedOutputFile', nargs='?',    type=bool, help='Add time and date to output filename')
-        add('-t', '--temperature',       dest='temperature',     default=0.0,  type=float,choices=(0.0, 2.0),help='Temperature')
-        add('-g', '--gpt-model',         dest='model',           default="gpt-4", type=str, help='Model of gpt-4 or gpt-3.5 (ChatGPT) to use ')
+        add('-d', '--derive-name',       dest='deriveName',      action='store_true',    help='Derive output name from prompt name')
+        add('-d', '--suffix',            dest='suffix',          default="-out",   type=str, help='Suffix to add to output name')
+        add('-d', '--dated',             dest='datedOutputFile', action='store_true',    help='Add time and date to output name')
+        add('-t', '--temperature',       dest='temperature',     default=0.0,  type=float,help='Temperature')
+        add('-g', '--gpt-model',         dest='model',           default="gpt-4",type=str, help='Model of gpt-4 or gpt-3.5 (ChatGPT) to use ')
         add('-m', '--max-tokens',        dest='max_tokens',      default=250,    type=int, help='Maximal number of tokens to use per query, 0 for inf')
         add('-n', '--n-completions',     dest='number',          default=1,    type=int, help='Number of completions to request')
-        add('-k', '--api-key',           dest='apiKey',          default="",   type=str, help='API key for the OpenAI API')
+        add('-a', '--api-key',           dest='apiKey',          default="",   type=str, help='API key for the OpenAI API')
 
         args = parser.parse_args()
 

@@ -71,7 +71,7 @@ class Model():
                 delta = event['choices'][0]['delta']
                 if 'content' in delta :
                     text = delta["content"]
-                    output_delta_callback(text)
+                    on_increment(text)
                     self.counter.observe_completion(text)
                     self.log(text)
                     texts.append(text)

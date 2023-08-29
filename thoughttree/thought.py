@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import os
+import sys
 from datetime import datetime
 
 import openai
@@ -34,7 +35,10 @@ class Thought:
         prompt = args.prompt or maybe_file(args.promptFile)
         systemPrompt = args.systemPrompt or maybe_file(args.systemPromptFile)
 
-        completion = self.complete(prompt, systemPrompt, args.temperature, args.max_tokens, args.model)
+        try:
+            completion = self.complete(prompt, systemPrompt, args.temperature, args.max_tokens, args.model)
+        except KeyboardInterrupt:
+            sys.exit(1)
 
 
 

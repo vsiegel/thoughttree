@@ -224,7 +224,7 @@ class Thoughttree(PrimaryUi):
         return "break"
 
 
-    def complete(self, n=1, prefix="", postfix=""):
+    def chat(self, n=1, prefix="", postfix=""):
         self.model.is_canceled = False
         sheet = self.current_sheet()
         sheet.tag_remove('cursorline', 1.0, "end")
@@ -240,10 +240,10 @@ class Thoughttree(PrimaryUi):
             history = self.history_from_system_and_chat()
             self.model.counter.go()
 
-            finish_reason, message = self._process_completions(sheet, n, history)
+            finish_reason, message = self.completions(sheet, n, history)
 
-            self._handle_completion_finish(sheet, finish_reason, message, postfix)
-            self._post_completion_tasks()
+            self.finish_completion(sheet, finish_reason, message, postfix)
+            self.post_completion_tasks()
         return "break"
 
 
@@ -283,7 +283,7 @@ class Thoughttree(PrimaryUi):
             self.scroll(sheet)
 
 
-    def _process_completions(self, sheet, n, history):
+    def completions(self, sheet, n, history):
         finish_reason, message = 'unknown', ''
         label_frame = None
         if n == 1:
@@ -320,7 +320,7 @@ class Thoughttree(PrimaryUi):
         return finish_reason, message
 
 
-    def _handle_completion_finish(self, sheet, finish_reason, message, postfix):
+    def finish_completion(self, sheet, finish_reason, message, postfix):
         if self.is_root_destroyed:
             return
         if conf.show_finish_reason:
@@ -345,7 +345,7 @@ class Thoughttree(PrimaryUi):
             sheet.window_create(END, window=FinishReasonIcon(sheet, symbol, tooltip=tooltip))
 
 
-    def _post_completion_tasks(self):
+    def post_completion_tasks(self):
         if conf.ring_bell_after_completion:
             self.bell()
 

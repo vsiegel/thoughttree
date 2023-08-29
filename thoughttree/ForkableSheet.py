@@ -5,10 +5,12 @@ from Notebook import Notebook
 from Sheet import Sheet
 
 
-class ForkableSheet(Sheet):
+class ForkableSheet(tk.Frame):
     def __init__(self, parent, *args, **kw):
+        # super().__init__(parent, scrollbar=False, *args, **kw)
         super().__init__(parent, *args, **kw)
 
+        # self.frame.configure(takefocus=False)
         self.sheet = Sheet(self, height=1, scrollbar=False, grow=True)
         self.sheet.pack(side=tk.TOP, fill=X, expand=False)
 

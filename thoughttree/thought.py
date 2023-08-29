@@ -37,7 +37,7 @@ class Thought:
         systemPrompt = args.systemPrompt or maybe_file(args.systemPromptFile)
 
         try:
-            completion = self.complete(prompt, systemPrompt, args.temperature, args.max_tokens, args.model)
+            completion = Thought.complete(prompt, systemPrompt, args.temperature, args.max_tokens, args.model)
         except KeyboardInterrupt:
             sys.exit(1)
 

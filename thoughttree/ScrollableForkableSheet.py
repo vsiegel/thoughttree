@@ -18,7 +18,6 @@ class ScrollableForkableSheet(tk.Frame):
         self.frame = tk.Frame(self.canvas, bd=0)
         self.frame_id = self.canvas.create_window((0, 0), window=self.frame, anchor=NW)
 
-        ## self.sheet = ResizingText(self.frame, bg=next_pastel_rainbow_color(), height=1)
         self.sheet = ForkableSheet(self.frame, height=1)
         self.sheet.pack(expand=True, fill=X)
         self.frame.bind("<Configure>", self.configure_scrollregion)

@@ -47,15 +47,17 @@ class Thought:
         if args.outputFile:
             if args.datedOutputFile:
                 name, ext = os.path.splitext(args.outputFile)
-                outputFile = f"{name}-{now}{ext}"
+                insert = f"-{now}"
             else:
-                outputFile = args.outputFile
+                insert = ""
+            outputFile = f"{name}{insert}{ext}"
         elif args.deriveName and args.promptFile:
             name, ext = os.path.splitext(args.promptFile)
             if args.datedOutputFile:
-                outputFile = f"{name}-{now}{ext}"
+                insert = f"-{now}"
             else:
-                outputFile = f"{name}{args.suffix}{ext}"
+                insert = f"-{args.suffix}"
+            outputFile = f"{name}{insert}{ext}"
 
         if outputFile:
             with open(outputFile, 'w') as f:

@@ -61,7 +61,8 @@ class Thought:
                 f.write(completion)
 
 
-    def complete(self, prompt, system="", temperature=0.5, max_tokens=250, model="gpt-4"):
+    @staticmethod
+    def complete(prompt, system="", temperature=0.5, max_tokens=250, model="gpt-4"):
         history = [{'role': 'system', 'content': system}]
         history += [{'role': 'user', 'content': prompt}]
 

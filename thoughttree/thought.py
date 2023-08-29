@@ -27,7 +27,7 @@ class Thought:
         add('-k', '--api-key',           dest='apiKey',          default="",   type=str, help='API key for the OpenAI API')
 
         args = parser.parse_args()
-        print(args)
+
 
         openai.api_key = args.apiKey or os.getenv("OPENAI_API_KEY")
 

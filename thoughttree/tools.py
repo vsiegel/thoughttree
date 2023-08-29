@@ -93,7 +93,7 @@ def text_block(text):
     text = "\n".join([fill(line, width=width) for line in lines])
     return text
 
-def logarithmic_length(text, n=1, step='.'):
+def log_len(text, n=1, step='.'):
     return step * ceil(log2(len(text)-n+1)) if len(text) > n else ''
     # return (step * ceil(log2(len(text))) if len(text) > n else '')[3+ceil(log2(n)):]
 

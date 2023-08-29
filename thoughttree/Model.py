@@ -14,7 +14,7 @@ from TokenCounter import TokenCounter
 
 import os
 
-from tools import log, shorter, logarithmic_length
+from tools import log, shorter, log_len
 
 
 def log_file_size(path):
@@ -77,7 +77,7 @@ class Model():
                     texts.append(text)
                 last_event = event
             full_text = "".join(texts)
-            print(f"result: {shorter(full_text, 120)} {logarithmic_length(full_text, 120)}")
+            print(f"result: {shorter(full_text, 120)} {log_len(full_text, 120)}")
 
             print(f"{last_event['model']}")
             if self.is_canceled:

@@ -162,7 +162,7 @@ class Thoughttree(PrimaryUi):
         history = self.history_from_system_and_chat(GeneratedTitle.PROMPT, max_messages=5, max_size=1000) # todo limit, do not use system for title
 
         self.generation_model.counter.go()
-        self.generation_model.chat_complete(history, write_title, max_tokens=30, temperature=0.3)
+        self.generation_model.complete(history, write_title, max_tokens=30, temperature=0.3)
         self.generation_model.counter.summarize("Title cost:")
 
 
@@ -296,7 +296,7 @@ class Thoughttree(PrimaryUi):
                     sheet.insert(END, text, "assistant")
                     self.scroll(sheet)
 
-                finish_reason, message = self.model.chat_complete(history, write_chat)
+                finish_reason, message = self.model.complete(history, write_chat)
         else:
             label_frame = tk.Frame(sheet, borderwidth=4)
             sheet.window_create(END, window=label_frame)
@@ -316,7 +316,7 @@ class Thoughttree(PrimaryUi):
                     label.config(text=label.cget("text") + text)
                     self.scroll(sheet)
 
-                finish_reason, message = self.model.chat_complete(history, write_label)
+                finish_reason, message = self.model.complete(history, write_label)
         return finish_reason, message
 
 

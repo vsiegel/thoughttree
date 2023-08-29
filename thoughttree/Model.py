@@ -42,7 +42,7 @@ class Model():
         self.available_models = None
 
 
-    def chat_complete(self, history, output_delta_callback, max_tokens=None, temperature=None) -> Tuple[str, str]:
+    def complete(self, history, on_increment, max_tokens=None, temperature=None) -> Tuple[str, str]:
         """:return: Tuple[str, str] - (finish_reason, message)"""
         max_tokens = max_tokens or self.max_tokens.get()
         temperature = temperature or self.temperature.get()

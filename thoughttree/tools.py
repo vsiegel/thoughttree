@@ -162,3 +162,11 @@ def show_widget_under_pointer(widget):
             last_time = current_time
 
     root.bind('<Motion>', track_pointer)
+
+
+def maybe(file_name):
+    try:
+        with open(file_name) as f:
+            return f.read()
+    except IOError:
+        return ""

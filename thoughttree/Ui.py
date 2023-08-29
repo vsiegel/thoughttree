@@ -9,7 +9,7 @@ class Ui(tk.Frame):
     WINDOW_ICON = None
     current_open_uis = []
 
-    def __init__(self, name="", icon_path=None):
+    def __init__(self, name="", icon_path=None, closeable=True):
         if tk._default_root:
             self.first_window = False
             self.root = tk.Toplevel()
@@ -29,9 +29,10 @@ class Ui(tk.Frame):
         except:
             print("Error loading icon.")
 
-        # def close(event):
-        #     self.root.destroy()
-        # self.root.bind("<Escape>", close)
+        if closeable:
+            def close(event):
+                self.root.destroy()
+            self.root.bind("<Escape>", close)
 
 
     def toTop(self):

@@ -40,6 +40,13 @@ class Thought:
         except KeyboardInterrupt:
             sys.exit(1)
 
+        if args.outputFile:
+            if args.datedOutputFile:
+                filename, ext = os.path.splitext(args.outputFile)
+                now = datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
+                outputFile = f"{filename}_{now}{ext}"
+            else:
+                outputFile = args.outputFile
 
 
             with open(outputFile, 'w') as f:

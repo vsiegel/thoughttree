@@ -79,8 +79,8 @@ class Thoughttree(PrimaryUi):
         self.pack(fill=BOTH, expand=True)
         self.status.note = "Loading available models..."
         self.update_idletasks()
-        menu.models_menu.load_available_models()
-        self.status.note = ""
+        n = menu.models_menu.load_available_models()
+        self.status.note = f"{n} models found."
 
         if self.first_window:
             self.root.mainloop()

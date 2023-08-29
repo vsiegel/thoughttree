@@ -1,6 +1,3 @@
-Gib mir ein review des Textes.
-Der Zweck ist, den Author in der Verbesserung des Textes zu unterstützen.
-
 Im folgenden können Teile mit '#' auskommentiert bzw deaktiviert sein.
 
 Ignoriere folgende Probleme:
@@ -10,6 +7,15 @@ Ignoriere folgende Probleme:
 - korrekte Verwendung von LaTeX-Befehlen
 
 Liste Verbesserungsvorschläge in kurzen Stichpunkten auf.
-Drücke Änderungen als context diff aus.
+#Drücke Änderungen als context diff aus.
 Schreibe in Deutscher Sprache.
 Zeige Rechtschreibfehler.
+
+# Verwende eine Gliederung
+
+Der Zweck ist, den Author in der Verbesserung des Textes zu unterstützen.
+
+#Gib mir ein review des ersten Absatzes.
+Gib mir ein review der 1. langen Zeile.
+
+

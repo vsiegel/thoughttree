@@ -140,7 +140,7 @@ class MainMenu(Menu):
         def branch():
             self.it.fork()
             self.ui.update()
-            self.ui.complete()
+            self.ui.chat()
 
         def toggle_scroll_output(event=None):
             if self.ui.scroll_output:
@@ -239,18 +239,18 @@ class MainMenu(Menu):
         item("Previous Message", "", None)
 
         self.menu = Menu(self, "Chat")
-        item("Next Paragraph", "<Control-Return>", lambda e=None: ui.complete(1, "\n\n", "\n\n"))
-        item("Next Line", "<Shift-Return>", lambda e=None: ui.complete(1, "\n", "\n"))
-        item("Continue Directly", "<Control-space>", lambda e=None: ui.complete())
+        item("Next Paragraph", "<Control-Return>", lambda e=None: ui.chat(1, "\n\n", "\n\n"))
+        item("Next Line", "<Shift-Return>", lambda e=None: ui.chat(1, "\n", "\n"))
+        item("Continue Directly", "<Control-space>", lambda e=None: ui.chat())
         item("Fork Conversation", "<Alt-Return>", lambda e=None: self.it.fork())
         item("Complete in Branch", "<Control-Shift-Return>", lambda e=None: branch())
-        item("Complete Alternatives", "<Alt-Shift-Return>", lambda e=None: ui.complete(-1, "\n"))
+        item("Complete Alternatives", "<Alt-Shift-Return>", lambda e=None: ui.chat(-1, "\n"))
         self.menu.add_separator()
-        item("Complete 3 Times", "<Control-Key-3>", lambda e=None: ui.complete(3), add=False)
-        [self.bind_class("Text", f"<Control-Key-{i}>", lambda e=None, i=i: ui.complete(i)) for i in [2,4,5,6,7,8,9]]
+        item("Complete 3 Times", "<Control-Key-3>", lambda e=None: ui.chat(3), add=False)
+        [self.bind_class("Text", f"<Control-Key-{i}>", lambda e=None, i=i: ui.chat(i)) for i in [2, 4, 5, 6, 7, 8, 9]]
 
-        item("Complete Multiple...", "<Control-Shift-M>", lambda e=None: ui.complete(0))
-        item("Complete Multiple Again", "<Control-m>", lambda e=None: ui.complete(-1))
+        item("Complete Multiple...", "<Control-Shift-M>", lambda e=None: ui.chat(0))
+        item("Complete Multiple Again", "<Control-m>", lambda e=None: ui.chat(-1))
         self.menu.add_separator()
         # item("Mark assistant message", "<Control-Alt-a>", mark_assistant_message)
         item("Cancel", "<Escape>", ui.cancel_models)

@@ -34,9 +34,38 @@ class Thought:
         prompt = args.prompt or maybe_file(args.promptFile)
         systemPrompt = args.systemPrompt or maybe_file(args.systemPromptFile)
 
+        completion = self.complete(prompt, systemPrompt, args.temperature, args.max_tokens, args.model)
 
 
-        print(prompt)
+
+            with open(outputFile, 'w') as f:
+                f.write(completion)
+
+
+    def complete(self, prompt, system="", temperature=0.5, max_tokens=250, model="gpt-4"):
+        history = [{'role': 'system', 'content': system}]
+        history += [{'role': 'user', 'content': prompt}]
+
+        response = openai.ChatCompletion.create(
+            model=model,
+            messages=history,
+            max_tokens=max_tokens,
+            temperature=temperature,
+            stream=True,
+            request_timeout=30, # undocumented #todo
+        )
+
+
+        texts = []
+        for event in response:
+            delta = event['choices'][0]['delta']
+            if 'content' in delta:
+                text = delta["content"]
+                print(text, end='', flush=True)
+                texts.append(text)
+
+        return "".join(texts)
+
 
 if __name__ == "__main__":
     Thought()

@@ -32,7 +32,6 @@ class Thought:
 
         args = parser.parse_args()
 
-
         openai.api_key = args.apiKey or os.getenv("OPENAI_API_KEY")
 
         prompt = args.prompt or maybe_file(args.promptFile)
@@ -43,11 +42,19 @@ class Thought:
         except KeyboardInterrupt:
             sys.exit(1)
 
+        outputFile = self.out_file_name(args)
+
+        if outputFile:
+            with open(outputFile, 'w') as f:
+                f.write(completion)
+
+
+    def out_file_name(self, args):
         now = datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
         outputFile = None
         if args.outputFile:
+            name, ext = os.path.splitext(args.outputFile)
             if args.datedOutputFile:
-                name, ext = os.path.splitext(args.outputFile)
                 insert = f"-{now}"
             else:
                 insert = ""
@@ -59,10 +66,7 @@ class Thought:
             else:
                 insert = f"-{args.suffix}"
             outputFile = f"{name}{insert}{ext}"
-
-        if outputFile:
-            with open(outputFile, 'w') as f:
-                f.write(completion)
+        return outputFile
 
 
     @staticmethod

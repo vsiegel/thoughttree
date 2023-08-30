@@ -21,17 +21,6 @@ class Sheet(ScrolledText):
             selectbackground="#66a2d4", selectforeground="white", **kw)
 
 
-        def jump_to_limit(e: tk.Event):
-            top, bottom = self.vbar.get()
-            if e.keysym == 'Prior' and top == 0.0:
-                limit = "1.0"
-            elif e.keysym == 'Next' and bottom == 1.0:
-                limit = tk.END
-            else:
-                return
-
-            self.mark_set(tk.INSERT, limit)
-            self.see(tk.INSERT)
 
 
         if scrollbar:
@@ -42,8 +31,8 @@ class Sheet(ScrolledText):
         self.scroll_output = conf.scroll_output
 
 
-        self.bind('<Prior>', jump_to_limit)
-        self.bind('<Next>', jump_to_limit)
+        self.bind('<Prior>', self.jump_to_limit)
+        self.bind('<Next>', self.jump_to_limit)
         self.pack(padx=0, pady=0, fill=X, expand=True)
 
         name, size = self.cget("font").rsplit(None, 1)
@@ -56,6 +45,18 @@ class Sheet(ScrolledText):
             self.bind('<<Modified>>', self.grow_to_displaylines)
 
         Cursorline(self)
+
+    def jump_to_limit(self, e: tk.Event):
+        top, bottom = self.vbar.get()
+        if e.keysym == 'Prior' and top == 0.0:
+            limit = "1.0"
+        elif e.keysym == 'Next' and bottom == 1.0:
+            limit = tk.END
+        else:
+            return
+
+        self.mark_set(tk.INSERT, limit)
+        self.see(tk.INSERT)
 
     def grow_to_displaylines(self, event):
         sheet = event.widget

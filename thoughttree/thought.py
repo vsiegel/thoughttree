@@ -19,6 +19,7 @@ class Thought:
         add('-s', '--system-prompt',     dest='systemPrompt',    default="",   type=str, help='System prompt for the model')
         add('-f', '--system-prompt-file',dest='systemPromptFile',default="",   type=str, help='File containing the system prompt')
         add('-o', '--output',            dest='outputFile',      default="",   type=str, help='File to write the output to')
+        add('-l', '--list-files',        dest='listFiles',       nargs='*',    type=str, help='A list of files that are used as part of the prompt')
         add('-r', '--replace-prompt',    dest='replacePrompt',   default="",   type=str, help='Replace the prompt with output')
         add('-i', '--derive-name',       dest='deriveName',      action='store_true',    help='Derive output name from input prompt name')
         add('-e', '--suffix',            dest='suffix',          default="-out",   type=str, help='Suffix to add to output name at the end')

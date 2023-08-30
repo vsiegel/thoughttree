@@ -7,14 +7,9 @@ from menu_help import menu_help
 
 class WindowsMenu(Menu):
     def __init__(self, parent, label):
-        super().__init__(parent, label, menu_help=None, postcommand=self.create_current_window_items)
+        super().__init__(parent, label, menu_help=None, postcommand=self.window_items)
 
-    def create_current_window_items(self, event=None):
-        print("create_current_window_items")
-
+    def window_items(self, event=None):
         self.delete(0, tk.END)
-        for open_ui in Ui.current_open_uis:
-            title = open_ui.root.title()
-
-            command = lambda e=None, ui=open_ui: ui.toTop()
-            self.item(title, None, command)
+        for ui in Ui.current_open_uis:
+            self.item(ui.root.title(), None, lambda e=None, ui=ui: ui.toTop(), check_help=False)

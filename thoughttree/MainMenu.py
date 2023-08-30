@@ -5,6 +5,7 @@ from tkinter import font as tkfont, NONE, WORD, SEL, END, INSERT
 
 from AboutDialog import AboutDialog
 from Files import Files
+from Fonts import Fonts
 from Imports import Menu, ModelsMenu, WindowsMenu
 from Sheet import Sheet
 from Console import Console
@@ -96,7 +97,7 @@ class MainMenu(Menu):
             if not sheet:
                 return
             if delta == 0:
-                name, size = Sheet.FONT
+                name, size = Fonts.FONT
             else:
                 name, size = sheet.cget("font").rsplit(None, 1)
             sheet.config(font=(name, int(size) + delta))
@@ -154,9 +155,9 @@ class MainMenu(Menu):
             font = tkfont.Font(font=self.it.cget("font"))
             size = font.cget("size")
             if font.measure('I') != font.measure('M'):
-                family = Sheet.FONT_NAME_MONOSPACE
+                family = Fonts.FONT_NAME_MONOSPACE
             else:
-                family = Sheet.FONT_NAME_PROPORTIONAL
+                family = Fonts.FONT_NAME_PROPORTIONAL
             self.it.configure(font=(family, size))
             return "break"
 

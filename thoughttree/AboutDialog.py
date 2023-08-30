@@ -1,6 +1,7 @@
 import tkinter as tk
 import tkinter.commondialog
 
+from Fonts import Fonts
 from Sheet import Sheet
 from ThoughttreeConfig import conf
 
@@ -15,8 +16,8 @@ class AboutDialog(tk.Toplevel):
 
         self.git_version = conf.git_describe_version
 
-        tk.Label(self, font=Sheet.FONT, text="About Thoughttree").pack(padx=8, pady=12)
-        tk.Label(self, font=Sheet.FONT, text=self.git_version).pack(padx=16, pady=2)
+        tk.Label(self, font=Fonts.FONT, text="About Thoughttree").pack(padx=8, pady=12)
+        tk.Label(self, font=Fonts.FONT, text=self.git_version).pack(padx=16, pady=2)
 
         tk.Button(self, text="OK", command=self.destroy).pack(padx=8, pady=12)
 

@@ -4,6 +4,7 @@ from tkinter import BOTH, DISABLED, END, HORIZONTAL, INSERT, LEFT, NO, SUNKEN, T
 from tkinter import font as tkfont
 from tkinter import ttk, simpledialog
 
+from Fonts import Fonts
 from Sheet import Sheet
 
 #NODE_OPEN = '\u25B6'
@@ -48,15 +49,15 @@ class Tree(ttk.Treeview):
         if column != "#1":  # Only allow editing the "Messages" column
             return
         x, y, width, height = self.bbox(row_id, column)
-        char_width = tkfont.Font(font=Sheet.FONT).measure('0')
-        line_height = tkfont.Font(font=Sheet.FONT).metrics("linespace")
+        char_width = tkfont.Font(font=Fonts.FONT).measure('0')
+        line_height = tkfont.Font(font=Fonts.FONT).metrics("linespace")
         width = max(self.column(column)["width"], width)
         height = max(line_height, height)
 
         cur_text = self.item(row_id, "values")[0]
         w = width // char_width
         h = height // line_height
-        cell_editor = tk.Text(self, wrap=WORD, width=w, height=h, font=Sheet.FONT,
+        cell_editor = tk.Text(self, wrap=WORD, width=w, height=h, font=Fonts.FONT,
                       highlightthickness=0, highlightbackground="black", padx=4, pady=0)
         cell_editor.insert(END, cur_text)
         cell_editor.place(x=x, y=y)

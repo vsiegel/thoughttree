@@ -5,23 +5,17 @@ from typing import Union
 
 from Cursorline import Cursorline
 from FinishReasonIcon import FinishReasonIcon
+from Fonts import Fonts
 from Notebook import Notebook
 from ThoughttreeConfig import conf
 
 
-class Sheet(tk.scrolledtext.ScrolledText):
-    FONT_NAME_MONOSPACE = "monospace"
-    # FONT_NAME_MONOSPACE = "DejaVu Sans Mono ExCond"
-    # FONT_NAME_MONOSPACE = "DejaVu Sans Mono"
-    FONT_NAME_PROPORTIONAL = "sans-serif"
-    # FONT_NAME_PROPORTIONAL = "DejaVu Sans"
-    # FONT_NAME_PROPORTIONAL = "DejaVu Sans Mono ExCond"
-    FONT = (FONT_NAME_PROPORTIONAL, 11)
+class Sheet(ScrolledText):
 
     def __init__(self, master=None, scrollbar=True, padx=0, pady=0, height=0, grow=True, **kw):
         tk.scrolledtext.ScrolledText.__init__(
             self, master, undo=True, wrap=WORD, padx=padx, pady=pady, background='white',
-            width=80, height=height, insertwidth=4, font=Sheet.FONT,
+            width=80, height=height, insertwidth=4, font=Fonts.FONT,
             border=0, borderwidth=0, highlightthickness=0,
             selectbackground="#66a2d4", selectforeground="white", **kw)
 

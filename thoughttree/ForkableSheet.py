@@ -34,11 +34,9 @@ class ForkableSheet(tk.Frame):
 if __name__ == "__main__":
     from Ui import Ui
     ui = Ui()
-    ui.root.title("ScrollableForkableSheet")
-    # ui.root.geometry("500x500")
-    scrollable = Sheet(ui.root, scrollbar=False, grow=True)
+    ui.root.geometry("500x500")
+    scrollable = ForkableSheet(ui.root)
     scrollable.pack(fill="both", expand=True)
-    # scrollable.sheet.sheet.focus()
-    scrollable.focus()
+    scrollable.sheet.focus()
 
     ui.root.mainloop()

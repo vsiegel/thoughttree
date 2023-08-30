@@ -1,5 +1,5 @@
 
-class GeneratedTitle():
+class Title():
 
     PROMPT = '''\
 A title for this conversation, about 50 characters. Style does not matter,

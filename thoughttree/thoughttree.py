@@ -11,7 +11,7 @@ from configargparse import Namespace
 from Console import Console
 from FinishReasonIcon import FinishReasonIcon
 from FoldablePane import FoldablePane
-from GeneratedTitle import GeneratedTitle
+from Title import Title
 from HidableFrame import HidableFrame
 from Model import Model
 from MultiTextboxLabel import MultiTextboxLabel
@@ -159,7 +159,7 @@ class Thoughttree(PrimaryUi):
 
         self.root.title(progress_title)
         self.update()
-        history = self.history_from_system_and_chat(GeneratedTitle.PROMPT, max_messages=5, max_size=1000) # todo limit, do not use system for title
+        history = self.history_from_system_and_chat(Title.PROMPT, max_messages=5, max_size=1000) # todo limit, do not use system for title
 
         self.generation_model.counter.go()
         self.generation_model.complete(history, write_title, max_tokens=30, temperature=0.3)
@@ -352,7 +352,7 @@ class Thoughttree(PrimaryUi):
         self.model.counter.summarize("Completion cost:")
 
         if conf.update_title_after_completion and not self.model.is_canceled:
-            if self.model.counter.tokens_since_go() > GeneratedTitle.GEN_THRESHOLD:
+            if self.model.counter.tokens_since_go() > Title.GEN_THRESHOLD:
                 self.update_window_title()
 
 

@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import CURRENT, END, INSERT, SEL, WORD, X, SEL_FIRST, SEL_LAST
 from tkinter import scrolledtext
+from tkinter.scrolledtext import ScrolledText
 from typing import Union
 
 from Cursorline import Cursorline
@@ -13,7 +14,7 @@ from ThoughttreeConfig import conf
 class Sheet(ScrolledText):
 
     def __init__(self, master=None, scrollbar=True, padx=0, pady=0, height=0, grow=True, **kw):
-        tk.scrolledtext.ScrolledText.__init__(
+        ScrolledText.__init__(
             self, master, undo=True, wrap=WORD, padx=padx, pady=pady, background='white',
             width=80, height=height, insertwidth=4, font=Fonts.FONT,
             border=0, borderwidth=0, highlightthickness=0,

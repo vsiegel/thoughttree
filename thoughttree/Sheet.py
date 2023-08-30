@@ -21,8 +21,6 @@ class Sheet(ScrolledText):
             selectbackground="#66a2d4", selectforeground="white", **kw)
 
 
-
-
         if scrollbar:
             self.vbar.config(width=18, takefocus=False, borderwidth=2)
         else:
@@ -45,87 +43,6 @@ class Sheet(ScrolledText):
             self.bind('<<Modified>>', self.grow_to_displaylines)
 
         Cursorline(self)
-
-    def jump_to_limit(self, e: tk.Event):
-        top, bottom = self.vbar.get()
-        if e.keysym == 'Prior' and top == 0.0:
-            limit = "1.0"
-        elif e.keysym == 'Next' and bottom == 1.0:
-            limit = tk.END
-        else:
-            return
-
-        self.mark_set(tk.INSERT, limit)
-        self.see(tk.INSERT)
-
-    def grow_to_displaylines(self, event):
-        sheet = event.widget
-        num_display_lines = sheet.count("1.0", "end", 'displaylines')[0]
-        if num_display_lines != self.old_num_display_lines:
-            sheet.configure(height=num_display_lines)
-            self.old_num_display_lines = num_display_lines
-        sheet.edit_modified(False)
-
-    def undo_separator(self):
-        self.edit_separator()
-
-    def bold(self):
-        self.tag_selection('bold')
-
-
-    def strikethrough(self):
-        self.tag_selection('strikethrough')
-
-
-    def tag_selection(self, tag):
-        def min_index(i1, i2):
-            if self.compare(i1, '<=', i2):
-                return i1
-            else:
-                return i2
-
-        def max_index(i1, i2):
-            if self.compare(i1, '>=', i2):
-                return i1
-            else:
-                return i2
-
-        def range_intersection(ranges, single_range):
-            intersections = []
-            for index_range in ranges:
-                if  self.compare(max_index(index_range[0], single_range[0]), "<", min_index(index_range[1], single_range[1])):
-                    intersections.append((max_index(index_range[0], single_range[0]), min_index(index_range[1], single_range[1])))
-            return intersections
-
-
-        if not self.tag_ranges(SEL):
-            return
-        tag_ranges = self.tag_ranges(tag)
-        iters = [iter(tag_ranges)] * 2
-        ranges = list(zip(*iters))
-        sel = (self.index(SEL_FIRST), self.index(SEL_LAST))
-        tag_in_selection = range_intersection(ranges, sel)
-
-        if tag_in_selection:
-            self.tag_remove(tag, *sel)
-        else:
-            self.tag_add(tag, *sel)
-
-
-    def transfer_content(self, to_sheet):
-        content = self.get("1.0", tk.END)
-        to_sheet.insert("1.0", content)
-
-        for tag in self.tag_names():
-            ranges = self.tag_ranges(tag)
-            for i in range(0, len(ranges), 2):
-                to_sheet.tag_add(tag, ranges[i], ranges[i + 1])
-                to_sheet.tag_config(tag, **{k: v[4] for k, v in self.tag_configure(tag).items() if v[4]})
-
-        for name in self.window_names():
-            index = self.index(name)
-            window = self.nametowidget(name)
-            to_sheet.window_create(index, window=window)
 
 
     def fork(self, index=INSERT):
@@ -230,42 +147,20 @@ class Sheet(ScrolledText):
             history += [{'role' : role, 'content' : section}]
         return history
 
+    def transfer_content(self, to_sheet):
+        content = self.get("1.0", tk.END)
+        to_sheet.insert("1.0", content)
 
-    def jump_to_similar_line(self, event=None, direction=1):
+        for tag in self.tag_names():
+            ranges = self.tag_ranges(tag)
+            for i in range(0, len(ranges), 2):
+                to_sheet.tag_add(tag, ranges[i], ranges[i + 1])
+                to_sheet.tag_config(tag, **{k: v[4] for k, v in self.tag_configure(tag).items() if v[4]})
 
-        def find_similar_line(target, line_nr_1, lines, direction):
-            line_nr_0 = line_nr_1 - 1
-            num_lines = len(lines)
-            if num_lines == 0:
-                return 0
-            target = target.strip()
-            start = (line_nr_0 + direction) % num_lines
-            if direction == 1:
-                numbered_lines = list(enumerate(lines[start:] + lines[:start]))
-            else:
-                numbered_lines = list(enumerate(lines[:start][::-1] + lines[start:][::-1]))
-            for i, line in numbered_lines:
-                if line.strip() == target:
-                    if direction == 1:
-                        return ((i + start) % num_lines) + 1
-                    else:
-                        return ((start - i + num_lines - 1) % num_lines) + 1
-            return 0
-
-
-        sheet: Sheet = self.focus_get()
-        cursor_pos = sheet.index(INSERT)
-        line_nr = int(cursor_pos.split('.')[0])
-        current_line = sheet.get(f"{line_nr}.0", f"{line_nr}.end")
-        if not current_line.strip():
-            return
-        lines = sheet.get(1.0, END).splitlines()
-        jump_line = find_similar_line(current_line, line_nr, lines, direction)
-        if jump_line:
-            jump_index = f"{jump_line}.{0}"
-            sheet.mark_set(INSERT, jump_index)
-            sheet.see(jump_index)
-
+        for name in self.window_names():
+            index = self.index(name)
+            window = self.nametowidget(name)
+            to_sheet.window_create(index, window=window)
 
 
     def close_tab(self):
@@ -320,3 +215,102 @@ class Sheet(ScrolledText):
                 if any([element[0] == "text" or is_icon(element) for element in dump]):
                     super().delete(index1)
 
+    def jump_to_similar_line(self, event=None, direction=1):
+
+        def find_similar_line(target, line_nr_1, lines, direction):
+            line_nr_0 = line_nr_1 - 1
+            num_lines = len(lines)
+            if num_lines == 0:
+                return 0
+            target = target.strip()
+            start = (line_nr_0 + direction) % num_lines
+            if direction == 1:
+                numbered_lines = list(enumerate(lines[start:] + lines[:start]))
+            else:
+                numbered_lines = list(enumerate(lines[:start][::-1] + lines[start:][::-1]))
+            for i, line in numbered_lines:
+                if line.strip() == target:
+                    if direction == 1:
+                        return ((i + start) % num_lines) + 1
+                    else:
+                        return ((start - i + num_lines - 1) % num_lines) + 1
+            return 0
+
+
+        sheet: Sheet = self.focus_get()
+        cursor_pos = sheet.index(INSERT)
+        line_nr = int(cursor_pos.split('.')[0])
+        current_line = sheet.get(f"{line_nr}.0", f"{line_nr}.end")
+        if not current_line.strip():
+            return
+        lines = sheet.get(1.0, END).splitlines()
+        jump_line = find_similar_line(current_line, line_nr, lines, direction)
+        if jump_line:
+            jump_index = f"{jump_line}.{0}"
+            sheet.mark_set(INSERT, jump_index)
+            sheet.see(jump_index)
+
+    def jump_to_limit(self, e: tk.Event):
+        top, bottom = self.vbar.get()
+        if e.keysym == 'Prior' and top == 0.0:
+            limit = "1.0"
+        elif e.keysym == 'Next' and bottom == 1.0:
+            limit = tk.END
+        else:
+            return
+
+        self.mark_set(tk.INSERT, limit)
+        self.see(tk.INSERT)
+
+    def grow_to_displaylines(self, event):
+        sheet = event.widget
+        num_display_lines = sheet.count("1.0", "end", 'displaylines')[0]
+        if num_display_lines != self.old_num_display_lines:
+            sheet.configure(height=num_display_lines)
+            self.old_num_display_lines = num_display_lines
+        sheet.edit_modified(False)
+
+    def undo_separator(self):
+        self.edit_separator()
+
+    def bold(self):
+        self.tag_selection('bold')
+
+
+    def strikethrough(self):
+        self.tag_selection('strikethrough')
+
+
+    def tag_selection(self, tag):
+        def min_index(i1, i2):
+            if self.compare(i1, '<=', i2):
+                return i1
+            else:
+                return i2
+
+        def max_index(i1, i2):
+            if self.compare(i1, '>=', i2):
+                return i1
+            else:
+                return i2
+
+        def range_intersection(ranges, single_range):
+            intersections = []
+            for index_range in ranges:
+                if  self.compare(max_index(index_range[0], single_range[0]), "<", min_index(index_range[1], single_range[1])):
+                    intersections.append((max_index(index_range[0], single_range[0]), min_index(index_range[1], single_range[1])))
+            return intersections
+
+
+        if not self.tag_ranges(SEL):
+            return
+        tag_ranges = self.tag_ranges(tag)
+        iters = [iter(tag_ranges)] * 2
+        ranges = list(zip(*iters))
+        sel = (self.index(SEL_FIRST), self.index(SEL_LAST))
+        tag_in_selection = range_intersection(ranges, sel)
+
+        if tag_in_selection:
+            self.tag_remove(tag, *sel)
+        else:
+            self.tag_add(tag, *sel)

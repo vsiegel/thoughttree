@@ -167,9 +167,10 @@ class MainMenu(Menu):
                 it.close_tab()
 
         def search_google(event=None):
-            selected_range = self.it.tag_ranges(SEL)
-            if selected_range:
-                selected_text = self.it.get(*selected_range)[:2000]
+            sheet = self.it
+            sel_range = sheet.tag_ranges(SEL)
+            if sel_range:
+                selected_text = sheet.get(*sel_range)[:2000]
                 if selected_text:
                     webbrowser.open_new_tab("https://www.google.com/search?q=" + selected_text)
 

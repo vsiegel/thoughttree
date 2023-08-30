@@ -2,6 +2,7 @@ import os
 import tkinter as tk
 from os.path import join
 from tkinter import messagebox
+from tkinter.messagebox import askyesno
 
 
 class Ui(tk.Frame):
@@ -18,6 +19,7 @@ class Ui(tk.Frame):
             self.root = tk.Tk()
         tk.Frame.__init__(self, self.root)
 
+        self.closeable = closeable
         self.is_root_destroyed = False
         Ui.current_open_uis.append(self)
         name = f"{name} {len(Ui.current_open_uis)}"
@@ -39,9 +41,9 @@ class Ui(tk.Frame):
         self.root.attributes("-topmost", True)
         self.root.attributes("-topmost", False)
 
+
     def close(self, event=None):
-        result = messagebox.askyesno("Quit", "Are you sure you want to quit?", parent=self)
-        if result:
+        if self.closeable or askyesno("Quit", "Are you sure you want to quit?", parent=self):
             Ui.current_open_uis.remove(self)
             self.is_root_destroyed = True
             self.root.destroy()

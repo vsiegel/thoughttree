@@ -269,7 +269,7 @@ class MainMenu(Menu):
         self.menu = Menu(self, "Help")
         item("Test", "<Control-Alt-Shift-T>", menu_test)
         item("Debug Info", "<Control-i>", debug_info)
-        item("About", "<Shift-Alt-F1>", lambda e=None: AboutDialog(self.ui))
+        item("About", "<Control-F1>", lambda e=None: AboutDialog(self.ui))
 
         ui.bind_class("Text", "<Control-Button-4>", lambda e=None: font_size(1))
         ui.bind_class("Text", "<Control-Button-5>", lambda e=None: font_size(-1))

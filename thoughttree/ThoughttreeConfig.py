@@ -17,7 +17,7 @@ conf.git_describe_version = tools.get_git_describe_version()
 
 def main(argv):
     parser = ArgumentParser(prog="thoughttree",
-        description='Interact with a large language model in alternative ways',
+        description='Interact with ChatGPT in alternative ways',
         exit_on_error=False)
     add = parser.add_argument
     add('prompt',                    nargs='?',              default="",   type=str, help='Prompt for the model, text to be completed')

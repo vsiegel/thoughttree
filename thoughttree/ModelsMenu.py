@@ -21,9 +21,6 @@ class ModelsMenu(Menu):
 
 
     def load_available_models(self, event=None):
-        def on_eventA(event):
-            print("A" + str(event))
-
         if self.fixed_model_menu_items == -1:
             self.fixed_model_menu_items = self.index(tk.END) + 1
         present_items = self.index(tk.END) + 1

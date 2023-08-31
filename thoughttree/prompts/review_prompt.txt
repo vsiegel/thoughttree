@@ -16,6 +16,6 @@ Zeige Rechtschreibfehler.
 Der Zweck ist, den Author in der Verbesserung des Textes zu unterstützen.
 
 #Gib mir ein review des ersten Absatzes.
-Gib mir ein review der 1. langen Zeile.
+Gib mir ein review des Abschnittes in quotes.
 
 

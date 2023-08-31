@@ -2,33 +2,41 @@
 import os
 import sys
 from datetime import datetime
+from os.path import splitext
 
 import openai
 from configargparse import ArgumentParser
 
-from tools import maybe_file
+from tools import maybe_file, read_all_stdin_lines
 
 
 class Thought:
     def __init__(self):
+
+        def existing_file_arg(path):
+            if os.path.isfile(path):
+                return path
+            else:
+                raise FileNotFoundError(path)
+
         parser = ArgumentParser(prog="thought",
-            description='Interact with a large language model on the command line')
+            description='Interact with ChatGPT more than once')
         add = parser.add_argument
-        add('prompt',                    nargs='?',              default="",   type=str, help='Prompt for the model, text to be completed')
-        add('-p', '--prompt-files',      dest='promptFiles',     default="",   type=str, help='File containing the prompt')
-        add('-s', '--system-prompt',     dest='systemPrompt',    default="",   type=str, help='System prompt for the model')
-        add('-f', '--system-files',      dest='systemFiles',     default="",   type=str, help='File containing the system prompt')
-        add('-o', '--output',            dest='outputFile',      default="",   type=str, help='File to write the output to')
-        add('-l', '--list-files',        dest='listFiles',       nargs='*',    type=str, help='A list of files that are used as part of the prompt')
-        add('-r', '--replace-prompt',    dest='replacePrompt',   default="",   type=str, help='Replace the prompt with output')
-        add('-i', '--derive-name',       dest='deriveName',      action='store_true',    help='Derive output name from input prompt name')
-        add('-e', '--suffix',            dest='suffix',          default="-out",type=str,help='Suffix to add to output name at the end')
-        add('-d', '--dated',             dest='datedOutputFile', action='store_true',    help='Add time and date to output name')
-        add('-t', '--temperature',       dest='temperature',     default=0.5, type=float,help='Temperature')
-        add('-g', '--gpt-model',         dest='model',           default="gpt-4",type=str,help='Model of gpt-4 or gpt-3.5 (ChatGPT) to use ')
-        add('-m', '--max-tokens',        dest='max_tokens',      default=1500, type=int, help='Maximal number of tokens to use per query, 0 for inf')
-        add('-n', '--n-completions',     dest='number',          default=1,    type=int, help='Number of completions to request')
-        add('-a', '--api-key',           dest='apiKey',          default="",   type=str, help='API key for the OpenAI API')
+        add('-p', '--prompt',        dest='prompt',          type=str,  default="",   help='Prompt for the model, text to be completed')
+        add('-P', '--prompt-files',  dest='promptFiles',     type=existing_file_arg,  nargs="+",    help='File containing the prompt')
+        add(      '--overwrite-prompt-files',dest='overwrite',action='store_true',    help='Replace the prompt with output')
+        add('-s', '--system',        dest='system',          type=str,  default="",   help='System prompt for the model')
+        add('-S', '--system-files',  dest='systemFiles',     type=existing_file_arg,  nargs="+",    help='File containing the system prompt')
+        add('-n', '--n-completions', dest='number',          type=int,  default=1,    help='Number of repetition of each completion')
+        add('-o', '--output',        dest='outputFile',      type=str,  default="",   help='File to write the output to')
+        add('-l', '--list-files',    dest='listFiles',       type=str,  nargs='*',    help='A list of files that are used as part of the prompt')
+        add('-i', '--derive-name',   dest='deriveName',      action='store_true',     help='Derive output name from input prompt name')
+        add('-e', '--suffix',        dest='suffix',          type=str,  default="-out",help='Suffix to add to output name at the end')
+        add('-d', '--dated',         dest='datedOutputFile', action='store_true',     help='Add time and date to output name')
+        add('-g', '--gpt-model',     dest='model',           type=str,  default="gpt-4",help='Model of gpt-4 or gpt-3.5 (ChatGPT) to use')
+        add('-t', '--temperature',   dest='temperature',     type=float,default=0.5,  help='Query temperature')
+        add('-m', '--max-tokens',    dest='max_tokens',      type=int,  default=1500, help='Maximal number of tokens to use per query, 0 for inf')
+        add('-a', '--api-key',       dest='apiKey',          type=str,  default="",   help='API key for the OpenAI API')
 
         args = parser.parse_args()
 

@@ -5,9 +5,31 @@ from datetime import datetime
 from os.path import splitext
 
 import openai
-from configargparse import ArgumentParser
+from configargparse import ArgumentParser, Namespace
 
 from tools import maybe_file, read_all_stdin_lines
+
+
+class Args(Namespace):
+    def __init__(self):
+        super().__init__()
+        self.prompt = ""
+        self.promptFiles = []
+        self.overwrite = False
+        self.system = ""
+        self.systemFiles = []
+        self.number = 1
+        self.outputFile = ""
+        self.listFiles = []
+        self.deriveName = False
+        self.suffix = "-out"
+        self.datedOutputFile = False
+        self.model = "gpt-4"
+        self.temperature = 0.5
+        self.max_tokens = 1500
+        self.dry_run = False
+        self.apiKey = ""
+
 
 
 class Thought:
@@ -39,7 +61,10 @@ class Thought:
         add(      '--dry-run',       dest='dry_run',         action='store_true',     help='Dry run')
         add('-a', '--api-key',       dest='apiKey',          type=str,  default="",   help='API key for the OpenAI API')
 
-        args = parser.parse_args()
+        args = Args()
+        # args.prompt = args.promptFiles = args.overwrite = args.system = args.systemFiles = args.number = args.outputFile = args.listFiles \
+        #     = args.deriveName = args.suffix = args.datedOutputFile = args.model = args.temperature = args.max_tokens = args.dry_run = args.apiKey = None
+        args:Args = parser.parse_args(namespace=args)
 
         openai.api_key = args.apiKey or os.getenv("OPENAI_API_KEY")
 
@@ -99,14 +124,6 @@ class Thought:
                             f.write(completion)
         except KeyboardInterrupt:
             sys.exit(1)
-
-
-
-
-        if outputFile:
-            with open(outputFile, 'w') as f:
-                f.write(completion)
-
 
 
     @staticmethod

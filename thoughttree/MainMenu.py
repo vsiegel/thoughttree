@@ -181,7 +181,7 @@ class MainMenu(Menu):
         self.menu = Menu(self, "File")
         item("New Window", "<Control-n>", new_window)
         item("New Main Tab", "<Control-t>", lambda e=None: self.it.fork("1.0"))
-        item("Open File", "<Control-o>", Files.open_file)
+        item("Open File", "<Control-o>") #, Files.open_file)
         item("Import Shared Chat") # , "<Control-....>", import_shared_chat
         # item("Save Chat", "<Control-s>", Files.save_chat)
         item("Save Chat", "<Control-s>", save_chat)

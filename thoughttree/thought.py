@@ -57,29 +57,43 @@ class Thought:
         else:
             systems = [(None, "")]
 
+
+        def out_file_name(prompt, system):
+            now = datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
+            file_name = None
+            if args.outputFile:
+                name, ext = splitext(args.outputFile)
+                if args.datedOutputFile:
+                    insert = f"-{now}"
+                else:
+                    insert = ""
+                file_name = f"{name}{insert}{ext}"
+            elif args.deriveName and args.promptFiles:
+                name, ext = splitext(args.promptFiles)
+                if args.datedOutputFile:
+                    insert = f"-{now}"
+                else:
+                    insert = f"-{args.suffix}"
+                file_name = f"{name}{insert}{ext}"
+            return file_name
+
+
+        try:
+            for promptFile, prompt in prompts:
+                for systemFile, system in systems:
+                    completion = Thought.complete(prompt, system, args.temperature, args.max_tokens, args.model)
+                    outputFile = out_file_name(prompt, system)
+                    print(f"{outputFile=}")
+        except KeyboardInterrupt:
+            sys.exit(1)
+
+
+
+
         if outputFile:
             with open(outputFile, 'w') as f:
                 f.write(completion)
 
-
-    def out_file_name(self, args):
-        now = datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
-        outputFile = None
-        if args.outputFile:
-            name, ext = splitext(args.outputFile)
-            if args.datedOutputFile:
-                insert = f"-{now}"
-            else:
-                insert = ""
-            outputFile = f"{name}{insert}{ext}"
-        elif args.deriveName and args.promptFiles:
-            name, ext = splitext(args.promptFiles)
-            if args.datedOutputFile:
-                insert = f"-{now}"
-            else:
-                insert = f"-{args.suffix}"
-            outputFile = f"{name}{insert}{ext}"
-        return outputFile
 
 
     @staticmethod

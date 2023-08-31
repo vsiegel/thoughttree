@@ -285,6 +285,7 @@ class MainMenu(Menu):
 
 
 '''
+Recht gute Wahl für underline Werte für menuitems.
 "New Window", 4,
 "New Main Tab", 4,
 "Save Chat", 5,

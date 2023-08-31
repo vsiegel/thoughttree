@@ -42,23 +42,30 @@ class Thought:
 
         openai.api_key = args.apiKey or os.getenv("OPENAI_API_KEY")
 
-
-        if args.prompt:
-            prompts = [(None, args.prompt)]
-        elif args.promptFiles:
-            prompts = [(f, maybe_file(f)) for f in args.promptFiles]
-        else:
-            prompts = [('-', read_all_stdin_lines())]
-
-        if args.system:
-            systems = [(None, args.system)]
-        elif args.systemFiles:
-            systems = [(f, maybe_file(f)) for f in args.systemFiles]
-        else:
-            systems = [(None, "")]
+        def get_prompts(args):
+            if args.prompt:
+                return [(None, args.prompt)]
+            elif args.promptFiles:
+                return [(f, maybe_file(f)) for f in args.promptFiles]
+            else:
+                return [('-', read_all_stdin_lines())]
 
 
-        def out_file_name(prompt, system):
+        def get_systems(args):
+            if args.system:
+                return [(None, args.system)]
+            elif args.systemFiles:
+                return [(f, maybe_file(f)) for f in args.systemFiles]
+            else:
+                return [(None, "")]
+
+
+        prompts = get_prompts(args)
+        systems = get_systems(args)
+
+
+
+        def out_file_name(promptFile, systemFile):
             now = datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
             file_name = None
             if args.outputFile:

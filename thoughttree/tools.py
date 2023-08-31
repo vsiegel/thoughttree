@@ -1,4 +1,5 @@
 import re
+import sys
 import time
 import tkinter as tk
 from textwrap import fill
@@ -124,6 +125,12 @@ def log(arg=""):
 
 def git(*command, cwd=None):
     return subprocess.check_output(['git'] + list(command), cwd=cwd).decode('utf8').strip()
+
+def git_commit(*args):
+    return git('commit', *args)
+
+def git_commit_file_review(message, file):
+    return git_commit('-m', message, file)
 
 def get_git_commit():
     return git('rev-parse', '--short', 'HEAD')

@@ -42,15 +42,35 @@ class Thought:
 
         openai.api_key = args.apiKey or os.getenv("OPENAI_API_KEY")
 
-        prompt = args.prompt or maybe_file(args.promptFile)
-        systemPrompt = args.systemPrompt or maybe_file(args.systemPromptFile)
 
-        try:
-            completion = Thought.complete(prompt, systemPrompt, args.temperature, args.max_tokens, args.model)
-        except KeyboardInterrupt:
-            sys.exit(1)
+        if args.prompt:
+            prompts = [args.prompt]
+        elif args.promptFiles:
+            prompts = [maybe_file(f) for f in args.promptFiles]
+        else:
+            prompts = [read_all_stdin_lines()]
+
+        if args.system:
+            systems = [args.system]
+        elif args.systemFiles:
+            systems = [maybe_file(f) for f in args.systemFiles]
+        else:
+            systems = [""]
+
+
+        for prompt in prompts:
+            for system in systems:
+                try:
+                    completion = Thought.complete(prompt, system, args.temperature, args.max_tokens, args.model)
+                except KeyboardInterrupt:
+                    sys.exit(1)
+
+
+
 
         outputFile = self.out_file_name(args)
+        print(f"{outputFile=}")
+
 
         if outputFile:
             with open(outputFile, 'w') as f:

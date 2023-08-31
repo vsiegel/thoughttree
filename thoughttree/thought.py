@@ -72,17 +72,17 @@ class Thought:
             if args.outputFile:
                 name, ext = splitext(args.outputFile)
                 if args.datedOutputFile:
-                    insert = f"-{now}"
+                    infix = f"-{now}"
                 else:
-                    insert = ""
-                file_name = f"{name}{insert}{ext}"
-            elif args.deriveName and args.promptFiles:
-                name, ext = splitext(args.promptFiles)
+                    infix = ""
+                file_name = f"{name}{infix}{ext}"
+            elif args.deriveName and promptFile:
+                name, ext = splitext(promptFile)
                 if args.datedOutputFile:
-                    insert = f"-{now}"
+                    infix = f"-{now}"
                 else:
-                    insert = f"-{args.suffix}"
-                file_name = f"{name}{insert}{ext}"
+                    infix = f"-{args.suffix}"
+                file_name = f"{name}{infix}{ext}"
             return file_name
 
 

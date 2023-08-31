@@ -81,14 +81,14 @@ class Thought:
         now = datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
         outputFile = None
         if args.outputFile:
-            name, ext = os.path.splitext(args.outputFile)
+            name, ext = splitext(args.outputFile)
             if args.datedOutputFile:
                 insert = f"-{now}"
             else:
                 insert = ""
             outputFile = f"{name}{insert}{ext}"
-        elif args.deriveName and args.promptFile:
-            name, ext = os.path.splitext(args.promptFile)
+        elif args.deriveName and args.promptFiles:
+            name, ext = splitext(args.promptFiles)
             if args.datedOutputFile:
                 insert = f"-{now}"
             else:

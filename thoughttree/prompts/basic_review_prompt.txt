@@ -1,0 +1,8 @@
+
+    Finde Unstimmigkeiten.
+    Finde Argumentationslücken.
+    Finde unklare, unverständliche Stellen.
+    Finde Redundanzen.
+
+Schreibe einen gegliederten Report.
+Beginne mit einem abstract.

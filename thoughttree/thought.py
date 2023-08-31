@@ -44,33 +44,18 @@ class Thought:
 
 
         if args.prompt:
-            prompts = [args.prompt]
+            prompts = [(None, args.prompt)]
         elif args.promptFiles:
-            prompts = [maybe_file(f) for f in args.promptFiles]
+            prompts = [(f, maybe_file(f)) for f in args.promptFiles]
         else:
-            prompts = [read_all_stdin_lines()]
+            prompts = [('-', read_all_stdin_lines())]
 
         if args.system:
-            systems = [args.system]
+            systems = [(None, args.system)]
         elif args.systemFiles:
-            systems = [maybe_file(f) for f in args.systemFiles]
+            systems = [(f, maybe_file(f)) for f in args.systemFiles]
         else:
-            systems = [""]
-
-
-        for prompt in prompts:
-            for system in systems:
-                try:
-                    completion = Thought.complete(prompt, system, args.temperature, args.max_tokens, args.model)
-                except KeyboardInterrupt:
-                    sys.exit(1)
-
-
-
-
-        outputFile = self.out_file_name(args)
-        print(f"{outputFile=}")
-
+            systems = [(None, "")]
 
         if outputFile:
             with open(outputFile, 'w') as f:

@@ -120,6 +120,7 @@ class Thought:
                 print(text, end='', flush=True)
                 texts.append(text)
 
+        print("", flush=True)
         return "".join(texts)
 
 

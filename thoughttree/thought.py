@@ -36,6 +36,7 @@ class Thought:
         add('-g', '--gpt-model',     dest='model',           type=str,  default="gpt-4",help='Model of gpt-4 or gpt-3.5 (ChatGPT) to use')
         add('-t', '--temperature',   dest='temperature',     type=float,default=0.5,  help='Query temperature')
         add('-m', '--max-tokens',    dest='max_tokens',      type=int,  default=1500, help='Maximal number of tokens to use per query, 0 for inf')
+        add(      '--dry-run',       dest='dry_run',         action='store_true',     help='Dry run')
         add('-a', '--api-key',       dest='apiKey',          type=str,  default="",   help='API key for the OpenAI API')
 
         args = parser.parse_args()
@@ -88,9 +89,14 @@ class Thought:
         try:
             for promptFile, prompt in prompts:
                 for systemFile, system in systems:
-                    completion = Thought.complete(prompt, system, args.temperature, args.max_tokens, args.model)
-                    outputFile = out_file_name(prompt, system)
-                    print(f"{outputFile=}")
+                    outputFile = out_file_name(promptFile, systemFile)
+                    if args.dry_run:
+                        print(f"Would complete:\n    '{promptFile}' in the context of\n    '{systemFile}' to\n'{outputFile}'")
+                    else:
+                        completion = Thought.complete(prompt, system, args.temperature, args.max_tokens, args.model)
+                        print(f"{outputFile=}")
+                        with open(outputFile, 'w') as f:
+                            f.write(completion)
         except KeyboardInterrupt:
             sys.exit(1)
 

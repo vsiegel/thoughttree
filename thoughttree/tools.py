@@ -172,3 +172,13 @@ def maybe_file(file_name):
             return f.read()
     except IOError:
         return ""
+
+
+def read_all_stdin_lines():
+    console_lines = []
+    try:
+        for line in sys.stdin:
+            console_lines.append(line)
+    except KeyboardInterrupt:
+        pass
+    return "".join(console_lines)

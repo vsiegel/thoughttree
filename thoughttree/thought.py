@@ -28,6 +28,7 @@ class Args(Namespace):
         self.temperature = 0.5
         self.max_tokens = 1500
         self.dry_run = False
+        self.replace = None
         self.apiKey = ""
 
 
@@ -45,12 +46,12 @@ class Thought:
             description='Interact with ChatGPT more than once')
         add = parser.add_argument
         add('-p', '--prompt',        dest='prompt',          type=str,  default="",   help='Prompt for the model, text to be completed')
-        add('-P', '--prompt-files',  dest='promptFiles',     type=existing_file_arg,  nargs="+",    help='File containing the prompt')
-        add(      '--overwrite-prompt-files',dest='overwrite',action='store_true',    help='Replace the prompt with output')
+        add('-P', '--prompt-files',  dest='promptFiles',     type=existing_file_arg,  nargs="+",    help='File(s) containing the prompt')
         add('-s', '--system',        dest='system',          type=str,  default="",   help='System prompt for the model')
-        add('-S', '--system-files',  dest='systemFiles',     type=existing_file_arg,  nargs="+",    help='File containing the system prompt')
-        add('-n', '--n-completions', dest='number',          type=int,  default=1,    help='Number of repetition of each completion')
+        add('-S', '--system-files',  dest='systemFiles',     type=existing_file_arg,  nargs="+",    help='File(s) containing the system prompt')
         add('-o', '--output',        dest='outputFile',      type=str,  default="",   help='File to write the output to')
+        add(      '--overwrite-prompt-files',dest='overwrite',action='store_true',    help='Replace the prompt with output')
+        add('-n', '--n-completions', dest='number',          type=int,  default=1,    help='Number of repetition of each completion')
         add('-l', '--list-files',    dest='listFiles',       type=str,  nargs='*',    help='A list of files that are used as part of the prompt')
         add('-i', '--derive-name',   dest='deriveName',      action='store_true',     help='Derive output name from input prompt name')
         add('-e', '--suffix',        dest='suffix',          type=str,  default="-out",help='Suffix to add to output name at the end')
@@ -59,6 +60,7 @@ class Thought:
         add('-t', '--temperature',   dest='temperature',     type=float,default=0.5,  help='Query temperature')
         add('-m', '--max-tokens',    dest='max_tokens',      type=int,  default=1500, help='Maximal number of tokens to use per query, 0 for inf')
         add(      '--dry-run',       dest='dry_run',         action='store_true',     help='Dry run')
+        add(      '--replace',       dest='replace',         type=str,  nargs='*',    help='Values to replace the placeholder [<replace>] in prompts')
         add('-a', '--api-key',       dest='apiKey',          type=str,  default="",   help='API key for the OpenAI API')
 
         args = Args()

@@ -1,0 +1,29 @@
+Manuskript-Report für Kapitel [Kapitel-Name]
+Zur Unterstüzung der Arbeit des Autors
+
+[ggf. Warnungen: ...]
+
+1. Fehler
+2. Unstimmigkeiten.
+3. Argumentationslücken
+4. Unklarheiten
+5. Redundanzen
+6. Rechtschreibung
+7. Andere Problene
+8. Stil und Struktur
+9. Fehlende Informationen
+10. Fachsprache und Jargon
+11. Sonstige Empfehlungen
+
+Schreibe einen gegliederten Report. (1.1., 1.2. etc).
+Falls keine Punkte in einem Abschnitt vorliegen, verwende [keine], um das zu zeigen.
+Schreibe anstatt
+"1. Unstimmigkeiten
+    1.1. Keine offensichtlichen Unstimmigkeiten wurden festgestellt."
+besser:
+"1. Unstimmigkeiten [keine]"
+Markiere jeden Punkt mit seiner Wichtigkeit (0-9) vor der Abschnittsnummer in []:
+"1.1 [4] Foo bar"
+Schlage für jeden Punkt eine oder mehrere eindeutige, möglichst kurze Textänderungen vor, in der Form:
+Bisher: "Alter text"
+Vorschlag: "neuer Text"

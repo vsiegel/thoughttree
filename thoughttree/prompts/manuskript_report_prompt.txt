@@ -26,5 +26,5 @@ besser:
 
 Liste alle Punkte, auch unwichtige.
 Wähle kurze Formulierungen.
-Markiere jeden Punkt mit seiner Wichtigkeit (0-9) nach der Abschnittsnummer in []:
+Markiere jeden Punkt mit seiner Wichtigkeit (0-9) vor der Abschnittsnummer in []:
 "1.1 [4] Foo bar"

@@ -26,8 +26,9 @@ Schreibe anstatt
 besser:
 "1. Unstimmigkeiten [keine]"
 
-Schlage für jeden Punkt eine oder mehrere eindeutige, möglichst kurze Textänderungen vor, in der Form:
-Beschreibung: "..."
+Schlage für jeden Punkt eine eindeutige, möglichst kurze Textänderungen vor, in der Form:
+1.1 Titel
+Beschreibung: ...
 Derzeitig: "Alter text"
 Vorschlag: "Neuer Text"
 

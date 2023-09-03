@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import os
+import re
 import sys
 from datetime import datetime
 from os.path import splitext
@@ -9,6 +10,8 @@ from configargparse import ArgumentParser, Namespace
 
 from tools import maybe_file, read_all_stdin_lines
 
+
+# thought -P 2.6_neuronale_netze.tex -S ~/PycharmProjects/GPT-3-interaction/thoughttree/prompts/manuskript_report_prompt.txt
 
 class Args(Namespace):
     def __init__(self):
@@ -88,6 +91,7 @@ class Thought:
 
         openai.api_key = args.apiKey or os.getenv("OPENAI_API_KEY")
 
+
         def get_prompts(args):
             if args.prompt:
                 return [(None, args.prompt)]
@@ -104,12 +108,6 @@ class Thought:
                 return [(f, maybe_file(f)) for f in args.systemFiles]
             else:
                 return [(None, "")]
-
-
-        prompts = get_prompts(args)
-        systems = get_systems(args)
-
-
 
         def out_file_name(promptFile, systemFile):
             now = datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
@@ -130,6 +128,42 @@ class Thought:
                 file_name = f"{name}{infix}{ext}"
             return file_name
 
+        def out_file_name2(promptFile, systemFile):
+            if args.overwrite:
+                return promptFile
+            file = None
+            if args.outputFile:
+                file = args.outputFile
+            if args.suffix:
+                name, ext = splitext(file)
+                file = f"{name}{args.suffix}{ext}"
+            if args.datedOutputFile:
+                name, ext = splitext(file)
+                now = datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
+                file = f"{name}-{now}{ext}"
+
+            elif args.deriveName and promptFile:
+                name, ext = splitext(promptFile)
+            return file
+
+
+        def next_numbered(filenames):
+            pattern = "^(.*?)([0-9]+?)([^0-9])*$"
+            # m = re.search(pattern, "erg45.kj")
+            numbers = [int(re.search(pattern, f).group(2)) for f in filenames if re.search(pattern, f)]
+            previous = max(numbers)
+            next = f"{previous + 1:03d}"
+            re.search(pattern, f)
+            # file_name = f"{name}{infix}{ext}"
+
+
+        # print(f"{next_numbered('foodfa.bar')=}")
+        # print(f"{next_numbered('foo99dfa.bar')=}")
+        # print(f"{next_numbered('foodfa5.bar')=}")
+        # print(f"{next_numbered('foodfa1.bar')=}")
+        # sys.exit(130)
+        prompts = get_prompts(args)
+        systems = get_systems(args)
 
         try:
             for promptFile, prompt in prompts:

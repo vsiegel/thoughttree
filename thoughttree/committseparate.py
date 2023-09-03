@@ -41,3 +41,7 @@ changeSectionPattern = """(?m)^(\d\d?\.\d\d?\.?)(.*)\n*Beschreibung: (.*)\n+(?:B
 
 replace_group(changeSectionPattern, input_string, changes_string)
 
+
+if __name__ == "__main__":
+    if len(sys.argv) == 1:
+        print(f"{sys.argv} <input_file> <change_file> ...")

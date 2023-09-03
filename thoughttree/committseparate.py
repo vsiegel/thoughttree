@@ -35,7 +35,9 @@ changes_string = open("/home/siegel/ttt/manuscript/2.6_neuronale_netze_manuscrip
 # input_string = input_string[:1000]
 # changes_string = changes_string[:4000]
 
-changeSectionPattern = """(?sm)^(\d+\.\d+)\.?\s*(.*?)\s*Beschreibung: (.*?)(Bisher|Derzeitig): "(.*?)".*?Vorschlag: "(.*?)"(.*?)$"""
+# changeSectionPattern = """(?sm)^(\d+\.\d+)\.?\s*(.*?)\s*Beschreibung: (.*?)(Bisher|Derzeitig): "(.*?)".*?Vorschlag: "(.*?)"(.*?)$"""
+# changeSectionPattern = """(?m)^([\d.]{1,16})(.*)\n*Beschreibung: (.*)\n+(?:Bisher|Derzeitig): .*"(.*)".*\n+Vorschlag: .*"(.*)".*"""
+changeSectionPattern = """(?m)^(\d\d?\.\d\d?\.?)(.*)\n*Beschreibung: (.*)\n+(?:Bisher|Derzeitig): .*"(.*)".*\n+Vorschlag: .*"(.*)"([\s\S]*?)(?=(\d\d?\.\d\d?\.?)|\Z)"""
 
 replace_group(changeSectionPattern, input_string, changes_string)
 

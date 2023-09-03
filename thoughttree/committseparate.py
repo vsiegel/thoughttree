@@ -1,4 +1,5 @@
 import re
+import sys
 
 # Zusammenfassung is section 0
 sections = ["Zusammenfassung", "Fehler", "Unstimmigkeiten.", "Argumentationslücken", "Unklarheiten", "Redundanzen", "Rechtschreibung", "Andere Problene", "Stil und Struktur", "Fehlende Informationen", "Fachsprache und Jargon", "Sonstige Empfehlungen"]
@@ -29,8 +30,9 @@ def replace_group(pattern, input, changes_string):
         #     open(f"2.6_neuronale_netze-cange-{id}.tex", "w").write(output)
         end_of_previous_match = m.end(0)
 
-input_string = open("/home/siegel/ttt/manuscript/2.6_neuronale_netze.tex").read()
-changes_string = open("/home/siegel/ttt/manuscript/2.6_neuronale_netze_manuscript_changes_one_section-all.txt").read()
+# input_string = open("/home/siegel/ttt/manuscript/2.6_neuronale_netze.tex").read()
+input_string = open("/home/siegel/ttt/manuscript/2.7_grosse_sprachmodelle.tex").read()
+changes_string = open("/home/siegel/ttt/manuscript/2.7_grosse_sprachmodelle_manuscript_changes_one_section_short-s05b.txt").read()
 
 # input_string = input_string[:1000]
 # changes_string = changes_string[:4000]

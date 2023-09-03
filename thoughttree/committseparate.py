@@ -3,7 +3,7 @@ import re
 # Zusammenfassung is section 0
 sections = ["Zusammenfassung", "Fehler", "Unstimmigkeiten.", "Argumentationslücken", "Unklarheiten", "Redundanzen", "Rechtschreibung", "Andere Problene", "Stil und Struktur", "Fehlende Informationen", "Fachsprache und Jargon", "Sonstige Empfehlungen"]
 
-def replace_group(input, pattern, changes_string):
+def replace_group(pattern, input, changes_string):
 
     m = re.findall(pattern, changes_string)
     # print(f"{m=}")
@@ -33,5 +33,5 @@ changes_string = open("/home/siegel/ttt/manuscript/2.6_neuronale_netze_manuscrip
 
 changeSectionPattern = """(?sm)^(\d+\.\d+)\.?\s*(.*?)\s*Beschreibung: (.*?)(Bisher|Derzeitig): "(.*?)".*?Vorschlag: "(.*?)"(.*?)$"""
 
-replace_group(input_string, changeSectionPattern, changes_string)
+replace_group(changeSectionPattern, input_string, changes_string)
 

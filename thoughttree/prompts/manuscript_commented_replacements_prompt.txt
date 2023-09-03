@@ -30,5 +30,5 @@ Markiere jeden Punkt mit seiner Wichtigkeit (0-9) vor der Abschnittsnummer in []
 
 Schlage für jeden Punkt eine oder mehrere eindeutige, möglichst kurze Textänderungen vor, in der Form:
 Beschreibung: "..."
-Bisher: "Alter text"
+Derzeitig: "Alter text"
 Vorschlag: "neuer Text"

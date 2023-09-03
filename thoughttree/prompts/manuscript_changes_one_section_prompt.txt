@@ -22,9 +22,9 @@ Nenne möglichst viele Punkte.
 Falls keine Änderungsvorschläge für einen Abschnitt vorliegen, verwende [keine], um das zu zeigen.
 Schreibe anstatt
 "1. Unstimmigkeiten
-    1.1. Keine offensichtlichen Unstimmigkeiten wurden festgestellt."
+1.1. Keine offensichtlichen Unstimmigkeiten wurden festgestellt."
 besser:
-"1. Unstimmigkeiten [keine]"
+"1. Unstimmigkeiten (keine)"
 
 Schlage für jeden Punkt eine eindeutige, möglichst kurze Textänderungen vor, in der Form:
 1.1 Titel

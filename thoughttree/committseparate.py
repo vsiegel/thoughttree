@@ -1,5 +1,7 @@
 import re
 
+# Zusammenfassung is section 0
+sections = ["Zusammenfassung", "Fehler", "Unstimmigkeiten.", "Argumentationslücken", "Unklarheiten", "Redundanzen", "Rechtschreibung", "Andere Problene", "Stil und Struktur", "Fehlende Informationen", "Fachsprache und Jargon", "Sonstige Empfehlungen"]
 
 def replace_group(input, pattern, changes_string):
 

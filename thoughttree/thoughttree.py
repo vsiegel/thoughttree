@@ -29,7 +29,7 @@ conf = Namespace()
 conf.show_finish_reason = True
 conf.update_title_after_completion = True
 conf.scroll_output = True
-conf.ring_bell_after_completion = False
+conf.ring_bell_after_completion = True
 conf.blinking_caret = True
 
 

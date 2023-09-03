@@ -65,10 +65,26 @@ class Thought:
         add(      '--replace',       dest='replace',         type=str,  nargs='*',    help='Values to replace the placeholder "' + placeholder + '" in (system) prompts')
         add('-a', '--api-key',       dest='apiKey',          type=str,  default="",   help='API key for the OpenAI API')
 
-        args = Args()
-        # args.prompt = args.promptFiles = args.overwrite = args.system = args.systemFiles = args.number = args.outputFile = args.listFiles \
-        #     = args.deriveName = args.suffix = args.datedOutputFile = args.model = args.temperature = args.max_tokens = args.dry_run = args.apiKey = None
-        args:Args = parser.parse_args(namespace=args)
+        args = Namespace()
+        args.prompt = ""
+        args.promptFiles = []
+        args.overwrite = False
+        args.system = ""
+        args.systemFiles = []
+        args.number = 1
+        args.outputFile = ""
+        args.listFiles = []
+        args.deriveName = False
+        args.suffix = "-out"
+        args.datedOutputFile = False
+        args.model = "gpt-4"
+        args.temperature = 0.5
+        args.max_tokens = 1500
+        args.dry_run = False
+        args.replace = None
+        args.apiKey = ""
+
+        args = parser.parse_args(namespace=args)
 
         openai.api_key = args.apiKey or os.getenv("OPENAI_API_KEY")
 

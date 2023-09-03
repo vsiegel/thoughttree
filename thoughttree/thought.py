@@ -32,6 +32,8 @@ class Args(Namespace):
         self.apiKey = ""
 
 
+placeholder = "[<replace>]"
+
 
 class Thought:
     def __init__(self):
@@ -60,7 +62,7 @@ class Thought:
         add('-t', '--temperature',   dest='temperature',     type=float,default=0.5,  help='Query temperature')
         add('-m', '--max-tokens',    dest='max_tokens',      type=int,  default=1500, help='Maximal number of tokens to use per query, 0 for inf')
         add(      '--dry-run',       dest='dry_run',         action='store_true',     help='Dry run')
-        add(      '--replace',       dest='replace',         type=str,  nargs='*',    help='Values to replace the placeholder [<replace>] in prompts')
+        add(      '--replace',       dest='replace',         type=str,  nargs='*',    help='Values to replace the placeholder "' + placeholder + '" in (system) prompts')
         add('-a', '--api-key',       dest='apiKey',          type=str,  default="",   help='API key for the OpenAI API')
 
         args = Args()
@@ -116,12 +118,18 @@ class Thought:
         try:
             for promptFile, prompt in prompts:
                 for systemFile, system in systems:
-                    outputFile = out_file_name(promptFile, systemFile)
-                    if args.dry_run:
-                        print(f"Would complete:\n    '{promptFile}' in the context of\n    '{systemFile}' to\n'{outputFile}'")
+                    # for replacement in args.replace:
+                    if args.replace:
+                        replacement = args.replace[0]
                     else:
-                        completion = Thought.complete(prompt, system, args.temperature, args.max_tokens, args.model)
-                        print(f"{outputFile=}")
+                        replacement = ""
+                    modified_prompt = prompt.replace(placeholder, replacement) if replacement else prompt
+                    modified_system = system.replace(placeholder, replacement) if replacement else system
+                    outputFile = args.outputFile or out_file_name(promptFile, systemFile)
+                    replacement_message = replacement and "\n  with replacement " + replacement or ""
+                    print(f"Complete\n    '{promptFile}'{replacement_message} with system prompt\n    '{systemFile}' to\n    '{outputFile or 'stdout'}'")
+                    if not args.dry_run:
+                        completion = Thought.complete(modified_prompt, modified_system, args.temperature, args.max_tokens, args.model)
                         with open(outputFile, 'w') as f:
                             f.write(completion)
         except KeyboardInterrupt:

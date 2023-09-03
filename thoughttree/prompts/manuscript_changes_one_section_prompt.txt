@@ -3,6 +3,7 @@ Zur Unterstüzung der Arbeit des Autors
 
 [ggf. Warnungen: ...]
 
+0. Zusammenfassung
 1. Fehler
 2. Unstimmigkeiten.
 3. Argumentationslücken

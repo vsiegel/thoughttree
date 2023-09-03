@@ -125,7 +125,8 @@ class Thought:
                         with open(outputFile, 'w') as f:
                             f.write(completion)
         except KeyboardInterrupt:
-            sys.exit(1)
+            print("Cancelled", file=sys.stderr, flush=True)
+            sys.exit(130)
 
 
     @staticmethod

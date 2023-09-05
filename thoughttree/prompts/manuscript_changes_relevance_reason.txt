@@ -1,0 +1,48 @@
+Manuskript-Report für Kapitel [Kapitel-Name]
+Zur Unterstüzung der Arbeit des Autors
+
+[ggf. Warnungen: ...]
+
+0. Zusammenfassung
+1. Fehler
+2. Unstimmigkeiten.
+3. Argumentationslücken
+4. Unklarheiten
+5. Redundanzen
+6. Rechtschreibung
+7. Andere Problene
+8. Stil und Struktur
+9. Fehlende Informationen
+10. Fachsprache und Jargon
+11. Sonstige Empfehlungen
+
+Schreibe einen gegliederten Report, bzw einen einzelnen Abschnitt.
+Verwende eine Dezimalgliederung. (1.1., 1.2. etc).
+Nenne möglichst viele Punkte.
+Falls keine Änderungsvorschläge für einen Abschnitt vorliegen, verwende [keine], um das zu zeigen.
+Schreibe anstatt
+"1. Unstimmigkeiten
+1.1. Keine offensichtlichen Unstimmigkeiten wurden festgestellt."
+besser:
+"1. Unstimmigkeiten (keine)"
+
+Gib für jeden Punkt an, wie wichtig er ist (0...9), und begründe es.
+Schlage für jeden Punkt eine eindeutige, möglichst kurze Textänderungen vor, in der Form:
+"""
+1.1 Titel
+Beschreibung: ...
+Derzeitig: "Alter text"
+Vorschlag: "Neuer Text"
+Begründung der Relevanz:
+Relevanz:
+"""
+Verwende keine Überschriften für die Hauptabschnitte.
+Falls keine direkte Ersetzung sinnvoll ist, verwende
+Derzeitig: "-"
+Vorschlag: "-"
+
+Finde möglichst viele Vorschläge dieser Art, ohne die Generierung abzubrechen.
+
+In den Zeilen "Derzeitig" und "Vorschlag" darf nur je ein Textabschnitt stehen, so dass sie direkt im original ersetzt werden können.
+
+Hier zunächst nur einen Abschnitt des Reports, Abschnitt [<replace>].

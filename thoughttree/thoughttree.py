@@ -206,7 +206,7 @@ class Thoughttree(PrimaryUi):
         except tk.TclError :
             text = sheet.get(1.0, END)
         old_status = self.status.message
-        self.status.message = "Counting tokens (loading model)"
+        self.status.message = "Counting tokens (loading model)..."
         self.status.update()
         num_tokens = self.model.counter.count_tokens(text)
         self.status.message = old_status

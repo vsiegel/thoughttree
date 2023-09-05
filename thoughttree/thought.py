@@ -216,19 +216,3 @@ class Thought:
 
 if __name__ == "__main__":
     Thought()
-
-'''
-f=was-sind-sprachmodelle.tex 
-r=was-sind-sprachmodelle-report.tex # use $f 
-b="review-$f"
-h=$(git log --pretty=format:%h -n 1 $f)
-
-git checkout -B $b $h
-# AI proposes changes in the file: was-sind-sprachmodelle.tex 
-git commit -m "Proposed changes to $f" $r
-# AI creates report file: was-sind-sprachmodelle-report.tex 
-git add $r
-git commit -m "Report about $f" $r
-gvim $f
-git commit -m "Separate proposed change according to $r\nApply by cherry picking." $f
-'''

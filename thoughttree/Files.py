@@ -1,7 +1,7 @@
 import tkinter as tk
 from textwrap import dedent
 from tkinter import SEL_FIRST, SEL_LAST
-from tkinter.filedialog import asksaveasfilename
+from tkinter.filedialog import asksaveasfilename, askopenfilename
 from tkinter.messagebox import showerror
 import re
 
@@ -42,7 +42,13 @@ class CodeBlockSaver(TextSaver):
 class Files:
     @staticmethod
     def open_file(e=None):
-        pass
+        file = askopenfilename(defaultextension=".txt",
+                initialfile="chat.txt", title="Open File")#, parent=sheet)
+        if not file:
+            return
+        with open(file, "r") as f:
+            text = f.read()
+            return file, text
 
 
     # @staticmethod

@@ -1,7 +1,7 @@
 import tkinter as tk
 import webbrowser
 from datetime import datetime
-from tkinter import font as tkfont, NONE, WORD, SEL, END, INSERT
+from tkinter import font as tkfont, NONE, WORD, SEL, END, INSERT, SEL_FIRST
 
 from AboutDialog import AboutDialog
 from Files import Files
@@ -30,6 +30,9 @@ class MainMenu(Menu):
 
 
     def create_menu(self):
+        def open_file(e=None):
+            file, text = Files.open_file()
+            self.it.insert(INSERT, text)
 
         def save(save_dialog, status_bar_label):
             file_name = save_dialog(self.it)
@@ -181,7 +184,7 @@ class MainMenu(Menu):
         self.menu = Menu(self, "File")
         item("New Window", "<Control-n>", new_window)
         item("New Main Tab", "<Control-t>", lambda e=None: self.it.fork("1.0"))
-        item("Open File", "<Control-o>") #, Files.open_file)
+        item("Open File", "<Control-o>", open_file)
         item("Import Shared Chat") # , "<Control-....>", import_shared_chat
         # item("Save Chat", "<Control-s>", Files.save_chat)
         item("Save Chat", "<Control-s>", save_chat)

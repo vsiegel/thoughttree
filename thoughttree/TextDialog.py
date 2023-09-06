@@ -32,3 +32,11 @@ class TextDialog(tk.simpledialog.Dialog):
 
         box.pack()
 
+if __name__ == "__main__":
+    root = tk.Tk()
+    root.withdraw()
+    root.attributes("-topmost", True)
+    import lorem
+    l = lorem.text()
+    l= "kjhnkl"
+    d = TextDialog(message=l, title="Hello World!")

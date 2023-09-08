@@ -116,6 +116,8 @@ class Thoughttree(PrimaryUi):
         self.tree = Tree(self.tree_pane)
         self.system = Sheet(self.system_pane, height=3)
         self.chat_sheet = Sheet(self.system_pane)
+        # self.chat_sheet = ScrollableForkableSheet(self.system_pane)
+        self.previous_current_sheet = self.chat_sheet
 
         self.console_pane.add(self.tree_pane, stretch="always")
         self.console_pane.addFoldable(self.console, stretch="never")

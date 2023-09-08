@@ -1,19 +1,33 @@
 import tkinter as tk
-from tkinter import ACTIVE, LEFT, BOTH
+from tkinter import ACTIVE, LEFT, BOTH, scrolledtext, INSERT, SEL, END
 from tkinter.simpledialog import Dialog
+from tkinter.scrolledtext import ScrolledText
 
 
 class TextDialog(tk.simpledialog.Dialog):
     def __init__(self, message=None, title=None, parent=None):
         self.message = message
         super().__init__(parent, title)
-        # todo: Control-A for select all.
         # todo: context menu with "Copy Message"
 
     def body(self, parent):
+
+        def select_all(event):
+            text.tag_add(SEL, "1.0", END)
+            text.mark_set(INSERT, "1.0")
+            text.see(INSERT)
+
+        def copy_text(event):
+            self.clipboard_clear()
+            text_get = text.get(1.0, tk.END)
+            self.clipboard_append(text_get)
+
         background = self.cget("background")
-        text = tk.Text(parent, height=10, width=30, borderwidth=0,
-                       highlightthickness=0, background=background, font=("sans-serif", 11))
+        text = ScrolledText(parent, height=10, width=40, borderwidth=0, exportselection=True,
+                                    highlightthickness=0, background=background, font=("sans-serif", 11))
+        text.bind("<Control-a>", select_all)
+        text.bind("<Control-c>", copy_text)
+
         text.insert(tk.END, self.message)
         text.config(state=tk.DISABLED)
         text.pack(fill=BOTH, expand=True)

@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import CURRENT, END, INSERT, SEL, WORD, X, SEL_FIRST, SEL_LAST
+from tkinter import CURRENT, END, INSERT, SEL, WORD, X, SEL_FIRST, SEL_LAST, RIGHT, Y, BOTH, LEFT
 from tkinter import scrolledtext
 from tkinter.scrolledtext import ScrolledText
 from typing import Union
@@ -11,15 +11,37 @@ from Notebook import Notebook
 from ThoughttreeConfig import conf
 
 
+class AutoScrollbar(tk.Scrollbar):
+    def __init__(self, master, **kw):
+        tk.Scrollbar.__init__(self, master, **kw)
+
+    def set(self, low, high):
+        if float(low) <= 0.0 and float(high) >= 1.0:
+            # self.tk.call("grid", "remove", self)
+            self.pack_forget()
+        else:
+            # self.grid()
+            self.pack(side=RIGHT, fill=Y)
+        tk.Scrollbar.set(self, low, high)
+
+
 class Sheet(ScrolledText):
 
-    def __init__(self, master=None, scrollbar=True, padx=0, pady=0, height=0, grow=True, **kw):
+    def __init__(self, master=None, scrollbar=True, autohide=False, padx=0, pady=0, height=0, grow=True, **kw):
         ScrolledText.__init__(
             self, master, undo=True, wrap=WORD, padx=padx, pady=pady, background='white',
             width=80, height=height, insertwidth=4, font=Fonts.FONT,
             border=0, borderwidth=0, highlightthickness=0,
             selectbackground="#66a2d4", selectforeground="white", **kw)
 
+        # if autohide:
+        #     self.vbar = AutoScrollbar(self.frame)
+        # else:
+        #     self.vbar = tk.Scrollbar(self.frame)
+        # self.vbar.pack(side=RIGHT, fill=Y)
+        #
+        # self.config(yscrollcommand=self.vbar.set)
+        # self.vbar.configure(command=self.yview)
 
         if scrollbar:
             self.vbar.config(width=18, takefocus=False, borderwidth=2)

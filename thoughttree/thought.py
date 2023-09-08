@@ -150,20 +150,80 @@ class Thought:
                 name, ext = splitext(file)
                 now = datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
                 file = f"{name}-{now}{ext}"
-
             elif args.deriveName and promptFile:
                 name, ext = splitext(promptFile)
             return file
 
 
-        def next_numbered(filenames):
-            pattern = "^(.*?)([0-9]+?)([^0-9])*$"
-            # m = re.search(pattern, "erg45.kj")
-            numbers = [int(re.search(pattern, f).group(2)) for f in filenames if re.search(pattern, f)]
+        def next_numbered(filename):
+            print(f"{(filename)=}")
+            print(f"{os.path.exists(filename)=}")
+            if not filename or not os.path.exists(filename):
+                return filename
+            pattern = "(?m)^(.*?)(\d+)(\D*?)$|^(.+)(\..+)$|^(\D+?)$"
+            dir, basename = os.path.split(filename)
+            m = re.match(pattern, basename)
+            prefix, number, ext, nonum_prefix, nonum_ext, noext_prefix = m.groups()
+            prefix = prefix or nonum_prefix or noext_prefix
+            ext = ext or nonum_ext or ""
+            number = number or "00"
+            # similar_numbered_files = glob(join(dir, prefix + "*" + ext))
+            all_files = glob(join(dir, "*"))
+            all_files = [os.path.split(f)[1] for f in all_files]
+            similar_pattern = f"(?m)^{'.' * len(prefix)}(\d*){'.' * len(ext)}$"
+            files = [f for f in all_files if re.match(similar_pattern, f)]
+
+            # filename = join(dir, filename)
+            # raise Exception(f"File '{filename}' already exists")
+            # return ""
+            len_ext = not ext and 0 or len(ext)
+            len_prefix = not prefix and 0 or len(prefix)
+            numbers = [f[len_prefix:len(f)-len_ext] for f in files]
+            print(f"{prefix=}")
+            print(f"{ext=}")
+            print(f"{files=}")
+            print(f"{numbers=}")
+            numbers = [int(0 if s == '' else s) for s in numbers]
+            print(f"{numbers=}")
             previous = max(numbers)
-            next = f"{previous + 1:03d}"
-            re.search(pattern, f)
-            # file_name = f"{name}{infix}{ext}"
+            next = f"{previous + 1:02d}"
+            new_file_name = f"{prefix}{next}{ext}"
+            print(f"{filename=}")
+            print(f"{new_file_name=}")
+            return new_file_name
+
+
+        def apply_changes(input_files, change_files):
+            for input_file in input_files:
+                for change_file in change_files:
+                    with open(change_file, 'r') as f:
+                        changes_string = f.read()
+                        with open(input_file, 'r') as f:
+                            input_string = f.read()
+                            description_pattern = '(?m)Titel: (.*)\s+Beschreibung: (.*)'
+                            multiple_changes_pattern = '(?m)Derzeitig: "(.*)"\s+Vorschlag: "(.*)"'
+                            output = input_string
+                            for m in re.finditer(multiple_changes_pattern, changes_string):
+                                derzeitig, vorschlag = m.groups()
+                                output = output.replace(derzeitig, vorschlag, 1)
+                            if output == input_string:
+                                print(f"Could not apply changes from {change_file} to {input_file}", file=sys.stderr)
+                            else:
+                                with open(input_file, 'w') as f:
+                                    f.write(output)
+                                if args.commit:
+                                    m = re.search(description_pattern, changes_string)
+                                    if m:
+                                        title, beschreibung = m.groups()
+                                        commitmessage = f'''{title}\n\n{beschreibung}\n'''
+                                        commit_file = f"commitmessage-tmp.txt"
+                                        with open(commit_file, "w") as f:
+                                            f.write(commitmessage)
+                                        print(git('diff', '--word-diff', '--color', input_file))
+                                        git('commit', '-F', commit_file, input_file)
+
+                                    else:
+                                        print(f"No description found in {change_file}", file=sys.stderr)
 
 
         # print(f"{next_numbered('foodfa.bar')=}")

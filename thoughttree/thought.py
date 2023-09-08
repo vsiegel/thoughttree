@@ -226,34 +226,40 @@ class Thought:
                                         print(f"No description found in {change_file}", file=sys.stderr)
 
 
-        # print(f"{next_numbered('foodfa.bar')=}")
-        # print(f"{next_numbered('foo99dfa.bar')=}")
-        # print(f"{next_numbered('foodfa5.bar')=}")
-        # print(f"{next_numbered('foodfa1.bar')=}")
-        # sys.exit(130)
+        if args.changesToPromptFile:
+            apply_changes(args.promptFiles, args.changesToPromptFile)
+            sys.exit(0)
+
         prompts = get_prompts(args)
         systems = get_systems(args)
 
         try:
-            for promptFile, prompt in prompts:
-                for systemFile, system in systems:
-                    # for replacement in args.replace:
-                    if args.replace:
-                        replacement = args.replace[0]
-                    else:
-                        replacement = ""
-                    modified_prompt = prompt.replace(placeholder, replacement) if replacement else prompt
-                    modified_system = system.replace(placeholder, replacement) if replacement else system
+            for promptFile, orig_prompt in prompts:
+                for systemFile, orig_system in systems:
+                    prompt = orig_prompt
+                    system = orig_system
+
                     outputFile = args.outputFile or out_file_name(promptFile, systemFile)
-                    replacement_message = replacement and "\n  with replacement " + replacement or ""
-                    print(f"Complete\n    '{promptFile}'{replacement_message} with system prompt\n    '{systemFile}' to\n    '{outputFile or 'stdout'}'")
+                    replacement_message = ""
+                    for replace in [args.replace, args.replace2, args.replace3]:
+                        if replace:
+                            replacement = replace[0]
+                            prompt = prompt.replace(args.placeholder, replacement, 1)
+                            system = system.replace(args.placeholder, replacement, 1)
+                            outputFile = outputFile.replace(args.placeholder, replacement, 1)
+                            replacement_message = replacement_message + (replacement and "\n  with replacement " + replacement or "")
+                    outputFile = next_numbered(outputFile)
+                    print(f"Complete\n    '{promptFile}'{replacement_message}\n with system prompt\n    '{systemFile}' to\n    '{outputFile or 'stdout'}'")
                     if not args.dry_run:
-                        completion = Thought.complete(modified_prompt, modified_system, args.temperature, args.max_tokens, args.model)
+                        completion = Thought.complete(prompt, system, args.temperature, args.max_tokens, args.model)
                         with open(outputFile, 'w') as f:
                             f.write(completion)
+                        if args.commit:
+                            apply_changes(args.promptFiles, [outputFile])
         except KeyboardInterrupt:
             print("Cancelled", file=sys.stderr, flush=True)
             sys.exit(130)
+
 
 
     @staticmethod

@@ -14,28 +14,6 @@ from tools import maybe_file, read_all_stdin_lines, git
 
 # thought -P 2.6_neuronale_netze.tex -S ~/PycharmProjects/GPT-3-interaction/thoughttree/prompts/manuskript_report_prompt.txt
 
-class Args(Namespace):
-    def __init__(self):
-        super().__init__()
-        self.prompt = ""
-        self.promptFiles = []
-        self.overwrite = False
-        self.system = ""
-        self.systemFiles = []
-        self.number = 1
-        self.outputFile = ""
-        self.listFiles = []
-        self.deriveName = False
-        self.suffix = "-out"
-        self.datedOutputFile = False
-        self.model = "gpt-4"
-        self.temperature = 0.5
-        self.max_tokens = 2500
-        self.dry_run = False
-        self.replace = None
-        self.apiKey = ""
-
-
 default_config_files = ["~/.config/thoughttreerc"]
 
 class Thought:

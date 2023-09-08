@@ -251,7 +251,7 @@ class Thoughttree(PrimaryUi):
 
     def current_sheet(self) -> Sheet:
         focussed_widget = self.focus_get()
-        if isinstance(focussed_widget, Sheet) and self.system != focussed_widget:
+        if focussed_widget and self.system != focussed_widget:
             self.previous_current_sheet = focussed_widget
             return focussed_widget
         else:

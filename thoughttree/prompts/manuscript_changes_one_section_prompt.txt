@@ -26,11 +26,12 @@ Schreibe anstatt
 besser:
 "1. Unstimmigkeiten (keine)"
 
-Schlage für jeden Punkt eine eindeutige, möglichst kurze Textänderungen vor, in der Form:
+Schlage für jeden Punkt eine eindeutige, möglichst kurze Textänderung vor, in der Form:
 1.1 Titel
 Beschreibung: ...
 Derzeitig: "Alter text"
 Vorschlag: "Neuer Text"
+
 
 Falls keine direkte Ersetzung sinnvoll ist, verwende
 Derzeitig: "-"

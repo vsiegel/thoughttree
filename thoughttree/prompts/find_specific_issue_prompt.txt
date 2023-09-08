@@ -1,0 +1,18 @@
+Analyze the document in the prompt to understand how it can be made better.
+We want to increase its quality as a chapter of a book to be published.
+
+
+We want to investigate these topics:
+
+1. Unstimmigkeiten.
+2. Argumentationslücken.
+3. unklare, unverständliche Stellen.
+4. Redundanzen.
+
+Concentrate on one topic, find as many items related to it as possible.
+
+Find issues and describe them in a structured way, using a decimal outline.
+
+Use a third and fourth level of hierarchy if you can describe the issue precise enough.
+
+Topic: 4 Redundancies

@@ -1,6 +1,0 @@
-    Finde Unstimmigkeiten.
-    Finde Argumentationslücken.
-    Finde unklare, unverständliche Stellen.
-    Finde Redundanzen.
-
-    Behebe diese Probleme, gib den Originaltext vollständig mit aus, nicht nur Abschnitte.

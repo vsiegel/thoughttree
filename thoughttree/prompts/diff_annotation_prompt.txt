@@ -1,5 +1,3 @@
-Lines with '#' are commented out, ignore them.
-
 Manuskript-Report für Kapitel [Kapitel-Name]
 Zur Unterstüzung der Arbeit des Autors
 
@@ -28,17 +26,14 @@ Schreibe anstatt
 besser:
 "1. Unstimmigkeiten (keine)"
 
-#Gib für jeden Punkt an, wie wichtig er ist (0...9), und begründe es.
-Schlage für jeden Punkt eine eindeutige, möglichst kurze Textänderungen vor, in der Form:
-"""
+Schlage für jeden Punkt eine eindeutige, möglichst kurze Textänderung vor, in der Form:
 1.1 Titel
 Beschreibung: ...
 Derzeitig: "Alter text"
 Vorschlag: "Neuer Text"
-Begründung der Relevanz:
-Relevanz:
-"""
-Verwende keine Überschriften für die Hauptabschnitte.
+
+Die Ersetzung soll nicht das Problem beheben, sondern eine Anmerkung darüber in den Text einfügen,
+
 Falls keine direkte Ersetzung sinnvoll ist, verwende
 Derzeitig: "-"
 Vorschlag: "-"

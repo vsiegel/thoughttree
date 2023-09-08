@@ -59,13 +59,19 @@ class Thought:
         add('-n', '--n-completions', dest='number',          type=int,  default=1,    help='Number of repetition of each completion')
         add('-l', '--list-files',    dest='listFiles',       type=str,  nargs='*',    help='A list of files that are used as part of the prompt')
         add('-i', '--derive-name',   dest='deriveName',      action='store_true',     help='Derive output name from input prompt name')
-        add('-e', '--suffix',        dest='suffix',          type=str,  default="-out",help='Suffix to add to output name at the end')
+        add('-e', '--suffix',        dest='suffix',          type=str, default="-out",help='Suffix to add to output name at the end')
         add('-d', '--dated',         dest='datedOutputFile', action='store_true',     help='Add time and date to output name')
-        add('-g', '--gpt-model',     dest='model',           type=str,  default="gpt-4",help='Model of gpt-4 or gpt-3.5 (ChatGPT) to use')
+        add('-g', '--gpt-model',     dest='model',           type=str,default="gpt-4",help='Model of gpt-4 or gpt-3.5 (ChatGPT) to use')
         add('-t', '--temperature',   dest='temperature',     type=float,default=0.5,  help='Query temperature')
         add('-m', '--max-tokens',    dest='max_tokens',      type=int,  default=1500, help='Maximal number of tokens to use per query, 0 for inf')
         add(      '--dry-run',       dest='dry_run',         action='store_true',     help='Dry run')
-        add(      '--replace',       dest='replace',         type=str,  nargs='*',    help='Values to replace the placeholder "' + placeholder + '" in (system) prompts')
+        add(      '--placeholder',   dest='placeholder',     type=str,  nargs=1,      help='Placeholder for --replace option.')
+        add('-r', '--replace',       dest='replace',         type=str,  nargs='*',    help='Values to replace the placeholder in (system) prompts')
+        add('-r2', '--replace2',       dest='replace2',      type=str,  nargs='*',    help='Values to replace the placeholder in (system) prompts')
+        add('-r3', '--replace3',       dest='replace3',      type=str,  nargs='*',    help='Values to replace the placeholder in (system) prompts')
+        add('-R', '--multi-replace', dest='multiReplace',    type=str,  nargs='*',    help='Additional placeholders and inserted values')
+        add('-c', '--change-prompt-file',dest='changesToPromptFile',type=str, nargs='*', help='Apply a change to the prompt file')
+        add('-C', '--commit-to-git', dest='commit',          action='store_true',     help='Apply a change to the prompt file')
         add('-a', '--api-key',       dest='apiKey',          type=str,  default="",   help='API key for the OpenAI API')
 
         args = Namespace()
@@ -85,6 +91,9 @@ class Thought:
         args.max_tokens = 1500
         args.dry_run = False
         args.replace = None
+        args.replace2 = None
+        args.replace3 = None
+        args.placeholder = "[<replace>]"
         args.apiKey = ""
 
         args = parser.parse_args(namespace=args)

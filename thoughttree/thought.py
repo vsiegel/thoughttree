@@ -30,7 +30,7 @@ class Args(Namespace):
         self.datedOutputFile = False
         self.model = "gpt-4"
         self.temperature = 0.5
-        self.max_tokens = 1500
+        self.max_tokens = 2500
         self.dry_run = False
         self.replace = None
         self.apiKey = ""

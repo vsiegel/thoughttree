@@ -200,11 +200,11 @@ class Thought:
                         changes_string = f.read()
                         with open(input_file, 'r') as f:
                             input_string = f.read()
-                            description_pattern = '(?m)Titel: (.*)\s+Beschreibung: (.*)'
+                            description_pattern = '(?m)(?:Titel|Title): (.*)\s+(?:Beschreibung|Description): (.*)\s*((?:\w+: .*\n)+)'
                             multiple_changes_pattern = '(?m)Derzeitig: "(.*)"\s+Vorschlag: "(.*)"'
                             output = input_string
                             for m in re.finditer(multiple_changes_pattern, changes_string):
-                                derzeitig, vorschlag = m.groups()
+                                derzeitig, vorschlag, attributes = m.groups()
                                 output = output.replace(derzeitig, vorschlag, 1)
                             if output == input_string:
                                 print(f"Could not apply changes from {change_file} to {input_file}", file=sys.stderr)
@@ -215,7 +215,7 @@ class Thought:
                                     m = re.search(description_pattern, changes_string)
                                     if m:
                                         title, beschreibung = m.groups()
-                                        commitmessage = f'''{title}\n\n{beschreibung}\n'''
+                                        commitmessage = f'''{title}\n\n{beschreibung}\n\n{attributes}'''
                                         commit_file = f"commitmessage-tmp.txt"
                                         with open(commit_file, "w") as f:
                                             f.write(commitmessage)

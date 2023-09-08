@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
+from glob import glob
 import os
 import re
 import sys
 from datetime import datetime
-from os.path import splitext
+from os.path import splitext, join
 
 import openai
 from configargparse import ArgumentParser, Namespace
 
-from tools import maybe_file, read_all_stdin_lines
+from tools import maybe_file, read_all_stdin_lines, git
 
 
 # thought -P 2.6_neuronale_netze.tex -S ~/PycharmProjects/GPT-3-interaction/thoughttree/prompts/manuskript_report_prompt.txt

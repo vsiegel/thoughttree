@@ -10,6 +10,7 @@ from tools import git
 sections = ["Zusammenfassung", "Fehler", "Unstimmigkeiten.", "Argumentationslücken", "Unklarheiten", "Redundanzen", "Rechtschreibung", "Andere Problene", "Stil und Struktur", "Fehlende Informationen", "Fachsprache und Jargon", "Sonstige Empfehlungen"]
 
 def apply_changes(input_file, change_file, id_suffix):
+    # up_to_two_quotes_pattern = "(?m)^(\d+\.\d+)\s*(.*"(.*)".*"(.*)".*)$|^(\d+\.\d+)\s*(.*"(.*)".*)$|^(\d+\.\d+)\s*(.*)$"
     pattern = """(?m)^(\d\d?\.\d\d?\.?)(.*)\n*Beschreibung: (.*)\n+(?:Bisher|Derzeitig): .*"(.*)".*\n+Vorschlag: .*"(.*)"([\s\S]*?)(?=(\d\d?\.\d\d?\.?)|\Z)"""
     input_string = open(input_file).read()
     changes_string = open(change_file).read()

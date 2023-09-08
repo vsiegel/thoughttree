@@ -36,8 +36,7 @@ class Args(Namespace):
         self.apiKey = ""
 
 
-placeholder = "[<replace>]"
-
+default_config_files = ["~/.config/thoughttreerc"]
 
 class Thought:
     def __init__(self):
@@ -48,7 +47,7 @@ class Thought:
             else:
                 raise FileNotFoundError(path)
 
-        parser = ArgumentParser(prog="thought",
+        parser = ArgumentParser(prog="thought", add_config_file_help=True, add_env_var_help=True, default_config_files=default_config_files,
             description='Interact with ChatGPT more than once')
         add = parser.add_argument
         add('-p', '--prompt',        dest='prompt',          type=str,  default="",   help='Prompt for the model, text to be completed')

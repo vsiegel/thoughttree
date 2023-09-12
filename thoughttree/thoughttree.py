@@ -280,7 +280,7 @@ class Thoughttree(PrimaryUi):
         return n
 
 
-    def _insert_prefix_and_scroll(self, sheet, prefix):
+    def insert_prefix_and_scroll(self, sheet, prefix):
         if prefix:
             sheet.insert(END, prefix)
             self.scroll(sheet)

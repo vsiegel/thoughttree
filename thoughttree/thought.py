@@ -134,8 +134,6 @@ class Thought:
 
 
         def next_numbered(filename):
-            print(f"{(filename)=}")
-            print(f"{os.path.exists(filename)=}")
             if not filename or not os.path.exists(filename):
                 return filename
             pattern = "(?m)^(.*?)(\d+)(\D*?)$|^(.+)(\..+)$|^(\D+?)$"
@@ -145,29 +143,18 @@ class Thought:
             prefix = prefix or nonum_prefix or noext_prefix
             ext = ext or nonum_ext or ""
             number = number or "00"
-            # similar_numbered_files = glob(join(dir, prefix + "*" + ext))
             all_files = glob(join(dir, "*"))
             all_files = [os.path.split(f)[1] for f in all_files]
             similar_pattern = f"(?m)^{'.' * len(prefix)}(\d*){'.' * len(ext)}$"
             files = [f for f in all_files if re.match(similar_pattern, f)]
 
-            # filename = join(dir, filename)
-            # raise Exception(f"File '{filename}' already exists")
-            # return ""
             len_ext = not ext and 0 or len(ext)
             len_prefix = not prefix and 0 or len(prefix)
             numbers = [f[len_prefix:len(f)-len_ext] for f in files]
-            print(f"{prefix=}")
-            print(f"{ext=}")
-            print(f"{files=}")
-            print(f"{numbers=}")
             numbers = [int(0 if s == '' else s) for s in numbers]
-            print(f"{numbers=}")
             previous = max(numbers)
             next = f"{previous + 1:02d}"
             new_file_name = f"{prefix}{next}{ext}"
-            print(f"{filename=}")
-            print(f"{new_file_name=}")
             return new_file_name
 
 

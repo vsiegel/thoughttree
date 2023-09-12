@@ -168,11 +168,16 @@ class Thought:
                             # description_pattern_with_attributes = '(?m)(?:Titel|Title): (.*)\s+(?:Beschreibung|Description): (.*)\s*((?:\w+: .*\n)+)'
                             # description_pattern = '(?m)(?:Titel|Title): (.*)\s+(?:Beschreibung|Description): (.*)'
                             # multiple_changes_pattern = '(?m)(?:Derzeitig|Old|Alt): "(.*)"\s+(?:Vorschlag|New|Neu): "(.*)"'
-                            single_change_pattern = '(?m)(?:Titel|Title): (.*)\s+(?:Beschreibung|Description): (.*)\s+(?:Derzeitig|Old|Alt): (".*"|"""[\s\S]*?""")\s+(?:Vorschlag|New|Neu): ("""[\s\S]*?"""|".*")'
+                            # single_change_pattern = '(?m)(?:Titel|Title): (.*)\s+(?:Beschreibung|Description): (.*)\s+(?:Derzeitig|Old|Alt): (".*"|"""[\s\S]*?""")\s+(?:Vorschlag|New|Neu): ("""[\s\S]*?"""|".*")'
+                            single_change_pattern_with_attributes = '(?m)(?:Titel|Title): (.*)\n+(?:Beschreibung|Description): (.*)\s+((?:\n\w+: .*)*)\n+(?:Derzeitig|Old|Alt): (".*"|"""[\s\S]*?""")\n+(?:Vorschlag|New|Neu): ("""[\s\S]*?"""|".*")'
+                            single_change_pattern_with_attributes = '(?m)(?:Titel|Title): (.*)\n+(?:Beschreibung|Description): (.*)\s+((?:\n\w+: .*)*)\n+(?:Derzeitig|Old|Alt): (".*"|"""[\s\S]*?""")\n+(?:Vorschlag|New|Neu): ("""[\s\S]*?"""|".*")'
+                            single_change_pattern_with_attributes = '(?m)(?:Titel|Title): (.*)\n+(?:Beschreibung|Description): (.*)\s+((?:\n+\w+: .*)*?)\n+(?:Derzeitig|Old|Alt): (".*"|"""[\s\S]*?""")\n+(?:Vorschlag|New|Neu): ("""[\s\S]*?"""|".*")'
                             output = input_string
-                            for m in re.findall(single_change_pattern, changes_string):
+                            for m in re.findall(single_change_pattern_with_attributes, changes_string):
                                 # derzeitig, vorschlag = m.groups()
-                                title, beschreibung, old, new = m
+                                title, description, attributes, old, new = m
+                                old = old.strip('"')
+                                new = new.strip('"')
                                 output = output.replace(old, new, 1)
                             if output == input_string:
                                 print(f"Could not apply changes from {change_file} to {input_file}", file=sys.stderr)
@@ -182,8 +187,8 @@ class Thought:
                                 if args.commit:
                                     # m = re.search(description_pattern, changes_string)
                                     # if m:
-                                    #     title, beschreibung = m.groups()
-                                    commitmessage = f'''{title}\n\n{beschreibung}'''
+                                    #     title, description = m.groups()
+                                    commitmessage = f'''{title}\n\n{description}'''
                                     commit_file = f"commitmessage-tmp.txt"
                                     with open(commit_file, "w") as f:
                                         f.write(commitmessage)

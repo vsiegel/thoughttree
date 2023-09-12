@@ -1,6 +1,5 @@
 import tkinter as tk
 from tkinter import CURRENT, END, INSERT, SEL, WORD, X, SEL_FIRST, SEL_LAST, RIGHT, Y, BOTH, LEFT
-from tkinter import scrolledtext
 from tkinter.scrolledtext import ScrolledText
 from typing import Union
 
@@ -59,6 +58,7 @@ class Sheet(ScrolledText):
         self.tag_configure('bold', font=(name, int(size), "bold"))
         self.tag_configure('strikethrough', overstrike=True)
         self.tag_configure("assistant", background="#F0F0F0", selectbackground="#4682b4", selectforeground="white")
+        self.tag_configure('hidden_prompt', elide=False, foreground="light blue")
 
         self.old_num_display_lines = 0
         if grow:
@@ -302,6 +302,16 @@ class Sheet(ScrolledText):
     def strikethrough(self):
         self.tag_selection('strikethrough')
 
+    def remove_tag(self, tag):
+        def pairwise(list):
+            return zip(list[::2], list[1::2])
+        print(f"{self.tag_ranges(tag)}=")
+        for span in reversed(list(pairwise(self.tag_ranges(tag)))):
+            print(f"+{self.get(*span)=}")
+            print(f"+{len(self.get('1.0', 'end'))=}")
+            self.delete(*span)
+            print(f"-{self.get(*span)=}")
+            print(f"-{len(self.get('1.0', 'end'))=}")
 
     def tag_selection(self, tag):
         def min_index(i1, i2):

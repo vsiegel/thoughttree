@@ -246,7 +246,7 @@ class MainMenu(Menu):
         self.menu = Menu(self, "Chat")
         item("Next Paragraph", "<Control-Return>", lambda e=None: ui.chat(1, "\n\n", "\n\n"))
         item("Next Line", "<Shift-Return>", lambda e=None: ui.chat(1, "\n", "\n"))
-        item("Continue Directly", "<Control-space>", lambda e=None: ui.chat())
+        item("Continue Directly", "<Control-space>", lambda e=None: ui.chat(inline=True))
         item("Fork Conversation", "<Alt-Return>", lambda e=None: self.it.fork())
         item("Complete in Branch", "<Control-Shift-Return>", lambda e=None: branch())
         item("Complete Alternatives", "<Alt-Shift-Return>", lambda e=None: ui.chat(-1, "\n"))

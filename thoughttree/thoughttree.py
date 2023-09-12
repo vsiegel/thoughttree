@@ -226,7 +226,7 @@ class Thoughttree(PrimaryUi):
         return "break"
 
 
-    def chat(self, n=1, prefix="", postfix=""):
+    def chat(self, n=1, prefix="", postfix="", inline=False):
         self.model.is_canceled = False
         sheet = self.current_sheet()
         sheet.tag_remove('cursorline', 1.0, "end")
@@ -237,14 +237,15 @@ class Thoughttree(PrimaryUi):
 
         with WaitCursor(sheet):
             sheet.undo_separator()
-            self._insert_prefix_and_scroll(sheet, prefix)
+            if not inline:
+                self.insert_prefix_and_scroll(sheet, prefix)
 
             history = self.history_from_system_and_chat()
             self.model.counter.go()
 
-            finish_reason, message = self.completions(sheet, n, history)
+            finish_reason, message = self.completions(sheet, n, history, inline)
 
-            self.finish_completion(sheet, finish_reason, message, postfix)
+            self.finish_completion(sheet, finish_reason, message, postfix, inline)
             self.post_completion_tasks()
         return "break"
 
@@ -285,9 +286,9 @@ class Thoughttree(PrimaryUi):
             self.scroll(sheet)
 
 
-    def completions(self, sheet, n, history):
+    def completions(self, sheet, n, history, inline=False):
         finish_reason, message = 'unknown', ''
-        label_frame = None
+        insertion_point = inline and INSERT or END
         if n == 1:
             if self.model.is_canceled:
                 finish_reason = "canceled"
@@ -295,15 +296,15 @@ class Thoughttree(PrimaryUi):
                 def write_chat(text):
                     if self.is_root_destroyed:
                         return
-                    sheet.insert(END, text, "assistant")
+                    sheet.insert(insertion_point, text, "assistant")
                     self.scroll(sheet)
 
                 finish_reason, message = self.model.complete(history, write_chat)
         else:
             label_frame = tk.Frame(sheet, borderwidth=4)
-            sheet.window_create(END, window=label_frame)
-            sheet.insert(END, "\n")
-            sheet.see(END)
+            sheet.window_create(insertion_point, window=label_frame)
+            sheet.insert(insertion_point, "\n")
+            sheet.see(insertion_point)
             finish_reason, message = 'unknown', ''
 
             for i in range(n):
@@ -322,16 +323,17 @@ class Thoughttree(PrimaryUi):
         return finish_reason, message
 
 
-    def finish_completion(self, sheet, finish_reason, message, postfix):
+    def finish_completion(self, sheet, finish_reason, message, postfix, inline):
         if self.is_root_destroyed:
             return
         if conf.show_finish_reason:
             self.show_finish_reason_icon(sheet, finish_reason, message)
         if not self.model.is_canceled and not finish_reason == "length":
-            sheet.insert(END, postfix)
+            sheet.insert(INSERT, postfix)
         if self.scroll_output:
-            sheet.mark_set(INSERT, END)
-            sheet.see(END)
+            if not inline:
+                sheet.mark_set(INSERT, END)
+            sheet.see(INSERT)
         sheet.undo_separator()
 
 
@@ -344,7 +346,7 @@ class Thoughttree(PrimaryUi):
             if message:
                 tooltip += "\n" + message
 
-            sheet.window_create(END, window=FinishReasonIcon(sheet, symbol, tooltip=tooltip))
+            sheet.window_create(INSERT, window=FinishReasonIcon(sheet, symbol, tooltip=tooltip))
 
 
     def post_completion_tasks(self):

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import sys
 import tkinter as tk
+from textwrap import dedent
 from tkinter import BOTH, END, HORIZONTAL, INSERT, LEFT, SUNKEN, TOP, VERTICAL, W, X, SEL_FIRST, \
     SEL_LAST, BOTTOM
 from tkinter import simpledialog
@@ -51,7 +52,7 @@ class Thoughttree(PrimaryUi):
         self.status = None
         self.console = None
         self.tree = None
-        self.system = None
+        self.system: Sheet|None = None
         self.chat_sheet = None
         self.model = None
         self.console_pane = None
@@ -226,7 +227,7 @@ class Thoughttree(PrimaryUi):
         return "break"
 
 
-    def chat(self, n=1, prefix="", postfix="", inline=False):
+    def chat(self, n=1, prefix="", postfix="", inline=False, here=False, replace=False):
         self.model.is_canceled = False
         sheet = self.current_sheet()
         sheet.tag_remove('cursorline', 1.0, "end")
@@ -237,6 +238,10 @@ class Thoughttree(PrimaryUi):
 
         with WaitCursor(sheet):
             sheet.undo_separator()
+            if here:
+                self.set_up_inline_completion(sheet)
+            elif replace:
+                self.set_up_replace_completion(sheet)
             if not inline:
                 self.insert_prefix_and_scroll(sheet, prefix)
 
@@ -245,10 +250,49 @@ class Thoughttree(PrimaryUi):
 
             finish_reason, message = self.completions(sheet, n, history, inline)
 
+            if here or replace:
+                self.remove_hidden_prompt(sheet)
+
             self.finish_completion(sheet, finish_reason, message, postfix, inline)
             self.post_completion_tasks()
         return "break"
 
+    def set_up_inline_completion(self, sheet):
+        completion_location_marker = "§"
+        inline_completion_marker_prompt = dedent(
+                f"""
+                Do an insertion completion:
+                Complete assuming the insertion cursor for the text is at the character "{completion_location_marker}".
+                Assume that the trailing text will be there after the completion.
+                Do not use the mark character in the completion.
+                The part before and after the mark is already present for the user,
+                only produce text that should be in between.
+                Do not overlap output and following text.
+                """)
+        sheet.insert(INSERT, completion_location_marker, ("hidden_prompt",))
+        self.system.insert(END, inline_completion_marker_prompt, ("hidden_prompt",))
+
+    def remove_hidden_prompt(self, sheet):
+        sheet.remove_tag('hidden_prompt')
+        self.system.remove_tag('hidden_prompt')
+
+    def set_up_replace_completion(self, sheet):
+        replace_start_marker = "[§"
+        replace_end_marker = "§]"
+        replace_completion_marker_prompt = dedent(
+                f"""
+                Do an replacement completion:
+                Complete assuming the insertion cursor for the text is at start marker "{replace_start_marker}".
+                Produce text that will replace the text between the start marker and the end marker.
+                The text after the end marker "{replace_end_marker}" will still be there after the completion.
+                Do not use the markers in the completion.
+                The part before start marker and after the end marker is already present for the user,
+                only produce text that should be in between.
+                Do not overlap output and following text.
+                """)
+        sheet.insert(SEL_FIRST, replace_start_marker, ("hidden_prompt",))
+        sheet.insert(SEL_LAST, replace_end_marker, ("hidden_prompt",))
+        self.system.insert(END, replace_completion_marker_prompt, ("hidden_prompt",))
 
     def current_sheet(self) -> Sheet:
         focussed_widget = self.focus_get()

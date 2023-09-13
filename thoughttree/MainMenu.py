@@ -38,6 +38,21 @@ class MainMenu(Menu):
             file, text = Files.open_file("Insert File")
             self.it.insert(INSERT, text)
 
+        def open_file(e=None):
+            if self.it.get("1.0", END).strip() != "":
+                if not askokcancel("Replace", "Are you sure you want to replace the current text?"):
+                    return
+            file, text = Files.open_file()
+            self.it.delete("1.0", END)
+            self.it.insert("1.0", text)
+            self.it.file = file
+
+        def save_file(e=None):
+            if self.it.file:
+                if exists(self.it.file):
+                    if askokcancel("Overwrite", "Are you sure you want to overwrite the current file?"):
+                        Files.save_file(self.it.file, self.it.get("1.0", END))
+
         def save(save_dialog, status_bar_label):
             file_name = save_dialog(self.it)
             if not file_name:
@@ -188,10 +203,11 @@ class MainMenu(Menu):
         self.menu = Menu(self, "File")
         item("New Window", "<Control-n>", new_window)
         item("New Main Tab", "<Control-t>", lambda e=None: self.it.fork("1.0"))
-        item("Open File", "<Control-o>", open_file)
         item("Import Shared Chat") # , "<Control-....>", import_shared_chat
-        # item("Save Chat", "<Control-s>", Files.save_chat)
-        item("Save Chat", "<Control-s>", save_chat)
+        item("Insert File", "<Control-Shift-e>", insert_file)
+        item("Open File", "<Control-o>", open_file)
+        item("Save File", "<Control-s>", save_file)
+        item("Save Chat", "<Control-Shift-C>", save_chat)
         item("Save Message", "<Control-Shift-S>", save_section)
         item("Save Selection", "<Alt-S>", save_selection)
         item("Save Code Block", "<Control-Alt-s>", save_code_block)

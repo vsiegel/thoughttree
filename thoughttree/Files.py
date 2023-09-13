@@ -41,9 +41,9 @@ class CodeBlockSaver(TextSaver):
 
 class Files:
     @staticmethod
-    def open_file(e=None):
+    def open_file(e=None, title="Open File"):
         file = askopenfilename(defaultextension=".txt",
-                initialfile="chat.txt", title="Open File")#, parent=sheet)
+                initialfile="chat.txt", title=title)#, parent=sheet)
         if not file:
             return
         with open(file, "r") as f:
@@ -233,3 +233,8 @@ class Files:
         except Exception as e:
             showerror(title="Error", message="Cannot save code block\n" + str(e), master=sheet)
             return None
+
+    @staticmethod
+    def save_file(filename, text):
+        with open(filename, 'w') as f:
+            f.write(text)

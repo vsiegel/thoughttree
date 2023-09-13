@@ -1,7 +1,9 @@
 import tkinter as tk
 import webbrowser
 from datetime import datetime
+from os.path import exists
 from tkinter import font as tkfont, NONE, WORD, SEL, END, INSERT, SEL_FIRST
+from tkinter.messagebox import askokcancel
 
 from AboutDialog import AboutDialog
 from Files import Files
@@ -11,11 +13,13 @@ from Sheet import Sheet
 from Console import Console
 from menu_help import menu_help
 
+
 class MainMenu(Menu):
     def __init__(self, thoughttree, new_window_callback):
         super().__init__(thoughttree, menu_help=menu_help)
         self.new_window_callback = new_window_callback
-        self.ui = thoughttree
+        from thoughttree import Thoughttree
+        self.ui: Thoughttree = thoughttree
 
         self.fixed_model_menu_items = -1
         self.models_menu = None

@@ -138,7 +138,8 @@ class Thoughttree(PrimaryUi):
         self.console_pane.bind("<Configure>", on_first_configure)
 
         sys.stdout = self.console
-        sys.stderr = self.console.err
+        sys.stderr = TextIOTee(sys.stderr, self.console.err)
+
 
         self.chat_sheet.focus_set()
 

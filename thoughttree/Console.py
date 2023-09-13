@@ -11,7 +11,6 @@ class Console(tk.scrolledtext.ScrolledText, io.TextIOBase):
         tk.scrolledtext.ScrolledText.__init__(self, parent, undo=True, wrap=tk.WORD, width=width, height=height,
                                               takefocus=False, font=("monospace", 8), **kw)
         io.TextIOBase.__init__(self)
-        self.parent = parent
         self.vbar.config(width=18, takefocus=False, borderwidth=2)
         self.insert(END, "Console:\n")
 

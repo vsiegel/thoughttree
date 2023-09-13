@@ -3,8 +3,8 @@ from tkinter import BOTTOM, X
 
 
 class HidableFrame(tk.Frame):
-    def __init__(self, master, hidden=False, *args, **kw):
-        super().__init__(master, *args, **kw)
+    def __init__(self, parent, hidden=False, *args, **kw):
+        super().__init__(parent, *args, **kw)
         self.hidden = hidden
         self.child_pack_info = None
         self.own_pack_info = None

@@ -11,8 +11,8 @@ from ThoughttreeConfig import conf
 
 
 class AutoScrollbar(tk.Scrollbar):
-    def __init__(self, master, **kw):
-        tk.Scrollbar.__init__(self, master, **kw)
+    def __init__(self, parent, **kw):
+        tk.Scrollbar.__init__(self, parent, **kw)
 
     def set(self, low, high):
         if float(low) <= 0.0 and float(high) >= 1.0:

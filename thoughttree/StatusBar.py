@@ -5,9 +5,9 @@ from LabeledLabel import LabeledLabel
 
 
 class StatusBar(tk.Frame):
-    def __init__(self, master, small_text="", message_text="", note_text="", model_text="", **kw):
-        super().__init__(master, bd=1, relief=SUNKEN, **kw)
-        self.master = master
+    def __init__(self, parent, small_text="", message_text="", note_text="", model_text="", **kw):
+        super().__init__(parent, bd=1, relief=SUNKEN, **kw)
+        self.master = parent
 
         def validate_max_tokens(entry_value):
             if entry_value.isdigit() and 1 <= int(entry_value) <= 100000:

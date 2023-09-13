@@ -289,6 +289,13 @@ class MainMenu(Menu):
         item("Decrease Temperature", "<Alt-minus>", None)
         item("Temperature 0.0", "<Control-Key-0>", None)
 
+        self.menu = Menu(self, "Prompt")
+        item("Include Date in System Prompt", None, None)
+
+        self.menu = Menu(self, "Format")
+        item("Bold", "<Control-b>", bold)
+        item("Strikethrough", "<Control-d>", strikethrough)
+
         self.models_menu = ModelsMenu(self, ui, "Models")
 
         self.windows_menu = WindowsMenu(self, "Windows")

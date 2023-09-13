@@ -35,14 +35,18 @@ class MainMenu(Menu):
 
     def create_menu(self):
         def insert_file(e=None):
-            file, text = Files.open_file("Insert File")
+            file, text = Files.open_file("Insert File", "chat.txt")
             self.it.insert(INSERT, text)
 
         def open_file(e=None):
             if self.it.get("1.0", END).strip() != "":
                 if not askokcancel("Replace", "Are you sure you want to replace the current text?"):
                     return
-            file, text = Files.open_file()
+            old_file = self.it.file or "document.txt"
+            opened = Files.open_file("Open File", old_file)
+            if not opened:
+                return
+            file, text = opened
             self.it.delete("1.0", END)
             self.it.insert("1.0", text)
             self.it.file = file

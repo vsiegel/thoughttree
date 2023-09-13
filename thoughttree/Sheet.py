@@ -48,7 +48,7 @@ class Sheet(ScrolledText):
             self.vbar.pack_forget()
 
         self.scroll_output = conf.scroll_output
-
+        self.file = None
 
         self.bind('<Prior>', self.jump_to_limit)
         self.bind('<Next>', self.jump_to_limit)

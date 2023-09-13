@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import sys
 import tkinter as tk
+from datetime import datetime
 from textwrap import dedent
 from tkinter import BOTH, END, HORIZONTAL, INSERT, LEFT, SUNKEN, TOP, VERTICAL, W, X, SEL_FIRST, \
     SEL_LAST, BOTTOM
@@ -32,6 +33,7 @@ conf.show_finish_reason = True
 conf.update_title_after_completion = True
 conf.scroll_output = True
 conf.ring_bell_after_completion = True
+conf.ring_bell_only_after = 3
 conf.blinking_caret = True
 
 
@@ -239,6 +241,7 @@ class Thoughttree(PrimaryUi):
 
         with WaitCursor(sheet):
             sheet.undo_separator()
+            start_time = datetime.now()
             if here:
                 self.set_up_inline_completion(sheet)
             elif replace:
@@ -255,7 +258,7 @@ class Thoughttree(PrimaryUi):
                 self.remove_hidden_prompt(sheet)
 
             self.finish_completion(sheet, finish_reason, message, postfix, inline)
-            self.post_completion_tasks()
+            self.post_completion_tasks(start_time)
         return "break"
 
     def set_up_inline_completion(self, sheet):
@@ -394,9 +397,10 @@ class Thoughttree(PrimaryUi):
             sheet.window_create(INSERT, window=FinishReasonIcon(sheet, symbol, tooltip=tooltip))
 
 
-    def post_completion_tasks(self):
-        if conf.ring_bell_after_completion:
-            self.bell()
+    def post_completion_tasks(self, start_time):
+        if self.ring_bell_after_completion:
+            if datetime.now().timestamp() - start_time.timestamp() > conf.ring_bell_only_after:
+                self.bell()
 
         self.model.counter.summarize("Completion cost:")
 

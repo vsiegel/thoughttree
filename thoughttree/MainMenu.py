@@ -34,8 +34,8 @@ class MainMenu(Menu):
 
 
     def create_menu(self):
-        def open_file(e=None):
-            file, text = Files.open_file()
+        def insert_file(e=None):
+            file, text = Files.open_file("Insert File")
             self.it.insert(INSERT, text)
 
         def save(save_dialog, status_bar_label):

@@ -1,11 +1,12 @@
 from tools import shorter, log_len
 
 
-# class ExtendedList(list):
-#     def __init__(self, initial_data):
-#         super().__init__(initial_data)  # call the parent class (list) constructor
-#
-# my_list = ExtendedList([1, 2, 3, 4, 5])
+# class History(list):
+#     __init__ = list.__init__
+#     def __repr__(self):
+#         return f"l(l-r: {super().__repr__()})"
+#     def __str__(self):
+#         return f"l(l-s: {super().__str__()})"
 
 
 def log_history_compact(history):

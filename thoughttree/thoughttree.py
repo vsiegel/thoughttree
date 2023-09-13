@@ -272,6 +272,9 @@ class Thoughttree(PrimaryUi):
                 The part before and after the mark is already present for the user,
                 only produce text that should be in between.
                 Do not overlap output and following text.
+                The marker itself will be removed.
+                Take care to add the right amount of spaces before and after the marker.
+                For example, add a trailing space if the insertion is a word, and the next char after theh mark is a space.
                 """)
         sheet.insert(INSERT, completion_location_marker, ("hidden_prompt",))
         self.system.insert(END, inline_completion_marker_prompt, ("hidden_prompt",))
@@ -293,6 +296,8 @@ class Thoughttree(PrimaryUi):
                 The part before start marker and after the end marker is already present for the user,
                 only produce text that should be in between.
                 Do not overlap output and following text.
+                The markers themselves will be removed.
+                Take care to add the right amount of spaces after the start marker and before the end marker.
                 """)
         sheet.insert(SEL_FIRST, replace_start_marker, ("hidden_prompt",))
         sheet.insert(SEL_LAST, replace_end_marker, ("hidden_prompt",))

@@ -218,21 +218,21 @@ class MainMenu(Menu):
         item("Quit", "<Control-q>", ui.close)
 
         self.menu = Menu(self, "Edit")
-        edit_menu = self.menu
-        item("Cut", "<Control-x>", cut_text)
-        item("Copy", "<Control-c>", copy_text)
-        item("Paste", "<Control-v>", paste_text)
-        item("Delete", "<Delete>", lambda e=None: self.it.delete())
+        sheet_menu = Menu(None, "(sheet context menu)")
+        item("Undo", "<Control-z>", edit_undo, additional_menu=sheet_menu)
+        item("Redo", "<Control-Shift-Z>", edit_redo, additional_menu=sheet_menu)
         self.menu.add_separator()
-        item("Undo", "<Control-z>", edit_undo)
-        item("Redo", "<Control-Shift-Z>", edit_redo)
+        sheet_menu.add_separator()
+        item("Cut", "<Control-x>", cut_text, additional_menu=sheet_menu)
+        item("Copy", "<Control-c>", copy_text, additional_menu=sheet_menu)
+        item("Paste", "<Control-v>", paste_text, additional_menu=sheet_menu)
+        item("Delete", "<Delete>", lambda e=None: self.it.delete())
         item("Select All", "<Control-a>", select_all)
         self.menu.add_separator()
-        item("Bold", "<Control-b>", bold)
-        item("Strikethrough", "<Control-d>", strikethrough)
-        item("Search with Google", "<Control-g>", search_google)
+        sheet_menu.add_separator()
+        item("Search with Google", "<Control-g>", search_google, additional_menu=sheet_menu)
+        sheet_menu.add_separator()
         item("Insert Current Time", "<Control-Shift-I>", insert_current_time)
-        item("Include Date in System Prompt", None, None)
         item("Copy Title", None, None)
 
         self.menu = Menu(self, "View")
@@ -248,7 +248,7 @@ class MainMenu(Menu):
         item("Increase Font Size", "<Control-plus>", lambda e=None: font_size(1))
         item("Decrease Font Size", "<Control-minus>", lambda e=None: font_size(-1))
         item("Reset Font Size", "<Control-period>", lambda e=None: font_size(0))
-        item("Toggle Monospace", "<Control-Shift-O>", toggle_font_mono)
+        item("Toggle Monospace", "<Control-Shift-o>", toggle_font_mono)
         # self.menu.add_checkbutton(label="Show Cursor line", variable=ui.show_cursor)
         self.menu.add_separator()
         item("Toggle Scrolling Output", "<Control-e>", toggle_scroll_output)
@@ -301,7 +301,7 @@ class MainMenu(Menu):
         ui.bind_class("Text", "<Control-Button-4>", lambda e=None: font_size(1))
         ui.bind_class("Text", "<Control-Button-5>", lambda e=None: font_size(-1))
 
-        ui.bind_class("Text", "<Button-3>", lambda e=None: show_context_menu(e, edit_menu))
+        ui.bind_class("Text", "<Button-3>", lambda e=None: show_context_menu(e, sheet_menu))
 
 
     def sub_item(self, label, keystroke=None, command=None, variable=None, add=False):

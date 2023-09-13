@@ -11,7 +11,7 @@ from tools import shorter, log_len
 def log_history_compact(history):
     for message in history:
         text = message['content']
-        print(f"{message['role']}: {shorter(text, 120)} {log_len(text, 120)}")
+        print(f"{message['role']}: \"{shorter(text, 120)}\" {log_len(text, 120)}")
     print()
 
 def history_from_args(system="", message="") :

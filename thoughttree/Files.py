@@ -41,9 +41,9 @@ class CodeBlockSaver(TextSaver):
 
 class Files:
     @staticmethod
-    def open_file(e=None, title="Open File"):
+    def open_file(e=None, title="Open File", initialfile=None):
         file = askopenfilename(defaultextension=".txt",
-                initialfile="chat.txt", title=title)#, parent=sheet)
+                initialfile=initialfile, title=title)#, parent=sheet)
         if not file:
             return
         with open(file, "r") as f:

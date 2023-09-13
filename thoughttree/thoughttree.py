@@ -50,6 +50,7 @@ class Thoughttree(PrimaryUi):
 
     def __init__(self):
         PrimaryUi.__init__(self, "Thoughttree", WINDOW_ICON)
+        self.show_hidden_prompts = None
         self.previous_current_sheet = None
         self.status_hider = None
         self.status = None
@@ -428,6 +429,10 @@ class Thoughttree(PrimaryUi):
             history = history[-max_messages:]
         return history
 
+    def toggle_show_hidden_prompts(self, event=None):
+        self.show_hidden_prompts = not self.show_hidden_prompts
+        for sheet in [self.system, self.current_sheet()]:
+            sheet.tag_config("hidden_prompt", elide=not self.show_hidden_prompts)
 
 if __name__ == "__main__":
     Thoughttree()

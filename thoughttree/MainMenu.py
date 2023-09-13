@@ -256,6 +256,7 @@ class MainMenu(Menu):
         item("Toggle Wrap Lines", "<Control-l>", lambda e=None: self.it.configure(wrap=(NONE if self.it.cget("wrap") != NONE else WORD)))
         item("Generate Titles", "", None)
         item("Calculate Cost", "", None)
+        item("Show Hidden Prompts", "Control-Shift-H", ui.toggle_show_hidden_prompts)
 
         self.menu = Menu(self, "Navigate")
         item("Next Similar Line", "<Control-j>", lambda e=None: self.it.jump_to_similar_line(direction=1))

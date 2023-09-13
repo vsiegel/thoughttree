@@ -12,6 +12,7 @@ from configargparse import Namespace
 from Console import Console
 from FinishReasonIcon import FinishReasonIcon
 from FoldablePane import FoldablePane
+from TextIOTee import TextIOTee
 from Title import Title
 from HidableFrame import HidableFrame
 from Model import Model

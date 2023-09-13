@@ -311,8 +311,8 @@ class MainMenu(Menu):
         ui.bind_class("Text", "<Button-3>", lambda e=None: show_context_menu(e, sheet_menu))
 
 
-    def sub_item(self, label, keystroke=None, command=None, variable=None, add=False):
-        self.menu.item(label, keystroke, command, variable, add)
+    def sub_item(self, label, keystroke=None, command=None, variable=None, add=False, additional_menu=None):
+        self.menu.item(label, keystroke=keystroke, command=command, variable=variable, add=add, additional_menu=additional_menu)
 
 
 

@@ -61,8 +61,16 @@ class Sheet(ScrolledText):
         self.tag_configure('hidden_prompt', elide=False, foreground="light blue")
 
         self.old_num_display_lines = 0
-        if grow:
-            self.bind('<<Modified>>', self.grow_to_displaylines)
+
+        self.initially_modified = False
+        detect_first_modification_id = [None]
+        def detect_first_modification(e):
+            print("detect_first_modification")
+            self.initially_modified = True
+            self.unbind("<<Modified>>", detect_first_modification_id[0])
+            if grow:
+                self.bind('<<Modified>>', self.grow_to_displaylines)
+        detect_first_modification_id[0] = self.bind("<<Modified>>", detect_first_modification)
 
         Cursorline(self)
 

@@ -181,8 +181,8 @@ class Thought:
                             for m in re.findall(single_change_pattern_with_attributes, changes_string):
                                 # derzeitig, vorschlag = m.groups()
                                 title, description, attributes, old, new = m
-                                old = old.strip('"')
-                                new = new.strip('"')
+                                old = old.strip("'"+'"')
+                                new = new.strip("'"+'"')
                                 output = output.replace(old, new, 1)
                             if output == input_string:
                                 print(f"Could not apply changes from {change_file} to {input_file}", file=sys.stderr)

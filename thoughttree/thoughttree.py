@@ -18,11 +18,11 @@ from Title import Title
 from HidableFrame import HidableFrame
 from Model import Model
 from MultiTextboxLabel import MultiTextboxLabel
-from PrimaryUi import PrimaryUi
 from StatusBar import StatusBar
 from Sheet import Sheet
 from MainMenu import MainMenu
 from Tree import Tree
+from Ui import Ui
 from WaitCursor import WaitCursor
 from finish_reasons import finish_reasons
 
@@ -35,9 +35,9 @@ conf.scroll_output = True
 conf.ring_bell_after_completion = True
 conf.ring_bell_only_after = 3
 conf.blinking_caret = True
+# conf.chat_completion_request_timeout = 5
 
-
-class Thoughttree(PrimaryUi):
+class Thoughttree(Ui):
     MIN_SIZE = (600, 300)
     ROOT_GEOMETRY = "1000x600"
     icon = None
@@ -49,7 +49,7 @@ class Thoughttree(PrimaryUi):
 
 
     def __init__(self):
-        PrimaryUi.__init__(self, "Thoughttree", WINDOW_ICON)
+        Ui.__init__(self, "Thoughttree", WINDOW_ICON, closeable=False)
         self.show_hidden_prompts = None
         self.previous_current_sheet = None
         self.status_hider = None
@@ -87,9 +87,11 @@ class Thoughttree(PrimaryUi):
         n = menu.models_menu.load_available_models()
         self.status.note = f"{n} models found."
 
-        if self.first_window:
+        if self.main_window:
             self.root.mainloop()
 
+    def was_modified(self):
+        return self.chat_sheet.initially_modified or self.system.initially_modified
 
     def set_model(self, model_name):
         if not model_name in self.models:

@@ -15,9 +15,9 @@ from menu_help import menu_help
 
 
 class MainMenu(Menu):
-    def __init__(self, thoughttree, new_window_callback):
+    def __init__(self, thoughttree):
         super().__init__(thoughttree, menu_help=menu_help)
-        self.new_window_callback = new_window_callback
+        self.previous_current_sheet = None
         from thoughttree import Thoughttree
         self.ui: Thoughttree = thoughttree
 
@@ -80,8 +80,9 @@ class MainMenu(Menu):
         def save_code_block(e=None):
             save(Files.save_code_block_dialog, "Code block saved to ")
 
-        def new_window(event=None) :
-            self.new_window_callback()
+        def new_window(event=None):
+            from thoughttree import Thoughttree
+            Thoughttree()
 
         def show_context_menu(event, context_menu) :
             widget = self.ui.winfo_containing(event.x_root, event.y_root)

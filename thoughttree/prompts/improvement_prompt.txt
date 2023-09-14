@@ -1,0 +1,28 @@
+Propose an improvement!
+
+Focus on [<replace>]
+
+Do not remove markup.
+Minimize the text replacement.
+In the rows "Old:" and "New:" there can be only one quoted text section, so that it can directly be replaced.
+There can be one or more replacements.
+
+Format:
+
+Title: ...
+
+Description: ...
+
+IncreasesPerformance: (0-9)
+IncreasesReadability: (0-9)
+ReducesComplexity: (0-9)
+FixesBugs: (0-9)
+IsImportant: (0-9)
+
+Old: "Old text"
+
+New: "New text"
+
+The changes will be applied to the text without further processing.
+The quoted text cannot contain any other parts like ellipsis.
+

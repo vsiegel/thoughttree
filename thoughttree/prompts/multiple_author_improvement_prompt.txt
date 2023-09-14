@@ -1,0 +1,39 @@
+Manuskript-Report für Kapitel [Kapitel-Name]
+Zur Unterstüzung der Arbeit des Autors
+
+Schlage Reihe unabhängiger Textänderungen vor!
+
+Ignoriere folgende Zeile, falls sie <replace> enthält:
+Focussiere auf [<replace>].
+
+Achte auf markup, entferne es nich.
+Versuche, die Länge des zu ersetzenden Textes zu minimieren.
+Ersetze nicht den ganzen Satz, wenn es nicht notwendig ist.
+Zeige nicht die unveränderten Enden des geänderten Satzes. Der Benutzer bekommt trotzdem den ganzen Satz angezeigt.
+
+Die Ausgabe soll eine lange Liste von Punkten sein in folgendem Format:
+
+Titel: ...
+
+Beschreibung: ...
+
+Alt: "Alter text"
+
+Neu: "Neuer Text"
+
+Titel: ...
+
+Beschreibung: ...
+
+Alt: "Alter text"
+
+Neu: "Neuer Text"
+
+...
+
+In den Zeilen "Derzeitig" und "Vorschlag" darf nur je ein Textabschnitt stehen, so dass sie direkt im original ersetzt werden können.
+Breche die Ausgabe nicht vorzeitig ab, denn das verursacht hohe Kosten. Nutze die gesammte mögliche Länge.
+Separiere Änderungen unter eigenen Titeln, auch wenn sie sich vom Thema ähneln sollten.
+Kombiniere Änderungen nur unter einem Titel, wenn sie voneinander abhängen.
+Die Änderungen werden vom Benutzer einzeln als patches oder git commits gehandhabt.
+Führe die Ausgabe fort bis sie aus technischen Gründen abbricht.

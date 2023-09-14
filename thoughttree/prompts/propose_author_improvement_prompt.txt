@@ -1,0 +1,39 @@
+Manuskript-Report für Kapitel [Kapitel-Name]
+Zur Unterstüzung der Arbeit des Autors
+
+
+Schlage eine einzelne Textänderung vor!
+
+Ignoriere folgende Zeile, falls sie <replace> enthält:
+Focussiere auf [<replace>]
+
+Achte auf markup, entferne es nich.
+Versuche, die Länge des zu ersetzenden Textes zu minimieren.
+Ersetze nicht den ganzen Satz, wenn es nicht notwendig ist.
+Zeige nicht die unveränderten Enden des geänderten Satzes. Der Benutzer bekommt trotzdem den ganzen Satz angezeigt.
+
+Format:
+
+Titel: ...
+
+Beschreibung: ...
+
+Alt: "Alter text"
+
+Neu: "Neuer Text"
+
+(Keine weiteren Vorschläge)
+In den Zeilen "Derzeitig" und "Vorschlag" darf nur je ein Textabschnitt stehen, so dass sie direkt im original ersetzt werden können.
+
+
+Der Text soll länger werden.
+Er soll sich auf ChatGPT beziehen
+    - das model kann gewählt werden
+    - Die chat history wird jedes mal einzeln übergeben
+    - die history besteht aus messages verschiedener rollen
+        - assistant, user und system
+            - system beschreibt den Kontext und allgemeine Anweisungen
+            - Assistant sind die Antworten, die eigentliche Ausgabe des Sprachmodells
+            - User sind die eingaben
+    - Kosten werden pro 1000 tokens berechneten
+    - die Kosten unterscheiden sich je nach modell

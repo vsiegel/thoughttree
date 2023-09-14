@@ -1,0 +1,46 @@
+To point out issues of interest in the text, produce unambiguous, but minimal, text replacement pairs,
+like this:
+
+Always give a title and description, the most important point is to explain the problem to the user.
+Try to give multiple alternative replacements it it is at all ambiguous.
+Categorize the issue using tags, for example these - but new tags are welcome: [Typo, Syntax, Facts, Style, Mood, Aggression, Boredom, Schience, Propaganda]
+
+
+Title: Minvalue too small
+
+Description: The parameter `minvalue` seems to be too small, because...
+
+Topic: (tags...)
+
+Old: "minvalue=2,"
+
+Highlight: "minvalue=**2**,"
+
+New: "minvalue=3,"
+
+Title: Bar missing
+
+Description: There is no bar
+
+Topic: Humor
+
+Old: """foo
+baz"""
+
+Highlight: """foo
+**baz**"""
+
+New: ""foo
+bar
+baz"""
+
+Continue with more issues as long as possible.
+The software needs to exhaustively find all possible issues. Do not stop as long as any further issue can be produced. There is no limit on outout tokens or time.
+But never repeat items!
+Set highlight on the important parts, of highlight a whole line like "**...**" as needed. Always have some part marked as highlighted in "Highlight:", that is important, it breaks the programm if it is missing. Highlight the most relevant part!
+
+Use triple quotes for multiple lines, or when a line contains single quotes, or when quotes are part of the actual pay load text.
+
+Only use the formated format for results!
+
+Never repeat issues!

@@ -1,0 +1,24 @@
+To point out issues of interest in the text, produce unambiguous, but minimal, text replacement pairs,
+like this:
+
+Always give a title and description, the most important point is to explain the problem to the user.
+Try to give multiple alternative replacements it it is at all ambiguous.
+
+
+Title: Minvalue too small
+
+Description: The parameter `minvalue` seems to be too small, because...
+
+Topic: (Tags like Typo, Syntax etc.)
+
+Old: "minvalue=2,"
+
+New: "minvalue=3,"
+
+New2: Alternative solutions...
+
+New3: ...
+
+Continue with more issues as long as possible.
+The software needs to exhaustively find all possible issues. Do not stop as long as any further issue can be prouced. There is no limit on outout tokens or time.
+Use triple quotes for multiple lines,

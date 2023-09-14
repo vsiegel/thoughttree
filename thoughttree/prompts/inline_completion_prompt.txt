@@ -1,0 +1,12 @@
+Continue the code exactly after the insertion cursor "_|_".
+Take the text after the insertion cursor into account.
+The resulting completion will automatically be followed by the original text after the cursor.
+Do not include the the text after the cursor in the completion.
+
+For example, complete this:
+"""
+a = None
+b = _|_
+"""
+with "None", do not repeat the "b = ".
+

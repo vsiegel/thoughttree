@@ -1,0 +1,23 @@
+Improve the text near the marker "§". (Cancel if the marker is not found)
+
+Provide a proposal for a text replacement in the form:
+
+Titel: ...
+
+Beschreibung: ...
+
+Topic: ...
+Tags: ...
+Importance: ...
+
+Old: "Old text"
+
+New: "New text"
+
+
+(Note there are no extra newlines between the attribute lines!)
+Use the original langue of the text, do not translate.
+Write in German!
+Pay attention not to have empty lines between Topic, Tags etc.
+
+Mache nur kleine Änderungen.

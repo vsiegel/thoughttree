@@ -211,7 +211,7 @@ class Thoughttree(Ui):
 
 
     def count_text_tokens(self, event=None) :
-        sheet = self.current_sheet()
+        sheet = self.it
         try :
             text = sheet.get(SEL_FIRST, SEL_LAST)
         except tk.TclError :
@@ -237,7 +237,7 @@ class Thoughttree(Ui):
 
     def chat(self, n=1, prefix="", postfix="", inline=False, here=False, replace=False):
         self.model.is_canceled = False
-        sheet = self.current_sheet()
+        sheet = self.it
         sheet.tag_remove('cursorline', 1.0, "end")
 
         n = self.find_number_of_completions(n)
@@ -308,13 +308,13 @@ class Thoughttree(Ui):
         sheet.insert(SEL_LAST, replace_end_marker, ("hidden_prompt",))
         self.system.insert(END, replace_completion_marker_prompt, ("hidden_prompt",))
 
-    def current_sheet(self) -> Sheet:
+    @property
+    def it(self) -> Sheet:
         focussed_widget = self.focus_get()
         if focussed_widget and self.system != focussed_widget:
             self.previous_current_sheet = focussed_widget
-            return focussed_widget
-        else:
-            return self.previous_current_sheet
+        return self.previous_current_sheet
+
 
 
     def scroll(self, sheet):
@@ -423,7 +423,7 @@ class Thoughttree(Ui):
         system = self.system.get(1.0, 'end - 1c').strip()
         history = [{'role': 'system', 'content': system}]
 
-        history = self.current_sheet().history_from_path(history)
+        history = self.it.history_from_path(history)
 
         if additional_message:
             history += [{'role': 'user', 'content': additional_message}]
@@ -433,9 +433,9 @@ class Thoughttree(Ui):
         return history
 
     def toggle_show_hidden_prompts(self, event=None):
-        self.show_hidden_prompts = not self.show_hidden_prompts
-        for sheet in [self.system, self.current_sheet()]:
-            sheet.tag_config("hidden_prompt", elide=not self.show_hidden_prompts)
+        hidden = bool(int(self.system.tag_cget('hidden_prompt', 'elide')))
+        for sheet in [self.system, self.it]:
+            sheet.tag_config("hidden_prompt", elide=not hidden)
 
 if __name__ == "__main__":
     Thoughttree()

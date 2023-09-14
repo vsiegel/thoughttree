@@ -14,7 +14,7 @@ from tools import maybe_file, read_all_stdin_lines, git
 
 # thought -P 2.6_neuronale_netze.tex -S ~/PycharmProjects/GPT-3-interaction/thoughttree/prompts/manuskript_report_prompt.txt
 
-default_config_files = ["~/.config/thoughttreerc"]
+default_config_files = ["~/.config/thoughtrc"]
 
 class Thought:
     def __init__(self):

@@ -226,11 +226,13 @@ class Thought:
                             outputFile = outputFile.replace(args.placeholder, replacement, 1)
                             replacement_message = replacement_message + (replacement and "\n  with replacement " + replacement or "")
                     outputFile = next_numbered(outputFile)
-                    print(f"Complete\n    '{promptFile}'{replacement_message}\n with system prompt\n    '{systemFile}' to\n    '{outputFile or 'stdout'}'")
+                    if args.verbose:
+                        print(f"Complete\n    '{promptFile}'{replacement_message}\n with system prompt\n    '{systemFile}' to\n    '{outputFile or 'stdout'}'")
                     if not args.dry_run:
                         completion = Thought.complete(prompt, system, args.temperature, args.max_tokens, args.model)
-                        with open(outputFile, 'w') as f:
-                            f.write(completion)
+                        if outputFile:
+                            with open(outputFile, 'w') as f:
+                                f.write(completion)
                         if args.commit:
                             apply_changes(args.promptFiles, [outputFile])
         except KeyboardInterrupt:

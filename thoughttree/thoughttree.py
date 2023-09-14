@@ -276,7 +276,7 @@ class Thoughttree(Ui):
                 Do not use the mark character in the completion.
                 The part before and after the mark is already present for the user,
                 only produce text that should be in between.
-                Do not overlap output and following text.
+                Do not overlap output and following text, the end of the output should not be the same as the start of the trailing existing text.
                 The marker itself will be removed.
                 Take care to add the right amount of spaces before and after the marker.
                 For example, add a trailing space if the insertion is a word, and the next char after theh mark is a space.
@@ -293,11 +293,12 @@ class Thoughttree(Ui):
         replace_end_marker = "§]"
         replace_completion_marker_prompt = dedent(
                 f"""
-                Do an replacement completion:
-                Complete assuming the insertion cursor for the text is at start marker "{replace_start_marker}".
+                Do an replacement completion:The output will replace the users text selection, which is 
+                the part of text between the two "{completion_location_marker}". 
+                Complete assuming the insertion cursor for the text is at the first marker "{completion_location_marker}".
                 Produce text that will replace the text between the start marker and the end marker.
-                The text after the end marker "{replace_end_marker}" will still be there after the completion.
-                Do not use the markers in the completion.
+                The text after the end marker will still be there after the completion.
+                Do not use the markers in the completion. The markers will be removed from the text after completion.
                 The part before start marker and after the end marker is already present for the user,
                 only produce text that should be in between.
                 Do not overlap output and following text.

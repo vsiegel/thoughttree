@@ -289,8 +289,8 @@ class Thoughttree(Ui):
         self.system.remove_tag('hidden_prompt')
 
     def set_up_replace_completion(self, sheet):
-        replace_start_marker = "[§"
-        replace_end_marker = "§]"
+        completion_location_marker = "§"
+
         replace_completion_marker_prompt = dedent(
                 f"""
                 Do an replacement completion:The output will replace the users text selection, which is 
@@ -305,8 +305,8 @@ class Thoughttree(Ui):
                 The markers themselves will be removed.
                 Take care to add the right amount of spaces after the start marker and before the end marker.
                 """)
-        sheet.insert(SEL_FIRST, replace_start_marker, ("hidden_prompt",))
-        sheet.insert(SEL_LAST, replace_end_marker, ("hidden_prompt",))
+        sheet.insert(SEL_FIRST, completion_location_marker, ("hidden_prompt",))
+        sheet.insert(SEL_LAST, completion_location_marker, ("hidden_prompt",))
         self.system.insert(END, replace_completion_marker_prompt, ("hidden_prompt",))
 
     @property

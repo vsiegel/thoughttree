@@ -131,18 +131,17 @@ class Thoughttree(PrimaryUi):
         self.system_pane.addFoldable(self.system, stretch="never")
         self.system_pane.add(self.chat_sheet, stretch="always")
 
+        if type(sys.stdout) is not TextIOTee:
+            sys.stdout = TextIOTee(sys.stdout, self.console.out)
+        if type(sys.stderr) is not TextIOTee:
+            sys.stderr = TextIOTee(sys.stderr, self.console.err)
+
         def on_first_configure(ev=None):
             self.system_pane.fold(set_folded=True)
             self.console_pane.fold(set_folded=True)
             self.tree_pane.fold(set_folded=True)
             self.console_pane.unbind("<Configure>")
         self.console_pane.bind("<Configure>", on_first_configure)
-
-        if type(sys.stdout) is not Console:
-            sys.stdout = self.console
-        if type(sys.stderr) is not TextIOTee:
-            sys.stderr = TextIOTee(sys.stderr, self.console.err)
-
 
         self.chat_sheet.focus_set()
 

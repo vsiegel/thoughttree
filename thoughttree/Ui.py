@@ -11,18 +11,23 @@ class Ui(tk.Frame):
     current_open_uis = []
 
     def __init__(self, name="", icon_path=None, closeable=True):
-        if tk._default_root:
-            self.first_window = False
-            self.root = tk.Toplevel()
-        else:
-            self.first_window = True
+        if not tk._default_root:
             self.root = tk.Tk()
+            self.main_window = True
+        else:
+            self.root = tk.Toplevel()
+            self.main_window = False
         tk.Frame.__init__(self, self.root)
 
         self.closeable = closeable
         self.is_root_destroyed = False
+
         Ui.current_open_uis.append(self)
         name = f"{name} {len(Ui.current_open_uis)}"
+
+        self.window_setup(name, icon_path)
+
+    def window_setup(self, name, icon_path):
         self.root.title(name)
         self.root.wm_title(name)
         self.root.protocol("WM_DELETE_WINDOW", self.close)

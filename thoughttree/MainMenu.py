@@ -28,9 +28,11 @@ class MainMenu(Menu):
 
     @property
     def it(self) -> Sheet:
-        widget = self.ui.focus_get()
-        if isinstance(widget, Sheet) or isinstance(widget, Console):
-            return widget
+        return self.ui.it
+        # widget = self.ui.focus_get()
+        # if isinstance(widget, Sheet): # or isinstance(widget, Console):
+        #     self.previous_current_sheet = widget
+        # return self.previous_current_sheet
 
 
     def create_menu(self):

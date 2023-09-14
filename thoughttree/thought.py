@@ -89,8 +89,10 @@ class Thought:
                 return [(None, args.prompt)]
             elif args.promptFiles:
                 return [(f, maybe_file(f)) for f in args.promptFiles]
-            else:
+            elif not sys.stdin.isatty():
                 return [('-', read_all_stdin_lines())]
+            else:
+                return [(None, "")]
 
 
         def get_systems(args):

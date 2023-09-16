@@ -4,7 +4,8 @@ import os
 import re
 import sys
 from datetime import datetime
-from os.path import splitext, join
+from os.path import splitext, join, dirname, exists
+from os import listdir
 
 import openai
 from configargparse import ArgumentParser, Namespace
@@ -15,6 +16,8 @@ from tools import maybe_file, read_all_stdin_lines, git
 # thought -P 2.6_neuronale_netze.tex -S ~/PycharmProjects/GPT-3-interaction/thoughttree/prompts/manuskript_report_prompt.txt
 
 default_config_files = ["~/.config/thoughtrc"]
+
+
 
 class Thought:
     def __init__(self):
@@ -49,13 +52,15 @@ class Thought:
         add(      '--dry-run',       dest='dry_run',         action='store_true',     help='Dry run')
         add(      '--placeholder',   dest='placeholder',     type=str,  nargs=1,      help='Placeholder for --replace option.')
         add('-r', '--replace',       dest='replace',         type=str,  nargs='*',    help='Values to replace the placeholder in (system) prompts')
-        add('-r2', '--replace2',       dest='replace2',      type=str,  nargs='*',    help='Values to replace the placeholder in (system) prompts')
-        add('-r3', '--replace3',       dest='replace3',      type=str,  nargs='*',    help='Values to replace the placeholder in (system) prompts')
+        add('-r2', '--replace2',     dest='replace2',        type=str,  nargs='*',    help='Values to replace the placeholder in (system) prompts')
+        add('-r3', '--replace3',     dest='replace3',        type=str,  nargs='*',    help='Values to replace the placeholder in (system) prompts')
         add('-M', '--multi-replace', dest='multiReplace',    type=str,  nargs='*',    help='Additional placeholders and inserted values')
-        add('-c', '--change-prompt-file',dest='changesToPromptFile',type=str, nargs='*', help='Apply a change to the prompt file')
-        add('-G', '--commit-to-git', dest='commit',          action='store_true',     help='Apply a change to the prompt file')
-        add('-a', '--api-key',       dest='apiKey',          type=str,  default="",   help='API key for the OpenAI API')
+        add('-c', '--change-prompt-file',dest='changePromptFile',type=str, nargs='*', help='Apply a change to the prompt file')
+        add(      '--code-complete', dest='codeComplete',    action='store_true',     help='Code completion')
+        add('-G', '--commit-to-git', dest='commit',          action='store_true',     help='Commit change to git')
+        add('-a', '--api-key',       dest='apiKey',          type=str,  default="",   help='API key for the OpenAI API, or a file containing it.')
         add('-v', '--verbose',       dest='verbose',         action='store_true',     help='Show some information')
+        add('-L'  '--prompt-lib',    dest='promptLib',       type=str,  default="",   help='Directory containing a library of standard prompts')
 
         args = Namespace()
         args.prompt = ""
@@ -63,6 +68,8 @@ class Thought:
         args.overwrite = False
         args.system = ""
         args.systemFiles = []
+        args.document = ""
+        args.codeComplete = False
         args.number = 1
         args.outputFile = ""
         args.listFiles = []
@@ -76,8 +83,12 @@ class Thought:
         args.replace = None
         args.replace2 = None
         args.replace3 = None
+        args.multiReplace = None
+        args.changePromptFile = None
         args.placeholder = "[<replace>]"
-        args.apiKey = ""
+        args.apiKey = "openai-api-key.txt"
+        args.insertion_marker = "§"
+        args.prompt_dir = join(dirname(__file__), "prompts")
 
         args = parser.parse_args(namespace=args)
 

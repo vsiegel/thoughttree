@@ -53,6 +53,7 @@ class Sheet(ScrolledText):
         self.tag_config("assistant", background="#F0F0F0", selectbackground="#4682b4", selectforeground="white")
         self.tag_config('hidden_prompt', elide=True, foreground="light blue")
 
+        Cursorline(self)
         self.old_num_display_lines = 0
 
     def exec_code_block(self, event=None):
@@ -72,7 +73,23 @@ class Sheet(ScrolledText):
                 print(f'Running "{code[:30]=}"')
                 print(exec(code))
 
-        Cursorline(self)
+    def find(self, pattern=None):
+        if self.tag_ranges(SEL):
+            pattern = self.get(SEL_FIRST, SEL_LAST)
+        else:
+            pattern = askstring("Find", "Search for:", parent=self)
+        found = self.search(pattern, INSERT, exact=True)
+        if found:
+            self.mark_set(INSERT, found)
+            self.pattern = pattern
+            self.found = found
+        print(f"{found}")
+
+    def find_next(self):
+        self.found = self.search(self.pattern, self.found, exact=True)
+        self.tag_remove('found_one', "1.0", END)
+        self.tag_add('found_one', self.found, f"{self.found} + {len(self.pattern)} char")
+        print(f"{self.found}")
 
 
     def fork(self, index=INSERT):

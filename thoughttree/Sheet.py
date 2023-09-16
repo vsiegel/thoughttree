@@ -12,9 +12,9 @@ from ThoughttreeConfig import conf
 
 class Sheet(ScrolledText):
 
-    def __init__(self, master=None, scrollbar=True, autohide=False, padx=0, pady=0, height=0, grow=True, **kw):
+    def __init__(self, master=None, scrollbar=True, autohide=False, padx=0, pady=0, height=0, grow=True, background='white', **kw):
         ScrolledText.__init__(
-            self, master, undo=True, wrap=WORD, padx=padx, pady=pady, background='white',
+            self, master, undo=True, wrap=WORD, padx=padx, pady=pady, background=background,
             width=80, height=height, insertwidth=4, font=Fonts.FONT,
             border=0, borderwidth=0, highlightthickness=0,
             selectbackground="#66a2d4", selectforeground="white", **kw)

@@ -92,7 +92,13 @@ class Thought:
 
         args = parser.parse_args(namespace=args)
 
-        openai.api_key = args.apiKey or os.getenv("OPENAI_API_KEY")
+        if exists(args.apiKey):
+            with open(args.apiKey) as f:
+                openai.api_key = f.read().strip()
+        elif args.apiKey:
+            openai.api_key = args.apiKey
+        else:
+             os.getenv("OPENAI_API_KEY")
 
 
         def get_prompts(args):

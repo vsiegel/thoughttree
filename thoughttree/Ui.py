@@ -46,15 +46,12 @@ class Ui(tk.Frame):
         self.root.attributes("-topmost", False)
 
 
-    def was_modified(self):
-        return True
-
     def close(self, event=None):
         if self.main_window and len(Ui.current_open_uis) > 1:
             showwarning("Can not Close Main Window", "The main window that opened first can not be closed individually.", parent=self)
             return
 
-        if not self.was_modified() or self.closeable or askyesno("Close Window", "Are you sure you want to close this window?", parent=self):
+        if self.closeable or askyesno("Close Window", "Are you sure you want to close this window?", parent=self):
             Ui.current_open_uis.remove(self)
             self.is_root_destroyed = True
             self.root.destroy()

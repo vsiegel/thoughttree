@@ -222,9 +222,24 @@ class Thought:
                                     # else:
                                     #     print(f"No description found in {change_file}", file=sys.stderr)
 
-        if args.changesToPromptFile:
-            apply_changes(args.promptFiles, args.changesToPromptFile)
+
+        def insert_insertion_mark(document, row, column, insertion_marker):
+            lines = document.splitlines(True)
+            lines[row] = lines[row][:column] + insertion_marker + lines[row][column:]
+            return "\n".join(lines)
+
+        def complete_code(document, row, column):
+            text = insert_insertion_mark(document, row, column, args.insertion_marker)
+            #todo
+
+        if args.changePromptFile:
+            apply_changes(args.promptFiles, args.changePromptFile)
             sys.exit(0)
+        elif args.codeComplete:
+            complete_code(args.document, args.row, args.column)
+            sys.exit(0)
+        print(args.prompt_dir)
+        sys.exit(0)
 
         prompts = get_prompts(args)
         systems = get_systems(args)

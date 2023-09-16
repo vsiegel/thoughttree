@@ -10,9 +10,11 @@ from tkinter.messagebox import showinfo
 
 from configargparse import Namespace
 
+import tools
 from Console import Console
 from FinishReasonIcon import FinishReasonIcon
 from FoldablePane import FoldablePane
+from ScrollableForkableSheet import ScrollableForkableSheet
 from TextIOTee import TextIOTee
 from Title import Title
 from HidableFrame import HidableFrame
@@ -36,6 +38,7 @@ conf.ring_bell_after_completion = True
 conf.ring_bell_only_after = 15
 conf.blinking_caret = True
 # conf.chat_completion_request_timeout = 5
+conf.insertion_marker = "§"
 
 class Thoughttree(Ui):
     MIN_SIZE = (600, 300)
@@ -120,8 +123,8 @@ class Thoughttree(Ui):
         self.console = Console(self.console_pane)
         self.tree = Tree(self.tree_pane)
         self.system = Sheet(self.system_pane, height=3)
-        self.chat_sheet = Sheet(self.system_pane)
-        # self.chat_sheet = ScrollableForkableSheet(self.system_pane)
+        # self.chat_sheet = Sheet(self.system_pane)
+        self.chat_sheet = ScrollableForkableSheet(self.system_pane)
         self.previous_current_sheet = self.chat_sheet
 
         self.console_pane.add(self.tree_pane, stretch="always")
@@ -234,6 +237,7 @@ class Thoughttree(Ui):
 
 
     def chat(self, n=1, prefix="", postfix="", inline=False, here=False, replace=False):
+        inline = inline or here or replace
         self.model.is_canceled = False
         sheet = self.it
         sheet.tag_remove('cursorline', 1.0, "end")
@@ -253,12 +257,12 @@ class Thoughttree(Ui):
                 self.insert_prefix_and_scroll(sheet, prefix)
 
             history = self.history_from_system_and_chat()
+            if here or replace:
+                self.remove_hidden_prompt(sheet)
             self.model.counter.go()
 
             finish_reason, message = self.completions(sheet, n, history, inline)
 
-            if here or replace:
-                self.remove_hidden_prompt(sheet)
 
             self.finish_completion(sheet, finish_reason, message, postfix, inline)
             self.post_completion_tasks(start_time)
@@ -308,8 +312,8 @@ class Thoughttree(Ui):
 
     @property
     def it(self) -> Sheet:
-        focussed_widget = self.focus_get()
-        if focussed_widget and self.system != focussed_widget:
+        focussed_widget: Thoughttree | Sheet = self.focus_get()
+        if focussed_widget:
             self.previous_current_sheet = focussed_widget
         return self.previous_current_sheet
 

@@ -33,7 +33,7 @@ conf.show_finish_reason = True
 conf.update_title_after_completion = True
 conf.scroll_output = True
 conf.ring_bell_after_completion = True
-conf.ring_bell_only_after = 3
+conf.ring_bell_only_after = 15
 conf.blinking_caret = True
 # conf.chat_completion_request_timeout = 5
 

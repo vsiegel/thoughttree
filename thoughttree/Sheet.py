@@ -43,10 +43,15 @@ class Sheet(ScrolledText):
         self.pack(padx=0, pady=0, fill=X, expand=True)
 
         name, size = self.cget("font").rsplit(None, 1)
-        self.tag_configure('bold', font=(name, int(size), "bold"))
-        self.tag_configure('strikethrough', overstrike=True)
-        self.tag_configure("assistant", background="#F0F0F0", selectbackground="#4682b4", selectforeground="white")
-        self.tag_configure('hidden_prompt', elide=False, foreground="light blue")
+        self.tag_config('bold', font=(name, int(size), "bold"))
+        self.tag_config('strikethrough', overstrike=True)
+        self.tag_config('found_one', background="#345754")
+        self.tag_config('found_all', background="#575400")
+        self.tag_config('highlight', background="red")
+        self.tag_config('semi_highlight', background="#FFCCCB")
+        self.tag_config('hidden_markup', elide=True, foreground="light blue")
+        self.tag_config("assistant", background="#F0F0F0", selectbackground="#4682b4", selectforeground="white")
+        self.tag_config('hidden_prompt', elide=True, foreground="light blue")
 
         self.old_num_display_lines = 0
 

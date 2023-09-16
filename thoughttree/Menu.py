@@ -77,7 +77,9 @@ class Menu(tk.Menu):
             for menu in menus:
                 menu.insert_command(index, label=label, underline=0, accelerator=accelerator, state=state, command=command)
         if keystroke:
+            bind_to = to or self.master
             # if not add:
             #     self.master.unbind_class("Text", keystroke)
-            self.master.bind_class("Text", keystroke, command, add=add)
+            # self.master.bind_class("Text", keystroke, command, add=add)
+            bind_to.bind(keystroke, command, add=add)
 

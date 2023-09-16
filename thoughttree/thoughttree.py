@@ -265,11 +265,10 @@ class Thoughttree(Ui):
         return "break"
 
     def set_up_inline_completion(self, sheet):
-        completion_location_marker = "§"
         inline_completion_marker_prompt = dedent(
                 f"""
                 Do an insertion completion:
-                Complete assuming the insertion cursor for the text is at the character "{completion_location_marker}".
+                Complete assuming the insertion cursor for the text is at the character "{conf.insertion_marker}".
                 Assume that the trailing text will be there after the completion.
                 Do not use the mark character in the completion.
                 The part before and after the mark is already present for the user,
@@ -279,7 +278,7 @@ class Thoughttree(Ui):
                 Take care to add the right amount of spaces before and after the marker.
                 For example, add a trailing space if the insertion is a word, and the next char after theh mark is a space.
                 """)
-        sheet.insert(INSERT, completion_location_marker, ("hidden_prompt",))
+        sheet.insert(INSERT, conf.insertion_marker, ("hidden_prompt",))
         self.system.insert(END, inline_completion_marker_prompt, ("hidden_prompt",))
 
     def remove_hidden_prompt(self, sheet):

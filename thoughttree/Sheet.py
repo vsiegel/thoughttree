@@ -1,6 +1,8 @@
+import re
 import tkinter as tk
 from tkinter import CURRENT, END, INSERT, SEL, WORD, X, SEL_FIRST, SEL_LAST, RIGHT, Y, BOTH, LEFT
 from tkinter.scrolledtext import ScrolledText
+from tkinter.simpledialog import askstring
 from typing import Union
 
 from Cursorline import Cursorline
@@ -48,15 +50,22 @@ class Sheet(ScrolledText):
 
         self.old_num_display_lines = 0
 
-        self.initially_modified = False
-        detect_first_modification_id = [None]
-        def detect_first_modification(e):
-            print("detect_first_modification")
-            self.initially_modified = True
-            self.unbind("<<Modified>>", detect_first_modification_id[0])
-            if grow:
-                self.bind('<<Modified>>', self.grow_to_displaylines)
-        detect_first_modification_id[0] = self.bind("<<Modified>>", detect_first_modification)
+    def exec_code_block(self, event=None):
+        print(f"exec_code_block")
+
+        code_block_pattern = """('{3}|"{3}|```)python.*\n([\s\S]*?)\\1"""
+        code_block_start_pattern =  '("""|' + """'''|```)python.*\n"""
+        start = self.search(code_block_start_pattern, INSERT, regexp=True, backwards=True)
+        if start:
+            print(f"{start=}")
+            text = self.get(start, END)
+            m = re.search(code_block_pattern, text)
+            print(f"{m=}")
+            print(f"'{text=}'")
+            if m:
+                code = m.group(2)
+                print(f'Running "{code[:30]=}"')
+                print(exec(code))
 
         Cursorline(self)
 

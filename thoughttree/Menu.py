@@ -26,23 +26,25 @@ class Menu(tk.Menu):
                 parent.add_cascade(label=label, underline=0, menu=self)
 
 
-    def convert_key_string(self, keystroke) :
-
-        def fix_key_letter_case(keystroke):
-            m = re.search(r"^((<.*-)|<)([a-zA-Z])>", keystroke)
-            if m:
-                letter = m[3]
-                if keystroke.lower().count('shift-'):
-                    letter = letter.upper()
-                else:
-                    letter = letter.lower()
-                return m[1] + letter + ">"
-            else:
-                return keystroke
-
+    def fix_key_letter_case(self, keystroke):
         if not keystroke:
             return ""
-        s = fix_key_letter_case(keystroke)
+        m = re.search(r"^((<.*-)|<)([a-zA-Z])>", keystroke)
+        if m:
+            letter = m[3]
+            if keystroke.lower().count('shift-'):
+                letter = letter.upper()
+            else:
+                letter = letter.lower()
+            return m[1] + letter + ">"
+        else:
+            return keystroke
+
+
+    def convert_key_string(self, keystroke) :
+        if not keystroke:
+            return ""
+        s = self.fix_key_letter_case(keystroke)
         s = s.replace("-Key-", "-")
         s = s.replace("-", "+")
         s = s.replace("Control", "Ctrl")
@@ -57,10 +59,12 @@ class Menu(tk.Menu):
         return s
 
 
-    def item(self, label, keystroke, command, variable=None, add=False, index=tk.END, check_help=True, additional_menu=None):
+    def item(self, label, keystroke, command, variable=None, add=False, index=tk.END, check_help=True, additional_menu=None, to=None):
         if check_help and not label in self.menu_help:
-            print("Warning: Help text missing for menu item \"" + label + "\"")
-
+            print("Warning: Help missing for \"" + label + "\"")
+        if keystroke and not keystroke.startswith("<"):
+            print("Warning: keystroke should be in <...> format")
+        keystroke = self.fix_key_letter_case(keystroke)
         accelerator = self.convert_key_string(keystroke)
         state = tk.NORMAL if command or variable else tk.DISABLED
         menus = [self]

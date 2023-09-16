@@ -202,7 +202,7 @@ class Sheet(ScrolledText):
             ranges = self.tag_ranges(tag)
             for i in range(0, len(ranges), 2):
                 to_sheet.tag_add(tag, ranges[i], ranges[i + 1])
-                to_sheet.tag_config(tag, **{k: v[4] for k, v in self.tag_configure(tag).items() if v[4]})
+                to_sheet.tag_config(tag, **{k: v[4] for k, v in self.tag_config(tag).items() if v[4]})
 
         for name in self.window_names():
             index = self.index(name)

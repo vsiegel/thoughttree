@@ -17,8 +17,8 @@ class Cursorline:
         self.cursorline(e, add=False)
 
     def configure_cursorline(self):
-        self.sheet.tag_configure('cursorline', background='#FCFAED', foreground="black", selectbackground="#4682b4",
-                           selectforeground="white")
+        self.sheet.tag_config('cursorline', background='#FCFAED', selectbackground="#4682b4", selectforeground="white")
+        # self.sheet.tag_config('cursorline', borderwidth=1, relief="solid", selectbackground="#4682b4", selectforeground="white")
         self.sheet.bindtags(self.sheet.bindtags() + ("last",))
         self.sheet.bind_class("last", '<KeyRelease>', self.cursorline)
         self.sheet.bind_class("last", '<Button-1>', self.cursorline)

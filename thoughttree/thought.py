@@ -10,6 +10,7 @@ from os import listdir
 import openai
 from configargparse import ArgumentParser, Namespace
 
+from Model import Model
 from tools import maybe_file, read_all_stdin_lines, git
 
 
@@ -92,14 +93,7 @@ class Thought:
 
         args = parser.parse_args(namespace=args)
 
-        if exists(args.apiKey):
-            with open(args.apiKey) as f:
-                openai.api_key = f.read().strip()
-        elif args.apiKey:
-            openai.api_key = args.apiKey
-        else:
-             os.getenv("OPENAI_API_KEY")
-
+        Model.set_api_key(args.apiKey)
 
         def get_prompts(args):
             if args.prompt:

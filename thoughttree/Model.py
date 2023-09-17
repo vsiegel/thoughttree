@@ -1,6 +1,7 @@
 import tkinter as tk
 import re
 import textwrap
+from os.path import exists
 from tkinter.messagebox import showerror
 from typing import Tuple
 from datetime import datetime
@@ -118,3 +119,15 @@ class Model():
         except Exception:
             return []
         return self.available_models
+
+    @staticmethod
+    def set_api_key(api_key_or_file_or_env):
+        if exists(api_key_or_file_or_env):
+            with open(api_key_or_file_or_env) as f:
+                openai.api_key = f.read().strip()
+        elif os.getenv(api_key_or_file_or_env):
+            openai.api_key = os.getenv(api_key_or_file_or_env)
+        elif api_key_or_file_or_env:
+            openai.api_key = api_key_or_file_or_env
+        else:
+            openai.api_key = os.getenv("OPENAI_API_KEY")

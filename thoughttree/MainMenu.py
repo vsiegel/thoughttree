@@ -23,16 +23,13 @@ class MainMenu(Menu):
 
         self.fixed_model_menu_items = -1
         self.models_menu = None
+        self.windows_menu = None
         self.create_menu()
 
 
     @property
     def it(self) -> Sheet:
         return self.ui.it
-        # widget = self.ui.focus_get()
-        # if isinstance(widget, Sheet): # or isinstance(widget, Console):
-        #     self.previous_current_sheet = widget
-        # return self.previous_current_sheet
 
 
     def create_menu(self):
@@ -96,11 +93,13 @@ class MainMenu(Menu):
         def copy_text(event=None) :
             self.it.event_generate("<<Copy>>")
 
-        def paste_text(event=None) :
-            sheet = self.it
-            sheet.event_generate("<<Clear>>")
-            sheet.event_generate("<<Paste>>")
-            sheet.see(INSERT)
+        def paste_text(event=None):
+            pass
+            # sheet = self.it
+            # sheet.event_generate("<<Clear>>")
+            # sheet.event_generate("<<Paste>>")
+            # sheet.see(INSERT)
+            # return "break"
 
         def select_all(event=None):
             sheet = self.it
@@ -144,7 +143,19 @@ class MainMenu(Menu):
             self.it.insert(INSERT, f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} ")
 
         def debug_info(event=None):
-            print(f"{self.focus_get()=}")
+            env = self.ui.scroll(self.it, event)
+
+            # return
+            it = self.it
+            it.tag_config("green", background="green")
+            it.tag_config("bgstipple", bgstipple='gray75', background="blue")
+
+            it.tag_add("green", "1.0", "4.4")
+            it.tag_add("bgstipple", "1.5", "10.10")
+            it.insert(2.10, "**", ('hidden_markup',))
+            it.insert(2.10, "Hello world!", ('semi_highlight',))
+            it.insert(2.10, "**", ('hidden_markup',))
+
             return
 
             dumped = self.it.dump("insert - 1 char", window=True)
@@ -222,7 +233,8 @@ class MainMenu(Menu):
         self.menu.add_separator()
         item("Close Tab", "<Control-w>", close_tab, add=False)
         item("Close Empty Tab", "<BackSpace>", lambda e=None: self.it.close_empty_tab_or_backspace(), add=False)
-        item("Quit", "<Control-q>", ui.close)
+        item("Close Window", "<Control-Q>", ui.close)
+        item("Quit Thoughttree", "<Control-Shift-Q>", lambda e=None: ui.quit(label="Quit Thoughttree"))
 
         self.menu = Menu(self, "Edit")
         sheet_menu = Menu(None, "(sheet context menu)")
@@ -236,8 +248,11 @@ class MainMenu(Menu):
         item("Delete", "<Delete>", lambda e=None: self.it.delete())
         item("Select All", "<Control-a>", select_all)
         self.menu.add_separator()
+        item("Find", "<Control-f>", lambda e=None: self.it.find())
+        item("Find Next", "<Control-g>", lambda e=None: self.it.find_next())
+        self.menu.add_separator()
         sheet_menu.add_separator()
-        item("Search with Google", "<Control-g>", search_google, additional_menu=sheet_menu)
+        item("Search with Google", "<Control-Shift-G>", search_google, additional_menu=sheet_menu)
         sheet_menu.add_separator()
         item("Insert Current Time", "<Control-Shift-I>", insert_current_time)
         item("Copy Title", None, None)
@@ -248,8 +263,6 @@ class MainMenu(Menu):
         item("Show Tree", "<Alt-Shift-T>", ui.tree_pane.fold)
         item("Show Console", "<Alt-Shift-C>", ui.console_pane.fold)
         item("Show Status Bar", "<Alt-Shift-I>", ui.status_hider.hide)
-        self.menu.add_separator()
-        item("Count Tokens", "<Control-Alt-m>", ui.count_text_tokens)
         item("Update Window Title", "<Control-u>", ui.update_window_title)
         self.menu.add_separator()
         item("Increase Font Size", "<Control-plus>", lambda e=None: font_size(1))
@@ -275,11 +288,14 @@ class MainMenu(Menu):
         item("Next Paragraph", "<Control-Return>", lambda e=None: ui.chat(1, "\n\n", "\n\n"))
         item("Next Line", "<Shift-Return>", lambda e=None: ui.chat(1, "\n", "\n"))
         item("Continue Inline", "<Control-space>", lambda e=None: ui.chat(inline=True))
-        item("Insert Completion", "<Control-Shift-space>", lambda e=None: ui.chat(inline=True, here=True), additional_menu=sheet_menu)
-        item("Replace by Completion", "<Control-Alt-space>", lambda e=None: ui.chat(inline=True, replace=True), additional_menu=sheet_menu)
-        item("Fork Conversation", "<Alt-Return>", lambda e=None: self.it.fork())
+        item("Insert Completion", "<Control-Alt-space>", lambda e=None: ui.chat(here=True), additional_menu=sheet_menu)
+        item("Replace by Completion", "<Control-Shift-space>", lambda e=None: ui.chat(replace=True), additional_menu=sheet_menu)
+        item("Fork Conversation", "<Control-Alt-F>", lambda e=None: self.it.fork())
         item("Complete in Branch", "<Control-Shift-Return>", lambda e=None: branch())
         item("Complete Alternatives", "<Alt-Shift-Return>", lambda e=None: ui.chat(-1, "\n"))
+        self.menu.add_separator()
+        item("Solve this Problem", "<Alt-Return>", lambda e=None: ui.chat(replace=True), additional_menu=sheet_menu)
+        item("Ask About This", "<Control-Shift-A>", ui.ask, additional_menu=sheet_menu)
         self.menu.add_separator()
         item("Complete 3 Times", "<Control-Key-3>", lambda e=None: ui.chat(3), add=False)
         [self.bind_class("Text", f"<Control-Key-{i}>", lambda e=None, i=i: ui.chat(i)) for i in [2, 4, 5, 6, 7, 8, 9]]
@@ -291,18 +307,22 @@ class MainMenu(Menu):
         item("Cancel", "<Escape>", ui.cancel_models)
 
         self.menu = Menu(self, "Query")
-        item("Max Tokens...", "<Control-Shift-L>", ui.configure_max_tokens)
         item("Temperature...", "<Control-Shift-T>", ui.configure_temperature)
         item("Increase Temperature", "<Alt-plus>", None)
         item("Decrease Temperature", "<Alt-minus>", None)
         item("Temperature 0.0", "<Control-Key-0>", None)
+        item("Max Tokens...", "<Control-Shift-L>", ui.configure_max_tokens)
+        item("Count Tokens", "<Control-Alt-m>", ui.count_text_tokens)
 
-        self.menu = Menu(self, "Prompt")
-        item("Include Date in System Prompt", None, None)
+        self.menu = Menu(self, "Text")
+        item("Run Python Code", "<Control-Shift-R>", lambda e=None: self.it.exec_code_block(), additional_menu=sheet_menu)
 
-        self.menu = Menu(self, "Format")
-        item("Bold", "<Control-b>", bold)
-        item("Strikethrough", "<Control-d>", strikethrough)
+        # self.menu = Menu(self, "Prompt")
+        # item("Include Date in System Prompt", None, None)
+
+        # self.menu = Menu(self, "Format")
+        # item("Bold", "<Control-b>", bold)
+        # item("Strikethrough", "<Control-d>", strikethrough)
 
         self.models_menu = ModelsMenu(self, ui, "Models")
 
@@ -320,7 +340,8 @@ class MainMenu(Menu):
 
 
     def sub_item(self, label, keystroke=None, command=None, variable=None, add=False, additional_menu=None):
-        self.menu.item(label, keystroke=keystroke, command=command, variable=variable, add=add, additional_menu=additional_menu)
+        # to = [self.ui.system, self.ui.chat_sheet]
+        self.menu.item(label, keystroke=keystroke, command=command, variable=variable, add=add, additional_menu=additional_menu, to=self.ui.root)
 
 
 

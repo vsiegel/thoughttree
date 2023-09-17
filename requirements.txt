@@ -1,6 +1,6 @@
 future~=0.18.3
-openai~=0.25.0
-notebook~=6.4.8
+openai~=0.28.0
+notebook~=7.0.3
 pyperclip~=1.8.2
-ConfigArgParse~=1.5.5
-tiktoken~=0.4.0
+ConfigArgParse~=1.7
+tiktoken~=0.5.1

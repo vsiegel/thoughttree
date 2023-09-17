@@ -43,7 +43,8 @@ class Files:
     @staticmethod
     def open_file(e=None, title="Open File", initialfile=None):
         file = askopenfilename(defaultextension=".txt",
-                initialfile=initialfile, title=title)#, parent=sheet)
+                initialfile=initialfile, title=title,
+                filetypes=(('Text Files', '*.txt'), ('Python Files', '*.py'), ('All files', '*.*')))#, parent=sheet)
         if not file:
             return
         with open(file, "r") as f:

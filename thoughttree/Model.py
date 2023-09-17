@@ -121,13 +121,11 @@ class Model():
         return self.available_models
 
     @staticmethod
-    def set_api_key(api_key_or_file_or_env):
+    def set_api_key(api_key_or_file_or_env="OPENAI_API_KEY"):
         if exists(api_key_or_file_or_env):
             with open(api_key_or_file_or_env) as f:
                 openai.api_key = f.read().strip()
         elif os.getenv(api_key_or_file_or_env):
             openai.api_key = os.getenv(api_key_or_file_or_env)
-        elif api_key_or_file_or_env:
-            openai.api_key = api_key_or_file_or_env
         else:
-            openai.api_key = os.getenv("OPENAI_API_KEY")
+            openai.api_key = api_key_or_file_or_env

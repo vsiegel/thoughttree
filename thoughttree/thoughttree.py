@@ -270,6 +270,11 @@ class Thoughttree(Ui):
             self.post_completion_tasks(start_time)
         return "break"
 
+    def ask(self, event=None):
+        question_box = Sheet(relief=SUNKEN, borderwidth=3, background="lightgray", width=10)
+
+        self.it.window_create(INSERT, window=question_box, stretch=1)
+
     def set_up_inline_completion(self, sheet):
         inline_completion_marker_prompt = dedent(
                 f"""

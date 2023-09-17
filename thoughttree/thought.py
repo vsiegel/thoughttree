@@ -232,8 +232,6 @@ class Thought:
         elif args.codeComplete:
             complete_code(args.document, args.row, args.column)
             sys.exit(0)
-        print(args.prompt_dir)
-        sys.exit(0)
 
         prompts = get_prompts(args)
         systems = get_systems(args)

@@ -1,6 +1,6 @@
 import re
 import tkinter as tk
-from tkinter import CURRENT, END, INSERT, SEL, WORD, X, SEL_FIRST, SEL_LAST, RIGHT, Y, BOTH, LEFT
+from tkinter import CURRENT, END, INSERT, SEL, WORD, X, SEL_FIRST, SEL_LAST
 from tkinter.scrolledtext import ScrolledText
 from tkinter.simpledialog import askstring
 from typing import Union
@@ -14,11 +14,11 @@ from ThoughttreeConfig import conf
 
 class Sheet(ScrolledText):
 
-    def __init__(self, master=None, scrollbar=True, autohide=False, padx=0, pady=0, height=0, grow=True, background='white', **kw):
+    def __init__(self, master=None, scrollbar=True, autohide=False, width=80, borderwidth=0, padx=0, pady=0, height=0, grow=True, background='white', **kw):
         ScrolledText.__init__(
             self, master, undo=True, wrap=WORD, padx=padx, pady=pady, background=background,
-            width=80, height=height, insertwidth=4, font=Fonts.FONT,
-            border=0, borderwidth=0, highlightthickness=0,
+            width=width, height=height, insertwidth=4, font=Fonts.FONT,
+            border=0, borderwidth=borderwidth, highlightthickness=0,
             selectbackground="#66a2d4", selectforeground="white", **kw)
 
         # if autohide:
@@ -35,8 +35,9 @@ class Sheet(ScrolledText):
         else:
             self.vbar.pack_forget()
 
-        self.scroll_output = conf.scroll_output
         self.file = None
+        self.pattern = None
+        self.found = None
 
         self.bind('<Prior>', self.jump_to_limit)
         self.bind('<Next>', self.jump_to_limit)
@@ -55,6 +56,24 @@ class Sheet(ScrolledText):
 
         Cursorline(self)
         self.old_num_display_lines = 0
+        if grow:
+            self.bind('<<Modified>>', self.grow_to_displaylines)
+
+
+    def grow_to_displaylines(self, event: tk.Event):
+        if not event.widget.edit_modified():
+            return
+        sheet = event.widget
+        print(f'{sheet.count("1.0", "end", "displaylines")=}')
+        print(f'{sheet.count("1.0", "end", "ypixels")=}')
+        h = sheet.winfo_height()
+        print(f"{h=}")
+        num_display_lines = sheet.count("1.0", "end", 'displaylines')[0]
+        if num_display_lines != self.old_num_display_lines:
+            sheet.configure(height=num_display_lines)
+            self.old_num_display_lines = num_display_lines
+        sheet.edit_modified(False)
+        return "break"
 
     def exec_code_block(self, event=None):
         print(f"exec_code_block")
@@ -243,7 +262,9 @@ class Sheet(ScrolledText):
                     self.close_tab()
             return "break"
         else:
-            self.delete(INSERT + "-1c")
+            pass
+            # self.delete(INSERT + "-1c")
+
 
 
     def delete(self, index1=INSERT, index2=None):
@@ -321,13 +342,15 @@ class Sheet(ScrolledText):
         self.tag_selection('strikethrough')
 
     def remove_tag(self, tag):
-        def pairwise(list):
-            return zip(list[::2], list[1::2])
+        def pairwise(l):
+            return list(zip(l[::2], l[1::2]))
         print(f"{self.tag_ranges(tag)}=")
-        for span in reversed(list(pairwise(self.tag_ranges(tag)))):
+        for span in reversed(pairwise(self.tag_ranges(tag))):
             print(f"+{self.get(*span)=}")
             print(f"+{len(self.get('1.0', 'end'))=}")
             self.delete(*span)
+            self.insert(span[0], " ")
+            self.edit_undo()
             print(f"-{self.get(*span)=}")
             print(f"-{len(self.get('1.0', 'end'))=}")
 

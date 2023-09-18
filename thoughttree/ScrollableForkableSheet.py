@@ -45,12 +45,11 @@ class ScrollableForkableSheet(tk.Frame):
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))
 
     def configure_width(self, event):
-        print(f"configure_width: {event=}")
         height = max(self.canvas.winfo_height(), self.forkable_sheet.winfo_reqheight())
         self.canvas.itemconfigure(self.frame_id, width=event.width, height=height)
 
     def focus_set(self):
-        self.forkable_sheet.sheet.focus()
+        self.forkable_sheet.focus()
 
 
 if __name__ == "__main__":
@@ -60,6 +59,6 @@ if __name__ == "__main__":
     # ui.root.geometry("500x500")
     scrollable = ScrollableForkableSheet(ui.root)
     scrollable.pack(fill="both", expand=True)
-    scrollable.forkable_sheet.sheet.focus()
+    scrollable.forkable_sheet.focus()
 
     ui.root.mainloop()

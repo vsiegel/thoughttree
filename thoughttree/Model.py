@@ -122,6 +122,7 @@ class Model():
 
     @staticmethod
     def set_api_key(api_key_or_file_or_env="OPENAI_API_KEY"):
+        api_key_or_file_or_env = api_key_or_file_or_env or ""
         if exists(api_key_or_file_or_env):
             with open(api_key_or_file_or_env) as f:
                 openai.api_key = f.read().strip()

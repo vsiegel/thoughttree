@@ -48,7 +48,7 @@ class Sheet(ScrolledText):
         self.tag_config('strikethrough', overstrike=True)
         self.tag_config('found_one', background="#345754")
         self.tag_config('found_all', background="#575400")
-        self.tag_config('highlight', background="red")
+        self.tag_config('highlight', background="#ff7e83")
         self.tag_config('semi_highlight', background="#FFCCCB")
         self.tag_config('hidden_markup', elide=True, foreground="light blue")
         self.tag_config("assistant", background="#F0F0F0", selectbackground="#4682b4", selectforeground="white")
@@ -64,14 +64,15 @@ class Sheet(ScrolledText):
         if not event.widget.edit_modified():
             return
         sheet = event.widget
-        print(f'{sheet.count("1.0", "end", "displaylines")=}')
-        print(f'{sheet.count("1.0", "end", "ypixels")=}')
-        h = sheet.winfo_height()
-        print(f"{h=}")
+        # print(f'{sheet.count("1.0", "end", "displaylines")=}')
+        # print(f'{sheet.count("1.0", "end", "ypixels")=}')
+        # h = sheet.winfo_height()
+        # print(f"{h=}")
         num_display_lines = sheet.count("1.0", "end", 'displaylines')[0]
         if num_display_lines != self.old_num_display_lines:
             sheet.configure(height=num_display_lines)
             self.old_num_display_lines = num_display_lines
+            # sheet.event_generate("<<ScrollRegionChanged>>")
         sheet.edit_modified(False)
         return "break"
 

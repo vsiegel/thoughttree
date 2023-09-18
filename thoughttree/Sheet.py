@@ -50,8 +50,8 @@ class Sheet(ScrolledText):
         self.tag_config('found_all', background="#575400")
         self.tag_config('highlight', background="#ff7e83")
         self.tag_config('semi_highlight', background="#FFCCCB")
-        self.tag_config('hidden_markup', elide=True, foreground="light blue")
         self.tag_config("assistant", background="#F0F0F0", selectbackground="#4682b4", selectforeground="white")
+        self.tag_config('hidden_markup', elide=True, foreground="light blue")
         self.tag_config('hidden_prompt', elide=True, foreground="light blue")
 
         Cursorline(self)

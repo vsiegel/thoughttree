@@ -87,7 +87,7 @@ class Thought:
         args.multiReplace = None
         args.changePromptFile = None
         args.placeholder = "[<replace>]"
-        args.apiKey = "openai-api-key.txt"
+        args.apiKey = "OPENAI_API_KEY"
         args.insertion_marker = "§"
         args.prompt_dir = join(dirname(__file__), "prompts")
 

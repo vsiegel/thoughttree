@@ -218,6 +218,7 @@ class MainMenu(Menu):
         item = self.sub_item
         ui = self.ui
 
+        sheet_menu = Menu(None, "(sheet context menu)")
         self.menu = Menu(self, "File")
         item("New Window", "<Control-n>", new_window)
         item("New Main Tab", "<Control-t>", lambda e=None: self.it.fork("1.0"))
@@ -228,8 +229,7 @@ class MainMenu(Menu):
         item("Save Chat", "<Control-Shift-C>", save_chat)
         item("Save Message", "<Control-Shift-S>", save_section)
         item("Save Selection", "<Alt-S>", save_selection)
-        item("Save Code Block", "<Control-Alt-s>", save_code_block)
-        item("Run Code Block", "", None)
+        item("Save Code Block", "<Control-Alt-s>", save_code_block, additional_menu=sheet_menu)
         self.menu.add_separator()
         item("Close Tab", "<Control-w>", close_tab, add=False)
         item("Close Empty Tab", "<BackSpace>", lambda e=None: self.it.close_empty_tab_or_backspace(), add=False)
@@ -237,7 +237,6 @@ class MainMenu(Menu):
         item("Quit Thoughttree", "<Control-Shift-Q>", lambda e=None: ui.quit(label="Quit Thoughttree"))
 
         self.menu = Menu(self, "Edit")
-        sheet_menu = Menu(None, "(sheet context menu)")
         item("Undo", "<Control-z>", edit_undo, additional_menu=sheet_menu)
         item("Redo", "<Control-Shift-Z>", edit_redo, additional_menu=sheet_menu)
         self.menu.add_separator()
@@ -297,6 +296,7 @@ class MainMenu(Menu):
         item("Solve this Problem", "<Alt-Return>", lambda e=None: ui.chat(replace=True), additional_menu=sheet_menu)
         item("Ask About This", "<Control-Shift-A>", ui.ask, additional_menu=sheet_menu)
         self.menu.add_separator()
+        sheet_menu.add_separator()
         item("Complete 3 Times", "<Control-Key-3>", lambda e=None: ui.chat(3), add=False)
         [self.bind_class("Text", f"<Control-Key-{i}>", lambda e=None, i=i: ui.chat(i)) for i in [2, 4, 5, 6, 7, 8, 9]]
 
@@ -312,9 +312,9 @@ class MainMenu(Menu):
         item("Decrease Temperature", "<Alt-minus>", None)
         item("Temperature 0.0", "<Control-Key-0>", None)
         item("Max Tokens...", "<Control-Shift-L>", ui.configure_max_tokens)
-        item("Count Tokens", "<Control-Alt-m>", ui.count_text_tokens)
 
         self.menu = Menu(self, "Text")
+        item("Count Tokens", "<Control-Alt-m>", ui.count_text_tokens)
         item("Run Python Code", "<Control-Shift-R>", lambda e=None: self.it.exec_code_block(), additional_menu=sheet_menu)
 
         # self.menu = Menu(self, "Prompt")

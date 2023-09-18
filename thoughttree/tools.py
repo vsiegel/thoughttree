@@ -189,3 +189,8 @@ def read_all_stdin_lines():
     except KeyboardInterrupt:
         pass
     return "".join(console_lines)
+
+
+def on_event(event: tk.Event):
+    print(f"{event=}")
+

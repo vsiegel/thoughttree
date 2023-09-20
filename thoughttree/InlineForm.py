@@ -43,7 +43,7 @@ class InlineForm(Frame):
 
 
 
-class RangeReplaceInlineForm(InlineForm):
+class IterateRangeInlineForm(InlineForm):
     def __init__(self, text=None, index=INSERT,
                  title='Complete for each value',
                  label1='Range or Expression:',
@@ -67,7 +67,7 @@ if __name__ == '__main__':
     text.pack()
     text.insert(INSERT, lorem.paragraph())
 
-    RangeReplaceInlineForm(text, command=lambda: text.insert(INSERT, lorem.paragraph()))
+    IterateRangeInlineForm(text, command=lambda: text.insert(INSERT, lorem.paragraph()))
 
     text.insert(INSERT, lorem.paragraph())
     root.bind("<Escape>", lambda e: root.destroy())

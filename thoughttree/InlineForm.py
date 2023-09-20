@@ -18,9 +18,9 @@ class InlineForm(Frame):
         self.entries = []
         for label in [label1, label2]:
             frame = Frame(fr, bd=4, relief='flat', padx=10, pady=10)
-            Label(frame, text=label, font=f).pack(side=RIGHT, fill='x')
             entry = Entry(frame, font=f)
             entry.pack(side=RIGHT)
+            Label(frame, text=label, font=f).pack(side=RIGHT, fill='x')
             self.entries.append(entry)
             frame.pack(side='top', fill='x', expand=True)
 

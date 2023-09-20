@@ -8,6 +8,7 @@ from os.path import splitext, join, dirname, exists
 from os import listdir
 
 import openai
+import tiktoken
 from configargparse import ArgumentParser, Namespace
 
 from Model import Model
@@ -62,6 +63,7 @@ class Thought:
         add('-a', '--api-key',       dest='apiKey',          type=str,  default="",   help='API key for the OpenAI API, or a file containing it.')
         add('-v', '--verbose',       dest='verbose',         action='store_true',     help='Show some information')
         add('-L'  '--prompt-lib',    dest='promptLib',       type=str,  default="",   help='Directory containing a library of standard prompts')
+        add(      '--count-token',   dest='countTokens',     type=str,  nargs='*',    help='Count th number of tokens in files.')
 
         args = Namespace()
         args.prompt = ""
@@ -226,11 +228,23 @@ class Thought:
             text = insert_insertion_mark(document, row, column, args.insertion_marker)
             #todo
 
+
+        def count_tokens():
+            # enc = tiktoken.encoding_for_model(self.model_name)
+            with sys.stdin as f:
+                text = f.read()
+            enc = tiktoken.get_encoding('cl100k_base')
+            return len(enc.encode(text))
+
+
         if args.changePromptFile:
             apply_changes(args.promptFiles, args.changePromptFile)
             sys.exit(0)
         elif args.codeComplete:
             complete_code(args.document, args.row, args.column)
+            sys.exit(0)
+        elif args.countTokens:
+            count_tokens()
             sys.exit(0)
 
         prompts = get_prompts(args)

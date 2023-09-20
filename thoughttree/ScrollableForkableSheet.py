@@ -49,8 +49,7 @@ class ScrollableForkableSheet(tk.Frame):
         self.canvas.itemconfigure(self.frame_id, width=event.width, height=height)
 
     def focus_set(self):
-        self.forkable_sheet.focus()
-
+        self.forkable_sheet.focus_set()
 
 if __name__ == "__main__":
     from Ui import Ui

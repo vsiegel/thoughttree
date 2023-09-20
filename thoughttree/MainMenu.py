@@ -317,7 +317,21 @@ class MainMenu(Menu):
         item("Count Tokens", "<Control-Alt-m>", ui.count_text_tokens)
         item("Run Python Code", "<Control-Shift-R>", lambda e=None: self.it.exec_code_block(), additional_menu=sheet_menu)
 
-        # self.menu = Menu(self, "Prompt")
+        self.menu = Menu(self, "Data")
+
+        def iterate_range():
+            ui.chat(1)
+
+        item("Iterate over Range", "<Control-Alt-i>", lambda e=None: IterateRangeInlineForm(self.it))
+
+
+        self.menu = Menu(self, "Prompt")
+        item("Remove from Text")
+        item("Select Text")
+        item("Change Text")
+        item("Annotate Text")
+        item("Comment Text")
+
         # item("Include Date in System Prompt", None, None)
 
         # self.menu = Menu(self, "Format")

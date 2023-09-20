@@ -93,9 +93,6 @@ class Thoughttree(Ui):
         if self.main_window:
             self.root.mainloop()
 
-    def was_modified(self):
-        return self.chat_sheet.initially_modified or self.system.initially_modified
-
     def set_model(self, model_name):
         if not model_name in self.models:
             self.models[model_name] = Model(model_name)
@@ -265,7 +262,6 @@ class Thoughttree(Ui):
 
             finish_reason, message = self.completions(sheet, n, history, inline)
 
-
             self.finish_completion(sheet, finish_reason, message, postfix, inline)
             self.post_completion_tasks(start_time)
         return "break"
@@ -328,6 +324,7 @@ class Thoughttree(Ui):
 
     def scroll(self, sheet):
         if self.scroll_output:
+            # sheet.update()
             sheet.see(END)
         sheet.update()
 
@@ -340,10 +337,10 @@ class Thoughttree(Ui):
                 initialvalue=Thoughttree.multi_completions,
                 minvalue=2, maxvalue=1000, parent=self)
             if not n:
-                return
+                return None
+            Thoughttree.multi_completions = n
         elif n == -1:  # repeat
             n = Thoughttree.multi_completions
-        Thoughttree.multi_completions = n
         return n
 
 

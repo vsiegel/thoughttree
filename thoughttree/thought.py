@@ -191,7 +191,7 @@ class Thought:
                             # single_change_pattern = '(?m)(?:Titel|Title): (.*)\s+(?:Beschreibung|Description): (.*)\s+(?:Derzeitig|Old|Alt): (".*"|"""[\s\S]*?""")\s+(?:Vorschlag|New|Neu): ("""[\s\S]*?"""|".*")'
                             single_change_pattern_with_attributes = '(?m)(?:Titel|Title): (.*)\n+(?:Beschreibung|Description): (.*)\s+((?:\n\w+: .*)*)\n+(?:Derzeitig|Old|Alt): (".*"|"""[\s\S]*?""")\n+(?:Vorschlag|New|Neu): ("""[\s\S]*?"""|".*")'
                             single_change_pattern_with_attributes = '(?m)(?:Titel|Title): (.*)\n+(?:Beschreibung|Description): (.*)\s+((?:\n\w+: .*)*)\n+(?:Derzeitig|Old|Alt): (".*"|"""[\s\S]*?""")\n+(?:Vorschlag|New|Neu): ("""[\s\S]*?"""|".*")'
-                            single_change_pattern_with_attributes = '(?m)(?:Titel|Title): (.*)\n+(?:Beschreibung|Description): (.*)\s+((?:\n+\w+: .*)*?)\n+(?:Derzeitig|Old|Alt): (".*"|"""[\s\S]*?""")\n+(?:Vorschlag|New|Neu): ("""[\s\S]*?"""|".*")'
+                            single_change_pattern_with_attributes = """(?m)(?:Titel|Title): (.*)\n+(?:Beschreibung|Description): (.*)\s+((?:\n+\w+: .*)*?)\n+(?:Derzeitig|Old|Alt): ('.*'|".*"|"{3}[\s\S]*?"{3}|'{3}[\s\S]*?'{3})\n+(?:Vorschlag|New|Neu): ('.*'|".*"|"{3}[\s\S]*?"{3}|'{3}[\s\S]*?'{3})"""
                             output = input_string
                             for m in re.findall(single_change_pattern_with_attributes, changes_string):
                                 # derzeitig, vorschlag = m.groups()

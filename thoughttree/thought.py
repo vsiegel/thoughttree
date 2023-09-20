@@ -193,27 +193,35 @@ class Thought:
                             single_change_pattern_with_attributes = '(?m)(?:Titel|Title): (.*)\n+(?:Beschreibung|Description): (.*)\s+((?:\n\w+: .*)*)\n+(?:Derzeitig|Old|Alt): (".*"|"""[\s\S]*?""")\n+(?:Vorschlag|New|Neu): ("""[\s\S]*?"""|".*")'
                             single_change_pattern_with_attributes = """(?m)(?:Titel|Title): (.*)\n+(?:Beschreibung|Description): (.*)\s+((?:\n+\w+: .*)*?)\n+(?:Derzeitig|Old|Alt): ('.*'|".*"|"{3}[\s\S]*?"{3}|'{3}[\s\S]*?'{3})\n+(?:Vorschlag|New|Neu): ('.*'|".*"|"{3}[\s\S]*?"{3}|'{3}[\s\S]*?'{3})"""
                             output = input_string
-                            for m in re.findall(single_change_pattern_with_attributes, changes_string):
+                            all = re.findall(single_change_pattern_with_attributes, changes_string)
+                            if not all:
+                                print(f'No match for "{single_change_pattern_with_attributes}"')
+                                return
+
+                            old = ""
+                            for m in all:
                                 # derzeitig, vorschlag = m.groups()
                                 title, description, attributes, old, new = m
                                 old = old.strip("'"+'"')
                                 new = new.strip("'"+'"')
                                 output = output.replace(old, new, 1)
+
                             if output == input_string:
                                 print(f"Could not apply changes from {change_file} to {input_file}", file=sys.stderr)
-                            else:
-                                with open(input_file, 'w') as f:
-                                    f.write(output)
-                                if args.commit:
-                                    # m = re.search(description_pattern, changes_string)
-                                    # if m:
-                                    #     title, description = m.groups()
-                                    commitmessage = f'''{title}\n\n{description}'''
-                                    commit_file = f"commitmessage-tmp.txt"
-                                    with open(commit_file, "w") as f:
-                                        f.write(commitmessage)
-                                    print(git('diff', '--word-diff', '--color', input_file))
-                                    git('commit', '-F', commit_file, input_file)
+                                print(f'Could not replace "{old}" in "{input_string}"\n', file=sys.stderr)
+                                return
+                            with open(input_file, 'w') as f:
+                                f.write(output)
+                            if args.commit:
+                                # m = re.search(description_pattern, changes_string)
+                                # if m:
+                                #     title, description = m.groups()
+                                commitmessage = f'''{title}\n\n{description}'''
+                                commit_file = f"commitmessage-tmp.txt"
+                                with open(commit_file, "w") as f:
+                                    f.write(commitmessage)
+                                print(git('diff', '--word-diff', '--color', input_file))
+                                git('commit', '-F', commit_file, input_file)
 
                                     # else:
                                     #     print(f"No description found in {change_file}", file=sys.stderr)
@@ -273,6 +281,7 @@ class Thought:
                         if outputFile:
                             with open(outputFile, 'w') as f:
                                 f.write(completion)
+                                print(f"{outputFile=}")
                         if args.commit:
                             apply_changes(args.promptFiles, [outputFile])
         except KeyboardInterrupt:

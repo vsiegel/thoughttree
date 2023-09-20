@@ -353,38 +353,33 @@ class Thoughttree(Ui):
     def completions(self, sheet, n, history, inline=False):
         finish_reason, message = 'unknown', ''
         insertion_point = inline and INSERT or END
-        if n == 1:
+        label_frame = None
+
+
+        def write(text, label=None):
+            if self.is_root_destroyed:
+                return
+            if label:
+                label.config(text=label.cget("text") + text)
+            else:
+                sheet.insert(insertion_point, text, "assistant")
+            self.scroll(sheet)
+
+
+        for i in range(n):
             if self.model.is_canceled:
                 finish_reason = "canceled"
-            else:
-                def write_chat(text):
-                    if self.is_root_destroyed:
-                        return
-                    sheet.insert(insertion_point, text, "assistant")
-                    self.scroll(sheet)
-
-                finish_reason, message = self.model.complete(history, write_chat)
-        else:
-            label_frame = tk.Frame(sheet, borderwidth=4)
-            sheet.window_create(insertion_point, window=label_frame)
-            sheet.insert(insertion_point, "\n")
-            sheet.see(insertion_point)
-            finish_reason, message = 'unknown', ''
-
-            for i in range(n):
-                if self.model.is_canceled:
-                    finish_reason = "canceled"
-                    break
-                label = MultiTextboxLabel(label_frame, sheet)
-
-                def write_label(text):
-                    if self.is_root_destroyed:
-                        return
-                    label.config(text=label.cget("text") + text)
-                    self.scroll(sheet)
-
-                finish_reason, message = self.model.complete(history, write_label)
+                break
+            if i == 0 and n > 1:
+                label_frame = tk.Frame(sheet, borderwidth=4)
+                sheet.window_create(insertion_point, window=label_frame)
+                sheet.insert(insertion_point, "\n")
+                sheet.see(insertion_point)
+                finish_reason, message = 'unknown', ''
+            label = MultiTextboxLabel(label_frame, sheet) if label_frame else None
+            finish_reason, message = self.model.complete(history, lambda text: write(text, label))
         return finish_reason, message
+
 
 
     def finish_completion(self, sheet, finish_reason, message, postfix, inline):

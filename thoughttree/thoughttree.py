@@ -235,7 +235,7 @@ class Thoughttree(Ui):
         return "break"
 
 
-    def chat(self, n=1, prefix="", postfix="", inline=False, here=False, replace=False):
+    def chat(self, n=1, text="", prefix="", postfix="", inline=False, here=False, replace=False):
         inline = inline or here or replace
         self.model.is_canceled = False
         sheet = self.it

@@ -9,6 +9,7 @@ from AboutDialog import AboutDialog
 from Files import Files
 from Fonts import Fonts
 from Imports import Menu, ModelsMenu, WindowsMenu
+from InlineForm import IterateRangeInlineForm
 from Sheet import Sheet
 from Console import Console
 from menu_help import menu_help
@@ -102,11 +103,12 @@ class MainMenu(Menu):
             # return "break"
 
         def select_all(event=None):
-            sheet = self.it
-            if type(sheet) == Sheet:
-                sheet.tag_add(SEL, "1.0", END)
-                sheet.mark_set(INSERT, "1.0")
-                sheet.see(INSERT)
+            self.it.event_generate("<<SelectAll>>")
+            # sheet = self.it
+            # if type(sheet) == Sheet:
+            #     sheet.tag_add(SEL, "1.0", END)
+            #     sheet.mark_set(INSERT, "1.0")
+            #     sheet.see(INSERT)
 
         def edit_undo(event=None):
             try:
@@ -184,8 +186,9 @@ class MainMenu(Menu):
             self.ui.chat()
 
         def toggle_scroll_output(event=None):
-            if self.ui.scroll_output:
-                self.it.see(END)
+            # if self.ui.scroll_output:
+            #     self.it.see(END)
+            self.it.see(END)
             self.ui.scroll_output = not self.ui.scroll_output
 
         def toggle_ring_bell(event=None):
@@ -243,7 +246,8 @@ class MainMenu(Menu):
         sheet_menu.add_separator()
         item("Cut", "<Control-x>", cut_text, additional_menu=sheet_menu)
         item("Copy", "<Control-c>", copy_text, additional_menu=sheet_menu)
-        item("Paste", "<Control-v>", paste_text, additional_menu=sheet_menu)
+        # item("Paste", "<Control-v>", paste_text, additional_menu=sheet_menu)
+        item("Paste", "<Control-v>", '<<Paste>>', additional_menu=sheet_menu)
         item("Delete", "<Delete>", lambda e=None: self.it.delete())
         item("Select All", "<Control-a>", select_all)
         self.menu.add_separator()

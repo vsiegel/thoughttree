@@ -67,19 +67,28 @@ class Menu(tk.Menu):
         keystroke = self.fix_key_letter_case(keystroke)
         accelerator = self.convert_key_string(keystroke)
         state = tk.NORMAL if command or variable else tk.DISABLED
+
+        command_is_virtual_event = bool(re.match("^<<\w+>>$", str(command)))
+
         menus = [self]
         if additional_menu:
             menus.append(additional_menu)
+        bind_to = to or self.master
         if variable :
             for menu in menus:
                 menu.insert_radiobutton(index, label=label, accelerator=accelerator, state=state, variable=variable)
         else:
             for menu in menus:
-                menu.insert_command(index, label=label, underline=0, accelerator=accelerator, state=state, command=command)
+                if command_is_virtual_event:
+                    c = lambda: bind_to.event_generate(command)
+                else:
+                    c = command
+                menu.insert_command(index, label=label, underline=0, accelerator=accelerator, state=state, command=c)
         if keystroke:
-            bind_to = to or self.master
             # if not add:
             #     self.master.unbind_class("Text", keystroke)
             # self.master.bind_class("Text", keystroke, command, add=add)
-            bind_to.bind(keystroke, command, add=add)
-
+            if command_is_virtual_event:
+                bind_to.event_add(command, keystroke)
+            else:
+                bind_to.bind(keystroke, command, add=add)

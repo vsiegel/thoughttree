@@ -1,6 +1,6 @@
 import re
 import tkinter as tk
-from tkinter import CURRENT, END, INSERT, SEL, WORD, X, SEL_FIRST, SEL_LAST
+from tkinter import CURRENT, END, INSERT, SEL, WORD, X, SEL_FIRST, SEL_LAST, RAISED, BOTH
 from tkinter.scrolledtext import ScrolledText
 from tkinter.simpledialog import askstring
 from typing import Union
@@ -10,6 +10,8 @@ from FinishReasonIcon import FinishReasonIcon
 from Fonts import Fonts
 from Notebook import Notebook
 from ThoughttreeConfig import conf
+from Title import new_child_title, new_sibling_title
+from tools import on_event
 
 
 class Sheet(ScrolledText):
@@ -44,20 +46,26 @@ class Sheet(ScrolledText):
         self.pack(padx=0, pady=0, fill=X, expand=True)
 
         name, size = self.cget("font").rsplit(None, 1)
+        self.tag_config("assistant", background="#F0F0F0", selectbackground="#4682b4", selectforeground="white")
+        Cursorline(self)
         self.tag_config('bold', font=(name, int(size), "bold"))
         self.tag_config('strikethrough', overstrike=True)
-        self.tag_config('found_one', background="#345754")
-        self.tag_config('found_all', background="#575400")
+        self.tag_config('found_one', background="#eeea4e", borderwidth=1, relief=RAISED)
+        self.tag_config('found_all', background="#d9d55d")
         self.tag_config('highlight', background="#ff7e83")
         self.tag_config('semi_highlight', background="#FFCCCB")
-        self.tag_config("assistant", background="#F0F0F0", selectbackground="#4682b4", selectforeground="white")
         self.tag_config('hidden_markup', elide=True, foreground="light blue")
         self.tag_config('hidden_prompt', elide=True, foreground="light blue")
 
-        Cursorline(self)
         self.old_num_display_lines = 0
         if grow:
             self.bind('<<Modified>>', self.grow_to_displaylines)
+
+
+        def on_event(event: tk.Event):
+            print(f"{event.widget.edit_modified()=}")
+
+        # self.bind('<<Modified>>', on_event)
 
 
     def grow_to_displaylines(self, event: tk.Event):
@@ -70,12 +78,17 @@ class Sheet(ScrolledText):
         # h = sheet.winfo_height()
         # print(f"{h=}")
         num_display_lines = sheet.count("1.0", "end", 'displaylines')[0]
-        if num_display_lines != self.old_num_display_lines:
-            sheet.configure(height=num_display_lines)
-            self.old_num_display_lines = num_display_lines
-            # sheet.event_generate("<<ScrollRegionChanged>>")
+
+        # if num_display_lines != self.old_num_display_lines:
+        sheet.configure(height=num_display_lines)
+        # sheet.master.pack(expand=True, fill=BOTH)
+        # print(f"packed {sheet.master=}")
+        self.old_num_display_lines = num_display_lines
+        sheet.update()
+        sheet.event_generate("<<ScrollRegionChanged>>")
+
         sheet.edit_modified(False)
-        return "break"
+        # return "break"
 
     def exec_code_block(self, event=None):
         print(f"exec_code_block")
@@ -229,6 +242,7 @@ class Sheet(ScrolledText):
                 dump = self.dump(index1, all=True)
                 if any([element[0] == "text" or is_icon(element) for element in dump]):
                     super().delete(index1)
+
 
     def jump_to_similar_line(self, event=None, direction=1):
 

@@ -146,9 +146,20 @@ class MainMenu(Menu):
             self.it.insert(INSERT, f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} ")
 
         def debug_info(event=None):
+
+            # self.it.see(END)
+            self.it.yview(END)
+
+            return
+            def list_widgets(parent):
+                print(f"{parent}: {len(parent.winfo_children())} children")
+                for child in parent.winfo_children():
+                    list_widgets(child)
+            list_widgets(ui)
+
+
             env = self.ui.scroll(self.it, event)
 
-            # return
             it = self.it
             it.tag_config("green", background="green")
             it.tag_config("bgstipple", bgstipple='gray75', background="blue")
@@ -236,7 +247,7 @@ class MainMenu(Menu):
         item("Save Code Block", "<Control-Alt-s>", save_code_block, additional_menu=sheet_menu)
         self.menu.add_separator()
         item("Close Tab", "<Control-w>", close_tab, add=False)
-        item("Close Empty Tab", "<BackSpace>", lambda e=None: self.it.close_empty_tab_or_backspace(), add=False)
+        # item("Close Empty Tab", "<BackSpace>", lambda e=None: self.it.close_empty_tab_or_backspace(), add=False)
         item("Close Window", "<Control-Q>", ui.close)
         item("Quit Thoughttree", "<Control-Shift-Q>", lambda e=None: ui.quit(label="Quit Thoughttree"))
 

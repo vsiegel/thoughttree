@@ -14,6 +14,7 @@ import tools
 from Console import Console
 from FinishReasonIcon import FinishReasonIcon
 from FoldablePane import FoldablePane
+from Keys import Keys
 from ScrollableForkableSheet import ScrollableForkableSheet
 from TextIOTee import TextIOTee
 from Title import Title
@@ -66,6 +67,10 @@ class Thoughttree(Ui):
         self.tree_pane = None
         self.system_pane = None
 
+        # def on_configure(event):
+        #     print(f"Event: {event}: {event.widget} {event.x},{event.y} {event.width}x{event.height}")
+        # self.bind_all('<Configure>', on_configure)
+
         self.root.geometry(Thoughttree.ROOT_GEOMETRY)
         self.root.minsize(*Thoughttree.MIN_SIZE)
         try:
@@ -76,6 +81,8 @@ class Thoughttree(Ui):
         self.scroll_output = conf.scroll_output
         self.ring_bell_after_completion = conf.ring_bell_after_completion
         self.create_ui()
+
+        Keys.configure_text_keys(self.system)
 
         Model.set_api_key()
 

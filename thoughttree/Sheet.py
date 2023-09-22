@@ -61,9 +61,10 @@ class Sheet(ScrolledText):
 
 
     def grow_to_displaylines(self, event: tk.Event):
+        print(f"grow_to_displaylines: {event=}")
         if not event.widget.edit_modified():
             return
-        sheet = event.widget
+        sheet:Sheet = event.widget
         # print(f'{sheet.count("1.0", "end", "displaylines")=}')
         # print(f'{sheet.count("1.0", "end", "ypixels")=}')
         # h = sheet.winfo_height()
@@ -93,82 +94,27 @@ class Sheet(ScrolledText):
                 print(f'Running "{code[:30]=}"')
                 print(exec(code))
 
-    def find(self, pattern=None):
+    def find(self, pattern=None, start=INSERT):
         if self.tag_ranges(SEL):
             pattern = self.get(SEL_FIRST, SEL_LAST)
         else:
             pattern = askstring("Find", "Search for:", parent=self)
-        found = self.search(pattern, INSERT, exact=True)
-        if found:
-            self.mark_set(INSERT, found)
-            self.pattern = pattern
-            self.found = found
-        print(f"{found}")
+        if pattern:
+            self.perform_search(pattern, start)
 
     def find_next(self):
-        self.found = self.search(self.pattern, self.found, exact=True)
+        self.perform_search(self.pattern, f"{self.found}+1c")
+
+    def perform_search(self, pattern, start):
+        self.found = self.search(pattern, start, exact=True)
+        if self.found:
+            self.mark_set(INSERT, self.found)
+            print(f"Found: {self.found}")
+        self.pattern = pattern
         self.tag_remove('found_one', "1.0", END)
-        self.tag_add('found_one', self.found, f"{self.found} + {len(self.pattern)} char")
-        print(f"{self.found}")
+        if self.found:
+            self.tag_add('found_one', self.found, f"{self.found} + {len(self.pattern)} char")
 
-
-    def fork(self, index=INSERT):
-        index = self.index(index)
-
-        def next_level(hierarchical_id):
-            if hierarchical_id:
-                hierarchical_id = hierarchical_id.split(' ', 1)[0]
-                levels = hierarchical_id.split('.') + ['1']
-            else:
-                levels = ['1']
-            return '.'.join(levels)
-
-
-        def next_equal(hierarchical_id):
-            if hierarchical_id:
-                hierarchical_id = hierarchical_id.split(' ', 1)[0]
-                levels = hierarchical_id.split('.')
-            else:
-                levels = ['0']
-            levels = levels[:-1] + [str(int(levels[-1]) + 1)]
-            return '.'.join(levels)
-
-
-        def new_sibling(sibling_notebook):
-            last_tab_label = sibling_notebook.tab(len(sibling_notebook.tabs()) - 1, "text")
-            return next_equal(last_tab_label)
-
-        def new_child(parent):
-            if parent:
-                parent_tab_label = parent.tab(parent.select(), "text")
-            else:
-                parent_tab_label = ""
-            return next_level(parent_tab_label)
-
-
-        has_leading_text = bool(self.get("1.0", index).strip())
-        trailing_text = self.get(index, END)
-        trailing_text = trailing_text.rstrip()
-        parent = self.find_parent(Notebook)
-
-        new_notebook = not parent or has_leading_text
-        if new_notebook:
-            notebook = Notebook(self, height=self.winfo_height(), width=self.winfo_width())
-
-            sheet = Sheet(notebook, scrollbar=True)
-            sheet.insert(END, trailing_text)
-            notebook.add(sheet, text=new_child(parent))
-            self.window_create(index, window=notebook)
-            self.delete(index + "+1char", END)
-        else:
-            notebook = parent
-        sheet = Sheet(notebook, scrollbar=True)
-        notebook.add(sheet, text=new_sibling(notebook))
-
-        notebook.select(len(notebook.tabs()) - 1)
-        sheet.focus_set()
-
-        return "break"
 
 
     def find_parent(self, parentType: type) -> Union["Sheet", Notebook]:
@@ -238,7 +184,7 @@ class Sheet(ScrolledText):
             return sheet
 
         notebook: Notebook = self.find_parent(Notebook)
-        if notebook:
+        if notebook and notebook.tabs():
             selected = notebook.index(CURRENT)
             notebook.forget(selected)
             if len(notebook.tabs()) > 1:
@@ -320,7 +266,9 @@ class Sheet(ScrolledText):
             sheet.see(jump_index)
 
     def jump_to_limit(self, e: tk.Event):
-        top, bottom = self.vbar.get()
+        pos = self.vbar.get()
+        # print(pos) # "(0.0, 0.0, 0.0, 0.0)"
+        top, bottom, *_ = pos
         if e.keysym == 'Prior' and top == 0.0:
             limit = "1.0"
         elif e.keysym == 'Next' and bottom == 1.0:

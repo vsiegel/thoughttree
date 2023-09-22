@@ -1,4 +1,50 @@
 
+
+def split_title(hierarchical_id):
+    if hierarchical_id:
+        hierarchical_id_and_title = hierarchical_id.split(' ', 1)
+        hierarchical_id = hierarchical_id_and_title[0]
+        title = len(hierarchical_id_and_title) == 2 and hierarchical_id_and_title[1] or ""
+        levels = hierarchical_id.split('.')
+    else:
+        title = ''
+        levels = []
+    return hierarchical_id, levels, title
+
+def next_level(hierarchical_id):
+    hierarchical_id, levels, title = split_title(hierarchical_id)
+    levels += ['1']
+
+    result = '.'.join(levels)
+    if title:
+        result += " " + title
+    return result
+
+
+def next_equal(hierarchical_id):
+    hierarchical_id, levels, title = split_title(hierarchical_id)
+    levels = levels or ['0']
+    levels = levels[:-1] + [str(int(levels[-1]) + 1)]
+
+    result = '.'.join(levels)
+    if title:
+        result += " " + title
+    return result
+
+
+def new_sibling_title(sibling_notebook):
+    last_tab_label = sibling_notebook and sibling_notebook.tabs() and sibling_notebook.tab(len(sibling_notebook.tabs()) - 1, "text") or ""
+    return next_equal(last_tab_label)
+
+def new_child_title(parent):
+    if parent:
+        parent_tab_label = parent.tab(parent.select(), "text")
+    else:
+        parent_tab_label = ""
+    return next_level(parent_tab_label)
+
+
+
 class Title():
 
     PROMPT = '''\

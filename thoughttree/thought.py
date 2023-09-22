@@ -189,22 +189,29 @@ class Thought:
                             # description_pattern = '(?m)(?:Titel|Title): (.*)\s+(?:Beschreibung|Description): (.*)'
                             # multiple_changes_pattern = '(?m)(?:Derzeitig|Old|Alt): "(.*)"\s+(?:Vorschlag|New|Neu): "(.*)"'
                             # single_change_pattern = '(?m)(?:Titel|Title): (.*)\s+(?:Beschreibung|Description): (.*)\s+(?:Derzeitig|Old|Alt): (".*"|"""[\s\S]*?""")\s+(?:Vorschlag|New|Neu): ("""[\s\S]*?"""|".*")'
-                            single_change_pattern_with_attributes = '(?m)(?:Titel|Title): (.*)\n+(?:Beschreibung|Description): (.*)\s+((?:\n\w+: .*)*)\n+(?:Derzeitig|Old|Alt): (".*"|"""[\s\S]*?""")\n+(?:Vorschlag|New|Neu): ("""[\s\S]*?"""|".*")'
-                            single_change_pattern_with_attributes = '(?m)(?:Titel|Title): (.*)\n+(?:Beschreibung|Description): (.*)\s+((?:\n\w+: .*)*)\n+(?:Derzeitig|Old|Alt): (".*"|"""[\s\S]*?""")\n+(?:Vorschlag|New|Neu): ("""[\s\S]*?"""|".*")'
-                            single_change_pattern_with_attributes = """(?m)(?:Titel|Title): (.*)\n+(?:Beschreibung|Description): (.*)\s+((?:\n+\w+: .*)*?)\n+(?:Derzeitig|Old|Alt): ('.*'|".*"|"{3}[\s\S]*?"{3}|'{3}[\s\S]*?'{3})\n+(?:Vorschlag|New|Neu): ('.*'|".*"|"{3}[\s\S]*?"{3}|'{3}[\s\S]*?'{3})"""
+                            # single_change_pattern_with_attributes = '(?m)(?:Titel|Title): (.*)\n+(?:Beschreibung|Description): (.*)\s+((?:\n\w+: .*)*)\n+(?:Derzeitig|Old|Alt): (".*"|"""[\s\S]*?""")\n+(?:Vorschlag|New|Neu): ("""[\s\S]*?"""|".*")'
+                            # single_change_pattern_with_attributes = '(?m)(?:Titel|Title): (.*)\n+(?:Beschreibung|Description): (.*)\s+((?:\n\w+: .*)*)\n+(?:Derzeitig|Old|Alt): (".*"|"""[\s\S]*?""")\n+(?:Vorschlag|New|Neu): ("""[\s\S]*?"""|".*")'
+                            # single_change_pattern_with_attributes = """(?m)(?:Titel|Title): (.*)\n+(?:Beschreibung|Description): (.*)\s+((?:\n+\w+: .*)*?)\n+(?:Derzeitig|Old|Alt): ('.*'|".*"|"{3}[\s\S]*?"{3}|'{3}[\s\S]*?'{3})\n+(?:Vorschlag|New|Neu): ('.*'|".*"|"{3}[\s\S]*?"{3}|'{3}[\s\S]*?'{3})"""
+                            single_change_pattern_with_attributes = """(?m)(?:Titel|Title): (.*)\n+(?:Beschreibung|Description): (.*)\s+((?:\n+\w+: .*)*?)(\n+(?:Derzeitig|Old|Alt): (?:'.*'|".*"|"{3}[\s\S]*?"{3}|'{3}[\s\S]*?'{3})\n+(?:Vorschlag|New|Neu): (?:'.*'|".*"|"{3}[\s\S]*?"{3}|'{3}[\s\S]*?'{3}))+"""
                             output = input_string
                             all = re.findall(single_change_pattern_with_attributes, changes_string)
                             if not all:
-                                print(f'No match for "{single_change_pattern_with_attributes}"')
+                                print(f'No match for "{single_change_pattern_with_attributes}"'[:120])
                                 return
 
                             old = ""
                             for m in all:
-                                # derzeitig, vorschlag = m.groups()
-                                title, description, attributes, old, new = m
-                                old = old.strip("'"+'"')
-                                new = new.strip("'"+'"')
-                                output = output.replace(old, new, 1)
+                                title, description, attributes, replacements = m
+                                replacements_pattern = """(?:Derzeitig|Old|Alt): ('.*'|".*"|"{3}[\s\S]*?"{3}|'{3}[\s\S]*?'{3})\n+(?:Vorschlag|New|Neu): ('.*'|".*"|"{3}[\s\S]*?"{3}|'{3}[\s\S]*?'{3})"""
+                                matches = re.findall(replacements_pattern, replacements)
+                                if not matches:
+                                    print(f'No match for "{replacements_pattern}"'[:120])
+                                    return
+
+                                for old, new in matches:
+                                    old = old.strip("'"+'"')
+                                    new = new.strip("'"+'"')
+                                    output = output.replace(old, new, 1)
 
                             if output == input_string:
                                 print(f"Could not apply changes from {change_file} to {input_file}", file=sys.stderr)

@@ -51,6 +51,5 @@ if __name__ == "__main__":
     root.withdraw()
     root.attributes("-topmost", True)
     import lorem
-    l = lorem.text()
     l= "kjhnkl"
     d = TextDialog(message=l, title="Hello World!")

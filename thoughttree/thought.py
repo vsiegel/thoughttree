@@ -216,7 +216,7 @@ class Thought:
                                 # m = re.search(description_pattern, changes_string)
                                 # if m:
                                 #     title, description = m.groups()
-                                commitmessage = f'''{title}\n\n{description}'''
+                                commitmessage = f'''{title}\n\n{description}\n\n{attributes}'''
                                 commit_file = f"commitmessage-tmp.txt"
                                 with open(commit_file, "w") as f:
                                     f.write(commitmessage)

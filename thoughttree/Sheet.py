@@ -69,20 +69,12 @@ class Sheet(ScrolledText):
 
 
     def grow_to_displaylines(self, event: tk.Event):
-        print(f"grow_to_displaylines: {event=}")
         if not event.widget.edit_modified():
             return
         sheet:Sheet = event.widget
-        # print(f'{sheet.count("1.0", "end", "displaylines")=}')
-        # print(f'{sheet.count("1.0", "end", "ypixels")=}')
-        # h = sheet.winfo_height()
-        # print(f"{h=}")
         num_display_lines = sheet.count("1.0", "end", 'displaylines')[0]
 
-        # if num_display_lines != self.old_num_display_lines:
         sheet.configure(height=num_display_lines)
-        # sheet.master.pack(expand=True, fill=BOTH)
-        # print(f"packed {sheet.master=}")
         self.old_num_display_lines = num_display_lines
         sheet.update()
         sheet.event_generate("<<ScrollRegionChanged>>")
@@ -228,7 +220,7 @@ class Sheet(ScrolledText):
 
 
     def delete(self, index1=INSERT, index2=None):
-
+        pass
         def is_icon(element):
             designation, value, index = element
             return designation == "window" and isinstance(self.nametowidget(value), FinishReasonIcon)

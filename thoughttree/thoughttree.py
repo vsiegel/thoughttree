@@ -14,6 +14,7 @@ import tools
 from Console import Console
 from FinishReasonIcon import FinishReasonIcon
 from FoldablePane import FoldablePane
+from ForkableSheet import ForkableSheet
 from Keys import Keys
 from ScrollableForkableSheet import ScrollableForkableSheet
 from TextIOTee import TextIOTee
@@ -321,8 +322,8 @@ class Thoughttree(Ui):
         self.system.insert(END, replace_completion_marker_prompt, ("hidden_prompt",))
 
     @property
-    def it(self) -> Sheet:
-        focussed_widget: Thoughttree | Sheet = self.focus_get()
+    def it(self) -> ForkableSheet:
+        focussed_widget: Thoughttree | ForkableSheet = self.focus_get()
         if focussed_widget:
             self.previous_current_sheet = focussed_widget
         return self.previous_current_sheet

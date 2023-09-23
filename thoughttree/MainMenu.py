@@ -8,6 +8,7 @@ from tkinter.messagebox import askokcancel
 from AboutDialog import AboutDialog
 from Files import Files
 from Fonts import Fonts
+from ForkableSheet import ForkableSheet
 from Imports import Menu, ModelsMenu, WindowsMenu
 from InlineForm import IterateRangeInlineForm
 from Keys import Keys
@@ -30,7 +31,7 @@ class MainMenu(Menu):
 
 
     @property
-    def it(self) -> Sheet:
+    def it(self) -> ForkableSheet:
         return self.ui.it
 
 
@@ -260,7 +261,7 @@ class MainMenu(Menu):
         item("Copy", "<Control-c>", copy_text, additional_menu=sheet_menu)
         # item("Paste", "<Control-v>", paste_text, additional_menu=sheet_menu)
         item("Paste", "<Control-v>", '<<Paste>>', additional_menu=sheet_menu)
-        item("Delete", "<Delete>", lambda e=None: self.it.delete())
+        # item("Delete", "<Delete>", lambda e=None: self.it.delete())
         item("Select All", "<Control-a>", select_all)
         self.menu.add_separator()
         item("Find", "<Control-f>", lambda e=None: self.it.find())
@@ -289,7 +290,7 @@ class MainMenu(Menu):
         item("Toggle Scrolling Output", "<Control-e>", toggle_scroll_output)
         item("Ring Bell When Finished", "<Control-Alt-o>", toggle_ring_bell)
         item("Toggle Wrap Lines", "<Control-l>", lambda e=None: self.it.configure(wrap=(NONE if self.it.cget("wrap") != NONE else WORD)))
-        item("Generate Titles", "", None)
+        item("Generate Title", "", None)
         item("Calculate Cost", "", None)
         item("Show Hidden Prompts", "<Control-Shift-H>", ui.toggle_show_hidden_prompts)
 

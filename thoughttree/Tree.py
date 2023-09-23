@@ -28,7 +28,7 @@ class Tree(ttk.Treeview):
                     tree.item(item, text=tree.item(item, 'text').replace(NODE_OPEN, NODE_CLOSED, 1))
                     tree.item(item, tags='closed')
 
-        tree = ttk.Treeview(parent, columns=("C1"), show="tree")
+        tree = ttk.Treeview(parent, columns=("C1"), show="tree")# why in parent?
         self.tree = tree
         tree.column("#0", width=160, minwidth=60, anchor=W, stretch=NO)
         tree.column("#1", width=30, minwidth=60, anchor=W, stretch=NO)

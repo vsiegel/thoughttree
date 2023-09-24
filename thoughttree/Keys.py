@@ -15,7 +15,6 @@ class Keys:
     '<<NextPara>>': ('<Control-Down>', 'Next Paragraph', 'Control + Down'),
     '<<PrevPara>>': ('<Control-Up>', 'Previous Paragraph', 'Control + Up'),
     '<<NextWindow>>': ('<Tab>', 'Next Window', 'Tab'),
-    '<<PrevWindow>>': ('<ISO_Left_Tab>', 'Previous Window', 'ISO_Left_Tab'),
     '<<LineStart>>': ('<Home>', 'Line Start', 'Home'),
     '<<LineEnd>>': ('<End>', 'Line End', 'End'),
     '<<SelectNextLine>>': ('<Shift-Down>', 'Select Next Line', 'Shift + Down'),

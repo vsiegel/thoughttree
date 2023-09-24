@@ -2,7 +2,7 @@ import tkinter as tk
 
 class LabeledLabel(tk.Frame):
     def __init__(self, parent, label_text=None, entry_width=3, textvariable=None, validatecommand=None, *args, **kw):
-        super().__init__(parent, *args, **kw, bg="light blue")
+        super().__init__(parent, *args, **kw)
 
         self.textvariable = textvariable
 

@@ -11,7 +11,11 @@ class ScrollableForkableSheet(tk.Frame):
 
         self.canvas = tk.Canvas(self, highlightthickness=0, bd=0,)# background="lightcyan")
         self.scrollbar = tk.Scrollbar(self, orient=VERTICAL, command=self.canvas.yview, width=18, takefocus=False, borderwidth=2)
-        self.canvas.configure(yscrollcommand=self.scrollbar.set)
+
+        def canvas_set(*args):
+            # print(f"canvas_set: {args=}")
+            self.scrollbar.set(*args)
+        self.canvas.configure(yscrollcommand=canvas_set)
 
         self.canvas.pack(side=LEFT, fill=BOTH, expand=True)
         self.scrollbar.pack(side=RIGHT, fill=Y)
@@ -19,12 +23,24 @@ class ScrollableForkableSheet(tk.Frame):
         frame = tk.Frame(self.canvas, bd=0, background="#eeeeff")
         self.frame_id = self.canvas.create_window((0, 0), window=frame, anchor=NW)
 
-        self.forkable_sheet = ForkableSheet(frame)#, height=1)
-        self.forkable_sheet.pack(side=TOP, expand=True, fill=Y)
 
-        #self.forkable_sheet.sheet.bind("<<ScrollRegionChanged>>", self.configure_scrollregion)
-        self.forkable_sheet.bind("<Configure>", self.configure_scrollregion)
-        # frame.bind("<Configure>", self.configure_scrollregion)
+        def on_configure(event):
+            print(f"################# on_configure {event=}")
+        frame.bind("<Configure>", self.configure_scrollregion)
+
+        self.forkable_sheet = ForkableSheet(frame)
+        # self.forkable_sheet = self
+        self.forkable_sheet.pack(side=TOP, expand=True, fill=Y)
+        def sheet_set(*args):
+            print(f"sheet_set: {args=}")
+            self.scrollbar.set(*args)
+        def frame_set(*args):
+            print(f"frame_set: {args=}")
+            self.scrollbar.set(*args)
+
+        def log(event):
+            print(f"{self.forkable_sheet.winfo_reqheight()=} {event}")
+
         self.canvas.bind("<Configure>", self.configure_width)
 
 
@@ -42,9 +58,15 @@ class ScrollableForkableSheet(tk.Frame):
 
 
     def configure_scrollregion(self, event):
-        self.canvas.configure(scrollregion=self.canvas.bbox("all"))
+        bbox = self.canvas.bbox("all")
+
+        x, y, width, height = bbox
+        self.canvas.configure(scrollregion=bbox)
+        self.canvas.event_generate("<Configure>", x=x, y=y, width=width, height=height)
+
 
     def configure_width(self, event):
+        # print(f"configure_width: {event.widget}")
         height = max(self.canvas.winfo_height(), self.forkable_sheet.winfo_reqheight())
         self.canvas.itemconfigure(self.frame_id, width=event.width, height=height)
 

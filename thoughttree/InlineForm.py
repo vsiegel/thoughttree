@@ -1,8 +1,6 @@
 import tkinter as tk
 from tkinter import INSERT, BOTTOM, RIGHT, Frame, Label, Entry
 
-import lorem
-
 
 class InlineForm(Frame):
     def __init__(self, text=None, index=INSERT, title='', label1='', label2='', ok='OK', command=None):

@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, END
 
 
 class Notebook(ttk.Notebook):
@@ -24,3 +24,8 @@ class Notebook(ttk.Notebook):
         print(f"Added tab: {title}")
         return sheet
 
+    def get_parent_notebook(self) -> "Notebook":
+        parent = self.master
+        while parent and type(parent) != type(self):
+            parent = parent.master
+        return parent

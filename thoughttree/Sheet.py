@@ -43,17 +43,19 @@ class Sheet(ScrolledText):
 
         self.bind('<Prior>', self.jump_to_limit)
         self.bind('<Next>', self.jump_to_limit)
-        self.pack(padx=0, pady=0, fill=X, expand=True)
+        # self.pack(padx=0, pady=0, fill=X, expand=True)
 
         name, size = self.cget("font").rsplit(None, 1)
         self.tag_config("assistant", background="#F0F0F0", selectbackground="#4682b4", selectforeground="white")
         Cursorline(self)
         self.tag_config('bold', font=(name, int(size), "bold"))
         self.tag_config('strikethrough', overstrike=True)
-        self.tag_config('found_one', background="#eeea4e", borderwidth=1, relief=RAISED)
+        self.tag_config('found_one', background="#edee21", borderwidth=1, relief=RAISED)
         self.tag_config('found_all', background="#d9d55d")
-        self.tag_config('highlight', background="#ff7e83")
-        self.tag_config('semi_highlight', background="#FFCCCB")
+        self.tag_config('highlight', background="#6cd8ff")
+        self.tag_config('semi_highlight', background="#c8e7ff")
+        self.tag_config("added", foreground="#9af1a9")
+        self.tag_config("deleted", foreground="#f1a8ae")
         self.tag_config('hidden_markup', elide=True, foreground="light blue")
         self.tag_config('hidden_prompt', elide=True, foreground="light blue")
 

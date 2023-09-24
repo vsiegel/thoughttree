@@ -3,7 +3,7 @@ from tkinter import X, BOTH, Y, INSERT, END
 
 from Notebook import Notebook
 from Sheet import Sheet
-from Title import new_child_title, new_sibling_title
+from Title import new_child_title, new_sibling_title, short
 
 
 class ForkableSheet(Sheet):
@@ -16,31 +16,12 @@ class ForkableSheet(Sheet):
 
 
     def create_notebook(self):
-        print(f"create_notebook")
-        self.notebook = Notebook(self.fork_frame)
-        self.notebook.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
-        self.pack_configure(expand=False)
-
-    def create_notebook_tabTTT(self, title='-', text=''):
         if not self.notebook:
-            self.create_notebook()
-        button = tk.Button(self.notebook, text=title)
-        self.notebook.add(button, text=title)
+            print(f"create_notebook")
+            self.notebook = Notebook(self.fork_frame)
+            self.notebook.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
+            self.pack_configure(expand=False)
 
-    def create_notebook_tab(self, title='-', text=''):
-        if not self.notebook:
-            self.create_notebook()
-        frame = tk.Frame(self.notebook, name="forkableSheet_frame")
-        forkable_sheet = ForkableSheet(frame)
-        forkable_sheet.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-        if text:
-            forkable_sheet.insert("1.0", text)
-            forkable_sheet.mark_set(INSERT, "1.0")
-        self.notebook.add(frame, text=title)
-        self.notebook.select(frame)
-
-        # print(f"{self.notebook.index(forkable_sheet.master.master.master)}")
-        forkable_sheet.focus_set()
 
     def fork(self, index=INSERT):
         index = self.index(index)
@@ -48,20 +29,29 @@ class ForkableSheet(Sheet):
         has_leading_text = bool(self.get("1.0", index).strip())
         parent = self.find_parent(Notebook)
 
-        print(f"{parent=}")
-        print(f"{has_leading_text=}")
-        if not parent or has_leading_text:
+        # print(f"{parent=}")
+        # print(f"{has_leading_text=}")
+        if not parent:
+            self.create_notebook()
+            notebook = self.notebook
+            # parent = self.notebook
             trailing_text = self.get(index, END).rstrip()
-            tab_name = new_child_title(parent) + " test"
-            print(f"{tab_name=}")
-            self.create_notebook_tab(tab_name, trailing_text)
+            tab_name = new_child_title(notebook)
+            sheet = self.notebook.add_sheet(tab_name)
+            sheet.insert("1.0", trailing_text)
             self.delete(index + "+1char", END)
+        elif has_leading_text:
+            self.create_notebook()
+            notebook = self.notebook
+            tab_name = new_child_title(parent)
+            sheet = self.notebook.add_sheet(tab_name)
+        else:
+            notebook = parent
 
         # self.create_notebook_tab(new_sibling_title(notebook))
-        tab_name2 = new_sibling_title(parent)
-        print(f"{tab_name2=}")
-        self.create_notebook_tab(tab_name2, "self.create_notebook_tab(new_sibling_title(parent)")
-
+        tab_name2 = new_sibling_title(notebook)
+        sheet = notebook.add_sheet(tab_name2)
+        # self.create_notebook_tab(tab_name2, "self.create_notebook_tab(new_sibling_title(parent)")
         return "break"
 
 

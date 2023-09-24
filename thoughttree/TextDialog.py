@@ -50,6 +50,5 @@ if __name__ == "__main__":
     root = tk.Tk()
     root.withdraw()
     root.attributes("-topmost", True)
-    import lorem
-    l= "kjhnkl"
+    l= "abc"
     d = TextDialog(message=l, title="Hello World!")

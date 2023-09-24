@@ -65,11 +65,11 @@ if __name__ == '__main__':
     root = tk.Tk()
     text = tk.Text(root, font=f)
     text.pack()
-    text.insert(INSERT, lorem.paragraph())
+    text.insert(INSERT, "text 1")
 
-    IterateRangeInlineForm(text, command=lambda: text.insert(INSERT, lorem.paragraph()))
+    IterateRangeInlineForm(text, command=lambda: text.insert(INSERT, "text 3"))
 
-    text.insert(INSERT, lorem.paragraph())
+    text.insert(INSERT, "text 2")
     root.bind("<Escape>", lambda e: root.destroy())
     root.mainloop()
 

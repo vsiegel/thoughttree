@@ -13,7 +13,6 @@ class ForkableSheet(Sheet):
         Sheet.__init__(self,  self.fork_frame, height=1, width=1000, scrollbar=False, grow=True, background="white",  *args, **kw)
         self.pack(side=tk.TOP, fill=BOTH, expand=True)
         self.notebook = None
-        self.bind("<Control-o>", self.fork_mock)
 
 
     def create_notebook(self):
@@ -65,11 +64,5 @@ class ForkableSheet(Sheet):
 
         return "break"
 
-
-
-    def fork_mock(self, event=None):
-        self.create_notebook_tab("1. First", "First tab")
-        self.create_notebook_tab("2.", "Second tab")
-        return "break"
 
 

@@ -14,11 +14,13 @@ class Notebook(ttk.Notebook):
         self.winfo_toplevel().unbind('<Control-Tab>')
 
     def add_sheet(self, title):
-        frame = tk.Frame(self, name="add_sheet_" + title)
+        frame = tk.Frame(self)
         from ForkableSheet import ForkableSheet
         sheet = ForkableSheet(frame)
         sheet.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-        self.add(frame, text=title)
+        self.insert(END, frame, text=title)
+        self.select(frame)
+        sheet.focus_set()
         print(f"Added tab: {title}")
         return sheet
 

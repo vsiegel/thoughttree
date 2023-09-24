@@ -44,7 +44,7 @@ conf.insertion_marker = "§"
 
 class Thoughttree(Ui):
     MIN_SIZE = (600, 300)
-    ROOT_GEOMETRY = "1000x600"
+    ROOT_GEOMETRY = "1000x550"
     icon = None
     multi_completions = 5
 

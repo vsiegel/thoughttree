@@ -182,21 +182,14 @@ class Thought:
             for input_file in input_files:
                 for change_file in change_files:
                     with open(change_file, 'r') as f:
-                        changes_string = f.read()
+                        change_string = f.read()
                         with open(input_file, 'r') as f:
                             input_string = f.read()
-                            # description_pattern_with_attributes = '(?m)(?:Titel|Title): (.*)\s+(?:Beschreibung|Description): (.*)\s*((?:\w+: .*\n)+)'
-                            # description_pattern = '(?m)(?:Titel|Title): (.*)\s+(?:Beschreibung|Description): (.*)'
-                            # multiple_changes_pattern = '(?m)(?:Derzeitig|Old|Alt): "(.*)"\s+(?:Vorschlag|New|Neu): "(.*)"'
-                            # single_change_pattern = '(?m)(?:Titel|Title): (.*)\s+(?:Beschreibung|Description): (.*)\s+(?:Derzeitig|Old|Alt): (".*"|"""[\s\S]*?""")\s+(?:Vorschlag|New|Neu): ("""[\s\S]*?"""|".*")'
-                            # single_change_pattern_with_attributes = '(?m)(?:Titel|Title): (.*)\n+(?:Beschreibung|Description): (.*)\s+((?:\n\w+: .*)*)\n+(?:Derzeitig|Old|Alt): (".*"|"""[\s\S]*?""")\n+(?:Vorschlag|New|Neu): ("""[\s\S]*?"""|".*")'
-                            # single_change_pattern_with_attributes = '(?m)(?:Titel|Title): (.*)\n+(?:Beschreibung|Description): (.*)\s+((?:\n\w+: .*)*)\n+(?:Derzeitig|Old|Alt): (".*"|"""[\s\S]*?""")\n+(?:Vorschlag|New|Neu): ("""[\s\S]*?"""|".*")'
-                            # single_change_pattern_with_attributes = """(?m)(?:Titel|Title): (.*)\n+(?:Beschreibung|Description): (.*)\s+((?:\n+\w+: .*)*?)\n+(?:Derzeitig|Old|Alt): ('.*'|".*"|"{3}[\s\S]*?"{3}|'{3}[\s\S]*?'{3})\n+(?:Vorschlag|New|Neu): ('.*'|".*"|"{3}[\s\S]*?"{3}|'{3}[\s\S]*?'{3})"""
-                            single_change_pattern_with_attributes = """(?m)(?:Titel|Title): (.*)\n+(?:Beschreibung|Description): (.*)\s+((?:\n+\w+: .*)*?)(\n+(?:Derzeitig|Old|Alt): (?:'.*'|".*"|"{3}[\s\S]*?"{3}|'{3}[\s\S]*?'{3})\n+(?:Vorschlag|New|Neu): (?:'.*'|".*"|"{3}[\s\S]*?"{3}|'{3}[\s\S]*?'{3}))+"""
+                            multi_change_pattern_with_attributes = """(?m)(?:Titel|Title): (.*)\n+(?:Beschreibung|Description): (.*)\s+((?:\n+\w+: .*)*?)(\n+(?:Derzeitig|Old|Alt): (?:'.*'|".*"|"{3}[\s\S]*?"{3}|'{3}[\s\S]*?'{3})\n+(?:Vorschlag|New|Neu): (?:'.*'|".*"|"{3}[\s\S]*?"{3}|'{3}[\s\S]*?'{3}))+"""
                             output = input_string
-                            all = re.findall(single_change_pattern_with_attributes, changes_string)
+                            all = re.findall(multi_change_pattern_with_attributes, change_string)
                             if not all:
-                                print(f'No match for "{single_change_pattern_with_attributes}"'[:120])
+                                print(f'No match for "{multi_change_pattern_with_attributes}"'[:120])
                                 return
 
                             old = ""

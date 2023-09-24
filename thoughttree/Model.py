@@ -1,3 +1,4 @@
+import sys
 import tkinter as tk
 import re
 import textwrap
@@ -21,6 +22,8 @@ from tools import log, shorter, log_len
 def log_file_size(path):
     log(f'Size: {path} {os.path.getsize(path)} bytes')
 
+DEFAULT_API_KEY_ENV = "OPENAI_API_KEY"
+DEFAULT_API_KEY_FILE = "openai-api-key.txt"
 
 class Model():
     MODEL_PATTERN = "gpt"
@@ -114,19 +117,24 @@ class Model():
         try:
             if not self.available_models:
                 self.available_models = [m["id"] for m in openai.Model.list()["data"] if re.search(self.MODEL_PATTERN, m["id"])]
-        except openai.error.AuthenticationError:
+        except openai.error.AuthenticationError as ex:
+            print(ex, file=sys.stderr)
             return []
-        except Exception:
+        except Exception as ex:
+            print("Error: " + str(ex), file=sys.stderr)
             return []
         return self.available_models
 
     @staticmethod
-    def set_api_key(api_key_or_file_or_env="OPENAI_API_KEY"):
+    def set_api_key(api_key_or_file_or_env=DEFAULT_API_KEY_ENV):
         api_key_or_file_or_env = api_key_or_file_or_env or ""
-        if exists(api_key_or_file_or_env):
+        if os.getenv(api_key_or_file_or_env):
+            openai.api_key = os.getenv(api_key_or_file_or_env)
+        elif exists(api_key_or_file_or_env):
             with open(api_key_or_file_or_env) as f:
                 openai.api_key = f.read().strip()
-        elif os.getenv(api_key_or_file_or_env):
-            openai.api_key = os.getenv(api_key_or_file_or_env)
+        elif not api_key_or_file_or_env or api_key_or_file_or_env == DEFAULT_API_KEY_ENV and exists(DEFAULT_API_KEY_FILE):
+            with open(DEFAULT_API_KEY_FILE) as f:
+                openai.api_key = f.read().strip()
         else:
             openai.api_key = api_key_or_file_or_env

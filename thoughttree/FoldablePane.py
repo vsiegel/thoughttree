@@ -29,6 +29,8 @@ class FoldablePane(tk.PanedWindow):
 
 
     def fold(self, event=None, set_folded=None):
+        if len(self.panes()) < 2:
+            return
         pane_size = self.size1d()
         sash = max(*self.sash_coord(0))
         size = self.fold_last and pane_size - sash or sash

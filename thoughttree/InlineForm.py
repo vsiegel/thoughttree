@@ -57,19 +57,22 @@ class IterateRangeInlineForm(InlineForm):
             label_frame.pack(side='top', fill='x', expand=True)
             return label, entry
 
+        def on_ok(e=None):
+            self.sheet.focus_set()
+            return "break"
         label, entry = labeled_entry('Range or Expression:')
         label.pack(side=TOP, fill='x')
         entry.pack(side=TOP, fill='x')
         entry.focus_set()
+        entry.bind("<Control-Return>", on_ok)
         label, entry = labeled_entry('Placeholder:')
         entry.pack(side=RIGHT)
         entry.insert(0, "@")
+        entry.bind("<Control-Return>", on_ok)
         label.pack(side=RIGHT, fill='x')
 
         frame.bind("<FocusIn>", self.sheet.cursorline.clear)
 
-        def on_ok(e=None):
-            self.sheet.focus_set()
         button = tk.Button(frame, text='OK', font=font, command=on_ok)
         button.pack(side=BOTTOM, padx=10, pady=10)
         button.bind('<Return>', on_ok)

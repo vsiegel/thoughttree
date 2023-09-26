@@ -38,7 +38,7 @@ class TextChange():
             replacements_pattern = """(?:Derzeitig|Old|Alt): ('.*'|".*"|"{3}[\s\S]*?"{3}|'{3}[\s\S]*?'{3})\n+(?:Vorschlag|New|Neu): ('.*'|".*"|"{3}[\s\S]*?"{3}|'{3}[\s\S]*?'{3})"""
             replacements_pattern = """(?:Derzeitig|Old|Alt): ?[\n ]('.*'|".*"|"{3}[\s\S]*?"{3}|'{3}[\s\S]*?'{3}|```[\s\S]*?```)\n+(?:Vorschlag|New|Neu): ?[\n ]('.*'|".*"|"{3}[\s\S]*?"{3}|'{3}[\s\S]*?'{3}|```[\s\S]*?```)"""
             replacements_pattern = """(?:Derzeitig|Old|Alt): ?[\n ]((['"`]{1,3})([\s\S]*?)\2)\n+(?:Vorschlag|New|Neu): ?[\n ]((['"`]{1,3})([\s\S]*?)\4)"""
-            replacements_pattern = """(?x)
+            replacements_pattern = r"""(?x)
                 (?:Derzeitig|Old|Alt):\ ?\n?
                     ((['"`]{1,3})
                         ([\s\S]*?)

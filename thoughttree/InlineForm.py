@@ -1,32 +1,26 @@
 import tkinter as tk
-from tkinter import INSERT, BOTTOM, RIGHT, Frame, Label, Entry
+from tkinter import INSERT, BOTTOM, RIGHT, Frame, Label, Entry, TOP
+
+from docutils.nodes import label
 
 
 class InlineForm(Frame):
-    def __init__(self, text=None, index=INSERT, title='', label1='', label2='', ok='OK', command=None):
-        super().__init__(text, bd=0, padx=10, pady=30, background="white")
+    def __init__(self, sheet=None, index=INSERT, title='', label1='', label2='', ok='OK', command=None):
+        super().__init__(sheet, bd=0, padx=10, pady=0, background="white")
+        self.sheet = sheet
         self.pack(side='top', fill='x', expand=True)
-        f = ('Arial', 11)
 
-        fr = Frame(self, bd=6, relief='groove', padx=10, pady=10)
-        fr.pack(side='top', fill='x', expand=True)
-
-        Label(fr, text=title, font=('Arial', 13)).pack(side='top', fill='x', expand=True, padx=5, pady=5)
-
+        frame = Frame(self, bd=6, relief='groove', padx=10, pady=10)
+        frame.pack(side='top', fill='x', expand=True)
         self.entries = []
-        for label in [label1, label2]:
-            frame = Frame(fr, bd=4, relief='flat', padx=10, pady=10)
-            entry = Entry(frame, font=f)
-            entry.pack(side=RIGHT)
-            Label(frame, text=label, font=f).pack(side=RIGHT, fill='x')
-            self.entries.append(entry)
-            frame.pack(side='top', fill='x', expand=True)
+        self.build(frame)
 
-        tk.Button(fr, text=ok, font=f, command=command).pack(side=BOTTOM, padx=10, pady=10)
+        if sheet:
+            self.insert(sheet, index)
 
-        if text:
-            self.insert(text, index)
 
+    def build(self, frame):
+        pass
 
     def get_entry(self, index):
         return self.entries[index].get()
@@ -42,13 +36,44 @@ class InlineForm(Frame):
 
 
 class IterateRangeInlineForm(InlineForm):
-    def __init__(self, text=None, index=INSERT,
-                 title='Complete for each value',
-                 label1='Range or Expression:',
-                 label2='Placeholder:',
-                 ok='OK',
+    def __init__(self, sheet=None, index=INSERT,
                  command=None):
-        super().__init__(text, index, title, label1, label2, ok, command)
+        super().__init__(sheet, index)
+        def on_ok():
+            pass
+        self.bind('<Return>', on_ok)
+
+    def build(self, frame):
+        font = ('Arial', 11)
+
+        Label(frame, text='Complete for each value', font=('Arial', 13)).pack(side='top', fill='x', expand=True, padx=5, pady=5)
+
+        def labeled_entry(label_text):
+        # for label in [label1, label2]:
+            label_frame = Frame(frame, bd=4, relief='flat', padx=10, pady=10)
+            label = Label(label_frame, text=label_text, font=font)
+            entry = Entry(label_frame, font=font)
+            self.entries.append(entry)
+            label_frame.pack(side='top', fill='x', expand=True)
+            return label, entry
+
+        label, entry = labeled_entry('Range or Expression:')
+        label.pack(side=TOP, fill='x')
+        entry.pack(side=TOP, fill='x')
+        entry.focus_set()
+        label, entry = labeled_entry('Placeholder:')
+        entry.pack(side=RIGHT)
+        entry.insert(0, "@")
+        label.pack(side=RIGHT, fill='x')
+
+        frame.bind("<FocusIn>", self.sheet.cursorline.clear)
+
+        def on_ok(e=None):
+            self.sheet.focus_set()
+        button = tk.Button(frame, text='OK', font=font, command=on_ok)
+        button.pack(side=BOTTOM, padx=10, pady=10)
+        button.bind('<Return>', on_ok)
+
 
     def get_range(self):
         return self.get_entry(0)
@@ -61,13 +86,13 @@ class IterateRangeInlineForm(InlineForm):
 if __name__ == '__main__':
     f = ('Arial', 11)
     root = tk.Tk()
-    text = tk.Text(root, font=f)
-    text.pack()
-    text.insert(INSERT, "text 1")
+    sheet = tk.Text(root, font=f)
+    sheet.pack()
+    sheet.insert(INSERT, "text 1")
 
-    IterateRangeInlineForm(text, command=lambda: text.insert(INSERT, "text 3"))
+    IterateRangeInlineForm(sheet, command=lambda: sheet.insert(INSERT, "text 3"))
 
-    text.insert(INSERT, "text 2")
+    sheet.insert(INSERT, "text 2")
     root.bind("<Escape>", lambda e: root.destroy())
     root.mainloop()
 

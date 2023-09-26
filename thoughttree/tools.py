@@ -5,7 +5,7 @@ import tkinter as tk
 from textwrap import fill
 from math import ceil, log2, sqrt
 import random
-from tkinter import EventType
+from tkinter import EventType, ttk
 
 from pathlib import Path
 from pyperclip import paste
@@ -13,7 +13,7 @@ from inspect import currentframe
 import subprocess
 
 
-def create_mock_data(tree):
+def create_mock_data(tree: ttk.Treeview):
     for r in range(10):
         key = f"R{r}"
         parent_id = tree.insert("", "end", key, text=key, values=(r,))

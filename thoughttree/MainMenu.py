@@ -301,8 +301,8 @@ class MainMenu(Menu):
         item("Previous Message", "", None)
 
         self.menu = Menu(self, "Chat")
-        item("Next Paragraph", "<Control-Return>", lambda e=None: ui.chat(1, "\n", "\n"))
-        item("Next Line", "<Shift-Return>", lambda e=None: ui.chat(1, "\n", "\n"))
+        item("Next Paragraph", "<Control-Return>", lambda e=None: ui.chat(1, "", "\n"))
+        item("Next Line", "<Shift-Return>", lambda e=None: ui.chat(1, "\n", "\n\n"))
         item("Continue Inline", "<Control-space>", lambda e=None: ui.chat(inline=True))
         item("Insert Completion", "<Control-Alt-space>", lambda e=None: ui.chat(here=True), additional_menu=sheet_menu)
         item("Replace by Completion", "<Control-Shift-space>", lambda e=None: ui.chat(replace=True), additional_menu=sheet_menu)

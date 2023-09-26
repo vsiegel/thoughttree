@@ -21,54 +21,45 @@ class ScrollableForkableSheet(tk.Frame):
         self.scrollbar.pack(side=RIGHT, fill=Y)
 
         frame = tk.Frame(self.canvas, bd=0, background="#eeeeff")
-        self.frame_id = self.canvas.create_window((0, 0), window=frame, anchor=NW)
+        self.canvas_id = self.canvas.create_window((0, 0), window=frame, anchor=NW)
 
 
-        def on_configure(event):
-            print(f"################# on_configure {event=}")
         frame.bind("<Configure>", self.configure_scrollregion)
+        self.canvas.bind("<Configure>", self.configure_frame)
 
         self.forkable_sheet = ForkableSheet(frame)
-        # self.forkable_sheet = self
         self.forkable_sheet.pack(side=TOP, expand=True, fill=Y)
-        def sheet_set(*args):
-            print(f"sheet_set: {args=}")
-            self.scrollbar.set(*args)
-        def frame_set(*args):
-            print(f"frame_set: {args=}")
-            self.scrollbar.set(*args)
 
         def log(event):
             print(f"{self.forkable_sheet.winfo_reqheight()=} {event}")
-
-        self.canvas.bind("<Configure>", self.configure_width)
 
 
         def on_mousewheel(event):
             # print(f"{str(event.widget).startswith(str(self))        =}") # for parent-test
             delta = (event.num == 5 and 1 or -1)
             self.canvas.yview_scroll(delta, "units")
-
-        self.winfo_toplevel().bind("<Button-4>", on_mousewheel)
-        self.winfo_toplevel().bind("<Button-5>", on_mousewheel)
-        # def on_motion(e):
-        #     print(f"@{self.winfo_pointerx()},{self.winfo_pointery()}")
-        #     self.sheet.sheet.mark_set(INSERT, f"@{self.winfo_pointerx()},{self.winfo_pointery()}")
-        # self.sheet.sheet.bind('<Motion>', on_motion)
+        self.canvas.bind("<Button-4>", on_mousewheel)
+        self.canvas.bind("<Button-5>", on_mousewheel)
 
 
     def configure_scrollregion(self, event):
-        bbox = self.canvas.bbox("all")
+        print(f"configure_scrollregion: {self.canvas.bbox('all')=}")
+        print(f"                        {self.forkable_sheet.cget('height')=}")
+        print(f"                        {self.forkable_sheet.winfo_height()=}")
+        if self.forkable_sheet.notebook:
+            print(f"                        {self.forkable_sheet.notebook.cget('height')=}")
+            print(f"                        {self.forkable_sheet.notebook.winfo_height()=}")
 
+        bbox = self.canvas.bbox("all")
         x, y, width, height = bbox
         self.canvas.configure(scrollregion=bbox)
         self.canvas.event_generate("<Configure>", x=x, y=y, width=width, height=height)
 
 
-    def configure_width(self, event):
+    def configure_frame(self, event):
         # print(f"configure_width: {event.widget}")
         height = max(self.canvas.winfo_height(), self.forkable_sheet.winfo_reqheight())
-        self.canvas.itemconfigure(self.frame_id, width=event.width, height=height)
+        self.canvas.itemconfigure(self.canvas_id, width=event.width, height=height)
 
     def focus_set(self):
         self.forkable_sheet.focus_set()

@@ -47,7 +47,7 @@ class Sheet(ScrolledText):
 
         name, size = self.cget("font").rsplit(None, 1)
         self.tag_config("assistant", background="#F0F0F0", selectbackground="#4682b4", selectforeground="white")
-        Cursorline(self)
+        self.cursorline = Cursorline(self)
         self.tag_config('bold', font=(name, int(size), "bold"))
         self.tag_config('strikethrough', overstrike=True)
         self.tag_config('found_one', background="#edee21", borderwidth=1, relief=RAISED)

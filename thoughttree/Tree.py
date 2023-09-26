@@ -6,6 +6,7 @@ from tkinter import ttk, simpledialog
 
 from Fonts import Fonts
 from Sheet import Sheet
+from TextChange import TextChange
 
 #NODE_OPEN = '\u25B6'
 #NODE_CLOSED = '\u25BC'
@@ -15,7 +16,7 @@ NODE_CLOSED = '|'
 
 class Tree(ttk.Treeview):
     def __init__(self, parent, *args, **kw):
-        super().__init__(parent, *args, **kw)
+        super().__init__(parent, columns=("C1", "C2"), show="tree", *args, **kw)
 
         def on_treeview_click(event):
             item = tree.identify('item', event.x, event.y)
@@ -28,17 +29,17 @@ class Tree(ttk.Treeview):
                     tree.item(item, text=tree.item(item, 'text').replace(NODE_OPEN, NODE_CLOSED, 1))
                     tree.item(item, tags='closed')
 
-        tree = ttk.Treeview(parent, columns=("C1"), show="tree")# why in parent?
-        self.tree = tree
-        tree.column("#0", width=160, minwidth=60, anchor=W, stretch=NO)
-        tree.column("#1", width=30, minwidth=60, anchor=W, stretch=NO)
+        # tree = ttk.Treeview(parent, columns=("C1"), show="tree")# why in parent?
+        tree = self
+        tree.column("#0", width=150, minwidth=10, anchor=W, stretch=NO)
+        tree.column("#1", width=50, minwidth=10, anchor=W, stretch=NO)
         tree.heading("C1", text="")
-        tree.bind('<Double-Button-1>', on_treeview_click)
-        tree.bind("<Double-Button-1>", self.edit_tree_entry)
-        tree.bind("<Return>", self.edit_tree_entry)
+        # tree.bind('<Double-Button-1>', on_treeview_click)
+        # tree.bind("<Double-Button-1>", self.edit_tree_entry)
+        # tree.bind("<Return>", self.edit_tree_entry)
 
-        from tools import create_mock_data
-        create_mock_data(tree)
+        # from tools import create_mock_data
+        # create_mock_data(tree)
 
 
     def edit_tree_entry(self, event):
@@ -75,3 +76,27 @@ class Tree(ttk.Treeview):
         cell_editor.bind("<Control-Return>", lambda e: cell_editor.insert(INSERT, "\n") or "break")
         # cell_editor.bind("<Control-Key>", lambda e : "break")
         # cell_editor.bind("<Control_L>", lambda e : "break")
+
+    def add_change(self, change: TextChange):
+        self.insert("", END, text="Changes", iid="Changes")
+        title = self.insert("Changes", END, text=change.title)
+        iid = self.insert(title, END, text=change.description)
+        for attribute, value in change.attributes.items():
+            self.insert(title, END, text=attribute, values=[value])
+        for old, new in change.replacements.items():
+            self.insert(title, END, text=old)
+            self.insert(title, END, text=new)
+
+
+def file(name):
+    with open(name) as f:
+        return f.read()
+
+
+if __name__ == '__main__':
+    root = tk.Tk()
+    tree = Tree(root)
+    tree.pack(fill=BOTH, expand=1)
+    text_change = TextChange(file("/home/siegel/manuscript/99_thoughttree.tex-make_it_better25.txt"))
+    tree.add_change(text_change)
+    root.mainloop()

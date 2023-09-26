@@ -147,7 +147,7 @@ class Thoughttree(Ui):
             sys.stderr = TextIOTee(sys.stderr, self.console.err)
 
         def on_first_configure(ev=None):
-            self.system_pane.fold(set_folded=True)
+            self.system_pane.fold(set_folded=False)
             self.console_pane.fold(set_folded=True)
             self.tree_pane.fold(set_folded=True)
             self.console_pane.unbind("<Configure>")

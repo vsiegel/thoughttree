@@ -11,11 +11,12 @@ class ListDialog(tk.simpledialog.Dialog):
 
     def body(self, parent):
 
-        # background = self.cget("background")
         frame = tk.Frame(self)
         frame.pack(expand=True, fill='both')
 
-        tree = ttk.Treeview(frame, columns=('Event', 'Key'), show='headings')
+        tree = ttk.Treeview(frame, columns=('Event', 'Key'), show='', height=30)
+        tree.column("Event", width=300)
+        tree.column("Key", width=200)
         # tree.heading('Event', text='Event')
         # tree.heading('Key', text='Key')
         tree.column('Event', anchor='e')  # right justify the first column
@@ -28,6 +29,7 @@ class ListDialog(tk.simpledialog.Dialog):
             tree.insert('', 'end', values=values)
 
         tree.pack(expand=True, fill='both')
+        tree.focus(tree.get_children()[0])
         return frame
 
     def buttonbox(self):
@@ -35,6 +37,7 @@ class ListDialog(tk.simpledialog.Dialog):
 
         button = tk.Button(box, text="OK", width=10, command=self.ok, default=ACTIVE)
         button.pack(side=LEFT, padx=20, pady=20)
+
         self.pack_slaves()[0].pack(fill=BOTH, expand=True, padx=25, pady=25) # hack to repack dialog content to expand
 
         self.bind("<Return>", self.ok)

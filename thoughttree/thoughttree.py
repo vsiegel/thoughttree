@@ -128,7 +128,8 @@ class Thoughttree(Ui):
         self.system_pane = FoldablePane(self.tree_pane, orient=VERTICAL)
         self.console_pane.pack(side=TOP, fill=BOTH, expand=True)
 
-        self.console = Console(self.console_pane)
+        if self.main_window:
+            self.console = Console(self.console_pane)
         self.tree = Tree(self.tree_pane)
         self.system = Sheet(self.system_pane, height=3)
         # self.chat_sheet = Sheet(self.system_pane)
@@ -136,16 +137,18 @@ class Thoughttree(Ui):
         self.previous_current_sheet = self.chat_sheet
 
         self.console_pane.add(self.tree_pane, stretch="always")
-        self.console_pane.addFoldable(self.console, stretch="never")
+        if self.main_window:
+            self.console_pane.addFoldable(self.console, stretch="never")
         self.tree_pane.addFoldable(self.tree, stretch="never")
         self.tree_pane.add(self.system_pane, stretch="always")
         self.system_pane.addFoldable(self.system, stretch="never")
         self.system_pane.add(self.chat_sheet, stretch="always")
 
-        if type(sys.stdout) is not TextIOTee:
-            sys.stdout = TextIOTee(sys.stdout, self.console.out)
-        if type(sys.stderr) is not TextIOTee:
-            sys.stderr = TextIOTee(sys.stderr, self.console.err)
+        if self.main_window:
+            if type(sys.stdout) is not TextIOTee:
+                sys.stdout = TextIOTee(sys.stdout, self.console.out)
+            if type(sys.stderr) is not TextIOTee:
+                sys.stderr = TextIOTee(sys.stderr, self.console.err)
 
         def on_first_configure(ev=None):
             self.system_pane.fold(set_folded=False)

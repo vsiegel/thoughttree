@@ -1,0 +1,5 @@
+You will write a manual for a larger software, here is only the main class. there is much more.
+It is too much at once, so I will give it to you in pieces, like one class at a time.
+You need to make a summary of each part, that you will get back later with the next class. It competes with the original code for space. So it needs to be small.
+
+Use the shortest format or encoding you can find, it does not need to be human readable.

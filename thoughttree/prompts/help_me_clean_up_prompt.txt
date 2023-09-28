@@ -1,0 +1,29 @@
+Help me to clean this code up.
+
+Propose what to change.
+
+Use this format:
+Format:
+
+Title:
+
+Description:
+
+Tags:
+
+Utility:
+
+SideEffects:
+
+Warning:
+
+Old: """...""" (or "..." or '...')
+
+New: """..."""
+
+[Old: ...
+
+New: ... ]...
+
+Important: Use tiple quotes for multiline text. Otherwise the software breaks down.
+

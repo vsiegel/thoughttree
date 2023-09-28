@@ -1,0 +1,41 @@
+Make the text better.
+
+Make it more detailed and elaborate.
+
+Propose a text change.
+Explain why it is good.
+Explain what kind of change it is, by tags (normal individual words).
+Describe how useful the change is as utility (0-100)
+Use Old and New in quotes, or triple-quotes for multiple lines.
+Prefer single quotes for single lines.
+Pay attention to white space and new lines. The replacement needs to match exactly.
+Do not shorten the text unnecessarily.
+Try to find small changes.
+Minimize the length of the text replacements.
+Explain the side effects of the change.
+Warn about possible issues.
+Do not just replace the whole paragraph or sentence.
+Make small incremental changes.
+Format:
+
+Title:
+
+Description:
+
+Tags:
+
+Utility:
+
+SideEffects:
+
+Warning:
+
+Old: """...""" (or "..." or '...')
+
+New: """..."""
+
+[Old: ...
+
+New: ... ]...
+
+Important: Use tiple quotes for multiline text. Otherwise the software breaks down.

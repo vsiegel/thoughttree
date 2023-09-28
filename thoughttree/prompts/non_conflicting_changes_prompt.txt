@@ -1,0 +1,17 @@
+Find text changes that would help to make the text better.
+Find a set of such improvements that does not create conflicts.
+
+Incrementally find new not conflicting changes.
+
+Possibly revert earlier changes that create conflicts.
+
+Title: Minvalue too small
+
+Description: The parameter `minvalue` seems to be too small, because...
+
+Old: "minvalue=2,"
+
+New: "minvalue=3,"  changes
+
+"""
+"""

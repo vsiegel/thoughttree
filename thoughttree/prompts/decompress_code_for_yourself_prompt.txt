@@ -1,0 +1,114 @@
+You will write a manual for a larger software, here is only the main class. there is much more.
+It is too much at once, so I will give it to you in pieces, like one class at a time.
+You need to make a summary of each part, that you will get back later with the next class. It competes with the original code for space. So it needs to be small.
+
+Use the shortest format or encoding you can find, it does not need to be human readable.
+
+------------------
+
+Below is such a compressed code. Try to reproduce a python class from it.
+
+
+{"imports": ["sys", "tkinter", "datetime", "textwrap", "tkinter.simpledialog", "tkinter.messagebox", "configargparse", "tools", "Console", "FinishReasonIcon", "FoldablePane", "ScrollableForkableSheet", "TextIOTee", "Title", "HidableFrame", "Model", "MultiTextboxLabel", "StatusBar", "Sheet", "MainMenu", "Tree", "Ui", "WaitCursor", "finish_reasons"], "class": {"Thoughttree": {"methods": ["__init__", "was_modified", "set_model", "cancel_models", "create_ui", "configure_ui_options", "update_window_title", "configure_parameter", "configure_max_tokens", "configure_temperature", "count_text_tokens", "chat", "ask", "set_up_inline_completion", "remove_hidden_prompt", "set_up_replace_completion", "scroll", "find_number_of_completions", "insert_prefix_and_scroll", "completions", "finish_completion", "show_finish_reason_icon", "post_completion_tasks", "history_from_system_and_chat", "toggle_show_hidden_prompts"], "class_variables": ["MIN_SIZE", "ROOT_GEOMETRY", "icon", "multi_completions", "interactive_model_name", "generation_model_name"], "instance_variables": ["show_hidden_prompts", "previous_current_sheet", "status_hider", "status", "console", "tree", "system", "chat_sheet", "model", "console_pane", "tree_pane", "system_pane", "scroll_output", "ring_bell_after_completion", "models", "generation_model"]}}}
+
+
+import sys, tkinter, datetime, textwrap, tkinter.simpledialog, tkinter.messagebox, configargparse, tools, Console, FinishReasonIcon, FoldablePane, ScrollableForkableSheet, TextIOTee, Title, HidableFrame, Model, MultiTextboxLabel, StatusBar, Sheet, MainMenu, Tree, Ui, WaitCursor, finish_reasons
+
+class Thoughttree:
+    MIN_SIZE = None
+    ROOT_GEOMETRY = None
+    icon = None
+    multi_completions = None
+    interactive_model_name = None
+    generation_model_name = None
+
+    def __init__(self):
+        self.show_hidden_prompts = None
+        self.previous_current_sheet = None
+        self.status_hider = None
+        self.status = None
+        self.console = None
+        self.tree = None
+        self.system = None
+        self.chat_sheet = None
+        self.model = None
+        self.console_pane = None
+        self.tree_pane = None
+        self.system_pane = None
+        self.scroll_output = None
+        self.ring_bell_after_completion = None
+        self.models = None
+        self.generation_model = None
+
+    def was_modified(self):
+        pass
+
+    def set_model(self):
+        pass
+
+    def cancel_models(self):
+        pass
+
+    def create_ui(self):
+        pass
+
+    def configure_ui_options(self):
+        pass
+
+    def update_window_title(self):
+        pass
+
+    def configure_parameter(self):
+        pass
+
+    def configure_max_tokens(self):
+        pass
+
+    def configure_temperature(self):
+        pass
+
+    def count_text_tokens(self):
+        pass
+
+    def chat(self):
+        pass
+
+    def ask(self):
+        pass
+
+    def set_up_inline_completion(self):
+        pass
+
+    def remove_hidden_prompt(self):
+        pass
+
+    def set_up_replace_completion(self):
+        pass
+
+    def scroll(self):
+        pass
+
+    def find_number_of_completions(self):
+        pass
+
+    def insert_prefix_and_scroll(self):
+        pass
+
+    def completions(self):
+        pass
+
+    def finish_completion(self):
+        pass
+
+    def show_finish_reason_icon(self):
+        pass
+
+    def post_completion_tasks(self):
+        pass
+
+    def history_from_system_and_chat(self):
+        pass
+
+    def toggle_show_hidden_prompts(self):
+        pass
+

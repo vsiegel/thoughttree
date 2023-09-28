@@ -1,0 +1,10 @@
+Propose 3 continuations of the code at the position marked with "§", or at the end if it does not occur.
+
+
+List them in this format:
+
+#Title:
+#Description:
+""
+[... the actual code...]
+"""

@@ -1,0 +1,5 @@
+Der zu bearbeitende Text steht am Anfang in dreifach quotes.
+Erzeuge eine Gliederung, die sich auf den Text bezieht, und darstellt, welche Probleme es mit ihm geben könnte.
+
+Wenn eine Textersetzung nur einen neuen Satz einführen soll, muss die Information, wo er hin soll, representiert werden.
+Verwende eine Ersetzung eines bestehenden teiles durch den selben Text plus den neuen. Verwende nicht "Old: [...]" o.ä. - das führt zu großen technischen Problemen.

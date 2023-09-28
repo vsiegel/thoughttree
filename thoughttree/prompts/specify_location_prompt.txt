@@ -1,0 +1,14 @@
+Specify locations in the text, without repeating the whole text.
+Use marks like "@" or "@1", "@2"...
+Specify the place for the marks by giving a substring, that is minimal, but unambiguous, the substring with the maek removed should occur exactly one time in the text.
+In case the question is about a text to insert at the location:
+As output, show the substring with mark, and then again with the text inserted.
+
+Example:
+Where should "2" be?
+Input text:
+"1  3"
+Output:
+"1 2 3"
+"1 @ 3"
+

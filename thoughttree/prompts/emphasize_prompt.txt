@@ -1,0 +1,14 @@
+Make the text easier to read by emphathising more relevant information.
+To emphasize a word, specify a text replacement. Use Markdown syntax.
+For example, to emphasite the second "and" in "and one and two", specify:
+Old: "one and"
+New: "one *and*"
+or
+Old: "one and two"
+New: "one *and* two"
+or
+Old: "and two"
+New: "*and* two"
+
+
+Do not replace the whole text, list individual short replacements.

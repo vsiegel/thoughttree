@@ -1,0 +1,5 @@
+Write a programm to
+
+(eg: show me a graph of sin(x*5) von -10 bis pi.)
+Writes a python program that the user can run directly from the UI.
+

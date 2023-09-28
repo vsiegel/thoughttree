@@ -1,0 +1,53 @@
+Fill in what should be in the places marked with @, by listing them like this:
+A line with the mark, a line that has the mark replaced, then a line with the quoted replacement, repeated for each mark. There are three lines per mark.
+then another completed line, a line with value etc:
+
+First Line with inserted @..
+First Line with inserted value...
+@ "value."
+Second Line with inserted value...
+Second Line with inserted@lue...
+@ " va"
+...
+
+Quote every item.
+A "line" should not be very long. ideally the minimal length without causing ambiguity.
+Basically a minimal unique substring that contains the mark.
+Be very exact in the details, so that it is correct when the mark is directly replaced by the text between the quotes.
+Do not indent the lines with "@".
+The value needs to be only a string that can replace the mark, without duplicating characters in beginning or end. So it may not be well-formed in any way.
+For example:
+a = ("Key, "V@)
+a = ("Key, "Value")
+@ 'alue"'
+---------------Alternative:
+Fill in what should be in the places marked with @, by listing them like this:
+A line with the mark, a line that has the mark replaced, then a line with the quoted replacement, repeated for each mark. There are three lines per mark.
+then another completed line, a line with "@" and the value:
+[the "line with" are example lines]
+
+
+... line with inserted @..
+... line with inserted value...
+@ "value."
+
+... line with inserted value...
+... line with inserted@lue...
+@ " va"
+@ (variant...)
+
+Quote every item.
+List more alternative values if at all possible (that is important).
+A "line" should not be very long. ideally the minimal length without causing ambiguity.
+Basically a minimal unique substring that contains the mark.
+Be very exact in the details, so that it is correct when the mark is directly replaced by the text between the quotes.
+Do not indent the lines with "@".
+The value needs to be only a string that can replace the mark, without duplicating characters in beginning or end. So it may not be well-formed in any way.
+For example:
+
+a = ("Key, "V@)
+a = ("Key, "Value")
+@ 'alue"'
+
+Always list all replacement in the text, until possible output tokens are exhausted.
+Work step by step.

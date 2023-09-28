@@ -39,6 +39,7 @@ class IterateRangeInlineForm(InlineForm):
     def __init__(self, sheet=None, index=INSERT,
                  command=None):
         super().__init__(sheet, index)
+        sheet.undo_separator()
         def on_ok():
             pass
         self.bind('<Return>', on_ok)

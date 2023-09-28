@@ -62,13 +62,8 @@ class Sheet(ScrolledText):
         self.tag_config('hidden_prompt', elide=True, foreground="light blue")
 
         self.old_num_display_lines = 0
-        if grow:
-            self.bind('<<Modified>>', self.grow_to_displaylines, add=True)
-
-        def on_event(event: tk.Event):
-            print(f"{event.widget.edit_modified()=}")
-
-        # self.bind('<<Modified>>', on_event)
+        # if grow:
+        #     self.bind('<<Modified>>', self.grow_to_displaylines, add=True)
 
 
     def grow_to_displaylines(self, event: tk.Event):
@@ -79,10 +74,14 @@ class Sheet(ScrolledText):
         ypixels = sheet.count("1.0", "end lineend", 'ypixels')[0]
         width = sheet.winfo_width()
 
+        print(f"{ypixels=}")
+
         sheet.configure(height=num_display_lines)
         self.old_num_display_lines = num_display_lines
+        # self.frame.configure(height=ypixels)
 
-        sheet.event_generate("<Configure>", x=0, y=0, width=width, height=ypixels)
+
+        sheet.event_generate("<Configure>", x=1, y=0, width=width, height=ypixels)
         # sheet.update()
         # sheet.event_generate("<<ScrollRegionChanged>>")
 

@@ -16,7 +16,8 @@ from tools import on_event
 
 class Sheet(ScrolledText):
 
-    def __init__(self, master=None, scrollbar=True, autohide=False, width=80, borderwidth=0, padx=0, pady=0, height=0, grow=True, background='white', **kw):
+    def __init__(self, master=None, scrollbar=True, autohide=False, width=80, borderwidth=0, padx=0, pady=0, height=0,
+                 grow=True, background='white', debug=False, **kw):
         ScrolledText.__init__(
             self, master, undo=True, wrap=WORD, padx=padx, pady=pady, background=background,
             width=width, height=height, insertwidth=4, font=Fonts.FONT,
@@ -40,6 +41,7 @@ class Sheet(ScrolledText):
         self.file = None
         self.pattern = None
         self.found = None
+        self.debug = debug
 
         self.bind('<Prior>', self.jump_to_limit)
         self.bind('<Next>', self.jump_to_limit)
@@ -61,8 +63,7 @@ class Sheet(ScrolledText):
 
         self.old_num_display_lines = 0
         if grow:
-            self.bind('<<Modified>>', self.grow_to_displaylines)
-
+            self.bind('<<Modified>>', self.grow_to_displaylines, add=True)
 
         def on_event(event: tk.Event):
             print(f"{event.widget.edit_modified()=}")
@@ -130,9 +131,14 @@ class Sheet(ScrolledText):
 
 
     def find_parent(self, parentType: type) -> Union["Sheet", Notebook]:
+        print(f"####### {parentType=}")
         parent = self.master
-        while parent and type(parent) != parentType:
+        print(f"####### {type(parent)=}")
+        # while parent and type(parent) != parentType:
+        while parent and not isinstance(parent, parentType):
+            print(f"##### {type(parent)=}")
             parent = parent.master
+        print(f"##### {parent=}")
         return parent
 
 

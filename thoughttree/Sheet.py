@@ -162,10 +162,10 @@ class Sheet(ScrolledText):
         print(f"{self.master.master.children       =}")
         print(f"{self.master.master.master.children=}")
         parent = self.master
-        print(f"####### {type(parent)=}")
+        print(f"#######1 {type(parent)=} {parent}")
         # while parent and type(parent) != parentType:
         while parent and not isinstance(parent, parentType):
-            print(f"##### {type(parent)=}")
+            print(f"### {type(parent)=} {parent}")
             parent = parent.master
         print(f"##### {parent=}")
         return parent
@@ -173,10 +173,11 @@ class Sheet(ScrolledText):
 
     def history_from_path(self, history=None) :
 
-        parentText: Sheet = self.find_parent(Sheet)
+        parent_sheet: Sheet = self.parent_sheet()
+        # print(f"{parent_sheet=}")
 
-        if parentText:
-            history = parentText.history_from_path(history)
+        if parent_sheet:
+            history = parent_sheet.history_from_path(history)
         else:
             history = history or []
         content = self.dump(1.0, END, text=True, tag=True, window=True)
@@ -231,7 +232,7 @@ class Sheet(ScrolledText):
             sheet = frame_on_tab.winfo_children()[1]
             return sheet
 
-        notebook: Notebook = self.find_parent(Notebook)
+        notebook: Notebook = self.parent_notebook()
         if notebook and notebook.tabs():
             selected = notebook.index(CURRENT)
             notebook.forget(selected)
@@ -240,7 +241,7 @@ class Sheet(ScrolledText):
                 selected_sheet(notebook).focus_set()
             elif len(notebook.tabs()) == 1:
                 string = selected_sheet(notebook).get('1.0', END)
-                parent = self.find_parent(Sheet)
+                parent = self.parent_sheet()
                 parent.delete("end-2 char", "end-1 char") # delete notebook window
                 parent.insert(END, string)
                 parent.mark_set(INSERT, "end-1 char")
@@ -250,7 +251,7 @@ class Sheet(ScrolledText):
 
     def close_empty_tab_or_backspace(self):
         if self.index(INSERT) == "1.0" and not self.tag_ranges(SEL):
-            notebook: Notebook = self.find_parent(Notebook)
+            notebook: Notebook = self.parent_notebook()
             if notebook:
                 string_in_tab = self.get('1.0', END).strip()
                 if not string_in_tab:

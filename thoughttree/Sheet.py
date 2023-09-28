@@ -116,7 +116,8 @@ class Sheet(ScrolledText):
             self.perform_search(pattern, start)
 
     def find_next(self):
-        self.perform_search(self.pattern, f"{self.found}+1c")
+        if self.found:
+            self.perform_search(self.pattern, f"{self.found}+1c")
 
     def perform_search(self, pattern, start):
         self.found = self.search(pattern, start, exact=True)

@@ -340,7 +340,7 @@ class MainMenu(Menu):
         def iterate_range():
             ui.chat(1)
 
-        item("Iterate over Range", "<Control-Alt-i>", lambda e=None: IterateRangeInlineForm(self.it))
+        item("Iterate over Range", "<Control-Alt-I>", lambda e=None: IterateRangeInlineForm(self.it))
 
 
         self.menu = Menu(self, "Prompt")

@@ -145,6 +145,7 @@ class Sheet(ScrolledText):
     def history_from_path(self, history=None) :
 
         parentText: Sheet = self.find_parent(Sheet)
+
         if parentText:
             history = parentText.history_from_path(history)
         else:
@@ -355,3 +356,10 @@ class Sheet(ScrolledText):
             self.tag_remove(tag, *sel)
         else:
             self.tag_add(tag, *sel)
+
+
+    def unbind(self, seq: str, funcid: str) -> None:
+        self.bind(seq, re.sub(
+            r'^if {"\[' + funcid + '.*$', '', self.bind(seq), flags=re.M
+        ))
+        self.deletecommand(funcid)

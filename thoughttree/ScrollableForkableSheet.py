@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk, BOTH, LEFT, RIGHT, VERTICAL, NW, Y, X, INSERT, CURRENT, TOP
 
 from ForkableSheet import ForkableSheet
+from Sheet import Sheet
 from tools import on_event, bind_tree
 
 
@@ -35,16 +36,44 @@ class ScrollableForkableSheet(tk.Frame):
         def on_event(e=None):
             print(f"on_event : {e} {e.widget}")
 
-        self.forkable_sheet.frame.bind("<Configure>", self.configure_scrollregion, add=True)
+        self.forkable_sheet.bind("<Configure>", self.configure_scrollregion, add=True)
+        # self.forkable_sheet.frame.bind("<Configure>", on_event, add=True)
+        # self.forkable_sheet.frame.bind("<Configure>", self.configure_scrollregion, add=True)
         # can_f.bind("<Configure>", self.configure_scrollregion, add=True)
         self.canvas.bind("<Configure>", self.configure_frame, add=True)
 
         # bind_tree(self.winfo_toplevel(), "<Configure>")
         bind_tree(self, "<Configure>", subtree=True)
 
+        self.forkable_sheet.bind('<<Modified>>', self.grow_to_displaylines, add=True)
+
+
+    def grow_to_displaylines(self, event: tk.Event):
+        if not event.widget.edit_modified():
+            return
+        sheet:Sheet = event.widget
+        num_display_lines = sheet.count("1.0", "end", 'displaylines')[0]
+        ypixels = sheet.count("1.0", "end lineend", 'ypixels')[0]
+        width = sheet.winfo_width()
+
+        print(f"{ypixels=}")
+
+        sheet.configure(height=num_display_lines)
+        self.old_num_display_lines = num_display_lines
+        # self.frame.configure(height=ypixels)
+
+        # sheet.frame.event_generate("<Configure>", x=1, y=0, width=width, height=ypixels)
+        sheet.event_generate("<Configure>", x=1, y=0, width=width, height=ypixels)
+        # sheet.update()
+        # sheet.event_generate("<<ScrollRegionChanged>>")
+
+        sheet.edit_modified(False)
+        # return "break"
+
 
     def configure_scrollregion(self, event):
         print(f"configure_scrollregion: {self.canvas.bbox('all')=}")
+        print(f"                        {event=}")
         print(f"                        {self.forkable_sheet.cget('height')=}")
         print(f"                        {self.forkable_sheet.winfo_height()=}")
         if self.forkable_sheet.notebook:

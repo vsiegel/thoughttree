@@ -85,10 +85,17 @@ class MainMenu(Menu):
             Thoughttree()
 
         def show_context_menu(event, context_menu) :
-            widget = self.ui.winfo_containing(event.x_root, event.y_root)
-            if widget :
-                widget.focus_set()
-            context_menu.tk_popup(event.x_root, event.y_root)
+            if event.type == tk.EventType.KeyPress:
+                w = event.widget
+                x, y, *_ = w.bbox(INSERT)
+                x += w.winfo_rootx()
+                y += w.winfo_rooty()
+            else:
+                widget = self.ui.winfo_containing(event.x_root, event.y_root)
+                if widget :
+                    widget.focus_set()
+                x, y = (event.x_root, event.y_root)
+            context_menu.tk_popup(x, y)
 
         def cut_text(event=None) :
             self.it.event_generate("<<Cut>>")
@@ -370,6 +377,7 @@ class MainMenu(Menu):
         ui.bind_class("Text", "<Control-Button-5>", lambda e=None: font_size(-1))
 
         ui.bind_class("Text", "<Button-3>", lambda e=None: show_context_menu(e, sheet_menu))
+        ui.bind_class("Text", "<Menu>", lambda e=None: show_context_menu(e, sheet_menu))
         ui.bind_class("Text", "<Tab>", lambda e=None: e.widget.tk_focusNext())
 
 

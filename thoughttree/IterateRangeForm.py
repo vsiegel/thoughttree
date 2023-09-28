@@ -4,7 +4,7 @@ from tkinter import INSERT, Label, Frame, Entry, TOP, RIGHT, BOTTOM
 from InlineForm import InlineForm
 
 
-class IterateRangeInlineForm(InlineForm):
+class IterateRangeForm(InlineForm):
     def __init__(self, sheet=None, index=INSERT,
                  command=None):
         super().__init__(sheet, index)

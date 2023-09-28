@@ -10,7 +10,7 @@ from Files import Files
 from Fonts import Fonts
 from ForkableSheet import ForkableSheet
 from Imports import Menu, ModelsMenu, WindowsMenu
-from IterateRangeInlineForm import IterateRangeInlineForm
+from IterateRangeForm import IterateRangeForm
 from Keys import Keys
 from Sheet import Sheet
 from Console import Console
@@ -347,7 +347,7 @@ class MainMenu(Menu):
         def iterate_range():
             ui.chat(1)
 
-        item("Iterate over Range", "<Control-Alt-I>", lambda e=None: IterateRangeInlineForm(self.it))
+        item("Iterate over Range", "<Control-Alt-I>", lambda e=None: IterateRangeForm(self.it))
 
 
         self.menu = Menu(self, "Prompt")

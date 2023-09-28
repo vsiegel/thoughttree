@@ -10,7 +10,7 @@ from Files import Files
 from Fonts import Fonts
 from ForkableSheet import ForkableSheet
 from Imports import Menu, ModelsMenu, WindowsMenu
-from InlineForm import IterateRangeInlineForm
+from IterateRangeInlineForm import IterateRangeInlineForm
 from Keys import Keys
 from Sheet import Sheet
 from Console import Console

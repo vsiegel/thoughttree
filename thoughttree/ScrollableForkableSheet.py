@@ -43,7 +43,7 @@ class ScrollableForkableSheet(tk.Frame):
         self.canvas.bind("<Configure>", self.configure_frame, add=True)
 
         # bind_tree(self.winfo_toplevel(), "<Configure>")
-        bind_tree(self, "<Configure>", subtree=True)
+        # bind_tree(self, "<Configure>", subtree=True)
 
         self.forkable_sheet.bind('<<Modified>>', self.grow_to_displaylines, add=True)
 
@@ -56,7 +56,7 @@ class ScrollableForkableSheet(tk.Frame):
         ypixels = sheet.count("1.0", "end lineend", 'ypixels')[0]
         width = sheet.winfo_width()
 
-        print(f"{ypixels=}")
+        # print(f"{ypixels=}")
 
         sheet.configure(height=num_display_lines)
         self.old_num_display_lines = num_display_lines
@@ -72,13 +72,13 @@ class ScrollableForkableSheet(tk.Frame):
 
 
     def configure_scrollregion(self, event):
-        print(f"configure_scrollregion: {self.canvas.bbox('all')=}")
-        print(f"                        {event=}")
-        print(f"                        {self.forkable_sheet.cget('height')=}")
-        print(f"                        {self.forkable_sheet.winfo_height()=}")
-        if self.forkable_sheet.notebook:
-            print(f"                        {self.forkable_sheet.notebook.cget('height')=}")
-            print(f"                        {self.forkable_sheet.notebook.winfo_height()=}")
+        # print(f"configure_scrollregion: {self.canvas.bbox('all')=}")
+        # print(f"                        {event=}")
+        # print(f"                        {self.forkable_sheet.cget('height')=}")
+        # print(f"                        {self.forkable_sheet.winfo_height()=}")
+        # if self.forkable_sheet.notebook:
+        #     print(f"                        {self.forkable_sheet.notebook.cget('height')=}")
+        #     print(f"                        {self.forkable_sheet.notebook.winfo_height()=}")
 
         bbox = self.canvas.bbox("all")
         x, y, width, height = bbox

@@ -134,8 +134,33 @@ class Sheet(ScrolledText):
             self.tag_add('found_one', self.found, f"{self.found} + {len(self.pattern)} char")
 
 
+    def parent_notebook(self) -> Notebook:
+        parent = self.master
+        while parent and not isinstance(parent, Notebook):
+            parent = parent.master
+        return parent
+
+    def parent_sheet(self) -> "Sheet":
+        parent = self.master
+        # while parent and not parent.winfo_name().endswith("fork_frame"):
+        while parent and not len(list(parent.children.values())) == 1 and not isinstance(list(parent.children.values())[0], Sheet):
+            parent = parent.master
+        print(f"####### {parent.children=}")
+        # sheet = parent.children['!frame']
+        sheet = parent
+        print(f"####### {sheet          =}")
+        return sheet
+
     def find_parent(self, parentType: type) -> Union["Sheet", Notebook]:
         print(f"####### {parentType=}")
+        print(f"{self                     =}")
+        print(f"{self.master              =}")
+        print(f"{self.master.master       =}")
+        print(f"{self.master.master.master=}")
+        print(f"{self.children                     =}")
+        print(f"{self.master.children              =}")
+        print(f"{self.master.master.children       =}")
+        print(f"{self.master.master.master.children=}")
         parent = self.master
         print(f"####### {type(parent)=}")
         # while parent and type(parent) != parentType:

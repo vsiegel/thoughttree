@@ -4,7 +4,7 @@ from tkinter import INSERT, Frame
 
 
 class InlineForm(Frame):
-    def __init__(self, sheet=None, index=INSERT, title='', label1='', label2='', ok='OK', command=None):
+    def __init__(self, sheet=None, index=INSERT):
         super().__init__(sheet, bd=0, padx=10, pady=0, background="white")
         self.sheet = sheet
         self.pack(side='top', fill='x', expand=True)
@@ -27,7 +27,7 @@ class InlineForm(Frame):
     def insert(self, text, index=INSERT):
         index = text.index(index)
         text.tag_config("InlineForm-centered", justify='center')
-        text.insert(index, "\n")
+        # text.insert(index, "\n")
         text.window_create(index + "+1c", window=self)
         text.tag_add("InlineForm-centered", index + "+1c")
-        text.insert(index + "+2c", "\n")
+        # text.insert(index + "+2c", "\n")

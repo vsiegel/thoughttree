@@ -67,28 +67,28 @@ class Sheet(ScrolledText):
         #     self.bind('<<Modified>>', self.grow_to_displaylines, add=True)
 
 
-    def grow_to_displaylines(self, event: tk.Event):
-        if not event.widget.edit_modified():
-            return
-        sheet:Sheet = event.widget
-        num_display_lines = sheet.count("1.0", "end", 'displaylines')[0]
-        ypixels = sheet.count("1.0", "end lineend", 'ypixels')[0]
-        width = sheet.winfo_width()
-
-        print(f"{ypixels=}")
-
-        sheet.configure(height=num_display_lines)
-        self.old_num_display_lines = num_display_lines
-        # self.frame.configure(height=ypixels)
-
-
-        sheet.event_generate("<Configure>", x=1, y=0, width=width, height=ypixels)
-        # sheet.update()
-        # sheet.event_generate("<<ScrollRegionChanged>>")
-
-        if self.debug:
-            sheet.edit_modified(False)
-        # return "break"
+    # def grow_to_displaylines(self, event: tk.Event):
+    #     if not event.widget.edit_modified():
+    #         return
+    #     sheet:Sheet = event.widget
+    #     num_display_lines = sheet.count("1.0", "end", 'displaylines')[0]
+    #     ypixels = sheet.count("1.0", "end lineend", 'ypixels')[0]
+    #     width = sheet.winfo_width()
+    #
+    #     print(f"{ypixels=}")
+    #
+    #     sheet.configure(height=num_display_lines)
+    #     self.old_num_display_lines = num_display_lines
+    #     # self.frame.configure(height=ypixels)
+    #
+    #
+    #     sheet.event_generate("<Configure>", x=1, y=0, width=width, height=ypixels)
+    #     # sheet.update()
+    #     # sheet.event_generate("<<ScrollRegionChanged>>")
+    #
+    #     if self.debug:
+    #         sheet.edit_modified(False)
+    #     # return "break"
 
     def exec_code_block(self, event=None):
         print(f"exec_code_block")

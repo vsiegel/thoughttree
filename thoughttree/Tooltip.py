@@ -32,7 +32,11 @@ class Tooltip :
             self.label = tk.Label(self.tooltip, text="", background="#FFFFE0", relief="solid",
                              borderwidth=1, justify=tk.LEFT, padx=6, pady=5, font=("sans-serif", 11))
             self.label.pack()
+            self.label.focus_set()
             self.tooltip.bind("<Leave>", self.remove_tooltip)
+            self.tooltip.bind("<Button-1>", self.remove_tooltip)
+            self.label.bind("<Escape>", self.remove_tooltip)
+            self.widget.bind("<Destroy>", self.remove_tooltip)
             self.refresh_tooltip()
 
 

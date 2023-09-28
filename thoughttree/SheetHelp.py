@@ -21,4 +21,5 @@ class SheetHelp(tk.Label):
         bind_modified = sheet.bind('<<Modified>>', lambda e: hide(e), add=True)
         def hide(e=None):
             remove(e)
+            sheet.initially_modified = True
             sheet.unbind('<<Modified>>', bind_modified)

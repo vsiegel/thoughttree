@@ -180,6 +180,8 @@ class Thoughttree(Ui):
         if not conf.blinking_caret:
             self.option_add('*Text*insertOffTime', '0')
 
+    def is_initially_modified(self):
+        return self.chat_sheet.forkable_sheet.initially_modified or self.system.initially_modified
 
     def update_window_title(self, event=None):
         progress_title = self.root.title() + "..."

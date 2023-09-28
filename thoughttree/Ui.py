@@ -51,18 +51,20 @@ class Ui(tk.Frame):
             showwarning("Can not Close Main Window", "The main window that opened first can not be closed individually.", parent=self)
             return
 
-        if self.closeable or askyesno("Close Window", "Are you sure you want to close this window?", parent=self):
+        if not self.is_initially_modified() or self.closeable or askyesno("Close Window", "Are you sure you want to close this window?", parent=self):
             Ui.current_open_uis.remove(self)
             self.is_root_destroyed = True
             self.root.destroy()
 
     def quit(self, event=None, label="Quit"):
-        if askyesno(label, "Are you sure you want to quit all windows?", parent=self):
+        if not self.is_initially_modified() or askyesno(label, "Are you sure you want to quit all windows?", parent=self):
             uis = [ui for ui in Ui.current_open_uis if ui != self] + [self]
             for ui in uis:
                 ui.is_root_destroyed = True
                 ui.root.destroy()
 
+    def is_initially_modified(self):
+        return True
 
     def set_icon(self, window_icon):
         if not window_icon:

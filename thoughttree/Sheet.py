@@ -41,6 +41,7 @@ class Sheet(ScrolledText):
         self.file = None
         self.pattern = None
         self.found = None
+        self.initially_modified = False
         self.debug = debug
 
         self.bind('<Prior>', self.jump_to_limit)

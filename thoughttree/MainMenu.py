@@ -369,6 +369,7 @@ class MainMenu(Menu):
         ui.bind_class("Text", "<Control-Button-5>", lambda e=None: font_size(-1))
 
         ui.bind_class("Text", "<Button-3>", lambda e=None: show_context_menu(e, sheet_menu))
+        ui.bind_class("Text", "<Tab>", lambda e=None: e.widget.tk_focusNext())
 
 
     def sub_item(self, label, keystroke=None, command=None, variable=None, add=False, additional_menu=None):

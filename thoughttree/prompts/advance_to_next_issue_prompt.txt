@@ -1,5 +1,5 @@
 The insertion cursor is marked by §.
-Near it, there is a change becessary.
+Near it, there is a change necessary.
 Give a text replacement to fix it.
 The cursor should then move to the next place where a problem is found.
-hen, indicate where the insertion cursor should be set next.
+then, indicate where the insertion cursor should be set next.

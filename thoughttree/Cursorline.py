@@ -14,6 +14,7 @@ class Cursorline:
             self.sheet.tag_add('cursorline', 'insert display linestart', 'insert display lineend+1c')
 
     def clear(self, e=None):
+        print("clear: " + str(self) + " " + str(self.sheet))
         self.show(e, add=False)
 
     def configure_cursorline(self):

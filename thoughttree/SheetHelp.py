@@ -20,8 +20,5 @@ class SheetHelp(tk.Label):
         self.bind("<Button-1>", remove)
         bind_modified = sheet.bind('<<Modified>>', lambda e: hide(e), add=True)
         def hide(e=None):
-            print(f"hide: {bind_modified=}")
-            print(f"hide: {sheet.bind('<<Modified>>')=}")
             remove(e)
             sheet.unbind('<<Modified>>', bind_modified)
-            print(f"hide: {sheet.bind('<<Modified>>')=}")

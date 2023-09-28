@@ -21,7 +21,7 @@ class Sheet(ScrolledText):
             self, master, undo=True, wrap=WORD, padx=padx, pady=pady, background=background,
             width=width, height=height, insertwidth=4, font=Fonts.FONT,
             border=0, borderwidth=borderwidth, highlightthickness=0,
-            selectbackground="#66a2d4", selectforeground="white", **kw)
+            selectbackground="#66a2d4", selectforeground="white", name="st", **kw)
 
         # if autohide:
         #     self.vbar = AutoScrollbar(self.frame)

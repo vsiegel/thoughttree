@@ -6,7 +6,7 @@ class FoldablePane(tk.PanedWindow):
     SASH_WIDTH = 8
     MIN_SIZE = 20
     def __init__(self, parent=None, folded=False, fold_size=100, **kw):
-        super().__init__(parent, borderwidth=0, sashwidth=FoldablePane.SASH_WIDTH, sashrelief=tk.RIDGE, **kw)
+        super().__init__(parent, borderwidth=0, sashwidth=FoldablePane.SASH_WIDTH, sashrelief=tk.RIDGE, name="fp", **kw)
 
         self.fold_size = fold_size
         self.foldable_child = None

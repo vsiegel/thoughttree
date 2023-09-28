@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk, BOTH, LEFT, RIGHT, VERTICAL, NW, Y, X, INSERT, CURRENT, TOP
 
 from ForkableSheet import ForkableSheet
-from tools import on_event
+from tools import on_event, bind_tree
 
 
 class ScrollableForkableSheet(tk.Frame):
@@ -40,6 +40,9 @@ class ScrollableForkableSheet(tk.Frame):
             self.canvas.yview_scroll(delta, "units")
         self.canvas.bind("<Button-4>", on_mousewheel)
         self.canvas.bind("<Button-5>", on_mousewheel)
+
+        # bind_tree(self.winfo_toplevel(), "<Configure>")
+        bind_tree(self, "<Configure>", subtree=True)
 
 
     def configure_scrollregion(self, event):

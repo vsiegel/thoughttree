@@ -39,6 +39,18 @@ def list_all_bindings(root):
             bindings.update(list_all_bindings(child))
     return bindings
 
+def bind_tree(root, event, on_event=None, subtree=False):
+    if not subtree:
+        root= root.winfo_toplevel()
+    if on_event is None:
+        def on_event_impl(e=None):
+            print(f"{e} {e.widget}")
+        on_event = on_event_impl
+
+    root.bind(event, on_event, add=True)
+    for child in root.winfo_children():
+        bind_tree(child, event, on_event=on_event, subtree=True)
+
 
 def add_bboxes(bbox1, bbox2):
     x1, y1, w1, h1 = bbox1

@@ -1,7 +1,6 @@
 import tkinter as tk
-from tkinter import INSERT, BOTTOM, RIGHT, Frame, Label, Entry, TOP
+from tkinter import INSERT, Frame
 
-from docutils.nodes import label
 
 
 class InlineForm(Frame):
@@ -32,19 +31,3 @@ class InlineForm(Frame):
         text.window_create(index + "+1c", window=self)
         text.tag_add("InlineForm-centered", index + "+1c")
         text.insert(index + "+2c", "\n")
-
-
-
-if __name__ == '__main__':
-    f = ('Arial', 11)
-    root = tk.Tk()
-    sheet = tk.Text(root, font=f)
-    sheet.pack()
-    sheet.insert(INSERT, "text 1")
-
-    IterateRangeInlineForm(sheet, command=lambda: sheet.insert(INSERT, "text 3"))
-
-    sheet.insert(INSERT, "text 2")
-    root.bind("<Escape>", lambda e: root.destroy())
-    root.mainloop()
-

@@ -119,8 +119,12 @@ class Sheet(ScrolledText):
         if self.found:
             self.perform_search(self.pattern, f"{self.found}+1c")
 
-    def perform_search(self, pattern, start):
-        self.found = self.search(pattern, start, exact=True)
+    def find_previous(self):
+        if self.found:
+            self.perform_search(self.pattern, self.found, backwards=True)
+
+    def perform_search(self, pattern, start, backwards=False):
+        self.found = self.search(pattern, start, exact=True, backwards=backwards)
         if self.found:
             self.mark_set(INSERT, self.found)
             print(f"Found: {self.found}")
@@ -128,7 +132,6 @@ class Sheet(ScrolledText):
         self.tag_remove('found_one', "1.0", END)
         if self.found:
             self.tag_add('found_one', self.found, f"{self.found} + {len(self.pattern)} char")
-
 
 
     def find_parent(self, parentType: type) -> Union["Sheet", Notebook]:

@@ -26,19 +26,18 @@ class ScrollableForkableSheet(tk.Frame):
         self.forkable_sheet = ForkableSheet(can_f, debug=debug)
         self.forkable_sheet.pack(side=TOP, expand=True, fill=Y)
 
+        def on_mousewheel(event):
+            delta = (event.num == 5 and 1 or -1)
+            self.canvas.yview_scroll(delta, "units")
+        self.canvas.bind("<Button-4>", on_mousewheel)
+        self.canvas.bind("<Button-5>", on_mousewheel)
+
         def on_event(e=None):
             print(f"on_event : {e} {e.widget}")
 
         self.forkable_sheet.frame.bind("<Configure>", self.configure_scrollregion, add=True)
         # can_f.bind("<Configure>", self.configure_scrollregion, add=True)
         self.canvas.bind("<Configure>", self.configure_frame, add=True)
-
-
-        def on_mousewheel(event):
-            delta = (event.num == 5 and 1 or -1)
-            self.canvas.yview_scroll(delta, "units")
-        self.canvas.bind("<Button-4>", on_mousewheel)
-        self.canvas.bind("<Button-5>", on_mousewheel)
 
         # bind_tree(self.winfo_toplevel(), "<Configure>")
         bind_tree(self, "<Configure>", subtree=True)

@@ -4,17 +4,18 @@ class Cursorline:
         self.configure_cursorline()
 
     def show(self, e=None, add=True):
-        if not self.sheet.winfo_exists():
+        if not e.widget.winfo_exists():
             return
-        takefocus = not self.sheet.cget("takefocus") == "0"
+        takefocus = not e.widget.cget("takefocus") == "0"
         if not takefocus:
             return
-        self.sheet.tag_remove('cursorline', 1.0, "end")
+        e.widget.tag_remove('cursorline', 1.0, "end")
         if add:
-            self.sheet.tag_add('cursorline', 'insert display linestart', 'insert display lineend+1c')
+            e.widget.tag_add('cursorline', 'insert display linestart', 'insert display lineend+1c')
 
     def clear(self, e=None):
-        print("clear: " + str(self) + " " + str(self.sheet))
+        print("clear: " + str(e.widget) +
+              "\n       " + str(self) + " " + str(self.sheet))
         self.show(e, add=False)
 
     def configure_cursorline(self):

@@ -6,36 +6,35 @@ from tools import on_event, bind_tree
 
 
 class ScrollableForkableSheet(tk.Frame):
-    def __init__(self, parent, *args, **kw):
-        super().__init__(parent, *args, **kw)
+    def __init__(self, parent, debug=False, *args, **kw):
+        super().__init__(parent, name="sf", *args, **kw)
 
         self.canvas = tk.Canvas(self, highlightthickness=0, bd=0,)# background="lightcyan")
         self.scrollbar = tk.Scrollbar(self, orient=VERTICAL, command=self.canvas.yview, width=18, takefocus=False, borderwidth=2)
 
         def canvas_set(*args):
-            # print(f"canvas_set: {args=}")
+            print(f"canvas_set: {args=}")
             self.scrollbar.set(*args)
         self.canvas.configure(yscrollcommand=canvas_set)
 
         self.canvas.pack(side=LEFT, fill=BOTH, expand=True)
         self.scrollbar.pack(side=RIGHT, fill=Y)
 
-        frame = tk.Frame(self.canvas, bd=0, background="#eeeeff")
-        self.canvas_id = self.canvas.create_window((0, 0), window=frame, anchor=NW)
+        can_f = tk.Frame(self.canvas, bd=0, background="#eeeeff", name="can_f")
+        self.canvas_id = self.canvas.create_window((0, 0), window=can_f, anchor=NW)
 
-
-        frame.bind("<Configure>", self.configure_scrollregion)
-        self.canvas.bind("<Configure>", self.configure_frame)
-
-        self.forkable_sheet = ForkableSheet(frame)
+        self.forkable_sheet = ForkableSheet(can_f, debug=debug)
         self.forkable_sheet.pack(side=TOP, expand=True, fill=Y)
 
-        def log(event):
-            print(f"{self.forkable_sheet.winfo_reqheight()=} {event}")
+        def on_event(e=None):
+            print(f"on_event : {e} {e.widget}")
+
+        self.forkable_sheet.frame.bind("<Configure>", self.configure_scrollregion, add=True)
+        # can_f.bind("<Configure>", self.configure_scrollregion, add=True)
+        self.canvas.bind("<Configure>", self.configure_frame, add=True)
 
 
         def on_mousewheel(event):
-            # print(f"{str(event.widget).startswith(str(self))        =}") # for parent-test
             delta = (event.num == 5 and 1 or -1)
             self.canvas.yview_scroll(delta, "units")
         self.canvas.bind("<Button-4>", on_mousewheel)
@@ -60,8 +59,8 @@ class ScrollableForkableSheet(tk.Frame):
 
 
     def configure_frame(self, event):
-        # print(f"configure_width: {event.widget}")
         height = max(self.canvas.winfo_height(), self.forkable_sheet.winfo_reqheight())
+        print(f"configure_frame: {event.width=} {height=}")
         self.canvas.itemconfigure(self.canvas_id, width=event.width, height=height)
 
     def focus_set(self):

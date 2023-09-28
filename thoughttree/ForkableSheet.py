@@ -27,14 +27,14 @@ class ForkableSheet(Sheet):
 
     def fork(self, index=INSERT):
         index = self.index(index)
+        self.initially_modified = True
 
         has_leading_text = bool(self.get("1.0", index).strip())
-        parent = self.parent_notebook()
+        parent = self.get_parent_notebook()
 
         # print(f"{parent=}")
         # print(f"{has_leading_text=}")
         if not parent:
-            self.create_notebook()
             notebook = self.notebook
             # parent = self.notebook
             trailing_text = self.get(index, END).rstrip()
@@ -43,7 +43,6 @@ class ForkableSheet(Sheet):
             sheet.insert("1.0", trailing_text)
             self.delete(index + "+1char", END)
         elif has_leading_text:
-            self.create_notebook()
             notebook = self.notebook
             tab_name = new_child_title(parent)
             sheet = self.notebook.add_sheet(tab_name)

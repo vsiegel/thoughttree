@@ -14,15 +14,22 @@ class ForkableSheet(Sheet):
         self.fork_frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
         Sheet.__init__(self,  self.fork_frame, height=1, width=250, scrollbar=False, grow=True, background="white", *args, **kw)
         self.pack(side=tk.TOP, fill=BOTH, expand=True)
-        self.notebook = None
+
+        self.parent_notebook = None
+        self.parent_sheet = None
+        self.notebook = Notebook(self.fork_frame)
+        self.notebook.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
+        self.pack_configure(expand=False)
 
 
-    def create_notebook(self):
-        if not self.notebook:
-            print(f"create_notebook")
-            self.notebook = Notebook(self.fork_frame)
-            self.notebook.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
-            # self.pack_configure(expand=False)
+    def selected_sheet(self)->'ForkableSheet':
+        if not self.notebook.select():
+            return None
+        return self.nametowidget(self.notebook.select())
+
+    def child_sheets(self)->['ForkableSheet']:
+        frames = map(self.nametowidget, self.notebook.tabs())
+        return [list(f.children.values())[0] for f in frames]
 
 
     def fork(self, index=INSERT):

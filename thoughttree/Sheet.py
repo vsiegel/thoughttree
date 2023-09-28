@@ -75,13 +75,18 @@ class Sheet(ScrolledText):
             return
         sheet:Sheet = event.widget
         num_display_lines = sheet.count("1.0", "end", 'displaylines')[0]
+        ypixels = sheet.count("1.0", "end lineend", 'ypixels')[0]
+        width = sheet.winfo_width()
 
         sheet.configure(height=num_display_lines)
         self.old_num_display_lines = num_display_lines
-        sheet.update()
-        sheet.event_generate("<<ScrollRegionChanged>>")
 
-        sheet.edit_modified(False)
+        sheet.event_generate("<Configure>", x=0, y=0, width=width, height=ypixels)
+        # sheet.update()
+        # sheet.event_generate("<<ScrollRegionChanged>>")
+
+        if self.debug:
+            sheet.edit_modified(False)
         # return "break"
 
     def exec_code_block(self, event=None):

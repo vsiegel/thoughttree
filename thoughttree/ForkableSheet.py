@@ -18,18 +18,20 @@ class ForkableSheet(Sheet):
         self.parent_notebook = None
         self.parent_sheet = None
         self.notebook = Notebook(self.fork_frame)
+
         self.notebook.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
         self.pack_configure(expand=False)
 
+    def add_sheet(self, title)->'ForkableSheet':
+        return self.notebook.add_sheet(title)
+
 
     def selected_sheet(self)->'ForkableSheet':
-        if not self.notebook.select():
-            return None
-        return self.nametowidget(self.notebook.select())
+        return self.notebook.selected_sheet()
+
 
     def child_sheets(self)->['ForkableSheet']:
-        frames = map(self.nametowidget, self.notebook.tabs())
-        return [list(f.children.values())[0] for f in frames]
+        return self.notebook.child_sheets()
 
 
     def fork(self, index=INSERT):
@@ -46,13 +48,13 @@ class ForkableSheet(Sheet):
             # parent = self.notebook
             trailing_text = self.get(index, END).rstrip()
             tab_name = new_child_title(notebook)
-            sheet = self.notebook.add_sheet(tab_name)
+            sheet = self.add_sheet(tab_name)
             sheet.insert("1.0", trailing_text)
             self.delete(index + "+1char", END)
         elif has_leading_text:
             notebook = self.notebook
             tab_name = new_child_title(parent)
-            sheet = self.notebook.add_sheet(tab_name)
+            sheet = self.add_sheet(tab_name)
         else:
             notebook = parent
 

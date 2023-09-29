@@ -1,6 +1,6 @@
 import sys
 import tkinter as tk
-from tkinter import X, BOTH, Y, INSERT, END
+from tkinter import X, BOTH, Y, INSERT, END, CURRENT, SEL
 
 from IterateRangeForm import IterateRangeForm
 from Notebook import Notebook
@@ -13,21 +13,32 @@ class ForkableSheet(Sheet):
         self.fork_frame = tk.Frame(parent, name="fork_frame")
         self.fork_frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
         Sheet.__init__(self,  self.fork_frame, height=1, width=250, scrollbar=False, grow=True, background="white", *args, **kw)
-        self.pack(side=tk.TOP, fill=BOTH, expand=True)
+        self.pack(side=tk.TOP, fill=X, expand=False)
 
-        self.parent_notebook = None
-        self.parent_sheet = None
-        self.notebook = Notebook(self.fork_frame)
+        # self.parent_notebook = None
+        # self.parent_sheet = None
+        # self.notebook = Notebook(self.fork_frame)
+        #
+        # self.notebook.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
+        ## self.pack_configure(expand=False)
 
-        self.notebook.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
-        self.pack_configure(expand=False)
+        self.notebook = None
+
+    def have_notebook(self):
+        if not self.notebook:
+            print(f"create_notebook")
+            self.notebook = Notebook(self.fork_frame)
+            self.notebook.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
+            # self.pack_configure(expand=False)
 
 
     def selected_sheet(self)->'ForkableSheet':
+        self.have_notebook()
         return self.notebook.selected_sheet()
 
 
     def child_sheets(self)->['ForkableSheet']:
+        self.have_notebook()
         return self.notebook.child_sheets()
 
 
@@ -41,6 +52,7 @@ class ForkableSheet(Sheet):
         # print(f"{parent=}")
         # print(f"{has_leading_text=}")
         if not parent:
+            self.have_notebook()
             notebook = self.notebook
             # parent = self.notebook
             trailing_text = self.get(index, END).rstrip()
@@ -49,6 +61,7 @@ class ForkableSheet(Sheet):
             sheet.insert("1.0", trailing_text)
             self.delete(index + "+1char", END)
         elif has_leading_text:
+            self.have_notebook()
             notebook = self.notebook
             tab_name = new_child_title(parent)
             sheet = self.notebook.add_sheet(tab_name)

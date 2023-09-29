@@ -229,7 +229,7 @@ class MainMenu(Menu):
             if type(it) == Sheet:
                 it.close_tab()
 
-        def search_google(event=None):
+        def search_web(event=None):
             sheet = self.it
             sel_range = sheet.tag_ranges(SEL)
             if sel_range:
@@ -276,7 +276,7 @@ class MainMenu(Menu):
         item("Find Previous", "<Control-Shift-G>", lambda e=None: self.it.find_previous())
         self.menu.add_separator()
         sheet_menu.add_separator()
-        item("Search with Google", "<Control-Alt-g>", search_google, additional_menu=sheet_menu)
+        item("Search with Google", "<Control-Alt-g>", search_web, additional_menu=sheet_menu)
         sheet_menu.add_separator()
         item("Insert Current Time", "<Control-Shift-I>", insert_current_time)
         item("Copy Title", None, None)

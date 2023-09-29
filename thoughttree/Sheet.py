@@ -24,15 +24,6 @@ class Sheet(ScrolledText):
             border=0, borderwidth=borderwidth, highlightthickness=0,
             selectbackground="#66a2d4", selectforeground="white", name="st", **kw)
 
-        # if autohide:
-        #     self.vbar = AutoScrollbar(self.frame)
-        # else:
-        #     self.vbar = tk.Scrollbar(self.frame)
-        # self.vbar.pack(side=RIGHT, fill=Y)
-        #
-        # self.config(yscrollcommand=self.vbar.set)
-        # self.vbar.configure(command=self.yview)
-
         if scrollbar:
             self.vbar.config(width=18, takefocus=False, borderwidth=2)
         else:

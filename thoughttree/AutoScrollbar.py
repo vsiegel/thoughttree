@@ -1,6 +1,16 @@
 import tkinter as tk
 from tkinter import RIGHT, Y
 
+## Usage, in something like ScrolledText:
+# if autohide:
+#     self.vbar = AutoScrollbar(self.frame)
+# else:
+#     self.vbar = tk.Scrollbar(self.frame)
+# self.vbar.pack(side=RIGHT, fill=Y)
+#
+# self.config(yscrollcommand=self.vbar.set)
+# self.vbar.configure(command=self.yview)
+
 
 class AutoScrollbar(tk.Scrollbar):
     def __init__(self, parent, **kw):

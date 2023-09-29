@@ -22,11 +22,9 @@ class ForkableSheet(Sheet):
         # self.notebook.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
         ## self.pack_configure(expand=False)
 
-        self.notebook = None
 
-    def have_notebook(self):
+    def have_notebook(self): # make sure we have a notebook
         if not self.notebook:
-            print(f"create_notebook")
             self.notebook = Notebook(self.fork_frame)
             self.notebook.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
             # self.pack_configure(expand=False)
@@ -57,20 +55,20 @@ class ForkableSheet(Sheet):
             # parent = self.notebook
             trailing_text = self.get(index, END).rstrip()
             tab_name = new_child_title(notebook)
-            sheet = self.notebook.add_sheet(tab_name)
+            sheet = self.notebook.add_sheet(tab_name, parent_sheet=self)
             sheet.insert("1.0", trailing_text)
             self.delete(index + "+1char", END)
         elif has_leading_text:
             self.have_notebook()
             notebook = self.notebook
             tab_name = new_child_title(parent)
-            sheet = self.notebook.add_sheet(tab_name)
+            sheet = self.notebook.add_sheet(tab_name, parent_sheet=self)
         else:
             notebook = parent
 
         # self.create_notebook_tab(new_sibling_title(notebook))
         tab_name2 = new_sibling_title(notebook)
-        sheet = notebook.add_sheet(tab_name2)
+        sheet = notebook.add_sheet(tab_name2, parent_sheet=self)
         # self.create_notebook_tab(tab_name2, "self.create_notebook_tab(new_sibling_title(parent)")
         return "break"
 

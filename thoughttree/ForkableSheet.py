@@ -22,9 +22,6 @@ class ForkableSheet(Sheet):
         self.notebook.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
         self.pack_configure(expand=False)
 
-    def add_sheet(self, title)->'ForkableSheet':
-        return self.notebook.add_sheet(title)
-
 
     def selected_sheet(self)->'ForkableSheet':
         return self.notebook.selected_sheet()
@@ -48,13 +45,13 @@ class ForkableSheet(Sheet):
             # parent = self.notebook
             trailing_text = self.get(index, END).rstrip()
             tab_name = new_child_title(notebook)
-            sheet = self.add_sheet(tab_name)
+            sheet = self.notebook.add_sheet(tab_name)
             sheet.insert("1.0", trailing_text)
             self.delete(index + "+1char", END)
         elif has_leading_text:
             notebook = self.notebook
             tab_name = new_child_title(parent)
-            sheet = self.add_sheet(tab_name)
+            sheet = self.notebook.add_sheet(tab_name)
         else:
             notebook = parent
 

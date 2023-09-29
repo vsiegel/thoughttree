@@ -151,25 +151,6 @@ class Sheet(ScrolledText):
         print(f"####### {sheet          =}")
         return sheet
 
-    def find_parent(self, parentType: type) -> Union["Sheet", Notebook]:
-        print(f"####### {parentType=}")
-        print(f"{self                     =}")
-        print(f"{self.master              =}")
-        print(f"{self.master.master       =}")
-        print(f"{self.master.master.master=}")
-        print(f"{self.children                     =}")
-        print(f"{self.master.children              =}")
-        print(f"{self.master.master.children       =}")
-        print(f"{self.master.master.master.children=}")
-        parent = self.master
-        print(f"#######1 {type(parent)=} {parent}")
-        # while parent and type(parent) != parentType:
-        while parent and not isinstance(parent, parentType):
-            print(f"### {type(parent)=} {parent}")
-            parent = parent.master
-        print(f"##### {parent=}")
-        return parent
-
 
     def history_from_path(self, history=None) :
 

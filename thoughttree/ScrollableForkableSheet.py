@@ -7,7 +7,7 @@ from tools import on_event, bind_tree, iterate_tree
 
 
 class ScrollableForkableSheet(tk.Frame):
-    def __init__(self, parent, debug=False, *args, **kw):
+    def __init__(self, parent, *args, **kw):
         super().__init__(parent, name="sf", *args, **kw)
 
         self.canvas = tk.Canvas(self, highlightthickness=0, bd=0,)# background="lightcyan")
@@ -24,7 +24,7 @@ class ScrollableForkableSheet(tk.Frame):
         can_f = tk.Frame(self.canvas, bd=0, background="#eeeeff", name="can_f")
         self.canvas_id = self.canvas.create_window((0, 0), window=can_f, anchor=NW)
 
-        self.forkable_sheet = ForkableSheet(can_f, debug=debug)
+        self.forkable_sheet = ForkableSheet(can_f)
         self.forkable_sheet.pack(side=TOP, expand=True, fill=Y)
 
         def on_mousewheel(event):

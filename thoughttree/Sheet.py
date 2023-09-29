@@ -17,7 +17,7 @@ from tools import on_event
 class Sheet(ScrolledText):
 
     def __init__(self, master=None, scrollbar=True, autohide=False, width=80, borderwidth=0, padx=0, pady=0, height=0,
-                 grow=True, background='white', debug=False, **kw):
+                 grow=True, background='white', **kw):
         ScrolledText.__init__(
             self, master, undo=True, wrap=WORD, padx=padx, pady=pady, background=background,
             width=width, height=height, insertwidth=4, font=Fonts.FONT,
@@ -42,7 +42,6 @@ class Sheet(ScrolledText):
         self.pattern = None
         self.found = None
         self.initially_modified = False
-        self.debug = debug
 
         self.bind('<Prior>', self.jump_to_limit)
         self.bind('<Next>', self.jump_to_limit)

@@ -14,7 +14,7 @@ class ScrollableForkableSheet(tk.Frame):
         self.scrollbar = tk.Scrollbar(self, orient=VERTICAL, command=self.canvas.yview, width=18, takefocus=False, borderwidth=2)
 
         def canvas_set(*args):
-            print(f"canvas_set: {args=}")
+            # print(f"canvas_set: {args=}")
             self.scrollbar.set(*args)
         self.canvas.configure(yscrollcommand=canvas_set)
 
@@ -88,7 +88,7 @@ class ScrollableForkableSheet(tk.Frame):
 
     def configure_frame(self, event):
         height = max(self.canvas.winfo_height(), self.forkable_sheet.winfo_reqheight())
-        print(f"configure_frame: {event.width=} {height=}")
+        # print(f"configure_frame: {event.width=} {height=}")
         self.canvas.itemconfigure(self.canvas_id, width=event.width, height=height)
 
     def focus_set(self):

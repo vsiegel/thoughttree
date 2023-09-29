@@ -21,7 +21,6 @@ class Notebook(ttk.Notebook):
         self.insert(END, frame, text=title)
         self.select(frame)
         sheet.focus_set()
-        print(f"Added tab: {title}")
         return sheet
 
     def get_parent_notebook(self) -> "Notebook":

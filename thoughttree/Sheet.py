@@ -59,8 +59,8 @@ class Sheet(ScrolledText):
         self.tag_config('semi_highlight', background="#c8e7ff")
         self.tag_config("added", foreground="#9af1a9")
         self.tag_config("deleted", foreground="#f1a8ae")
-        self.tag_config('hidden_markup', elide=True, foreground="light blue")
-        self.tag_config('hidden_prompt', elide=True, foreground="light blue")
+        self.tag_config('hidden_markup', elide=True, foreground="#ADD8E6")
+        self.tag_config('hidden_prompt', elide=True, foreground="#ADD8E6")
 
         self.old_num_display_lines = 0
         # if grow:

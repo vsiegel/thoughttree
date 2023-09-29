@@ -110,25 +110,6 @@ class Sheet(ScrolledText):
             self.tag_add('found_one', self.found, f"{self.found} + {len(self.pattern)} char")
 
 
-    def get_parent_notebook(self) -> Notebook:
-        parent = self.master
-        while parent and not isinstance(parent, Notebook):
-            parent = parent.master
-        return parent
-
-    def get_parent_sheet(self) -> "Sheet":
-        parent = self.master
-        # while parent and not parent.winfo_name().endswith("fork_frame"):
-        while parent and not len(list(parent.children.values())) == 1 and not isinstance(list(parent.children.values())[0], Sheet):
-            parent = parent.master
-        print(f"####### {parent.children=}")
-        # sheet = parent.children['!frame']
-        sheet = parent
-        print(f"####### {sheet          =}")
-        return sheet
-
-
-
     def transfer_content(self, to_sheet):
         content = self.get("1.0", tk.END)
         to_sheet.insert("1.0", content)
@@ -143,7 +124,6 @@ class Sheet(ScrolledText):
             index = self.index(name)
             window = self.nametowidget(name)
             to_sheet.window_create(index, window=window)
-
 
 
 

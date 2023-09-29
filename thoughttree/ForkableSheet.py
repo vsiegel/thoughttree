@@ -47,7 +47,7 @@ class ForkableSheet(Sheet):
         self.initially_modified = True
 
         has_leading_text = bool(self.get("1.0", index).strip())
-        parent = self.get_parent_notebook()
+        parent = self.parent_notebook
 
         # print(f"{parent=}")
         # print(f"{has_leading_text=}")
@@ -76,7 +76,7 @@ class ForkableSheet(Sheet):
 
     def history_from_path(self, history=None) :
 
-        parent_sheet: ForkableSheet = self.get_parent_sheet()
+        parent_sheet: ForkableSheet = self.parent_sheet
         # print(f"{parent_sheet=}")
 
         if parent_sheet:
@@ -120,7 +120,7 @@ class ForkableSheet(Sheet):
             sheet = frame_on_tab.winfo_children()[1]
             return sheet
 
-        notebook: Notebook = self.get_parent_notebook()
+        notebook: Notebook = self.parent_notebook
         if notebook and notebook.tabs():
             selected = notebook.index(CURRENT)
             notebook.forget(selected)
@@ -129,7 +129,7 @@ class ForkableSheet(Sheet):
                 selected_sheet(notebook).focus_set()
             elif len(notebook.tabs()) == 1:
                 string = selected_sheet(notebook).get('1.0', END)
-                parent = self.get_parent_sheet()
+                parent = self.parent_sheet
                 parent.delete("end-2 char", "end-1 char") # delete notebook window
                 parent.insert(END, string)
                 parent.mark_set(INSERT, "end-1 char")
@@ -139,7 +139,7 @@ class ForkableSheet(Sheet):
 
     def close_empty_tab_or_backspace(self):
         if self.index(INSERT) == "1.0" and not self.tag_ranges(SEL):
-            notebook: Notebook = self.get_parent_notebook()
+            notebook: Notebook = self.parent_notebook
             if notebook:
                 string_in_tab = self.get('1.0', END).strip()
                 if not string_in_tab:

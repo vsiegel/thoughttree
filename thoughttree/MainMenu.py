@@ -368,7 +368,6 @@ class MainMenu(Menu):
         self.windows_menu = WindowsMenu(self, "Windows")
 
         self.menu = Menu(self, "Help")
-        item("Test", "<Control-Alt-Shift-T>", menu_test)
         item("Debug Info", "<Control-i>", debug_info)
         item("Text Keymap", "<F1>", lambda e=None: Keys.show_text_keys_help(self.ui))
         item("About", "<Control-F1>", lambda e=None: AboutDialog(self.ui))

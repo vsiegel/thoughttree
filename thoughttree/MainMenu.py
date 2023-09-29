@@ -196,10 +196,6 @@ class MainMenu(Menu):
                 print(f'{part=}')
 
 
-        def menu_test(event=None):
-            pass
-
-
         def branch():
             self.it.fork()
             self.ui.update()
@@ -370,6 +366,10 @@ class MainMenu(Menu):
         self.menu = Menu(self, "Help")
         item("Debug Info", "<Control-i>", debug_info)
         item("Text Keymap", "<F1>", lambda e=None: Keys.show_text_keys_help(self.ui))
+        item("Technical documentation", "<F2>", lambda e=None: webbrowser.open_new_tab("https://platform.openai.com/docs/introduction"))
+        item("OpenAI Chat API", None, lambda e=None: webbrowser.open_new_tab("https://platform.openai.com/docs/api-reference/chat"))
+        item("GPT Models", None, lambda e=None: webbrowser.open_new_tab("https://platform.openai.com/docs/models"))
+        item("OpenAI Pricing", None, lambda e=None: webbrowser.open_new_tab("https://openai.com/pricing"))
         item("About", "<Control-F1>", lambda e=None: AboutDialog(self.ui))
 
         ui.bind_class("Text", "<Control-Button-4>", lambda e=None: font_size(1))

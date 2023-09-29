@@ -63,25 +63,26 @@ class ForkableSheet(Sheet):
             self.have_notebook()
             notebook = self.notebook
             tab_name = new_child_title(parent)
-            sheet = self.notebook.add_sheet(tab_name, parent_sheet=self)
+            self.notebook.add_sheet(tab_name, parent_sheet=self)
         else:
             notebook = parent
 
-        # self.create_notebook_tab(new_sibling_title(notebook))
         tab_name2 = new_sibling_title(notebook)
-        sheet = notebook.add_sheet(tab_name2, parent_sheet=self)
-        # self.create_notebook_tab(tab_name2, "self.create_notebook_tab(new_sibling_title(parent)")
+        notebook.add_sheet(tab_name2, parent_sheet=self)
         return "break"
 
+
     def history_from_path(self, history=None) :
-
-        parent_sheet: ForkableSheet = self.parent_sheet
-        # print(f"{parent_sheet=}")
-
-        if parent_sheet:
-            history = parent_sheet.history_from_path(history)
+        if self.parent_sheet:
+            history = self.parent_sheet.history_from_path(history)
         else:
             history = history or []
+
+        return history + self.as_history()
+
+
+    def as_history(self):
+        history = []
         content = self.dump(1.0, END, text=True, tag=True, window=True)
         section = ""
         role = "user"

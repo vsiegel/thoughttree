@@ -6,7 +6,7 @@ from Tooltip import Tooltip
 from tools import text_block
 
 
-class SheetHelp(tk.Label):
+class SheetIntro(tk.Label):
     def __init__(self, sheet: Sheet, text:str, tooltip=""):
         super().__init__(sheet, text=text, padx=0, pady=0, bg="white", fg="#b3b3b3", borderwidth=0)
         if tooltip:

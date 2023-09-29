@@ -23,8 +23,12 @@ class Notebook(ttk.Notebook):
         sheet.focus_set()
         return sheet
 
-    def get_parent_notebook(self) -> "Notebook":
-        parent = self.master
-        while parent and type(parent) != type(self):
-            parent = parent.master
-        return parent
+    def selected_sheet(self):
+        if not self.select():
+            return None
+        return self.nametowidget(self.select())
+
+    def child_sheets(self):
+        frames = map(self.nametowidget, self.tabs())
+        return [list(f.children.values())[0] for f in frames]
+

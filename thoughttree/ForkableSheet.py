@@ -61,6 +61,81 @@ class ForkableSheet(Sheet):
         # self.create_notebook_tab(tab_name2, "self.create_notebook_tab(new_sibling_title(parent)")
         return "break"
 
+    def history_from_path(self, history=None) :
+
+        parent_sheet: ForkableSheet = self.get_parent_sheet()
+        # print(f"{parent_sheet=}")
+
+        if parent_sheet:
+            history = parent_sheet.history_from_path(history)
+        else:
+            history = history or []
+        content = self.dump(1.0, END, text=True, tag=True, window=True)
+        section = ""
+        role = "user"
+        for item in content :
+            text = item[1]
+            designation = item[0]
+            if designation == "tagon" and text == "assistant":
+                # section = section.strip()
+                history += [{'role' : role, 'content' : section}]
+                role = "assistant"
+                section = ""
+            elif designation == "tagoff" and text == "assistant":
+                # section = section.strip()
+                history += [{'role' : role, 'content' : section}]
+                role = "user"
+                section = ""
+            elif designation in ["tagon", "tagoff"] and text in ["cursorline", "sel"]:
+                pass
+            elif designation == "text":
+                section += text
+            elif designation == "window":
+                pass
+            else:
+                print(f"Ignored item: {item}")
+        section = section.strip("\n")
+        if section != "" :
+            history += [{'role' : role, 'content' : section}]
+        return history
+
+
+    def close_tab(self):
+
+        def selected_sheet(notebook):
+            frame_on_tab = notebook.nametowidget(notebook.select())
+            sheet = frame_on_tab.winfo_children()[1]
+            return sheet
+
+        notebook: Notebook = self.get_parent_notebook()
+        if notebook and notebook.tabs():
+            selected = notebook.index(CURRENT)
+            notebook.forget(selected)
+            if len(notebook.tabs()) > 1:
+                notebook.select(max(selected - 1, 0))
+                selected_sheet(notebook).focus_set()
+            elif len(notebook.tabs()) == 1:
+                string = selected_sheet(notebook).get('1.0', END)
+                parent = self.get_parent_sheet()
+                parent.delete("end-2 char", "end-1 char") # delete notebook window
+                parent.insert(END, string)
+                parent.mark_set(INSERT, "end-1 char")
+                parent.focus_set()
+            return "break"
+
+
+    def close_empty_tab_or_backspace(self):
+        if self.index(INSERT) == "1.0" and not self.tag_ranges(SEL):
+            notebook: Notebook = self.get_parent_notebook()
+            if notebook:
+                string_in_tab = self.get('1.0', END).strip()
+                if not string_in_tab:
+                    self.close_tab()
+            return "break"
+        else:
+            pass
+            # self.delete(INSERT + "-1c")
+
 
 
 if __name__ == "__main__":

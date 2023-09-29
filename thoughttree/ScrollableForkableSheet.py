@@ -3,7 +3,7 @@ from tkinter import ttk, BOTH, LEFT, RIGHT, VERTICAL, NW, Y, X, INSERT, CURRENT,
 
 from ForkableSheet import ForkableSheet
 from Sheet import Sheet
-from tools import on_event, bind_tree
+from tools import on_event, bind_tree, iterate_tree
 
 
 class ScrollableForkableSheet(tk.Frame):
@@ -47,6 +47,11 @@ class ScrollableForkableSheet(tk.Frame):
 
         self.forkable_sheet.bind('<<Modified>>', self.grow_to_displaylines, add=True)
 
+        def show_packing(widget: tk.Widget, event=None):
+            print(f"show_packing: {widget.pack_info()=}")
+
+        print(f"iterate_tree")
+        iterate_tree(self, show_packing)
 
     def grow_to_displaylines(self, event: tk.Event):
         if not event.widget.edit_modified():

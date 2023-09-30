@@ -36,7 +36,6 @@ class Tooltip :
             self.tooltip.bind("<Button-1>", self.remove_tooltip)
             self.label.bind("<Escape>", self.remove_tooltip)
             self.widget.bind("<Destroy>", self.remove_tooltip)
-            self.tooltip.wm_attributes("-topmost", 1)
             self.refresh_tooltip()
 
 
@@ -47,6 +46,7 @@ class Tooltip :
             px = self.root.winfo_pointerx() + 75
             py = self.root.winfo_pointery() + 25
             self.tooltip.wm_geometry(f"+{px}+{py}")
+            self.tooltip.wm_attributes("-topmost", 1)
             self.refresh_tooltip_text()
 
     def refresh_tooltip_text(self):

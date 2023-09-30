@@ -50,7 +50,6 @@ class ScrollableForkableSheet(tk.Frame):
         def show_packing(widget: tk.Widget, event=None):
             print(f"show_packing: {widget.pack_info()=}")
 
-        print(f"iterate_tree")
         iterate_tree(self, show_packing)
 
     def grow_to_displaylines(self, event: tk.Event):

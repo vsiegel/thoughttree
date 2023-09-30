@@ -1,7 +1,6 @@
 import tkinter as tk
 
 
-
 class Tooltip :
     def __init__(self, widget, text) :
         self.widget = widget
@@ -37,6 +36,7 @@ class Tooltip :
             self.tooltip.bind("<Button-1>", self.remove_tooltip)
             self.label.bind("<Escape>", self.remove_tooltip)
             self.widget.bind("<Destroy>", self.remove_tooltip)
+            self.tooltip.wm_attributes("-topmost", 1)
             self.refresh_tooltip()
 
 

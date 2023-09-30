@@ -32,13 +32,13 @@ class Model():
         self.name = model_name
         self.counter = TokenCounter(model_name)
 
-        logdir = Path.home()/"logs"/"thoughttree"
-        if not logdir.exists():
-            logdir.mkdir(parents=True, exist_ok=True)
-
-        logfile_name = f"thoughttree-chat-{datetime.now().strftime('%Y-%m-%d-%H-%M-%S')}-{model_name}.log"
-        self.chat_log_path = logdir/logfile_name
-        self.chat_log = open(self.chat_log_path, "a")
+        # logdir = Path.home()/"logs"/"thoughttree"
+        # if not logdir.exists():
+        #     logdir.mkdir(parents=True, exist_ok=True)
+        #
+        # logfile_name = f"thoughttree-chat-{datetime.now().strftime('%Y-%m-%d-%H-%M-%S')}-{model_name}.log"
+        # self.chat_log_path = logdir/logfile_name
+        # self.chat_log = open(self.chat_log_path, "a")
 
         self.max_tokens = tk.IntVar(value=1500)
         self.temperature = tk.DoubleVar(value=0.5)
@@ -53,7 +53,7 @@ class Model():
         self.is_canceled = False
         self.counter.go()
         self.counter.observe_prompt(history)
-        History.log_history_compact(history)
+        # History.log_history_compact(history)
         try:
             response = openai.ChatCompletion.create(
                 model=self.name,
@@ -103,11 +103,11 @@ class Model():
 
 
     def log(self, text):
-        chat_log = self.chat_log
-        if chat_log:
-            chat_log.write(text)
-            # chat_log.write('\n')
-            chat_log.flush()
+        pass
+        # chat_log = self.chat_log
+        # if chat_log:
+        #     chat_log.write(text)
+        #     chat_log.flush()
 
 
     def cancel(self):

@@ -10,6 +10,7 @@ from Files import Files
 from Fonts import Fonts
 from ForkableSheet import ForkableSheet
 from Imports import Menu, ModelsMenu, WindowsMenu
+from InsertionIcon import InsertionIcon
 from IterateRangeForm import IterateRangeForm
 from Keys import Keys
 from Sheet import Sheet
@@ -154,9 +155,14 @@ class MainMenu(Menu):
             self.it.insert(INSERT, f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} ")
 
         def debug_info(event=None):
+            print(f"{self.it.bbox(1.0)=}")
+            self.it.window_create(INSERT, window=InsertionIcon())
+            return "break"
+            # self.it.window_create(INSERT, window=tk.Label(self.it, text="foo"))
+
 
             # self.it.see(END)
-            self.it.yview(END)
+            # self.it.yview(END)
 
             return
             def list_widgets(parent):
@@ -314,9 +320,6 @@ class MainMenu(Menu):
         item("Complete in Branch", "<Control-Shift-Return>", lambda e=None: branch())
         item("Complete Alternatives", "<Alt-Shift-Return>", lambda e=None: ui.chat(-1, "\n"))
         self.menu.add_separator()
-        item("Solve this Problem", "<Alt-Return>", lambda e=None: ui.chat(replace=True), additional_menu=sheet_menu)
-        item("Ask About This", "<Control-Shift-A>", ui.ask, additional_menu=sheet_menu)
-        self.menu.add_separator()
         sheet_menu.add_separator()
         item("Complete 3 Times", "<Control-Key-3>", lambda e=None: ui.chat(3), add=False)
         [self.bind_class("Text", f"<Control-Key-{i}>", lambda e=None, i=i: ui.chat(i)) for i in [2, 4, 5, 6, 7, 8, 9]]
@@ -347,6 +350,8 @@ class MainMenu(Menu):
 
 
         self.menu = Menu(self, "Prompt")
+        item("Solve this Problem", "<Alt-Return>", None, additional_menu=sheet_menu)
+        item("Ask About This", "<Control-Shift-A>", ui.ask, additional_menu=sheet_menu)
         item("Remove from Text")
         item("Select Text")
         item("Change Text")
@@ -382,6 +387,8 @@ class MainMenu(Menu):
         ui.bind_class("Text", "<Button-3>", lambda e=None: show_context_menu(e, sheet_menu))
         ui.bind_class("Text", "<Menu>", lambda e=None: show_context_menu(e, sheet_menu))
         ui.bind_class("Text", "<Tab>", lambda e=None: e.widget.tk_focusNext())
+        # ui.bind_class("Text", "<Control-i>", lambda e=None: e.widget.tk_focusNext())
+        ui.unbind_class("Text", "<Control-i>")
 
 
     def sub_item(self, label, keystroke=None, command=None, variable=None, add=False, additional_menu=None):

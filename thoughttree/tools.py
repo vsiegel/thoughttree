@@ -39,13 +39,13 @@ def list_all_bindings(root):
             bindings.update(list_all_bindings(child))
     return bindings
 
-def iterate_tree(root, command=None):
+def iterate_tree(root, command=None, level=0):
     if root.winfo_manager() == "pack":
         info = root.pack_info()
         info['in'] = str(info['in'])
-        print(f"{root.winfo_name()}: packed: {info}")
+        print(f"{'    ' * level}{root.winfo_name()}: packed: {info}")
     else:
-        print(f"{root.winfo_name()}: Not packed: {root.winfo_manager()}")
+        print(f"{'    ' * level}{root.winfo_name()}: Not packed: {root.winfo_manager()}")
 
     if command is None:
         def command_impl(e=None):
@@ -53,7 +53,7 @@ def iterate_tree(root, command=None):
         command = command_impl
 
     for child in root.winfo_children():
-        iterate_tree(child, command=command)
+        iterate_tree(child, command=command, level=level+1)
 
 
 def bind_tree(root, event, on_event=None, subtree=False):

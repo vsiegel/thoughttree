@@ -17,7 +17,7 @@ from FoldablePane import FoldablePane
 from ForkableSheet import ForkableSheet
 from Keys import Keys
 from ScrollableForkableSheet import ScrollableForkableSheet
-from SheetIntro import SheetIntro
+from InitialSheetHelp import InitialSheetHelp
 from TextIOTee import TextIOTee
 from Title import Title
 from HidableFrame import HidableFrame
@@ -159,11 +159,11 @@ class Thoughttree(Ui):
 
         self.chat_sheet.focus_set()
 
-        SheetIntro(self.system, "System prompt - [?]",
+        InitialSheetHelp(self.system, "System prompt - [?]",
                   "Enter a system prompt for ChatGPT in this text box. This prompt will guide the model's responses."
                   " For instance, if you want the model to speak like Shakespeare, you could use a prompt like"
                   " 'You are an AI trained in the style of Shakespeare.' Be as specific as possible to get the best results.")
-        SheetIntro(self.chat_sheet.forkable_sheet, "User prompt - Chat - [?]",
+        InitialSheetHelp(self.chat_sheet.forkable_sheet, "User prompt - Chat - [?]",
                   "In this text box, you need to input your general prompt for ChatGPT. This is essentially your conversation"
                   " starter or question, which will guide the AI model's responses. For example, if you want to write a story,"
                   " your prompt could be 'Once upon a time in a kingdom far away...'. If you're looking for answers to a specific"
@@ -253,7 +253,7 @@ class Thoughttree(Ui):
         num_chars = len(text)
         # todo: align numbers, using TextDialog or so
         showinfo("Count Tokens",
-                 f"The length of the text is:\n"
+                 f"The length of this section is:\n"
                  f"{num_tokens:,} tokens\n"
                  f"{num_lines:,} lines\n"
                  f"{num_words:,} words\n"

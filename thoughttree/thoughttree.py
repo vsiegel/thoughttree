@@ -350,10 +350,9 @@ class Thoughttree(Ui):
 
 
 
-    def scroll(self, sheet):
+    def scroll(self, sheet, to="end-1c"):
         if self.scroll_output:
-            # sheet.update()
-            sheet.see(END)
+            sheet.see(to)
         sheet.update()
 
 
@@ -380,7 +379,7 @@ class Thoughttree(Ui):
 
     def completions(self, sheet, n, history, inline=False):
         finish_reason, message = 'unknown', ''
-        insertion_point = inline and INSERT or END
+        insertion_point = inline and INSERT or "end-1c"
         label_frame = None
 
 

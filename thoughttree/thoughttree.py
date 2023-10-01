@@ -15,6 +15,7 @@ from Console import Console
 from FinishReasonIcon import FinishReasonIcon
 from FoldablePane import FoldablePane
 from ForkableSheet import ForkableSheet
+from InsertionIcon import InsertionIcon
 from Keys import Keys
 from ScrollableForkableSheet import ScrollableForkableSheet
 from InitialSheetHelp import InitialSheetHelp
@@ -371,7 +372,7 @@ class Thoughttree(Ui):
         return n
 
 
-    def insert_prefix_and_scroll(self, sheet, prefix):
+    def set_up(self, sheet, prefix):
         if prefix:
             sheet.insert(END, prefix)
             self.scroll(sheet)
@@ -383,13 +384,16 @@ class Thoughttree(Ui):
         label_frame = None
 
 
-        def write(text, label=None):
+        def write_sheet(text):
             if self.is_root_destroyed:
                 return
-            if label:
-                label.config(text=label.cget("text") + text)
-            else:
-                sheet.insert(insertion_point, text, "assistant")
+            sheet.insert(insertion_point, text, "assistant")
+            self.scroll(sheet)
+
+        def write_label(text, label=None):
+            if self.is_root_destroyed:
+                return
+            label.config(text=label.cget("text") + text)
             self.scroll(sheet)
 
 
@@ -403,8 +407,12 @@ class Thoughttree(Ui):
                 sheet.insert(insertion_point, "\n")
                 sheet.see(insertion_point)
                 finish_reason, message = 'unknown', ''
-            label = MultiTextboxLabel(label_frame, sheet) if label_frame else None
-            finish_reason, message = self.model.complete(history, lambda text: write(text, label))
+            with InsertionIcon(sheet, insertion_point):
+                if label_frame:
+                    label = MultiTextboxLabel(label_frame, sheet)
+                    finish_reason, message = self.model.complete(history, lambda text: write_label(text, label))
+                else:
+                    finish_reason, message = self.model.complete(history, lambda text: write_sheet(text))
         return finish_reason, message
 
 

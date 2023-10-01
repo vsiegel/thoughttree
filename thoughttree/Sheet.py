@@ -20,7 +20,7 @@ class Sheet(ScrolledText):
                  grow=True, background='white', **kw):
         ScrolledText.__init__(
             self, master, undo=True, wrap=WORD, padx=padx, pady=pady, background=background,
-            width=width, height=height, insertwidth=4, font=Fonts.FONT,
+            width=width, height=height, insertwidth=3, font=Fonts.FONT,
             border=0, borderwidth=borderwidth, highlightthickness=0,
             selectbackground="#66a2d4", selectforeground="white", name="st", **kw)
 
@@ -119,7 +119,7 @@ class Sheet(ScrolledText):
 
 
     def delete(self, index1=INSERT, index2=None):
-        pass
+
         def is_icon(element):
             designation, value, index = element
             return designation == "window" and isinstance(self.nametowidget(value), FinishReasonIcon)

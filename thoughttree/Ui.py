@@ -1,4 +1,5 @@
 import os
+import sys
 import tkinter as tk
 from os.path import join, dirname
 from tkinter import messagebox
@@ -57,23 +58,18 @@ class Ui(tk.Frame):
             self.root.destroy()
 
     def quit(self, event=None, label="Quit"):
-        if not self.is_initially_modified() or askyesno(label, "Are you sure you want to quit all windows?", parent=self):
-            uis = [ui for ui in Ui.current_open_uis if ui != self] + [self]
-            for ui in uis:
-                ui.is_root_destroyed = True
-                ui.root.destroy()
+        if not self.is_initially_modified() or askyesno(label, "Are you sure you want to close all windows and quit?", parent=self):
+            sys.exit(0)
 
     def is_initially_modified(self):
         return True
 
     def set_icon(self, window_icon):
-        if not window_icon:
+        if not window_icon or Ui.icon:
             return
         def get_icon_file_name(icon_base_name):
             return join(dirname(os.path.abspath(__file__)), icon_base_name)
 
-        if Ui.icon:
-            return
         try:
             abs_name = str(get_icon_file_name(window_icon))
             photo_image = tk.PhotoImage(file=abs_name)

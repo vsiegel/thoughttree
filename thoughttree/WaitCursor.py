@@ -1,4 +1,4 @@
-class WaitCursor():
+class WaitCursor:
     def __init__(self, widget):
         self.widget = widget
         self.saved_cursor = None

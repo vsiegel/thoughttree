@@ -281,7 +281,7 @@ class Thoughttree(Ui):
             elif replace:
                 self.set_up_replace_completion(sheet)
             if not inline:
-                self.insert_prefix_and_scroll(sheet, prefix)
+                self.set_up(sheet, prefix)
 
             history = self.history_from_system_and_chat()
             if here or replace:

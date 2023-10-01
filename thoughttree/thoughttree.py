@@ -401,10 +401,12 @@ class Thoughttree(Ui):
             if self.model.is_canceled:
                 finish_reason = "canceled"
                 break
-            if i == 0 and n > 1:
+            if n > 1 and i == 0:
                 label_frame = tk.Frame(sheet, borderwidth=4)
-                sheet.window_create(insertion_point, window=label_frame)
+                title = tk.Label(label_frame, text=f"Alternatives ({n})")
+                title.pack(side=tk.TOP, anchor=tk.W)
                 sheet.insert(insertion_point, "\n")
+                sheet.window_create(insertion_point, window=label_frame)
                 sheet.see(insertion_point)
                 finish_reason, message = 'unknown', ''
             with InsertionIcon(sheet, insertion_point):

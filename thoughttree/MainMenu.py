@@ -343,11 +343,7 @@ class MainMenu(Menu):
 
         self.menu = Menu(self, "Data")
 
-        def iterate_range():
-            ui.chat(1)
-
         item("Iterate over Range", "<Control-Alt-I>", lambda e=None: IterateRangeForm(self.it))
-
 
         self.menu = Menu(self, "Prompt")
         item("Solve this Problem", "<Alt-Return>", None, additional_menu=sheet_menu)

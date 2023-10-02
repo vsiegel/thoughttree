@@ -17,28 +17,30 @@ class ForkableSheet(Sheet):
 
         self.parent_sheet = parent_sheet
         self.parent_notebook = parent_notebook
-        self.notebook = None
+        self.child_notebook = None
         # self.notebook = Notebook(self.fork_frame)
         #
         # self.notebook.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
         ## self.pack_configure(expand=False)
 
 
-    def have_notebook(self): # make sure we have a notebook
-        if not self.notebook:
-            self.notebook = Notebook(self.fork_frame, self, self.parent_notebook)
-            self.notebook.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
+    def create_child_notebook(self): # make sure we have a notebook
+        if not self.child_notebook:
+            self.child_notebook = Notebook(self.fork_frame, self, self.parent_notebook)
+            self.child_notebook.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
             # self.pack_configure(expand=False)
 
 
     def selected_sheet(self)->'ForkableSheet':
-        self.have_notebook()
-        return self.notebook.selected_sheet()
+        if not self.child_notebook:
+            self.create_child_notebook()
+        return self.child_notebook.selected_sheet()
 
 
     def child_sheets(self)->['ForkableSheet']:
-        self.have_notebook()
-        return self.notebook.child_sheets()
+        if not self.child_notebook:
+            self.create_child_notebook()
+        return self.child_notebook.child_sheets()
 
 
     def fork(self, index=INSERT):
@@ -46,26 +48,26 @@ class ForkableSheet(Sheet):
         self.initially_modified = True
 
         has_leading_text = bool(self.get("1.0", index).strip())
-        parent = self.parent_notebook
 
-        # print(f"{parent=}")
-        # print(f"{has_leading_text=}")
-        if not parent:
-            self.have_notebook()
-            notebook = self.notebook
-            # parent = self.notebook
+
+        if not self.parent_notebook and not self.child_notebook:
+            self.create_child_notebook()
+            first_child = new_child_title(self.child_notebook)
+            sheet = self.child_notebook.add_sheet(first_child, parent_sheet=self)
+
             trailing_text = self.get(index, END).rstrip()
-            tab_name = new_child_title(notebook)
-            sheet = self.notebook.add_sheet(tab_name, parent_sheet=self)
             sheet.insert("1.0", trailing_text)
             self.delete(index + "+1char", END)
+
+            notebook = self.child_notebook
         elif has_leading_text:
-            self.have_notebook()
-            notebook = self.notebook
-            tab_name = new_child_title(parent)
-            self.notebook.add_sheet(tab_name, parent_sheet=self)
+            if not self.child_notebook:
+                self.create_child_notebook()
+            first_child = new_child_title(self.parent_notebook)
+            self.child_notebook.add_sheet(first_child, parent_sheet=self)
+            notebook = self.child_notebook
         else:
-            notebook = parent
+            notebook = self.parent_notebook
 
         tab_name2 = new_sibling_title(notebook)
         notebook.add_sheet(tab_name2, parent_sheet=self)

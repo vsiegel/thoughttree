@@ -97,7 +97,7 @@ menu_help = {
     "Strikethrough": "Applies strikethrough formatting to the selected text, indicating that the text has been deleted or is no longer relevant.\nThis feature is useful for marking text as completed or for indicating that certain parts of the conversation have been superseded or invalidated.",
 
     # Models:
-    "gpt-3.5-turbo": "This is the default version of the ChatGPT (GPT-3.5) model.\n"
+    "ChatGPT gpt-3.5-turbo": "This is the default version of the ChatGPT (GPT-3.5) model.\n"
                      "\n"
                      "Most capable GPT-3.5 model and optimized for chat\n"
                      "at 1/10th the cost of text-davinci-003.\n"
@@ -106,28 +106,28 @@ menu_help = {
                      "\n"
                      "Max tokens: 4,096 tokens\n"
                      "Training data: Up to Sep 2021",
-    "gpt-3.5-turbo-0301": "This is a snapshot of the ChatGPT (GPT-3.5) model taken on March 1st.\n"
+    "ChatGPT gpt-3.5-turbo-0301": "This is a snapshot of the ChatGPT (GPT-3.5) model taken on March 1st.\n"
                           "\n"
                           "This model has the same capabilities as the default version\n"
                           "but will not receive updates.\n"
                           "\n"
                           "Max tokens: 4,096 tokens\n"
                           "Training data: Up to Sep 2021",
-    "gpt-3.5-turbo-0613": "This is a snapshot of the ChatGPT (GPT-3.5) model taken on June 13th.\n"
+    "ChatGPT gpt-3.5-turbo-0613": "This is a snapshot of the ChatGPT (GPT-3.5) model taken on June 13th.\n"
                           "\n"
                           "This model has the same capabilities as the default version\n"
                           "but will not receive updates and will be deprecated 3 months after a new version is released.\n"
                           "\n"
                           "Max tokens: 4,096 tokens\n"
                           "Training data: Up to Sep 2021",
-    "gpt-3.5-turbo-16k": "This is a variant of ChatGPT (GPT-3.5) with 4 times the context.\n"
+    "ChatGPT gpt-3.5-turbo-16k": "This is a variant of ChatGPT (GPT-3.5) with 4 times the context.\n"
                          "\n"
                          "This model has the same capabilities as the standard gpt-3.5-turbo model\n"
                          "but can handle longer pieces of text.\n"
                          "\n"
                          "Max tokens: 16,384 tokens\n"
                          "Training data: Up to Sep 2021",
-    "gpt-3.5-turbo-16k-0613": "This is a snapshot of the gpt-3.5-turbo-16k model taken on June 13th.\n"
+    "ChatGPT gpt-3.5-turbo-16k-0613": "This is a snapshot of the gpt-3.5-turbo-16k model taken on June 13th.\n"
                               "\n"
                               "This model has the same capabilities as the gpt-3.5-turbo-16k version\n"
                               "but will not receive updates and will be deprecated 3 months after a new version is released.\n"

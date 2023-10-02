@@ -155,9 +155,9 @@ class MainMenu(Menu):
             self.it.insert(INSERT, f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} ")
 
         def debug_info(event=None):
-            print(f"{self.it.bbox(1.0)=}")
-            self.it.window_create(INSERT, window=InsertionIcon())
             return "break"
+            print(f"{tk.Text().event_info()=}")
+            # self.it.window_create(INSERT, window=InsertionIcon())
             # self.it.window_create(INSERT, window=tk.Label(self.it, text="foo"))
 
 
@@ -321,8 +321,8 @@ class MainMenu(Menu):
         item("Complete Alternatives", "<Alt-Shift-Return>", lambda e=None: ui.chat(-1, "\n"))
         self.menu.add_separator()
         sheet_menu.add_separator()
-        item("Complete 3 Times", "<Control-Key-3>", lambda e=None: ui.chat(3), add=False)
-        [self.bind_class("Text", f"<Control-Key-{i}>", lambda e=None, i=i: ui.chat(i)) for i in [2, 4, 5, 6, 7, 8, 9]]
+        item("Complete 3 Times", "<Control-Alt-Key-3>", lambda e=None: ui.chat(3), add=True)
+        [self.bind_class("Text", f"<Control-Alt-Key-{i}>", lambda e=None, i=i: ui.chat(i)) for i in [2, 4, 5, 6, 7, 8, 9]]
 
         item("Complete Multiple...", "<Control-Shift-M>", lambda e=None: ui.chat(0))
         item("Complete Multiple Again", "<Control-m>", lambda e=None: ui.chat(-1))

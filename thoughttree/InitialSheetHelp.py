@@ -11,8 +11,8 @@ class InitialSheetHelp(tk.Label):
         super().__init__(sheet, text=text, padx=0, pady=0, bg="white", fg="#b3b3b3", borderwidth=0)
         if tooltip:
             Tooltip(self, text_block(tooltip)).delay_ms = 100
-        sheet.window_create("1.2", window=self, padx=2)
-        # sheet.mark_set(INSERT, f"1.0")
+        sheet.window_create("1.0", window=self, padx=2)
+        sheet.mark_set(INSERT, "1.0")
         def remove(event=None):
             if sheet.dump('1.0', 'end', window=True):
                 sheet.delete(self, f"{self}+1c")

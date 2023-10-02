@@ -47,10 +47,7 @@ class ScrollableForkableSheet(tk.Frame):
 
         self.forkable_sheet.bind('<<Modified>>', self.grow_to_displaylines, add=True)
 
-        def show_packing(widget: tk.Widget, event=None):
-            print(f"show_packing: {widget.pack_info()=}")
-
-        iterate_tree(self, show_packing)
+        iterate_tree(self)
 
     def grow_to_displaylines(self, event: tk.Event):
         if not event.widget.edit_modified():

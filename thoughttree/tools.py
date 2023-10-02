@@ -48,8 +48,9 @@ def iterate_tree(root, command=None, level=0):
         print(f"{'    ' * level}{root.winfo_name()}: Not packed: {root.winfo_manager()}")
 
     if command is None:
-        def command_impl(e=None):
-            print(f"{e} {e.widget}")
+        def command_impl(widget=None):
+            # print(f"{widget}")
+            pastel(widget)
         command = command_impl
 
     for child in root.winfo_children():

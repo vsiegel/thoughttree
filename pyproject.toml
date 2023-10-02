@@ -27,3 +27,9 @@ classifiers = [
 [project.urls]
 "Homepage" = "https://github.com/vsiegel/thoughttree"
 "Bug Tracker" = "https://github.com/vsiegel/thoughttree/issues"
+
+[project.gui-scripts]
+thoughttree = "thoughttree:thoughttree"
+
+[project.scripts]
+thought = "thoughttree:thought"

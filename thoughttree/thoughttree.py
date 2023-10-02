@@ -23,7 +23,7 @@ from TextIOTee import TextIOTee
 from Title import Title
 from HidableFrame import HidableFrame
 from Model import Model
-from MultiTextboxLabel import MultiTextboxLabel
+from AlternativeLabel import AlternativeLabel
 from StatusBar import StatusBar
 from Sheet import Sheet
 from MainMenu import MainMenu
@@ -379,14 +379,14 @@ class Thoughttree(Ui):
 
     def completions(self, sheet, n, history, inline=False):
         finish_reason, message = 'unknown', ''
-        insertion_point = inline and INSERT or "end-1c"
-        label_frame = None
+        insertion_point = inline and INSERT or "end-2c"
+        alternatives_frame = None
 
 
-        def write_sheet(text):
+        def write_sheet(text, written_sheet):
             if self.is_root_destroyed:
                 return
-            sheet.insert(insertion_point, text, "assistant")
+            written_sheet.insert(insertion_point, text, "assistant")
             self.scroll(sheet)
 
         def write_label(text, label=None):
@@ -401,19 +401,20 @@ class Thoughttree(Ui):
                 finish_reason = "canceled"
                 break
             if n > 1 and i == 0:
-                label_frame = tk.Frame(sheet, borderwidth=4)
-                title = tk.Label(label_frame, text=f"Alternatives ({n})")
+                alternatives_frame = tk.Frame(sheet, borderwidth=4)
+                title = tk.Label(alternatives_frame, text=f"Alternatives ({n})")
                 title.pack(side=tk.TOP, anchor=tk.W)
                 sheet.insert(insertion_point, "\n")
-                sheet.window_create(insertion_point, window=label_frame)
+                sheet.window_create(insertion_point, window=alternatives_frame)
                 sheet.see(insertion_point)
                 finish_reason, message = 'unknown', ''
-            with InsertionIcon(sheet, insertion_point):
-                if label_frame:
-                    label = MultiTextboxLabel(label_frame, sheet)
-                    finish_reason, message = self.model.complete(history, lambda text: write_label(text, label))
-                else:
-                    finish_reason, message = self.model.complete(history, lambda text: write_sheet(text))
+
+            if alternatives_frame:
+                label = AlternativeLabel(alternatives_frame, sheet)
+                finish_reason, message = self.model.complete(history, lambda text: write_label(text, label))
+            else:
+                with InsertionIcon(sheet, insertion_point):
+                    finish_reason, message = self.model.complete(history, lambda text: write_sheet(text, sheet))
         return finish_reason, message
 
 

@@ -27,6 +27,7 @@ class ModelsMenu(Menu):
         if present_items > self.fixed_model_menu_items:
             self.delete(0, present_items - self.fixed_model_menu_items - 1)
         models = self.ui.model.get_available_models()
+        models = [model for model in models if model.find("instruct") == -1]
         for i, model_name in enumerate(models):
             key = None
             if model_name == "gpt-4":

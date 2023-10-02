@@ -34,19 +34,7 @@ class ScrollableForkableSheet(tk.Frame):
         self.canvas.bind("<Button-5>", on_mousewheel)
 
         self.forkable_sheet.bind("<Configure>", self.configure_scrollregion, add=True)
-        self.forkable_sheet.bind('<<Modified>>', self.grow_to_displaylines, add=True)
         self.canvas.bind("<Configure>", self.configure_frame, add=True)
-
-    def grow_to_displaylines(self, event: tk.Event):
-        print(f"grow_to_displaylines:   {event} {type(event.widget)} {event.widget}")
-        if event.widget.edit_modified():
-            sheet:Sheet = event.widget
-            num_display_lines = sheet.count("1.0", "end", 'displaylines')[0]
-            height = sheet.count("1.0", "end lineend", 'ypixels')[0]
-            width = sheet.winfo_width()
-            sheet.configure(height=num_display_lines)
-            sheet.event_generate("<Configure>", x=1, y=0, width=width, height=height)
-            sheet.edit_modified(False)
 
     def configure_scrollregion(self, event):
         print(f"configure_scrollregion: {event} {type(event.widget)} {event.widget}")

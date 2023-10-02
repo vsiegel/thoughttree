@@ -155,51 +155,16 @@ class MainMenu(Menu):
             self.it.insert(INSERT, f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} ")
 
         def debug_info(event=None):
+            import time
+            from pyautogui import typewrite, press, hotkey, click
+
+            self.after_idle(lambda: typewrite("a\n"))
+            self.after_idle(lambda: hotkey("ctrl", "alt", "f"))
+            self.after_idle(lambda: typewrite("b\nc\n"))
+            # press("enter")
+            # hotkey("ctrl", "a")
             return "break"
-            print(f"{tk.Text().event_info()=}")
-            # self.it.window_create(INSERT, window=InsertionIcon())
-            # self.it.window_create(INSERT, window=tk.Label(self.it, text="foo"))
 
-
-            # self.it.see(END)
-            # self.it.yview(END)
-
-            return
-            def list_widgets(parent):
-                print(f"{parent}: {len(parent.winfo_children())} children")
-                for child in parent.winfo_children():
-                    list_widgets(child)
-            list_widgets(ui)
-
-
-            env = self.ui.scroll(self.it, event)
-
-            it = self.it
-            it.tag_config("green", background="green")
-            it.tag_config("bgstipple", bgstipple='gray75', background="blue")
-
-            it.tag_add("green", "1.0", "4.4")
-            it.tag_add("bgstipple", "1.5", "10.10")
-            it.insert(2.10, "**", ('hidden_markup',))
-            it.insert(2.10, "Hello world!", ('semi_highlight',))
-            it.insert(2.10, "**", ('hidden_markup',))
-
-            return
-
-            dumped = self.it.dump("insert - 1 char", window=True)
-            # print(f'{ dumped=}')
-            if dumped and dumped[0][1].endswith("label"):
-                dumped_win = dumped[0][1]
-                dumped_win_pos = dumped[0][2]
-                print(f'{dumped_win=}')
-                print(f'{dumped_win_pos=}')
-                print(f'{type(self.it.window_configure(dumped_win_pos))=}')
-                # print(f'{self.focus.window_configure(dumped_win_pos)=}')
-                print(f"{type(self.it.window_cget(dumped_win_pos, 'window'))=}")
-            print()
-            dumped = self.it.dump("1.0", INSERT, all=True)
-            for part in dumped:
-                print(f'{part=}')
 
 
         def branch():

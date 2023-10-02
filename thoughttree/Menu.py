@@ -10,6 +10,7 @@ class Menu(tk.Menu):
 
     def __init__(self, parent: Union[tk.Tk, tk.Text, tk.Menu, None], label=None, menu_help=None, **kw) : #1
         super().__init__(parent, tearoff=False, borderwidth=3, **kw)
+        self.parent = parent
         if menu_help:
             self.menu_help = menu_help
         elif hasattr(parent, "menu_help"):

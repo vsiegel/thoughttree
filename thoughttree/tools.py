@@ -52,7 +52,7 @@ def iterate_tree(root, command=None, level=0):
             # print(f"{widget}")
             pastel(widget)
         command = command_impl
-
+    command(root)
     for child in root.winfo_children():
         iterate_tree(child, command=command, level=level+1)
 

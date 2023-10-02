@@ -4,7 +4,7 @@ import tkinter as tk
 from datetime import datetime
 from textwrap import dedent
 from tkinter import BOTH, END, HORIZONTAL, INSERT, LEFT, SUNKEN, TOP, VERTICAL, W, X, SEL_FIRST, \
-    SEL_LAST, BOTTOM
+    SEL_LAST, BOTTOM, RAISED, GROOVE
 from tkinter import simpledialog
 from tkinter.messagebox import showinfo
 
@@ -401,7 +401,7 @@ class Thoughttree(Ui):
                 finish_reason = "canceled"
                 break
             if n > 1 and i == 0:
-                alternatives_frame = tk.Frame(sheet, borderwidth=4)
+                alternatives_frame = tk.Frame(sheet, borderwidth=4, relief=GROOVE)
                 title = tk.Label(alternatives_frame, text=f"Alternatives ({n})")
                 title.pack(side=tk.TOP, anchor=tk.W)
                 sheet.insert(insertion_point, "\n")

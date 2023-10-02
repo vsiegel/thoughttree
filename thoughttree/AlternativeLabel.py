@@ -5,9 +5,19 @@ from Fonts import Fonts
 from Sheet import Sheet
 
 
-class MultiTextboxLabel(tk.Label):
+class AlternativeLabel(tk.Label):
     def __init__(self, parent=None, sheet=None, **kw):
         borderwidth = 4
         super().__init__(parent, borderwidth=borderwidth, anchor=W, wraplength=sheet.winfo_width() - borderwidth * 2,
                          justify=LEFT, font=Fonts.FONT, relief=SUNKEN)
         self.pack(side=TOP, fill=X, expand=True)
+
+class AlternativeSheet(tk.Text):
+    def __init__(self, parent=None, sheet=None, **kw):
+        borderwidth = 4
+        super().__init__(parent, borderwidth=borderwidth, relief=SUNKEN, **kw)
+        self.pack(side=TOP, fill=X, expand=True)
+
+    def insert(self, index, chars, *args):
+        super().insert("end-2c", chars, *args)
+        self.see(index)

@@ -33,64 +33,32 @@ class ScrollableForkableSheet(tk.Frame):
         self.canvas.bind("<Button-4>", on_mousewheel)
         self.canvas.bind("<Button-5>", on_mousewheel)
 
-        def on_event(e=None):
-            print(f"on_event : {e} {e.widget}")
-
         self.forkable_sheet.bind("<Configure>", self.configure_scrollregion, add=True)
-        # self.forkable_sheet.frame.bind("<Configure>", on_event, add=True)
-        # self.forkable_sheet.frame.bind("<Configure>", self.configure_scrollregion, add=True)
-        # can_f.bind("<Configure>", self.configure_scrollregion, add=True)
+        self.forkable_sheet.bind('<<Modified>>', self.grow_to_displaylines, add=True)
         self.canvas.bind("<Configure>", self.configure_frame, add=True)
 
-        # bind_tree(self.winfo_toplevel(), "<Configure>")
-        # bind_tree(self, "<Configure>", subtree=True)
-
-        self.forkable_sheet.bind('<<Modified>>', self.grow_to_displaylines, add=True)
-
-        iterate_tree(self)
-
     def grow_to_displaylines(self, event: tk.Event):
-        if not event.widget.edit_modified():
-            return
-        sheet:Sheet = event.widget
-        num_display_lines = sheet.count("1.0", "end", 'displaylines')[0]
-        ypixels = sheet.count("1.0", "end lineend", 'ypixels')[0]
-        width = sheet.winfo_width()
-
-        # print(f"{ypixels=}")
-
-        sheet.configure(height=num_display_lines)
-        self.old_num_display_lines = num_display_lines
-        # self.frame.configure(height=ypixels)
-
-        # sheet.frame.event_generate("<Configure>", x=1, y=0, width=width, height=ypixels)
-        sheet.event_generate("<Configure>", x=1, y=0, width=width, height=ypixels)
-        # sheet.update()
-        # sheet.event_generate("<<ScrollRegionChanged>>")
-
-        sheet.edit_modified(False)
-        # return "break"
-
+        print(f"grow_to_displaylines:   {event} {type(event.widget)} {event.widget}")
+        if event.widget.edit_modified():
+            sheet:Sheet = event.widget
+            num_display_lines = sheet.count("1.0", "end", 'displaylines')[0]
+            height = sheet.count("1.0", "end lineend", 'ypixels')[0]
+            width = sheet.winfo_width()
+            sheet.configure(height=num_display_lines)
+            sheet.event_generate("<Configure>", x=1, y=0, width=width, height=height)
+            sheet.edit_modified(False)
 
     def configure_scrollregion(self, event):
-        # print(f"configure_scrollregion: {self.canvas.bbox('all')=}")
-        # print(f"                        {event=}")
-        # print(f"                        {self.forkable_sheet.cget('height')=}")
-        # print(f"                        {self.forkable_sheet.winfo_height()=}")
-        # if self.forkable_sheet.notebook:
-        #     print(f"                        {self.forkable_sheet.notebook.cget('height')=}")
-        #     print(f"                        {self.forkable_sheet.notebook.winfo_height()=}")
-
-        bbox = self.canvas.bbox("all")
-        x, y, width, height = bbox
+        print(f"configure_scrollregion: {event} {type(event.widget)} {event.widget}")
+        x, y, width, height = bbox = self.canvas.bbox("all")
         self.canvas.configure(scrollregion=bbox)
         self.canvas.event_generate("<Configure>", x=x, y=y, width=width, height=height)
 
-
     def configure_frame(self, event):
+        print(f"configure_frame:        {event} {type(event.widget)} {event.widget}")
         height = max(self.canvas.winfo_height(), self.forkable_sheet.winfo_reqheight())
-        # print(f"configure_frame: {event.width=} {height=}")
         self.canvas.itemconfigure(self.canvas_id, width=event.width, height=height)
+
 
     def focus_set(self):
         self.forkable_sheet.focus_set()

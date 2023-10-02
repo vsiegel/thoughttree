@@ -28,7 +28,7 @@ class ForkableSheet(Sheet):
         if not self.child_notebook:
             self.child_notebook = Notebook(self.fork_frame, self, self.parent_notebook)
             self.child_notebook.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
-            # self.pack_configure(expand=False)
+            self.pack_configure(expand=False)
 
 
     def selected_sheet(self)->'ForkableSheet':

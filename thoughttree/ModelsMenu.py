@@ -30,10 +30,11 @@ class ModelsMenu(Menu):
         for i, model_name in enumerate(models):
             key = None
             if model_name == "gpt-4":
-                key = "<Control-Alt-Key-4>"
+                key = "<Control-Key-4>"
             elif model_name == "gpt-3.5-turbo":
-                key = "<Control-Alt-Key-3>"
-
+                key = "<Control-Key-3>"
+            if model_name.find("gpt-3.5") != -1:
+                model_name = "ChatGPT " + model_name
             if key:
                 command = lambda e, model=model_name: self.selected_model.set(model)
             else:

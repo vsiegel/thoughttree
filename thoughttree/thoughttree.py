@@ -104,6 +104,7 @@ class Thoughttree(Ui):
             self.root.mainloop()
 
     def set_model(self, model_name):
+        model_name = model_name.rsplit()[-1]
         if not model_name in self.models:
             self.models[model_name] = Model(model_name)
         self.model = self.models[model_name]
@@ -347,7 +348,6 @@ class Thoughttree(Ui):
         if focussed_widget:
             self.previous_current_sheet = focussed_widget
         return self.previous_current_sheet
-
 
 
     def scroll(self, sheet, to="end-1c"):

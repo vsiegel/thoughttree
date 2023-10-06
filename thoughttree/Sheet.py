@@ -16,13 +16,14 @@ from tools import on_event
 
 class Sheet(ScrolledText):
 
-    def __init__(self, master=None, scrollbar=True, autohide=False, width=80, borderwidth=0, padx=0, pady=0, height=0,
+    def __init__(self, master=None, scrollbar=True, autohide=False, name="s", width=80, borderwidth=0, padx=0, pady=0, height=0,
                  grow=True, background='white', **kw):
         ScrolledText.__init__(
             self, master, undo=True, wrap=WORD, padx=padx, pady=pady, background=background,
             width=width, height=height, insertwidth=3, font=Fonts.FONT,
             border=0, borderwidth=borderwidth, highlightthickness=0,
-            selectbackground="#66a2d4", selectforeground="white", name="st", **kw)
+            selectbackground="#66a2d4", selectforeground="white", name=name, **kw)
+        self.frame.widgetName = "stf"
 
         if scrollbar:
             self.vbar.config(width=18, takefocus=False, borderwidth=2)

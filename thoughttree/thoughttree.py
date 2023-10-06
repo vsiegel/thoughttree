@@ -56,7 +56,7 @@ class Thoughttree(Ui):
 
 
     def __init__(self):
-        Ui.__init__(self, "Thoughttree", WINDOW_ICON, closeable=False)
+        Ui.__init__(self, name="tt", icon_path=WINDOW_ICON, closeable=False)
         self.show_hidden_prompts = None
         self.previous_current_sheet = None
         self.status_hider = None

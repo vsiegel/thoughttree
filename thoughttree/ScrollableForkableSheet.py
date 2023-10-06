@@ -8,9 +8,9 @@ from tools import on_event, bind_tree, iterate_tree
 
 class ScrollableForkableSheet(tk.Frame):
     def __init__(self, parent, *args, **kw):
-        super().__init__(parent, name="sf", *args, **kw)
+        super().__init__(parent, name="sfs", *args, **kw)
 
-        self.canvas = tk.Canvas(self, highlightthickness=0, bd=0,)# background="lightcyan")
+        self.canvas = tk.Canvas(self, highlightthickness=0, bd=0, name="c")# background="lightcyan")
         self.scrollbar = tk.Scrollbar(self, orient=VERTICAL, command=self.canvas.yview, width=18, takefocus=False, borderwidth=2)
 
         def canvas_set(*args):
@@ -21,11 +21,11 @@ class ScrollableForkableSheet(tk.Frame):
         self.canvas.pack(side=LEFT, fill=BOTH, expand=True)
         self.scrollbar.pack(side=RIGHT, fill=Y)
 
-        can_f = tk.Frame(self.canvas, bd=0, background="#eeeeff", name="can_f")
-        self.canvas_id = self.canvas.create_window((0, 0), window=can_f, anchor=NW)
+        canvas_frame = tk.Frame(self.canvas, bd=0, background="#eeeeff", name="cf")
+        self.canvas_id = self.canvas.create_window((0, 0), window=canvas_frame, anchor=NW)
 
-        self.forkable_sheet = ForkableSheet(can_f)
-        self.forkable_sheet.pack(side=TOP, expand=True, fill=Y)
+        self.forkable_sheet = ForkableSheet(canvas_frame)
+        self.forkable_sheet.pack(side=TOP, expand=True, fill=BOTH)
 
         def on_mousewheel(event):
             delta = (event.num == 5 and 1 or -1)

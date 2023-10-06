@@ -11,14 +11,14 @@ class Ui(tk.Frame):
     WINDOW_ICON = None
     current_open_uis = []
 
-    def __init__(self, name="", icon_path=None, closeable=True):
+    def __init__(self, name="ui", icon_path=None, closeable=True):
         if not tk._default_root:
             self.root = tk.Tk()
             self.main_window = True
         else:
             self.root = tk.Toplevel()
             self.main_window = False
-        tk.Frame.__init__(self, self.root)
+        tk.Frame.__init__(self, self.root, name=name)
 
         self.closeable = closeable
         self.is_root_destroyed = False

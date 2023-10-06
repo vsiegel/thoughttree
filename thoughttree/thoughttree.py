@@ -327,8 +327,8 @@ class Thoughttree(Ui):
         replace_completion_marker_prompt = dedent(
                 f"""
                 Do an replacement completion:The output will replace the users text selection, which is 
-                the part of text between the two "{completion_location_marker}". 
-                Complete assuming the insertion cursor for the text is at the first marker "{completion_location_marker}".
+                the part of text between the two "{conf.insertion_marker}". 
+                Complete assuming the insertion cursor for the text is at the first marker "{conf.insertion_marker}".
                 Produce text that will replace the text between the start marker and the end marker.
                 The text after the end marker will still be there after the completion.
                 Do not use the markers in the completion. The markers will be removed from the text after completion.
@@ -338,8 +338,8 @@ class Thoughttree(Ui):
                 The markers themselves will be removed.
                 Take care to add the right amount of spaces after the start marker and before the end marker.
                 """)
-        sheet.insert(SEL_FIRST, completion_location_marker, ("hidden_prompt",))
-        sheet.insert(SEL_LAST, completion_location_marker, ("hidden_prompt",))
+        sheet.insert(SEL_FIRST, conf.insertion_marker, ("hidden_prompt",))
+        sheet.insert(SEL_LAST, conf.insertion_marker, ("hidden_prompt",))
         self.system.insert(END, replace_completion_marker_prompt, ("hidden_prompt",))
 
     @property

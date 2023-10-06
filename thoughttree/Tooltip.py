@@ -59,3 +59,10 @@ class Tooltip :
         if self.tooltip:
             self.tooltip.destroy()
         self.tooltip = None
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    root.title("Tooltip")
+    root.geometry("500x500")
+    Tooltip(root, "Tooltip Example")
+    root.mainloop()

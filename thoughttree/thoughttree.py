@@ -322,7 +322,6 @@ class Thoughttree(Ui):
         self.system.remove_tag('hidden_prompt')
 
     def set_up_replace_completion(self, sheet):
-        completion_location_marker = "§"
 
         replace_completion_marker_prompt = dedent(
                 f"""
@@ -379,7 +378,13 @@ class Thoughttree(Ui):
 
     def completions(self, sheet, n, history, inline=False):
         finish_reason, message = 'unknown', ''
-        insertion_point = inline and INSERT or "end-2c"
+        if inline:
+            insertion_point = INSERT
+        else:
+            sheet.mark_set("insert_end", "end-2c")
+            sheet.mark_gravity("insert_end", tk.LEFT)
+            insertion_point = "insert_end"
+
         alternatives_frame = None
 
 

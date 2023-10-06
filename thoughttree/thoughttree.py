@@ -312,7 +312,7 @@ class Thoughttree(Ui):
                 Do not overlap output and following text, the end of the output should not be the same as the start of the trailing existing text.
                 The marker itself will be removed.
                 Take care to add the right amount of spaces before and after the marker.
-                For example, add a trailing space if the insertion is a word, and the next char after theh mark is a space.
+                For example, add a trailing space if the insertion is a word, and the next char after the mark is a space.
                 """)
         sheet.insert(INSERT, conf.insertion_marker, ("hidden_prompt",))
         self.system.insert(END, inline_completion_marker_prompt, ("hidden_prompt",))

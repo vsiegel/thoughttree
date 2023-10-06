@@ -13,7 +13,7 @@ class Tooltip :
         self.delay_ms = 1000
 
         widget.bind("<Enter>", self.add_tooltip)
-        widget.bind("<Motion>", self.refresh_tooltip)
+        widget.bind("<Motion>", self.update_tooltip)
         widget.bind("<Leave>", self.remove_tooltip)
         widget.bind("<Unmap>", self.remove_tooltip)
 
@@ -36,10 +36,10 @@ class Tooltip :
             self.tooltip.bind("<Button-1>", self.remove_tooltip)
             self.label.bind("<Escape>", self.remove_tooltip)
             self.widget.bind("<Destroy>", self.remove_tooltip)
-            self.refresh_tooltip()
+            self.update_tooltip()
 
 
-    def refresh_tooltip(self, event=None):
+    def update_tooltip(self, event=None):
         if event:
             self.last_y = event.y
         if self.tooltip:

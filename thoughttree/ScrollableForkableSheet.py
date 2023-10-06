@@ -12,11 +12,10 @@ class ScrollableForkableSheet(tk.Frame):
 
         self.canvas = tk.Canvas(self, highlightthickness=0, bd=0, name="c")# background="lightcyan")
         self.scrollbar = tk.Scrollbar(self, orient=VERTICAL, command=self.canvas.yview, width=18, takefocus=False, borderwidth=2)
-
-        def canvas_set(*args):
-            # print(f"canvas_set: {args=}")
+        def scrollbar_set(*args):
+            print(f"#### {args}")
             self.scrollbar.set(*args)
-        self.canvas.configure(yscrollcommand=canvas_set)
+        self.canvas.configure(yscrollcommand=scrollbar_set)
 
         self.canvas.pack(side=LEFT, fill=BOTH, expand=True)
         self.scrollbar.pack(side=RIGHT, fill=Y)

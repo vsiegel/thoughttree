@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import ttk, END
 
+from NotebookAdapterFrame import NotebookAdapterFrame
+
 
 class Notebook(ttk.Notebook):
     def __init__(self, parent_widget, parent_sheet=None, parent_notebook=None, styleName=None, takefocus=False, background="white", **kw):
@@ -16,21 +18,25 @@ class Notebook(ttk.Notebook):
         self.winfo_toplevel().unbind('<Control-Tab>')
 
     def add_sheet(self, title, parent_sheet=None):
-        frame = tk.Frame(self)
+        adapter_frame = NotebookAdapterFrame(self)
+        adapter_frame.pack_propagate(False)
         from ForkableSheet import ForkableSheet
-        sheet = ForkableSheet(frame, parent_sheet,  self)
+        sheet = ForkableSheet(adapter_frame, parent_sheet,  self)
         sheet.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-        self.insert(END, frame, text=title)
-        self.select(frame)
+        adapter_frame.forkable_sheet = sheet
+        self.insert(END, adapter_frame, text=title)
+        self.select(adapter_frame)
         sheet.focus_set()
         return sheet
 
     def selected_sheet(self):
         if not self.select():
             return None
-        return self.nametowidget(self.select())
+        sheet = self.nametowidget(self.select()).forkable_sheet
+        print(f"selected_sheet {sheet=}")
+        return sheet
 
     def child_sheets(self):
         frames = map(self.nametowidget, self.tabs())
-        return [list(f.children.values())[0] for f in frames]
+        return [f.forkable_sheet for f in frames]
 

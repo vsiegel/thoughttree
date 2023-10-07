@@ -60,6 +60,7 @@ class Tooltip :
             self.tooltip.destroy()
         self.tooltip = None
 
+
 if __name__ == "__main__":
     root = tk.Tk()
     root.title("Tooltip")

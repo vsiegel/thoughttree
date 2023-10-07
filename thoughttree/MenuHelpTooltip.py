@@ -39,5 +39,14 @@ if __name__ == "__main__":
 
     menu = Menu(main_menu, "Test", menu_help={"a": 1})
     menu.item("Test Cascade", None, None)
+    menu2 = Menu(main_menu, "Test2", menu_help={"a": 1})
+    menu2.item("Test Cascade 2", None, None)
     # MenuHelpTooltip(root, "Tooltip Example")
+    Tooltip(root, "Tooltip on root")
+    Tooltip(main_menu, "Tooltip on main_menu")
+    Tooltip(menu2, "Tooltip on menu")
+
+    def on_motion(event):
+        print(f"{event.widget=}")
+    main_menu.bind("<Motion>", on_motion)
     root.mainloop()

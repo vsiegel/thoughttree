@@ -1,3 +1,5 @@
+import tkinter as tk
+
 from Tooltip import Tooltip
 from tools import text_block
 
@@ -25,3 +27,17 @@ class MenuHelpTooltip(Tooltip):
         except Exception as ex: # Menu separators have no "label"
             pass # leave text unchanged
             # self.label.configure(text="-")
+
+
+if __name__ == "__main__":
+    from Menu import Menu
+    root = tk.Tk()
+    root.title("Tooltip")
+    root.geometry("500x500")
+    main_menu = Menu(root)
+    root.config(menu=main_menu)
+
+    menu = Menu(main_menu, "Test", menu_help={"a": 1})
+    menu.item("Test Cascade", None, None)
+    # MenuHelpTooltip(root, "Tooltip Example")
+    root.mainloop()

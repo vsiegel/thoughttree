@@ -20,6 +20,8 @@ class Menu(tk.Menu):
 
         if isinstance(parent, Ui):
             parent.root.config(menu=self)
+        elif isinstance(parent, tk.Tk):
+            parent.config(menu=self)
         else:
             if self.menu_help:
                 MenuHelpTooltip(self, self.menu_help)
@@ -61,7 +63,7 @@ class Menu(tk.Menu):
 
 
     def item(self, label, keystroke, command, variable=None, add=False, index=tk.END, check_help=True, additional_menu=None, to=None):
-        if check_help and not label in self.menu_help:
+        if self.menu_help and check_help and not label in self.menu_help:
             print("Warning: Help missing for \"" + label + "\"")
         if keystroke and not keystroke.startswith("<"):
             print("Warning: keystroke should be in <...> format")

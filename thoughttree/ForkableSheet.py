@@ -10,7 +10,7 @@ from Title import new_child_title, new_sibling_title, short
 
 class ForkableSheet(Sheet):
     def __init__(self, parent_widget, parent_sheet=None, parent_notebook=None, *args, **kw):
-        self.fork_frame = tk.Frame(parent_widget, name="fork_frame")
+        self.fork_frame = tk.Frame(parent_widget, name="ff")
         self.fork_frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
         Sheet.__init__(self,  self.fork_frame, height=1, width=250, scrollbar=False, grow=True, background="white", *args, **kw)
         self.pack(side=tk.TOP, fill=X, expand=False)

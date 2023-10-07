@@ -56,6 +56,7 @@ class ForkableSheet(Sheet):
             self.child_notebook = Notebook(self.fork_frame, self, self.parent_notebook)
             self.child_notebook.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
             self.pack_configure(expand=False)
+            self.child_notebook.bind("<<NotebookTabChanged>>", self.grow_to_displaylines)
 
 
     def selected_sheet(self)->'ForkableSheet':

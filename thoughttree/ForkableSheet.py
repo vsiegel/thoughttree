@@ -25,19 +25,28 @@ class ForkableSheet(Sheet):
         # self.notebook.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
         ## self.pack_configure(expand=False)
 
-
         self.bind('<<Modified>>', self.grow_to_displaylines, add=True)
 
     def grow_to_displaylines(self, event: tk.Event):
-        print(f"grow_to_displaylines:   {event} {type(event.widget)} {event.widget}")
-        if event.widget.edit_modified():
-            sheet:Sheet = event.widget
-            num_display_lines = sheet.count("1.0", "end", 'displaylines')[0]
-            height = sheet.count("1.0", "end lineend", 'ypixels')[0]
+        print(f"grow_to_displaylines:")
+        # sheet:ForkableSheet = event.widget
+        sheet:ForkableSheet = self
+        if self.edit_modified():
+            sheet.update_idletasks()
+            sheet.count("1.0", "end", "update")
+            ypixels = sheet.count("1.0", "end lineend", 'ypixels')[0]
+            print(f"{sheet.bbox('1.0 lineend')=}")
+            print(f"#ypixels: {ypixels}")
+            width = sheet.master.winfo_width()
+            print(f"{sheet.master.winfo_reqwidth()=}")
+            sheet.frame.configure(height=ypixels)
+            height = ypixels
+            if sheet.child_notebook:
+                notebook_height = sheet.child_notebook.winfo_height()
+                print(f"height: {notebook_height=}")
+                height += notebook_height
             print(f"height: {height=}")
-            print(f"height: {sheet.winfo_height=}")
-            width = sheet.winfo_width()
-            sheet.configure(height=num_display_lines)
+            self.fork_frame.configure(width=width, height=height)
             sheet.event_generate("<Configure>", x=0, y=0, width=width, height=height)
             sheet.edit_modified(False)
 

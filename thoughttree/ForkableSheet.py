@@ -69,6 +69,14 @@ class ForkableSheet(Sheet):
             self.create_child_notebook()
         return self.child_notebook.child_sheets()
 
+    def winfo_reqheight(self):
+        reqheight = self.count("1.0", "end lineend", 'ypixels')[0]
+
+        if self.child_notebook:
+            reqheight += self.child_notebook.winfo_reqheight()
+        print(f"{reqheight=}")
+
+        return reqheight
 
     def fork(self, index=INSERT):
         index = self.index(index)

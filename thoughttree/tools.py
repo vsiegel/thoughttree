@@ -177,7 +177,7 @@ def bind_all_events(widget, on_event=None):
     # invalid_events = ["Keymap", "GraphicsExpose", "NoExpose", "CirculateRequest", "SelectionClear",
     #           "SelectionRequest", "Selection", "ClientMessage", "Mapping", "VirtualEvent"]
     def print_event(event):
-        print(f"Event: {event.widget}: {event}")
+        print(f"{event} on {event.widget}")
 
     on_event = on_event or print_event
     for ev in [f"<{e.name}>" for e in tk.EventType if e.name not in invalid_events]:

@@ -1,5 +1,6 @@
 import tkinter as tk
 
+import tools
 from Tooltip import Tooltip
 from tools import text_block
 
@@ -48,5 +49,8 @@ if __name__ == "__main__":
 
     def on_motion(event):
         print(f"{event.widget=}")
-    main_menu.bind("<Motion>", on_motion)
+    # main_menu.bind("<Motion>", on_motion)
+    tools.bind_all_events(main_menu)
+    tools.bind_all_events(menu)
+    tools.bind_all_events(menu2)
     root.mainloop()

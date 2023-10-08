@@ -29,6 +29,17 @@ class Notebook(ttk.Notebook):
         sheet.focus_set()
         return sheet
 
+    def winfo_reqheight(self):
+        reqheight = super().winfo_reqheight()
+        print(f"nb super {reqheight=}")
+        selected_sheet = self.selected_sheet()
+        if selected_sheet:
+            print(f" {type(selected_sheet)=}")
+
+            reqheight += selected_sheet.winfo_reqheight()
+        print(f"nb sheet {reqheight=}")
+        return reqheight
+
     def selected_sheet(self):
         if not self.select():
             return None

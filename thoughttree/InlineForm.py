@@ -31,3 +31,5 @@ class InlineForm(Frame):
         text.window_create(index + "+1c", window=self)
         text.tag_add("InlineForm-centered", index + "+1c")
         # text.insert(index + "+2c", "\n")
+        text.edit_modified(True)
+        text.event_generate("<<Modified>>")

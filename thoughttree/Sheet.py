@@ -14,6 +14,7 @@ from ThoughttreeConfig import conf
 from Title import new_child_title, new_sibling_title
 from tools import on_event
 
+OUTPUT = "output"
 
 class Sheet(ScrolledText, LineHandling):
 
@@ -53,6 +54,9 @@ class Sheet(ScrolledText, LineHandling):
         self.tag_config("deleted", foreground="#f1a8ae")
         self.tag_config('hidden_markup', elide=True, foreground="#ADD8E6")
         self.tag_config('hidden_prompt', elide=True, foreground="#ADD8E6")
+
+        self.mark_set(OUTPUT, "1.0")
+        self.mark_gravity(OUTPUT, tk.LEFT)
 
         self.old_num_display_lines = 0
         # if grow:

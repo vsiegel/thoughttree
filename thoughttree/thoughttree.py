@@ -25,7 +25,7 @@ from HidableFrame import HidableFrame
 from Model import Model
 from AlternativeLabel import AlternativeLabel
 from StatusBar import StatusBar
-from Sheet import Sheet
+from Sheet import Sheet, OUTPUT
 from MainMenu import MainMenu
 from Tree import Tree
 from Ui import Ui
@@ -349,10 +349,10 @@ class Thoughttree(Ui):
         return self.previous_current_sheet
 
 
-    def scroll(self, sheet, to="end-1c"):
+    def scroll(self, sheet, to=OUTPUT):
         if self.scroll_output:
             sheet.see(to)
-        sheet.update()
+        sheet.update() # todo: Needed?
 
 
     def find_number_of_completions(self, n):
@@ -372,18 +372,14 @@ class Thoughttree(Ui):
 
     def set_up(self, sheet, prefix):
         if prefix:
-            sheet.insert(END, prefix)
+            sheet.insert(OUTPUT, prefix)
             self.scroll(sheet)
 
 
     def completions(self, sheet, n, history, inline=False):
         finish_reason, message = 'unknown', ''
-        if inline:
-            insertion_point = INSERT
-        else:
-            sheet.mark_set("insert_end", "end-2c")
-            sheet.mark_gravity("insert_end", tk.LEFT)
-            insertion_point = "insert_end"
+
+        sheet.mark_set(OUTPUT, inline and INSERT or "end-2c")
 
         alternatives_frame = None
 
@@ -391,7 +387,7 @@ class Thoughttree(Ui):
         def write_sheet(text, written_sheet):
             if self.is_root_destroyed:
                 return
-            written_sheet.insert(insertion_point, text, "assistant")
+            written_sheet.insert(OUTPUT, text, "assistant")
             self.scroll(sheet)
 
         def write_label(text, label=None):
@@ -409,16 +405,16 @@ class Thoughttree(Ui):
                 alternatives_frame = tk.Frame(sheet, borderwidth=4, relief=GROOVE)
                 title = tk.Label(alternatives_frame, text=f"Alternatives ({n})")
                 title.pack(side=tk.TOP, anchor=tk.W)
-                sheet.insert(insertion_point, "\n")
-                sheet.window_create(insertion_point, window=alternatives_frame)
-                sheet.see(insertion_point)
+                sheet.insert(OUTPUT, "\n")
+                sheet.window_create(OUTPUT, window=alternatives_frame)
+                sheet.see(OUTPUT)
                 finish_reason, message = 'unknown', ''
 
             if alternatives_frame:
                 label = AlternativeLabel(alternatives_frame, sheet)
                 finish_reason, message = self.model.complete(history, lambda text: write_label(text, label))
             else:
-                with InsertionIcon(sheet, insertion_point):
+                with InsertionIcon(sheet, OUTPUT):
                     finish_reason, message = self.model.complete(history, lambda text: write_sheet(text, sheet))
         return finish_reason, message
 
@@ -430,11 +426,11 @@ class Thoughttree(Ui):
         if conf.show_finish_reason:
             self.show_finish_reason_icon(sheet, finish_reason, message)
         if not self.model.is_canceled and not finish_reason == "length":
-            sheet.insert(INSERT, postfix)
+            sheet.insert(OUTPUT, postfix)
         if self.scroll_output:
             if not inline:
-                sheet.mark_set(INSERT, END)
-            sheet.see(INSERT)
+                sheet.mark_set(OUTPUT, END)
+            sheet.see(OUTPUT)
         sheet.undo_separator()
 
 
@@ -447,7 +443,7 @@ class Thoughttree(Ui):
             if message:
                 tooltip += "\n" + message
 
-            sheet.window_create(INSERT, window=FinishReasonIcon(sheet, symbol, tooltip=tooltip))
+            sheet.window_create(OUTPUT, window=FinishReasonIcon(sheet, symbol, tooltip=tooltip))
 
 
     def post_completion_tasks(self, start_time):

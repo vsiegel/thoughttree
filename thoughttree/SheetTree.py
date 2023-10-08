@@ -6,7 +6,7 @@ from Sheet import Sheet
 from tools import on_event, bind_tree, iterate_tree
 
 
-class TreeSheet(tk.Frame):
+class SheetTree(tk.Frame):
     def __init__(self, parent, *args, **kw):
         super().__init__(parent, name="sfs", *args, **kw)
 
@@ -63,7 +63,7 @@ if __name__ == "__main__":
     ui = Ui()
     ui.root.title("ScrollableForkableSheet")
     # ui.root.geometry("500x500")
-    scrollable = TreeSheet(ui.root)
+    scrollable = SheetTree(ui.root)
     scrollable.pack(fill="both", expand=True)
     scrollable.forkable_sheet.focus()
 

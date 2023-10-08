@@ -17,7 +17,7 @@ from FoldablePane import FoldablePane
 from ForkableSheet import ForkableSheet
 from InsertionIcon import InsertionIcon
 from Keys import Keys
-from TreeSheet import TreeSheet
+from SheetTree import SheetTree
 from InitialSheetHelp import InitialSheetHelp
 from TextIOTee import TextIOTee
 from Title import Title
@@ -135,7 +135,7 @@ class Thoughttree(Ui):
         self.tree = Tree(self.tree_pane)
         self.system = Sheet(self.system_pane, height=3)
         # self.chat_sheet = Sheet(self.system_pane)
-        self.chat_sheet = TreeSheet(self.system_pane)
+        self.chat_sheet = SheetTree(self.system_pane)
         self.previous_current_sheet = self.chat_sheet
 
         self.console_pane.add(self.tree_pane, stretch="always")

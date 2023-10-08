@@ -8,13 +8,14 @@ from typing import Union
 from Cursorline import Cursorline
 from FinishReasonIcon import FinishReasonIcon
 from Fonts import Fonts
+from LineHandling import LineHandling
 from Notebook import Notebook
 from ThoughttreeConfig import conf
 from Title import new_child_title, new_sibling_title
 from tools import on_event
 
 
-class Sheet(ScrolledText):
+class Sheet(ScrolledText, LineHandling):
 
     def __init__(self, master=None, scrollbar=True, autohide=False, name="s", width=80, borderwidth=0, padx=0, pady=0, height=0,
                  grow=True, background='white', **kw):
@@ -135,55 +136,6 @@ class Sheet(ScrolledText):
                 if any([element[0] == "text" or is_icon(element) for element in dump]):
                     super().delete(index1)
 
-
-    def jump_to_similar_line(self, event=None, direction=1):
-
-        def find_similar_line(target, line_nr_1, lines, direction):
-            line_nr_0 = line_nr_1 - 1
-            num_lines = len(lines)
-            if num_lines == 0:
-                return 0
-            target = target.strip()
-            start = (line_nr_0 + direction) % num_lines
-            if direction == 1:
-                numbered_lines = list(enumerate(lines[start:] + lines[:start]))
-            else:
-                numbered_lines = list(enumerate(lines[:start][::-1] + lines[start:][::-1]))
-            for i, line in numbered_lines:
-                if line.strip() == target:
-                    if direction == 1:
-                        return ((i + start) % num_lines) + 1
-                    else:
-                        return ((start - i + num_lines - 1) % num_lines) + 1
-            return 0
-
-
-        sheet: Sheet = self.focus_get()
-        cursor_pos = sheet.index(INSERT)
-        line_nr = int(cursor_pos.split('.')[0])
-        current_line = sheet.get(f"{line_nr}.0", f"{line_nr}.end")
-        if not current_line.strip():
-            return
-        lines = sheet.get(1.0, END).splitlines()
-        jump_line = find_similar_line(current_line, line_nr, lines, direction)
-        if jump_line:
-            jump_index = f"{jump_line}.{0}"
-            sheet.mark_set(INSERT, jump_index)
-            sheet.see(jump_index)
-
-    def jump_to_limit(self, e: tk.Event):
-        pos = self.vbar.get()
-        # print(pos) # "(0.0, 0.0, 0.0, 0.0)"
-        top, bottom, *_ = pos
-        if e.keysym == 'Prior' and top == 0.0:
-            limit = "1.0"
-        elif e.keysym == 'Next' and bottom == 1.0:
-            limit = tk.END
-        else:
-            return
-
-        self.mark_set(tk.INSERT, limit)
-        self.see(tk.INSERT)
 
 
     def undo_separator(self):

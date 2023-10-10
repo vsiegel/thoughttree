@@ -47,9 +47,11 @@ if __name__ == "__main__":
     Tooltip(main_menu, "Tooltip on main_menu")
     Tooltip(menu2, "Tooltip on menu")
 
-    def on_motion(event):
+    def on_event(event):
         print(f"{event.widget=}")
-    # main_menu.bind("<Motion>", on_motion)
+    main_menu.bind("<Motion>", on_event)
+    menu.post(10, 10)
+    menu.bind('<Motion>', on_event)
     tools.bind_all_events(main_menu)
     tools.bind_all_events(menu)
     tools.bind_all_events(menu2)

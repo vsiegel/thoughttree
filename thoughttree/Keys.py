@@ -45,6 +45,7 @@ class Keys:
         '<Control-e>',
         '<Control-h>',
         '<Control-k>',
+        '<Control-i>',
     ]
 
     @staticmethod

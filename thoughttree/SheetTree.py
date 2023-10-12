@@ -37,6 +37,11 @@ class SheetTree(tk.Frame):
         self.forkable_sheet.bind("<Configure>", self.configure_scrollregion, add=True)
         self.canvas.bind("<Configure>", self.configure_frame, add=True)
 
+    def configure_frame(self, event):
+        print(f"#####")
+        print(f"configure_frame:        {event}")
+        self.canvas.itemconfigure(self.frame_id, width=event.width, height=event.height)
+
     def configure_scrollregion(self, event):
         print(f"###")
         print(f"configure_scrollregion: {event}")
@@ -50,13 +55,6 @@ class SheetTree(tk.Frame):
         print(f"####")
         self.canvas.event_generate("<Configure>", x=x, y=y, width=width, height=height)
         # self.canvas.configure(scrollregion=(x, y, width, height), width=width, height=height)
-
-    def configure_frame(self, event):
-        print(f"configure_frame:        {event}")
-        # height = max(self.canvas.winfo_height(), self.forkable_sheet.winfo_reqheight())
-        height = self.forkable_sheet.winfo_reqheight()
-        self.canvas.itemconfigure(self.canvas_id, width=event.width, height=height)
-
 
     def focus_set(self):
         self.forkable_sheet.focus_set()

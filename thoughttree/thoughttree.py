@@ -85,8 +85,6 @@ class Thoughttree(Ui):
         self.ring_bell_after_completion = conf.ring_bell_after_completion
         self.create_ui()
 
-        Keys.configure_text_keys(self.system)
-
         Model.set_api_key()
 
         self.models = {}

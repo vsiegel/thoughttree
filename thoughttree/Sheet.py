@@ -8,6 +8,7 @@ from typing import Union
 from Cursorline import Cursorline
 from FinishReasonIcon import FinishReasonIcon
 from Fonts import Fonts
+from Keys import Keys
 from LineHandling import LineHandling
 from Notebook import Notebook
 from ThoughttreeConfig import conf
@@ -36,6 +37,8 @@ class Sheet(ScrolledText, LineHandling):
         self.pattern = None
         self.found = None
         self.initially_modified = False
+
+        Keys.configure_text_keys(self)
 
         self.bind('<Prior>', self.jump_to_limit)
         self.bind('<Next>', self.jump_to_limit)

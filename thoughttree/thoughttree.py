@@ -275,6 +275,7 @@ class Thoughttree(Ui):
         with WaitCursor(sheet):
             sheet.undo_separator()
             start_time = datetime.now()
+            sheet.mark_set(OUTPUT, inline and INSERT or "end-2c") # todo
             if here:
                 self.set_up_inline_completion(sheet)
             elif replace:
@@ -377,7 +378,7 @@ class Thoughttree(Ui):
     def completions(self, sheet, n, history, inline=False):
         finish_reason, message = 'unknown', ''
 
-        sheet.mark_set(OUTPUT, inline and INSERT or "end-2c")
+        # sheet.mark_set(OUTPUT, inline and INSERT or "end-2c")
 
         alternatives_frame = None
 

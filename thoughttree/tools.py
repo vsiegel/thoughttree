@@ -172,21 +172,23 @@ def get_git_describe_version():
     except Exception as e:
         return "(error accessing git describe version)"
 
-def bind_all_events(widget, on_event=None):
-    invalid_events = ["Motion"]
+def bind_to_all_events(widget, on_event=None, bind_all=False):
+    excluded_events = ["Motion"]
     # invalid_events = ["Keymap", "GraphicsExpose", "NoExpose", "CirculateRequest", "SelectionClear",
     #           "SelectionRequest", "Selection", "ClientMessage", "Mapping", "VirtualEvent"]
     def print_event(event):
-        print(f"{event} on {event.widget}")
+        print(f"{event} on {event.widget}", flush=True)
 
     on_event = on_event or print_event
-    for ev in [f"<{e.name}>" for e in tk.EventType if e.name not in invalid_events]:
+    for ev in [f"<{e.name}>" for e in tk.EventType if e.name not in excluded_events]:
         try:
-            widget.bind(ev, on_event)
+            if bind_all:
+                widget.bind_all(ev, on_event, add=True)
+            else:
+                widget.bind(ev, on_event, add=True)
             print(f"Bound {ev}")
         except Exception:
             pass
-
 
 def show_widget_under_pointer(widget):
     global last_time

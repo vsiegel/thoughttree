@@ -16,6 +16,7 @@ from Keys import Keys
 from Sheet import Sheet
 from Console import Console
 from menu_help import menu_help
+from tools import web
 
 
 class MainMenu(Menu):
@@ -333,9 +334,6 @@ class MainMenu(Menu):
         self.models_menu = ModelsMenu(self, ui, "Models")
 
         self.windows_menu = WindowsMenu(self, "Windows")
-
-        def web(url):
-            return lambda  e=None: webbrowser.open_new_tab(url)
 
         self.menu = Menu(self, "Help")
         item("Debug Info", "<Control-i>", debug_info)

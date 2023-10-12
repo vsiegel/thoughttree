@@ -2,6 +2,7 @@ import re
 import sys
 import time
 import tkinter as tk
+import webbrowser
 from textwrap import fill
 from math import ceil, log2, sqrt
 import random
@@ -225,4 +226,8 @@ def read_all_stdin_lines():
 
 def on_event(event: tk.Event):
     print(f"{event=}")
+
+
+def web(url):
+    return lambda e=None: webbrowser.open_new_tab(url)
 

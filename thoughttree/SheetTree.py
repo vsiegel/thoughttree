@@ -21,16 +21,16 @@ class SheetTree(tk.Frame):
         self.scrollbar.pack(side=RIGHT, fill=Y)
 
         canvas_frame = tk.Frame(self.canvas, bd=0, background="#eeeeff", name="cf")
-        self.canvas_id = self.canvas.create_window((0, 0), window=canvas_frame, anchor=NW)
+        self.frame_id = self.canvas.create_window((0, 0), window=canvas_frame, anchor=NW)
 
-        self.forkable_sheet = ForkableSheet(canvas_frame)
+        self.forkable_sheet = ForkableSheet(parent_frame=canvas_frame, )
         self.forkable_sheet.pack(side=TOP, expand=True, fill=BOTH)
 
         def on_mousewheel(event):
             delta = (event.num == 5 and 1 or -1)
-            print(f"on_mousewheel: {event} {delta=} {self.canvas.winfo_containing(event.x_root, event.y_root)} {self.canvas}")
-            self.canvas.yview_scroll(delta, "units")
-            str(self.canvas.winfo_containing(event.x_root, event.y_root)).startswith(str(self.canvas))
+            if self.in_canvas(event.x_root, event.y_root):
+                self.canvas.yview_scroll(delta, "units")
+
         self.winfo_toplevel().bind("<Button-4>", on_mousewheel)
         self.winfo_toplevel().bind("<Button-5>", on_mousewheel)
 
@@ -57,6 +57,9 @@ class SheetTree(tk.Frame):
 
     def focus_set(self):
         self.forkable_sheet.focus_set()
+
+    def in_canvas(self, x, y):
+        return str(self.canvas.winfo_containing(x, y)).startswith(str(self.canvas))
 
 if __name__ == "__main__":
     from Ui import Ui

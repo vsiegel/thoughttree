@@ -49,7 +49,7 @@ class Sheet(ScrolledText, LineHandling):
         self.cursorline = Cursorline(self)
         self.tag_config('bold', font=(name, int(size), "bold"))
         self.tag_config('strikethrough', overstrike=True)
-        self.tag_config('found_one', background="#edee21", borderwidth=1, relief=RAISED)
+        self.tag_config('found_one', background="#f3eb24", borderwidth=1, relief=RAISED)
         self.tag_config('found_all', background="#d9d55d")
         self.tag_config('highlight', background="#6cd8ff")
         self.tag_config('semi_highlight', background="#c8e7ff")

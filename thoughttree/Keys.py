@@ -39,11 +39,22 @@ class Keys:
     '<<ContextMenu>>': ('<Button-3>', 'Context Menu', 'Button 3')
     }
 
+    superfluous_tcl_tk_text_keys = [
+        '<Control-t>',
+        '<Control-d>',
+        '<Control-e>',
+        '<Control-h>',
+        '<Control-k>',
+    ]
+
     @staticmethod
-    def configure_text_keys(text):
+    def configure_text_keys(text: tk.Text):
         for virtual, (key, explanation, key_name) in list(Keys.text_keys.items()):
             text.event_delete(virtual)
             text.event_add(virtual, key)
+        for key in Keys.superfluous_tcl_tk_text_keys:
+            text.unbind_class("Text", key)
+
 
 
     @staticmethod

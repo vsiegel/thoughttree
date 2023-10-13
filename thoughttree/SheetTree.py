@@ -13,7 +13,7 @@ class SheetTree(tk.Frame):
         self.canvas = tk.Canvas(self, highlightthickness=0, bd=0, name="c")# background="lightcyan")
         self.scrollbar = tk.Scrollbar(self, orient=VERTICAL, command=self.canvas.yview, width=18, takefocus=False, borderwidth=2)
         def scrollbar_set(*args):
-            # print(f"{args}")
+            print(f"{args}")
             self.scrollbar.set(*args)
         self.canvas.configure(yscrollcommand=scrollbar_set)
 
@@ -46,15 +46,15 @@ class SheetTree(tk.Frame):
         print(f"###")
         print(f"configure_scrollregion: {event}")
         self.canvas.update_idletasks()
-        x, y, width, height = self.canvas.bbox("all")
-        print(f"bbox: {(x, y, width, height)=}")
-
-        self.canvas.configure(scrollregion=(x, y, width, height))
+        # x, y, width, height = self.canvas.bbox("all")
+        x, y, width, height = event.x, event.y, event.width, event.height
+        print(f"{(x, y, width, height)=}")
         print(f"canvas height: {self.canvas.configure('height')[4]}")
         print(f"c.winfo_height: {self.canvas.winfo_height()}")
         print(f"####")
+        self.canvas.configure(scrollregion=(x, y, width, height))
         self.canvas.event_generate("<Configure>", x=x, y=y, width=width, height=height)
-        # self.canvas.configure(scrollregion=(x, y, width, height), width=width, height=height)
+        self.canvas.configure(scrollregion=(x, y, width, height), width=width, height=height)
 
     def focus_set(self):
         self.forkable_sheet.focus_set()

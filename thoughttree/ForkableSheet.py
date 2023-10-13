@@ -9,8 +9,8 @@ from Title import new_child_title, new_sibling_title, short
 
 
 class ForkableSheet(Sheet):
-    def __init__(self, parent_widget, parent_sheet=None, parent_notebook=None, *args, **kw):
-        self.fork_frame = tk.Frame(parent_widget, name="ff")
+    def __init__(self, parent_frame, parent_sheet=None, parent_notebook=None, parent_sheet_tree=None, *args, **kw):
+        self.fork_frame = tk.Frame(parent_frame, name="ff")
         self.fork_frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
         Sheet.__init__(self,  self.fork_frame, name="fs", height=1, width=250, scrollbar=False, grow=True, background="white", *args, **kw)
         self.pack(side=tk.TOP, fill=BOTH, expand=True)
@@ -19,7 +19,9 @@ class ForkableSheet(Sheet):
 
         self.parent_sheet = parent_sheet
         self.parent_notebook = parent_notebook
+        self.parent_sheet_tree = parent_sheet_tree
         self.child_notebook = None
+        self.previous_sheet_height = None #todo
         # self.notebook = Notebook(self.fork_frame)
         #
         # self.notebook.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)

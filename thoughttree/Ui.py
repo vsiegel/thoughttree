@@ -11,7 +11,7 @@ class Ui(tk.Frame):
     WINDOW_ICON = None
     current_open_uis = []
 
-    def __init__(self, name="ui", icon_path=None, closeable=True):
+    def __init__(self, title="Thoughttree", name="ui", icon_path=None, closeable=True):
         if not tk._default_root:
             self.root = tk.Tk()
             self.main_window = True
@@ -24,9 +24,9 @@ class Ui(tk.Frame):
         self.is_root_destroyed = False
 
         Ui.current_open_uis.append(self)
-        name = f"{name} {len(Ui.current_open_uis)}"
-
-        self.window_setup(name, icon_path)
+        number = len(Ui.current_open_uis) > 1 and " " + str(len(Ui.current_open_uis)) or ""
+        title = f"{title}{number}"
+        self.window_setup(title, icon_path)
 
     def window_setup(self, name, icon_path):
         self.root.title(name)

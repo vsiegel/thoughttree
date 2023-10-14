@@ -1,6 +1,6 @@
 import re
 import tkinter as tk
-from tkinter import CURRENT, END, INSERT, SEL, WORD, X, SEL_FIRST, SEL_LAST, RAISED, BOTH
+from tkinter import CURRENT, END, INSERT, SEL, WORD, X, SEL_FIRST, SEL_LAST, RAISED, BOTH, FLAT, SOLID
 from tkinter.scrolledtext import ScrolledText
 from tkinter.simpledialog import askstring
 from typing import Union
@@ -19,8 +19,8 @@ OUTPUT = "output"
 
 class Sheet(ScrolledText, LineHandling):
 
-    def __init__(self, master=None, scrollbar=True, autohide=False, name="s", width=80, borderwidth=0, padx=0, pady=0, height=0,
-                 grow=True, background='white', **kw):
+    def __init__(self, master=None, scrollbar=True, name="s", width=80, borderwidth=0, padx=0, pady=0, height=0,
+                 background='white', **kw):
         ScrolledText.__init__(
             self, master, undo=True, wrap=WORD, padx=padx, pady=pady, background=background,
             width=width, height=height, insertwidth=3, font=Fonts.FONT,

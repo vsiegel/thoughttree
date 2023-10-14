@@ -12,7 +12,7 @@ class ForkableSheet(Sheet):
     def __init__(self, parent_frame, parent_sheet=None, parent_notebook=None, parent_sheet_tree=None, *args, **kw):
         self.fork_frame = tk.Frame(parent_frame, name="ff")
         self.fork_frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-        Sheet.__init__(self,  self.fork_frame, name="fs", height=1, width=250, scrollbar=False, grow=True, background="white", *args, **kw)
+        Sheet.__init__(self,  self.fork_frame, name="fs", height=1, width=250, scrollbar=False, background="white", *args, **kw)
         self.pack(side=tk.TOP, fill=BOTH, expand=True)
         # self.pack_propagate(False)
         self.frame.pack_propagate(False)

@@ -150,11 +150,11 @@ class Sheet(ScrolledText, LineHandling):
         self.edit_separator()
 
     def bold(self):
-        self.tag_selection('bold')
+        self.toggle_tag('bold')
 
 
     def strikethrough(self):
-        self.tag_selection('strikethrough')
+        self.toggle_tag('strikethrough')
 
     def remove_tag(self, tag):
         def pairwise(l):
@@ -169,7 +169,7 @@ class Sheet(ScrolledText, LineHandling):
             print(f"-{self.get(*span)=}")
             print(f"-{len(self.get('1.0', 'end'))=}")
 
-    def tag_selection(self, tag):
+    def toggle_tag(self, tag):
         def min_index(i1, i2):
             if self.compare(i1, '<=', i2):
                 return i1

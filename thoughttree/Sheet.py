@@ -55,8 +55,9 @@ class Sheet(ScrolledText, LineHandling):
         self.tag_config('semi_highlight', background="#c8e7ff")
         self.tag_config("added", foreground="#9af1a9")
         self.tag_config("deleted", foreground="#f1a8ae")
-        self.tag_config('hidden_markup', elide=True, foreground="#ADD8E6")
-        self.tag_config('hidden_prompt', elide=True, foreground="#ADD8E6")
+        self.tag_config('hidden_markup', elide=True, foreground="#E0E0E0")
+        self.tag_config('hidden_prompt', elide=True, foreground="#E0E0E0")
+        self.tag_config("mask", borderwidth=2, relief=SOLID, foreground="#D0D0D0")
 
         self.mark_set(OUTPUT, "1.0")
         self.mark_gravity(OUTPUT, tk.LEFT)

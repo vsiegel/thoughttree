@@ -76,7 +76,7 @@ class Menu(tk.Menu):
         menus = [self]
         if additional_menu:
             menus.append(additional_menu)
-        bind_to = to or self.master
+        bind_to = to or self.parent
         if variable :
             for menu in menus:
                 menu.insert_radiobutton(index, label=label, accelerator=accelerator, state=state, variable=variable)

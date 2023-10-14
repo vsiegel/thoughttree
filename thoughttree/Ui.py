@@ -2,19 +2,23 @@ import os
 import sys
 import tkinter as tk
 from os.path import join, dirname
-from tkinter import messagebox
 from tkinter.messagebox import askyesno, showwarning
+
+from EventLog import EventLog
 
 
 class Ui(tk.Frame):
     icon = None
     WINDOW_ICON = None
     current_open_uis = []
+    event_log = None
 
     def __init__(self, title="Thoughttree", name="ui", icon_path=None, closeable=True):
         if not tk._default_root:
             self.root = tk.Tk()
             self.main_window = True
+            if not os.getenv("THOUGHTTREE_DEBUG") in ["", "0", None]:
+                Ui.event_log = EventLog(self.root, "<Key>")
         else:
             self.root = tk.Toplevel()
             self.main_window = False

@@ -30,17 +30,17 @@ class ForkableSheet(Sheet):
         self.bind('<<Modified>>', self.grow_to_displaylines, add=True)
 
     def grow_to_displaylines(self, event: tk.Event):
-        print(f"grow_to_displaylines:")
-        # sheet:ForkableSheet = event.widget
-        sheet:ForkableSheet = self
         if self.edit_modified():
+            sheet:ForkableSheet = event.widget
+            # sheet:ForkableSheet = self
+            print(f"grow_to_displaylines:" + str(sheet))
+            print(f"# {event=}")
             sheet.update_idletasks()
             sheet.count("1.0", "end", "update")
             ypixels = sheet.count("1.0", "end lineend", 'ypixels')[0]
             print(f"{sheet.bbox('1.0 lineend')=}")
-            print(f"#ypixels: {ypixels}")
+            print(f"ypixels: {ypixels}")
             width = sheet.master.winfo_width()
-            print(f"{sheet.master.winfo_reqwidth()=}")
             sheet.frame.configure(height=ypixels)
             height = ypixels
             if sheet.child_notebook:

@@ -37,8 +37,9 @@ def short(widget_names):
 
 
 def new_sibling_title(sibling_notebook):
-    last_tab_label = sibling_notebook and sibling_notebook.tabs() and sibling_notebook.tab(len(sibling_notebook.tabs()) - 1, "text") or ""
-    next_tab_label = next_equal(last_tab_label)
+    previous_tab_label = sibling_notebook and sibling_notebook.tabs() and sibling_notebook.tab(len(sibling_notebook.tabs()) - 1, "text") or ""
+    print(f"{previous_tab_label=}")
+    next_tab_label = next_equal(previous_tab_label)
     print(f"{next_tab_label=}")
     return next_tab_label
 

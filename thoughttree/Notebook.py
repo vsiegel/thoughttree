@@ -13,7 +13,7 @@ class Notebook(ttk.Notebook):
             style = ttk.Style()
             style.layout(style_name, [])
             style.configure(style_name, bd=0, highlightthickness=0, background=background)
-        super().__init__(parent_frame, style=style_name, takefocus=takefocus, **kw)
+        super().__init__(parent_frame, style=style_name, takefocus=takefocus, name="nb", **kw)
         self.enable_traversal()
         # self.winfo_toplevel().unbind('<Control-Tab>')
 

@@ -31,7 +31,6 @@ class Tooltip :
             self.label = tk.Label(self.tooltip, text="", background="#FFFFE0", relief="solid",
                              borderwidth=1, justify=tk.LEFT, padx=6, pady=5, font=("sans-serif", 11))
             self.label.pack()
-            self.label.focus_set()
             self.tooltip.bind("<Leave>", self.remove_tooltip)
             self.tooltip.bind("<Button-1>", self.remove_tooltip)
             self.label.bind("<Escape>", self.remove_tooltip)
@@ -48,6 +47,7 @@ class Tooltip :
             self.tooltip.wm_geometry(f"+{px}+{py}")
             self.tooltip.wm_attributes("-topmost", 1)
             self.refresh_tooltip_text()
+
 
     def refresh_tooltip_text(self):
         self.label.configure(text=self.text)

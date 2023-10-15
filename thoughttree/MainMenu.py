@@ -144,14 +144,6 @@ class MainMenu(Menu):
             sheet.config(font=(name, int(size) + delta))
 
 
-        def bold(event):
-            self.it.bold()
-
-
-        def strikethrough(event):
-            self.it.strikethrough()
-
-
         def insert_current_time(event=None):
             self.it.insert(INSERT, f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} ")
 

@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, SEL
 
 from ListDialog import ListDialog
 from tools import on_event
@@ -55,7 +55,18 @@ class Keys:
             text.event_add(virtual, key)
         for key in Keys.superfluous_tcl_tk_text_keys:
             text.unbind_class("Text", key)
+        Keys.fix_paste(text)
 
+
+    @staticmethod
+    def fix_paste(text):
+        def replacing_paste(event):
+            w = event.widget
+            if w.tag_ranges(SEL):
+                w.delete("sel.first", "sel.last")
+            w.insert("insert", w.clipboard_get())
+            return "break"
+        text.winfo_toplevel().bind_class("Text", "<<Paste>>", replacing_paste)
 
 
     @staticmethod

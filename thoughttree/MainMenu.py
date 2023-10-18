@@ -207,7 +207,7 @@ class MainMenu(Menu):
         item("Save Code Block", "<Control-Alt-s>", save_code_block, additional_menu=sheet_menu)
         self.menu.add_separator()
         item("Close Tab", "<Control-w>", close_tab, add=False)
-        # item("Close Empty Tab", "<BackSpace>", lambda e=None: self.it.close_empty_tab_or_backspace(), add=False)
+        item("Close Empty Tab", "<BackSpace>", lambda e=None: self.it.close_empty_tab_or_backspace(e), add=False)
         item("Close Window", "<Control-Q>", ui.close)
         item("Quit Thoughttree", "<Control-Shift-Q>", lambda e=None: ui.quit(label="Quit Thoughttree"))
 

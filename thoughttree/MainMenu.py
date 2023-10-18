@@ -317,6 +317,10 @@ class MainMenu(Menu):
         item("Change Text")
         item("Annotate Text")
         item("Comment Text")
+        item("Insert transitioning sentence")
+        item("Insert Appropriate Emoji")
+        item("Insert Multiple Emojis")
+
 
         # item("Include Date in System Prompt", None, None)
 

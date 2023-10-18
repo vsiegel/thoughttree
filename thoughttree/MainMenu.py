@@ -252,7 +252,6 @@ class MainMenu(Menu):
         item("Copy Title", None, None)
 
         self.menu = Menu(self, "View")
-        item("Show Main Menu", "<Alt-Shift-M>", None)
         item("Show System Prompt", "<Alt-Shift-S>", ui.system_pane.fold)
         item("Show Tree", "<Alt-Shift-T>", ui.tree_pane.fold)
         item("Show Console", "<Alt-Shift-C>", ui.console_pane.fold)

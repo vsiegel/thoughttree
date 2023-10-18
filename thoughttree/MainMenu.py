@@ -240,6 +240,7 @@ class MainMenu(Menu):
         item("Show Console", "<Alt-Shift-C>", ui.console_pane.fold)
         item("Show Status Bar", "<Alt-Shift-I>", ui.status_hider.hide)
         item("Update Window Title", "<Control-u>", ui.update_window_title)
+        item("Model Usage", None, web("https://platform.openai.com/account/usage"))
         self.menu.add_separator()
         item("Increase Font Size", "<Control-plus>", lambda e=None: font_size(1))
         item("Decrease Font Size", "<Control-minus>", lambda e=None: font_size(-1))

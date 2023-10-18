@@ -140,12 +140,28 @@ class MainMenu(Menu):
             self.it.insert(INSERT, f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} ")
 
         def debug_info(event=None):
-            import time
-            from pyautogui import typewrite, press, hotkey, click
+            def print_height(w, name=None):
+                name = name or w
+                print()
+                print(f"{name} h: {w.winfo_height()}/req: {w.winfo_reqheight()}")
 
-            self.after_idle(lambda: typewrite("a\n"))
-            self.after_idle(lambda: hotkey("ctrl", "alt", "f"))
-            self.after_idle(lambda: typewrite("b\nc\n"))
+            print("-------")
+
+            print_height(self.ui.chat_sheet, "chat_sheet")
+
+            sheet: ForkableSheet = self.ui.chat_sheet.forkable_sheet
+            while sheet:
+                print_height(sheet, "sheet: " + str(sheet))
+                if sheet.child_notebook:
+                    print_height(sheet.child_notebook, "child_notebook: " + str(sheet.child_notebook))
+                    sheet = sheet.child_notebook.selected_sheet()
+                else:
+                    sheet = None
+
+            # from pyautogui import typewrite, press, hotkey, click
+            # self.after_idle(lambda: typewrite("\n".join(list(map(str, range(20))))))
+            # self.after_idle(lambda: hotkey("ctrl", "alt", "f"))
+            # self.after_idle(lambda: typewrite("b\nc\n"))
             # press("enter")
             # hotkey("ctrl", "a")
             return "break"

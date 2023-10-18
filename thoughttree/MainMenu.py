@@ -248,6 +248,7 @@ class MainMenu(Menu):
         item("Search with Google", "<Control-Alt-g>", search_web, additional_menu=sheet_menu)
         sheet_menu.add_separator()
         item("Insert Current Time", "<Control-Shift-I>", insert_current_time)
+        item("Remove Incomplete", None, None)
         item("Copy Title", None, None)
 
         self.menu = Menu(self, "View")

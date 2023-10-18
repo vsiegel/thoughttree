@@ -340,9 +340,9 @@ class MainMenu(Menu):
 
         # item("Include Date in System Prompt", None, None)
 
-        # self.menu = Menu(self, "Format")
-        # item("Bold", "<Control-b>", bold)
-        # item("Strikethrough", "<Control-d>", strikethrough)
+        self.menu = Menu(self, "Format")
+        item("Bold", "<Control-b>", lambda e=None: self.it.toggle_tag("bold"))
+        item("Strikethrough", "<Control-d>", lambda e=None: self.it.toggle_tag("strikethrough"))
 
         self.models_menu = ModelsMenu(self, ui, "Models")
 

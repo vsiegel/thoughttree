@@ -35,20 +35,18 @@ class ForkableSheet(Sheet):
             sheet:ForkableSheet = event.widget
             # sheet:ForkableSheet = self
             print(f"grow_to_displaylines:" + str(sheet))
-            print(f"# {event=}")
-            sheet.update_idletasks()
             sheet.count("1.0", "end", "update")
             ypixels = sheet.count("1.0", "end lineend", 'ypixels')[0]
-            print(f"{sheet.bbox('1.0 lineend')=}")
             print(f"ypixels: {ypixels}")
             width = sheet.master.winfo_width()
             sheet.frame.configure(height=ypixels)
             height = ypixels
             if sheet.child_notebook:
                 notebook_height = sheet.child_notebook.winfo_height()
-                print(f"height: {notebook_height=}")
+                print(f"height: {sheet.child_notebook.winfo_height()=}")
+                print(f"height: {sheet.child_notebook.winfo_reqheight()=}")
                 height += notebook_height
-            print(f"height: {height=}")
+            print(f"WxH: {width}x{height}")
             self.fork_frame.configure(width=width, height=height)
             sheet.event_generate("<Configure>", x=0, y=0, width=width, height=height)
             sheet.edit_modified(False)

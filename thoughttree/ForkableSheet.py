@@ -5,7 +5,7 @@ from tkinter import X, BOTH, Y, INSERT, END, CURRENT, SEL
 from ForkFrame import ForkFrame
 from Notebook import Notebook
 from Sheet import Sheet
-from Title import new_child_title, new_sibling_title, short
+from Title import new_child_title, new_sibling_title, Title
 
 
 class ForkableSheet(Sheet):
@@ -53,6 +53,37 @@ class ForkableSheet(Sheet):
             sheet.event_generate("<Configure>", x=0, y=0, width=width, height=height)
             sheet.edit_modified(False)
 
+    def generate_title(self, event=None):
+        def get():
+            return self.parent_notebook.tab(CURRENT, option="text")
+        def set(title):
+            self.parent_notebook.tab(CURRENT, text=title)
+        self.generate(get, set)
+
+
+    def generate(self, get, set):
+
+        progress_title = get() + "..."
+        print(f"{progress_title=}")
+
+        def write_title(delta):
+            # if self.is_root_destroyed or self.model.is_canceled:
+            #     return
+            current_title = get()
+            if current_title == progress_title:
+                current_title = ""
+            set(current_title + delta)
+            self.update()
+
+        set(progress_title)
+        self.update()
+
+        history = self.history_from_system_and_chat(Title.PROMPT, max_messages=5,
+                                                    max_size=1000)  # todo limit, do not use system for title
+
+        self.generation_model.counter.go()
+        self.generation_model.complete(history, write_title, max_tokens=30, temperature=0.3)
+        self.generation_model.counter.summarize("Title cost:")
 
     def create_child_notebook(self): # make sure we have a notebook
         if not self.child_notebook:

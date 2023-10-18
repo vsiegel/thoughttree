@@ -23,11 +23,10 @@ class ForkableSheet(Sheet):
         self.parent_sheet = parent_sheet
         self.parent_notebook = parent_notebook
         self.child_notebook = None
+
         self.previous_sheet_height = None #todo
-        # self.notebook = Notebook(self.fork_frame)
-        #
-        # self.notebook.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
-        ## self.pack_configure(expand=False)
+        self.unbind("<BackSpace>")
+        self.bind_class("Text", "<BackSpace>", self.close_empty_tab_or_backspace)
 
         self.bind('<<Modified>>', self.grow_to_displaylines, add=True)
 

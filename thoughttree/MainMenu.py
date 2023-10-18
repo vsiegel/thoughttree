@@ -312,9 +312,9 @@ class MainMenu(Menu):
 
         self.menu = Menu(self, "Query")
         item("Temperature...", "<Control-Shift-T>", ui.configure_temperature)
-        item("Increase Temperature", "<Alt-plus>", None)
-        item("Decrease Temperature", "<Alt-minus>", None)
-        item("Temperature 0.0", "<Control-Key-0>", None)
+        item("Increase Temperature", None, None)
+        item("Decrease Temperature", None, None)
+        item("Temperature 0.0", None, None)
         item("Max Tokens...", "<Control-Shift-L>", ui.configure_max_tokens)
 
         self.menu = Menu(self, "Text")

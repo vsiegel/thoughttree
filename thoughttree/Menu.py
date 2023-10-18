@@ -62,7 +62,7 @@ class Menu(tk.Menu):
         return s
 
 
-    def item(self, label, keystroke, command, variable=None, add=False, index=tk.END, check_help=True, additional_menu=None, to=None):
+    def item(self, label, keystroke, command, variable=None, add=False, index=tk.END, check_help=True, menu2=None, to=None):
         if self.menu_help and check_help and not label in self.menu_help:
             print("Warning: Help missing for \"" + label + "\"")
         if keystroke and not keystroke.startswith("<"):
@@ -74,8 +74,8 @@ class Menu(tk.Menu):
         command_is_virtual_event = bool(re.match("^<<\w+>>$", str(command)))
 
         menus = [self]
-        if additional_menu:
-            menus.append(additional_menu)
+        if menu2:
+            menus.append(menu2)
         bind_to = to or self.parent
         if variable :
             for menu in menus:

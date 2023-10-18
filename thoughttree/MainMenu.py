@@ -204,7 +204,7 @@ class MainMenu(Menu):
         item("Save Chat", "<Control-Shift-C>", save_chat)
         item("Save Message", "<Control-Shift-S>", save_section)
         item("Save Selection", "<Alt-S>", save_selection)
-        item("Save Code Block", "<Control-Alt-s>", save_code_block, additional_menu=sheet_menu)
+        item("Save Code Block", "<Control-Alt-s>", save_code_block, menu2=sheet_menu)
         self.menu.add_separator()
         item("Close Tab", "<Control-w>", close_tab, add=False)
         item("Close Empty Tab", "<BackSpace>", lambda e=None: self.it.close_empty_tab_or_backspace(e), add=False)
@@ -212,14 +212,15 @@ class MainMenu(Menu):
         item("Quit Thoughttree", "<Control-Shift-Q>", lambda e=None: ui.quit(label="Quit Thoughttree"))
 
         self.menu = Menu(self, "Edit")
-        item("Undo", "<Control-z>", edit_undo, additional_menu=sheet_menu)
-        item("Redo", "<Control-Shift-Z>", edit_redo, additional_menu=sheet_menu)
+        item("Undo", "<Control-z>", edit_undo, menu2=sheet_menu)
+        item("Redo", "<Control-Shift-Z>", edit_redo, menu2=sheet_menu)
         self.menu.add_separator()
         sheet_menu.add_separator()
-        item("Cut", "<Control-x>", cut_text, additional_menu=sheet_menu)
-        item("Copy", "<Control-c>", copy_text, additional_menu=sheet_menu)
+        item("Cut", "<Control-x>", cut_text, menu2=sheet_menu)
+        item("Copy", "<Control-c>", "<<Copy>>", menu2=sheet_menu)
+        item("Copy", "<Control-c>", lambda e=None: self.it.event_generate("<<Copy>>"), menu2=sheet_menu)
         # item("Paste", "<Control-v>", paste_text, additional_menu=sheet_menu)
-        item("Paste", "<Control-v>", '<<Paste>>', additional_menu=sheet_menu)
+        item("Paste", "<Control-v>", '<<Paste>>', menu2=sheet_menu)
         # item("Delete", "<Delete>", lambda e=None: self.it.delete())
         item("Select All", "<Control-a>", select_all)
         self.menu.add_separator()
@@ -251,8 +252,8 @@ class MainMenu(Menu):
         item("Toggle Scrolling Output", "<Control-e>", toggle_scroll_output)
         item("Ring Bell When Finished", "<Control-Alt-o>", toggle_ring_bell)
         item("Toggle Wrap Lines", "<Control-l>", lambda e=None: self.it.configure(wrap=(NONE if self.it.cget("wrap") != NONE else WORD)))
-        item("Generate Title", "", None)
-        item("Calculate Cost", "", None)
+        item("Generate Title", "<Control-Shift-B>", ui.chat_sheet.generate_title, menu2=sheet_menu)
+        item("Calculate Cost", None, None)
         item("Show Hidden Prompts", "<Control-Shift-H>", ui.toggle_show_hidden_prompts)
 
         self.menu = Menu(self, "Mask")
@@ -269,15 +270,16 @@ class MainMenu(Menu):
         item("Next Tab", "<Control-Tab>", None)
         item("Previous Tab", "<Control-Shift-Tab>", None)
         self.menu.add_separator()
-        item("Search with Google", "<Control-Alt-g>", search_web, additional_menu=sheet_menu)
+        item("Search with Google", "<Control-Alt-g>", search_web, menu2=sheet_menu)
         sheet_menu.add_separator()
 
         self.menu = Menu(self, "Chat")
         item("Next Paragraph", "<Control-Return>", lambda e=None: ui.chat(1, "", "\n"))
         item("Next Line", "<Shift-Return>", lambda e=None: ui.chat(1, "\n", "\n\n"))
         item("Continue Inline", "<Control-space>", lambda e=None: ui.chat(inline=True))
-        item("Insert Completion", "<Control-Alt-space>", lambda e=None: ui.chat(here=True), additional_menu=sheet_menu)
-        item("Replace by Completion", "<Control-Shift-space>", lambda e=None: ui.chat(replace=True), additional_menu=sheet_menu)
+        item("Insert Completion", "<Control-Alt-space>", lambda e=None: ui.chat(insert=True), menu2=sheet_menu)
+        item("Replace by Completion", "<Control-Shift-space>", lambda e=None: ui.chat(replace=True), menu2=sheet_menu)
+        item("Refer to cursor location", "<Control-Alt-O>", lambda e=None: ui.chat(location=True), menu2=sheet_menu)
         item("Fork Conversation", "<Control-Alt-F>", lambda e=None: self.it.fork())
         item("Complete in Branch", "<Control-Shift-Return>", lambda e=None: branch())
         item("Complete Alternatives", "<Alt-Shift-Return>", lambda e=None: ui.chat(-1, "\n"))
@@ -301,15 +303,15 @@ class MainMenu(Menu):
 
         self.menu = Menu(self, "Text")
         item("Count Tokens", "<Control-Alt-m>", ui.count_text_tokens)
-        item("Run Python Code", "<Control-Shift-R>", lambda e=None: self.it.exec_code_block(), additional_menu=sheet_menu)
+        item("Run Python Code", "<Control-Shift-R>", lambda e=None: self.it.exec_code_block(), menu2=sheet_menu)
 
         self.menu = Menu(self, "Data")
 
         item("Iterate over Range", "<Control-Alt-I>", lambda e=None: IterateRangeForm(self.it))
 
         self.menu = Menu(self, "Prompt")
-        item("Solve this Problem", "<Alt-Return>", None, additional_menu=sheet_menu)
-        item("Ask About This", "<Control-Shift-A>", ui.ask, additional_menu=sheet_menu)
+        item("Solve this Problem", "<Alt-Return>", None, menu2=sheet_menu)
+        item("Ask About This", "<Control-Shift-A>", ui.ask, menu2=sheet_menu)
         item("Remove from Text")
         item("Select Text")
         item("Change Text")
@@ -346,9 +348,9 @@ class MainMenu(Menu):
         ui.unbind_class("Text", "<Control-i>")
 
 
-    def sub_item(self, label, keystroke=None, command=None, variable=None, add=False, additional_menu=None):
+    def sub_item(self, label, keystroke=None, command=None, variable=None, add=False, menu2=None):
         # to = [self.ui.system, self.ui.chat_sheet]
-        self.menu.item(label, keystroke=keystroke, command=command, variable=variable, add=add, additional_menu=additional_menu, to=self.ui.root)
+        self.menu.item(label, keystroke=keystroke, command=command, variable=variable, add=add, menu2=menu2, to=self.ui.root)
 
 
 

@@ -15,12 +15,13 @@ class ForkableSheet(Sheet):
         self.fork_frame.forkable_sheet = self
         Sheet.__init__(self,  self.fork_frame, name="fs", height=1, width=250, scrollbar=False, background="white", *args, **kw)
         self.pack(side=tk.TOP, fill=BOTH, expand=True)
-        # self.pack_propagate(False)
         self.frame.pack_propagate(False)
 
+        self.parent_sheet_tree = parent_sheet_tree
+        if self.parent_sheet_tree:
+            self.parent_sheet_tree.bind("<Configure>", self.parent_sheet_tree.configure_scrollregion, add=True)
         self.parent_sheet = parent_sheet
         self.parent_notebook = parent_notebook
-        self.parent_sheet_tree = parent_sheet_tree
         self.child_notebook = None
         self.previous_sheet_height = None #todo
         # self.notebook = Notebook(self.fork_frame)

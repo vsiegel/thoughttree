@@ -355,7 +355,6 @@ class MainMenu(Menu):
         item("OpenAI Chat API", None, web("https://platform.openai.com/docs/api-reference/chat"))
         item("GPT Models", None, web("https://platform.openai.com/docs/models"))
         item("OpenAI Pricing", None, web("https://openai.com/pricing"))
-        item("Model Usage", None, web("https://platform.openai.com/account/usage"))
         item("About", "<Control-F1>", lambda e=None: AboutDialog(self.ui))
 
         ui.bind_class("Text", "<Control-Button-4>", lambda e=None: font_size(1))

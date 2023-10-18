@@ -254,6 +254,12 @@ class MainMenu(Menu):
         item("Calculate Cost", "", None)
         item("Show Hidden Prompts", "<Control-Shift-H>", ui.toggle_show_hidden_prompts)
 
+        self.menu = Menu(self, "Mask")
+        item("All", None, None)
+        item("None", None, None)
+        item("Invert", None, None)
+        item("Selection", "<Alt-Shift-S>", lambda e=None: self.it.toggle_tag("mask"))
+
         self.menu = Menu(self, "Navigate")
         item("Next Similar Line", "<Control-j>", lambda e=None: self.it.jump_to_similar_line(direction=1))
         item("Previous Similar Line", "<Control-Shift-J>", lambda e=None: self.it.jump_to_similar_line(direction=-1))

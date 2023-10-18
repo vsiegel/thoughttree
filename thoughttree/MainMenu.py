@@ -105,14 +105,6 @@ class MainMenu(Menu):
         def copy_text(event=None) :
             self.it.event_generate("<<Copy>>")
 
-        def paste_text(event=None):
-            pass
-            # sheet = self.it
-            # sheet.event_generate("<<Clear>>")
-            # sheet.event_generate("<<Paste>>")
-            # sheet.see(INSERT)
-            # return "break"
-
         def select_all(event=None):
             self.it.event_generate("<<SelectAll>>")
             # sheet = self.it

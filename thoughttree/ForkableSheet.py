@@ -2,7 +2,7 @@ import sys
 import tkinter as tk
 from tkinter import X, BOTH, Y, INSERT, END, CURRENT, SEL
 
-from IterateRangeForm import IterateRangeForm
+from ForkFrame import ForkFrame
 from Notebook import Notebook
 from Sheet import Sheet
 from Title import new_child_title, new_sibling_title, short
@@ -10,8 +10,9 @@ from Title import new_child_title, new_sibling_title, short
 
 class ForkableSheet(Sheet):
     def __init__(self, parent_frame, parent_sheet=None, parent_notebook=None, parent_sheet_tree=None, *args, **kw):
-        self.fork_frame = tk.Frame(parent_frame, name="ff")
+        self.fork_frame = ForkFrame(parent_frame)
         self.fork_frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+        self.fork_frame.forkable_sheet = self
         Sheet.__init__(self,  self.fork_frame, name="fs", height=1, width=250, scrollbar=False, background="white", *args, **kw)
         self.pack(side=tk.TOP, fill=BOTH, expand=True)
         # self.pack_propagate(False)

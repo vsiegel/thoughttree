@@ -63,8 +63,6 @@ class Sheet(ScrolledText, LineHandling):
         self.mark_gravity(OUTPUT, tk.LEFT)
 
         self.old_num_display_lines = 0
-        # if grow:
-        #     self.bind('<<Modified>>', self.grow_to_displaylines, add=True)
 
 
     def exec_code_block(self, event=None):
@@ -152,7 +150,6 @@ class Sheet(ScrolledText, LineHandling):
     def bold(self):
         self.toggle_tag('bold')
 
-
     def strikethrough(self):
         self.toggle_tag('strikethrough')
 
@@ -204,8 +201,11 @@ class Sheet(ScrolledText, LineHandling):
             self.tag_add(tag, *sel)
 
 
-    def unbind(self, seq: str, funcid: str) -> None:
-        self.bind(seq, re.sub(
-            r'^if {"\[' + funcid + '.*$', '', self.bind(seq), flags=re.M
-        ))
-        self.deletecommand(funcid)
+    def unbind(self, seq: str, funcid: str=None):
+        if funcid:
+            self.bind(seq, re.sub(
+                r'^if {"\[' + funcid + '.*$', '', self.bind(seq), flags=re.M
+            ))
+            self.deletecommand(funcid)
+        else:
+            super().unbind(seq)

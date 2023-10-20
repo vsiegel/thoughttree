@@ -27,7 +27,7 @@ class Keys:
     '<<SelectPrevPara>>': ('<Control-Shift-Up>', 'Select Previous Paragraph', 'Control + Shift + Up'),
     '<<SelectLineStart>>': ('<Shift-Home>', 'Select Line Start', 'Shift + Home'),
     '<<SelectLineEnd>>': ('<Shift-End>', 'Select Line End', 'Shift + End'),
-    '<<SelectAll>>': ('<Control-slash>', 'Select All', 'Control + /'),
+    '<<SelectAll>>': ('<Control-a>', 'Select All', 'Control + /'),
     '<<SelectNone>>': ('<Control-backslash>', 'Select None', 'Control + \\'),
     '<<Copy>>': ('<Control-c>', 'Copy', 'Control + C'),
     '<<Cut>>': ('<Control-x>', 'Cut', 'Control + X'),
@@ -46,6 +46,7 @@ class Keys:
         '<Control-h>',
         '<Control-k>',
         '<Control-i>',
+        '<Control-o>',
     ]
 
     @staticmethod

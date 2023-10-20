@@ -78,8 +78,7 @@ class SheetTree(tk.Frame):
     def in_canvas(self, x, y):
         return str(self.canvas.winfo_containing(x, y)).startswith(str(self.canvas))
 
-    def
-        (self, event=None):
+    def generate_title(self, event=None):
         focussed = self.focus_get()
         if not str(focussed).startswith(str(self)):
             raise Exception(f"{focussed} is not in SheetTree")

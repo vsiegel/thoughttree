@@ -284,8 +284,7 @@ class Thoughttree(Ui):
                 self.set_up(sheet, prefix)
 
             history = self.history_from_system_and_chat()
-            if here or replace:
-                self.remove_hidden_prompt(sheet)
+            self.remove_hidden_prompt(sheet)
             self.model.counter.go()
 
             finish_reason, message = self.completions(sheet, n, history, inline)

@@ -9,7 +9,7 @@ from Title import new_child_title, new_sibling_title, Title
 
 
 class ForkableSheet(Sheet):
-    def __init__(self, parent_frame, parent_sheet=None, parent_notebook=None, parent_sheet_tree=None, *args, **kw):
+    def __init__(self, parent_frame, parent_sheet=None, parent_notebook=None, parent_sheet_tree=None, name="fs", *args, **kw):
         self.fork_frame = ForkFrame(parent_frame)
         self.fork_frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
         self.fork_frame.forkable_sheet = self

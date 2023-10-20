@@ -298,11 +298,11 @@ class Thoughttree(Ui):
 
         self.it.window_create(INSERT, window=question_box, stretch=1)
 
-    def set_up_inline_completion(self, sheet):
+    def set_up_inline_completion(self, sheet, specific=""):
         inline_completion_marker_prompt = dedent(
                 f"""
                 Do an insertion completion:
-                Complete assuming the insertion cursor for the text is at the character "{conf.insertion_marker}".
+                Complete assuming the insertion cursor for the text is at the character "{conf.location_marker}".
                 Assume that the trailing text will be there after the completion.
                 Do not use the mark character in the completion.
                 The part before and after the mark is already present for the user,

@@ -13,7 +13,7 @@ class SheetTree(tk.Frame):
         self.canvas = tk.Canvas(self, highlightthickness=0, bd=0, name="c")# background="lightcyan")
         self.scrollbar = tk.Scrollbar(self, orient=VERTICAL, command=self.canvas.yview, width=18, takefocus=False, borderwidth=2)
         def scrollbar_set(*args):
-            # print(f"{args}")
+            print(f"{args}")
             self.scrollbar.set(*args)
         self.canvas.configure(yscrollcommand=scrollbar_set)
 
@@ -26,19 +26,14 @@ class SheetTree(tk.Frame):
         self.forkable_sheet = ForkableSheet(parent_frame=canvas_frame, )
         self.forkable_sheet.pack(side=TOP, expand=True, fill=BOTH)
 
-        def on_mousewheel(event):
-            delta = (event.num == 5 and 1 or -1)
-            if self.in_canvas(event.x_root, event.y_root):
-                self.canvas.yview_scroll(delta, "units")
-
-        self.winfo_toplevel().bind("<Button-4>", on_mousewheel)
-        self.winfo_toplevel().bind("<Button-5>", on_mousewheel)
+        self.add_scrolling()
 
         self.forkable_sheet.bind("<Configure>", self.configure_scrollregion, add=True)
         self.canvas.bind("<Configure>", self.configure_frame, add=True)
 
+
     def configure_frame(self, event):
-        # print(f"configure_frame:        {event}")
+        print(f"configure_frame:        {event.height}")
         self.canvas.itemconfigure(self.frame_id, width=event.width, height=event.height)
 
     def configure_scrollregion(self, event):
@@ -55,6 +50,20 @@ class SheetTree(tk.Frame):
         self.canvas.configure(scrollregion=(x, y, width, height), width=width, height=height)
         # self.canvas.itemconfigure(self.frame_id, width=event.width, height=event.height)
 
+
+    def add_scrolling(self):
+        def on_mousewheel(event):
+            delta = (event.num == 5 and 1 or -1)
+            if self.in_canvas(event.x_root, event.y_root):
+                scroll_pos = self.canvas.yview()
+
+                if (delta == -1 and scroll_pos[0] <= 0) or (delta == 1 and scroll_pos[1] >= 1):
+                    return
+                self.canvas.yview_scroll(delta, "units")
+
+
+        self.winfo_toplevel().bind("<Button-4>", on_mousewheel)
+        self.winfo_toplevel().bind("<Button-5>", on_mousewheel)
 
     def winfo_reqheight(self):
         return self.forkable_sheet.winfo_reqheight()

@@ -39,15 +39,19 @@ class SheetTree(tk.Frame):
     def configure_scrollregion(self, event):
         print(f"###")
         print(f"configure_scrollregion: {event} {event.widget}")
-        self.canvas.update_idletasks()
-        # x, y, width, height = self.canvas.bbox("all")
-        x, y, width, height = event.x, event.y, event.width, event.height
-        print(f"{(x, y, width, height)=}")
-        print(f"canvas height: {self.canvas.configure('height')[4]}")
-        print(f"c.winfo_height: {self.canvas.winfo_height()}")
+        # self.canvas.update_idletasks()
+        b_x, b_y, b_width, b_height = self.canvas.bbox("all")
+        x, y, width, e_height = event.x, event.y, event.width, event.height
+        print(f"b_height:          {b_height}")
+        print(f"ev.height:         {e_height}")
+        print(f"canvas height:     {self.canvas.configure('height')[4]}")
+        print(f"c.winfo_height:    {self.canvas.winfo_height()}")
+        print(f"c.winfo_reqheight: {self.canvas.winfo_reqheight()}")
+        height = max(self.canvas.winfo_height(), e_height)
+        print(f"height:            {height}")
         # self.canvas.event_generate("<Configure>", x=x, y=y, width=width, height=height)
-        # self.canvas.configure(scrollregion=(x, y, width, height))
         self.canvas.configure(scrollregion=(x, y, width, height), width=width, height=height)
+        # self.canvas.configure(scrollregion=(x, y, width, height))
         # self.canvas.itemconfigure(self.frame_id, width=event.width, height=event.height)
 
 
@@ -67,11 +71,6 @@ class SheetTree(tk.Frame):
 
     def winfo_reqheight(self):
         return self.forkable_sheet.winfo_reqheight()
-
-    # def height(self):
-    #     def recurse_notebook_height():
-    #         if self.child_notebook
-    #     tree_height = self.forkable_sheet.winfo_height() +
 
     def focus_set(self):
         self.forkable_sheet.focus_set()

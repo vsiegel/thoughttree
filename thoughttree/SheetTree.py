@@ -78,13 +78,11 @@ class SheetTree(tk.Frame):
     def in_canvas(self, x, y):
         return str(self.canvas.winfo_containing(x, y)).startswith(str(self.canvas))
 
-if __name__ == "__main__":
-    from Ui import Ui
-    ui = Ui()
-    ui.root.title("ScrollableForkableSheet")
-    # ui.root.geometry("500x500")
-    scrollable = SheetTree(ui.root)
-    scrollable.pack(fill="both", expand=True)
-    scrollable.forkable_sheet.focus()
-
-    ui.root.mainloop()
+    def
+        (self, event=None):
+        focussed = self.focus_get()
+        if not str(focussed).startswith(str(self)):
+            raise Exception(f"{focussed} is not in SheetTree")
+        if not isinstance(focussed, ForkableSheet):
+            raise Exception(f"{focussed} is not a ForkableSheet")
+        focussed.generate_title()

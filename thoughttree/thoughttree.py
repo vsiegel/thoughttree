@@ -42,7 +42,7 @@ conf.ring_bell_after_completion = True
 conf.ring_bell_only_after = 15
 conf.blinking_caret = True
 # conf.chat_completion_request_timeout = 5
-conf.insertion_marker = "@"
+conf.location_marker = "@"
 
 class Thoughttree(Ui):
     MIN_SIZE = (600, 300)
@@ -262,8 +262,8 @@ class Thoughttree(Ui):
         return "break"
 
 
-    def chat(self, n=1, prefix="", postfix="", inline=False, here=False, replace=False):
-        inline = inline or here or replace
+    def chat(self, n=1, prefix="", postfix="", inline=False, insert=False, replace=False, location=False):
+        inline = inline or insert or replace
         self.model.is_canceled = False
         sheet = self.it
         sheet.tag_remove('cursorline', 1.0, "end")
@@ -275,8 +275,8 @@ class Thoughttree(Ui):
         with WaitCursor(sheet):
             sheet.undo_separator()
             start_time = datetime.now()
-            sheet.mark_set(OUTPUT, inline and INSERT or "end-2c") # todo
-            if here:
+            sheet.mark_set(OUTPUT, inline and INSERT or "end-1c") # todo
+            if insert:
                 self.set_up_inline_completion(sheet)
             elif replace:
                 self.set_up_replace_completion(sheet)
@@ -313,7 +313,7 @@ class Thoughttree(Ui):
                 Take care to add the right amount of spaces before and after the marker.
                 For example, add a trailing space if the insertion is a word, and the next char after the mark is a space.
                 """)
-        sheet.insert(INSERT, conf.insertion_marker, ("hidden_prompt",))
+        sheet.insert(INSERT, conf.location_marker, ("hidden_prompt",))
         self.system.insert(END, inline_completion_marker_prompt, ("hidden_prompt",))
 
     def remove_hidden_prompt(self, sheet):
@@ -325,8 +325,8 @@ class Thoughttree(Ui):
         replace_completion_marker_prompt = dedent(
                 f"""
                 Do an replacement completion:The output will replace the users text selection, which is 
-                the part of text between the two "{conf.insertion_marker}". 
-                Complete assuming the insertion cursor for the text is at the first marker "{conf.insertion_marker}".
+                the part of text between the two "{conf.location_marker}". 
+                Complete assuming the insertion cursor for the text is at the first marker "{conf.location_marker}".
                 Produce text that will replace the text between the start marker and the end marker.
                 The text after the end marker will still be there after the completion.
                 Do not use the markers in the completion. The markers will be removed from the text after completion.
@@ -336,8 +336,8 @@ class Thoughttree(Ui):
                 The markers themselves will be removed.
                 Take care to add the right amount of spaces after the start marker and before the end marker.
                 """)
-        sheet.insert(SEL_FIRST, conf.insertion_marker, ("hidden_prompt",))
-        sheet.insert(SEL_LAST, conf.insertion_marker, ("hidden_prompt",))
+        sheet.insert(SEL_FIRST, conf.location_marker, ("hidden_prompt",))
+        sheet.insert(SEL_LAST, conf.location_marker, ("hidden_prompt",))
         self.system.insert(END, replace_completion_marker_prompt, ("hidden_prompt",))
 
     @property
@@ -381,7 +381,6 @@ class Thoughttree(Ui):
         # sheet.mark_set(OUTPUT, inline and INSERT or "end-2c")
 
         alternatives_frame = None
-
 
         def write_sheet(text, written_sheet):
             if self.is_root_destroyed:
@@ -457,7 +456,7 @@ class Thoughttree(Ui):
                 self.update_window_title()
 
 
-    def history_from_system_and_chat(self, additional_message=None, max_messages=None, max_size=None) :
+    def history_from_system_and_chat(self, additional_message=None, additional_system=None, max_messages=None, max_size=None) :
         system = self.system.get(1.0, 'end - 1c').strip()
         history = [{'role': 'system', 'content': system}]
 

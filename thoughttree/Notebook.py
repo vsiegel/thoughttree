@@ -15,13 +15,15 @@ class Notebook(ttk.Notebook):
             style.configure(style_name, bd=0, highlightthickness=0, background=background)
         super().__init__(parent_frame, style=style_name, takefocus=takefocus, name="nb", **kw)
         self.enable_traversal()
-        # self.winfo_toplevel().unbind('<Control-Tab>')
+
 
     def add_sheet(self, title, parent_sheet=None):
+        print(f"add_sheet start {title=} {len(self.tabs())=}")
         adapter_frame = NotebookAdapterFrame(self)
         adapter_frame.pack_propagate(False)
+        print(f"add_sheet 2 {title=} {len(self.tabs())=}")
         from ForkableSheet import ForkableSheet
-        sheet = ForkableSheet(parent_frame=adapter_frame, parent_sheet=parent_sheet, parent_notebook=self)
+        sheet = ForkableSheet(parent_frame=adapter_frame, parent_sheet=parent_sheet, parent_notebook=self, name=title.replace(".", "_"))
         sheet.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
         adapter_frame.forkable_sheet = sheet
         self.insert(END, adapter_frame, text=title)
@@ -31,11 +33,11 @@ class Notebook(ttk.Notebook):
 
     def winfo_reqheight(self):
         reqheight = super().winfo_reqheight()
-        print(f"nb super {reqheight=}")
+        # print(f"nb super {reqheight=}")
         selected_sheet = self.selected_sheet()
         if selected_sheet:
             reqheight += selected_sheet.winfo_reqheight()
-        print(f"nb sheet {reqheight=}")
+        # print(f"nb sheet {reqheight=}")
         return reqheight
 
     def selected_sheet(self):

@@ -45,7 +45,7 @@ class Sheet(ScrolledText, LineHandling):
         # self.pack(padx=0, pady=0, fill=X, expand=True)
 
         name, size = self.cget("font").rsplit(None, 1)
-        self.tag_config("assistant", background="#e0e0e0", selectbackground="#4682b4", selectforeground="white")
+        self.tag_config("assistant", background="#e8e8e8", selectbackground="#4682b4", selectforeground="white")
         self.cursorline = Cursorline(self)
         self.tag_config('bold', font=(name, int(size), "bold"))
         self.tag_config('strikethrough', overstrike=True)

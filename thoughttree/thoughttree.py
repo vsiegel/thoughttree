@@ -464,6 +464,8 @@ class Thoughttree(Ui):
 
         if additional_message:
             history += [{'role': 'user', 'content': additional_message}]
+        if additional_system:
+            history += [{'role':'system', 'content': additional_system}]
 
         if max_messages:
             history = history[-max_messages:]

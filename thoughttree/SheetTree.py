@@ -8,12 +8,12 @@ from tools import on_event, bind_tree, iterate_tree
 
 class SheetTree(tk.Frame):
     def __init__(self, parent, *args, **kw):
-        super().__init__(parent, name="sfs", *args, **kw)
+        super().__init__(parent, name="st", *args, **kw)
 
         self.canvas = tk.Canvas(self, highlightthickness=0, bd=0, name="c")# background="lightcyan")
         self.scrollbar = tk.Scrollbar(self, orient=VERTICAL, command=self.canvas.yview, width=18, takefocus=False, borderwidth=2)
         def scrollbar_set(*args):
-            print(f"{args}")
+            # print(f"{args}")
             self.scrollbar.set(*args)
         self.canvas.configure(yscrollcommand=scrollbar_set)
 

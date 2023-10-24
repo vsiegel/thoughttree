@@ -147,7 +147,7 @@ class MainMenu(Menu):
 
             print("-------")
 
-            print_height(self.ui.chat_sheet, "chat_sheet")
+            # print_height(self.ui.chat_sheet, "chat_sheet")
 
             sheet: ForkableSheet = self.ui.chat_sheet.forkable_sheet
             while sheet:
@@ -346,6 +346,7 @@ class MainMenu(Menu):
 
         self.menu = Menu(self, "Help")
         item("Debug Info", "<Control-i>", debug_info)
+        item("Scroll to See Cursor", "<Control-Alt-Shift-i>", lambda e: self.it.see(INSERT))
         item("Text Keymap", "<F1>", lambda e=None: Keys.show_text_keys_help(self.ui))
         item("Technical documentation", "<F2>", web("https://platform.openai.com/docs/introduction"))
         item("OpenAI Chat API", None, web("https://platform.openai.com/docs/api-reference/chat"))

@@ -30,32 +30,37 @@ class MenuHelpTooltip(Tooltip):
             # self.label.configure(text="-")
 
 
-# if __name__ == "__main__":
-    # from Menu import Menu
-    # root = tk.Tk()
-    # root.title("Tooltip")
-    # root.geometry("500x500")
-    # main_menu = Menu(root)
-    # root.config(menu=main_menu)
-    #
-    # menu = Menu(main_menu, "Test", menu_help={"a": 1})
-    # menu.item("Test Cascade", None, None)
-    # menu2 = Menu(main_menu, "Test2", menu_help={"a": 1})
-    # menu2.item("Test Cascade 2", None, None)
-    # # MenuHelpTooltip(root, "Tooltip Example")
-    # Tooltip(root, "Tooltip on root")
-    # Tooltip(main_menu, "Tooltip on main_menu")
-    # Tooltip(menu2, "Tooltip on menu")
-    #
-    # def on_event(event):
-    #     print(f"{event.widget=}")
+if __name__ == "__main__":
+    from Menu import Menu
+    root = tk.Tk()
+    root.title("Tooltip")
+    root.geometry("500x500")
+    main_menu = Menu(root)
+    root.config(menu=main_menu)
+
+    menu = Menu(main_menu, "Test", menu_help={"a": 1})
+    menu.item("Test Cascade", None, None)
+    menu.item("Test Cascade a", None, None)
+    menu.item("Test Cascade b", None, None)
+    menu2 = Menu(main_menu, "Test2", menu_help={"a": 1})
+    menu2.item("Test Cascade 2", None, None)
+    menu2.item("Test Cascade 2.1", None, None)
+    # MenuHelpTooltip(root, "Tooltip Example")
+    Tooltip(root, "Tooltip on root")
+    Tooltip(main_menu, "Tooltip on main_menu")
+    Tooltip(menu2, "Tooltip on menu")
+
+    def on_event(event):
+        print(f"{event=} {event.widget=}")
     # main_menu.bind("<Motion>", on_event)
+    # root.bind("<Motion>", on_event)
     # menu.post(10, 10)
-    # menu.bind('<Motion>', on_event)
-    # tools.bind_all_events(main_menu)
-    # tools.bind_all_events(menu)
-    # tools.bind_all_events(menu2)
-    # root.mainloop()
+    # menu.post(100, 10)
+    root.bind('<Motion>', on_event)
+    # tools.bind_to_all_events(main_menu)
+    # tools.bind_to_all_events(menu)
+    # tools.bind_to_all_events(root, bind_all=True)
+    root.mainloop()
 
 import tkinter as tk
 
@@ -98,17 +103,17 @@ def createToolTip(widget, text):
     widget.bind('<Leave>', leave)
 
 
-if __name__ == "__main__":
-    root = tk.Tk()
-    menubar = tk.Menu(root)
-    filemenu = tk.Menu(menubar, tearoff=0)
-    filemenu.add_command(label="Open", command=lambda: print("OpenX"))
-    filemenu.add_command(label="Save", command=lambda: print("SaveX"))
-    menubar.add_cascade(label="File", menu=filemenu)
-    root.config(menu=menubar)
-
-    for index, item in enumerate(filemenu.entrycget(i, 'label') for i in range(filemenu.index('end')+1)):
-        filemenu.entryconfigure(index, command=(lambda text=item: print(text)))
-        createToolTip(filemenu, item)
-
-    root.mainloop()
+# if __name__ == "__main__":
+#     root = tk.Tk()
+#     menubar = tk.Menu(root)
+#     filemenu = tk.Menu(menubar, tearoff=0)
+#     filemenu.add_command(label="Open", command=lambda: print("OpenX"))
+#     filemenu.add_command(label="Save", command=lambda: print("SaveX"))
+#     menubar.add_cascade(label="File", menu=filemenu)
+#     root.config(menu=menubar)
+#
+#     for index, item in enumerate(filemenu.entrycget(i, 'label') for i in range(filemenu.index('end')+1)):
+#         filemenu.entryconfigure(index, command=(lambda text=item: print(text)), )
+#         createToolTip(filemenu, item)
+#
+#     root.mainloop()

@@ -5,7 +5,7 @@ from tkinter import INSERT, Frame
 
 class InlineForm(Frame):
     def __init__(self, sheet=None, index=INSERT):
-        super().__init__(sheet, bd=0, padx=10, pady=0, background="white")
+        super().__init__(sheet, bd=0, padx=0, pady=0, background="white")
         self.sheet = sheet
         self.pack(side='top', fill='x', expand=True)
 
@@ -24,12 +24,12 @@ class InlineForm(Frame):
     def get_entry(self, index):
         return self.entries[index].get()
 
-    def insert(self, text, index=INSERT):
+    def insert(self, text: tk.Text, index=INSERT):
         index = text.index(index)
         text.tag_config("InlineForm-centered", justify='center')
         # text.insert(index, "\n")
         text.window_create(index + "+1c", window=self)
-        text.tag_add("InlineForm-centered", index + "+1c")
+        text.tag_add("InlineForm-centered", index)
         # text.insert(index + "+2c", "\n")
         text.edit_modified(True)
         text.event_generate("<<Modified>>")

@@ -130,13 +130,13 @@ class ForkableSheet(Sheet):
 
     def selected_sheet(self):
         if not self.child_notebook:
-            self.create_child_notebook()
+            return None
         return self.child_notebook.selected_sheet()
 
 
     def child_sheets(self)->['ForkableSheet']:
         if not self.child_notebook:
-            self.create_child_notebook()
+            return []
         return self.child_notebook.child_sheets()
 
     def winfo_reqheight(self):
@@ -144,8 +144,6 @@ class ForkableSheet(Sheet):
 
         if self.child_notebook:
             reqheight += self.child_notebook.winfo_reqheight()
-        print(f"{reqheight=}")
-
         return reqheight
 
     def fork(self, index=INSERT):

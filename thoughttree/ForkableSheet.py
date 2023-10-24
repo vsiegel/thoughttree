@@ -102,6 +102,10 @@ class ForkableSheet(Sheet):
         leading_text = bool(self.get("1.0", index).strip())
 
 
+        def move_trailing_text(from_sheet, to_sheet, starting):
+            trailing_text = from_sheet.get(starting, END).rstrip()
+            to_sheet.insert("1.0", trailing_text)
+            from_sheet.delete(starting, END)
 
     def selected_sheet(self)->'ForkableSheet':
         if not self.child_notebook:

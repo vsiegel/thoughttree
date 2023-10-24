@@ -278,6 +278,8 @@ class Thoughttree(Ui):
             sheet.mark_set(OUTPUT, inline and INSERT or "end-1c") # todo
             if insert:
                 self.set_up_inline_completion(sheet)
+            elif location:
+                self.set_up_location_reference(sheet)
             elif replace:
                 self.set_up_replace_completion(sheet)
             if not inline:
@@ -311,6 +313,19 @@ class Thoughttree(Ui):
                 The marker itself will be removed.
                 Take care to add the right amount of spaces before and after the marker.
                 For example, add a trailing space if the insertion is a word, and the next char after the mark is a space.
+                The completion needs to make sense before the following text, so it can not be the same normally.
+                Make sure there is no repetition.The inserted text should not be the same as the text after the insertion.
+                {specific}
+                """)
+        sheet.insert(INSERT, conf.location_marker, ("hidden_prompt",))
+        self.system.insert(END, inline_completion_marker_prompt, ("hidden_prompt",))
+
+    def set_up_location_reference(self, sheet, specific=""):
+        inline_completion_marker_prompt = dedent(
+                f"""
+                When the prompt refers to a location in the text, it is the position of "{conf.location_marker}".
+                Do not refer to that character in the output.
+                {specific}
                 """)
         sheet.insert(INSERT, conf.location_marker, ("hidden_prompt",))
         self.system.insert(END, inline_completion_marker_prompt, ("hidden_prompt",))

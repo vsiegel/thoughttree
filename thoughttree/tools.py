@@ -232,7 +232,6 @@ def log_motion_on_alt(widget):
     def on_motion(e):
         print(f"Event: {e}: {e.widget} {e.x},{e.y} {e.width}x{e.height}")
 
-
     widget.bind_all("<Alt-Motion>", on_motion)
 
 

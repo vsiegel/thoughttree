@@ -228,6 +228,14 @@ def on_event(event: tk.Event):
     print(f"{event=}")
 
 
+def log_motion_on_alt(widget):
+    def on_motion(e):
+        print(f"Event: {e}: {e.widget} {e.x},{e.y} {e.width}x{e.height}")
+
+
+    widget.bind_all("<Alt-Motion>", on_motion)
+
+
 def web(url):
     return lambda e=None: webbrowser.open_new_tab(url)
 

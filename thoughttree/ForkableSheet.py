@@ -146,36 +146,6 @@ class ForkableSheet(Sheet):
             reqheight += self.child_notebook.winfo_reqheight()
         return reqheight
 
-    def fork(self, index=INSERT):
-        index = self.index(index)
-        self.initially_modified = True
-
-        has_leading_text = bool(self.get("1.0", index).strip())
-
-
-        if not self.parent_notebook and not self.child_notebook:
-            self.create_child_notebook()
-            first_child = new_child_title(self.child_notebook)
-            sheet = self.child_notebook.add_sheet(first_child, parent_sheet=self)
-
-            trailing_text = self.get(index, END).rstrip()
-            sheet.insert("1.0", trailing_text)
-            self.delete(index + "+1char", END)
-
-            notebook = self.child_notebook
-        elif has_leading_text:
-            if not self.child_notebook:
-                self.create_child_notebook()
-            first_child = new_child_title(self.parent_notebook)
-            self.child_notebook.add_sheet(first_child, parent_sheet=self)
-            notebook = self.child_notebook
-        else:
-            notebook = self.parent_notebook
-
-        tab_name2 = new_sibling_title(notebook)
-        notebook.add_sheet(tab_name2, parent_sheet=self)
-        return "break"
-
 
     def history_from_path(self, history=None) :
         if self.parent_sheet:
@@ -187,6 +157,8 @@ class ForkableSheet(Sheet):
 
 
     def as_history(self):
+        print(f"as_history: {self.winfo_name()=}")
+
         history = []
         content = self.dump(1.0, END, text=True, tag=True, window=True)
         section = ""
@@ -227,7 +199,10 @@ class ForkableSheet(Sheet):
 
         notebook: Notebook = self.parent_notebook
         if notebook and notebook.tabs():
+            print(f"{self.focus_get()    =}")
             selected = notebook.index(CURRENT)
+            # sheet = selected_sheet(notebook)
+            sheet = notebook.selected_sheet()
             notebook.forget(selected)
             if len(notebook.tabs()) > 1:
                 notebook.select(max(selected - 1, 0))

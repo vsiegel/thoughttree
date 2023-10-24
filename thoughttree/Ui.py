@@ -57,12 +57,14 @@ class Ui(tk.Frame):
             return
 
         if not self.is_initially_modified() or self.closeable or askyesno("Close Window", "Are you sure you want to close this window?", parent=self):
+            self.pack_forget()
             Ui.current_open_uis.remove(self)
             self.is_root_destroyed = True
             self.root.destroy()
 
     def quit(self, event=None, label="Quit"):
         if not self.is_initially_modified() or askyesno(label, "Are you sure you want to close all windows and quit?", parent=self):
+            self.pack_forget()
             sys.exit(0)
 
     def is_initially_modified(self):

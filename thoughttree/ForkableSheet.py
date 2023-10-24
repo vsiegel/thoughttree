@@ -40,15 +40,16 @@ class ForkableSheet(Sheet):
             sheet.count("1.0", "end", "update")
             ypixels = sheet.count("1.0", "end lineend", 'ypixels')[0]
             print(f"ypixels: {ypixels}")
-            width = sheet.master.winfo_width()
-            sheet.frame.configure(height=ypixels)
+            # sheet.frame.configure(height=ypixels)
             height = ypixels
             if sheet.child_notebook:
                 notebook_height = sheet.child_notebook.winfo_height()
                 print(f"height: {sheet.child_notebook.winfo_height()=}")
                 print(f"height: {sheet.child_notebook.winfo_reqheight()=}")
                 height += notebook_height
+            width = sheet.master.winfo_width()
             print(f"WxH: {width}x{height}")
+            sheet.frame.configure(height=ypixels)
             self.fork_frame.configure(width=width, height=height)
             sheet.event_generate("<Configure>", x=0, y=0, width=width, height=height)
             sheet.edit_modified(False)

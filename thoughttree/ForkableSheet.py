@@ -91,7 +91,16 @@ class ForkableSheet(Sheet):
             self.child_notebook = Notebook(self.fork_frame, self, self.parent_notebook)
             self.child_notebook.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
             self.pack_configure(expand=False)
-            self.child_notebook.bind("<<NotebookTabChanged>>", self.grow_to_displaylines)
+            first_child = new_child_title(self.parent_notebook)
+            # self.child_notebook.bind("<<NotebookTabChanged>>", self.grow_to_displaylines)
+            return self.child_notebook.add_sheet(first_child, parent_sheet=self)
+
+    def fork(self, index=INSERT):
+        index = self.index(index)
+        self.initially_modified = True
+
+        leading_text = bool(self.get("1.0", index).strip())
+
 
 
     def selected_sheet(self)->'ForkableSheet':

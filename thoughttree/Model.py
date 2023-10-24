@@ -23,7 +23,7 @@ def log_file_size(path):
     log(f'Size: {path} {os.path.getsize(path)} bytes')
 
 DEFAULT_API_KEY_ENV = "OPENAI_API_KEY"
-DEFAULT_API_KEY_FILE = "openai-api-key.txt"
+DEFAULT_API_KEY_FILE = "OPENAI_API_KEY.txt"
 
 class Model():
     MODEL_PATTERN = "gpt"

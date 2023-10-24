@@ -482,7 +482,7 @@ class Thoughttree(Ui):
             history += [{'role':'system', 'content': additional_system}]
 
         if max_messages:
-            history = history[-max_messages:]
+            history = [history[0]] + history[-(max_messages-1):]
         return history
 
     def toggle_show_hidden_prompts(self, event=None):

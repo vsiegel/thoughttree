@@ -217,14 +217,14 @@ class ForkableSheet(Sheet):
             return "break"
 
 
-    def close_empty_tab_or_backspace(self):
-        if self.index(INSERT) == "1.0" and not self.tag_ranges(SEL):
-            notebook: Notebook = self.parent_notebook
+    def close_empty_tab_or_backspace(self, event=None):
+        sheet = event and event.widget or self
+        if sheet.index(INSERT) == "1.0" and not sheet.tag_ranges(SEL):
+            notebook: Notebook = sheet.parent_notebook
             if notebook:
-                string_in_tab = self.get('1.0', END).strip()
+                string_in_tab = sheet.get('1.0', END).strip()
                 if not string_in_tab:
-                    self.close_tab()
-            return "break"
+                    sheet.close_tab()
         else:
-            pass
-            # self.delete(INSERT + "-1c")
+            sheet.delete(INSERT + "-1c")
+        return "break"

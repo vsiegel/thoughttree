@@ -13,7 +13,7 @@ class ForkableSheet(Sheet):
         self.fork_frame = ForkFrame(parent_frame)
         self.fork_frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
         self.fork_frame.forkable_sheet = self
-        Sheet.__init__(self,  self.fork_frame, name="fs", height=1, width=250, scrollbar=False, background="white", *args, **kw)
+        Sheet.__init__(self,  self.fork_frame, name=name, height=1, width=250, scrollbar=False, background="white", *args, **kw)
         self.pack(side=tk.TOP, fill=BOTH, expand=True)
         self.frame.pack_propagate(False)
 
@@ -27,8 +27,10 @@ class ForkableSheet(Sheet):
         self.previous_sheet_height = None #todo
         self.unbind("<BackSpace>")
         self.bind_class("Text", "<BackSpace>", self.close_empty_tab_or_backspace)
-
         self.bind('<<Modified>>', self.grow_to_displaylines, add=True)
+        # def on_key(e):
+        #     print(f"on_key: {self.bbox(INSERT)=}")
+        # self.bind("<KeyRelease>", on_key, add=True)
 
     def grow_to_displaylines(self, event: tk.Event):
         if self.edit_modified():

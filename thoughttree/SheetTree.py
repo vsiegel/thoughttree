@@ -30,6 +30,9 @@ class SheetTree(tk.Frame):
 
         self.forkable_sheet.bind("<Configure>", self.configure_scrollregion, add=True)
         self.canvas.bind("<Configure>", self.configure_frame, add=True)
+        # def on_configure(event):
+        #     print(f"Event: {event}: {event.widget} {event.x},{event.y} {event.width}x{event.height}")
+        # self.winfo_toplevel().bind_all('<Configure>', on_configure)
 
 
     def configure_frame(self, event):
@@ -37,20 +40,33 @@ class SheetTree(tk.Frame):
         self.canvas.itemconfigure(self.frame_id, width=event.width, height=event.height)
 
     def configure_scrollregion(self, event):
-        print(f"###")
         print(f"configure_scrollregion: {event} {event.widget}")
         # self.canvas.update_idletasks()
         b_x, b_y, b_width, b_height = self.canvas.bbox("all")
-        x, y, width, e_height = event.x, event.y, event.width, event.height
-        print(f"b_height:          {b_height}")
-        print(f"ev.height:         {e_height}")
-        print(f"canvas height:     {self.canvas.configure('height')[4]}")
-        print(f"c.winfo_height:    {self.canvas.winfo_height()}")
-        print(f"c.winfo_reqheight: {self.canvas.winfo_reqheight()}")
+        x, y, e_width, e_height = event.x, event.y, event.width, event.height
         height = max(self.canvas.winfo_height(), e_height)
-        print(f"height:            {height}")
+        width = max(self.canvas.winfo_width(), e_width)
+
+        # print(f"b_height:          {b_height}")
+        # print(f"ev.height:         {e_height}")
+        # print(f"canvas height:     {self.canvas.configure('height')[4]}")
+        # print(f"c.winfo_height:    {self.canvas.winfo_height()}")
+        # print(f"c.winfo_reqheight: {self.canvas.winfo_reqheight()}")
+        # print(f"height:            {height}")
+        #
+        # print(f"b_width:          {b_width}")
+        # print(f"ev.width:         {e_width}")
+        # print(f"canvas width:     {self.canvas.configure('width')[4]}")
+        # print(f"c.winfo_width:    {self.canvas.winfo_width()}")
+        # print(f"c.winfo_reqwidth: {self.canvas.winfo_reqwidth()}")
+        # print(f"width:            {width}")
+
+
         # self.canvas.event_generate("<Configure>", x=x, y=y, width=width, height=height)
+        print(f"{(x, y, width, height)=}")
         self.canvas.configure(scrollregion=(x, y, width, height), width=width, height=height)
+        print(f"{self.canvas.cget('scrollregion')=}")
+        # self.canvas.itemconfigure(self.frame_id, width=width, height=height)
         # self.canvas.configure(scrollregion=(x, y, width, height))
         # self.canvas.itemconfigure(self.frame_id, width=event.width, height=event.height)
 

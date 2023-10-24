@@ -1,3 +1,4 @@
+from Model import Model
 from Notebook import Notebook
 
 
@@ -54,6 +55,12 @@ def new_child_title(parent: Notebook):
 
 
 class Title():
+    model_name = 'gpt-3.5-turbo'
+
+
+    def __init__(self, parent_notebook: Notebook):
+        self.generation_model = Model(Title.model_name)
+
 
     PROMPT = '''\
 A title for this conversation, about 50 characters. Style does not matter,

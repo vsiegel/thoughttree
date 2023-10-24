@@ -14,12 +14,12 @@ class EventPlayer:
             return "\n".join(list(map(str, range(n))))
 
 
-        # events = "\n".join([chr(i) + "\n" for i in range(50, 70)])
-        events = [chr(i) for i in range(50, 70)]
+        # events = "\n".join([chr(i) for i in range(50, 70)])
+        # events = [chr(i) for i in range(65, 85)]
         # events = [4, 5, 6, 7]
         # events = lines(15)
         # events = (["<X>", "<Right>", "<Y>",])
-        # events = (["a", "b", "c", "\n", "a", "<b>", "c", "\n", "foo", "bar", 500, "a", "bbbb", ])
+        events = (["a", "b", "c", "\n", "a", "<b>", "c", "\n", "foo", "bar", 500, "a", "bbbb", ])
                   # + ["<<Undo>>"] * 5 + ["<<Redo>>"] * 5)
         # events = ["a", "b"]
 
@@ -69,7 +69,8 @@ class EventPlayer:
 
     def word(self, word: str):
         for char in word:
-            self.generate(f"<Key-{char}>")
+            self.generate(f"{char}")
+            # self.generate(f"<Key-{char}>")
         # self.generate("<space>")
 
 

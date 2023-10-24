@@ -199,16 +199,21 @@ class ForkableSheet(Sheet):
             # sheet = selected_sheet(notebook)
             sheet = notebook.selected_sheet()
             notebook.forget(selected)
-            if len(notebook.tabs()) > 1:
+
+            if notebook.tabs():
                 notebook.select(max(selected - 1, 0))
-                selected_sheet(notebook).focus_set()
-            elif len(notebook.tabs()) == 1:
-                string = selected_sheet(notebook).get('1.0', END)
-                parent = self.parent_sheet
-                parent.delete("end-2 char", "end-1 char") # delete notebook window
-                parent.insert(END, string)
-                parent.mark_set(INSERT, "end-1 char")
-                parent.focus_set()
+                print(f"{sheet           =}")
+                notebook.selected_sheet().focus_set()
+                print(f"{self.focus_get()=}")
+                sheet.insert(END, "c")
+            else:
+                tab_text = sheet.get('1.0', END)
+                self.parent_sheet.insert(END, tab_text)
+                self.parent_sheet.mark_set(INSERT, "end-1 char")
+                self.parent_sheet.focus_set()
+                self.parent_notebook.pack_forget()
+                self.parent_notebook = None
+                self.pack_configure(expand=True)
             return "break"
 
 

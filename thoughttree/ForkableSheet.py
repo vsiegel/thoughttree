@@ -107,7 +107,28 @@ class ForkableSheet(Sheet):
             to_sheet.insert("1.0", trailing_text)
             from_sheet.delete(starting, END)
 
-    def selected_sheet(self)->'ForkableSheet':
+
+        if not self.child_notebook:
+            if leading_text:
+                sheet = self.create_child_notebook()
+                move_trailing_text(self, sheet, index)
+                notebook = self.child_notebook
+            else:
+                if self.parent_notebook:
+                    notebook = self.parent_notebook
+                else:
+                    sheet = self.create_child_notebook()
+                    move_trailing_text(self, sheet, index)
+                    notebook = self.child_notebook
+        else:
+            notebook = self.child_notebook
+
+        sibling = new_sibling_title(notebook)
+        notebook.add_sheet(sibling, parent_sheet=self)
+        return "break"
+
+
+    def selected_sheet(self):
         if not self.child_notebook:
             self.create_child_notebook()
         return self.child_notebook.selected_sheet()

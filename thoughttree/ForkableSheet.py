@@ -192,11 +192,6 @@ class ForkableSheet(Sheet):
 
     def close_tab(self):
 
-        def selected_sheet(notebook):
-            frame_on_tab = notebook.nametowidget(notebook.select())
-            sheet = frame_on_tab.winfo_children()[1]
-            return sheet
-
         notebook: Notebook = self.parent_notebook
         if notebook and notebook.tabs():
             print(f"{self.focus_get()    =}")

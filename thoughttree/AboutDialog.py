@@ -19,7 +19,7 @@ class AboutDialog(tk.Toplevel):
 
         start_time=f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
         tk.Label(self, font=Fonts.FONT, text="Thoughttree").pack(padx=8, pady=12)
-        tk.Label(self, font=Fonts.FONT, text=f'{self.git_version} \nStarted at + {start_time}').pack(padx=16, pady=2)
+        tk.Label(self, font=Fonts.FONT, text=f'{self.git_version} \nRunning since {start_time}').pack(padx=16, pady=2)
 
         tk.Button(self, text="OK", command=self.destroy).pack(padx=8, pady=12)
 

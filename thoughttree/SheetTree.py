@@ -42,16 +42,17 @@ class SheetTree(tk.Frame):
     def configure_scrollregion(self, event):
         print(f"configure_scrollregion: {event} {event.widget}")
         # self.canvas.update_idletasks()
-        b_x, b_y, b_width, b_height = self.canvas.bbox("all")
+        x, y, b_width, b_height = self.canvas.bbox("all")
         x, y, e_width, e_height = event.x, event.y, event.width, event.height
-        height = max(self.canvas.winfo_height(), e_height)
-        width = max(self.canvas.winfo_width(), e_width)
+        height = max(self.canvas.winfo_height(), b_height)
+        width = max(self.canvas.winfo_width(), b_width)
 
-        # print(f"b_height:          {b_height}")
-        # print(f"ev.height:         {e_height}")
+        # print(f"{self.canvas.bbox('all')=}")
+        print(f"b_height:          {b_height}")
+        print(f"ev.height:         {e_height}")
         # print(f"canvas height:     {self.canvas.configure('height')[4]}")
-        # print(f"c.winfo_height:    {self.canvas.winfo_height()}")
-        # print(f"c.winfo_reqheight: {self.canvas.winfo_reqheight()}")
+        print(f"c.winfo_height:    {self.canvas.winfo_height()}")
+        print(f"c.winfo_reqheight: {self.canvas.winfo_reqheight()}")
         # print(f"height:            {height}")
         #
         # print(f"b_width:          {b_width}")

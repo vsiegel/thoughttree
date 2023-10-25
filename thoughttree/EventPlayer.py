@@ -74,21 +74,22 @@ class EventPlayer:
         # self.generate("<space>")
 
 
+if __name__ == "__main__":
 
-root = tk.Tk()
-f = tk.Frame(root)
-f.pack(fill="both", expand=True)
+    root = tk.Tk()
+    f = tk.Frame(root)
+    f.pack(fill="both", expand=True)
 
-t = tk.Text(f, undo=True)
-# print(t.event_info())
-t.pack(fill="both", expand=True)
-t.focus_set()
+    t = tk.Text(f, undo=True)
+    # print(t.event_info())
+    t.pack(fill="both", expand=True)
+    t.focus_set()
 
-EventPlayer(t)
-def on_first_configure(e):
-    t.event_generate("<Control-Alt-Shift-P>")
-    t.unbind("<Configure>")
+    EventPlayer(t)
+    def on_first_configure(e):
+        t.event_generate("<Control-Alt-Shift-P>")
+        t.unbind("<Configure>")
 
-t.bind("<Configure>", on_first_configure)
+    t.bind("<Configure>", on_first_configure)
 
-root.mainloop()
+    root.mainloop()

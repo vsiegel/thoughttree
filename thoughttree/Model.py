@@ -133,8 +133,12 @@ class Model():
         elif exists(api_key_or_file_or_env):
             with open(api_key_or_file_or_env) as f:
                 openai.api_key = f.read().strip()
-        elif not api_key_or_file_or_env or api_key_or_file_or_env == DEFAULT_API_KEY_ENV and exists(DEFAULT_API_KEY_FILE):
-            with open(DEFAULT_API_KEY_FILE) as f:
-                openai.api_key = f.read().strip()
+        elif not api_key_or_file_or_env or api_key_or_file_or_env == DEFAULT_API_KEY_ENV:
+            if exists(DEFAULT_API_KEY_FILE):
+                with open(DEFAULT_API_KEY_FILE) as f:
+                    openai.api_key = f.read().strip()
+            elif exists(Path.home()/DEFAULT_API_KEY_FILE):
+                with open(Path.home()/DEFAULT_API_KEY_FILE) as f:
+                    openai.api_key = f.read().strip()
         else:
             openai.api_key = api_key_or_file_or_env

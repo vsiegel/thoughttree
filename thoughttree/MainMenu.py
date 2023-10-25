@@ -253,6 +253,7 @@ class MainMenu(Menu):
         item("Show Console", "<Alt-Shift-C>", ui.console_pane.fold)
         item("Show Status Bar", "<Alt-Shift-I>", ui.status_hider.hide)
         item("Update Window Title", "<Control-u>", ui.update_window_title)
+        item("Update Tab Title", "<Control-Shift-B>", ui.chat_sheet.generate_title, menu2=sheet_menu)
         item("Model Usage", None, web("https://platform.openai.com/account/usage"))
         self.menu.add_separator()
         item("Increase Font Size", "<Control-plus>", lambda e=None: font_size(1))
@@ -264,7 +265,6 @@ class MainMenu(Menu):
         item("Toggle Scrolling Output", "<Control-e>", toggle_scroll_output)
         item("Ring Bell When Finished", "<Control-Alt-o>", toggle_ring_bell)
         item("Toggle Wrap Lines", "<Control-l>", lambda e=None: self.it.configure(wrap=(NONE if self.it.cget("wrap") != NONE else WORD)))
-        item("Generate Title", "<Control-Shift-B>", ui.chat_sheet.generate_title, menu2=sheet_menu)
         item("Calculate Cost", None, None)
         item("Show Hidden Prompts", "<Control-Shift-H>", ui.toggle_show_hidden_prompts)
 

@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import END
 
 import tools
 from Tooltip import Tooltip
@@ -36,27 +37,41 @@ if __name__ == "__main__":
     root.title("Tooltip")
     root.geometry("500x500")
     main_menu = Menu(root)
-    root.config(menu=main_menu)
+    # root.config(menu=main_menu)
+    root.menu = main_menu
 
     menu = Menu(main_menu, "Test", menu_help={"a": 1})
-    menu.item("Test Cascade", None, None)
-    menu.item("Test Cascade a", None, None)
-    menu.item("Test Cascade b", None, None)
+    menu.item("Test Cascade", "<<Dummy>>", None)
+    menu.item("Test Cascade a", "<<Dummy>>", None)
+    menu.item("Test Cascade b", "<<Dummy>>", None)
     menu2 = Menu(main_menu, "Test2", menu_help={"a": 1})
-    menu2.item("Test Cascade 2", None, None)
-    menu2.item("Test Cascade 2.1", None, None)
+    menu2.item("Test Cascade 2", "<<Dummy>>", None)
+    menu2.item("Test Cascade 2.1", "<<Dummy>>", None)
     # MenuHelpTooltip(root, "Tooltip Example")
     Tooltip(root, "Tooltip on root")
     Tooltip(main_menu, "Tooltip on main_menu")
     Tooltip(menu2, "Tooltip on menu")
 
-    def on_event(event):
-        print(f"{event=} {event.widget=}")
+    def on_event(event, m):
+        # print(f"{event=}")
+        i = m.index(END)
+        while i >= 0:
+            # print(f"{i=} {m.entrycget(i, 'label')=}  {m.entrycget(i, 'state')=} {m.index(i)=} {m.yposition(i)=}")
+            if m.yposition(i) < event.y:
+                print(f"ACTIVE: {m.entrycget(i, 'label')}")
+                break
+            i -= 1
+            # print(f"{i=}")
+        # for item in event.widget.winfo_children():
+            # print(f"{item=} {item.cget('state')=}")
+
     # main_menu.bind("<Motion>", on_event)
     # root.bind("<Motion>", on_event)
     # menu.post(10, 10)
     # menu.post(100, 10)
-    root.bind('<Motion>', on_event)
+    # root.bind('<Motion>', on_event)
+    menu.bind('<Motion>', lambda event: on_event(event, menu))
+    menu2.bind('<Motion>', lambda event: on_event(event, menu2))
     # tools.bind_to_all_events(main_menu)
     # tools.bind_to_all_events(menu)
     # tools.bind_to_all_events(root, bind_all=True)

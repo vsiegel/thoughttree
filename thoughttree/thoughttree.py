@@ -10,7 +10,6 @@ from tkinter.messagebox import showinfo
 
 from configargparse import Namespace
 
-import tools
 from Console import Console
 from FinishReasonIcon import FinishReasonIcon
 from FoldablePane import FoldablePane
@@ -100,8 +99,12 @@ class Thoughttree(Ui):
         n = menu.models_menu.load_available_models()
         self.status.note = f"{n} models found."
 
+        if conf.debug:
+            log_motion_on_ctrl_alt(self)
+
         if self.main_window:
             self.root.mainloop()
+
 
     def set_model(self, model_name):
         model_name = model_name.rsplit()[-1]
@@ -422,7 +425,6 @@ class Thoughttree(Ui):
                 sheet.insert(OUTPUT, "\n")
                 sheet.window_create(OUTPUT, window=alternatives_frame)
                 sheet.see(OUTPUT)
-                finish_reason, message = 'unknown', ''
 
             if alternatives_frame:
                 label = AlternativeLabel(alternatives_frame, sheet)

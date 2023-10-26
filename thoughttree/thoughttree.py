@@ -91,6 +91,7 @@ class Thoughttree(Ui):
         self.models = {}
         self.generation_model = Model(self.generation_model_name)
         self.set_model(self.interactive_model_name)
+        Title.initialize()
         menu = MainMenu(self)
 
         self.pack(fill=BOTH, expand=True)

@@ -29,8 +29,8 @@ def next_equal(hierarchical_id):
     levels = levels[:-1] + [str(int(levels[-1]) + 1)]
 
     result = '.'.join(levels)
-    if title:
-        result += " " + title
+    # if title:
+    #     result += " " + title
     return result
 
 def short(widget_names):
@@ -57,10 +57,9 @@ def new_child_title(parent: Notebook):
 class Title():
     model_name = 'gpt-3.5-turbo'
 
+    model = None
 
-    def __init__(self, parent_notebook: Notebook):
-        self.generation_model = Model(Title.model_name)
-
+    GEN_THRESHOLD = 20
 
     PROMPT = '''\
 A title for this conversation, about 50 characters. Style does not matter,
@@ -78,4 +77,9 @@ Output the unquoted text of the title, nothing else.
 #Output: unquoted text of the title, without any prefixes or comments:
 #Do not refer to the content of the system prompt.
 
-    GEN_THRESHOLD = 20
+    # def __init__(self, parent_notebook: Notebook):
+    #     self.generation_model = Model(Title.model_name)
+
+    @staticmethod
+    def initialize():
+        Title.model = Model(Title.model_name)

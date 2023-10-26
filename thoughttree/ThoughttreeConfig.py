@@ -1,4 +1,5 @@
 import sys
+from datetime import datetime
 
 from configargparse import Namespace, ArgumentParser
 
@@ -13,7 +14,7 @@ conf.ring_bell_after_completion = False
 conf.blinking_caret = True
 
 conf.git_describe_version = tools.get_git_describe_version()
-
+conf.start_time=f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
 
 def main(argv):
     parser = ArgumentParser(prog="thoughttree",

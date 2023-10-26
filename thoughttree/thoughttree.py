@@ -31,6 +31,7 @@ from Tree import Tree
 from Ui import Ui
 from WaitCursor import WaitCursor
 from finish_reasons import finish_reasons
+from tools import log_motion_on_ctrl_alt
 
 WINDOW_ICON = "chatgpt-icon.png"
 

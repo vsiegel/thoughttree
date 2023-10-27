@@ -240,3 +240,7 @@ def log_motion_on_ctrl_alt(widget: tk.Widget):
 def web(url):
     return lambda e=None: webbrowser.open_new_tab(url)
 
+
+def escapable(widget):
+    widget.bind("<Escape>", lambda e: widget.destroy())
+

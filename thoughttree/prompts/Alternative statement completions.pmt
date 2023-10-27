@@ -1,0 +1,31 @@
+## Experimental
+Propose completions that would make sense at the position marked with @.
+Group them by categories, and describe each statement or partial statement.
+Below, [foo] represents an example for foo, not a literal [foo]. Do not show the [].
+If the completion is continuing a partial statement, the completion needs to exactly continue what is before the mark.
+
+Example:
+def on_mousew@
+            delta = (event.num == 5 and 1 or -1)
+            if self.in_canvas(event.x_root, event.y_root):
+
+1 Function definition
+    1.1 "heel(event):"
+...
+
+
+Note how "heel(event):" exactly completes "def on_mousew" to "def on_mousewheel(event):"
+
+Counterexample (invalid):
+
+        canvas_frame = tk.Frame(self.canvas, bd=0, background="#eeeeff", name="cf")
+        canvas_frame.pack_@
+
+
+1 Packing options
+    1.1 "expand=True"
+
+Wrong, because "expand=True" after "canvas_frame.pack_" would result in "canvas_frame.pack_expand=True".
+The text before the mark followed directly by the completion needs to be a complete, syntactically correct statement.
+
+

@@ -1,0 +1,4 @@
+Remove incomplete part at the end of the text: Specify what text should be removed.
+Like:
+A sentence. Foo bar
+Remove: " Foo bar"

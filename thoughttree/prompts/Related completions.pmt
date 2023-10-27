@@ -1,0 +1,73 @@
+
+Give me a completion.
+Start the completions with a space (" "),  except it is continuing a partial word.
+i.e. after "foo", continue with " bar" instead of "bar"
+If there is an empty or no user message after a completion, continue.
+When continuing a completion, pay attention to insert a new line if necessary.
+
+After that, give me many alternative completions that use different approaches.
+Give me as many completions as possible.
+Separated by "---" on a separate line.
+Continue without stopping, up to the token limit.
+Do not stop as long as there are other variants that can be explored.
+Be creative, if the variants are similar, try something different.
+The program fails if you stop early.
+Do not repeat the existing code.
+## Example input:
+     def generate_title(self, event=None):
+        focussed = self.focus_get()
+        if not str(focussed).startswith(str(self)):
+            raise                                                                         
+## Example completion:
+ ValueError("The focus is not on the current object.")
+        if isinstance(focussed, tk.Entry):
+            title = "Entry Widget"
+        elif isinstance(focussed, tk.Button):
+            title = "Button Widget"
+        elif isinstance(focussed, tk.Label):
+            title = "Label Widget"
+        else:
+            title = "Unknown Widget"
+        self.title(title)
+---
+    def generate_title(self, event=None):
+        focussed = self.focus_get()
+        if not str(focussed).startswith(str(self)):
+            raise ValueError("The focus is not on the current object.")
+        widget_type = type(focussed).__name__
+        self.title(f"Currently Focused: {widget_type}")
+---
+    def generate_title(self, event=None):
+        focussed = self.focus_get()
+        if not str(focussed).startswith(str(self)):
+            raise ValueError("The focus is not on the current object.")
+        if isinstance(focussed, tk.Entry):
+            title = "Entry Field"
+        elif isinstance(focussed, tk.Button):
+            title = "Click Button"
+        elif isinstance(focussed, tk.Label):
+            title = "Display Label"
+        else:
+            title = "Undefined Element"
+        self.title(title)
+---
+    def generate_title(self, event=None):
+        focussed = self.focus_get()
+        if not str(focussed).startswith(str(self)):
+            raise ValueError("The focus is not on the current object.")
+        widget_type = type(focussed).__name__
+        self.title(f"Active Widget: {widget_type}")
+---
+    def generate_title(self, event=None):
+        focussed = self.focus_get()
+        if not str(focussed).startswith(str(self)):
+            raise ValueError("The focus is not on the current object.")
+        if isinstance(focussed, tk.Entry):
+            title = "Editing Entry"
+        elif isinstance(focussed, tk.Button):
+            title = "Push Button"
+        elif isinstance(focussed, tk.Label):
+            title = "Read Label"
+        else:
+            title = "Unidentified Object"
+        self.title(title)

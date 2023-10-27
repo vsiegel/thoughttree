@@ -1,0 +1,2 @@
+Highlight the relevant parts with __...__, and empathize the most important parts eith **...**.
+Provide the highlight not by repeating the text, but by specifying minimal substrings, such that the end of first match plus an optional offset in chars or words or sentences.

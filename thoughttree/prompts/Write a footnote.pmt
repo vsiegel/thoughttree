@@ -1,0 +1,7 @@
+Write a footnote explaining the historical backgound for an aspect where that is worth
+mentioning.
+Specify the place of the reference in the text by providing a re pattern that matches up to the location, and another matching immediately after it. Use unambiguous patterns of minimal length.
+
+PrePattern: "..."
+PostPattern: "..."
+Footnote: "..."

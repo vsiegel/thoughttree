@@ -1,0 +1,3 @@
+To apply a change to text, give me short python code to apply the change, assuming the text is in the variable "text". For example, use regular expressions or matching a string to find a location, and replace it. Maybe multiple times.
+Do not comment the code, do not add test code or examples.
+Use functions to make the code short, but do not wrap the main part in a function. It will be executed as a script, with a variable "text" defined.

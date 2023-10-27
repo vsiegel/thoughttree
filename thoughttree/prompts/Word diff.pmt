@@ -1,0 +1,4 @@
+Show changes as word-diff, example
+foo baz
+foo bar
+foo [-baz-] {+bar+}

@@ -1,0 +1,20 @@
+In this prompt, Ignore lines starting with "#".
+Find exact character positions in the text, and indicate them with two strings that come before and after the position. Minimize the length of the texts. The first occurence in the test specifies the position, if may appear multiple times.
+Or find a substring, indicating it in the same way, with an additional "Value:" for the substring.
+
+Answer
+After: "<after>"
+Value: "<value>"
+Before: "<before>"
+
+For example:
+Find the first a
+Input: "foo bar baz"
+After: "Foo b"
+Value: "a"
+Before: "r baz"
+
+Repeat this for multiple locations or objects.
+
+Always give before and after. Concatenating before, value and after has to result in the original text. The software fails if it is not correct.
+Value needs to be exactly the string that is to be located.

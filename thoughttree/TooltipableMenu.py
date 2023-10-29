@@ -1,5 +1,6 @@
 import tkinter as tk
 
+from Fonts import Fonts
 from tools import escapable
 
 
@@ -78,15 +79,16 @@ class MenuBar(tk.Frame):
         print(f"{event.widget=}")
         for menu in self.menus:
             print(f"{menu=}")
-            if menu != event.widget and menu:
+            if menu and menu != event.widget:
                 menu.close()
 
 class TooltipableMenu(tk.Frame):
     # Replacing tk.Menu, because tooltips on menu items do not work under MS Windows.
     def __init__(self, parent, text):
         super().__init__(parent, bg='lightgray', padx=6, pady=5)
-        self.label = tk.Label(self, text=text, font=("Helvetica", 11), bg='lightgray')
-        self.label.bind("<Enter>", self.on_enter)
+        self.parent = parent
+        self.label = tk.Label(self, text=text, font=Fonts.FONT, bg='lightgray')
+        self.label.bind("<Enter>", self.parent.close_other_menus)
         self.label.bind("<Leave>", self.on_leave)
         self.label.bind("<Button-1>", self.on_click)  # bind click event
         self.label.pack(side='left')

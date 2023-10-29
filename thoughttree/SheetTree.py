@@ -21,6 +21,7 @@ class SheetTree(tk.Frame):
         self.scrollbar.pack(side=RIGHT, fill=Y)
 
         canvas_frame = tk.Frame(self.canvas, bd=0, background="#eeeeff", name="cf")
+        # canvas_frame.pack_propagate(False)
         self.frame_id = self.canvas.create_window((0, 0), window=canvas_frame, anchor=NW)
 
         self.forkable_sheet = ForkableSheet(parent_frame=canvas_frame, )
@@ -36,11 +37,11 @@ class SheetTree(tk.Frame):
 
 
     def configure_frame(self, event):
-        print(f"configure_frame:        {event.height}")
+        # print(f"configure_frame:        {event.height}")
         self.canvas.itemconfigure(self.frame_id, width=event.width, height=event.height)
 
     def configure_scrollregion(self, event):
-        print(f"configure_scrollregion: {event} {event.widget}")
+        # print(f"configure_scrollregion: {event} {event.widget}")
         # self.canvas.update_idletasks()
         x, y, b_width, b_height = self.canvas.bbox("all")
         x, y, e_width, e_height = event.x, event.y, event.width, event.height
@@ -48,11 +49,11 @@ class SheetTree(tk.Frame):
         width = max(self.canvas.winfo_width(), b_width)
 
         # print(f"{self.canvas.bbox('all')=}")
-        print(f"b_height:          {b_height}")
-        print(f"ev.height:         {e_height}")
+        # print(f"b_height:          {b_height}")
+        # print(f"ev.height:         {e_height}")
         # print(f"canvas height:     {self.canvas.configure('height')[4]}")
-        print(f"c.winfo_height:    {self.canvas.winfo_height()}")
-        print(f"c.winfo_reqheight: {self.canvas.winfo_reqheight()}")
+        # print(f"c.winfo_height:    {self.canvas.winfo_height()}")
+        # print(f"c.winfo_reqheight: {self.canvas.winfo_reqheight()}")
         # print(f"height:            {height}")
         #
         # print(f"b_width:          {b_width}")
@@ -64,9 +65,9 @@ class SheetTree(tk.Frame):
 
 
         # self.canvas.event_generate("<Configure>", x=x, y=y, width=width, height=height)
-        print(f"{(x, y, width, height)=}")
+        # print(f"{(x, y, width, height)=}")
         self.canvas.configure(scrollregion=(x, y, width, height), width=width, height=height)
-        print(f"{self.canvas.cget('scrollregion')=}")
+        # print(f"{self.canvas.cget('scrollregion')=}")
         # self.canvas.itemconfigure(self.frame_id, width=width, height=height)
         # self.canvas.configure(scrollregion=(x, y, width, height))
         # self.canvas.itemconfigure(self.frame_id, width=event.width, height=event.height)

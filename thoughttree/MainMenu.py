@@ -125,16 +125,18 @@ class MainMenu(Menu):
             except tk.TclError:
                 pass # nothing to redo
 
-        def font_size(delta):
+        def font_size(delta=0):
             sheet = self.it
             if not sheet:
                 return
-            if delta == 0:
+            if not delta:
                 name, size = Fonts.FONT
             else:
                 name, size = sheet.cget("font").rsplit(None, 1)
-            sheet.config(font=(name, int(size) + delta))
-
+            size = int(size)
+            sign = int(size/abs(size))
+            size = abs(size)
+            sheet.config(font=(name, sign * (size + delta)))
 
         def insert_current_time(event=None):
             self.it.insert(INSERT, f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} ")

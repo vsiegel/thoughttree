@@ -63,8 +63,7 @@ class ForkableSheet(Sheet):
 
 
     def generate(self, get, set):
-
-        progress_title = get() + "..."
+        progress_title = get().split(" ")[0] + " ..."
         print(f"{progress_title=}")
 
         def write_title(delta):
@@ -72,7 +71,7 @@ class ForkableSheet(Sheet):
             #     return
             current_title = get()
             if current_title == progress_title:
-                current_title = ""
+                current_title = progress_title.split(" ")[0] + " "
             set(current_title + delta)
             self.update()
 

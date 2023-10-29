@@ -70,13 +70,14 @@ class MenuBar(tk.Frame):
     def add_menu(self, text):
         menu = TooltipableMenu(self, text)
         menu.pack(side='left')
+        # menu.bind("<Enter>", self.close_other_menus)
         self.menus.append(menu)
         return menu
 
 class TooltipableMenu(tk.Frame):
     def __init__(self, parent, text):
-        super().__init__(parent, bg='white')
-        self.label = tk.Label(self, text=text, bg='lightgray', font=("Helvetica", 11))
+        super().__init__(parent, bg='lightgray', padx=6, pady=5)
+        self.label = tk.Label(self, text=text, font=("Helvetica", 11), bg='lightgray')
         self.label.bind("<Enter>", self.on_enter)
         self.label.bind("<Leave>", self.on_leave)
         self.label.bind("<Button-1>", self.on_click)  # bind click event

@@ -83,13 +83,12 @@ class Model():
             full_text = "".join(texts)
             print(f"result: {shorter(full_text, 120)} {log_len(full_text, 120)}")
 
-            print(f"{last_event['model']}")
             if self.is_canceled:
                 finish_reason = 'canceled'
             else:
                 finish_reason = last_event['choices'][0]['finish_reason']
             self.log(f"\n{last_event['model']}: {finish_reason}\n")
-            return finish_reason, ""
+            return finish_reason, last_event['model']
         except Exception as ex:
             return self.error(f"{last_event=}", "Error receiving completion response", ex)
 

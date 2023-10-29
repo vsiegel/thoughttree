@@ -303,7 +303,7 @@ class MainMenu(Menu):
         item("Complete Multiple...", "<Control-Shift-M>", lambda e=None: ui.chat(0))
         item("Complete Multiple Again", "<Control-m>", lambda e=None: ui.chat(-1))
         self.menu.add_separator()
-        # item("Mark assistant message", "<Control-Alt-a>", mark_assistant_message)
+        # item("Mark as Assistant Message", "<Control-Alt-a>", mark_as_assistant_message)
         item("Cancel", "<Escape>", ui.cancel_models)
 
         self.menu = Menu(self, "Query")

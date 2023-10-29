@@ -1,7 +1,7 @@
 import tkinter as tk
 
 from Menu import Menu
-from menu_help import menu_help
+from menu_help_texts import menu_help
 
 
 class ModelsMenu(Menu):

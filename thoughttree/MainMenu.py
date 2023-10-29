@@ -15,7 +15,7 @@ from IterateRangeForm import IterateRangeForm
 from Keys import Keys
 from Sheet import Sheet
 from Console import Console
-from menu_help import menu_help
+from menu_help_texts import menu_help
 from tools import web
 
 
@@ -269,6 +269,7 @@ class MainMenu(Menu):
         item("Toggle Wrap Lines", "<Control-l>", lambda e=None: self.it.configure(wrap=(NONE if self.it.cget("wrap") != NONE else WORD)))
         item("Calculate Cost", None, None)
         item("Show Hidden Prompts", "<Control-Shift-H>", ui.toggle_show_hidden_prompts)
+        item("Show Messages")
 
         self.menu = Menu(self, "Mask")
         item("All", None, None)

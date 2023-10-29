@@ -93,7 +93,7 @@ class TooltipableMenu(tk.Frame):
         self.label.bind("<Button-1>", self.on_click)  # bind click event
         self.label.pack(side='left')
         self.menu_items = []
-        self.items = None
+        self.popup = None
 
     def add_menu_item(self, text, command, tooltip=None):
         self.menu_items.append((text, command, tooltip))
@@ -106,25 +106,25 @@ class TooltipableMenu(tk.Frame):
         # self.close()
 
     def on_click(self, event):
-        if self.items:
+        if self.popup:
             self.close()
         else:
             self.create_menu_window()
 
     def create_menu_window(self):
-        self.items = tk.Toplevel(self, bd=3, relief='raised')
-        self.items.wm_overrideredirect(True)
+        self.popup = tk.Toplevel(self, bd=3, relief='raised')
+        self.popup.wm_overrideredirect(True)
         x = self.winfo_rootx()
         y = self.winfo_rooty() + self.winfo_height()
-        self.items.wm_geometry(f"+{x}+{y}")
+        self.popup.wm_geometry(f"+{x}+{y}")
         for text, command, tooltip in self.menu_items:
-            menu_item = MenuItem(self.items, text, command, tooltip)
+            menu_item = MenuItem(self.popup, text, command, tooltip)
             menu_item.pack(fill='x')
 
     def close(self):
-        if self.items:
-            self.items.destroy()
-            self.items = None
+        if self.popup:
+            self.popup.destroy()
+            self.popup = None
 
 if __name__ == "__main__":
     root = tk.Tk()

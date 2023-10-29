@@ -1,19 +1,14 @@
 import re
 import tkinter as tk
-from tkinter import CURRENT, END, INSERT, SEL, WORD, X, SEL_FIRST, SEL_LAST, RAISED, BOTH, FLAT, SOLID
+from tkinter import END, INSERT, SEL, WORD, SEL_FIRST, SEL_LAST, RAISED, SOLID
 from tkinter.scrolledtext import ScrolledText
 from tkinter.simpledialog import askstring
-from typing import Union
 
 from Cursorline import Cursorline
 from FinishReasonIcon import FinishReasonIcon
 from Fonts import Fonts
 from Keys import Keys
 from LineHandling import LineHandling
-from Notebook import Notebook
-from ThoughttreeConfig import conf
-from Title import new_child_title, new_sibling_title
-from tools import on_event
 
 OUTPUT = "output"
 

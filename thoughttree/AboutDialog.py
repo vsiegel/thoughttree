@@ -2,9 +2,9 @@ import tkinter as tk
 import tkinter.commondialog
 from datetime import datetime
 
+from Config import conf
 from Fonts import Fonts
 from Sheet import Sheet
-from ThoughttreeConfig import conf
 
 class AboutDialog(tk.Toplevel):
 

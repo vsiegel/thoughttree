@@ -470,8 +470,7 @@ class Thoughttree(Ui):
         self.model.counter.summarize("Completion cost:")
 
         if conf.update_title_after_completion and not self.model.is_canceled:
-            if self.model.counter.tokens_since_go() > Title.GEN_THRESHOLD:
-                self.update_window_title()
+            self.update_window_title()
 
 
     def history_from_system_and_chat(self, additional_message=None, additional_system=None, max_messages=None, max_size=None) :

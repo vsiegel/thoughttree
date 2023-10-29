@@ -317,7 +317,7 @@ class MainMenu(Menu):
 
         self.menu = Menu(self, "Text")
         item("Count Tokens", "<Control-Alt-m>", ui.count_text_tokens)
-        item("Run Python Code", "<Control-Shift-R>", lambda e=None: self.it.exec_code_block(), menu2=sheet_menu)
+        item("Run Code Block", "<Control-Shift-R>", lambda e=None: self.it.run_code_block(), menu2=sheet_menu)
 
         self.menu = Menu(self, "Data")
 

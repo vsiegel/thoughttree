@@ -1,0 +1,14 @@
+Translate to German, sentence by sentence, exploring possible variants of translation.
+Provide multiple variants of sentences or parts of sentences.
+Show alternative variants for individual sentences like 
+
+Normal: ... translation ...
+Optimistic: ...
+...
+---
+
+
+Produce multiple variants in term of style.
+Provide variants for each sentence.
+One or more for each of the following styles:
+pessimistic, optimistic, cynical, hasty, formal, informal, terse, Berlinerisch

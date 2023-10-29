@@ -92,11 +92,11 @@ class TooltipableMenu(tk.Frame):
         self.label.bind("<Leave>", self.on_leave)
         self.label.bind("<Button-1>", self.on_click)  # bind click event
         self.label.pack(side='left')
-        self.menu_items = []
+        self.items = []
         self.popup = None
 
     def add_menu_item(self, text, command, tooltip=None):
-        self.menu_items.append((text, command, tooltip))
+        self.items.append((text, command, tooltip))
 
     def on_enter(self, event):
         pass  # do nothing on enter
@@ -117,7 +117,7 @@ class TooltipableMenu(tk.Frame):
         x = self.winfo_rootx()
         y = self.winfo_rooty() + self.winfo_height()
         self.popup.wm_geometry(f"+{x}+{y}")
-        for text, command, tooltip in self.menu_items:
+        for text, command, tooltip in self.items:
             menu_item = MenuItem(self.popup, text, command, tooltip)
             menu_item.pack(fill='x')
 

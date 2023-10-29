@@ -123,7 +123,11 @@ class ForkableSheet(Sheet):
             notebook = self.child_notebook
 
         sibling = new_sibling_title(notebook)
-        notebook.add_sheet(sibling, parent_sheet=self)
+        if notebook == self.parent_notebook:
+            parent = self.parent_sheet
+        else:
+            parent = self
+        notebook.add_sheet(sibling, parent)
         return "break"
 
 

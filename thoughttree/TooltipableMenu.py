@@ -36,13 +36,13 @@ class ToolTip:
 class MenuItem(tk.Frame):
     def __init__(self, parent, text, command, tooltip=None):
         super().__init__(parent)
-        self.configure(bg='#efefef')  # give more contrast
+        self.configure(bg='#efefef', padx=5, pady=5)  # give more contrast
         self.command = command
         self.label = tk.Label(self, text=text, bg='#efefef', anchor='w', font=("Helvetica", 11))
         self.label.bind("<Enter>", self.on_enter)
         self.label.bind("<Leave>", self.on_leave)
         self.label.bind("<Button-1>", self.on_click)
-        self.label.pack(fill='x', padx=10, pady=10)  # more padding
+        self.label.pack(fill='x')
         if tooltip:
             self.tooltip = ToolTip(self.label)
             self.tooltip_text = tooltip

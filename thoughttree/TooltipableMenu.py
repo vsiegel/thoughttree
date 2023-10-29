@@ -91,8 +91,7 @@ class TooltipableMenu(tk.Frame):
         self.label.bind("<Button-1>", self.on_click)  # bind click event
         self.label.pack(side='left')
         self.menu_items = []
-        self.menu_window = None
-        self.after_id = None
+        self.items = None
 
     def add_menu_item(self, text, command, tooltip=None):
         self.menu_items.append((text, command, tooltip))
@@ -101,34 +100,33 @@ class TooltipableMenu(tk.Frame):
         pass  # do nothing on enter
 
     def on_leave(self, event):
-        self.destroy_menu_window()
+        pass
+        # self.close()
 
-    def on_click(self, event):  # new on_click method
-        if self.menu_window:
-            self.destroy_menu_window()
+    def on_click(self, event):
+        if self.items:
+            self.close()
         else:
             self.create_menu_window()
 
-    def create_menu_window(self):  # new create_menu_window method
-        self.menu_window = tk.Toplevel(self)
-        self.menu_window.wm_overrideredirect(1)
+    def create_menu_window(self):
+        self.items = tk.Toplevel(self, bd=3, relief='raised')
+        self.items.wm_overrideredirect(True)
         x = self.winfo_rootx()
         y = self.winfo_rooty() + self.winfo_height()
-        self.menu_window.wm_geometry(f"+{x}+{y}")
+        self.items.wm_geometry(f"+{x}+{y}")
         for text, command, tooltip in self.menu_items:
-            menu_item = MenuItem(self.menu_window, text, command, tooltip)
+            menu_item = MenuItem(self.items, text, command, tooltip)
             menu_item.pack(fill='x')
 
-    def destroy_menu_window(self):
-        if self.menu_window:
-            self.menu_window.destroy()
-            self.menu_window = None
-        self.after_id = None
+    def close(self):
+        if self.items:
+            self.items.destroy()
+            self.items = None
 
 if __name__ == "__main__":
     root = tk.Tk()
-    root.geometry("800x600")  # larger window
-
+    root.geometry("800x600")
     menubar = MenuBar(root)
     menubar.pack(fill='x')
 

@@ -65,8 +65,7 @@ class Sheet(ScrolledText, LineHandling):
         self.old_num_display_lines = 0
 
 
-    def exec_code_block(self, event=None):
-        print(f"exec_code_block")
+    def run_code_block(self, event=None):
 
         code_block_pattern = """('{3}|"{3}|```)python.*\n([\s\S]*?)\\1"""
         code_block_start_pattern =  '("""|' + """'''|```)python.*\n"""
@@ -80,7 +79,9 @@ class Sheet(ScrolledText, LineHandling):
             if m:
                 code = m.group(2)
                 print(f'Running "{code[:30]=}"')
-                print(exec(code))
+                names = dict()
+                exec(code, names, names)
+
 
     def find(self, pattern=None, start=INSERT):
         if self.tag_ranges(SEL):

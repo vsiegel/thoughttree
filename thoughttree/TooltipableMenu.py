@@ -25,7 +25,7 @@ class ToolTip:
 
         label = tk.Label(tw, text=self.text, justify=tk.LEFT,
                       background="#ffffe0", relief=tk.SOLID, borderwidth=1,
-                      font=("tahoma", "8", "normal"))
+                      font=("Arial", 10))
         label.pack(ipadx=1)
 
     def hidetip(self):
@@ -40,7 +40,7 @@ class MenuItem(tk.Frame):
         self.menu = menu
         self.configure(bg='lightgray')
         self.command = command
-        self.label = tk.Label(self, text=text, bg='lightgray', anchor='w', font=Fonts.FONT, padx=5, pady=5, borderwidth=1, relief='flat')
+        self.label = tk.Label(self, text=text, bg='lightgray', anchor='w', font=("Arial", 10), padx=5, pady=5, borderwidth=1, relief='flat')
         self.label.bind("<Enter>", self.on_enter)
         self.label.bind("<Leave>", self.on_leave)
         self.label.bind("<Button-1>", self.on_click)
@@ -89,7 +89,7 @@ class TooltipableMenu(tk.Frame):
     def __init__(self, parent, text):
         super().__init__(parent, bg='lightgray', padx=6, pady=5)
         self.parent = parent
-        self.label = tk.Label(self, text=text, font=Fonts.FONT, bg='lightgray')
+        self.label = tk.Label(self, text=text, font=("Arial", 10), bg='lightgray')
         self.label.bind("<Enter>", self.on_enter)
         self.label.bind("<Leave>", self.on_leave)
         self.label.bind("<Button-1>", self.on_click)

@@ -36,8 +36,6 @@ if __name__ == "__main__":
     root.title("Tooltip")
     root.geometry("500x500")
     main_menu = Menu(root)
-    # root.config(menu=main_menu)
-    root.menu = main_menu
 
 
     menu = Menu(main_menu, "Test", menu_help={"a": 1})

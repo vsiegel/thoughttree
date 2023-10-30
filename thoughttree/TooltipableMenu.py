@@ -73,16 +73,16 @@ class MenuBar(tk.Frame):
     def add_menu(self, text):
         menu = TooltipableMenu(self, text)
         menu.pack(side='left')
-        # menu.bind("<Enter>", self.close_other_menus)
         self.menus.append(menu)
         return menu
 
-    def close_other_menus(self, event):
-        print(f"{event.widget=}")
+    def close_other_menus(self, this) -> bool:
         for menu in self.menus:
-            print(f"{menu=}")
-            if menu and menu != event.widget:
-                menu.close()
+            if menu != this and menu.popup:
+                if menu.close():
+                    return True
+        else:
+            return False
 
 class TooltipableMenu(tk.Frame):
     # Replacing tk.Menu, because tooltips on menu items do not work under MS Windows.
@@ -90,9 +90,9 @@ class TooltipableMenu(tk.Frame):
         super().__init__(parent, bg='lightgray', padx=6, pady=5)
         self.parent = parent
         self.label = tk.Label(self, text=text, font=Fonts.FONT, bg='lightgray')
-        self.label.bind("<Enter>", self.parent.close_other_menus)
+        self.label.bind("<Enter>", self.on_enter)
         self.label.bind("<Leave>", self.on_leave)
-        self.label.bind("<Button-1>", self.on_click)  # bind click event
+        self.label.bind("<Button-1>", self.on_click)
         self.label.pack(side='left')
         self.items = []
         self.popup = None
@@ -101,7 +101,9 @@ class TooltipableMenu(tk.Frame):
         self.items.append((text, command, tooltip))
 
     def on_enter(self, event):
-        pass  # do nothing on enter
+        was_open = self.parent.close_other_menus(self)
+        if was_open:
+            self.create_menu_window()
 
     def on_leave(self, event):
         pass
@@ -123,10 +125,12 @@ class TooltipableMenu(tk.Frame):
             item = MenuItem(self.popup, self, text, command, tooltip)
             item.pack(fill='x')
 
-    def close(self):
+    def close(self) -> bool:
         if self.popup:
             self.popup.destroy()
             self.popup = None
+            return True
+        return False
 
 if __name__ == "__main__":
     root = tk.Tk()

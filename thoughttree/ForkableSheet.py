@@ -16,6 +16,8 @@ class ForkableSheet(Sheet):
         Sheet.__init__(self,  self.fork_frame, name=name, height=1, width=250, scrollbar=False, background="white", *args, **kw)
         self.pack(side=tk.TOP, fill=BOTH, expand=True)
         self.frame.pack_propagate(False)
+        self.fork_frame.pack_propagate(False)
+        # self.pack_propagate(False)
 
         self.parent_sheet = parent_sheet
         self.parent_notebook = parent_notebook

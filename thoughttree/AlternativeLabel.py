@@ -2,7 +2,6 @@ import tkinter as tk
 from tkinter import LEFT, SUNKEN, X, TOP, W
 
 from Fonts import Fonts
-from Sheet import Sheet
 
 
 class AlternativeLabel(tk.Label):

@@ -35,7 +35,7 @@ class ToolTip:
             tw.destroy()
 
 class MenuItem(tk.Frame):
-    def __init__(self, parent, text, command, tooltip=None):
+    def __init__(self, parent, menu, text, command, tooltip=None):
         super().__init__(parent)
         self.menu = menu
         self.configure(bg='lightgray')
@@ -63,6 +63,7 @@ class MenuItem(tk.Frame):
 
     def on_click(self, event):
         self.command()
+        self.menu.close()
 
 class MenuBar(tk.Frame):
     def __init__(self, parent):
@@ -119,8 +120,8 @@ class TooltipableMenu(tk.Frame):
         y = self.winfo_rooty() + self.winfo_height()
         self.popup.wm_geometry(f"+{x}+{y}")
         for text, command, tooltip in self.items:
-            menu_item = MenuItem(self.popup, text, command, tooltip)
-            menu_item.pack(fill='x')
+            item = MenuItem(self.popup, self, text, command, tooltip)
+            item.pack(fill='x')
 
     def close(self):
         if self.popup:

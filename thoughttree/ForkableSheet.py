@@ -84,9 +84,8 @@ class ForkableSheet(Sheet):
         history = self.history_from_system_and_chat(Title.PROMPT, max_messages=5,
                                                     max_size=1000)  # todo limit, do not use system for title
 
-        self.generation_model.counter.go()
-        self.generation_model.complete(history, write_title, max_tokens=30, temperature=0.3)
-        self.generation_model.counter.summarize("Title cost:")
+        Title.model.complete(history, write_title, max_tokens=30, temperature=0.3)
+        Title.model.counter.summarize("Title cost:")
 
     def create_child_notebook(self): # make sure we have a notebook
         if not self.child_notebook:

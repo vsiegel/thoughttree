@@ -37,9 +37,10 @@ class ToolTip:
 class MenuItem(tk.Frame):
     def __init__(self, parent, text, command, tooltip=None):
         super().__init__(parent)
-        self.configure(bg='#efefef', padx=5, pady=5)  # give more contrast
+        self.menu = menu
+        self.configure(bg='lightgray')
         self.command = command
-        self.label = tk.Label(self, text=text, bg='#efefef', anchor='w', font=("Helvetica", 11))
+        self.label = tk.Label(self, text=text, bg='lightgray', anchor='w', font=Fonts.FONT, padx=5, pady=5, borderwidth=1, relief='flat')
         self.label.bind("<Enter>", self.on_enter)
         self.label.bind("<Leave>", self.on_leave)
         self.label.bind("<Button-1>", self.on_click)
@@ -51,12 +52,12 @@ class MenuItem(tk.Frame):
             self.tooltip = None
 
     def on_enter(self, event):
-        self.label.configure(bg='lightgray')
+        self.label.configure(bg='#efefef', relief='raised')
         if self.tooltip:
             self.tooltip.showtip(self.tooltip_text)
 
     def on_leave(self, event):
-        self.label.configure(bg='#efefef')  # give more contrast
+        self.label.configure(bg='lightgray', relief='flat')
         if self.tooltip:
             self.tooltip.hidetip()
 

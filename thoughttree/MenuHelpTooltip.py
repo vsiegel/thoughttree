@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import END
 
 from Tooltip import Tooltip
-from tools import text_block, log_motion_on_alt
+from tools import text_block, log_motion_on_ctrl_alt
 
 
 class MenuHelpTooltip(Tooltip):
@@ -47,12 +47,13 @@ if __name__ == "__main__":
     menu2 = Menu(main_menu, "Test2", menu_help={"a": 1})
     menu2.item("Test Cascade 2", "<<Dummy>>", None)
     menu2.item("Test Cascade 2.1", "<<Dummy>>", None)
-    log_motion_on_alt(menu2)
+    log_motion_on_ctrl_alt(menu2)
 
     # MenuHelpTooltip(root, "Tooltip Example")
     Tooltip(root, "Tooltip on root")
     Tooltip(main_menu, "Tooltip on main_menu")
     Tooltip(menu2, "Tooltip on menu")
+
 
     def on_event(event, m):
         # print(f"{event=}")

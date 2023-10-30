@@ -478,6 +478,9 @@ class Thoughttree(Ui):
         system = self.system.get(1.0, 'end - 1c').strip()
         history = [{'role': 'system', 'content': system}]
 
+        if self.it == self.system:
+            self.system.tk_focusNext().focus()
+            print(f"{self.system.tk_focusNext()=}")
         history = self.it.history_from_path(history)
 
         if additional_message:

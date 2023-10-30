@@ -81,8 +81,9 @@ class ForkableSheet(Sheet):
         set(progress_title)
         self.update()
 
-        history = self.history_from_system_and_chat(Title.PROMPT, max_messages=5,
-                                                    max_size=1000)  # todo limit, do not use system for title
+        # history = self.history_from_system_and_chat(Title.PROMPT, max_messages=5, max_size=1000)
+        prompt_history = [{'role' : "system", 'content' : Title.PROMPT}]
+        history = self.history_from_path(prompt_history)
 
         Title.model.complete(history, write_title, max_tokens=30, temperature=0.3)
         Title.model.counter.summarize("Title cost:")

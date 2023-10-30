@@ -118,9 +118,8 @@ class TooltipableMenu(tk.Frame):
     def create_menu_window(self):
         self.popup = tk.Toplevel(self, bd=3, relief='raised')
         self.popup.wm_overrideredirect(True)
-        x = self.winfo_rootx()
-        y = self.winfo_rooty() + self.winfo_height()
-        self.popup.wm_geometry(f"+{x}+{y}")
+        self.popup.wm_geometry(f"+{self.winfo_rootx()}+{self.winfo_rooty() + self.winfo_height()}")
+        self.popup.bind("<Enter>", self.on_enter)
         for text, command, tooltip in self.items:
             item = MenuItem(self.popup, self, text, command, tooltip)
             item.pack(fill='x')

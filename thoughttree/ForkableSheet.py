@@ -22,13 +22,13 @@ class ForkableSheet(Sheet):
         self.parent_sheet = parent_sheet
         self.parent_notebook = parent_notebook
         self.parent_sheet_tree = parent_sheet_tree
-        if self.parent_sheet_tree:
-            self.parent_sheet_tree.bind("<Configure>", self.parent_sheet_tree.configure_scrollregion, add=True)
         self.child_notebook = None
 
         self.previous_sheet_height = None #todo
         self.unbind("<BackSpace>")
         self.bind_class("Text", "<BackSpace>", self.close_empty_tab_or_backspace)
+        # if self.parent_sheet_tree:#???
+        #     self.parent_sheet_tree.bind("<Configure>", self.parent_sheet_tree.configure_scrollregion, add=True)
         self.bind('<<Modified>>', self.grow_to_displaylines, add=True)
         # def on_key(e):
         #     print(f"on_key: {self.bbox(INSERT)=}")

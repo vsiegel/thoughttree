@@ -38,23 +38,24 @@ class ForkableSheet(Sheet):
         if self.edit_modified():
             sheet:ForkableSheet = event.widget
             # sheet:ForkableSheet = self
-            print(f"grow_to_displaylines:" + str(sheet))
+            # print(f"grow_to_displaylines:" + str(sheet))
             sheet.count("1.0", "end", "update")
             ypixels = sheet.count("1.0", "end lineend", 'ypixels')[0]
-            print(f"ypixels: {ypixels}")
+            # print(f"{ypixels=}")
+            # print(f"{sheet.winfo_minheight()=}")
             # sheet.frame.configure(height=ypixels)
             height = ypixels
             if sheet.child_notebook:
-                notebook_height = sheet.child_notebook.winfo_height()
-                print(f"height: {sheet.child_notebook.winfo_height()=}")
-                print(f"height: {sheet.child_notebook.winfo_reqheight()=}")
-                height += notebook_height
+                height += sheet.child_notebook.winfo_height()
+                # print(f"{sheet.child_notebook.winfo_height()=}")
+                # print(f"{sheet.child_notebook.winfo_reqheight()=}")
             width = sheet.master.winfo_width()
-            print(f"WxH: {width}x{height}")
+            # print(f"WxH: {width}x{height}")
             sheet.frame.configure(height=ypixels)
             self.fork_frame.configure(width=width, height=height)
             sheet.event_generate("<Configure>", x=0, y=0, width=width, height=height)
             sheet.edit_modified(False)
+
 
     def generate_title(self, event=None):
         def get():
@@ -144,12 +145,12 @@ class ForkableSheet(Sheet):
             return []
         return self.child_notebook.child_sheets()
 
-    def winfo_reqheight(self):
-        reqheight = self.count("1.0", "end lineend", 'ypixels')[0]
-
-        if self.child_notebook:
-            reqheight += self.child_notebook.winfo_reqheight()
-        return reqheight
+    # def winfo_reqheight(self):
+    #     reqheight = self.count("1.0", "end lineend", 'ypixels')[0]
+    #
+    #     if self.child_notebook:
+    #         reqheight += self.child_notebook.winfo_reqheight()
+    #     return reqheight
 
 
     def history_from_path(self, history=None) :

@@ -52,8 +52,9 @@ class ForkableSheet(Sheet):
             width = sheet.master.winfo_width()
             # print(f"WxH: {width}x{height}")
             sheet.frame.configure(height=ypixels)
-            self.fork_frame.configure(width=width, height=height)
-            sheet.event_generate("<Configure>", x=0, y=0, width=width, height=height)
+            sheet.fork_frame.configure(width=width, height=height)
+            if sheet.parent_sheet_tree:
+                sheet.parent_sheet_tree.event_generate("<Configure>", x=0, y=0, width=width, height=height)
             sheet.edit_modified(False)
 
 

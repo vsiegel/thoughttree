@@ -20,7 +20,7 @@ class Notebook(ttk.Notebook):
     def add_sheet(self, title, parent_sheet=None):
         print(f"add_sheet start {title=} {len(self.tabs())=}")
         adapter_frame = NotebookAdapterFrame(self)
-        adapter_frame.pack_propagate(False)
+        # adapter_frame.pack_propagate(False)
         print(f"add_sheet 2 {title=} {len(self.tabs())=}")
         from ForkableSheet import ForkableSheet
         sheet = ForkableSheet(parent_frame=adapter_frame, parent_sheet=parent_sheet, parent_notebook=self, name=title.replace(".", "_"))

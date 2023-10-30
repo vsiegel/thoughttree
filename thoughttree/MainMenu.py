@@ -213,7 +213,7 @@ class MainMenu(Menu):
         sheet_menu = Menu(None, "(sheet context menu)")
         self.menu = Menu(self, "File")
         item("New Window", "<Control-n>", new_window)
-        item("New Main Tab", "<Control-t>", lambda e=None: self.it.fork("1.0"))
+        item("New Tab", "<Control-t>", lambda e=None: self.it.fork("1.0"))
         item("Import Shared Chat") # , "<Control-....>", import_shared_chat
         item("Insert File", "<Control-Shift-e>", insert_file)
         item("Open File", "<Control-o>", open_file)

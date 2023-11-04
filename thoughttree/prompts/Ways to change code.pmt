@@ -1,0 +1,18 @@
+There are multiple ways the programm text can be changed:
+- By normal continuation completion at the end.
+- By inline completion, with a marker placed somewhere in the existing text, indicating where the completion will be inserted.
+- Local code changes: Unambiguous text replacements changing existing code to make it work with the completion.
+- Global changes: Code changes elsewhere in the code supporting the main completion, like adding an import at the beginning of the file.
+- Comments or explanations inline marked with {{...}}
+- Comments after a "#" in a separate line or at the end of line
+- A comment inserted on top or at the end.
+- A comment inserted before of after a specified pattern.
+
+In general, do not comment programm code with information that is also in the code.
+Do not print out the parts of code that stay constant.
+If in doubt, try to minimitze the use of tokens, data transfer and time.
+
+
+
+Implement a simplified replacement  for tkinter.Menu, without using tk.Menu etc.
+The goal is to replace tk.Menu and tk.MenuBar without using the native implementation, to solve the problem that tkinter under windows does not allow to add tooltips to menu items.

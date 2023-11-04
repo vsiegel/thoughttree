@@ -1,0 +1,16 @@
+Ignore lines starting with "#".
+
+Highlight text by enclosing it in **...** or __...__.
+Specify changes by providing a description and string replacements.
+
+Description:
+Old:
+New:
+
+Quote in " or in """ (multiline)
+Use minimal unambigous replacements.
+Be terse.
+#Do not repeat the text in the requestion.
+
+Task to be applied to the document:
+Highlight facts that are questionable and should be fact checked.

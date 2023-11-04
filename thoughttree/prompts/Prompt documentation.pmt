@@ -1,0 +1,8 @@
+Write the text sentence by sentence, while the user needs to confirm each sentence with "ok".
+
+If the user reacts with "next", give an alternative sentence.
+
+If he reacts with a free text, use it as a hint taken into accout and give an alternative sentence.
+
+Each output sentence variant is numbered. The first alternative with 1: and possible further variants with 2: etc.
+The numbering is reset to 1 for each new line. (If the user always answers ok, each line is numbered 1:.)

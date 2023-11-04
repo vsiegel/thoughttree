@@ -4,6 +4,9 @@ from tkinter.simpledialog import Dialog
 from tkinter.scrolledtext import ScrolledText
 
 
+def on(event):
+    print(f"{event} {event.widget}")
+
 class ListDialog(tk.simpledialog.Dialog):
     def __init__(self, items, title=None, parent=None):
         self.items = items
@@ -21,6 +24,8 @@ class ListDialog(tk.simpledialog.Dialog):
         # tree.heading('Key', text='Key')
         tree.column('Event', anchor='e')  # right justify the first column
 
+        # tree.bind("<FousOut>")
+
         vsb = ttk.Scrollbar(frame, orient="vertical", command=tree.yview)
         vsb.pack(side='right', fill='y')
         tree.configure(yscrollcommand=vsb.set)
@@ -37,6 +42,9 @@ class ListDialog(tk.simpledialog.Dialog):
 
         button = tk.Button(box, text="OK", width=10, command=self.ok, default=ACTIVE)
         button.pack(side=LEFT, padx=20, pady=20)
+        # button.bind("<FocusOut>", on)
+        button.winfo_toplevel().bind("<FocusIn>", on)
+        button.winfo_toplevel().bind("<FocusOut>", on)
 
         self.pack_slaves()[0].pack(fill=BOTH, expand=True, padx=25, pady=25) # hack to repack dialog content to expand
 
@@ -48,6 +56,14 @@ class ListDialog(tk.simpledialog.Dialog):
 if __name__ == "__main__":
     root = tk.Tk()
     root.withdraw()
+
+    def on_out(event):
+        print(event.widget)
+    root.bind("<FocusOut>", on_out)
+    def on_in(event):
+        print(event.widget)
+    root.bind("<FocusIn>", on_in)
+
     root.attributes("-topmost", True)
     items = {
         "a": (1,2),

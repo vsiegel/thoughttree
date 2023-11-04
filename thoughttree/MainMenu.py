@@ -9,27 +9,31 @@ from AboutDialog import AboutDialog
 from Files import Files
 from Fonts import Fonts
 from ForkableSheet import ForkableSheet
-from Imports import Menu, ModelsMenu, WindowsMenu
+# from Imports import Menu, ModelsMenu, WindowsMenu
+from Menu import Menu
+from ModelsMenu import ModelsMenu
+from WindowsMenu import WindowsMenu
 from InsertionIcon import InsertionIcon
 from IterateRangeForm import IterateRangeForm
 from Keys import Keys
 from Sheet import Sheet
 from Console import Console
+from TooltipableMenu import TooltipableMenu
+from MenuBar import MenuBar
 from menu_help_texts import menu_help
 from tools import web
 
 
-class MainMenu(Menu):
-    def __init__(self, thoughttree):
-        super().__init__(thoughttree, menu_help=menu_help)
+class MainMenu(MenuBar):
+    def __init__(self, thoughttree, **kw):
+        super().__init__(thoughttree)
         self.previous_current_sheet = None
         from thoughttree import Thoughttree
         self.ui: Thoughttree = thoughttree
 
         self.fixed_model_menu_items = -1
         self.models_menu = None
-        self.windows_menu = None
-        self.create_menu()
+        # self.create_menu()
 
 
     @property
@@ -105,13 +109,11 @@ class MainMenu(Menu):
         def copy_text(event=None) :
             self.it.event_generate("<<Copy>>")
 
-        def select_all(event=None):
-            self.it.event_generate("<<SelectAll>>")
-            # sheet = self.it
-            # if type(sheet) == Sheet:
-            #     sheet.tag_add(SEL, "1.0", END)
-            #     sheet.mark_set(INSERT, "1.0")
-            #     sheet.see(INSERT)
+        def select_message(event=None):
+            pass
+
+        def select_code_block(event=None):
+            pass
 
         def edit_undo(event=None):
             try:
@@ -160,12 +162,6 @@ class MainMenu(Menu):
                 else:
                     sheet = None
 
-            # from pyautogui import typewrite, press, hotkey, click
-            # self.after_idle(lambda: typewrite("\n".join(list(map(str, range(20))))))
-            # self.after_idle(lambda: hotkey("ctrl", "alt", "f"))
-            # self.after_idle(lambda: typewrite("b\nc\n"))
-            # press("enter")
-            # hotkey("ctrl", "a")
             return "break"
 
 
@@ -207,155 +203,166 @@ class MainMenu(Menu):
                     webbrowser.open_new_tab("https://www.google.com/search?q=" + selected_text)
 
 
-        item = self.sub_item
+        # item = self.sub_item
+        def item(label, keystroke=None, command=None, variable=None, add=False, menu2=None):
+            self.menu.item(label, keystroke=keystroke, command=command, variable=variable, add=add, menu2=menu2,
+                           to=self.ui.root)
+
         ui = self.ui
 
         sheet_menu = Menu(None, "(sheet context menu)")
         self.menu = Menu(self, "File")
-        item("New Window", "<Control-n>", new_window)
-        item("New Tab", "<Control-t>", lambda e=None: self.it.fork("1.0"))
-        item("Import Shared Chat") # , "<Control-....>", import_shared_chat
-        item("Insert File", "<Control-Shift-e>", insert_file)
-        item("Open File", "<Control-o>", open_file)
-        item("Save File", "<Control-s>", save_file)
-        item("Save Chat", "<Control-Shift-C>", save_chat)
-        item("Save Message", "<Control-Shift-S>", save_section)
-        item("Save Selection", "<Alt-S>", save_selection)
-        item("Save Code Block", "<Control-Alt-s>", save_code_block, menu2=sheet_menu)
-        self.menu.add_separator()
-        item("Close Tab", "<Control-w>", close_tab, add=False)
-        item("Close Empty Tab", "<BackSpace>", lambda e=None: self.it.close_empty_tab_or_backspace(e), add=False)
-        item("Close Window", "<Control-Q>", ui.close)
-        item("Quit Thoughttree", "<Control-Shift-Q>", lambda e=None: ui.quit(label="Quit Thoughttree"))
 
-        self.menu = Menu(self, "Edit")
-        item("Undo", "<Control-z>", edit_undo, menu2=sheet_menu)
-        item("Redo", "<Control-Shift-Z>", edit_redo, menu2=sheet_menu)
-        self.menu.add_separator()
+        file = self.submenu("File")
+        file.add_item("New Window", "<Control-n>", new_window)
+        file.add_item("New Tab", "<Control-t>", lambda e=None: self.it.fork("1.0"))
+        file.add_item("Import Shared Chat", None, None) # , "<Control-....>", import_shared_chat
+        file.add_item("Insert File", "<Control-Shift-e>", insert_file)
+        file.add_item("Open File", "<Control-o>", open_file)
+        file.add_item("Save File", "<Control-s>", save_file)
+        file.add_item("Save Chat", "<Control-Shift-C>", save_chat)
+        file.add_item("Save Message", "<Control-Shift-S>", save_section)
+        file.add_item("Save Selection", "<Alt-S>", save_selection)
+        file.add_item("Save Code Block", "<Control-Alt-s>", save_code_block, menu2=sheet_menu)
+        file.add_separator()
+        file.add_item("Close Tab", "<Control-w>", close_tab, add=False)
+        file.add_item("Close Empty Tab", "<BackSpace>", lambda e=None: self.it.close_empty_tab_or_backspace(e), add=False)
+        file.add_item("Close Window", "<Control-Q>", ui.close)
+        file.add_item("Quit Thoughttree", "<Control-Shift-Q>", lambda e=None: ui.quit(label="Quit Thoughttree"))
+
+
+        edit = self.submenu("Edit")
+        edit.add_item("Undo", "<Control-z>", edit_undo, menu2=sheet_menu)
+        edit.add_item("Redo", "<Control-Shift-Z>", edit_redo, menu2=sheet_menu)
+        edit.add_separator()
+        edit.add_item("Cut", "<Control-x>", lambda e=None: self.it.event_generate("<<Cut>>"), menu2=sheet_menu)
+        edit.add_item("Copy", "<Control-c>", lambda e=None: self.it.event_generate("<<Copy>>"), menu2=sheet_menu)
+        edit.add_item("Paste", "<Control-v>", lambda e=None: self.it.event_generate('<<Paste>>'), menu2=sheet_menu)
+        edit.add_item("Select All", "<Control-a>", lambda e=None: self.it.event_generate('<<SelectAll>>'), menu2=sheet_menu)
+        edit.add_item("Select Message", "<Control-a>", select_message, menu2=sheet_menu)
+        edit.add_item("Select Block", "<Control-a>", select_code_block, menu2=sheet_menu)
+        edit.add_separator()
+        edit.add_item("Find", "<Control-f>", lambda e=None: self.it.find())
+        edit.add_item("Find Next", "<Control-g>", lambda e=None: self.it.find_next())
+        edit.add_item("Find Previous", "<Control-Shift-G>", lambda e=None: self.it.find_previous())
+        edit.add_separator()
+        edit.add_item("Insert Current Time", "<Control-Shift-I>", insert_current_time)
+        edit.add_item("Remove Incomplete", None, None)
+        edit.add_item("Copy Title", None, None)
+
+        view = self.submenu("View")
+        view.add_item("Show System Prompt", "<Alt-Shift-S>", ui.system_pane.fold)
+        view.add_item("Show Tree", "<Alt-Shift-T>", ui.tree_pane.fold)
+        view.add_item("Show Console", "<Alt-Shift-C>", ui.console_pane.fold)
+        view.add_item("Show Status Bar", "<Alt-Shift-I>", ui.status_hider.hide)
+        view.add_item("Update Window Title", "<Control-u>", ui.update_window_title)
+        view.add_item("Update Tab Title", "<Control-Shift-B>", ui.chat_sheet.generate_title, menu2=sheet_menu)
+        view.add_item("Model Usage", None, web("https://platform.openai.com/account/usage"))
+        view.add_separator()
+        view.add_item("Increase Font Size", "<Control-plus>", lambda e=None: font_size(1))
+        view.add_item("Decrease Font Size", "<Control-minus>", lambda e=None: font_size(-1))
+        view.add_item("Reset Font Size", "<Control-period>", lambda e=None: font_size(0))
+        view.add_item("Toggle Monospace", "<Control-Shift-o>", toggle_font_mono)
+        view.add_separator()
+        view.add_item("Toggle Scrolling Output", "<Control-e>", toggle_scroll_output)
+        view.add_item("Ring Bell When Finished", "<Control-Alt-o>", toggle_ring_bell)
+        view.add_item("Toggle Wrap Lines", "<Control-l>", lambda e=None: self.it.configure(wrap=(NONE if self.it.cget("wrap") != NONE else WORD)))
+        view.add_item("Calculate Cost", None, None)
+        view.add_item("Show Hidden Prompts", "<Control-Shift-H>", ui.toggle_show_hidden_prompts)
+        view.add_item("Show Messages")
+
+        mask = self.submenu("Mask")
+        mask.add_item("All", None, None)
+        mask.add_item("None", None, None)
+        mask.add_item("Invert", None, None)
+        mask.add_item("Selection", "<Alt-Shift-S>", lambda e=None: self.it.toggle_tag("mask"))
+
+        navigate = self.submenu("Navigate")
+        navigate.add_item("Next Similar Line", "<Control-j>", lambda e=None: self.it.jump_to_similar_line(direction=1))
+        navigate.add_item("Previous Similar Line", "<Control-Shift-J>", lambda e=None: self.it.jump_to_similar_line(direction=-1))
+        navigate.add_item("Next Message", "<Tab>", lambda e=None: e.widget.tk_focusNext())
+        navigate.add_item("Previous Message", "<Shift-Tab>", lambda e=None: e.widget.tk_focusPrevious())
+        navigate.add_item("Next Tab", "<Control-Tab>", None)
+        navigate.add_item("Previous Tab", "<Control-Shift-Tab>", None)
+        navigate.add_separator()
+        navigate.add_item("Search with Google", "<Control-Alt-g>", search_web, menu2=sheet_menu)
         sheet_menu.add_separator()
-        item("Cut", "<Control-x>", lambda e=None: self.it.event_generate("<<Cut>>"), menu2=sheet_menu)
-        item("Copy", "<Control-c>", lambda e=None: self.it.event_generate("<<Copy>>"), menu2=sheet_menu)
-        item("Paste", "<Control-v>", lambda e=None: self.it.event_generate('<<Paste>>'), menu2=sheet_menu)
-        item("Select All", "<Control-a>", lambda e=None: self.it.event_generate('<<SelectAll>>'), menu2=sheet_menu)
-        item("Select Section", "<Control-a>", lambda e=None: self.it.event_generate('<<SelectAll>>'), menu2=sheet_menu)
-        item("Select Block", "<Control-a>", lambda e=None: self.it.event_generate('<<SelectAll>>'), menu2=sheet_menu)
-        # item("Delete", "<Delete>", lambda e=None: self.it.delete())
-        self.menu.add_separator()
-        item("Find", "<Control-f>", lambda e=None: self.it.find())
-        item("Find Next", "<Control-g>", lambda e=None: self.it.find_next())
-        item("Find Previous", "<Control-Shift-G>", lambda e=None: self.it.find_previous())
+
+        chat = self.submenu("Chat")
+        chat.add_item("Next Paragraph", "<Control-Return>", lambda e=None: ui.chat(1, "", "\n"))
+        chat.add_item("Next Line", "<Shift-Return>", lambda e=None: ui.chat(1, "\n", "\n\n"))
+        chat.add_item("Continue Inline", "<Control-space>", lambda e=None: ui.chat(inline=True))
+        chat.add_item("Insert Completion", "<Control-Alt-space>", lambda e=None: ui.chat(insert=True), menu2=sheet_menu)
+        chat.add_item("Replace by Completion", "<Control-Shift-space>", lambda e=None: ui.chat(replace=True), menu2=sheet_menu)
+        chat.add_item("Refer to cursor location", "<Control-Alt-O>", lambda e=None: ui.chat(location=True), menu2=sheet_menu)
+        chat.add_item("Fork Conversation", "<Control-Alt-F>", lambda e=None: self.it.fork())
+        chat.add_item("Complete in Branch", "<Control-Shift-Return>", lambda e=None: branch())
+        chat.add_item("Complete Alternatives", "<Alt-Shift-Return>", lambda e=None: ui.chat(-1, "\n"))
+        chat.add_separator()
         sheet_menu.add_separator()
-        item("Insert Current Time", "<Control-Shift-I>", insert_current_time)
-        item("Remove Incomplete", None, None)
-        item("Copy Title", None, None)
-
-        self.menu = Menu(self, "View")
-        item("Show System Prompt", "<Alt-Shift-S>", ui.system_pane.fold)
-        item("Show Tree", "<Alt-Shift-T>", ui.tree_pane.fold)
-        item("Show Console", "<Alt-Shift-C>", ui.console_pane.fold)
-        item("Show Status Bar", "<Alt-Shift-I>", ui.status_hider.hide)
-        item("Update Window Title", "<Control-u>", ui.update_window_title)
-        item("Update Tab Title", "<Control-Shift-B>", ui.chat_sheet.generate_title, menu2=sheet_menu)
-        item("Model Usage", None, web("https://platform.openai.com/account/usage"))
-        self.menu.add_separator()
-        item("Increase Font Size", "<Control-plus>", lambda e=None: font_size(1))
-        item("Decrease Font Size", "<Control-minus>", lambda e=None: font_size(-1))
-        item("Reset Font Size", "<Control-period>", lambda e=None: font_size(0))
-        item("Toggle Monospace", "<Control-Shift-o>", toggle_font_mono)
-        # self.menu.add_checkbutton(label="Show Cursor line", variable=ui.show_cursor)
-        self.menu.add_separator()
-        item("Toggle Scrolling Output", "<Control-e>", toggle_scroll_output)
-        item("Ring Bell When Finished", "<Control-Alt-o>", toggle_ring_bell)
-        item("Toggle Wrap Lines", "<Control-l>", lambda e=None: self.it.configure(wrap=(NONE if self.it.cget("wrap") != NONE else WORD)))
-        item("Calculate Cost", None, None)
-        item("Show Hidden Prompts", "<Control-Shift-H>", ui.toggle_show_hidden_prompts)
-        item("Show Messages")
-
-        self.menu = Menu(self, "Mask")
-        item("All", None, None)
-        item("None", None, None)
-        item("Invert", None, None)
-        item("Selection", "<Alt-Shift-S>", lambda e=None: self.it.toggle_tag("mask"))
-
-        self.menu = Menu(self, "Navigate")
-        item("Next Similar Line", "<Control-j>", lambda e=None: self.it.jump_to_similar_line(direction=1))
-        item("Previous Similar Line", "<Control-Shift-J>", lambda e=None: self.it.jump_to_similar_line(direction=-1))
-        item("Next Message", "<Tab>", lambda e=None: e.widget.tk_focusNext())
-        item("Previous Message", "<Shift-Tab>", lambda e=None: e.widget.tk_focusPrevious())
-        item("Next Tab", "<Control-Tab>", None)
-        item("Previous Tab", "<Control-Shift-Tab>", None)
-        self.menu.add_separator()
-        item("Search with Google", "<Control-Alt-g>", search_web, menu2=sheet_menu)
-        sheet_menu.add_separator()
-
-        self.menu = Menu(self, "Chat")
-        item("Next Paragraph", "<Control-Return>", lambda e=None: ui.chat(1, "", "\n"))
-        item("Next Line", "<Shift-Return>", lambda e=None: ui.chat(1, "\n", "\n\n"))
-        item("Continue Inline", "<Control-space>", lambda e=None: ui.chat(inline=True))
-        item("Insert Completion", "<Control-Alt-space>", lambda e=None: ui.chat(insert=True), menu2=sheet_menu)
-        item("Replace by Completion", "<Control-Shift-space>", lambda e=None: ui.chat(replace=True), menu2=sheet_menu)
-        item("Refer to cursor location", "<Control-Alt-O>", lambda e=None: ui.chat(location=True), menu2=sheet_menu)
-        item("Fork Conversation", "<Control-Alt-F>", lambda e=None: self.it.fork())
-        item("Complete in Branch", "<Control-Shift-Return>", lambda e=None: branch())
-        item("Complete Alternatives", "<Alt-Shift-Return>", lambda e=None: ui.chat(-1, "\n"))
-        self.menu.add_separator()
-        sheet_menu.add_separator()
-        item("Complete 3 Times", "<Control-Alt-Key-3>", lambda e=None: ui.chat(3), add=True)
+        chat.add_item("Complete 3 Times", "<Control-Alt-Key-3>", lambda e=None: ui.chat(3), add=True)
         [self.bind_class("Text", f"<Control-Alt-Key-{digit}>", lambda e=None, i=digit: ui.chat(i)) for digit in [2, 4, 5, 6, 7, 8, 9]]
-
-        item("Complete Multiple...", "<Control-Shift-M>", lambda e=None: ui.chat(0))
-        item("Complete Multiple Again", "<Control-m>", lambda e=None: ui.chat(-1))
-        self.menu.add_separator()
-        # item("Mark as Assistant Message", "<Control-Alt-a>", mark_as_assistant_message)
-        item("Cancel", "<Escape>", ui.cancel_models)
-
-        self.menu = Menu(self, "Query")
-        item("Temperature...", "<Control-Shift-T>", ui.configure_temperature)
-        item("Increase Temperature", None, None)
-        item("Decrease Temperature", None, None)
-        item("Temperature 0.0", None, None)
-        item("Max Tokens...", "<Control-Shift-L>", ui.configure_max_tokens)
-
-        self.menu = Menu(self, "Text")
-        item("Count Tokens", "<Control-Alt-m>", ui.count_text_tokens)
-        item("Run Code Block", "<Control-Shift-R>", lambda e=None: self.it.run_code_block(), menu2=sheet_menu)
-
-        self.menu = Menu(self, "Data")
-
-        item("Iterate over Range", "<Control-Alt-I>", lambda e=None: IterateRangeForm(self.it))
-
-        self.menu = Menu(self, "Prompt")
-        item("Solve this Problem", "<Alt-Return>", None, menu2=sheet_menu)
-        item("Ask About This", "<Control-Shift-A>", ui.ask, menu2=sheet_menu)
-        item("Remove from Text")
-        item("Select Text")
-        item("Change Text")
-        item("Annotate Text")
-        item("Comment Text")
-        item("Insert transitioning sentence")
-        item("Insert Appropriate Emoji")
-        item("Insert Multiple Emojis")
+        chat.add_item("Complete Multiple...", "<Control-Shift-M>", lambda e=None: ui.chat(0))
+        chat.add_item("Complete Multiple Again", "<Control-m>", lambda e=None: ui.chat(-1))
+        chat.add_separator()
+        # chat.add_item("Mark as Assistant Message", "<Control-Alt-a>", mark_as_assistant_message)
+        chat.add_item("Cancel", "<Escape>", ui.cancel_models)
 
 
-        # item("Include Date in System Prompt", None, None)
+        prompt = self.submenu("Prompt")
+        prompt.add_item("Solve this Problem", "<Alt-Return>", None, menu2=sheet_menu)
+        prompt.add_item("Ask About This", "<Control-Shift-A>", ui.ask, menu2=sheet_menu)
+        prompt.add_item("Remove from Text")
+        prompt.add_item("Select Text")
+        prompt.add_item("Change Text")
+        prompt.add_item("Annotate Text")
+        prompt.add_item("Comment Text")
+        prompt.add_item("Insert transitioning sentence")
+        prompt.add_item("Insert Appropriate Emoji")
+        prompt.add_item("Insert Multiple Emojis")
+        prompt.add_item("Iterate over Range", "<Control-Alt-I>", lambda e=None: IterateRangeForm(self.it))
+        prompt.add_separator()
+        prompt.add_item('Prompt "ok"', "<Control-Alt-K>", lambda e=None: ui.chat(hidden_prompt="ok"))
+        prompt.add_item('Prompt "next"', "<Control-Alt-N>", lambda e=None: ui.chat(hidden_prompt="next"))
+        prompt.add_item('Prompt "continue"', "<Control-Alt-U>", lambda e=None: ui.chat(hidden_prompt="continue"))
 
-        self.menu = Menu(self, "Format")
-        item("Bold", "<Control-b>", lambda e=None: self.it.toggle_tag("bold"))
-        item("Strikethrough", "<Control-d>", lambda e=None: self.it.toggle_tag("strikethrough"))
 
-        self.models_menu = ModelsMenu(self, ui, "Models")
+        query = self.submenu("Query")
+        query.add_item("Temperature...", "<Control-Shift-T>", ui.configure_temperature)
+        query.add_item("Increase Temperature", None, None)
+        query.add_item("Decrease Temperature", None, None)
+        query.add_item("Temperature 0.0", None, None)
+        query.add_item("Max Tokens...", "<Control-Shift-L>", ui.configure_max_tokens)
+        query.add_item("API Key...", None, None)
 
-        self.windows_menu = WindowsMenu(self, "Windows")
 
-        self.menu = Menu(self, "Help")
-        item("Debug Info", "<Control-i>", debug_info)
-        item("Scroll to See Cursor", "<Control-Alt-Shift-i>", lambda e: self.it.see(INSERT))
-        item("Text Keymap", "<F1>", lambda e=None: Keys.show_text_keys_help(self.ui))
-        item("Technical documentation", "<F2>", web("https://platform.openai.com/docs/introduction"))
-        item("OpenAI Chat API", None, web("https://platform.openai.com/docs/api-reference/chat"))
-        item("GPT Models", None, web("https://platform.openai.com/docs/models"))
-        item("OpenAI Pricing", None, web("https://openai.com/pricing"))
-        item("About", "<Control-F1>", lambda e=None: AboutDialog(self.ui))
+        text = self.submenu("Text")
+        text.add_item("Count Tokens", "<Control-Alt-m>", ui.count_text_tokens)
+        text.add_item("Run Code Block", "<Control-Shift-R>", lambda e=None: self.it.run_code_block(), menu2=sheet_menu)
+
+
+        format_menu = self.submenu("Format")
+        format_menu.add_item("Bold", "<Control-b>", lambda e=None: self.it.toggle_tag("bold"))
+        format_menu.add_item("Strikethrough", "<Control-d>", lambda e=None: self.it.toggle_tag("strikethrough"))
+
+
+        self.models_menu = self.add_menu(ModelsMenu(self, ui, "Models"))
+
+
+        self.add_menu(WindowsMenu(self, "Windows"))
+
+
+        help_menu = self.submenu("Help")
+        help_menu.add_item("Introduction", "<Shift-F1>", None)
+        help_menu.add_item("Text Keymap", "<F1>", lambda e=None: Keys.show_text_keys_help(self.ui))
+        help_menu.add_item("Technical documentation", "<F2>", web("https://platform.openai.com/docs/introduction"))
+        help_menu.add_item("OpenAI Chat API", None, web("https://platform.openai.com/docs/api-reference/chat"))
+        help_menu.add_item("GPT Models", None, web("https://platform.openai.com/docs/models"))
+        help_menu.add_item("OpenAI Pricing", None, web("https://openai.com/pricing"))
+        help_menu.add_item("About", "<Control-F1>", lambda e=None: AboutDialog(self.ui))
+        help_menu.add_item("Debug Info", "<Control-i>", debug_info)
+
+
 
         ui.bind_class("Text", "<Control-Button-4>", lambda e=None: font_size(-1))
         ui.bind_class("Text", "<Control-Button-5>", lambda e=None: font_size(1))

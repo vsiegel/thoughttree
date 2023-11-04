@@ -12,7 +12,6 @@ class ModelsMenu(Menu):
         self.fixed_model_menu_items = -1
         self.add_separator()
         self.item("Reload Available Models", None, self.load_available_models)
-        self.item("API Key...", "", None)
 
         self.selected_model = tk.StringVar()
         def on_model_selected(name, index, mode):
@@ -21,13 +20,13 @@ class ModelsMenu(Menu):
 
 
     def load_available_models(self, event=None):
-        if self.fixed_model_menu_items == -1:
-            self.fixed_model_menu_items = self.index(tk.END) + 1
-        present_items = self.index(tk.END) + 1
-        if present_items > self.fixed_model_menu_items:
-            self.delete(0, present_items - self.fixed_model_menu_items - 1)
+        # if self.fixed_model_menu_items == -1:
+        #     self.fixed_model_menu_items = self.index(tk.END) + 1
+        # present_items = self.index(tk.END) + 1
+        # if present_items > self.fixed_model_menu_items:
+        #     self.delete(0, present_items - self.fixed_model_menu_items - 1)
         models = self.ui.model.get_available_models()
-        models = [model for model in models if model.find("instruct") == -1]
+        models = [model for model in models if "instruct" not in model]
         for i, model_name in enumerate(models):
             key = None
             if model_name == "gpt-4":
@@ -36,9 +35,6 @@ class ModelsMenu(Menu):
                 key = "<Control-Key-3>"
             if model_name.find("gpt-3.5") != -1:
                 model_name = "ChatGPT " + model_name
-            if key:
-                command = lambda e, model=model_name: self.selected_model.set(model)
-            else:
-                command = None
-            self.item(model_name, key, command, index=i, variable=self.selected_model, to=self.ui.root)
+            command = lambda e=None, model=model_name: self.selected_model.set(model)
+            self.add_item(model_name, key, command)#, variable=self.selected_model, to=self.ui.root)
         return len(models)

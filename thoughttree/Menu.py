@@ -3,13 +3,16 @@ import tkinter as tk
 from typing import Union
 
 from MenuHelpTooltip import MenuHelpTooltip
+from TooltipableMenu import TooltipableMenu
+from MenuBar import MenuBar
 from Ui import Ui
 
 
-class Menu(tk.Menu):
+# class Menu(tk.Menu):
+class Menu(TooltipableMenu):
 
-    def __init__(self, parent: Union[tk.Tk, tk.Text, tk.Menu, None], label=None, menu_help=None, **kw) : #1
-        super().__init__(parent, tearoff=False, borderwidth=3, **kw)
+    def __init__(self, parent: Union[tk.Tk, tk.Text, TooltipableMenu, MenuBar, tk.Menu, None], label=None, menu_help=None, **kw):
+        super().__init__(parent, label, borderwidth=3)
         self.parent = parent
         if menu_help:
             self.menu_help = menu_help
@@ -22,11 +25,12 @@ class Menu(tk.Menu):
             parent.root.config(menu=self)
         elif isinstance(parent, tk.Tk):
             parent.config(menu=self)
-        else:
-            if self.menu_help:
-                MenuHelpTooltip(self, self.menu_help)
-            if parent:
-                parent.add_cascade(label=label, underline=0, menu=self)
+        # else:
+        #     if self.menu_help:
+        #         MenuHelpTooltip(self)
+            # if parent:
+            #     print(f"{label=} {self=}")
+            #     parent.add_cascade(label=label, underline=0, menu=self)
 
 
     def fix_key_letter_case(self, keystroke):
@@ -74,19 +78,19 @@ class Menu(tk.Menu):
         command_is_virtual_event = bool(re.match("^<<\w+>>$", str(command)))
 
         menus = [self]
-        if menu2:
-            menus.append(menu2)
+        # if menu2: # todo
+        #     menus.append(menu2)
         bind_to = to or self.parent
-        if variable :
-            for menu in menus:
-                menu.insert_radiobutton(index, label=label, accelerator=accelerator, state=state, variable=variable)
-        else:
-            for menu in menus:
-                if command_is_virtual_event:
-                    c = lambda: bind_to.event_generate(command)
-                else:
-                    c = command
-                menu.insert_command(index, label=label, underline=0, accelerator=accelerator, state=state, command=c)
+        # if variable :
+        #     for menu in menus:
+        #         menu.insert_radiobutton(index, label=label, accelerator=accelerator, state=state, variable=variable)
+        # else:
+        for menu in menus:
+            if command_is_virtual_event:
+                c = lambda: bind_to.event_generate(command)
+            else:
+                c = command
+            menu.insert_command(index, label, underline=0, accelerator=accelerator, state=state, command=c)
         if keystroke:
             # if not add:
             #     self.master.unbind_class("Text", keystroke)

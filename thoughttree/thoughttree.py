@@ -92,12 +92,11 @@ class Thoughttree(Ui):
         self.generation_model = Model(self.generation_model_name)
         self.set_model(self.interactive_model_name)
         Title.initialize()
-        menu = MainMenu(self)
 
         self.pack(fill=BOTH, expand=True)
         self.status.note = "Loading available models..."
         self.update_idletasks()
-        n = menu.models_menu.load_available_models()
+        n = self.menu.models_menu.load_available_models()
         self.status.note = f"{n} models found."
 
         if conf.debug:
@@ -123,6 +122,9 @@ class Thoughttree(Ui):
 
     def create_ui(self):
         self.configure_ui_options()
+
+        self.menu = MainMenu(self)
+        self.menu.pack(side=TOP, fill=X, expand=False)
 
         self.status_hider = HidableFrame(self)
         self.status_hider.pack(side=BOTTOM, fill=X, expand=False)
@@ -155,6 +157,9 @@ class Thoughttree(Ui):
                 sys.stdout = TextIOTee(sys.stdout, self.console.out)
             if type(sys.stderr) is not TextIOTee:
                 sys.stderr = TextIOTee(sys.stderr, self.console.err)
+
+        self.menu.create_menu()
+
 
         def on_first_configure(ev=None):
             self.system_pane.fold(set_folded=False)
@@ -268,7 +273,7 @@ class Thoughttree(Ui):
         return "break"
 
 
-    def chat(self, n=1, prefix="", postfix="", inline=False, insert=False, replace=False, location=False):
+    def chat(self, n=1, prefix="", postfix="", inline=False, insert=False, replace=False, location=False, hidden_prompt=None):
         inline = inline or insert or replace
         self.model.is_canceled = False
         sheet = self.it
@@ -291,7 +296,7 @@ class Thoughttree(Ui):
             if not inline:
                 self.set_up(sheet, prefix)
 
-            history = self.history_from_system_and_chat()
+            history = self.history_from_system_and_chat(additional_message=hidden_prompt)
             self.remove_hidden_prompt(sheet)
             self.model.counter.go()
 
@@ -399,6 +404,7 @@ class Thoughttree(Ui):
         finish_reason, message = 'unknown', ''
 
         # sheet.mark_set(OUTPUT, inline and INSERT or "end-2c")
+        sheet.mark_set("completion_start", OUTPUT)
 
         alternatives_frame = None
 
@@ -433,6 +439,8 @@ class Thoughttree(Ui):
             else:
                 with InsertionIcon(sheet, OUTPUT):
                     finish_reason, message = self.model.complete(history, lambda text: write_sheet(text, sheet))
+
+        sheet.mark_set("completion_end", OUTPUT)
         return finish_reason, message
 
 

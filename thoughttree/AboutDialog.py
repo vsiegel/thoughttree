@@ -21,7 +21,8 @@ class AboutDialog(tk.Toplevel):
         tk.Label(self, font=Fonts.FONT, text="Thoughttree").pack(padx=8, pady=12)
         tk.Label(self, font=Fonts.FONT, text=f'{self.git_version} \nRunning since {conf.start_time}').pack(padx=16, pady=2)
 
-        tk.Button(self, text="OK", command=self.destroy).pack(padx=8, pady=12)
+        b = tk.Button(self, text="OK", command=self.destroy)
+        b.pack(padx=8, pady=12)
 
         def close_dialog(event):
             self.destroy()

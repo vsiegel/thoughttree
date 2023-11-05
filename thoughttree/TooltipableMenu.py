@@ -74,9 +74,10 @@ class TooltipableMenu(tk.Frame):
         pass
 
     def keep_open(self, event):
-        was_open = self.parent.close_other_menus(self)
-        if was_open:
-            self.create_popup()
+        if self.parent:
+            was_open = self.parent.close_other_menus(self)
+            if was_open:
+                self.create_popup(event)
 
     def on_leave(self, event):
         pass

@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 
 import tools
+from Config import conf
 from MenuBar import MenuBar
 from MenuHelpTooltip import MenuHelpTooltip
 from menu_help_texts import menu_help
@@ -57,6 +58,9 @@ class TooltipableMenu(tk.Frame):
 
 
     def add_item(self, label, keystroke=None, command=None, tooltip=None, underline=-1, menu2=None, add=False):
+        if conf.debug and not label in menu_help:
+            print("Warning: Help missing for \"" + label + "\"")
+
         self.winfo_toplevel().bind(keystroke, command, add=add)
         self.items.append((label, command, tooltip, underline))
 

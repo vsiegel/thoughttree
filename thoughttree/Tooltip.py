@@ -2,11 +2,9 @@ import tkinter as tk
 
 
 class Tooltip :
-    def __init__(self, widget, text) :
+    def __init__(self, widget: tk.Widget, text) :
         self.widget = widget
         self.root = widget.winfo_toplevel()
-        print(f"{self.widget=}")
-        print(f"{self.root=}")
 
         self.text = text
         self.tip = None
@@ -15,11 +13,10 @@ class Tooltip :
         self.last_y = None
         self.delay_ms = 1000
 
-        print(f"{widget=}")
-        widget.bind("<Enter>", self.add_tip_later)
-        self.root.bind("<Motion>", self.update_tip)
-        widget.bind("<Leave>", self.remove_tip)
-        widget.bind("<Unmap>", self.remove_tip)
+        widget.bind("<Enter>", self.add_tip_later, add=True)
+        widget.bind("<Leave>", self.remove_tip, add=True)
+        widget.bind("<Unmap>", self.remove_tip, add=True)
+        self.root.bind("<Motion>", self.update_tip, add=True)
 
 
     def add_tip_later(self, event):
@@ -35,9 +32,9 @@ class Tooltip :
             self.label = tk.Label(self.tip, text="", background="#FFFFE0", relief="solid",
                                   borderwidth=1, justify=tk.LEFT, padx=6, pady=5, font=("sans-serif", 11))
             self.label.pack()
-            self.tip.bind("<Leave>", self.remove_tip)
-            self.tip.bind("<Button-1>", self.remove_tip)
-            self.label.bind("<Escape>", self.remove_tip)
+            self.tip.bind("<Leave>", self.remove_tip, add=True)
+            self.tip.bind("<Button-1>", self.remove_tip, add=True)
+            self.label.bind("<Escape>", self.remove_tip, add=True)
             # self.widget.bind("<Destroy>", self.remove_tip)
             self.update_tip(event)
 
@@ -49,7 +46,7 @@ class Tooltip :
             x = self.root.winfo_pointerx() + 75
             y = self.root.winfo_pointery() + 25
             self.tip.wm_geometry(f"+{x}+{y}")
-            self.tip.wm_attributes("-topmost", 1)
+            self.tip.wm_attributes("-topmost", True)
             self.refresh_tooltip_text(event)
 
 

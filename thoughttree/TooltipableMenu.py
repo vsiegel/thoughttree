@@ -1,5 +1,6 @@
+import re
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, INSERT
 
 import tools
 from Config import conf
@@ -22,10 +23,12 @@ class MenuItem(tk.Frame):
                               padx=5, pady=2, borderwidth=1, relief='flat')
         if not command:
             self.label.configure(foreground='gray')
-        self.label.bind("<Enter>", self.on_enter)
-        self.label.bind("<Leave>", self.on_leave)
-        self.label.bind("<Button-1>", self.on_click)
-        self.label.pack(fill='x')
+        self.bind("<Enter>", self.on_enter, add=True)
+        self.bind("<Leave>", self.on_leave, add=True)
+        self.label.bind("<Button-1>", self.on_click, add=True)
+        self.label.bind("<Escape>", self.menu.close, add=True)
+        self.label.pack(side='left', fill='x', expand=True)
+        self.key_label.pack(side='right', fill='x')
 
     def on_enter(self, event):
         self.label.configure(bg='#efefef', relief='raised')
@@ -49,9 +52,9 @@ class TooltipableMenu(tk.Frame):
         super().__init__(parent, bg='lightgray')
         self.parent = parent
         self.label = tk.Label(self, text=text, font=("Arial", 10), bg='lightgray', padx=6, pady=5)
-        self.label.bind("<Enter>", self.keep_open)
-        self.label.bind("<Leave>", self.on_leave)
-        self.label.bind("<Button-1>", self.toggle_open)
+        self.label.bind("<Enter>", self.keep_open, add=True)
+        self.label.bind("<Leave>", self.on_leave, add=True)
+        self.label.bind("<Button-1>", self.toggle_open, add=True)
         self.label.pack(side='left')
         self.items = []
         self.menu_items = []
@@ -99,9 +102,9 @@ class TooltipableMenu(tk.Frame):
             x = self.winfo_rootx()
             y = self.winfo_rooty() + self.winfo_height()
         self.popup.wm_geometry(f"+{x}+{y}")
-        self.popup.bind("<Enter>", self.keep_open)
-        self.popup.bind("<Escape>", self.close)
-        self.frame = tk.Frame(self.popup)
+        self.popup.bind("<Enter>", self.keep_open, add=True)
+        self.popup.bind("<Escape>", self.close, add=True)
+        self.frame = tk.Frame(self.popup, takefocus=True)
         self.frame.pack()
         # tools.bind_to_all_events(self.popup)
         MenuHelpTooltip(self.frame)
@@ -136,7 +139,7 @@ class TooltipableMenu(tk.Frame):
                 return item
         return None
 
-    def close(self) -> bool:
+    def close(self, event=None) -> bool:
         if self.popup:
             self.popup.destroy()
             self.popup = None

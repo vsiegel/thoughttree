@@ -354,8 +354,8 @@ class MainMenu(MenuBar):
         ui.bind_class("Text", "<Control-Button-4>", lambda e=None: font_size(-1))
         ui.bind_class("Text", "<Control-Button-5>", lambda e=None: font_size(1))
 
-        ui.bind_class("Text", "<Button-3>", lambda e=None: show_context_menu(e, sheet_menu))
-        ui.bind_class("Text", "<Menu>", lambda e=None: show_context_menu(e, sheet_menu))
+        ui.bind_class("Text", "<Button-3>", sheet_menu.show_context_menu)
+        ui.bind_class("Text", "<Menu>", sheet_menu.show_context_menu)
         ui.bind_class("Text", "<Tab>", lambda e=None: e.widget.tk_focusNext())
 
 

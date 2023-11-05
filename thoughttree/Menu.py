@@ -38,7 +38,7 @@ class Menu(TooltipableMenu):
         if keystroke and not keystroke.startswith("<"):
             print("Warning: keystroke should be in <...> format")
         keystroke = self.fix_key_letter_case(keystroke)
-        accelerator = self.convert_key_string(keystroke)
+        accelerator = self.accelerator_label(keystroke)
         state = tk.NORMAL if keystroke or command or variable else tk.DISABLED
 
         command_is_virtual_event = bool(re.match("^<<\w+>>$", str(command)))

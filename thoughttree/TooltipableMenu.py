@@ -106,7 +106,8 @@ class TooltipableMenu(tk.Frame):
         self.popup.bind("<Escape>", self.close, add=True)
         self.frame = tk.Frame(self.popup, takefocus=True)
         self.frame.pack()
-        # tools.bind_to_all_events(self.popup)
+        self.frame.focus_set()
+        self.frame.bind("<Leave>", self.close, add=True)
         MenuHelpTooltip(self.frame)
         self.populate_menu()
 

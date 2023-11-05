@@ -195,7 +195,7 @@ class Thoughttree(Ui):
         return self.chat_sheet.forkable_sheet.initially_modified or self.system.initially_modified
 
     def update_window_title(self, event=None):
-        progress_title = self.root.title() + "..."
+        progress_title = self.root.title().rstrip('.') + "..."
 
         def write_title(content):
             if self.is_root_destroyed or self.model.is_canceled:

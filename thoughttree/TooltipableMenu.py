@@ -140,3 +140,36 @@ class TooltipableMenu(tk.Frame):
             self.popup = None
             return True
         return False
+
+
+    def accelerator_label(self, keystroke) :
+        if not keystroke:
+            return ""
+        s = self.fix_key_letter_case(keystroke)
+        s = s.replace("-Key-", "-")
+        s = s.replace("-", "+")
+        s = s.replace("Control", "Ctrl")
+        s = s.replace("Escape", "Esc")
+        s = s.replace("plus>", "+")
+        s = s.replace("minus>", "-")
+        s = s.replace("period>", ".")
+        s = s.lstrip("<")
+        s = s.rstrip(">")
+        if s[-2] == "+":
+            s = s[:-1] + s[-1].upper()
+        return s
+
+
+    def fix_key_letter_case(self, keystroke):
+        if not keystroke:
+            return ""
+        m = re.search(r"^((<.*-)|<)([a-zA-Z])>", keystroke)
+        if m:
+            letter = m[3]
+            if keystroke.lower().count('shift-'):
+                letter = letter.upper()
+            else:
+                letter = letter.lower()
+            return m[1] + letter + ">"
+        else:
+            return keystroke

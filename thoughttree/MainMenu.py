@@ -198,7 +198,6 @@ class MainMenu(MenuBar):
         ui = self.ui
 
         sheet_menu = Menu(None, "(sheet context menu)")
-        self.menu = Menu(self, "File")
 
         file = self.submenu("File")
         file.add_item("New Window", "<Control-n>", new_window)

@@ -1,8 +1,7 @@
 import tkinter as tk
-from tkinter import END
 
 from Tooltip import Tooltip
-from tools import text_block, log_motion_on_ctrl_alt
+from tools import text_block
 from menu_help_texts import menu_help
 
 class MenuHelpTooltip(Tooltip):
@@ -12,23 +11,38 @@ class MenuHelpTooltip(Tooltip):
         self.previous_missing_item = None
 
 
-    def refresh_tooltip_text(self, event=None):
+    def refresh_tooltip_text(self, event: tk.Event=None):
+        widget = event.widget
         try:
             from MainMenu import MainMenu
-            if type(event.widget) == tk.Label:
-                menu_label = event.widget.cget('text')
-            elif type(event.widget) == MainMenu:
-                menu_label = event.widget.current_menu()
+            from TooltipableMenu import MenuItem
+            if type(widget) == tk.Label:
+                if type(widget.master) == MenuItem:
+                    menu_label = widget.master.text
+                else:
+                    menu_label = widget.cget('text')
+            elif type(widget) == MainMenu:
+                menu_label = widget.current_menu()
+            elif event.type == tk.EventType.Enter:
+                # The Enter may be on the surrounding frame,but the pointer may be on an actual label after the tooltip delay:
+                containing = widget.winfo_containing(widget.winfo_rootx(), widget.winfo_rooty())
+                if type(containing) == tk.Label:
+                    menu_label = containing.cget('text')
+                else:
+                    menu_label = ""
+            elif type(widget) == tk.Frame:
+                menu_label = "" # separator, do not change text
             else:
                 menu_label = self.widget.entrycget(f'@{self.last_y}', 'label')
-            if menu_label in menu_help:
-                help_text = menu_help[menu_label]
-                text = text_block(help_text)
-            else:
-                text = menu_label
-                if menu_label and self.previous_missing_item != menu_label:
-                    self.previous_missing_item = menu_label
-            self.label.configure(text=text)
+            if menu_label:
+                if menu_label in menu_help:
+                    help_text = menu_help[menu_label]
+                    text = text_block(help_text)
+                else:
+                    text = menu_label
+                    if menu_label and self.previous_missing_item != menu_label:
+                        self.previous_missing_item = menu_label
+                self.label.configure(text=text)
         except Exception as ex: # Menu separators have no "label"
             print("ERROR: " + str(ex))
             pass # leave text unchanged

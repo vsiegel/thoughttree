@@ -87,12 +87,15 @@ class TooltipableMenu(tk.Frame):
         if self.popup:
             self.close()
         else:
-            self.create_popup()
+            self.create_popup(event)
 
-    def create_popup(self):
+    def create_popup(self, event, x=None, y=None):
         self.popup = tk.Toplevel(self, bd=3, relief='raised')
         self.popup.wm_overrideredirect(True)
-        self.popup.wm_geometry(f"+{self.winfo_rootx()}+{self.winfo_rooty() + self.winfo_height()}")
+        if x == None:
+            x = self.winfo_rootx()
+            y = self.winfo_rooty() + self.winfo_height()
+        self.popup.wm_geometry(f"+{x}+{y}")
         self.popup.bind("<Enter>", self.keep_open)
         self.popup.bind("<Escape>", self.close)
         self.frame = tk.Frame(self.popup)

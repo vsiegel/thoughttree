@@ -4,37 +4,8 @@ from tkinter import ttk
 import tools
 from MenuBar import MenuBar
 from MenuHelpTooltip import MenuHelpTooltip
+from menu_help_texts import menu_help
 
-
-class ToolTip:
-    def __init__(self, widget):
-        self.widget = widget
-        self.tipwindow = None
-        self.id = None
-        self.x = self.y = 0
-
-    def showtip(self, text):
-        "Display text in tooltip window"
-        self.text = text
-        if self.tipwindow or not self.text:
-            return
-        x, y, _, _ = self.widget.bbox("insert")
-        x = x + self.widget.winfo_rootx() + 57
-        y = y + self.widget.winfo_rooty() + 27
-        self.tipwindow = tw = tk.Toplevel(self.widget)
-        tw.wm_overrideredirect(True)
-        tw.wm_geometry("+%d+%d" % (x, y))
-
-        label = tk.Label(tw, text=self.text, justify=tk.LEFT,
-                      background="#ffffe0", relief=tk.SOLID, borderwidth=1,
-                      font=("Arial", 10))
-        label.pack(ipadx=1)
-
-    def hidetip(self):
-        tw = self.tipwindow
-        self.tipwindow = None
-        if tw:
-            tw.destroy()
 
 class MenuItem(tk.Frame):
     def __init__(self, parent, menu, text, command, tooltip=None, underline=-1):
@@ -146,35 +117,3 @@ class TooltipableMenu(tk.Frame):
             self.popup = None
             return True
         return False
-
-if __name__ == "__main__":
-    root = tk.Tk()
-    root.geometry("800x600")
-    menubar = MenuBar(root)
-    menubar.pack(fill='x')
-
-    # File menu
-    file_menu = menubar.submenu("File")
-    file_menu.item("New", None, lambda: print("New file"), "Create a new file")
-    file_menu.item("Open", None, lambda: print("Open file"), "Open an existing file")
-    file_menu.item("Save", None, lambda: print("Save file"), "Save current file")
-    file_menu.item("Save As", None, lambda: print("Save file as"), "Save current file with a new name")
-    file_menu.item("Exit", None, root.quit, "Exit the application")
-
-    # Edit menu
-    edit_menu = menubar.submenu("Edit")
-    edit_menu.item("Cut", None, lambda: print("Cut"), "Cut selected text")
-    edit_menu.item("Copy", None, lambda: print("Copy"), "Copy selected text")
-    edit_menu.item("Paste", None, lambda: print("Paste"), "Paste from clipboard")
-    edit_menu.item("Select All", None, lambda: print("Select All"), "Select all text")
-
-    # View menu
-    view_menu = menubar.submenu("View")
-    view_menu.item("Zoom In", None, lambda: print("Zoom In"), "Increase the text size")
-    view_menu.item("Zoom Out", None, lambda: print("Zoom Out"), "Decrease the text size")
-
-    # Help menu
-    help_menu = menubar.submenu("Help")
-    help_menu.item("About", None, lambda: print("About"), "Information about this application")
-
-    root.mainloop()

@@ -8,7 +8,6 @@ from MenuBar import MenuBar
 from Ui import Ui
 
 
-# class Menu(tk.Menu):
 class Menu(TooltipableMenu):
 
     def __init__(self, parent: Union[tk.Tk, tk.Text, TooltipableMenu, MenuBar, tk.Menu, None], label=None, menu_help=None, **kw):

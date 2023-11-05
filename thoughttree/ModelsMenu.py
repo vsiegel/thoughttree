@@ -10,8 +10,6 @@ class ModelsMenu(Menu):
         self.ui = thoughttree
 
         self.fixed_model_menu_items = -1
-        self.add_separator()
-        self.item("Reload Available Models", None, self.load_available_models)
 
         self.selected_model = tk.StringVar()
         def on_model_selected(name, index, mode):

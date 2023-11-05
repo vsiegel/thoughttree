@@ -90,19 +90,6 @@ class MainMenu(MenuBar):
             from thoughttree import Thoughttree
             Thoughttree()
 
-        def show_context_menu(event, context_menu) :
-            if event.type == tk.EventType.KeyPress:
-                w = event.widget
-                x, y, *_ = w.bbox(INSERT)
-                x += w.winfo_rootx()
-                y += w.winfo_rooty()
-            else:
-                widget = self.ui.winfo_containing(event.x_root, event.y_root)
-                if widget :
-                    widget.focus_set()
-                x, y = (event.x_root, event.y_root)
-            context_menu.tk_popup(x, y)
-
         def cut_text(event=None) :
             self.it.event_generate("<<Cut>>")
 
@@ -371,10 +358,6 @@ class MainMenu(MenuBar):
         ui.bind_class("Text", "<Menu>", lambda e=None: show_context_menu(e, sheet_menu))
         ui.bind_class("Text", "<Tab>", lambda e=None: e.widget.tk_focusNext())
 
-
-    def sub_item(self, label, keystroke=None, command=None, variable=None, add=False, menu2=None):
-        # to = [self.ui.system, self.ui.chat_sheet]
-        self.menu.item(label, keystroke=keystroke, command=command, variable=variable, add=add, menu2=menu2, to=self.ui.root)
 
 
 

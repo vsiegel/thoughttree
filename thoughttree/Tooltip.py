@@ -30,7 +30,6 @@ class Tooltip :
 
     def create_tip(self, event=None):
         if not self.tip:
-            print(f"###### {event=} {event.widget=}")
             self.tip = tk.Toplevel(self.root)
             self.tip.wm_overrideredirect(True)
             self.label = tk.Label(self.tip, text="", background="#FFFFE0", relief="solid",

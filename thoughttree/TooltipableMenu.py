@@ -9,7 +9,7 @@ from menu_help_texts import menu_help
 
 
 class MenuItem(tk.Frame):
-    def __init__(self, parent, menu, text, command, tooltip=None, underline=-1):
+    def __init__(self, parent, menu, text, keystroke=None, command=None, underline=-1):
         super().__init__(parent)
         self.menu = menu
         self.text = text
@@ -18,6 +18,8 @@ class MenuItem(tk.Frame):
         self.active=False
         self.label = tk.Label(self, text=text, bg='lightgray', anchor='w', font=("Arial", 10),
                               underline=underline, padx=5, pady=2, borderwidth=1, relief='flat')
+        self.key_label = tk.Label(self, text=keystroke, bg='lightgray', foreground='gray', anchor='w', font=("Arial", 10),
+                              padx=5, pady=2, borderwidth=1, relief='flat')
         if not command:
             self.label.configure(foreground='gray')
         self.label.bind("<Enter>", self.on_enter)
@@ -57,15 +59,16 @@ class TooltipableMenu(tk.Frame):
         self.frame = None
 
 
-    def add_item(self, label, keystroke=None, command=None, tooltip=None, underline=-1, menu2=None, add=False):
+    def add_item(self, label, keystroke=None, command=None, underline=-1, menu2=None, add=False):
         if conf.debug and not label in menu_help:
             print("Warning: Help missing for \"" + label + "\"")
 
         self.winfo_toplevel().bind(keystroke, command, add=add)
-        self.items.append((label, command, tooltip, underline))
+        accelerator = self.accelerator_label(keystroke)
+        self.items.append((label, accelerator, command, underline))
 
     def add_cascade(self, label, menu, underline=-1):
-        self.items.append((label, menu, "tooltip", underline))
+        self.items.append((label, None, menu, "tooltip", underline))
 
     def add_separator(self):
         self.items.append(('-', '-', '-', -1))
@@ -105,13 +108,12 @@ class TooltipableMenu(tk.Frame):
         self.populate_menu()
 
     def populate_menu(self):
-        for text, command, tooltip, underline in self.items:
+        for text, keystroke, command, underline in self.items:
             if text == '-':
                 separator = tk.Frame(self.frame, height=2, bg='darkgray')
                 separator.pack(fill='x', padx=0, pady=5)
             else:
-                item = MenuItem(self.frame, self, text, command, "tooltip", underline)
-
+                item = MenuItem(self.frame, self, text, keystroke, command, underline)
                 item.pack(fill='x')
                 self.menu_items.append(item)
 

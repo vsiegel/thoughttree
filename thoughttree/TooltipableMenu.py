@@ -115,6 +115,19 @@ class TooltipableMenu(tk.Frame):
                 item.pack(fill='x')
                 self.menu_items.append(item)
 
+    def show_context_menu(self, event):
+        if event.type == tk.EventType.KeyPress:
+            w = event.widget
+            x, y, *_ = w.bbox(INSERT)
+            x += w.winfo_rootx()
+            y += w.winfo_rooty()
+        else:
+            containing = event.widget.winfo_containing(event.x_root, event.y_root)
+            if containing:
+                containing.focus_set()
+            x, y = (event.x_root, event.y_root)
+        self.create_popup(event, x, y)
+
     def active_item(self):
         for item in self.menu_items:
             if item.active:

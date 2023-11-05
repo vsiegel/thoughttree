@@ -17,6 +17,8 @@ class MenuItem(tk.Frame):
         self.active=False
         self.label = tk.Label(self, text=text, bg='lightgray', anchor='w', font=("Arial", 10),
                               underline=underline, padx=5, pady=2, borderwidth=1, relief='flat')
+        if not command:
+            self.label.configure(foreground='gray')
         self.label.bind("<Enter>", self.on_enter)
         self.label.bind("<Leave>", self.on_leave)
         self.label.bind("<Button-1>", self.on_click)

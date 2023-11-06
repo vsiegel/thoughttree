@@ -300,9 +300,9 @@ class Thoughttree(Ui):
             self.remove_hidden_prompt(sheet)
             self.model.counter.go()
 
-            finish_reason, message = self.completions(sheet, n, history, inline)
+            reason, message = self.completions(sheet, n, history, inline)
 
-            self.finish_completion(sheet, finish_reason, message, postfix, inline)
+            self.finish_completion(sheet, reason, message, postfix, inline)
             self.post_completion_tasks(start_time)
         return "break"
 
@@ -402,7 +402,7 @@ class Thoughttree(Ui):
 
 
     def completions(self, sheet, n, history, inline=False):
-        finish_reason, message = 'unknown', ''
+        reason, message = 'unknown', ''
 
         # sheet.mark_set(OUTPUT, inline and INSERT or "end-2c")
         sheet.mark_set("completion_start", OUTPUT)
@@ -424,7 +424,7 @@ class Thoughttree(Ui):
 
         for i in range(n):
             if self.model.is_canceled:
-                finish_reason = "canceled"
+                reason = "canceled"
                 break
             if n > 1 and i == 0:
                 alternatives_frame = tk.Frame(sheet, borderwidth=4, relief=GROOVE)
@@ -436,13 +436,13 @@ class Thoughttree(Ui):
 
             if alternatives_frame:
                 label = AlternativeLabel(alternatives_frame, sheet)
-                finish_reason, message = self.model.complete(history, lambda text: write_label(text, label))
+                reason, message = self.model.complete(history, lambda text: write_label(text, label))
             else:
                 with InsertionIcon(sheet, OUTPUT):
-                    finish_reason, message = self.model.complete(history, lambda text: write_sheet(text, sheet))
+                    reason, message = self.model.complete(history, lambda text: write_sheet(text, sheet))
 
         sheet.mark_set("completion_end", OUTPUT)
-        return finish_reason, message
+        return reason, message
 
 
 

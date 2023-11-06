@@ -59,7 +59,7 @@ class Thoughttree(Ui):
     def __init__(self):
         Ui.__init__(self, title="Thoughttree", name="tt", icon_path=WINDOW_ICON, closeable=False)
         self.show_hidden_prompts = None
-        self.previous_current_sheet = None
+        self.current_sheet: ForkableSheet|None = None
         self.status_hider = None
         self.status = None
         self.console = None
@@ -142,7 +142,7 @@ class Thoughttree(Ui):
         self.system = Sheet(self.system_pane, height=3)
         # self.chat_sheet = Sheet(self.system_pane)
         self.chat_sheet = SheetTree(self.system_pane)
-        self.previous_current_sheet = self.chat_sheet
+        self.current_sheet: ForkableSheet = self.chat_sheet.forkable_sheet
 
         self.console_pane.add(self.tree_pane, stretch="always")
         if self.main_window:
@@ -367,10 +367,11 @@ class Thoughttree(Ui):
 
     @property
     def it(self) -> ForkableSheet:
-        focussed_widget: Thoughttree | ForkableSheet = self.focus_get()
-        if focussed_widget:
-            self.previous_current_sheet = focussed_widget
-        return self.previous_current_sheet
+        focussed = self.focus_get()
+        print()
+        if type(focussed) is ForkableSheet:
+            self.current_sheet = focussed
+        return self.current_sheet
 
 
     def scroll(self, sheet, to=OUTPUT):

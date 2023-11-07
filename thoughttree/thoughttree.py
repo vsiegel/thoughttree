@@ -14,6 +14,7 @@ from Console import Console
 from FinishReasonIcon import FinishReasonIcon
 from FoldablePane import FoldablePane
 from ForkableSheet import ForkableSheet
+from History import History
 from InsertionIcon import InsertionIcon
 from Keys import Keys
 from SheetTree import SheetTree
@@ -483,7 +484,7 @@ class Thoughttree(Ui):
 
     def history_from_system_and_chat(self, additional_message=None, additional_system=None, max_messages=None, max_size=None) :
         system = self.system.get(1.0, 'end - 1c').strip()
-        history = [{'role': 'system', 'content': system}]
+        history = History(system)
 
         if self.it == self.system:
             self.system.tk_focusNext().focus()

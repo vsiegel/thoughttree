@@ -287,14 +287,14 @@ class Thoughttree(Ui):
             sheet.undo_separator()
             start_time = datetime.now()
             sheet.mark_set(OUTPUT, inline and INSERT or "end-1c") # todo
+            if not inline:
+                self.set_up(sheet, prefix)
             if insert:
                 self.set_up_inline_completion(sheet)
             elif location:
                 self.set_up_location_reference(sheet)
             elif replace:
                 self.set_up_replace_completion(sheet)
-            if not inline:
-                self.set_up(sheet, prefix)
 
             history = self.history_from_system_and_chat(additional_message=hidden_prompt)
             self.remove_hidden_prompt(sheet)

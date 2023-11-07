@@ -407,10 +407,10 @@ class Thoughttree(Ui):
 
         alternatives_frame = None
 
-        def write_sheet(text, written_sheet):
+        def write_sheet(text, written_sheet: Sheet):
             if self.is_root_destroyed:
                 return
-            written_sheet.insert(OUTPUT, text, "assistant")
+            written_sheet.insert(OUTPUT, text, ("assistant", "model-" + self.model.name))
             self.scroll(sheet)
 
         def write_label(text, label=None):

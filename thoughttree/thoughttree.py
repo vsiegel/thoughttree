@@ -313,58 +313,61 @@ class Thoughttree(Ui):
         self.it.window_create(INSERT, window=question_box, stretch=1)
 
     def set_up_inline_completion(self, sheet, specific=""):
-        inline_completion_marker_prompt = dedent(
-                f"""
-                Do an insertion completion:
-                Complete assuming the insertion cursor for the text is at the character "{conf.location_marker}".
-                Assume that the trailing text will be there after the completion.
-                Do not use the mark character in the completion.
-                The part before and after the mark is already present for the user,
-                only produce text that should be in between.
-                Do not overlap output and following text, the end of the output should not be the same as the start of the trailing existing text.
-                The marker itself will be removed.
-                Take care to add the right amount of spaces before and after the marker.
-                For example, add a trailing space if the insertion is a word, and the next char after the mark is a space.
-                The completion needs to make sense before the following text, so it can not be the same normally.
-                Make sure there is no repetition.The inserted text should not be the same as the text after the insertion.
-                {specific}
-                """)
-        sheet.insert(INSERT, conf.location_marker, ("hidden_prompt",))
-        self.system.insert(END, inline_completion_marker_prompt, ("hidden_prompt",))
+        inline_completion_marker = dedent(
+            f"""
+            Do an insertion completion:
+            Complete assuming the insertion cursor for the text is at the character "{conf.location_marker}".
+            Assume that the trailing text will be there after the completion.
+            Do not use the mark character in the completion.
+            The part before and after the mark is already present for the user,
+            only produce text that should be in between.
+            Do not overlap output and following text, the end of the output should not be the same as the start of the trailing existing text.
+            The marker itself will be removed.
+            Take care to add the right amount of spaces before and after the marker.
+            For example, add a trailing space if the insertion is a word, and the next char after the mark is a space.
+            The completion needs to make sense before the following text, so it can not be the same normally.
+            Make sure there is no repetition.The inserted text should not be the same as the text after the insertion.
+            {specific}
+            """)
+        self.system.hide(END, inline_completion_marker)
+        sheet.hide(INSERT, conf.location_marker)
 
     def set_up_location_reference(self, sheet, specific=""):
-        inline_completion_marker_prompt = dedent(
-                f"""
-                When the prompt refers to a location in the text, it is the position of "{conf.location_marker}".
-                Do not refer to that character in the output.
-                {specific}
-                """)
-        sheet.insert(INSERT, conf.location_marker, ("hidden_prompt",))
-        self.system.insert(END, inline_completion_marker_prompt, ("hidden_prompt",))
+        inline_completion_marker = dedent(
+            f"""
+            When the prompt refers to a location or marker in the text, it is the position of "{conf.location_marker}".
+            Do not refer to that character in the output.
+            Ignore the character for all other purposes.
+            For example, for a marker X and input "foo baXr baz", the word "here" is "bar" (not "baXr").
+            Never literally mention the marker, it is automatically hidden from the user.
+            {specific}
+            """)
+        self.system.hide(END, inline_completion_marker)
+        sheet.hide(INSERT, conf.location_marker)
+
+
+    def set_up_replace_completion(self, sheet):
+        replace_completion_marker = dedent(
+            f"""
+            Do an replacement completion:The output will replace the users text selection, which is 
+            the part of text between the two "{conf.location_marker}". 
+            Complete assuming the insertion cursor for the text is at the first marker "{conf.location_marker}".
+            Produce text that will replace the text between the start marker and the end marker.
+            The text after the end marker will still be there after the completion.
+            Do not use the markers in the completion. The markers will be removed from the text after completion.
+            The part before start marker and after the end marker is already present for the user,
+            only produce text that should be in between.
+            Do not overlap output and following text.
+            The markers themselves will be removed.
+            Take care to add the right amount of spaces after the start marker and before the end marker.
+            """)
+        self.system.hide(END, replace_completion_marker)
+        sheet.hide(SEL_FIRST, conf.location_marker)
+        sheet.hide(SEL_LAST,  conf.location_marker)
 
     def remove_hidden_prompt(self, sheet):
         sheet.remove_tag('hidden_prompt')
         self.system.remove_tag('hidden_prompt')
-
-    def set_up_replace_completion(self, sheet):
-
-        replace_completion_marker_prompt = dedent(
-                f"""
-                Do an replacement completion:The output will replace the users text selection, which is 
-                the part of text between the two "{conf.location_marker}". 
-                Complete assuming the insertion cursor for the text is at the first marker "{conf.location_marker}".
-                Produce text that will replace the text between the start marker and the end marker.
-                The text after the end marker will still be there after the completion.
-                Do not use the markers in the completion. The markers will be removed from the text after completion.
-                The part before start marker and after the end marker is already present for the user,
-                only produce text that should be in between.
-                Do not overlap output and following text.
-                The markers themselves will be removed.
-                Take care to add the right amount of spaces after the start marker and before the end marker.
-                """)
-        sheet.insert(SEL_FIRST, conf.location_marker, ("hidden_prompt",))
-        sheet.insert(SEL_LAST, conf.location_marker, ("hidden_prompt",))
-        self.system.insert(END, replace_completion_marker_prompt, ("hidden_prompt",))
 
     @property
     def it(self) -> ForkableSheet:

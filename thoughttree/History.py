@@ -8,17 +8,67 @@ from tools import shorter, log_len
 #     def __str__(self):
 #         return f"l(l-s: {super().__str__()})"
 
+class History(list):
+    # ROLE_SYMBOLS = {"user":"⌨ ", "assistant":"💻️ ", "system":"⚙ ", "function":"📊 "} # 🗣
+    ROLE_SYMBOLS = {"user": "", "assistant": "", "system": "", "function": ""}
 
-def log_history_compact(history):
-    for message in history:
-        text = message['content']
-        print(f"{message['role']}: \"{shorter(text, 120)}\" {log_len(text, 120)}")
-    print()
 
-def history_from_args(system="", message="") :
-    history = [
-        {'role': 'system', 'content': system},
-        {'role': 'user', 'content': message}
-    ]
-    return history
+    def __init__(self, system="", message=""):
+        super().__init__()
+        self.first_system = None
+        self.last = None
+        if system:
+            self.system(system)
+        if message:
+            self.user(message)
 
+
+    def message(self, role, content):
+        if content:
+            self.append({'role': role, 'content': content})
+
+
+    def assistant(self, content):
+        self.message('assistant', content)
+
+
+    def user(self, content):
+        self.message('user', content)
+        if not self.last:
+            self.last = content
+
+    def system(self, content):
+        self.message('system', content)
+        if not self.first_system:
+            self.first_system = content
+
+    def limit(self, messages=2):
+        messages = min(messages, len(self))
+        if messages:
+            if messages == 1:
+                self[:] = self[-1:]
+            else:
+                last = messages - 1
+                self[:] = self[0:1] + self[-last:]
+
+    def log_compact(self):
+        for message in self:
+            content = message['content']
+            print(f"{message['role']}: \"{shorter(content, 120)}\" {log_len(content, 120)}")
+        print()
+
+
+    def log(self):
+        for message in self:
+            print(f'{History.ROLE_SYMBOLS[message["role"]]}{message["role"]}: \n"{message["content"]}"')
+        print()
+
+
+    def __add__(self, other):
+        sum = History()
+        sum.extend(self)
+        if hasattr(other, '__iter__') and not isinstance(other, str):
+            sum.extend(other)
+        else:
+            sum.append(other)
+        return sum

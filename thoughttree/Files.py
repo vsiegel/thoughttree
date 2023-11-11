@@ -5,6 +5,7 @@ from tkinter.filedialog import asksaveasfilename, askopenfilename
 from tkinter.messagebox import showerror
 import re
 
+from History import History
 from TextSaver import TextSaver
 
 
@@ -127,10 +128,10 @@ class Files:
                     for item in content :
                         if item[0] == "tagon" :
                             if item[1] == "assistant" :
-                                f.write(ROLE_SYMBOLS["ai"])
+                                f.write(History.ROLE_SYMBOLS["assistant"])
                         elif item[0] == "tagoff" :
                             if item[1] == "assistant" :
-                                f.write("\n" + ROLE_SYMBOLS["user"])
+                                f.write("\n" + History.ROLE_SYMBOLS["user"])
                                 drop_nl = True
                         elif item[0] == "text" :
                             if drop_nl :

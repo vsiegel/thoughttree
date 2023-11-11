@@ -1,6 +1,7 @@
 import tkinter as tk
 
 from Menu import Menu
+from Model import Model
 from menu_help_texts import menu_help
 
 
@@ -18,11 +19,8 @@ class ModelsMenu(Menu):
 
 
     def load_available_models(self, event=None):
-        # if self.fixed_model_menu_items == -1:
-        #     self.fixed_model_menu_items = self.index(tk.END) + 1
-        # present_items = self.index(tk.END) + 1
-        # if present_items > self.fixed_model_menu_items:
-        #     self.delete(0, present_items - self.fixed_model_menu_items - 1)
+        Model.set_api_key()
+
         models = self.ui.model.get_available_models()
         models = [model for model in models if "instruct" not in model]
         for i, name in enumerate(models):

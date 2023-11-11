@@ -370,10 +370,10 @@ class Thoughttree(Ui):
         self.system.remove_tag('hidden_prompt')
 
     @property
-    def it(self) -> ForkableSheet:
+    def it(self) -> Sheet:
         focussed = self.focus_get()
         print()
-        if type(focussed) is ForkableSheet:
+        if isinstance(focussed, Sheet):
             self.current_sheet = focussed
         return self.current_sheet
 

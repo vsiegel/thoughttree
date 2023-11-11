@@ -166,6 +166,9 @@ class MainMenu(MenuBar):
         def toggle_ring_bell(event=None):
             self.ui.ring_bell_after_completion = not self.ui.ring_bell_after_completion
 
+        def toggle_log_messages_to_console(event=None):
+            self.ui.log_messages_to_console = not self.ui.log_messages_to_console
+
         def toggle_font_mono(event=None):
             font = tkfont.Font(font=self.it.cget("font"))
             size = font.cget("size")

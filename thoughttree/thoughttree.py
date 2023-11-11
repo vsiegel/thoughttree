@@ -40,6 +40,7 @@ conf.show_finish_reason = True
 conf.update_title_after_completion = True
 conf.scroll_output = True
 conf.ring_bell_after_completion = True
+conf.log_messages_to_console = True
 conf.ring_bell_only_after = 15
 conf.blinking_caret = True
 # conf.chat_completion_request_timeout = 5
@@ -85,6 +86,7 @@ class Thoughttree(Ui):
 
         self.scroll_output = conf.scroll_output
         self.ring_bell_after_completion = conf.ring_bell_after_completion
+        self.log_messages_to_console = conf.log_messages_to_console
         self.create_ui()
 
         self.models = {}

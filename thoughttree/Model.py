@@ -25,7 +25,7 @@ def log_file_size(path):
 DEFAULT_API_KEY_ENV = "OPENAI_API_KEY"
 DEFAULT_API_KEY_FILE = "OPENAI_API_KEY.txt"
 
-class Model():
+class Model:
     MODEL_PATTERN = "gpt"
 
     def __init__(self, model_name):
@@ -80,7 +80,7 @@ class Model():
                     texts.append(text)
                 last_event = event
             full_text = "".join(texts)
-            print(f"result: {shorter(full_text, 120)} {log_len(full_text, 120)}")
+            # print(f"result: {shorter(full_text, 120)} {log_len(full_text, 120)}")
 
             if self.is_canceled:
                 finish_reason = 'canceled'

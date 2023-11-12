@@ -25,7 +25,7 @@ class MenuHelpTooltip(Tooltip):
                 menu_label = widget.current_menu()
             elif event.type == tk.EventType.Enter:
                 # The Enter may be on the surrounding frame,but the pointer may be on an actual label after the tooltip delay:
-                containing = widget.winfo_containing(widget.winfo_rootx(), widget.winfo_rooty())
+                containing = widget.winfo_containing(*widget.winfo_pointerxy())
                 if type(containing) == tk.Label:
                     menu_label = containing.cget('text')
                 else:

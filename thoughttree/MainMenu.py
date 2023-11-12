@@ -351,10 +351,8 @@ class MainMenu(MenuBar):
         help_menu.add_item("About", "<Control-F1>", lambda e=None: AboutDialog(self.ui))
         help_menu.add_item("Debug Info", "<Control-i>", debug_info)
 
-
-
-        ui.bind_class("Text", "<Control-Button-4>", lambda e=None: font_size(-1))
-        ui.bind_class("Text", "<Control-Button-5>", lambda e=None: font_size(1))
+        ui.bind_class("Text", "<Control-Button-4>", lambda e=None: font_size(1))
+        ui.bind_class("Text", "<Control-Button-5>", lambda e=None: font_size(-1))
 
         ui.bind_class("Text", "<Button-3>", sheet_menu.show_context_menu)
         ui.bind_class("Text", "<Menu>", sheet_menu.show_context_menu)

@@ -31,7 +31,10 @@ class Model():
     def __init__(self, model_name):
         self.name = model_name
         self.counter = TokenCounter(model_name)
-
+        self.max_tokens = tk.IntVar(value=1500)
+        self.temperature = tk.DoubleVar(value=0.5)
+        self.is_canceled = False
+        self.available_models = None
         # logdir = Path.home()/"logs"/"thoughttree"
         # if not logdir.exists():
         #     logdir.mkdir(parents=True, exist_ok=True)
@@ -40,10 +43,6 @@ class Model():
         # self.chat_log_path = logdir/logfile_name
         # self.chat_log = open(self.chat_log_path, "a")
 
-        self.max_tokens = tk.IntVar(value=1500)
-        self.temperature = tk.DoubleVar(value=0.5)
-        self.is_canceled = False
-        self.available_models = None
 
 
     def complete(self, history, on_increment, max_tokens=None, temperature=None) -> Tuple[str, str]:

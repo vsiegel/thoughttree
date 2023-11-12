@@ -38,7 +38,7 @@ class MenuHelpTooltip(Tooltip):
             if menu_label:
                 if menu_label in menu_help:
                     help_text = menu_help[menu_label]
-                    text = text_block(help_text)
+                    text = f"{menu_label}\n\n{text_block(help_text)}"
                 else:
                     text = menu_label
                     if menu_label and self.previous_missing_item != menu_label:

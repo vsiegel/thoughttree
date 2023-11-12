@@ -193,11 +193,6 @@ class MainMenu(MenuBar):
                     webbrowser.open_new_tab("https://www.google.com/search?q=" + selected_text)
 
 
-        # item = self.sub_item
-        def item(label, keystroke=None, command=None, variable=None, add=False, menu2=None):
-            self.menu.item(label, keystroke=keystroke, command=command, variable=variable, add=add, menu2=menu2,
-                           to=self.ui.root)
-
         ui = self.ui
 
         sheet_menu = Menu(None, "(sheet context menu)")

@@ -8,7 +8,7 @@ class MenuBar(tk.Frame):
     def __init__(self, parent):
         super().__init__(parent, bg='lightgray', bd=3, relief='raised')
         self.menus = []
-        self.winfo_toplevel().bind("<Configure>", lambda e: self.close_other_menus(None))
+        self.winfo_toplevel().bind("<Configure>", lambda e: self.close_other_menus(None), add=True)
         MenuHelpTooltip(self)
 
     def add_menu(self, menu):

@@ -323,6 +323,11 @@ class MainMenu(MenuBar):
         text = self.submenu("Text")
         text.add_item("Count Tokens", "<Control-Alt-m>", ui.count_text_tokens)
         text.add_item("Run Code Block", "<Control-Shift-R>", lambda e=None: self.it.run_code_block(), menu2=sheet_menu)
+        text.add_separator()
+        text.add_item('Role "system"', None, lambda e=None: self.it.role("system"))
+        text.add_item('Role "user"', None, lambda e=None: self.it.role("user"))
+        text.add_item('Role "assistant"', None, lambda e=None: self.it.role("assistant"))
+        text.add_item('Role "function"', None, lambda e=None: self.it.role("function"))
 
 
         format_menu = self.submenu("Format")

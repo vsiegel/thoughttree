@@ -139,7 +139,6 @@ class Sheet(ScrolledText, LineHandling):
                     super().delete(index1)
 
 
-
     def undo_separator(self):
         self.edit_separator()
 
@@ -205,3 +204,6 @@ class Sheet(ScrolledText, LineHandling):
             self.deletecommand(funcid)
         else:
             super().unbind(seq)
+
+    def hide(self, index, chars, *args):
+        self.insert(index, chars, ("hidden_prompt",), *args)

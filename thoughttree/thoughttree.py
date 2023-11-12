@@ -301,7 +301,7 @@ class Thoughttree(Ui):
             self.remove_hidden_prompt(sheet)
             self.model.counter.go()
 
-            reason, message = self.completions(sheet, n, history, inline)
+            reason, message = self.completions(sheet, n, history)
 
             self.finish_completion(sheet, reason, message, postfix, inline)
             self.post_completion_tasks(start_time)
@@ -405,7 +405,7 @@ class Thoughttree(Ui):
             self.scroll(sheet)
 
 
-    def completions(self, sheet, n, history, inline=False):
+    def completions(self, sheet, n, history):
         reason, message = 'unknown', ''
 
         # sheet.mark_set(OUTPUT, inline and INSERT or "end-2c")

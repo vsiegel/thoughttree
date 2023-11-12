@@ -33,7 +33,8 @@ class MenuHelpTooltip(Tooltip):
             elif type(widget) == tk.Frame:
                 menu_label = "" # separator, do not change text
             else:
-                menu_label = self.widget.entrycget(f'@{self.last_y}', 'label')
+                menu_label = "" # between menu items
+
             if menu_label:
                 if menu_label in menu_help:
                     help_text = menu_help[menu_label]

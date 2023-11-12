@@ -258,7 +258,7 @@ class MainMenu(MenuBar):
         view.add_item("Toggle Wrap Lines", "<Control-l>", lambda e=None: self.it.configure(wrap=(NONE if self.it.cget("wrap") != NONE else WORD)))
         view.add_item("Calculate Cost", None, None)
         view.add_item("Show Hidden Prompts", "<Control-Shift-H>", ui.toggle_show_hidden_prompts)
-        view.add_item("Show Messages")
+        view.add_item("Show Messages", None, toggle_log_messages_to_console)
 
         mask = self.submenu("Mask")
         mask.add_item("All", None, None)

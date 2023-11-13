@@ -1,10 +1,8 @@
 import re
 import tkinter as tk
-from tkinter import ttk, INSERT
+from tkinter import INSERT
 
-import tools
 from Config import conf
-from MenuBar import MenuBar
 from MenuHelpTooltip import MenuHelpTooltip
 from menu_help_texts import menu_help
 
@@ -71,7 +69,7 @@ class TooltipableMenu(tk.Frame):
     def add_item(self, label, keystroke=None, command=None, underline=-1, menu2=None, add=False):
         if conf.debug and not label in menu_help:
             print("Warning: Help missing for \"" + label + "\"")
-
+        keystroke = self.fix_key_letter_case(keystroke)
         self.winfo_toplevel().bind(keystroke, command, add=add)
         accelerator = self.accelerator_label(keystroke)
         self.items.append((label, accelerator, command, underline))

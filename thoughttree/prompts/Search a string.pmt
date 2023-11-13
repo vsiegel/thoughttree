@@ -1,0 +1,7 @@
+Search a string matching a potentially abstract natural language description.
+Specify the string by giving the start and end as 
+Start-after: "..."
+of Start-before and End-after or End-before.
+Also, give the initial words of the string as "Found:"
+Search forward to the end, not wrapping around. Answer Found: None if applicable.
+Start searching here (or from the beginning).

@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import X, BOTH, Y, INSERT, END, CURRENT, SEL
 
 from ForkFrame import ForkFrame
+from History import History
 from Notebook import Notebook
 from Sheet import Sheet
 from Title import new_child_title, new_sibling_title, Title
@@ -158,17 +159,15 @@ class ForkableSheet(Sheet):
         if self.parent_sheet:
             history = self.parent_sheet.history_from_path(history)
         else:
-            history = history or []
+            history = history or History()
 
         return history + self.as_history()
 
 
     def as_history(self):
-        print(f"as_history: {self.winfo_name()=}")
-
-        history = []
-        content = self.dump(1.0, END, text=True, tag=True, window=True)
-        section = ""
+        history = History()
+        items = self.dump(1.0, END, text=True, tag=True, window=True)
+        content = ""
         role = "user"
         for item in content :
             text = item[1]
@@ -191,9 +190,7 @@ class ForkableSheet(Sheet):
                 pass
             else:
                 print(f"Ignored item: {item}")
-        section = section.strip("\n")
-        if section != "" :
-            history += [{'role' : role, 'content' : section}]
+        history.message(role, content)
         return history
 
 

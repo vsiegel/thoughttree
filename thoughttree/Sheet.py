@@ -148,6 +148,10 @@ class Sheet(ScrolledText, LineHandling):
     def strikethrough(self):
         self.toggle_tag('strikethrough')
 
+    def role(self, role):
+        pass
+        # self.toggle_tag('strikethrough')
+
     def remove_tag(self, tag):
         def pairwise(l):
             return list(zip(l[::2], l[1::2]))

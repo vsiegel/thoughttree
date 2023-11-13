@@ -16,6 +16,7 @@ class Tooltip :
         widget.bind("<Enter>", self.create_tip_later, add=True)
         widget.bind("<Leave>", self.remove_tip, add=True)
         widget.bind("<Unmap>", self.remove_tip, add=True)
+        widget.bind("<Destroy>", self.remove_tip, add=True)
         self.root.bind("<Motion>", self.update_tip, add=True)
 
 

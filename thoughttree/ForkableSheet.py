@@ -169,23 +169,19 @@ class ForkableSheet(Sheet):
         items = self.dump(1.0, END, text=True, tag=True, window=True)
         content = ""
         role = "user"
-        for item in content :
+        for item in items:
             text = item[1]
             designation = item[0]
-            if designation == "tagon" and text == "assistant":
-                # section = section.strip()
-                history += [{'role' : role, 'content' : section}]
-                role = "assistant"
-                section = ""
-            elif designation == "tagoff" and text == "assistant":
-                # section = section.strip()
-                history += [{'role' : role, 'content' : section}]
-                role = "user"
-                section = ""
+            if ("tagon", "assistant") == (designation, text):
+                history.message(role, content)
+                role, content = "assistant", ""
+            elif ("tagoff", "assistant") == (designation, text):
+                history.message(role, content)
+                role, content = "user", ""
             elif designation in ["tagon", "tagoff"] and text in ["cursorline", "sel"]:
                 pass
             elif designation == "text":
-                section += text
+                content += text
             elif designation == "window":
                 pass
             else:

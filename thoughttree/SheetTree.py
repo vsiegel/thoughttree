@@ -17,8 +17,8 @@ class SheetTree(tk.Frame):
             self.scrollbar.set(*args)
         self.canvas.configure(yscrollcommand=scrollbar_set)
 
-        self.canvas.pack(side=LEFT, fill=BOTH, expand=True)
         self.scrollbar.pack(side=RIGHT, fill=Y)
+        self.canvas.pack(side=LEFT, fill=BOTH, expand=True)
 
         canvas_frame = tk.Frame(self.canvas, bd=0, background="#eeeeff", name="cf")
         # canvas_frame.pack_propagate(False)

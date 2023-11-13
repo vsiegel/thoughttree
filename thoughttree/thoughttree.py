@@ -493,7 +493,7 @@ class Thoughttree(Ui):
             self.update_window_title()
 
 
-    def history_from_system_and_chat(self, additional_message=None, additional_system=None, max_messages=None, max_size=None) :
+    def history_from_system_and_chat(self, additional_message=None, additional_system=None, max_messages=0, max_size=None) :
         system = self.system.get(1.0, 'end - 1c').strip()
         history = History(system)
 

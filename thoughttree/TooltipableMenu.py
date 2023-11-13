@@ -75,6 +75,8 @@ class TooltipableMenu(tk.Frame):
         self.winfo_toplevel().bind(keystroke, command, add=add)
         accelerator = self.accelerator_label(keystroke)
         self.items.append((label, accelerator, command, underline))
+        if menu2:
+            menu2.add_item(label, None, command, underline)
 
     def add_cascade(self, label, menu, underline=-1):
         self.items.append((label, None, menu, "tooltip", underline))

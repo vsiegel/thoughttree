@@ -102,20 +102,21 @@ class TooltipableMenu(tk.Frame):
             self.create_popup(event)
 
     def create_popup(self, event, x=None, y=None):
-        self.popup = tk.Toplevel(self, bd=3, relief='raised')
-        self.popup.wm_overrideredirect(True)
-        if x == None:
+        if not self.popup:
+            self.popup = tk.Toplevel(self, bd=3, relief='raised', bg='lightgray')
+            self.popup.wm_overrideredirect(True)
+            self.popup.bind("<Enter>", self.keep_open, add=True)
+            self.popup.bind("<Escape>", self.close, add=True)
+            self.frame = tk.Frame(self.popup, takefocus=True, bg='lightgray')
+            self.frame.pack()
+            self.frame.focus_set()
+            self.frame.bind("<Leave>", self.close, add=True)
+            MenuHelpTooltip(self.frame)
+            self.populate_menu()
+        if x is None:
             x = self.winfo_rootx()
             y = self.winfo_rooty() + self.winfo_height()
         self.popup.wm_geometry(f"+{x}+{y}")
-        self.popup.bind("<Enter>", self.keep_open, add=True)
-        self.popup.bind("<Escape>", self.close, add=True)
-        self.frame = tk.Frame(self.popup, takefocus=True)
-        self.frame.pack()
-        self.frame.focus_set()
-        self.frame.bind("<Leave>", self.close, add=True)
-        MenuHelpTooltip(self.frame)
-        self.populate_menu()
 
     def populate_menu(self):
         for text, keystroke, command, underline in self.items:

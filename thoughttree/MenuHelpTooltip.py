@@ -15,7 +15,7 @@ class MenuHelpTooltip(Tooltip):
         widget = event.widget
         try:
             from MainMenu import MainMenu
-            from TooltipableMenu import MenuItem
+            from MenuItem import MenuItem
             if type(widget) == tk.Label:
                 if type(widget.master) == MenuItem:
                     menu_label = widget.master.text

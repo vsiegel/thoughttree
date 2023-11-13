@@ -1,7 +1,7 @@
 import tkinter as tk
 
 from Menu import Menu
-from TooltipableMenu import MenuItem
+from MenuItem import MenuItem
 from Ui import Ui
 from menu_help_texts import menu_help
 

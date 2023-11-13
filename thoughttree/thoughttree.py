@@ -498,17 +498,14 @@ class Thoughttree(Ui):
         history = History(system)
 
         if self.it == self.system:
+            print(f"{self.it=}")
             self.system.tk_focusNext().focus()
-            print(f"{self.system.tk_focusNext()=}")
+            print(f"{self.it=}")
         history = self.it.history_from_path(history)
 
-        if additional_message:
-            history += [{'role': 'user', 'content': additional_message}]
-        if additional_system:
-            history += [{'role':'system', 'content': additional_system}]
-
-        if max_messages:
-            history = [history[0]] + history[-(max_messages-1):]
+        history.system(additional_system)
+        history.user(additional_message)
+        history.limit(messages=max_messages)
         return history
 
     def toggle_show_hidden_prompts(self, event=None):

@@ -14,13 +14,13 @@ class MenuItem(tk.Frame):
         super().__init__(parent)
         self.menu = menu
         self.text = text
-        self.configure(bg='lightgray')
+        self.configure(bg='lightgray', borderwidth=2)
         self.command = command
         self.active=False
         self.label = tk.Label(self, text=text, bg='lightgray', anchor='w', font=("Arial", 10),
-                              underline=underline, padx=5, pady=2, borderwidth=1, relief='flat')
+                              underline=underline, padx=5, pady=0, borderwidth=2, relief='flat')
         self.key_label = tk.Label(self, text=keystroke, bg='lightgray', foreground='gray', anchor='w', font=("Arial", 10),
-                              padx=5, pady=2, borderwidth=1, relief='flat')
+                              padx=5, pady=0, borderwidth=2, relief='flat')
         if not command:
             self.label.configure(foreground='gray')
         self.bind("<Enter>", self.on_enter, add=True)

@@ -64,6 +64,7 @@ A title for this conversation, about 20 characters.
 Style does not matter, it is about the information.
 Ignore the system prompt.
 Do not refer to this prompt or to the title.
+The title can not contain newlines.
 It is used as a one line title for this conversation.
 Use the language of the conversation.
 If there is no chat history at all, the title will be the text "Thoughttree" only, that is important.

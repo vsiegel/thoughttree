@@ -120,7 +120,7 @@ class TooltipableMenu(tk.Frame):
     def populate_menu(self):
         for text, keystroke, command, underline in self.items:
             if text == '-':
-                separator = tk.Frame(self.frame, height=2, bg='darkgray')
+                separator = tk.Frame(self.frame, height=1, bg='darkgray')
                 separator.pack(fill='x', padx=0, pady=5)
             else:
                 item = MenuItem(self.frame, self, text, keystroke, command, underline)

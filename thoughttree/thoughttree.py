@@ -413,6 +413,12 @@ class Thoughttree(Ui):
 
         alternatives_frame = None
 
+        def write_stdout(text, *args):
+            if self.is_root_destroyed:
+                return
+            print(text)
+            self.scroll(sheet)
+
         def write_sheet(text, written_sheet: Sheet):
             if self.is_root_destroyed:
                 return

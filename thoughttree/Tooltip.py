@@ -10,7 +10,6 @@ class Tooltip :
         self.tip = None
         self.label = None
         self.timer = None
-        self.last_y = None
         self.delay_ms = 1000
 
         widget.bind("<Enter>", self.create_tip_later, add=True)
@@ -41,8 +40,6 @@ class Tooltip :
 
 
     def update_tip(self, event=None):
-        if event:
-            self.last_y = event.y
         if self.tip:
             x = self.root.winfo_pointerx() + 75
             y = self.root.winfo_pointery() + 25

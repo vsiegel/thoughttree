@@ -155,7 +155,8 @@ class TooltipableMenu(tk.Frame):
         return False
 
 
-    def accelerator_label(self, keystroke) :
+    @staticmethod
+    def accelerator_label(keystroke) :
         if not keystroke:
             return ""
         s = self.fix_key_letter_case(keystroke)
@@ -173,9 +174,10 @@ class TooltipableMenu(tk.Frame):
         return s
 
 
-    def fix_key_letter_case(self, keystroke):
+    @staticmethod
+    def fix_key_letter_case(keystroke):
         if not keystroke:
-            return ""
+            return None
         m = re.search(r"^((<.*-)|<)([a-zA-Z])>", keystroke)
         if m:
             letter = m[3]
@@ -183,6 +185,5 @@ class TooltipableMenu(tk.Frame):
                 letter = letter.upper()
             else:
                 letter = letter.lower()
-            return m[1] + letter + ">"
-        else:
-            return keystroke
+            keystroke = m[1] + letter + ">"
+        return keystroke

@@ -120,8 +120,6 @@ class Files:
 
         def write_chat(sheet, filename) :
             try:
-                # ROLE_SYMBOLS = {"user":"❯ ", "ai":"⚙ "}
-                ROLE_SYMBOLS = {"user" : "", "ai" : ""}
                 content = sheet.dump(1.0, tk.END, text=True, tag=True)
                 with open(filename, 'w') as f :
                     drop_nl = False

@@ -31,19 +31,25 @@ class MenuItem(tk.Frame):
         self.key_label.pack(side='right', fill='x')
 
     def on_enter(self, event):
-        self.label.configure(bg='#efefef', relief='raised')
+        self.label.configure(bg='#efefef')
+        self.key_label.configure(bg='#efefef')
+        self.configure(relief='raised')
         self.active=True
 
     def on_leave(self, event):
-        self.label.configure(bg='lightgray', relief='flat')
+        self.label.configure(bg='lightgray')
+        self.key_label.configure(bg='lightgray')
+        self.configure(relief='flat')
         self.active=False
 
     def on_click(self, event):
         try:
             self.command()
-        except Exception as ex:
-            print(f"{ex} {self.command=}")
-        self.menu.close()
+        # except Exception as ex:
+        #     print(f"{ex} {self.command=}")
+        finally:
+            self.menu.close()
+        # raise RuntimeError("on_click failed") from exception
 
 
 class TooltipableMenu(tk.Frame):

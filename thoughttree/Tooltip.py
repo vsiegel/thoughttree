@@ -13,13 +13,13 @@ class Tooltip :
         self.last_y = None
         self.delay_ms = 1000
 
-        widget.bind("<Enter>", self.add_tip_later, add=True)
+        widget.bind("<Enter>", self.create_tip_later, add=True)
         widget.bind("<Leave>", self.remove_tip, add=True)
         widget.bind("<Unmap>", self.remove_tip, add=True)
         self.root.bind("<Motion>", self.update_tip, add=True)
 
 
-    def add_tip_later(self, event):
+    def create_tip_later(self, event):
         if self.tip:
             return
         self.timer = self.root.after(self.delay_ms, lambda ev=event: self.create_tip(ev))

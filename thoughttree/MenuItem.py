@@ -18,10 +18,10 @@ class MenuItem(tk.Frame):
         else:
             example_icon = " "
         args = {**args, 'font': ("monospace", 10)}
-        self.example = tk.Label(self, text=example_icon, **args, foreground='gray')
+        self.demo = tk.Label(self, text=example_icon, **args, foreground='gray')
 
         self.label.pack(side='left', fill='x', expand=True)
-        self.example.pack(side='right', fill='x')
+        self.demo.pack(side='right', fill='x')
         self.key.pack(side='right', fill='x')
         if not command:
             self.label.configure(foreground='gray')
@@ -29,7 +29,8 @@ class MenuItem(tk.Frame):
         self.bind("<Leave>", self.on_leave, add=True)
         self.bind("<Escape>", self.menu.close, add=True)
         for label in [self.label, self.key]:
-            label.bind("<Button-1>", self.on_click, add=True)
+            label.bind("<Button-1>", self.call_command, add=True)
+        self.demo.bind("<Button-1>", self.show_demo, add=True)
 
     def on_enter(self, event):
         self.label.configure(bg='#efefef')
@@ -43,11 +44,16 @@ class MenuItem(tk.Frame):
         self.configure(relief='flat')
         self.active=False
 
-    def on_click(self, event):
+    def call_command(self, event):
         try:
             self.command()
         # except Exception as ex:
         #     print(f"{ex} {self.command=}")
         finally:
             self.menu.close()
-        # raise RuntimeError("on_click failed") from exception
+
+    def show_demo (self, event):
+        try:
+            self.command() # todo
+        finally:
+            self.menu.close()

@@ -72,11 +72,11 @@ menu_help = {
     "Previous Message": "Jumps to the previous message in the chat, allowing you to move backward through messages.\nThis feature is useful for reviewing earlier parts of a conversation or for finding specific messages or content that occurred earlier in the chat.",
 
     # Chat:
-    "Next Paragraph": "Completes the current text and starts a new paragraph, providing a clear separation between ideas.",
+    "Continue Line": "Continues the current text without starting a new line or paragraph, generating a seamless continuation of the conversation.\nThis feature is useful for generating fluid and continuous text, especially when the conversation does not require a line or paragraph break.",
     "Next Line": "Completes the current text and starts a new line, continuing the conversation on a new line.",
+    "Next Paragraph": "Completes the current text and starts a new paragraph, providing a clear separation between ideas.",
     "Continue Directly": "Continues the current text without starting a new line or paragraph, generating a seamless continuation of the conversation.",
     "Fork Conversation": "Forks the current conversation into a new branch, allowing you to explore alternative paths in the chat.\nThis feature enables you to generate multiple responses or scenarios based on the current conversation, providing a way to test different ideas or approaches without affecting the main chat.",
-    "Continue Inline": "Continues the current text without starting a new line or paragraph, generating a seamless continuation of the conversation.\nThis feature is useful for generating fluid and continuous text, especially when the conversation does not require a line or paragraph break.",
     "Insert Completion": "Inserts a generated completion into the chat, continuing the conversation with the output of the text generation model.\nThis feature is useful for generating responses or for expanding the conversation based on the current text.",
     "Replace by Completion": "Replaces the current text with a generated completion, altering the conversation with the output of the text generation model.\nThis feature is useful for exploring alternative conversation paths or for correcting or modifying the current text.",
     "Solve this Problem": "Attempts to generate a solution to the problem posed in the current text, using the text generation model to generate a problem-solving response.\nThis feature is useful for generating solutions or suggestions for problems or challenges posed in the chat.",

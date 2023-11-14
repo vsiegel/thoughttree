@@ -9,16 +9,17 @@ class MenuItem(tk.Frame):
         self.configure(bg='lightgray', borderwidth=2)
         self.command = command
         self.active=False
-        self.label = tk.Label(self, text=text, bg='lightgray', anchor='w', font=("Arial", 10),
-                              underline=underline, padx=5, pady=0, borderwidth=2, relief='flat')
-        self.key = tk.Label(self, text=keystroke, bg='lightgray', foreground='gray', anchor='w', font=("Arial", 10),
-                            padx=5, pady=0, borderwidth=2, relief='flat')
+
+        args = {'bg': 'lightgray', 'anchor': 'w', 'font': ("Arial", 10), 'padx': 5, 'pady': 0, 'borderwidth': 2, 'relief': 'flat'}
+        self.label = tk.Label(self, text=text, **args, underline=underline)
+        self.key = tk.Label(self, text=keystroke, **args, foreground='gray')
         if text.startswith('C'):
             example_icon = "⇒"
         else:
             example_icon = " "
-        self.example = tk.Label(self, text=example_icon, bg='lightgray', foreground='gray', anchor='w', font=("monospace", 10),
-                            padx=5, pady=0, borderwidth=2, relief='flat')
+        args = {**args, 'font': ("monospace", 10)}
+        self.example = tk.Label(self, text=example_icon, **args, foreground='gray')
+
         self.label.pack(side='left', fill='x', expand=True)
         self.example.pack(side='right', fill='x')
         self.key.pack(side='right', fill='x')

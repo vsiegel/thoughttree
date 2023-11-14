@@ -50,7 +50,7 @@ conf.debug = True
 
 class Thoughttree(Ui):
     MIN_SIZE = (600, 300)
-    ROOT_GEOMETRY = "1000x500"
+    ROOT_GEOMETRY = "1000x800"
     icon = None
     multi_completions = 5
 

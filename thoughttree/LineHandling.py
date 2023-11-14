@@ -20,7 +20,6 @@ class LineHandling:
                 numbered_lines = list(enumerate(lines[start:] + lines[:start]))
             else:
                 numbered_lines = list(enumerate(lines[:start][::-1] + lines[start:][::-1]))
-            print(numbered_lines)
             for i, line in numbered_lines:
                 if line.strip() == target:
                     if direction == 1:
@@ -31,7 +30,7 @@ class LineHandling:
 
 
         from Sheet import Sheet
-        sheet: Sheet = self.focus_get()
+        sheet: Sheet = self # todo ...
         cursor_pos = sheet.index(INSERT)
         line_nr = int(cursor_pos.split('.')[0])
         current_line = sheet.get(f"{line_nr}.0", f"{line_nr}.end")
@@ -46,7 +45,6 @@ class LineHandling:
 
     def jump_to_limit(self, e: tk.Event):
         pos = self.vbar.get()
-        # print(pos) # "(0.0, 0.0, 0.0, 0.0)"
         top, bottom, *_ = pos
         if e.keysym == 'Prior' and top == 0.0:
             limit = "1.0"

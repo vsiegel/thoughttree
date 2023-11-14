@@ -273,9 +273,9 @@ class MainMenu(MenuBar):
         sheet_menu.add_separator()
 
         chat = self.submenu("Chat")
-        chat.add_item("Next Paragraph", "<Control-Return>", lambda e=None: ui.chat(1, "", "\n"))
+        chat.add_item("Continue Line", "<Control-space>", lambda e=None: ui.chat(inline=True))
         chat.add_item("Next Line", "<Shift-Return>", lambda e=None: ui.chat(1, "\n", "\n\n"))
-        chat.add_item("Continue Inline", "<Control-space>", lambda e=None: ui.chat(inline=True))
+        chat.add_item("Next Paragraph", "<Control-Return>", lambda e=None: ui.chat(1, "", "\n"))
         chat.add_item("Insert Completion", "<Control-Alt-space>", lambda e=None: ui.chat(insert=True), menu2=sheet_menu)
         chat.add_item("Replace by Completion", "<Control-Shift-space>", lambda e=None: ui.chat(replace=True), menu2=sheet_menu)
         chat.add_item("Refer to cursor location", "<Control-Alt-o>", lambda e=None: ui.chat(1, "\n\n", "\n", location=True))

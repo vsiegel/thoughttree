@@ -52,8 +52,9 @@ class TextChange():
             if not replacement_matches:
                 print(f'No match for "{replacements_pattern}"'[:120])
                 return
+
             for groups in replacement_matches:
-                old = groups[3].strip("'"+'"')
+                old = groups[2].strip("'"+'"')
                 new = groups[5].strip("'"+'"')
                 self.replacements[old] = new
 

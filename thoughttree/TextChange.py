@@ -88,7 +88,18 @@ class TextChange():
 
 
 if __name__ == "__main__":
-    change = TextChange("""Titel: A\nBeschreibung: B\nDerzeitig: 'a'\nVorschlag: 'b'\nDerzeitig: 'c'\nVorschlag: 'd'\nDerzeitig: 'e'\nVorschlag: 'f'\nDerzeitig: 'g'\nVorschlag: 'h'""")
+    text = """Titel: A
+Beschreibung: B
+Old: 'a'
+New: 'b'
+Old: 'c'
+New: 'd'
+Old: 'e'
+New: 'f'
+Old: 'g'
+New: 'h'
+"""
+    change = TextChange(text)
     root = tk.Tk()
     root.geometry("500x500")
     s = Sheet(root)

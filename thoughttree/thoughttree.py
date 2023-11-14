@@ -281,7 +281,7 @@ class Thoughttree(Ui):
             if not inline:
                 self.set_up(sheet, prefix)
             if insert:
-                self.set_up_inline_completion(sheet)
+                self.set_up_insert_completion(sheet)
             elif location:
                 self.set_up_location_reference(sheet)
             elif replace:
@@ -302,7 +302,7 @@ class Thoughttree(Ui):
 
         self.it.window_create(INSERT, window=question_box, stretch=1)
 
-    def set_up_inline_completion(self, sheet, specific=""):
+    def set_up_insert_completion(self, sheet, specific=""):
         inline_completion_marker = dedent(
             f"""
             Do an insertion completion:

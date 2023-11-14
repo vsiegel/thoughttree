@@ -47,8 +47,6 @@ class MenuItem(tk.Frame):
     def call_command(self, event):
         try:
             self.command()
-        # except Exception as ex:
-        #     print(f"{ex} {self.command=}")
         finally:
             self.menu.close()
 

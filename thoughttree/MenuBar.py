@@ -31,5 +31,7 @@ class MenuBar(tk.Frame):
 
     def current_menu(self):
         widget = self.winfo_containing(self.winfo_rootx(), self.winfo_rooty())
+        if isinstance(widget, MenuBar):
+            return None
         if widget:
             return widget.cget("label")

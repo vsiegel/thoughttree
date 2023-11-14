@@ -39,12 +39,12 @@ class TextChange():
             replacements_pattern = """(?:Derzeitig|Old|Alt): ?[\n ]('.*'|".*"|"{3}[\s\S]*?"{3}|'{3}[\s\S]*?'{3}|```[\s\S]*?```)\n+(?:Vorschlag|New|Neu): ?[\n ]('.*'|".*"|"{3}[\s\S]*?"{3}|'{3}[\s\S]*?'{3}|```[\s\S]*?```)"""
             replacements_pattern = """(?:Derzeitig|Old|Alt): ?[\n ]((['"`]{1,3})([\s\S]*?)\2)\n+(?:Vorschlag|New|Neu): ?[\n ]((['"`]{1,3})([\s\S]*?)\4)"""
             replacements_pattern = r"""(?x)
-                (?:Derzeitig|Old|Alt):\ ?\n?
+                Old:\ ?\n?
                     ((['"`]{1,3})
                         ([\s\S]*?)
                     \2)
                 \n+
-                (?:Vorschlag|New|Neu):\ ?\n?
+                New:\ ?\n?
                     ((['"`]{1,3})
                         ([\s\S]*?)
                     \5)"""
@@ -60,12 +60,7 @@ class TextChange():
 
 
     def apply_highlight(self, sheet: Sheet):
-        # original = open("/home/siegel/manuscript/99_thoughttree.tex").read()
-        # old = open("/home/siegel/manuscript/a.txt").read()
-        # new = open("/home/siegel/manuscript/b.txt").read()
 
-        # sheet.insert(start, original)
-        print(f'"{self.replacements=}"')
         for old, new in self.replacements.items():
             location = sheet.search(old, "1.0")
             if location:

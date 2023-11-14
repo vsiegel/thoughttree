@@ -1,0 +1,30 @@
+Ignore lines starting with "#".
+
+Each line defines a separate style. Use  the language of the style definition - "Be..." in English, "Sei..." Deutsch etc.
+
+# Entertaining styles:
+# Be stoned.
+# Be stoned in Ukrainian.
+# Sei ein Berliner.
+# Sei Norddeutsch
+# Sei langweilig.
+# Sei ein baby.
+Be boring.
+# Be formal.
+# Sei streng
+# Be terse.
+# Sei knapp.
+# Sei etwas förmlich.
+# Sei förmlich.
+# Sei zu förmlich.
+# Be overly polite.
+# Be sarcastic.
+# Be extremely cynically - funny.
+# Be royal.
+
+
+Translate the prompt in each of the styles that are not disabled by "#" , possibly a single style - or all, if all have a '#'.
+If it is a question, translate it, not answer it.
+Format:
+# Style
+Translation...

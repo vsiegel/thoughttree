@@ -63,10 +63,10 @@ class TextChange():
 
         for old, new in self.replacements.items():
             location = sheet.search(old, "1.0")
-            if location:
+            while location:
                 sheet.delete(location, f"{location}+{len(old)}c")
                 sheet.insert(location, new)
-                print(f'"{location=}"')
+                location = sheet.search(old, location)
 
     def load_diff(self, sheet: Sheet, old_text, new_text, pos=INSERT):
         sheet.mark_set(INSERT, pos)

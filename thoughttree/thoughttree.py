@@ -288,7 +288,7 @@ class Thoughttree(Ui):
                 self.set_up_replace_completion(sheet)
 
             history = self.history_from_system_and_chat(additional_message=hidden_prompt)
-            self.remove_hidden_prompt(sheet)
+            self.delete_hidden_prompt(sheet)
             self.model.counter.go()
 
             reason, message = self.completions(sheet, n, history)
@@ -355,9 +355,9 @@ class Thoughttree(Ui):
         sheet.hide(SEL_FIRST, conf.location_marker)
         sheet.hide(SEL_LAST,  conf.location_marker)
 
-    def remove_hidden_prompt(self, sheet):
-        sheet.remove_tag('hidden_prompt')
-        self.system.remove_tag('hidden_prompt')
+    def delete_hidden_prompt(self, sheet):
+        sheet.delete_tagged('hidden_prompt')
+        self.system.delete_tagged('hidden_prompt')
 
     @property
     def it(self) -> Sheet:

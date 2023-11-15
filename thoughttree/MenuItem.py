@@ -10,14 +10,14 @@ class MenuItem(tk.Frame):
         self.command = command
         self.active=False
 
-        args = {'bg': 'lightgray', 'anchor': 'w', 'font': ("Arial", 10), 'padx': 5, 'pady': 0, 'borderwidth': 2, 'relief': 'flat'}
+        args = {'bg': 'lightgray', 'anchor': 'w', 'font': ("Arial", 12), 'padx': 5, 'pady': 0, 'borderwidth': 2, 'relief': 'flat'}
         self.label = tk.Label(self, text=text, **args, underline=underline)
         self.key = tk.Label(self, text=keystroke, **args, foreground='gray')
         if text.startswith('C'):
             example_icon = "⇒"
         else:
             example_icon = " "
-        args = {**args, 'font': ("monospace", 10)}
+        args = {**args, 'font': ("monospace", 12)}
         self.demo = tk.Label(self, text=example_icon, **args, foreground='gray')
 
         self.label.pack(side='left', fill='x', expand=True)

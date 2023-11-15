@@ -192,7 +192,6 @@ class MainMenu(MenuBar):
                 if selected_text:
                     webbrowser.open_new_tab("https://www.google.com/search?q=" + selected_text)
 
-
         ui = self.ui
 
         sheet_menu = Menu(None, "(sheet context menu)")
@@ -239,6 +238,7 @@ class MainMenu(MenuBar):
         view.add_item("Show Tree", "<Alt-Shift-T>", ui.tree_pane.fold)
         view.add_item("Show Console", "<Alt-Shift-C>", ui.console_pane.fold)
         view.add_item("Show Status Bar", "<Alt-Shift-I>", ui.status_hider.hide)
+        view.add_item("Full Screen", "<F11>", ui.toggle_fullscreen)
         view.add_item("Update Window Title", "<Control-u>", ui.update_window_title)
         view.add_item("Update Tab Title", "<Control-Shift-B>", ui.chat_sheet.generate_title, menu2=sheet_menu)
         view.add_item("Model Usage", None, web("https://platform.openai.com/account/usage"))

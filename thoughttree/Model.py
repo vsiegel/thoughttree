@@ -45,14 +45,12 @@ class Model:
 
 
 
-    def complete(self, history, on_increment, max_tokens=None, temperature=None) -> Tuple[str, str]:
-        """:return: Tuple[str, str] - (finish_reason, message)"""
+    def complete(self, history, on_increment, max_tokens=None, temperature=None) -> Tuple[str, str, str]:
         max_tokens = max_tokens or self.max_tokens.get()
         temperature = temperature or self.temperature.get()
         self.is_canceled = False
         self.counter.go()
         self.counter.observe_prompt(history)
-        # History.log_history_compact(history)
         try:
             response = openai.ChatCompletion.create(
                 model=self.name,
@@ -63,14 +61,15 @@ class Model:
                 request_timeout=5 # undocumented #todo
             )
         except Exception as ex:
-            return self.error("", "Error in openai.ChatCompletion.create()", ex)
+            return self.error("", "Error in openai.ChatCompletion.create()", ex) + ("",)
 
         last_event = None
+        answer = ""
         try:
             texts = []
             for event in response :
                 if self.is_canceled:
-                    return 'canceled', ""
+                    return 'canceled', "", ""
                 delta = event['choices'][0]['delta']
                 if 'content' in delta :
                     text = delta["content"]
@@ -79,17 +78,15 @@ class Model:
                     self.log(text)
                     texts.append(text)
                 last_event = event
-            full_text = "".join(texts)
-            # print(f"result: {shorter(full_text, 120)} {log_len(full_text, 120)}")
-
+            answer = "".join(texts)
             if self.is_canceled:
                 finish_reason = 'canceled'
             else:
                 finish_reason = last_event['choices'][0]['finish_reason']
             self.log(f"\n{last_event['model']}: {finish_reason}\n")
-            return finish_reason, last_event['model']
+            return finish_reason, last_event['model'], answer
         except Exception as ex:
-            return self.error(f"{last_event=}", "Error receiving completion response", ex)
+            return self.error(f"{last_event=}", "Error receiving completion response", ex) + (answer,)
 
 
     def error(self, message, title, ex):

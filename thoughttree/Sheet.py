@@ -61,22 +61,20 @@ class Sheet(ScrolledText, LineHandling):
 
 
     def run_code_block(self, event=None):
-
         code_block_pattern = """('{3}|"{3}|```)python.*\n([\s\S]*?)\\1"""
         code_block_start_pattern =  '("""|' + """'''|```)python.*\n"""
         start = self.search(code_block_start_pattern, INSERT, regexp=True, backwards=True)
         if start:
-            print(f"{start=}")
+            # print(f"{start=}")
             text = self.get(start, END)
             m = re.search(code_block_pattern, text)
-            print(f"{m=}")
-            print(f"'{text=}'")
+            # print(f"{m=}")
+            # print(f"'{text=}'")
             if m:
                 code = m.group(2)
-                print(f'Running "{code[:30]=}"')
+                # print(f'Running "{code[:30]=}"')
                 names = dict()
                 exec(code, names, names)
-
 
     def find(self, pattern=None, start=INSERT):
         if self.tag_ranges(SEL):
@@ -155,15 +153,10 @@ class Sheet(ScrolledText, LineHandling):
     def delete_tagged(self, tag):
         def pairwise(l):
             return list(zip(l[::2], l[1::2]))
-        print(f"{self.tag_ranges(tag)}=")
         for span in reversed(pairwise(self.tag_ranges(tag))):
-            print(f"+{self.get(*span)=}")
-            print(f"+{len(self.get('1.0', 'end'))=}")
             self.delete(*span)
             self.insert(span[0], " ")
             self.edit_undo()
-            print(f"-{self.get(*span)=}")
-            print(f"-{len(self.get('1.0', 'end'))=}")
 
     def toggle_tag(self, tag):
         def min_index(i1, i2):

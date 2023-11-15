@@ -176,9 +176,10 @@ class Thoughttree(Ui):
         InitialSheetHelp(self.chat_sheet.forkable_sheet, *sheet_help("User prompt - Chat - [?]"))
 
     def configure_ui_options(self):
-        self.option_add('*Dialog*Font', ("sans-serif", 10))
-        self.option_add('*Menu*Font', ("Arial", 10))
-        self.option_add('*Font', ("Arial", 10))
+        size = 12
+        self.option_add('*Dialog*Font', ("sans-serif", size))
+        self.option_add('*Menu*Font', ("Arial", size))
+        self.option_add('*Font', ("Arial", size))
         if not conf.blinking_caret:
             self.option_add('*Text*insertOffTime', '0')
 

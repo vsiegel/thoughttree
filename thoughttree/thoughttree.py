@@ -244,7 +244,7 @@ class Thoughttree(Ui):
         try :
             text = sheet.get(SEL_FIRST, SEL_LAST)
         except tk.TclError :
-            text = sheet.get(1.0, END)
+            text = sheet.get(1.0, 'end-1c')
         old_status = self.status.message
         self.status.message = "Counting tokens (loading model)..."
         self.status.update()

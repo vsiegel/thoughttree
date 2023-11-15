@@ -104,7 +104,7 @@ class Sheet(ScrolledText, LineHandling):
 
 
     def transfer_content(self, to_sheet):
-        content = self.get("1.0", tk.END)
+        content = self.get("1.0", 'end-1c')
         to_sheet.insert("1.0", content)
 
         for tag in self.tag_names():

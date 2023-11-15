@@ -292,7 +292,9 @@ class Thoughttree(Ui):
             self.delete_hidden_prompt(sheet)
             self.model.counter.go()
 
-            reason, message = self.completions(sheet, n, history)
+            reason, message, answer = self.completions(sheet, n, history)
+            if self.log_messages_to_console:
+                print(f'Answer:\n"{answer}"')
 
             self.finish_completion(sheet, reason, message, postfix, inline)
             self.post_completion_tasks(start_time)

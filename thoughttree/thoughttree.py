@@ -444,13 +444,13 @@ class Thoughttree(Ui):
 
             if alternatives_frame:
                 label = AlternativeLabel(alternatives_frame, sheet)
-                reason, message = self.model.complete(history, lambda text: write_label(text, label))
-            else:
-                with InsertionIcon(sheet, OUTPUT):
-                    reason, message = self.model.complete(history, lambda text: write_sheet(text, sheet))
+                reason, message, answer = self.model.complete(history, lambda text: write_label(text, label))
+        else:
+            with InsertionIcon(sheet, OUTPUT):
+                reason, message, answer = self.model.complete(history, lambda text: write_sheet(text, sheet))
 
         sheet.mark_set("completion_end", OUTPUT)
-        return reason, message
+        return reason, message, answer
 
 
 

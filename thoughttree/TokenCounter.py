@@ -1,4 +1,5 @@
 import re
+import sys
 
 import tiktoken
 
@@ -90,6 +91,6 @@ class TokenCounter:
     def summary(self):
         return self.summary_since_go() + "\n" + self.summary_total()
 
-    def summarize(self, title=""):
-        title and print(title)
-        print(self.summary())
+    def summarize(self, title="", out=sys.stdout):
+        title and print(title, file=out)
+        print(self.summary(), file=out)

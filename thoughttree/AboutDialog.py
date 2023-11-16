@@ -12,7 +12,7 @@ class AboutDialog(tk.Toplevel):
         super().__init__(parent)
 
         self.focus_set()
-        self.grab_set()
+        # self.grab_set()
         self.transient(parent)
         self.title("About Thoughttree")
 

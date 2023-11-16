@@ -305,6 +305,10 @@ class Thoughttree(Ui):
 
         self.it.window_create(INSERT, window=question_box, stretch=1)
 
+    def improve(self, event=None):
+        pass
+
+
     def set_up_insert_completion(self, sheet, specific=""):
         inline_completion_marker = dedent(
             f"""

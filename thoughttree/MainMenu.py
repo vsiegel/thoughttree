@@ -296,6 +296,7 @@ class MainMenu(MenuBar):
         prompt = self.submenu("Prompt")
         prompt.add_item("Solve this Problem", "<Alt-Return>", None, menu2=sheet_menu)
         prompt.add_item("Ask About This", "<Control-Shift-A>", ui.ask, menu2=sheet_menu)
+        prompt.add_item("Improve", "<Control-I>", ui.improve, menu2=sheet_menu)
         prompt.add_item("Remove from Text")
         prompt.add_item("Select Text")
         prompt.add_item("Change Text")

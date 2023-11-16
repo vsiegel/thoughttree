@@ -55,13 +55,11 @@ class History(list):
         for message in self:
             content = message['content']
             print(f"{message['role']}: \"{shorter(content, 120)}\" {log_len(content, 120)}")
-        print()
 
 
     def log(self):
         for message in self:
-            print(f'{History.ROLE_SYMBOLS[message["role"]]}{message["role"]}: \n"{message["content"]}"')
-        print()
+            print(f'{History.ROLE_SYMBOLS[message["role"]]}{message["role"]}:\n"{message["content"]}"')
 
 
     def __add__(self, other):

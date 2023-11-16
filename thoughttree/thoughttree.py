@@ -485,7 +485,7 @@ class Thoughttree(Ui):
             if datetime.now().timestamp() - start_time.timestamp() > conf.ring_bell_only_after:
                 self.bell()
 
-        self.model.counter.summarize("Completion cost:")
+        self.model.counter.summarize("Completion cost:", self.console.tagged_out("cost"))
 
         if conf.update_title_after_completion and not self.model.is_canceled:
             self.update_window_title()

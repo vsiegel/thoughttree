@@ -178,7 +178,7 @@ class ForkableSheet(Sheet):
             elif ("tagoff", "assistant") == (designation, text):
                 history.message(role, content)
                 role, content = "user", ""
-            elif designation in ["tagon", "tagoff"] and text in ["cursorline", "sel"]:
+            elif designation in ["tagon", "tagoff"] and (text in ["cursorline", "sel"] or text.startswith('model')):
                 pass
             elif designation == "text":
                 content += text

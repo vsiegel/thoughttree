@@ -268,6 +268,10 @@ class Thoughttree(Ui):
     def chat(self, n=1, prefix="", postfix="", inline=False, insert=False, replace=False, location=False, hidden_prompt=None):
         inline = inline or insert or replace
         self.model.is_canceled = False
+        if self.it == self.system:
+            print(f"{self.it=}")
+            self.system.tk_focusNext().focus()
+
         sheet = self.it
         sheet.tag_remove('cursorline', 1.0, "end")
 

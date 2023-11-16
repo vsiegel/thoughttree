@@ -12,8 +12,7 @@ class WindowsMenu(Menu):
 
     def populate_menu(self):
         # self.delete(0, tk.END)
-        for ui in Ui.current_open_uis:
-            # self.item(ui.root.title(), None, lambda e=None, ui=ui: ui.toTop(), check_help=False)
-            item = MenuItem(self.popup, self, ui.root.title(), lambda e=None, ui=ui: ui.toTop(), "tooltip", -1)
+        for open in Ui.current_open_uis:
+            item = MenuItem(self.popup, self, open.root.title(), keystroke="", command=lambda e=None, ui=open: ui.toTop())
             item.pack(fill='x')
             self.menu_items.append(item)

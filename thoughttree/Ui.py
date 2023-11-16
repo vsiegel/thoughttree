@@ -50,6 +50,11 @@ class Ui(tk.Frame):
         self.root.attributes("-topmost", True)
         self.root.attributes("-topmost", False)
 
+    def toggle_fullscreen(self, event=None):
+        if self.root.attributes("-fullscreen"):
+            self.root.attributes("-fullscreen", False)
+        else:
+            self.root.attributes("-fullscreen", True)
 
     def close(self, event=None):
         if self.main_window and len(Ui.current_open_uis) > 1:

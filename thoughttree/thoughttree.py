@@ -289,6 +289,8 @@ class Thoughttree(Ui):
                 self.set_up_replace_completion(sheet)
 
             history = self.history_from_system_and_chat(additional_message=hidden_prompt)
+            if self.log_messages_to_console:
+                history.log()
             self.delete_hidden_prompt(sheet)
             self.model.counter.go()
 
@@ -369,7 +371,6 @@ class Thoughttree(Ui):
     @property
     def it(self) -> Sheet:
         focussed = self.focus_get()
-        print()
         if isinstance(focussed, Sheet):
             self.current_sheet = focussed
         return self.current_sheet

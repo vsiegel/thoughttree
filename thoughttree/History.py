@@ -9,8 +9,8 @@ from tools import shorter, log_len
 #         return f"l(l-s: {super().__str__()})"
 
 class History(list):
-    # ROLE_SYMBOLS = {"user":"⌨ ", "assistant":"💻️ ", "system":"⚙ ", "function":"📊 "} # 🗣
-    ROLE_SYMBOLS = {"user": "", "assistant": "", "system": "", "function": ""}
+    ROLE_SYMBOLS = {"user":"🅰️ ", "assistant":"💻️ ", "system":"⚙ ", "function":"📊 "} # 🗣⌨
+    # ROLE_SYMBOLS = {"user": "", "assistant": "", "system": "", "function": ""}
 
 
     def __init__(self, system="", message=""):

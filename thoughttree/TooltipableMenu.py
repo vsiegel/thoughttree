@@ -13,7 +13,7 @@ class TooltipableMenu(tk.Frame):
     def __init__(self, parent, text, **kw):
         super().__init__(parent, bg='lightgray')
         self.parent = parent
-        self.label = tk.Label(self, text=text, font=("Arial", 10), bg='lightgray', padx=6, pady=5)
+        self.label = tk.Label(self, text=text, font=("Arial", 12), bg='lightgray', padx=6, pady=5)
         self.label.bind("<Enter>", self.keep_open, add=True)
         self.label.bind("<Leave>", self.on_leave, add=True)
         self.label.bind("<Button-1>", self.toggle_open, add=True)

@@ -434,19 +434,17 @@ class Thoughttree(Ui):
             self.scroll(sheet)
 
 
-        for i in range(n):
-            if self.model.is_canceled:
-                reason = "canceled"
-                break
-            if n > 1 and i == 0:
+        if n > 1:
+            for i in range(n):
+                if self.model.is_canceled:
+                    reason = "canceled"
+                    break
                 alternatives_frame = tk.Frame(sheet, borderwidth=4, relief=GROOVE)
                 title = tk.Label(alternatives_frame, text=f"Alternatives ({n})")
                 title.pack(side=tk.TOP, anchor=tk.W)
                 sheet.insert(OUTPUT, "\n")
                 sheet.window_create(OUTPUT, window=alternatives_frame)
                 sheet.see(OUTPUT)
-
-            if alternatives_frame:
                 label = AlternativeLabel(alternatives_frame, sheet)
                 reason, message, answer = self.model.complete(history, lambda text: write_label(text, label))
         else:

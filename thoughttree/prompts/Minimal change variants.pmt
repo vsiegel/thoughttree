@@ -1,0 +1,11 @@
+Propose a small change that makes the text better. Solve just one individual issue. A minimal change.
+Specify it as a replacement, as
+
+Old: "..."
+New: "..."
+New: "..."
+...
+
+Make a minimal replacement, not whole sentences. It is used as a text replacement, on character level.
+Give one "old" and multiple, as many as possible replacements if possible.
+Try at least 6.

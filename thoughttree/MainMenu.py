@@ -10,7 +10,7 @@ from Files import Files
 from Fonts import Fonts
 from ForkableSheet import ForkableSheet
 # from Imports import Menu, ModelsMenu, WindowsMenu
-from Menu import Menu
+from TooltipableMenu import TooltipableMenu
 from ModelsMenu import ModelsMenu
 from WindowsMenu import WindowsMenu
 from InsertionIcon import InsertionIcon
@@ -194,7 +194,7 @@ class MainMenu(MenuBar):
 
         ui = self.ui
 
-        sheet_menu = Menu(None, "(sheet context menu)")
+        context = TooltipableMenu(None, "(sheet context menu)")
 
         file = self.submenu("File")
         file.add_item("New Window", "<Control-n>", new_window)
@@ -206,7 +206,7 @@ class MainMenu(MenuBar):
         file.add_item("Save Chat", "<Control-Shift-C>", save_chat)
         file.add_item("Save Message", "<Control-Shift-S>", save_section)
         file.add_item("Save Selection", "<Alt-S>", save_selection)
-        file.add_item("Save Code Block", "<Control-Alt-s>", save_code_block, menu2=sheet_menu)
+        file.add_item("Save Code Block", "<Control-Alt-s>", save_code_block, menu2=context)
         file.add_separator()
         file.add_item("Close Tab", "<Control-w>", close_tab, add=False)
         file.add_item("Close Empty Tab", "<BackSpace>", lambda e=None: self.it.close_empty_tab_or_backspace(e), add=False)
@@ -215,15 +215,15 @@ class MainMenu(MenuBar):
 
 
         edit = self.submenu("Edit")
-        edit.add_item("Undo", "<Control-z>", edit_undo, menu2=sheet_menu)
-        edit.add_item("Redo", "<Control-Shift-Z>", edit_redo, menu2=sheet_menu)
+        edit.add_item("Undo", "<Control-z>", edit_undo, menu2=context)
+        edit.add_item("Redo", "<Control-Shift-Z>", edit_redo, menu2=context)
         edit.add_separator()
-        edit.add_item("Cut", "<Control-x>", lambda e=None: self.it.event_generate("<<Cut>>"), menu2=sheet_menu)
-        edit.add_item("Copy", "<Control-c>", lambda e=None: self.it.event_generate("<<Copy>>"), menu2=sheet_menu)
-        edit.add_item("Paste", "<Control-v>", lambda e=None: self.it.event_generate('<<Paste>>'), menu2=sheet_menu)
-        edit.add_item("Select All", "<Control-a>", lambda e=None: self.it.event_generate('<<SelectAll>>'), menu2=sheet_menu)
-        edit.add_item("Select Message", "<Control-a>", select_message, menu2=sheet_menu)
-        edit.add_item("Select Block", "<Control-a>", select_code_block, menu2=sheet_menu)
+        edit.add_item("Cut", "<Control-x>", lambda e=None: self.it.event_generate("<<Cut>>"), menu2=context)
+        edit.add_item("Copy", "<Control-c>", lambda e=None: self.it.event_generate("<<Copy>>"), menu2=context)
+        edit.add_item("Paste", "<Control-v>", lambda e=None: self.it.event_generate('<<Paste>>'), menu2=context)
+        edit.add_item("Select All", "<Control-a>", lambda e=None: self.it.event_generate('<<SelectAll>>'), menu2=context)
+        edit.add_item("Select Message", "<Control-a>", select_message, menu2=context)
+        edit.add_item("Select Block", "<Control-a>", select_code_block, menu2=context)
         edit.add_separator()
         edit.add_item("Find", "<Control-f>", lambda e=None: self.it.find())
         edit.add_item("Find Next", "<Control-g>", lambda e=None: self.it.find_next())
@@ -240,7 +240,7 @@ class MainMenu(MenuBar):
         view.add_item("Show Status Bar", "<Alt-Shift-I>", ui.status_hider.hide)
         view.add_item("Full Screen", "<F11>", ui.toggle_fullscreen)
         view.add_item("Update Window Title", "<Control-u>", ui.update_window_title)
-        view.add_item("Update Tab Title", "<Control-Shift-B>", ui.chat_sheet.generate_title, menu2=sheet_menu)
+        view.add_item("Update Tab Title", "<Control-Shift-B>", ui.chat_sheet.generate_title, menu2=context)
         view.add_item("Model Usage", None, web("https://platform.openai.com/account/usage"))
         view.add_separator()
         view.add_item("Increase Font Size", "<Control-plus>", lambda e=None: font_size(1))
@@ -269,21 +269,21 @@ class MainMenu(MenuBar):
         navigate.add_item("Next Tab", "<Control-Tab>", None)
         navigate.add_item("Previous Tab", "<Control-Shift-Tab>", None)
         navigate.add_separator()
-        navigate.add_item("Search with Google", "<Control-Alt-g>", search_web, menu2=sheet_menu)
-        sheet_menu.add_separator()
+        navigate.add_item("Search with Google", "<Control-Alt-g>", search_web, menu2=context)
+        context.add_separator()
 
         chat = self.submenu("Chat")
         chat.add_item("Continue Line", "<Control-space>", lambda e=None: ui.chat(inline=True))
         chat.add_item("Next Line", "<Shift-Return>", lambda e=None: ui.chat(1, "\n", "\n\n"))
         chat.add_item("Next Paragraph", "<Control-Return>", lambda e=None: ui.chat(1, "", "\n"))
-        chat.add_item("Insert Completion", "<Control-Alt-space>", lambda e=None: ui.chat(insert=True), menu2=sheet_menu)
-        chat.add_item("Replace by Completion", "<Control-Shift-space>", lambda e=None: ui.chat(replace=True), menu2=sheet_menu)
+        chat.add_item("Insert Completion", "<Control-Alt-space>", lambda e=None: ui.chat(insert=True), menu2=context)
+        chat.add_item("Replace by Completion", "<Control-Shift-space>", lambda e=None: ui.chat(replace=True), menu2=context)
         chat.add_item("Refer to cursor location", "<Control-Alt-o>", lambda e=None: ui.chat(1, "\n\n", "\n", location=True))
         chat.add_item("Fork Conversation", "<Control-Alt-F>", lambda e=None: self.it.fork())
         chat.add_item("Complete in Branch", "<Control-Shift-Return>", lambda e=None: branch())
         chat.add_item("Complete Alternatives", "<Alt-Shift-Return>", lambda e=None: ui.chat(-1, "\n"))
         chat.add_separator()
-        sheet_menu.add_separator()
+        context.add_separator()
         chat.add_item("Complete 3 Times", "<Control-Alt-Key-3>", lambda e=None: ui.chat(3), add=True)
         [self.bind_class("Text", f"<Control-Alt-Key-{digit}>", lambda e=None, i=digit: ui.chat(i)) for digit in [2, 4, 5, 6, 7, 8, 9]]
         chat.add_item("Complete Multiple...", "<Control-Shift-M>", lambda e=None: ui.chat(0))
@@ -294,9 +294,9 @@ class MainMenu(MenuBar):
 
 
         prompt = self.submenu("Prompt")
-        prompt.add_item("Solve this Problem", "<Alt-Return>", None, menu2=sheet_menu)
-        prompt.add_item("Ask About This", "<Control-Shift-A>", ui.ask, menu2=sheet_menu)
-        prompt.add_item("Improve", "<Control-I>", ui.improve, menu2=sheet_menu)
+        prompt.add_item("Solve this Problem", "<Alt-Return>", None, menu2=context)
+        prompt.add_item("Ask About This", "<Control-Shift-A>", ui.ask, menu2=context)
+        prompt.add_item("Improve", "<Control-I>", ui.improve, menu2=context)
         prompt.add_item("Remove from Text")
         prompt.add_item("Select Text")
         prompt.add_item("Change Text")
@@ -322,7 +322,7 @@ class MainMenu(MenuBar):
 
         text = self.submenu("Text")
         text.add_item("Count Tokens", "<Control-Alt-m>", ui.count_text_tokens)
-        text.add_item("Run Code Block", "<Control-Shift-R>", lambda e=None: self.it.run_code_block(), menu2=sheet_menu)
+        text.add_item("Run Code Block", "<Control-Shift-R>", lambda e=None: self.it.run_code_block(), menu2=context)
         text.add_separator()
         text.add_item('Role "system"', None, lambda e=None: self.it.role("system"))
         text.add_item('Role "user"', None, lambda e=None: self.it.role("user"))
@@ -334,12 +334,9 @@ class MainMenu(MenuBar):
         format_menu.add_item("Bold", "<Control-b>", lambda e=None: self.it.toggle_tag("bold"))
         format_menu.add_item("Strikethrough", "<Control-d>", lambda e=None: self.it.toggle_tag("strikethrough"))
 
-
         self.models_menu = self.add_menu(ModelsMenu(self, ui, "Models"))
 
-
         self.add_menu(WindowsMenu(self, "Windows"))
-
 
         help_menu = self.submenu("Help")
         help_menu.add_item("Introduction", "<Shift-F1>", None)
@@ -354,8 +351,8 @@ class MainMenu(MenuBar):
         ui.bind_class("Text", "<Control-Button-4>", lambda e=None: font_size(1))
         ui.bind_class("Text", "<Control-Button-5>", lambda e=None: font_size(-1))
 
-        ui.bind_class("Text", "<Button-3>", sheet_menu.show_context_menu)
-        ui.bind_class("Text", "<Menu>", sheet_menu.show_context_menu)
+        ui.bind_class("Text", "<Button-3>", context.show_context_menu)
+        ui.bind_class("Text", "<Menu>", context.show_context_menu)
         ui.bind_class("Text", "<Tab>", lambda e=None: e.widget.tk_focusNext())
 
 

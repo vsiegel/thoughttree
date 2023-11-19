@@ -17,8 +17,8 @@ class MenuBar(tk.Frame):
         return menu
 
     def submenu(self, label):
-        from Menu import Menu
-        menu = Menu(self, label)
+        from TooltipableMenu import TooltipableMenu
+        menu = TooltipableMenu(self, label)
         return self.add_menu(menu)
 
     def close_other_menus(self, this) -> bool:

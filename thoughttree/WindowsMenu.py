@@ -1,12 +1,12 @@
 import tkinter as tk
 
-from Menu import Menu
+from TooltipableMenu import TooltipableMenu
 from MenuItem import MenuItem
 from Ui import Ui
 from menu_help_texts import menu_help
 
 
-class WindowsMenu(Menu):
+class WindowsMenu(TooltipableMenu):
     def __init__(self, parent, label):
         super().__init__(parent, label, menu_help=None)
 

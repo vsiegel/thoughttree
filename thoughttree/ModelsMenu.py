@@ -1,11 +1,11 @@
 import tkinter as tk
 
-from Menu import Menu
+from TooltipableMenu import TooltipableMenu
 from Model import Model
 from menu_help_texts import menu_help
 
 
-class ModelsMenu(Menu):
+class ModelsMenu(TooltipableMenu):
     def __init__(self, parent, thoughttree, label):
         super().__init__(parent, label, menu_help=menu_help)
         self.ui = thoughttree

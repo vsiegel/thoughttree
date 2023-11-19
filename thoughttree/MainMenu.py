@@ -306,9 +306,9 @@ class MainMenu(MenuBar):
         prompt.add_item("Insert Emoji")
         prompt.add_item("Iterate over Range", "<Control-Alt-I>", lambda e=None: IterateRangeForm(self.it))
         prompt.add_separator()
-        prompt.add_item('Prompt "ok"', "<Control-Alt-K>", lambda e=None: ui.chat(hidden_prompt="ok"))
-        prompt.add_item('Prompt "next"', "<Control-Alt-N>", lambda e=None: ui.chat(hidden_prompt="next"))
-        prompt.add_item('Prompt "continue"', "<Control-Alt-U>", lambda e=None: ui.chat(hidden_prompt="continue"))
+        prompt.add_item('Prompt "ok"', "<Control-Alt-K>", lambda e=None: ui.chat(hidden_command="ok"))
+        prompt.add_item('Prompt "next"', "<Control-Alt-N>", lambda e=None: ui.chat(hidden_command="next"))
+        prompt.add_item('Prompt "continue"', "<Control-Alt-U>", lambda e=None: ui.chat(hidden_command="continue"))
 
 
         query = self.submenu("Query")

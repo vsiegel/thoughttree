@@ -1,5 +1,5 @@
 from tools import shorter, log_len
-
+import tkinter as tk
 
 # class History(list):
 #     __init__ = list.__init__
@@ -13,7 +13,7 @@ class History(list):
     # ROLE_SYMBOLS = {"user": "", "assistant": "", "system": "", "function": ""}
 
 
-    def __init__(self, system="", message=""):
+    def __init__(self, text=None, system="", assistant="", user=""):
         super().__init__()
         self.first_system = None
         self.last = None

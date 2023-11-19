@@ -9,7 +9,6 @@ from tkinter import simpledialog
 from tkinter.messagebox import showinfo
 
 from configargparse import Namespace
-
 from Console import Console
 from FinishReasonIcon import FinishReasonIcon
 from FoldablePane import FoldablePane
@@ -265,7 +264,7 @@ class Thoughttree(Ui):
         return "break"
 
 
-    def chat(self, n=1, prefix="", postfix="", inline=False, insert=False, replace=False, location=False, hidden_prompt=None):
+    def chat(self, n=1, prefix="", postfix="", inline=False, insert=False, replace=False, location=False, hidden_command=None):
         inline = inline or insert or replace
         self.model.is_canceled = False
         if self.it == self.system:
@@ -292,7 +291,7 @@ class Thoughttree(Ui):
             elif replace:
                 self.set_up_replace_completion(sheet)
 
-            history = self.history_from_system_and_chat(additional_message=hidden_prompt)
+            history = self.history_from_system_and_chat(additional_message=hidden_command)
             if self.log_messages_to_console:
                 history.log()
             self.delete_hidden_prompt(sheet)
@@ -316,7 +315,7 @@ class Thoughttree(Ui):
 
 
     def set_up_insert_completion(self, sheet, specific=""):
-        inline_completion_marker = dedent(
+        insertion_prompt = dedent(
             f"""
             Do an insertion completion:
             Complete assuming the insertion cursor for the text is at the character "{conf.location_marker}".
@@ -332,11 +331,11 @@ class Thoughttree(Ui):
             Make sure there is no repetition.The inserted text should not be the same as the text after the insertion.
             {specific}
             """)
-        self.system.hide(END, inline_completion_marker)
+        self.system.hide(END, insertion_prompt)
         sheet.hide(INSERT, conf.location_marker)
 
     def set_up_location_reference(self, sheet, specific=""):
-        inline_completion_marker = dedent(
+        location_reference_prompt = dedent(
             f"""
             When the prompt refers to a location or marker in the text, it is the position of "{conf.location_marker}".
             Do not refer to that character in the output.
@@ -345,12 +344,12 @@ class Thoughttree(Ui):
             Never literally mention the marker, it is automatically hidden from the user.
             {specific}
             """)
-        self.system.hide(END, inline_completion_marker)
+        self.system.hide(END, location_reference_prompt)
         sheet.hide(INSERT, conf.location_marker)
 
 
     def set_up_replace_completion(self, sheet):
-        replace_completion_marker = dedent(
+        replacement_prompt = dedent(
             f"""
             Do an replacement completion:The output will replace the users text selection, which is 
             the part of text between the two "{conf.location_marker}". 
@@ -364,7 +363,7 @@ class Thoughttree(Ui):
             The markers themselves will be removed.
             Take care to add the right amount of spaces after the start marker and before the end marker.
             """)
-        self.system.hide(END, replace_completion_marker)
+        self.system.hide(END, replacement_prompt)
         sheet.hide(SEL_FIRST, conf.location_marker)
         sheet.hide(SEL_LAST,  conf.location_marker)
 

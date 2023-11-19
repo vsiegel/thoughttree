@@ -1,6 +1,8 @@
 Propose a small change that makes the text better. Solve just one individual issue. A minimal change.
-Specify it as a replacement, as
+Specify it as a replacement with the place in the text it is at, and an abstract description of the change, as
 
+Place:
+Description:
 Old: "..."
 New: "..."
 

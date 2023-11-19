@@ -19,8 +19,35 @@ class History(list):
         self.last = None
         if system:
             self.system(system)
-        if message:
-            self.user(message)
+        if isinstance(text, tk.Text):
+            items = text.dump(1.0, "end-1c", text=True, tag=True, window=True)
+            content = ""
+            role = "user"
+            for item in items:
+                text = item[1]
+                designation = item[0]
+                if ("tagon", "assistant") == (designation, text):
+                    self.message(role, content)
+                    role, content = "assistant", ""
+                elif ("tagoff", "assistant") == (designation, text):
+                    self.message(role, content)
+                    role, content = "user", ""
+                    print(f"content: '{content}'")
+                elif designation in ["tagon", "tagoff"] and (text in ["cursorline", "sel"] or text.startswith('model')):
+                    pass
+                elif designation == "text":
+                    content += text
+                elif designation == "window":
+                    pass
+                else:
+                    print(f"Ignored item: {item}")
+            self.message(role, content)
+        elif text:
+            self.user(str(text))
+        if assistant:
+            self.assistant(assistant)
+        if user:
+            self.user(user)
 
 
     def message(self, role, content):

@@ -147,13 +147,6 @@ class ForkableSheet(Sheet):
             return []
         return self.child_notebook.child_sheets()
 
-    # def winfo_reqheight(self):
-    #     reqheight = self.count("1.0", "end lineend", 'ypixels')[0]
-    #
-    #     if self.child_notebook:
-    #         reqheight += self.child_notebook.winfo_reqheight()
-    #     return reqheight
-
 
     def history_from_path(self, history=None) :
         if self.parent_sheet:
@@ -161,33 +154,7 @@ class ForkableSheet(Sheet):
         else:
             history = history or History()
 
-        return history + self.as_history()
-
-
-    def as_history(self):
-        history = History()
-        items = self.dump(1.0, END, text=True, tag=True, window=True)
-        content = ""
-        role = "user"
-        for item in items:
-            text = item[1]
-            designation = item[0]
-            if ("tagon", "assistant") == (designation, text):
-                history.message(role, content)
-                role, content = "assistant", ""
-            elif ("tagoff", "assistant") == (designation, text):
-                history.message(role, content)
-                role, content = "user", ""
-            elif designation in ["tagon", "tagoff"] and (text in ["cursorline", "sel"] or text.startswith('model')):
-                pass
-            elif designation == "text":
-                content += text
-            elif designation == "window":
-                pass
-            else:
-                print(f"Ignored item: {item}")
-        history.message(role, content)
-        return history
+        return history + History(self)
 
 
     def close_tab(self):

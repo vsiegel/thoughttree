@@ -67,6 +67,11 @@ class TextChange():
                 sheet.insert(location, new)
                 location = sheet.search(old, location)
 
+    def __str__(self):
+        # return f"{self.title=}\n{self.description=}\n{self.attributes=}\n{self.replacements=}"
+        return f"{self.replacements}"
+
+
     def load_diff(self, sheet: Sheet, old_text, new_text, pos=INSERT):
         sheet.mark_set(INSERT, pos)
         sheet.delete(pos, f"{pos}+{len(old_text)}c")

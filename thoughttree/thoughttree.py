@@ -18,6 +18,7 @@ from InsertionIcon import InsertionIcon
 from Keys import Keys
 from SheetTree import SheetTree
 from InitialSheetHelp import InitialSheetHelp
+from TextDifference import TextDifference
 from TextIOTee import TextIOTee
 from Title import Title
 from HidableFrame import HidableFrame
@@ -272,7 +273,6 @@ class Thoughttree(Ui):
             self.system.tk_focusNext().focus()
 
         sheet = self.it
-        sheet.tag_remove('cursorline', 1.0, "end")
 
         n = self.find_number_of_completions(n)
         if n is None:
@@ -297,7 +297,7 @@ class Thoughttree(Ui):
             self.delete_hidden_prompt(sheet)
             self.model.counter.go()
 
-            reason, message, answer = self.completions(sheet, n, history)
+            reason, message, answer = self.completions(sheet, history, n)
             if self.log_messages_to_console:
                 print(f'Answer:\n"{answer}"')
             self.model.counter.summarize("Completion cost:", self.console.tagged_out("cost"))
@@ -373,19 +373,6 @@ class Thoughttree(Ui):
         self.system.hide(END, insertion_prompt)
         sheet.hide(INSERT, conf.location_marker)
 
-    def set_up_location_reference(self, sheet, specific=""):
-        location_reference_prompt = dedent(
-            f"""
-            When the prompt refers to a location or marker in the text, it is the position of "{conf.location_marker}".
-            Do not refer to that character in the output.
-            Ignore the character for all other purposes.
-            For example, for a marker X and input "foo baXr baz", the word "here" is "bar" (not "baXr").
-            Never literally mention the marker, it is automatically hidden from the user.
-            {specific}
-            """)
-        self.system.hide(END, location_reference_prompt)
-        sheet.hide(INSERT, conf.location_marker)
-
 
     def set_up_replace_completion(self, sheet):
         replacement_prompt = dedent(
@@ -421,7 +408,7 @@ class Thoughttree(Ui):
     def scroll(self, sheet, to=OUTPUT):
         if self.scroll_output:
             sheet.see(to)
-        sheet.update() # todo: Needed?
+        sheet.update()
 
 
     def find_number_of_completions(self, n):
@@ -445,7 +432,7 @@ class Thoughttree(Ui):
             self.scroll(sheet)
 
 
-    def completions(self, sheet, n, history):
+    def completions(self, sheet, history, n=1):
         reason, message = 'unknown', ''
 
         # sheet.mark_set(OUTPUT, inline and INSERT or "end-2c")
@@ -535,9 +522,6 @@ class Thoughttree(Ui):
         system = self.system.get(1.0, 'end-1c').strip()
         history = History(system)
 
-        # if self.it == self.system:
-        #     print(f"{self.it=}")
-        #     self.system.tk_focusNext().focus()
         history = self.it.history_from_path(history)
 
         history.system(additional_system)

@@ -311,7 +311,45 @@ class Thoughttree(Ui):
         self.it.window_create(INSERT, window=question_box, stretch=1)
 
     def improve(self, event=None):
-        pass
+        self.set_up_location_reference()
+        improvement_prompt = dedent(
+            f"""
+            Propose a small change that makes the text better. Solve just one individual issue. A minimal change.
+            Specify it as a replacement, as
+            
+            Old: "..."
+            New: "..."
+            [followed by a newline]
+            
+            Make a replacement of minimal length, not of whole sentences. It is used as a text replacement, on character level.
+            Do not repeat previous results if they are present in the input.
+            """)
+        self.system.hide(END, improvement_prompt)
+        if self.it == self.system:
+            self.system.tk_focusNext().focus()
+        sheet = self.it
+
+        history = self.history_from_system_and_chat()
+        self.delete_hidden_prompt(sheet)
+        if self.log_messages_to_console:
+            history.log()
+        reason, message, answer = self.completions(sheet, history)
+        difference = TextDifference(answer)
+        print(f"{str(difference)=}")
+        self.tree.add_difference(difference)
+
+    def set_up_location_reference(self, sheet, specific=""):
+        location_reference_prompt = dedent(
+            f"""
+            When the prompt refers to a location or marker in the text, it is the position of "{conf.location_marker}".
+            Do not refer to that character in the output.
+            Ignore the character for all other purposes.
+            For example, for a marker X and input "foo baXr baz", the word "here" is "bar" (not "baXr").
+            Never literally mention the marker, it is automatically hidden from the user.
+            {specific}
+            """)
+        self.system.hide(END, location_reference_prompt)
+        sheet.hide(INSERT, conf.location_marker)
 
 
     def set_up_insert_completion(self, sheet, specific=""):

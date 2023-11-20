@@ -309,6 +309,10 @@ class MainMenu(MenuBar):
         prompt.add_item('Prompt "ok"', "<Control-Alt-K>", lambda e=None: ui.chat(hidden_command="ok"))
         prompt.add_item('Prompt "next"', "<Control-Alt-N>", lambda e=None: ui.chat(hidden_command="next"))
         prompt.add_item('Prompt "continue"', "<Control-Alt-U>", lambda e=None: ui.chat(hidden_command="continue"))
+        prompt.add_separator()
+        prompt.add_item("Automatically continue")
+        prompt.add_item("Continue until...")
+
 
 
         query = self.submenu("Query")

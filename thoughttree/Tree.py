@@ -1,9 +1,10 @@
 import tkinter as tk
 from tkinter import BOTH, DISABLED, END, HORIZONTAL, INSERT, LEFT, NO, SUNKEN, TOP, VERTICAL, W, WORD, X, SEL_FIRST, \
-    SEL_LAST
+    SEL_LAST, RIGHT
 from tkinter import font as tkfont
 from tkinter import ttk, simpledialog
 
+import TextDifference
 from Fonts import Fonts
 from Sheet import Sheet
 from TextChange import TextChange
@@ -18,47 +19,51 @@ class Tree(ttk.Treeview):
     def __init__(self, parent, *args, **kw):
         super().__init__(parent, columns=("C1", "C2"), *args, **kw) # show="tree",
 
-        def on_treeview_click(event):
-            item = tree.identify('item', event.x, event.y)
+        def on_tree_click(event):
+            item = self.tree.identify('item', event.x, event.y)
             if item:
-                if 'closed' in tree.item(item, 'tags'):
-                    replaced = tree.item(item, 'text').replace(NODE_CLOSED, NODE_OPEN, 1)
-                    tree.item(item, text=replaced)
-                    tree.item(item, tags='opened')
-                elif 'opened' in tree.item(item, 'tags'):
-                    tree.item(item, text=tree.item(item, 'text').replace(NODE_OPEN, NODE_CLOSED, 1))
-                    tree.item(item, tags='closed')
+                if 'closed' in self.tree.item(item, 'tags'):
+                    replaced = self.tree.item(item, 'text').replace(NODE_CLOSED, NODE_OPEN, 1)
+                    self.tree.item(item, text=replaced)
+                    self.tree.item(item, tags='opened')
+                elif 'opened' in self.tree.item(item, 'tags'):
+                    self.tree.item(item, text=self.tree.item(item, 'text').replace(NODE_OPEN, NODE_CLOSED, 1))
+                    self.tree.item(item, tags='closed')
 
-        # tree = ttk.Treeview(parent, columns=("C1"), show="tree")# why in parent?
-        tree = self
-        tree.column("#0", width=150, minwidth=10, anchor=W, stretch=NO)
-        tree.column("#1", width=50, minwidth=10, anchor=W, stretch=NO)
-        tree.heading("C1", text="")
-        # tree.bind('<Double-Button-1>', on_treeview_click)
-        # tree.bind("<Double-Button-1>", self.edit_tree_entry)
-        # tree.bind("<Return>", self.edit_tree_entry)
+        self.tree = ttk.Treeview(self, columns=("C1", "C2"), *args, **kw) # show="tree",
+        self.tree.pack(side=LEFT, fill=BOTH, expand=True)
+        self.tree.column("#0", width=150, minwidth=10, anchor=W, stretch=NO)
+        self.tree.column("#1", width=50, minwidth=10, anchor=W, stretch=NO)
+        self.tree.heading("C1", text="")
+        self.tree.bind('<Button-1>', on_tree_click)
+        # self.tree.bind("<Double-Button-1>", self.edit_tree_entry)
+        # self.tree.bind("<Return>", self.edit_tree_entry)
 
         # from tools import create_mock_data
-        # create_mock_data(tree)
+        # create_mock_data(self.tree)
+        self.tree.insert("", END, text="Changes", iid="Changes", open=True)
+        self.tree.insert("", END, text="Differences", iid="Differences", open=True)
+        self.sheet = Sheet(self)
+        self.sheet.pack(side=RIGHT, fill=BOTH, expand=True)
 
 
     def edit_tree_entry(self, event):
-        row_id = self.focus()
+        row_id = self.tree.focus()
         if not row_id:
             return
-        column = self.identify_column(event.x)
+        column = self.tree.identify_column(event.x)
         if column != "#1":  # Only allow editing the "Messages" column
             return
-        x, y, width, height = self.bbox(row_id, column)
+        x, y, width, height = self.tree.bbox(row_id, column)
         char_width = tkfont.Font(font=Fonts.FONT).measure('0')
         line_height = tkfont.Font(font=Fonts.FONT).metrics("linespace")
-        width = max(self.column(column)["width"], width)
+        width = max(self.tree.column(column)["width"], width)
         height = max(line_height, height)
 
-        cur_text = self.item(row_id, "values")[0]
+        cur_text = self.tree.item(row_id, "values")[0]
         w = width // char_width
         h = height // line_height
-        cell_editor = tk.Text(self, wrap=WORD, width=w, height=h, font=Fonts.FONT,
+        cell_editor = tk.Text(self.tree, wrap=WORD, width=w, height=h, font=Fonts.FONT,
                       highlightthickness=0, highlightbackground="black", padx=4, pady=0)
         cell_editor.insert(END, cur_text)
         cell_editor.place(x=x, y=y)
@@ -68,7 +73,7 @@ class Tree(ttk.Treeview):
             print(event.type)
             if event.type == tk.EventType.FocusOut or int(event.state) & 0x4 == 0 :  # Check if Control key is not pressed
                 text = cell_editor.get(1.0, END).strip()
-                self.set(row_id, column, text)
+                self.tree.set(row_id, column, text)
                 cell_editor.destroy()
 
         # cell_editor.bind("<FocusOut>", save_text)
@@ -78,22 +83,31 @@ class Tree(ttk.Treeview):
         # cell_editor.bind("<Control_L>", lambda e : "break")
 
     def add_change(self, change: TextChange):
-        self.insert("", END, text="Changes", iid="Changes")
-        title = self.insert("Changes", END, text=change.title)
-        iid = self.insert(title, END, text=change.description)
+        title = self.tree.insert("Changes", END, text=change.title, open=True)
+        iid = self.tree.insert(title, END, text=change.description, open=True)
         for attribute, value in change.attributes.items():
-            self.insert(title, END, text=attribute, values=[value])
+            self.tree.insert(title, END, text=attribute, values=[value])
         for old, new in change.replacements.items():
-            self.insert(title, END, text=old)
-            self.insert(title, END, text=new)
+            self.tree.insert(title, END, text=old)
+            self.tree.insert(title, END, text=new)
 
 
-def file(name):
-    with open(name) as f:
-        return f.read()
+    def add_difference(self, difference: TextDifference):
+        title = self.tree.insert("Differences", END, text="difference.title", open=True)
+        # iid = self.tree.insert(title, END, text=difference.description)
+        # for attribute, value in difference.attributes.items():
+        #     self.tree.insert(title, END, text=attribute, values=[value])
+        for old, new in difference.replacements.items():
+            self.tree.insert(title, END, text=old)
+            self.tree.insert(title, END, text=new)
+
 
 
 if __name__ == '__main__':
+    def file(name):
+        with open(name) as f:
+            return f.read()
+
     root = tk.Tk()
     tree = Tree(root)
     tree.pack(fill=BOTH, expand=1)

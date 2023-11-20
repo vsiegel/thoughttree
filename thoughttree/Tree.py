@@ -15,9 +15,10 @@ NODE_OPEN = '*'
 NODE_CLOSED = '|'
 
 
-class Tree(ttk.Treeview):
+class Tree(tk.Frame):
     def __init__(self, parent, *args, **kw):
-        super().__init__(parent, columns=("C1", "C2"), *args, **kw) # show="tree",
+        tk.Frame.__init__(self, parent, *args, **kw)
+        self.parent = parent
 
         def on_tree_click(event):
             item = self.tree.identify('item', event.x, event.y)

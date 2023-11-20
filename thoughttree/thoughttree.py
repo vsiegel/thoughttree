@@ -300,6 +300,7 @@ class Thoughttree(Ui):
             reason, message, answer = self.completions(sheet, n, history)
             if self.log_messages_to_console:
                 print(f'Answer:\n"{answer}"')
+            self.model.counter.summarize("Completion cost:", self.console.tagged_out("cost"))
 
             self.finish_completion(sheet, reason, message, postfix, inline)
             self.post_completion_tasks(start_time)

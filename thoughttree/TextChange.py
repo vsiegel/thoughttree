@@ -59,8 +59,7 @@ class TextChange():
                 self.replacements[old] = new
 
 
-    def apply_highlight(self, sheet: Sheet):
-
+    def apply(self, sheet: Sheet):
         for old, new in self.replacements.items():
             location = sheet.search(old, "1.0")
             while location:
@@ -105,7 +104,9 @@ New: 'h'
     s = Sheet(root)
     s.insert(INSERT, " aa c e g i")
     s.pack()
-    change.apply_highlight(s)
+    print(f"{change}")
+
+    change.apply(s)
 
     root.mainloop()
 

@@ -236,6 +236,7 @@ class MainMenu(MenuBar):
         view = self.submenu("View")
         view.add_item("Show System Prompt", "<Alt-Shift-S>", ui.system_pane.fold)
         view.add_item("Show Tree", "<Alt-Shift-T>", ui.tree_pane.fold)
+        view.add_item("Show Detail", "<Alt-Shift-D>", ui.detail_pane.fold)
         view.add_item("Show Console", "<Alt-Shift-C>", ui.console_pane.fold)
         view.add_item("Show Status Bar", "<Alt-Shift-I>", ui.status_hider.hide)
         view.add_item("Full Screen", "<F11>", ui.toggle_fullscreen)

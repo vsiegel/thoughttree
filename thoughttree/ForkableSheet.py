@@ -2,7 +2,6 @@ import sys
 import tkinter as tk
 from tkinter import X, BOTH, Y, INSERT, END, CURRENT, SEL
 
-from ForkFrame import ForkFrame
 from History import History
 from Notebook import Notebook
 from Sheet import Sheet
@@ -10,11 +9,16 @@ from Title import new_child_title, new_sibling_title, Title
 
 
 class ForkableSheet(Sheet):
-    def __init__(self, parent_frame, parent_sheet=None, parent_notebook=None, parent_sheet_tree=None, name="fs", *args, **kw):
+    def __init__(self, parent_frame, parent_sheet=None,  height=1, width=250, parent_notebook=None, parent_sheet_tree=None, name="fs", *args, **kw):
+        class FF(tk.Frame):
+            def __init__(self, parent):
+                tk.Frame.__init__(self, parent)
+                self.forkable_sheet = None
+        ForkFrame = FF
         self.fork_frame = ForkFrame(parent_frame)
         self.fork_frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
         self.fork_frame.forkable_sheet = self
-        Sheet.__init__(self,  self.fork_frame, name=name, height=1, width=250, scrollbar=False, background="white", *args, **kw)
+        Sheet.__init__(self,  self.fork_frame, name=name, height=height, width=width, scrollbar=False, background="white", *args, **kw)
         self.pack(side=tk.TOP, fill=BOTH, expand=True)
         self.frame.pack_propagate(False)
         self.fork_frame.pack_propagate(False)

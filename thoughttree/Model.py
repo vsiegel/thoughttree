@@ -1,4 +1,5 @@
 import sys
+import threading
 import tkinter as tk
 import re
 import textwrap
@@ -17,7 +18,7 @@ from TokenCounter import TokenCounter
 import os
 
 from tools import log, shorter, log_len
-
+import asyncio
 
 def log_file_size(path):
     log(f'Size: {path} {os.path.getsize(path)} bytes')
@@ -61,17 +62,32 @@ class Model:
                 request_timeout=5 # undocumented #todo
             )
         except Exception as ex:
-            return self.error("", "Error in openai.ChatCompletion.create()", ex) + ("",)
+            return self.error("", f"Error in openai.ChatCompletion.create(model={self.name}, ...)", ex) + ("",)
 
+        return self.accept_response(on_increment, response)
+        # self.accept_response_async(on_increment, response)
+        # return "a", "b", "c"
+
+
+    def accept_response_thread(self, on_increment, response):
+        threading.Thread(target=self.accept_response, args=(on_increment, response)).start()
+
+
+    async def accept_response_async(self, on_increment, response):
+        result = await self.accept_response(on_increment, response)
+        return result
+
+
+    def accept_response(self, on_increment, response):
         last_event = None
         answer = ""
         try:
             texts = []
-            for event in response :
+            for event in response:
                 if self.is_canceled:
                     return 'canceled', "", ""
                 delta = event['choices'][0]['delta']
-                if 'content' in delta :
+                if 'content' in delta:
                     text = delta["content"]
                     on_increment(text)
                     self.counter.observe_completion(text)

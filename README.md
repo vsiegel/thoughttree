@@ -20,7 +20,7 @@ Interact with **ChatGPT** in alternative ways.
    - Have a console log including what you deleted for reference
 
 #### Have the tools you need
-   - Safe the code blocks with a generated file name
+   - Save the code blocks with a generated file name
    - Run the code
    - Render the content, like LaTex or SVG
    - Open applications like spreadsheet for CSV output

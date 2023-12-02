@@ -32,7 +32,6 @@ class History(list):
                 elif ("tagoff", "assistant") == (designation, text):
                     self.message(role, content)
                     role, content = "user", ""
-                    print(f"content: '{content}'")
                 elif designation in ["tagon", "tagoff"] and (text in ["cursorline", "sel"] or text.startswith('model')):
                     pass
                 elif designation == "text":

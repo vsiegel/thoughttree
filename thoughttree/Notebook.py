@@ -1,8 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, END
 
-from NotebookAdapterFrame import NotebookAdapterFrame
-
 
 class Notebook(ttk.Notebook):
     def __init__(self, parent_frame, parent_sheet=None, parent_notebook=None, style_name=None, takefocus=False, background="white", **kw):
@@ -18,6 +16,12 @@ class Notebook(ttk.Notebook):
 
 
     def add_sheet(self, title, parent_sheet=None):
+        class NAF(tk.Frame):  # NotebookAdapterFrame - the name appears in widget names, making them longer.
+            def __init__(self, parent):
+                tk.Frame.__init__(self, parent)  # Warning: Naming the frame causes errors (name="...").
+                self.forkable_sheet = None
+        NotebookAdapterFrame = NAF
+
         print(f"add_sheet start {title=} {len(self.tabs())=}")
         adapter_frame = NotebookAdapterFrame(self)
         # adapter_frame.pack_propagate(False)

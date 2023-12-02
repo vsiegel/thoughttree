@@ -1,0 +1,6 @@
+If here is a line starting with a number and describing a task to do with the document, do that.
+Otherwise: List things that you could do with the document as a language model, starting with the most useful in a typical office job. End the list with "
+(end)"
+Do not continue the list if the cursor (here) is already on a list item.
+
+First print the current list item number.

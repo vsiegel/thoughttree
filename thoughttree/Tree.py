@@ -39,6 +39,11 @@ class Tree(tk.Frame):
         self.tree.bind('<Button-1>', on_tree_click)
         # self.tree.bind("<Double-Button-1>", self.edit_tree_entry)
         # self.tree.bind("<Return>", self.edit_tree_entry)
+        def on_configure(event):
+            self.tree.column("#0", width=event.width)
+        self.tree.bind("<Configure>", on_configure)
+        self.tree.bind("<FocusOut>", lambda event: self.tree.selection_set([]))
+        self.tree.bind("<FocusIn>", lambda event: self.tree.selection_set(self.tree.focus()))
 
         # from tools import create_mock_data
         # create_mock_data(self.tree)

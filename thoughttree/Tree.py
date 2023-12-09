@@ -1,10 +1,16 @@
+import difflib
 import tkinter as tk
 from tkinter import BOTH, DISABLED, END, HORIZONTAL, INSERT, LEFT, NO, SUNKEN, TOP, VERTICAL, W, WORD, X, SEL_FIRST, \
     SEL_LAST, RIGHT
 from tkinter import font as tkfont
 from tkinter import ttk, simpledialog
+import itertools
+import os
+import glob
+from tkinter.ttk import Style
 
 import TextDifference
+from Config import conf
 from Fonts import Fonts
 from Sheet import Sheet
 from TextChange import TextChange
@@ -31,11 +37,21 @@ class Tree(tk.Frame):
                     self.tree.item(item, text=self.tree.item(item, 'text').replace(NODE_OPEN, NODE_CLOSED, 1))
                     self.tree.item(item, tags='closed')
 
-        self.tree = ttk.Treeview(self, columns=("C1", "C2"), *args, **kw) # show="tree",
-        self.tree.pack(side=LEFT, fill=BOTH, expand=True)
-        self.tree.column("#0", width=150, minwidth=10, anchor=W, stretch=NO)
-        self.tree.column("#1", width=50, minwidth=10, anchor=W, stretch=NO)
-        self.tree.heading("C1", text="")
+        style = "Treeview.Treeview"
+        # font = Fonts.FONT
+        # line_height = tkfont.Font(font=font).metrics("linespace") + 2
+        # Style().configure(style, bd=2, highlightthickness=1, rowheight=line_height, font=font)
+
+
+        self.tree = ttk.Treeview(self, columns=(), style=style, *args, **kw) # show="tree", # ("C1", "C2")
+
+        y_scroll = ttk.Scrollbar(self, orient="vertical", command=self.tree.yview)
+        y_scroll.pack(side='right', fill='y')
+        self.tree.configure(yscrollcommand=y_scroll.set)
+
+        self.tree.column("#0", width=200, minwidth=10, anchor=W, stretch=NO)
+        # self.tree.column("#1", width=50, minwidth=10, anchor=W, stretch=NO)
+        # self.tree.heading("C1", text="")
         self.tree.bind('<Button-1>', on_tree_click)
         # self.tree.bind("<Double-Button-1>", self.edit_tree_entry)
         # self.tree.bind("<Return>", self.edit_tree_entry)

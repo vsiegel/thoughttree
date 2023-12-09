@@ -12,6 +12,7 @@ conf.update_title_after_completion = True
 conf.scroll_output = True
 conf.ring_bell_after_completion = False
 conf.blinking_caret = True
+conf.examples_dir = "examples"
 
 conf.debug = True
 

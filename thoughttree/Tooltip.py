@@ -1,7 +1,7 @@
 import tkinter as tk
 
 
-class Tooltip :
+class Tooltip:
     def __init__(self, widget: tk.Widget, text) :
         self.widget = widget
         self.root = widget.winfo_toplevel()
@@ -45,6 +45,13 @@ class Tooltip :
             y = self.root.winfo_pointery() + 25
             self.tip.wm_geometry(f"+{x}+{y}")
             self.tip.wm_attributes("-topmost", True)
+            # self.tip.wm_attributes("-topmost", False)
+
+            # from MenuBar import MenuBar
+            # if isinstance(self.widget, MenuBar) and self.widget.open_popup:
+                # self.tip.lift(self.widget.open_popup)
+                # self.widget.open_popup.lower(self.tip)
+                # print("lift etc. "+str(self.widget.open_popup))
             self.refresh_tooltip_text(event)
 
 

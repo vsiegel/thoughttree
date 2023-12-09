@@ -13,6 +13,7 @@ class TooltipableMenu(tk.Frame):
     def __init__(self, parent, text, **kw):
         super().__init__(parent, bg='lightgray', borderwidth=0)
         self.parent = parent
+        self.old_focus = None
         self.label = tk.Label(self, text=text, font=("Arial", 12), bg='lightgray', padx=6, pady=5)
         self.label.bind("<Enter>", self.keep_open, add=True)
         self.label.bind("<Leave>", self.on_leave, add=True)
@@ -68,6 +69,7 @@ class TooltipableMenu(tk.Frame):
             self.popup.bind("<Escape>", self.close, add=True)
             self.frame = tk.Frame(self.popup, takefocus=True, bg='lightgray')
             self.frame.pack()
+            self.old_focus = self.focus_get()
             self.frame.focus_set()
             self.frame.bind("<Leave>", self.close, add=True)
             MenuHelpTooltip(self.frame)
@@ -110,6 +112,7 @@ class TooltipableMenu(tk.Frame):
 
     def close(self, event=None) -> bool:
         if self.popup:
+            self.old_focus.focus_set()
             self.popup.destroy()
             self.popup = None
             if isinstance(self.parent, MenuBar):

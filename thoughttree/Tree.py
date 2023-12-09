@@ -65,8 +65,70 @@ class Tree(tk.Frame):
         self.tree.insert("", END, text="Prompts", iid="Prompts", open=False)
         self.tree.insert("", END, text="Changes", iid="Changes", open=True)
         self.tree.insert("", END, text="Differences", iid="Differences", open=True)
-        self.sheet = Sheet(self)
-        self.sheet.pack(side=RIGHT, fill=BOTH, expand=True)
+        self.tree.focus("Examples")
+        self.tree.pack(side=LEFT, fill=BOTH, expand=True)
+
+        self.load_examples(conf.examples_dir)
+
+
+    def load_examples(self, examples_dir):
+
+        def populate_tree(tree, node):
+            # if tree.set(node, "type") != 'directory':
+            #     return
+
+            path = examples_dir
+            # tree.delete(*tree.get_children(node))
+
+            # parent = tree.parent(node)
+            # special_dirs = [] if parent else glob.glob('.') + glob.glob(examples_dir)
+
+            for p in os.listdir(path):
+                ptype = None
+                p = os.path.join(path, p)
+                if os.path.isdir(p):
+                    ptype = "directory"
+                elif os.path.isfile(p):
+                    ptype = "file"
+                fname = os.path.split(p)[1]
+                id = tree.insert(node, "end", text=fname, values=[p])
+
+                if ptype == 'directory':
+                    if fname not in ('.', '..'):
+                        tree.insert(id, 0, text="dummy")
+                        tree.item(id, text=fname)
+
+
+        def populate_roots(tree):
+            # dir = os.path.abspath('.')
+            # node = tree.insert('', 'end', text=dir, values=[dir, "directory"])
+            populate_tree(tree, "Examples")
+
+
+        # def update_tree(event):
+        #     tree = event.widget
+        #     populate_tree(tree, tree.focus())
+        # self.tree.bind('<<TreeviewOpen>>', update_tree)
+
+        def show_details(event):
+            print(f"show_details: {event=}")
+            return "break"
+
+        def insert_system(event):
+            print(f"insert_system: {event=}")
+            return "break"
+
+        def insert_chat(event):
+            print(f"insert_chat: {event=}")
+            return "break"
+
+        self.tree.bind('<Return>', show_details)
+        self.tree.bind('<Shift-Return>', insert_system)
+        self.tree.bind('<Control-Return>', insert_chat)
+        self.tree.bind('<Shift-Alt-Return>', insert_system)
+        self.tree.bind('<Control-Alt-Return>', insert_chat)
+
+        populate_roots(self.tree)
 
 
     def edit_tree_entry(self, event):

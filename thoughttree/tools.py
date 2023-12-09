@@ -210,7 +210,7 @@ def show_widget_under_pointer(widget):
             print(f"Pointer is over: {widget}")
             last_time = current_time
 
-    root.bind('<Motion>', track_pointer)
+    root.bind('<Control-Alt-Button-1>', track_pointer)
 
 
 def maybe_file(file_name):

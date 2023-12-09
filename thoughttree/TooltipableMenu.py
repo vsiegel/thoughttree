@@ -72,6 +72,8 @@ class TooltipableMenu(tk.Frame):
             self.frame.bind("<Leave>", self.close, add=True)
             MenuHelpTooltip(self.frame)
             self.populate_menu()
+            if isinstance(self.parent, MenuBar):
+                self.parent.open_popup = self.popup
         if x is None:
             x = self.winfo_rootx()
             y = self.winfo_rooty() + self.winfo_height()
@@ -110,6 +112,8 @@ class TooltipableMenu(tk.Frame):
         if self.popup:
             self.popup.destroy()
             self.popup = None
+            if isinstance(self.parent, MenuBar):
+                self.parent.open_popup = None
             return True
         return False
 

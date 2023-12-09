@@ -25,9 +25,14 @@ class FoldablePane(tk.PanedWindow):
         self.previous_sash = -1
         self.folded = folded
 
-        def on_double_click(event):
-            self.fold()
-        self.bind("<Double-Button-1>", on_double_click)
+        self.bind("<Double-Button-1>", self.fold)
+        FoldablePane.FoldablePaneTooltip(self, tools.text_block("This is a movable separator between panes. It can be used to resize both sides"
+                      " by dragging the this separating line, or collapsing omne of it, (...), by a double click."
+                      "The separating line stays visible and restores the hidden pane on double click."
+                      "Alternatively, the command '...' in menu View or the keystroke '...' can be used to toggle the visibility of '...'"))
+        # tools.bind_to_all_events(self, excluded="Motion, Expose")
+        tools.bind_to_all_events(self, included="Enter, Leave")
+
 
     def add(self, child, stretch="always", **kw) -> None:
         super().add(child, stretch=stretch, **kw)

@@ -15,8 +15,8 @@ class FoldablePane(tk.PanedWindow):
             self.widget.bind("<Leave>", self.remove_tip)
 
     MIN_SIZE = 20
-    def __init__(self, parent=None, folded=False, fold_size=100, **kw):
-        super().__init__(parent, borderwidth=0, sashwidth=FoldablePane.SASH_WIDTH, sashrelief=tk.RIDGE, name="fp", **kw)
+    def __init__(self, parent=None, folded=False, fold_size=100, name="fp", **kw):
+        super().__init__(parent, borderwidth=0, sashwidth=9, sashrelief=tk.RIDGE, name=name, **kw)
 
         self.fold_size = fold_size
         self.foldable_child = None

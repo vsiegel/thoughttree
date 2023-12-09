@@ -67,11 +67,13 @@ class Thoughttree(Ui):
         self.status = None
         self.console = None
         self.tree = None
+        self.detail = None
         self.system: Sheet|None = None
         self.chat_sheet = None
         self.model = None
         self.console_pane = None
         self.tree_pane = None
+        self.detail_pane = None
         self.system_pane = None
 
         # def on_configure(event):
@@ -133,42 +135,46 @@ class Thoughttree(Ui):
         self.status = StatusBar(self.status_hider)
         self.status.pack(side=BOTTOM, fill=X, expand=True)
 
-        self.console_pane = FoldablePane(self, orient=VERTICAL)
-        self.tree_pane = FoldablePane(self.console_pane, orient=HORIZONTAL)
-        self.system_pane = FoldablePane(self.tree_pane, orient=VERTICAL)
+        self.console_pane = FoldablePane(self, orient=VERTICAL, name="cp")
+        self.tree_pane = FoldablePane(self.console_pane, orient=HORIZONTAL, name="tp", fold_size=400)
+        self.detail_pane = FoldablePane(self.tree_pane, orient=HORIZONTAL, name="dp", fold_size=10)
+        self.system_pane = FoldablePane(self.tree_pane, orient=VERTICAL, name="sp")
         self.console_pane.pack(side=TOP, fill=BOTH, expand=True)
 
-        if self.main_window:
-            self.console = Console(self.console_pane)
-        self.tree = Tree(self.tree_pane)
+        # if self.main_window:
+        #     self.console = Console(self.console_pane)
+        self.console = Console(self.console_pane)
+        self.tree = Tree(self.detail_pane)
+        self.detail = Sheet(self.detail_pane, width=5)
         self.system = Sheet(self.system_pane, height=3)
-        # self.chat_sheet = Sheet(self.system_pane)
         self.chat_sheet = SheetTree(self.system_pane)
+
         self.current_sheet: ForkableSheet = self.chat_sheet.forkable_sheet
 
-        self.console_pane.add(self.tree_pane, stretch="always")
-        if self.main_window:
-            self.console_pane.addFoldable(self.console, stretch="never")
-        self.tree_pane.addFoldable(self.tree, stretch="never")
-        self.tree_pane.add(self.system_pane, stretch="always")
-        self.system_pane.addFoldable(self.system, stretch="never")
-        self.system_pane.add(self.chat_sheet, stretch="always")
+        self.console_pane.add(self.tree_pane)
+        self.console_pane.addFoldable(self.console)
+        self.tree_pane.addFoldable(self.detail_pane)
+        self.tree_pane.add(self.system_pane)
+        self.detail_pane.add(self.tree, stretch="never")
+        self.detail_pane.addFoldable(self.detail, stretch="always")
+        self.system_pane.addFoldable(self.system)
+        self.system_pane.add(self.chat_sheet)
 
-        if self.main_window:
-            if type(sys.stdout) is not TextIOTee:
-                sys.stdout = TextIOTee(sys.stdout, self.console.out)
-            if type(sys.stderr) is not TextIOTee:
-                sys.stderr = TextIOTee(sys.stderr, self.console.err)
-
-        self.menu.create_menu()
-
-
+        bound_pane = self.detail_pane
         def on_first_configure(ev=None):
             self.system_pane.fold(set_folded=False)
             self.console_pane.fold(set_folded=True)
-            self.tree_pane.fold(set_folded=True)
-            self.console_pane.unbind("<Configure>")
-        self.console_pane.bind("<Configure>", on_first_configure)
+            self.tree_pane.fold(set_folded=False)
+            self.detail_pane.fold(set_folded=False)
+            bound_pane.unbind("<Configure>")
+        bound_pane.bind("<Configure>", on_first_configure)
+
+        if type(sys.stdout) is not TextIOTee:
+            sys.stdout = TextIOTee(sys.stdout, self.console.out)
+        if type(sys.stderr) is not TextIOTee:
+            sys.stderr = TextIOTee(sys.stderr, self.console.err)
+
+        self.menu.create_menu()
 
         self.chat_sheet.focus_set()
 

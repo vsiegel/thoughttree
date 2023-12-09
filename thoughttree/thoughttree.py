@@ -523,7 +523,7 @@ class Thoughttree(Ui):
 
 
     def history_from_system_and_chat(self, additional_message=None, additional_system=None, max_messages=0, max_size=None) :
-        system = self.system.get(1.0, 'end-1c').strip()
+        system = self.system.get(1.0, 'end-1c')
         history = History(system)
 
         history = self.it.history_from_path(history)

@@ -1,3 +1,4 @@
+import difflib
 import re
 import tkinter as tk
 from tkinter import END, INSERT, SEL, WORD, SEL_FIRST, SEL_LAST, RAISED, SOLID
@@ -210,3 +211,38 @@ class Sheet(ScrolledText, LineHandling):
 
     def hide(self, index, chars, *args):
         self.insert(index, chars, ("hidden_prompt",), *args)
+
+    def insert_diff(self, old_text, new_text, pos=INSERT):
+        self.mark_set(INSERT, pos)
+        self.delete(pos, f"{pos}+{len(old_text)}c")
+
+        matcher = difflib.SequenceMatcher(
+            None, old_text.split(), new_text.split(), autojunk=False)
+            # None, [*old_text], [*new_text])
+        for op, i1, i2, j1, j2 in matcher.get_opcodes():
+            if op == "equal":
+                self.insert(INSERT, " ".join(old_text.split()[i1:i2]) + " ")
+            elif op == "insert":
+                self.insert(INSERT, " ".join(new_text.split()[j1:j2]) + " ", "added")
+            elif op == "delete":
+                self.insert(INSERT, " ".join(old_text.split()[i1:i2]) + " ", "deleted")
+            elif op == "replace":
+                self.insert(INSERT, " ".join(old_text.split()[i1:i2]) + " ", "deleted")
+                self.insert(INSERT, " ".join(new_text.split()[j1:j2]) + " ", "added")
+
+
+    def elide_other(self, elide, event):
+        elide_by_color=False
+        if elide:
+            tags = self.tag_names(tk.CURRENT)
+            if "added" in tags:
+                self.tag_config("deleted", elide_by_color and {"foreground": "white"} or {"elide": True})
+            elif "deleted" in tags:
+                self.tag_config("added", elide_by_color and {"foreground": "white"} or {"elide": True})
+        else:
+            if elide_by_color:
+                self.tag_config("added", foreground="#77ee77")
+                self.tag_config("deleted", foreground="#ee7777")
+            else:
+                self.tag_config("added", elide=False)
+                self.tag_config("deleted", elide=False)

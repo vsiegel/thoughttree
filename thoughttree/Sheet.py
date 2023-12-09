@@ -48,11 +48,15 @@ class Sheet(ScrolledText, LineHandling):
         self.tag_config('found_all', background="#d9d55d")
         self.tag_config('highlight', background="#6cd8ff")
         self.tag_config('semi_highlight', background="#c8e7ff")
-        self.tag_config("added", foreground="#9af1a9")
-        self.tag_config("deleted", foreground="#f1a8ae")
         self.tag_config('hidden_markup', elide=True, foreground="#E0E0E0")
         self.tag_config('hidden_prompt', elide=True, foreground="#E0E0E0")
         self.tag_config("mask", borderwidth=2, relief=SOLID, foreground="#D0D0D0")
+        self.tag_config("added", foreground="#9af1a9")
+        self.tag_config("deleted", foreground="#f1a8ae")
+        for tag in ["added", "deleted"]:
+            self.tag_bind(tag, "<Button-1>", lambda event: self.elide_other(True, event))
+            self.tag_bind(tag, "<ButtonRelease-1>", lambda event: self.elide_other(False, event))
+
 
         self.mark_set(OUTPUT, "1.0")
         self.mark_gravity(OUTPUT, tk.LEFT)

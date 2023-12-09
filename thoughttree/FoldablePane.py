@@ -54,8 +54,9 @@ class FoldablePane(tk.PanedWindow):
             self.folded = set_folded
 
         if self.folded:
-            self.takefocus = self.foldable_child.cget("takefocus")
-            self.foldable_child.configure(takefocus=False)
+            if not isinstance(self.foldable_child, FoldablePane):
+                self.takefocus = self.foldable_child.cget("takefocus")
+                self.foldable_child.configure(takefocus=False)
             self.fold_size = size
             size = 0
         else:
@@ -73,3 +74,11 @@ class FoldablePane(tk.PanedWindow):
             return widget.winfo_width()
         else:
             return widget.winfo_height()
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    fp = FoldablePane(root)
+    fp.pack(fill=tk.BOTH, expand=True)
+    fp.addFoldable(Sheet(fp, text="Hello"))
+    fp.addFoldable(Sheet(fp, text="World"))
+    root.mainloop()

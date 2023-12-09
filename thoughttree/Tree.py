@@ -45,8 +45,8 @@ class Tree(tk.Frame):
         self.tree.bind("<FocusOut>", lambda event: self.tree.selection_set([]))
         self.tree.bind("<FocusIn>", lambda event: self.tree.selection_set(self.tree.focus()))
 
-        # from tools import create_mock_data
-        # create_mock_data(self.tree)
+        self.tree.insert("", END, text="Examples", iid="Examples", open=False)
+        self.tree.insert("", END, text="Prompts", iid="Prompts", open=False)
         self.tree.insert("", END, text="Changes", iid="Changes", open=True)
         self.tree.insert("", END, text="Differences", iid="Differences", open=True)
         self.sheet = Sheet(self)

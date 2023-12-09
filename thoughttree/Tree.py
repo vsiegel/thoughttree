@@ -177,14 +177,22 @@ class Tree(tk.Frame):
 
 
     def add_difference(self, difference: TextDifference):
-        title = self.tree.insert("Differences", END, text="difference.title", open=True)
+        def diff_summary(old, new):
+            diff = [li for li in difflib.ndiff(old, new) if li[0]!='']
+            result = ''
+            for key, group in itertools.groupby(diff, lambda x: x[0]):
+                result += f'{key} {"".join(item[2:] for item in group)}'
+            return result
+
+        title = self.tree.insert("Differences", END, text=difference.title, open=True)
+        print(f"{title=}")
         # iid = self.tree.insert(title, END, text=difference.description)
         # for attribute, value in difference.attributes.items():
         #     self.tree.insert(title, END, text=attribute, values=[value])
         for old, new in difference.replacements.items():
             self.tree.insert(title, END, text=old)
             self.tree.insert(title, END, text=new)
-
+            self.tree.insert(title, END, text=diff_summary(old, new))
 
 
 if __name__ == '__main__':

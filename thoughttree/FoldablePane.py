@@ -43,7 +43,7 @@ class FoldablePane(tk.PanedWindow):
             return
         pane_size = self.size1d()
         sash = max(*self.sash_coord(0))
-        size = self.fold_last and pane_size - sash or sash
+        size = abs(self.fold_last and pane_size - sash or sash)
 
         if size < FoldablePane.MIN_SIZE:
             self.folded = True

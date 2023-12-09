@@ -15,7 +15,7 @@ OUTPUT = "output"
 class Sheet(ScrolledText, LineHandling):
 
     def __init__(self, master=None, scrollbar=True, name="s", width=80, borderwidth=0, padx=0, pady=0, height=0,
-                 background='white', **kw):
+                 background='white', text="", **kw):
         ScrolledText.__init__(
             self, master, undo=True, wrap=WORD, padx=padx, pady=pady, background=background,
             width=width, height=height, insertwidth=3, font=Fonts.FONT,
@@ -58,6 +58,8 @@ class Sheet(ScrolledText, LineHandling):
         self.mark_gravity(OUTPUT, tk.LEFT)
 
         self.old_num_display_lines = 0
+        if text:
+            self.insert(END, text)
 
 
     def run_code_block(self, event=None):

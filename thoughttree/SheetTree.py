@@ -21,6 +21,11 @@ class SheetTree(tk.Frame):
         self.canvas.pack(side=LEFT, fill=BOTH, expand=True)
 
         canvas_frame = tk.Frame(self.canvas, bd=0, background="#eeeeff", name="cf")
+
+        # def canvas_frame_configure(event):
+        #     print(f"canvas_frame_configure:  {event}")
+        # canvas_frame.bind("<Configure>", canvas_frame_configure, add=True)
+
         # canvas_frame.pack_propagate(False)
         self.frame_id = self.canvas.create_window((0, 0), window=canvas_frame, anchor=NW)
 
@@ -41,7 +46,7 @@ class SheetTree(tk.Frame):
         self.canvas.itemconfigure(self.frame_id, width=event.width, height=event.height)
 
     def configure_scrollregion(self, event):
-        # print(f"configure_scrollregion: {event} {event.widget}")
+        # print(f"configure_scrollregion: {event}")
         # self.canvas.update_idletasks()
         x, y, b_width, b_height = self.canvas.bbox("all")
         x, y, e_width, e_height = event.x, event.y, event.width, event.height

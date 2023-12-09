@@ -7,13 +7,23 @@ from Sheet import Sheet
 
 
 class TextDifference():
-
     def __init__(self, change_spec):
+        self.title = ""
         self.replacements = {}
         self.parse(change_spec)
 
 
     def parse(self, change_spec):
+        title_pattern = r"""(?x)
+            Title:\ ?\n?
+                ((['"`]{1,3})
+                    ([\s\S]*?)
+                \2)"""
+
+        title_matches = re.findall(title_pattern, change_spec)
+        if title_matches:
+            self.title = title_matches[0][2].strip("'"+'"')
+
         change_pattern = r"""(?x)
             Old:\ ?\n?
                 ((['"`]{1,3})
@@ -78,7 +88,7 @@ New: 'f'
 Old: 'g'
 New: 'h'
 """
-    change = TextChange(text)
+    change = TextDifference(text)
     root = tk.Tk()
     root.geometry("500x500")
     s = Sheet(root)

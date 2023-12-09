@@ -1,9 +1,19 @@
 import tkinter as tk
 from tkinter import HORIZONTAL
 
+import tools
+from Sheet import Sheet
+from Tooltip import Tooltip
+
 
 class FoldablePane(tk.PanedWindow):
-    SASH_WIDTH = 8
+
+    class FoldablePaneTooltip(Tooltip):
+        def __init__(self, widget, text, **kw):
+            super().__init__(widget, text, **kw)
+            self.widget.bind("<Enter>", self.create_tip)
+            self.widget.bind("<Leave>", self.remove_tip)
+
     MIN_SIZE = 20
     def __init__(self, parent=None, folded=False, fold_size=100, **kw):
         super().__init__(parent, borderwidth=0, sashwidth=FoldablePane.SASH_WIDTH, sashrelief=tk.RIDGE, name="fp", **kw)

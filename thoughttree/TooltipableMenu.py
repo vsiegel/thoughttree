@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import INSERT
 
 from Config import conf
+from MenuBar import MenuBar
 from MenuHelpTooltip import MenuHelpTooltip
 from MenuItem import MenuItem
 from menu_help_texts import menu_help
@@ -16,7 +17,6 @@ class TooltipableMenu(tk.Frame):
         self.old_focus = None
         self.label = tk.Label(self, text=text, font=("Arial", 12), bg='lightgray', padx=6, pady=5)
         self.label.bind("<Enter>", self.keep_open, add=True)
-        self.label.bind("<Leave>", self.on_leave, add=True)
         self.label.bind("<Button-1>", self.toggle_open, add=True)
         self.label.pack(side='left')
         self.items = []
@@ -49,10 +49,6 @@ class TooltipableMenu(tk.Frame):
             was_open = self.parent.close_other_menus(self)
             if was_open:
                 self.create_popup(event)
-
-    def on_leave(self, event):
-        pass
-        # self.close()
 
     def toggle_open(self, event):
         if self.popup:

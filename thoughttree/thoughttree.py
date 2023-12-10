@@ -417,7 +417,7 @@ class Thoughttree(Ui):
     def set_up_replace_completion(self, sheet):
         replacement_prompt = dedent(
             f"""
-            Do an replacement completion:The output will replace the users text selection, which is 
+            Do an replacement completion: The output will replace the users text selection, which is 
             the part of text between the two "{conf.location_marker}". 
             Complete assuming the insertion cursor for the text is at the first marker "{conf.location_marker}".
             Produce text that will replace the text between the start marker and the end marker.
@@ -427,6 +427,7 @@ class Thoughttree(Ui):
             only produce text that should be in between.
             Do not overlap output and following text.
             The markers themselves will be removed.
+            For example, if inside of "fooBARbaz" the text to be replaced is "BAR", the output sould not be "foobarbaz", but just "bar".
             Take care to add the right amount of spaces after the start marker and before the end marker.
             """)
         self.system.hide(END, replacement_prompt)

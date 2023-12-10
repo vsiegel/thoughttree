@@ -235,13 +235,14 @@ def on_event(event: tk.Event):
     print(f"{event=}")
 
 
-def log_motion_on_ctrl_alt(widget: tk.Widget):
-    def on_motion(e):
+def log_motion_on_ctrl_alt(widget: tk.Widget, on_log=None, event="<Control-Alt-Button-1>"):
+    def print_geometry(e):
         w: tk.Widget = e.widget
         print(f"Event: {e.widget} {e.x},{e.y} {e.width}x{e.height} {w.winfo_geometry()=}"
-              f" {w.winfo_height()=} {w.winfo_reqheight()=}") #  {w.cget('height')=}")
+              f" {w.winfo_height()=} {w.winfo_reqheight()=}")  # {w.cget('height')=}")
 
-    widget.bind_all("<Control-Alt-Motion>", on_motion)
+    on_log = on_log or print_geometry
+    widget.bind_all(event, on_log)
 
 
 def web(url):

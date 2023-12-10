@@ -104,7 +104,10 @@ class Thoughttree(Ui):
         self.status.note = f"{n} models found."
 
         if conf.debug:
-            log_motion_on_ctrl_alt(self)
+            def log_heights(e):
+                w: tk.Widget = e.widget
+                print(f"{e.height=} {w.winfo_height()=} {w.winfo_reqheight()=} {w.cget('height')=} {e.widget}")
+            log_motion_on_ctrl_alt(self, log_heights)
 
         if self.main_window:
             self.root.mainloop()

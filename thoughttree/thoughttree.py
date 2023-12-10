@@ -4,7 +4,7 @@ import tkinter as tk
 from datetime import datetime
 from textwrap import dedent
 from tkinter import BOTH, END, HORIZONTAL, INSERT, LEFT, SUNKEN, TOP, VERTICAL, W, X, SEL_FIRST, \
-    SEL_LAST, BOTTOM, RAISED, GROOVE, NONE
+    SEL_LAST, BOTTOM, RAISED, GROOVE, NONE, DISABLED
 from tkinter import simpledialog
 from tkinter.messagebox import showinfo
 
@@ -148,7 +148,7 @@ class Thoughttree(Ui):
         #     self.console = Console(self.console_pane)
         self.console = Console(self.console_pane)
         self.tree = Tree(self.detail_pane, self)
-        self.detail = Sheet(self.detail_pane, width=5, wrap=NONE)
+        self.detail = Sheet(self.detail_pane, width=5, wrap=NONE, state=DISABLED, takefocus=False)
         self.system = Sheet(self.system_pane, height=3)
         self.chat_sheet = SheetTree(self.system_pane)
 

@@ -94,9 +94,17 @@ class FoldablePaneTooltip(Tooltip):
         on_sash = bool(identification and identification[1] == "sash")
         print(f"identify: {self.widget} {on_sash}")
 
-        super().update(event)
+        if self.tip:
+            if self.hide_timer:
+                self.root.after_cancel(self.hide_timer)
+            self.hide_timer = self.root.after(self.hide_delay_ms, self.hide)
+            super().update(event)
+        else:
+            self.show(event)
 
-    def bind_motion(self):
+
+    def bind_tip(self):
+        self.widget.bind("<Leave>", self.hide, add=True)
         self.widget.bind("<Motion>", self.update, add=True)
 
 

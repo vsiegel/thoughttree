@@ -42,7 +42,6 @@ class Tooltip:
             self.tip.bind("<Leave>", self.hide, add=True)
             self.tip.bind("<Button-1>", self.hide, add=True)
             self.label.bind("<Escape>", self.hide, add=True)
-            # self.widget.bind("<Destroy>", self.remove_tip)
             self.update(event)
 
 

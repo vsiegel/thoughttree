@@ -117,9 +117,17 @@ class Tree(tk.Frame):
         #     populate_tree(tree, tree.focus())
         # self.tree.bind('<<TreeviewOpen>>', update_tree)
 
-        def show_details(event):
-            print(f"show_details: {event=}")
+        def show_details(event=None):
+            file = self.focussed_file()
+            self.ui.detail.delete("1.0", "end")
+            if file:
+                with open(file) as f:
+                    text = f.read()
+                    print(f"show_details: {file}")
+                    self.ui.detail.insert("1.0", text)
             return "break"
+
+        self.tree.bind("<<TreeviewSelect>>", show_details)
 
         def insert_system(event):
             print(f"insert_system: {event=}")

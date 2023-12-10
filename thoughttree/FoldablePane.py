@@ -8,12 +8,6 @@ from Tooltip import Tooltip
 
 class FoldablePane(tk.PanedWindow):
 
-    class FoldablePaneTooltip(Tooltip):
-        def __init__(self, widget, text, **kw):
-            super().__init__(widget, text, **kw)
-            self.widget.bind("<Enter>", self.show)
-            self.widget.bind("<Leave>", self.hide)
-
     MIN_SIZE = 20
     def __init__(self, parent=None, folded=False, fold_size=100, name="fp", **kw):
         super().__init__(parent, borderwidth=0, sashwidth=9, sashrelief=tk.RIDGE, name=name, **kw)
@@ -26,12 +20,12 @@ class FoldablePane(tk.PanedWindow):
         self.folded = folded
 
         self.bind("<Double-Button-1>", self.fold)
-        FoldablePane.FoldablePaneTooltip(self, tools.text_block("This is a movable separator between panes. It can be used to resize both sides"
+        FoldablePaneTooltip(self, tools.text_block("This is a movable separator between panes. It can be used to resize both sides"
                       " by dragging the this separating line, or collapsing omne of it, (...), by a double click."
                       "The separating line stays visible and restores the hidden pane on double click."
                       "Alternatively, the command '...' in menu View or the keystroke '...' can be used to toggle the visibility of '...'"))
         # tools.bind_to_all_events(self, excluded="Motion, Expose")
-        tools.bind_to_all_events(self, included="Enter, Leave")
+        tools.bind_to_all_events(self)
 
 
     def add(self, child, stretch="always", **kw) -> None:
@@ -79,6 +73,25 @@ class FoldablePane(tk.PanedWindow):
             return widget.winfo_width()
         else:
             return widget.winfo_height()
+
+
+class FoldablePaneTooltip(Tooltip):
+    def __init__(self, widget: FoldablePane, text):
+        super().__init__(widget, text)
+        self.widget = widget
+        self.widget.bind("<Enter>", self.show)
+        self.widget.bind("<Leave>", self.hide)
+
+    def update(self, event=None):
+        # if self.widget.identify(self.window.winfo_pointerx(), self.window.winfo_pointery())
+        print(f"identify: {self.widget} {self.widget.identify(event.x, event.y)}")
+
+        super().update(event)
+
+    def bind_motion(self):
+        self.widget.bind("<Motion>", self.update, add=True)
+
+
 
 if __name__ == "__main__":
     root = tk.Tk()

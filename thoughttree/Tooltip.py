@@ -26,6 +26,9 @@ class Tooltip:
     def show_later(self, event):
         if self.tip:
             return
+
+        if self.show_timer:
+            self.root.after_cancel(self.show_timer)
         self.show_timer = self.root.after(self.show_delay_ms, lambda ev=event: self.show(ev))
 
 

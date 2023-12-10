@@ -66,7 +66,7 @@ class Tooltip:
         self.label.configure(text=self.text)
 
 
-    def hide(self, event):
+    def hide(self, event=None):
         if self.show_timer:
             self.root.after_cancel(self.show_timer)
         if self.tip:

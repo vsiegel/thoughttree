@@ -1,0 +1,45 @@
+### System prompt:
+Fix it.
+### Example input:
+
+toplevel_node_template = """
+Help text for:
+Toplevel tree node
+{}
+"""
+
+
+tree_help = {
+    "Examples":
+"""
+Help text for:
+Toplevel tree node
+"Examples"
+""",
+    "Prompts":
+    toplevel_node_template.format("Prompts"),
+    "Changes":
+    toplevel_node_template.format("Prompts"),
+    "Differences":
+    toplevel_node_template.format("Prompts"),
+}
+### Example output:
+
+toplevel_node_template = """
+Help text for:
+Toplevel tree node
+{}
+"""
+
+
+tree_help = {
+    "Examples":
+    toplevel_node_template.format("Examples"),
+    "Prompts":
+    toplevel_node_template.format("Prompts"),
+    "Changes":
+    toplevel_node_template.format("Changes"),
+    "Differences":
+    toplevel_node_template.format("Differences"),
+}
+

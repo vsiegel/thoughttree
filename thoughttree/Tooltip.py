@@ -16,6 +16,10 @@ class Tooltip:
         widget.bind("<Leave>", self.hide, add=True)
         widget.bind("<Unmap>", self.hide, add=True)
         widget.bind("<Destroy>", self.hide, add=True)
+        self.bind_motion()
+
+
+    def bind_motion(self):
         self.root.bind("<Motion>", self.update, add=True)
 
 

@@ -15,10 +15,10 @@ OUTPUT = "output"
 
 class Sheet(ScrolledText, LineHandling):
 
-    def __init__(self, master=None, scrollbar=True, name="s", width=80, borderwidth=0, padx=0, pady=0, height=0,
+    def __init__(self, master=None, scrollbar=True, name="s", wrap=WORD, width=80, borderwidth=0, padx=0, pady=0, height=0,
                  background='white', text="", **kw):
         ScrolledText.__init__(
-            self, master, undo=True, wrap=WORD, padx=padx, pady=pady, background=background,
+            self, master, undo=True, wrap=wrap, padx=padx, pady=pady, background=background,
             width=width, height=height, insertwidth=3, font=Fonts.FONT,
             border=0, borderwidth=borderwidth, highlightthickness=0,
             selectbackground="#66a2d4", selectforeground="white", name=name, **kw)
@@ -72,7 +72,7 @@ class Sheet(ScrolledText, LineHandling):
         code_block_start_pattern =  '("""|' + """'''|```)python.*\n"""
         start = self.search(code_block_start_pattern, INSERT, regexp=True, backwards=True)
         if start:
-            # print(f"{start=}")
+            print(f"{start=}")
             text = self.get(start, END)
             m = re.search(code_block_pattern, text)
             # print(f"{m=}")

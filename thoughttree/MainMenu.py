@@ -350,8 +350,8 @@ class MainMenu(MenuBar):
         help_menu.add_item("OpenAI Chat API", None, web("https://platform.openai.com/docs/api-reference/chat"))
         help_menu.add_item("GPT Models", None, web("https://platform.openai.com/docs/models"))
         help_menu.add_item("OpenAI Pricing", None, web("https://openai.com/pricing"))
-        help_menu.add_item("About", "<Control-F1>", lambda e=None: AboutDialog(self.ui))
         help_menu.add_item("Debug Info", "<Control-Alt-Shift-I>", debug_info)
+        help_menu.add_item("About", "<Control-F1>", lambda e=None: AboutDialog(self.ui))
 
         ui.bind_class("Text", "<Control-Button-4>", lambda e=None: font_size(1))
         ui.bind_class("Text", "<Control-Button-5>", lambda e=None: font_size(-1))

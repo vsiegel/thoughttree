@@ -1,3 +1,4 @@
+import sys
 import tkinter as tk
 import tkinter.commondialog
 from datetime import datetime
@@ -19,7 +20,7 @@ class AboutDialog(tk.Toplevel):
         self.git_version = conf.git_describe_version
 
         tk.Label(self, font=Fonts.FONT, text="Thoughttree").pack(padx=8, pady=12)
-        tk.Label(self, font=Fonts.FONT, text=f'{self.git_version} \nRunning since {conf.start_time}').pack(padx=16, pady=2)
+        tk.Label(self, font=Fonts.FONT, text=f'Version {self.git_version}\n\nusing python {sys.version.split()[0]}\nRunning since {conf.start_time}').pack(padx=16, pady=2)
 
         b = tk.Button(self, text="OK", command=self.destroy)
         b.pack(padx=8, pady=12)

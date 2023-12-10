@@ -484,8 +484,6 @@ class Thoughttree(Ui):
         # sheet.mark_set(OUTPUT, inline and INSERT or "end-2c")
         sheet.mark_set("completion_start", OUTPUT)
 
-        alternatives_frame = None
-
         def write_stdout(text, *args):
             if self.is_root_destroyed:
                 return

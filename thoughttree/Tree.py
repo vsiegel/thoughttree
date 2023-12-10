@@ -1,7 +1,7 @@
 import difflib
 import tkinter as tk
 from tkinter import BOTH, DISABLED, END, HORIZONTAL, INSERT, LEFT, NO, SUNKEN, TOP, VERTICAL, W, WORD, X, SEL_FIRST, \
-    SEL_LAST, RIGHT
+    SEL_LAST, RIGHT, NORMAL
 from tkinter import font as tkfont
 from tkinter import ttk, simpledialog
 import itertools
@@ -86,7 +86,10 @@ class Tree(tk.Frame):
         self.tree.focus("Examples")
         self.tree.pack(side=LEFT, fill=BOTH, expand=True)
 
-        self.load_examples(conf.examples_dir)
+        self.load_dir(conf.examples_dir, "Examples")
+        self.load_dir(conf.prompts_dir, "Prompts")
+
+        TreeTooltip(self)
 
     def focussed_file(self):
         leaf = self.tree.item(self.tree.focus())
@@ -105,7 +108,7 @@ class Tree(tk.Frame):
         self.ui.detail.configure(state=DISABLED)
         return "break"
 
-    def load_examples(self, examples_dir):
+    def load_dir(self, examples_dir, node):
 
         def populate_tree(tree, node):
             # if tree.set(node, "type") != 'directory':
@@ -132,13 +135,6 @@ class Tree(tk.Frame):
                         tree.insert(id, 0, text="dummy")
                         tree.item(id, text=name)
 
-
-        def populate_roots(tree):
-            # dir = abspath('.')
-            # node = tree.insert('', 'end', text=dir, values=[dir, "directory"])
-            populate_tree(tree, "Examples")
-
-
         # def update_tree(event):
         #     tree = event.widget
         #     populate_tree(tree, tree.focus())
@@ -155,13 +151,13 @@ class Tree(tk.Frame):
             print(f"insert_chat: {event=}")
             return "break"
 
-        self.tree.bind('<Return>', show_details)
+        # self.tree.bind('<Return>', show_details)
         self.tree.bind('<Shift-Return>', insert_system)
         self.tree.bind('<Control-Return>', insert_chat)
         self.tree.bind('<Shift-Alt-Return>', insert_system)
         self.tree.bind('<Control-Alt-Return>', insert_chat)
 
-        populate_roots(self.tree)
+        populate_tree(self.tree, node)
 
 
     def edit_tree_entry(self, event):

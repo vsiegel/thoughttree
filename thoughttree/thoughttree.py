@@ -487,11 +487,17 @@ class Thoughttree(Ui):
             print(text)
             self.scroll(sheet)
 
+        def write_null(text, *args):
+            pass
+
         def write_sheet(text, written_sheet: Sheet):
             if self.is_root_destroyed:
                 return
             written_sheet.insert(OUTPUT, text, ("assistant", "model-" + self.model.name))
             self.scroll(sheet)
+
+        def write_sheet_idle(text, written_sheet: Sheet):
+            self.after_idle(lambda: write_sheet(text, written_sheet))
 
         def write_label(text, label=None):
             if self.is_root_destroyed:

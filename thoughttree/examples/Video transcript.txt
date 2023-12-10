@@ -1,0 +1,1049 @@
+Transcript video
+File created by Sun Dec 03 2023 10:39:59 GMT+0100 (Central European Standard Time)
+Video URL: https://www.youtube.com/watch?v=7VSWyghVZIg
+Title: (2) OpenAI GPT-4 - The Future Is Here! - YouTube
+Total: 111
+
+
+#####
+
+Time: 00:00
+
+Dear Fellow Scholars, this is Two Minute Papers
+with Dr. Károly Zsolnai-Fehér.
+
+#####
+
+
+#####
+
+Time: 00:05
+
+Finally, OpenAI’s legendary language model
+AI, GPT-4 which also now powers their ChatGPT
+
+#####
+
+
+#####
+
+Time: 00:13
+
+assistant, is here.
+
+#####
+
+
+#####
+
+Time: 00:15
+
+And my goodness, they promise a lot of goodies.
+
+#####
+
+
+#####
+
+Time: 00:19
+
+Advanced reasoning.
+
+#####
+
+
+#####
+
+Time: 00:20
+
+Complex instructions.
+
+#####
+
+
+#####
+
+Time: 00:22
+
+More creativity.
+
+#####
+
+
+#####
+
+Time: 00:23
+
+This is going to be an incredible journey,
+so hold on to your papers right now, Fellow
+
+#####
+
+
+#####
+
+Time: 00:29
+
+Scholars.
+
+#####
+
+
+#####
+
+Time: 00:30
+
+And, get this, it can also accept image inputs.
+
+#####
+
+
+#####
+
+Time: 00:34
+
+Let’s put this one to work immediately.
+
+#####
+
+
+#####
+
+Time: 00:38
+
+Dear GPT-4, imagine that we have these ingredients.
+
+#####
+
+
+#####
+
+Time: 00:43
+
+What can we make from them?
+
+#####
+
+
+#####
+
+Time: 00:44
+
+Note that the input is not a text anymore,
+but a photo.
+
+#####
+
+
+#####
+
+Time: 00:48
+
+That is excellent, and don’t forget, if
+one of these caught your eye, you can also
+
+#####
+
+
+#####
+
+Time: 00:55
+
+ask follow up questions here on how to exactly
+make them.
+
+#####
+
+
+#####
+
+Time: 00:59
+
+Now, earlier we looked at some preliminary
+results of an IQ-test, where it scored 147.
+
+#####
+
+
+#####
+
+Time: 01:08
+
+However, I noted immediately that we should
+be good Fellow Scholars and take this with
+
+#####
+
+
+#####
+
+Time: 01:15
+
+a little bit of skepticism, and wait for a
+more formal examination.
+
+#####
+
+
+#####
+
+Time: 01:20
+
+And, yes - here it is!
+
+#####
+
+
+#####
+
+Time: 01:23
+
+It finally happened.
+
+#####
+
+
+#####
+
+Time: 01:25
+
+GPT-4 give us human-level performance on a
+variety of academic benchmarks.
+
+#####
+
+
+#####
+
+Time: 01:31
+
+And they report something absolutely incredible.
+
+#####
+
+
+#####
+
+Time: 01:35
+
+Look.
+
+#####
+
+
+#####
+
+Time: 01:36
+
+This is what its previous incarnation in ChatGPT
+was capable of doing.
+
+#####
+
+
+#####
+
+Time: 01:42
+
+10th percentile on the bar exam.
+
+#####
+
+
+#####
+
+Time: 01:45
+
+And now, maybe 30?
+
+#####
+
+
+#####
+
+Time: 01:47
+
+50?
+
+#####
+
+
+#####
+
+Time: 01:48
+
+Nope, 90th percentile.
+
+#####
+
+
+#####
+
+Time: 01:50
+
+This means that the new one is within the
+top 10 percent of test takers.
+
+#####
+
+
+#####
+
+Time: 01:56
+
+That kind of improvement in just one paper
+is outstanding.
+
+#####
+
+
+#####
+
+Time: 02:00
+
+And, I know you are looking, and the answer
+is of course, we are going to talk about this
+
+#####
+
+
+#####
+
+Time: 02:06
+
+too in a moment.
+
+#####
+
+
+#####
+
+Time: 02:08
+
+And this is where being able to process visual
+information means an incredible breakthrough.
+
+#####
+
+
+#####
+
+Time: 02:14
+
+It doesn’t just mean that it can help us
+with the ingredients, or can explain memes.
+
+#####
+
+
+#####
+
+Time: 02:19
+
+Although that is quite helpful.
+
+#####
+
+
+#####
+
+Time: 02:21
+
+But, it gets better.
+
+#####
+
+
+#####
+
+Time: 02:23
+
+For instance, look at this one.
+
+#####
+
+
+#####
+
+Time: 02:26
+
+Yummy.
+
+#####
+
+
+#####
+
+Time: 02:27
+
+On the AMC mathematical exam, GPT-4 marked
+with light green performs so much better than
+
+#####
+
+
+#####
+
+Time: 02:35
+
+the previous version.
+
+#####
+
+
+#####
+
+Time: 02:37
+
+However, here is where the magic happens.
+
+#####
+
+
+#####
+
+Time: 02:40
+
+Look, this exam contains some light visual
+information, and when we add the capability
+
+#####
+
+
+#####
+
+Time: 02:46
+
+to process this to GPT-4, it does so much
+better.
+
+#####
+
+
+#####
+
+Time: 02:50
+
+It is rapidly improving to match human-level
+results.
+
+#####
+
+
+#####
+
+Time: 02:55
+
+We are one step closer to human-level intelligence.
+
+#####
+
+
+#####
+
+Time: 03:00
+
+This work is history in the making.
+
+#####
+
+
+#####
+
+Time: 03:02
+
+And, I was also very excited about this.
+
+#####
+
+
+#####
+
+Time: 03:06
+
+The USA Biology Olympiad exam.
+
+#####
+
+
+#####
+
+Time: 03:09
+
+This needs next-level capabilities, because
+it requires visually inspecting and evaluating
+
+#####
+
+
+#####
+
+Time: 03:16
+
+electrocardiograms, and in general, taking
+in a ton of visual information and giving
+
+#####
+
+
+#####
+
+Time: 03:22
+
+correct answers.
+
+#####
+
+
+#####
+
+Time: 03:23
+
+So how correct was it?
+
+#####
+
+
+#####
+
+Time: 03:27
+
+What?
+
+#####
+
+
+#####
+
+Time: 03:28
+
+Are you kidding?
+
+#####
+
+
+#####
+
+Time: 03:29
+
+99th percentile.
+
+#####
+
+
+#####
+
+Time: 03:31
+
+Better than almost all humans.
+
+#####
+
+
+#####
+
+Time: 03:34
+
+Wow.
+
+#####
+
+
+#####
+
+Time: 03:35
+
+However, wait a minute.
+
+#####
+
+
+#####
+
+Time: 03:36
+
+I see light green, not dark green.
+
+#####
+
+
+#####
+
+Time: 03:39
+
+What does that mean?
+
+#####
+
+
+#####
+
+Time: 03:40
+
+I mean that is the non-vision version of GPT-4.
+
+#####
+
+
+#####
+
+Time: 03:45
+
+But this exam has plenty of images.
+
+#####
+
+
+#####
+
+Time: 03:48
+
+So, what happened?
+
+#####
+
+
+#####
+
+Time: 03:50
+
+Well, the AI got a little help.
+
+#####
+
+
+#####
+
+Time: 03:53
+
+The images have been transcribed by a human.
+
+#####
+
+
+#####
+
+Time: 03:57
+
+I would love to see those transcriptions,
+I bet it was not an easy job.
+
+#####
+
+
+#####
+
+Time: 04:02
+
+So, it seemingly cannot perform this level
+of visual inspection yet, but I am certain
+
+#####
+
+
+#####
+
+Time: 04:09
+
+that we will see something like this one or
+two more papers down the line.
+
+#####
+
+
+#####
+
+Time: 04:14
+
+Perhaps with GPT-5.
+
+#####
+
+
+#####
+
+Time: 04:17
+
+If that sounds interesting, consider subscribing
+and hitting the bell icon to not miss it when
+
+#####
+
+
+#####
+
+Time: 04:22
+
+the next paper drops.
+
+#####
+
+
+#####
+
+Time: 04:24
+
+Here is also an example that I absolutely
+loved.
+
+#####
+
+
+#####
+
+Time: 04:28
+
+Little AI, explain the plot of Cinderella
+and each word has to begin with the next letter
+
+#####
+
+
+#####
+
+Time: 04:35
+
+in the alphabet from A to Z.
+
+#####
+
+
+#####
+
+Time: 04:37
+
+Wow.
+
+#####
+
+
+#####
+
+Time: 04:39
+
+This one is tough.
+
+#####
+
+
+#####
+
+Time: 04:40
+
+I have to admit, I am not sure if most people
+would be able to solve this in a satisfactory
+
+#####
+
+
+#####
+
+Time: 04:47
+
+manner.
+
+#####
+
+
+#####
+
+Time: 04:48
+
+And…look at that.
+
+#####
+
+
+#####
+
+Time: 04:51
+
+Flying colors.
+
+#####
+
+
+#####
+
+Time: 04:52
+
+My goodness.
+
+#####
+
+
+#####
+
+Time: 04:54
+
+And this is one more really cool example from
+their official demo.
+
+#####
+
+
+#####
+
+Time: 04:59
+
+What?
+
+#####
+
+
+#####
+
+Time: 05:00
+
+Are you saying that this crude drawing for
+a website comes in, with some jokes and buttons.
+
+#####
+
+
+#####
+
+Time: 05:07
+
+And it not only creates this website with
+proper javascript, but it also understands
+
+#####
+
+
+#####
+
+Time: 05:13
+
+that it needs to fill in the jokes, and it
+does that too.
+
+#####
+
+
+#####
+
+Time: 05:17
+
+Loving it.
+
+#####
+
+
+#####
+
+Time: 05:18
+
+So, when can we try it?
+
+#####
+
+
+#####
+
+Time: 05:20
+
+Well, OpenAI deployed GPT-4 to their ChatGPT
+Plus subscribers, and they also made a waitlist
+
+#####
+
+
+#####
+
+Time: 05:28
+
+for API access.
+
+#####
+
+
+#####
+
+Time: 05:29
+
+Now, I was lucky enough to have access to
+it, thank you so much, and it already helped
+
+#####
+
+
+#####
+
+Time: 05:35
+
+me remember my discussion with a geologist
+professor from a few years ago.
+
+#####
+
+
+#####
+
+Time: 05:41
+
+There were some details I did not remember,
+and now I do.
+
+#####
+
+
+#####
+
+Time: 05:45
+
+Thank you!
+
+#####
+
+
+#####
+
+Time: 05:46
+
+So, who is using it?
+
+#####
+
+
+#####
+
+Time: 05:48
+
+The answer is that everyone is using it.
+
+#####
+
+
+#####
+
+Time: 05:51
+
+It can help us organize a huge knowledge base,
+or it can help us learn a new language, and
+
+#####
+
+
+#####
+
+Time: 05:57
+
+so much more.
+
+#####
+
+
+#####
+
+Time: 05:59
+
+And this is tech transfer, so in other words,
+from paper to product, not in decades, but
+
+#####
+
+
+#####
+
+Time: 06:06
+
+in a matter of days, and in some cases, even
+a matter of hours.
+
+#####
+
+
+#####
+
+Time: 06:12
+
+What a time to be alive!
+
+#####
+
+
+#####
+
+Time: 06:14
+
+And if you have been watching Two Minute Papers,
+you see the whole history of these works,
+
+#####
+
+
+#####
+
+Time: 06:19
+
+from GPT-2, to GPT-3 and now, GPT-4.
+
+#####
+
+
+#####
+
+Time: 06:24
+
+You saw history unfold right before your eyes.
+
+#####
+
+
+#####
+
+Time: 06:28
+
+Thank you so much for being on this incredible
+journey with me.
+
+#####
+
+
+#####
+
+Time: 06:32
+
+Now, I will also note that the paper is really
+detailed in terms of the evaluation of the
+
+#####
+
+
+#####
+
+Time: 06:37
+
+results, but a little light on the inner workings
+of the algorithm itself.
+
+#####
+
+
+#####
+
+Time: 06:42
+
+I hope we get to know more soon.
+
+#####
+
+
+#####
+
+Time: 06:49
+
+Thanks for watching and 
+for your generous support, and I'll see 
+
+#####
+
+
+#####
+
+Time: 07:59
+
+you next time!
+
+#####

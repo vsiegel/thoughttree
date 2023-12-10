@@ -24,8 +24,6 @@ class FoldablePane(tk.PanedWindow):
                       " by dragging the this separating line, or collapsing omne of it, (...), by a double click."
                       "The separating line stays visible and restores the hidden pane on double click."
                       "Alternatively, the command '...' in menu View or the keystroke '...' can be used to toggle the visibility of '...'"))
-        # tools.bind_to_all_events(self, excluded="Motion, Expose")
-        tools.bind_to_all_events(self)
 
 
     def add(self, child, stretch="always", **kw) -> None:
@@ -88,12 +86,13 @@ class FoldablePaneTooltip(Tooltip):
         self.widget.bind("<Leave>", self.hide)
 
 
-    def update(self, event=None):
-        # if self.widget.identify(self.window.winfo_pointerx(), self.window.winfo_pointery())
-        identification = self.widget.identify(event.x, event.y)
-        on_sash = bool(identification and identification[1] == "sash")
-        print(f"identify: {self.widget} {on_sash}")
+    def on_sash(self, event=None):
+        # identification = self.widget.identify(event.x, event.y)
+        identification = self.widget.identify(self.widget.winfo_pointerx() - self.widget.winfo_rootx(), self.widget.winfo_pointery() - self.widget.winfo_rooty())
+        return bool(identification and identification[1] == "sash")
 
+
+    def update(self, event=None):
         if self.tip:
             if self.hide_timer:
                 self.root.after_cancel(self.hide_timer)

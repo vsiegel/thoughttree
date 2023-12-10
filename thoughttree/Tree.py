@@ -73,6 +73,10 @@ class Tree(tk.Frame):
 
         self.load_examples(conf.examples_dir)
 
+    def focussed_file(self):
+        leaf = self.tree.item(self.tree.focus())
+        return leaf["values"][0] if leaf["values"] else None
+
 
     def load_examples(self, examples_dir):
 

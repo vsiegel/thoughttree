@@ -179,12 +179,13 @@ def bind_to_all_events(widget, on_event=None, bind_all=False, excluded="Motion",
     def print_event(event):
         print(f"{event} on {event.widget}", flush=True)
 
-
     excluded = excluded or ""
     excluded = excluded.split(", ")
 
-    included = included or ""
-    included = included.split(", ")
+    if included:
+        included = included.split(", ")
+    else:
+        included = []
     included = included or [e.name for e in tk.EventType if e.name not in excluded]
 
     on_event = on_event or print_event

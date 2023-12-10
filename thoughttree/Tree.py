@@ -37,9 +37,10 @@ class Tree(tk.Frame):
                     self.tree.item(item, tags='closed')
 
         style = "Treeview.Treeview"
-        # font = Fonts.FONT
+        font = Fonts.FONT
         # line_height = tkfont.Font(font=font).metrics("linespace") + 2
-        # Style().configure(style, bd=2, highlightthickness=1, rowheight=line_height, font=font)
+        # Style().configure(style, rowheight=line_height)
+        Style().configure(style, bd=2, highlightthickness=1, font=font)
 
 
         self.tree = ttk.Treeview(self, columns=(), style=style, *args, **kw) # show="tree", # ("C1", "C2")

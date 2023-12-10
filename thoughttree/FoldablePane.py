@@ -79,8 +79,14 @@ class FoldablePaneTooltip(Tooltip):
     def __init__(self, widget: FoldablePane, text):
         super().__init__(widget, text)
         self.widget = widget
+
+        self.show_delay_ms = 300
+        self.hide_timer = None
+        self.hide_delay_ms = 1000
+
         self.widget.bind("<Enter>", self.show)
         self.widget.bind("<Leave>", self.hide)
+
 
     def update(self, event=None):
         # if self.widget.identify(self.window.winfo_pointerx(), self.window.winfo_pointery())

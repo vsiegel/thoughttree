@@ -21,7 +21,10 @@ NODE_CLOSED = '|'
 
 
 class Tree(tk.Frame):
-    def __init__(self, parent, *args, **kw):
+    def __init__(self, parent, thoughttree, *args, **kw):
+        from thoughttree import Thoughttree
+        self.ui: Thoughttree = thoughttree
+
         tk.Frame.__init__(self, parent, *args, **kw)
         self.parent = parent
 

@@ -9,8 +9,8 @@ class Tooltip:
         self.text = text
         self.tip = None
         self.label = None
-        self.timer = None
-        self.delay_ms = 1000
+        self.show_timer = None
+        self.show_delay_ms = 1000
 
         widget.bind("<Enter>", self.show_later, add=True)
         widget.bind("<Leave>", self.hide, add=True)
@@ -26,7 +26,7 @@ class Tooltip:
     def show_later(self, event):
         if self.tip:
             return
-        self.timer = self.root.after(self.delay_ms, lambda ev=event: self.show(ev))
+        self.show_timer = self.root.after(self.show_delay_ms, lambda ev=event: self.show(ev))
 
 
     def show(self, event=None):
@@ -64,8 +64,8 @@ class Tooltip:
 
 
     def hide(self, event):
-        if self.timer:
-            self.root.after_cancel(self.timer)
+        if self.show_timer:
+            self.root.after_cancel(self.show_timer)
         if self.tip:
             self.tip.destroy()
         self.tip = None

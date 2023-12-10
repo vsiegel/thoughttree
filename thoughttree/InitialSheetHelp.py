@@ -10,7 +10,7 @@ class InitialSheetHelp(tk.Label):
     def __init__(self, sheet: Sheet, text:str, tooltip=""):
         super().__init__(sheet, text=text, padx=0, pady=0, bg="white", fg="#b3b3b3", borderwidth=0)
         if tooltip:
-            Tooltip(self, text_block(tooltip)).delay_ms = 100
+            Tooltip(self, text_block(tooltip)).show_delay_ms = 100
         sheet.window_create("1.0", window=self, padx=2)
         sheet.mark_set(INSERT, "1.0")
         def remove(event=None):

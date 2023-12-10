@@ -1,0 +1,4 @@
+When showing code blocks, always propose a file name, and show it after the file  type in the first line, like so:
+'''python example.py
+...
+'''

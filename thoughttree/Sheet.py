@@ -60,7 +60,7 @@ class Sheet(ScrolledText, LineHandling):
 
 
         self.mark_set(OUTPUT, "1.0")
-        self.mark_gravity(OUTPUT, tk.LEFT)
+        self.mark_gravity(OUTPUT, tk.RIGHT)
 
         self.old_num_display_lines = 0
         if text:

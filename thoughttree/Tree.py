@@ -5,14 +5,13 @@ from tkinter import BOTH, DISABLED, END, HORIZONTAL, INSERT, LEFT, NO, SUNKEN, T
 from tkinter import font as tkfont
 from tkinter import ttk, simpledialog
 import itertools
-import os
-import glob
+from os import listdir
+from os.path import isdir, isfile, join, split, abspath
 from tkinter.ttk import Style
 
 import TextDifference
 from Config import conf
 from Fonts import Fonts
-from Sheet import Sheet
 from TextChange import TextChange
 
 #NODE_OPEN = '\u25B6'
@@ -83,24 +82,24 @@ class Tree(tk.Frame):
             # parent = tree.parent(node)
             # special_dirs = [] if parent else glob.glob('.') + glob.glob(examples_dir)
 
-            for p in os.listdir(path):
+            for p in listdir(path):
                 ptype = None
-                p = os.path.join(path, p)
-                if os.path.isdir(p):
+                p = join(path, p)
+                if isdir(p):
                     ptype = "directory"
-                elif os.path.isfile(p):
+                elif isfile(p):
                     ptype = "file"
-                fname = os.path.split(p)[1]
-                id = tree.insert(node, "end", text=fname, values=[p])
+                name = split(p)[1]
+                id = tree.insert(node, "end", text=name, values=[p])
 
                 if ptype == 'directory':
-                    if fname not in ('.', '..'):
+                    if name not in ('.', '..'):
                         tree.insert(id, 0, text="dummy")
-                        tree.item(id, text=fname)
+                        tree.item(id, text=name)
 
 
         def populate_roots(tree):
-            # dir = os.path.abspath('.')
+            # dir = abspath('.')
             # node = tree.insert('', 'end', text=dir, values=[dir, "directory"])
             populate_tree(tree, "Examples")
 

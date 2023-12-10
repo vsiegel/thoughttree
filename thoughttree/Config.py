@@ -1,10 +1,10 @@
 import sys
 from datetime import datetime
-from os.path import dirname, join
 
 from configargparse import Namespace, ArgumentParser
 
 import tools
+from tools import code_file_relative
 
 conf = Namespace()
 
@@ -13,7 +13,9 @@ conf.update_title_after_completion = True
 conf.scroll_output = True
 conf.ring_bell_after_completion = False
 conf.blinking_caret = True
-conf.examples_dir = join(dirname(__file__), "examples")
+
+conf.examples_dir = code_file_relative("examples")
+conf.prompts_dir = code_file_relative("prompts")
 
 conf.debug = True
 

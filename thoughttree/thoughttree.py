@@ -317,17 +317,17 @@ class Thoughttree(Ui):
 
         self.it.window_create(INSERT, window=question_box, stretch=1)
 
-    def improve(self, event=None):
-        self.set_up_location_reference()
-        improvement_prompt = dedent(
+
+    def comment(self, event=None):
+        comment_prompt = dedent(
             f"""
             Propose a small change that makes the text better. Solve just one individual issue. A minimal change.
             Specify it as a replacement, as
-            
+
             Old: "..."
             New: "..."
             [followed by a newline]
-            
+
             Make a replacement of minimal length, not of whole sentences. It is used as a text replacement, on character level.
             Do not repeat previous results if they are present in the input.
             """)
@@ -370,7 +370,6 @@ class Thoughttree(Ui):
             """))
 
         sheet = self.it
-
         history = self.history_from_system_and_chat()
         self.delete_hidden_prompt(sheet)
         if self.log_messages_to_console:

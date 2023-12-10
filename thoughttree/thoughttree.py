@@ -304,8 +304,6 @@ class Thoughttree(Ui):
             self.model.counter.go()
 
             reason, message, answer = self.completions(sheet, history, n)
-            if self.log_messages_to_console:
-                print(f'Answer:\n"{answer}"')
             self.model.counter.summarize("Completion cost:", self.console.tagged_out("cost"))
 
             self.finish_completion(sheet, reason, message, postfix, inline)
@@ -524,6 +522,9 @@ class Thoughttree(Ui):
                 reason, message, answer = self.model.complete(history, lambda text: write_sheet(text, sheet))
 
         sheet.mark_set("completion_end", OUTPUT)
+        if self.log_messages_to_console:
+            print(f'Answer:\n"{answer}"')
+
         return reason, message, answer
 
 

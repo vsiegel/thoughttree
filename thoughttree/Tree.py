@@ -92,6 +92,18 @@ class Tree(tk.Frame):
         leaf = self.tree.item(self.tree.focus())
         return leaf["values"][0] if leaf["values"] else None
 
+    def show_details(self, event=None):
+        file = self.focussed_file()
+        self.ui.detail.configure(state=NORMAL)
+        self.ui.detail.delete("1.0", "end")
+        if file:
+            with open(file) as f:
+                text = f.read()
+                print(f"show_details: {file}")
+                # state = DISABLED
+                self.ui.detail.insert("1.0", text)
+        self.ui.detail.configure(state=DISABLED)
+        return "break"
 
     def load_examples(self, examples_dir):
 
@@ -132,17 +144,8 @@ class Tree(tk.Frame):
         #     populate_tree(tree, tree.focus())
         # self.tree.bind('<<TreeviewOpen>>', update_tree)
 
-        def show_details(event=None):
-            file = self.focussed_file()
-            self.ui.detail.delete("1.0", "end")
-            if file:
-                with open(file) as f:
-                    text = f.read()
-                    print(f"show_details: {file}")
-                    self.ui.detail.insert("1.0", text)
-            return "break"
 
-        self.tree.bind("<<TreeviewSelect>>", show_details)
+        self.tree.bind("<<TreeviewSelect>>", self.show_details)
 
         def insert_system(event):
             print(f"insert_system: {event=}")

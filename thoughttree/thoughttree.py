@@ -479,7 +479,7 @@ class Thoughttree(Ui):
 
 
     def completions(self, sheet, history, n=1):
-        reason, message = 'unknown', ''
+        reason, message, answer = 'unknown', '', ''
 
         # sheet.mark_set(OUTPUT, inline and INSERT or "end-2c")
         sheet.mark_set("completion_start", OUTPUT)

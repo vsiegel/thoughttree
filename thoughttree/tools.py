@@ -3,6 +3,7 @@ import sys
 import time
 import tkinter as tk
 import webbrowser
+from os.path import join, dirname
 from textwrap import fill
 from math import ceil, log2, sqrt
 import random
@@ -253,3 +254,6 @@ def web(url):
 def escapable(widget):
     widget.bind("<Escape>", lambda e: widget.destroy())
 
+
+def code_file_relative(path):
+    return join(dirname(__file__), path)

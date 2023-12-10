@@ -99,8 +99,11 @@ class FoldablePaneTooltip(Tooltip):
             self.hide_timer = self.root.after(self.hide_delay_ms, self.hide)
             super().update(event)
         else:
-            self.show(event)
+            self.show_later(event)
 
+    def show(self, event=None):
+        if self.on_sash(event):
+            super().show(event)
 
     def bind_tip(self):
         self.widget.bind("<Leave>", self.hide, add=True)

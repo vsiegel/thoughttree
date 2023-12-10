@@ -90,7 +90,9 @@ class FoldablePaneTooltip(Tooltip):
 
     def update(self, event=None):
         # if self.widget.identify(self.window.winfo_pointerx(), self.window.winfo_pointery())
-        print(f"identify: {self.widget} {self.widget.identify(event.x, event.y)}")
+        identification = self.widget.identify(event.x, event.y)
+        on_sash = bool(identification and identification[1] == "sash")
+        print(f"identify: {self.widget} {on_sash}")
 
         super().update(event)
 

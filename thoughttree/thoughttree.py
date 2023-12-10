@@ -139,8 +139,8 @@ class Thoughttree(Ui):
         self.status.pack(side=BOTTOM, fill=X, expand=True)
 
         self.console_pane = FoldablePane(self, orient=VERTICAL, name="cp")
-        self.tree_pane = FoldablePane(self.console_pane, orient=HORIZONTAL, name="tp", fold_size=400)
-        self.detail_pane = FoldablePane(self.tree_pane, orient=HORIZONTAL, name="dp", fold_size=10)
+        self.tree_pane = FoldablePane(self.console_pane, orient=HORIZONTAL, name="tp", fold_size=500)
+        self.detail_pane = FoldablePane(self.tree_pane, orient=HORIZONTAL, name="dp", fold_size=100)
         self.system_pane = FoldablePane(self.tree_pane, orient=VERTICAL, name="sp")
         self.console_pane.pack(side=TOP, fill=BOTH, expand=True)
 

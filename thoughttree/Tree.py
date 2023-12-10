@@ -13,11 +13,26 @@ import TextDifference
 from Config import conf
 from Fonts import Fonts
 from TextChange import TextChange
+from Tooltip import Tooltip
 
 #NODE_OPEN = '\u25B6'
 #NODE_CLOSED = '\u25BC'
 NODE_OPEN = '*'
 NODE_CLOSED = '|'
+
+class TreeTooltip(Tooltip):
+    def __init__(self, tree):
+        self.tree = tree
+        super().__init__(tree, None)
+
+    def refresh_tooltip_text(self, event=None):
+        item = self.tree.tree.item(self.tree.tree.identify('item', event.x, event.y))
+        self.label.configure(text=item)
+        # self.label.configure(text=self.tree.focussed_file())
+
+    # def bind_tip(self):
+    #     self.tree.tree.bind("<Leave>", self.hide, add=True)
+    #     self.tree.tree.bind("<Motion>", self.update, add=True)
 
 
 class Tree(tk.Frame):

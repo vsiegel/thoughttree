@@ -23,7 +23,7 @@ from TextIOTee import TextIOTee
 from Title import Title
 from HidableFrame import HidableFrame
 from Model import Model
-from AlternativeLabel import AlternativeLabel
+from AlternativeLabel import AlternativeSheet
 from StatusBar import StatusBar
 from Sheet import Sheet, OUTPUT
 from MainMenu import MainMenu
@@ -510,18 +510,24 @@ class Thoughttree(Ui):
 
 
         if n > 1:
+            alternatives_frame = tk.Frame(sheet, borderwidth=4, relief=GROOVE)
+            sheet.insert(OUTPUT, "\n")
+            sheet.window_create(OUTPUT, window=alternatives_frame)
+            sheet.insert(OUTPUT, "\n")
+            sheet.see(OUTPUT)
             for i in range(n):
                 if self.model.is_canceled:
                     reason = "canceled"
                     break
-                alternatives_frame = tk.Frame(sheet, borderwidth=4, relief=GROOVE)
-                title = tk.Label(alternatives_frame, text=f"Alternatives ({n})")
+                alternative_frame = tk.Frame(alternatives_frame, borderwidth=4, relief=GROOVE)
+                alternative_frame.pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+                title = tk.Label(alternative_frame, text=f"Alternatives ({i+1}/{n})", foreground="gray")
                 title.pack(side=tk.TOP, anchor=tk.W)
-                sheet.insert(OUTPUT, "\n")
-                sheet.window_create(OUTPUT, window=alternatives_frame)
-                sheet.see(OUTPUT)
-                label = AlternativeLabel(alternatives_frame, sheet)
-                reason, message, answer = self.model.complete(history, lambda text: write_label(text, label))
+                # sheet.see(OUTPUT)
+                # label = AlternativeLabel(alternative_frame, sheet)
+                # reason, message, answer = self.model.complete(history, lambda text: write_label(text, label))
+                alternatives_sheet = AlternativeSheet(alternative_frame) #, width=3)
+                reason, message, answer = self.model.complete(history, lambda text: write_sheet(text, alternatives_sheet))
         else:
             with InsertionIcon(sheet, OUTPUT):
                 reason, message, answer = self.model.complete(history, lambda text: write_sheet(text, sheet))

@@ -385,6 +385,7 @@ class Thoughttree(Ui):
             Ignore the character for all other purposes.
             For example, for a marker X and input "foo baXr baz", the word "here" is "bar" (not "baXr").
             Never literally mention the marker, it is automatically hidden from the user.
+            Do not use "{conf.location_marker}" in output, if not strictly needed.
             {specific}
             """)
         self.system.hide(END, location_reference_prompt)

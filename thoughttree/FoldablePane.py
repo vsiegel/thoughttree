@@ -11,8 +11,8 @@ class FoldablePane(tk.PanedWindow):
     class FoldablePaneTooltip(Tooltip):
         def __init__(self, widget, text, **kw):
             super().__init__(widget, text, **kw)
-            self.widget.bind("<Enter>", self.create_tip)
-            self.widget.bind("<Leave>", self.remove_tip)
+            self.widget.bind("<Enter>", self.show)
+            self.widget.bind("<Leave>", self.hide)
 
     MIN_SIZE = 20
     def __init__(self, parent=None, folded=False, fold_size=100, name="fp", **kw):

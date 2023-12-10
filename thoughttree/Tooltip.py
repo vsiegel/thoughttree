@@ -12,34 +12,34 @@ class Tooltip:
         self.timer = None
         self.delay_ms = 1000
 
-        widget.bind("<Enter>", self.create_tip_later, add=True)
-        widget.bind("<Leave>", self.remove_tip, add=True)
-        widget.bind("<Unmap>", self.remove_tip, add=True)
-        widget.bind("<Destroy>", self.remove_tip, add=True)
-        self.root.bind("<Motion>", self.update_tip, add=True)
+        widget.bind("<Enter>", self.show_later, add=True)
+        widget.bind("<Leave>", self.hide, add=True)
+        widget.bind("<Unmap>", self.hide, add=True)
+        widget.bind("<Destroy>", self.hide, add=True)
+        self.root.bind("<Motion>", self.update, add=True)
 
 
-    def create_tip_later(self, event):
+    def show_later(self, event):
         if self.tip:
             return
-        self.timer = self.root.after(self.delay_ms, lambda ev=event: self.create_tip(ev))
+        self.timer = self.root.after(self.delay_ms, lambda ev=event: self.show(ev))
 
 
-    def create_tip(self, event=None):
+    def show(self, event=None):
         if not self.tip:
             self.tip = tk.Toplevel(self.root)
             self.tip.wm_overrideredirect(True)
             self.label = tk.Label(self.tip, text="", background="#FFFFE0", relief="solid",
                                   borderwidth=1, justify=tk.LEFT, padx=6, pady=5, font=("sans-serif", 11))
             self.label.pack()
-            self.tip.bind("<Leave>", self.remove_tip, add=True)
-            self.tip.bind("<Button-1>", self.remove_tip, add=True)
-            self.label.bind("<Escape>", self.remove_tip, add=True)
+            self.tip.bind("<Leave>", self.hide, add=True)
+            self.tip.bind("<Button-1>", self.hide, add=True)
+            self.label.bind("<Escape>", self.hide, add=True)
             # self.widget.bind("<Destroy>", self.remove_tip)
-            self.update_tip(event)
+            self.update(event)
 
 
-    def update_tip(self, event=None):
+    def update(self, event=None):
         if self.tip:
             x = self.root.winfo_pointerx() + 75
             y = self.root.winfo_pointery() + 25
@@ -59,7 +59,7 @@ class Tooltip:
         self.label.configure(text=self.text)
 
 
-    def remove_tip(self, event):
+    def hide(self, event):
         if self.timer:
             self.root.after_cancel(self.timer)
         if self.tip:

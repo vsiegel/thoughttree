@@ -1,20 +1,18 @@
 import difflib
 import tkinter as tk
-from tkinter import BOTH, DISABLED, END, HORIZONTAL, INSERT, LEFT, NO, SUNKEN, TOP, VERTICAL, W, WORD, X, SEL_FIRST, \
-    SEL_LAST, RIGHT, NORMAL
+from tkinter import BOTH, DISABLED, END, INSERT, LEFT, NO, W, WORD, NORMAL
 from tkinter import font as tkfont
-from tkinter import ttk, simpledialog
+from tkinter import ttk
 import itertools
 from os import listdir
-from os.path import isdir, isfile, join, split, exists
+from os.path import isdir, isfile, join, split
 from tkinter.ttk import Style
 
 import TextDifference
 from Config import conf
 from Fonts import Fonts
 from TextChange import TextChange
-from Tooltip import Tooltip
-from tree_help_texts import tree_help
+from TreeTooltip import TreeTooltip
 
 #NODE_OPEN = '\u25B6'
 #NODE_CLOSED = '\u25BC'

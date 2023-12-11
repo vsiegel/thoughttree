@@ -213,23 +213,29 @@ class Sheet(ScrolledText, LineHandling):
         self.insert(index, chars, ("hidden_prompt",), *args)
 
     def insert_diff(self, old_text, new_text, pos=INSERT):
+        def added(words):
+            self.insert(INSERT, " ".join(words) + " ", "added")
+
+        def deleted(words):
+            self.insert(INSERT, " ".join(words) + " ", "deleted")
+
         self.mark_set(INSERT, pos)
         self.delete(pos, f"{pos}+{len(old_text)}c")
 
-        matcher = difflib.SequenceMatcher(
-            None, old_text.split(), new_text.split(), autojunk=False)
-            # None, [*old_text], [*new_text])
+        old_words = old_text.split()
+        new_words = new_text.split()
+        matcher = difflib.SequenceMatcher(None, old_words, new_words, autojunk=False)
+
         for op, i1, i2, j1, j2 in matcher.get_opcodes():
             if op == "equal":
-                self.insert(INSERT, " ".join(old_text.split()[i1:i2]) + " ")
+                self.insert(INSERT, " ".join(old_words[i1:i2]) + " ")
             elif op == "insert":
-                self.insert(INSERT, " ".join(new_text.split()[j1:j2]) + " ", "added")
+                added(new_words[j1:j2])
             elif op == "delete":
-                self.insert(INSERT, " ".join(old_text.split()[i1:i2]) + " ", "deleted")
+                deleted(old_words[i1:i2])
             elif op == "replace":
-                self.insert(INSERT, " ".join(old_text.split()[i1:i2]) + " ", "deleted")
-                self.insert(INSERT, " ".join(new_text.split()[j1:j2]) + " ", "added")
-
+                deleted(old_words[i1:i2])
+                added(new_words[j1:j2])
 
     def elide_other(self, elide, event):
         elide_by_color=False

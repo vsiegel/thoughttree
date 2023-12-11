@@ -27,8 +27,23 @@ class TreeTooltip(Tooltip):
         super().__init__(tree, None,("monospace", 8))
 
     def refresh_tooltip_text(self, event=None):
-        item = self.tree.tree.item(self.tree.tree.identify('item', event.x, event.y))
-        self.label.configure(text=item)
+        max_lines = 40
+        max_columns = 100
+        iid = self.tree.tree.identify('item', event.x, event.y)
+        toplevel_node = "Tree." + iid
+        if toplevel_node in tree_help:
+            self.label.configure(text=tree_help[toplevel_node].strip())
+        else:
+            values = self.tree.tree.item(iid)["values"]
+            item = values and values[0]
+            if exists(item):
+                with open(item) as f:
+                    text = f.read()
+                    lines = text.splitlines()
+                    lines = lines[:max_lines]
+                    lines = [line[:max_columns] for line in lines]
+                    text = "\n".join(lines)
+                    self.label.configure(text=text)
         # self.label.configure(text=self.tree.focussed_file())
 
     # def bind_tip(self):

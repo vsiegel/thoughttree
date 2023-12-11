@@ -6,7 +6,7 @@ from tkinter import font as tkfont
 from tkinter import ttk, simpledialog
 import itertools
 from os import listdir
-from os.path import isdir, isfile, join, split, abspath
+from os.path import isdir, isfile, join, split, exists
 from tkinter.ttk import Style
 
 import TextDifference
@@ -14,6 +14,7 @@ from Config import conf
 from Fonts import Fonts
 from TextChange import TextChange
 from Tooltip import Tooltip
+from tree_help_texts import tree_help
 
 #NODE_OPEN = '\u25B6'
 #NODE_CLOSED = '\u25BC'
@@ -23,7 +24,7 @@ NODE_CLOSED = '|'
 class TreeTooltip(Tooltip):
     def __init__(self, tree):
         self.tree = tree
-        super().__init__(tree, None)
+        super().__init__(tree, None,("monospace", 8))
 
     def refresh_tooltip_text(self, event=None):
         item = self.tree.tree.item(self.tree.tree.identify('item', event.x, event.y))

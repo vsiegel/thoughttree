@@ -68,20 +68,18 @@ class Sheet(ScrolledText, LineHandling):
 
 
     def run_code_block(self, event=None):
-        code_block_pattern = """('{3}|"{3}|```)python.*\n([\s\S]*?)\\1"""
         code_block_start_pattern =  '("""|' + """'''|```)python.*\n"""
+        code_block_pattern = """('{3}|"{3}|```)python.*\n([\s\S]*?)\\1"""
         start = self.search(code_block_start_pattern, INSERT, regexp=True, backwards=True)
         if start:
-            print(f"{start=}")
             text = self.get(start, END)
             m = re.search(code_block_pattern, text)
-            # print(f"{m=}")
-            # print(f"'{text=}'")
             if m:
                 code = m.group(2)
-                # print(f'Running "{code[:30]=}"')
                 names = dict()
+                print(f'Executing code block ("{code[:30]=}"):')
                 exec(code, names, names)
+                print(f'Code block finished.')
 
     def find(self, pattern=None, start=INSERT):
         if self.tag_ranges(SEL):

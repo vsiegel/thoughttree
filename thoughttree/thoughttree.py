@@ -377,6 +377,24 @@ class Thoughttree(Ui):
         print(f"{str(difference)=}")
         self.tree.add_difference(difference)
 
+
+    def rewrite(self, event=None):
+        self.system.hide(END, dedent(
+            f"""
+            Rewrite the input text to be better, but make only small local changes.
+            """))
+
+        sheet = self.it
+        history = self.history_from_system_and_chat()
+        self.delete_hidden_prompt(sheet)
+        if self.log_messages_to_console:
+            history.log()
+        reason, message, answer = self.completions(sheet, history)
+
+        difference = TextDifference(history[-1], answer)
+        print(f"{str(difference)=}")
+        self.tree.add_difference(difference)
+
     def set_up_location_reference(self, sheet, specific=""):
         location_reference_prompt = dedent(
             f"""

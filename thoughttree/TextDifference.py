@@ -61,19 +61,19 @@ class TextDifference():
         sheet.mark_set(INSERT, pos)
         sheet.delete(pos, f"{pos}+{len(old_text)}c")
 
-        matcher = difflib.SequenceMatcher(
-            None, old_text.split(), new_text.split(), autojunk=False)
-            # None, [*old_text], [*new_text])
+        old_words = old_text.split()
+        new_words = new_text.split()
+        matcher = difflib.SequenceMatcher(None, old_words, new_words, autojunk=False)
         for op, i1, i2, j1, j2 in matcher.get_opcodes():
             if op == "equal":
-                sheet.insert(INSERT, " ".join(old_text.split()[i1:i2]) + " ")
+                sheet.insert(INSERT, " ".join(old_words[i1:i2]) + " ")
             elif op == "insert":
-                sheet.insert(INSERT, " ".join(new_text.split()[j1:j2]) + " ", "added")
+                sheet.insert(INSERT, " ".join(new_words[j1:j2]) + " ", "added")
             elif op == "delete":
-                sheet.insert(INSERT, " ".join(old_text.split()[i1:i2]) + " ", "deleted")
+                sheet.insert(INSERT, " ".join(old_words[i1:i2]) + " ", "deleted")
             elif op == "replace":
-                sheet.insert(INSERT, " ".join(old_text.split()[i1:i2]) + " ", "deleted")
-                sheet.insert(INSERT, " ".join(new_text.split()[j1:j2]) + " ", "added")
+                sheet.insert(INSERT, " ".join(old_words[i1:i2]) + " ", "deleted")
+                sheet.insert(INSERT, " ".join(new_words[j1:j2]) + " ", "added")
 
 
 if __name__ == "__main__":

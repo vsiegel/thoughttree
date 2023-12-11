@@ -72,25 +72,6 @@ class TextChange():
         return f"{self.replacements}"
 
 
-    def load_diff(self, sheet: Sheet, old_text, new_text, pos=INSERT):
-        sheet.mark_set(INSERT, pos)
-        sheet.delete(pos, f"{pos}+{len(old_text)}c")
-
-        matcher = difflib.SequenceMatcher(
-            None, old_text.split(), new_text.split(), autojunk=False)
-            # None, [*old_text], [*new_text])
-        for op, i1, i2, j1, j2 in matcher.get_opcodes():
-            if op == "equal":
-                sheet.insert(INSERT, " ".join(old_text.split()[i1:i2]) + " ")
-            elif op == "insert":
-                sheet.insert(INSERT, " ".join(new_text.split()[j1:j2]) + " ", "added")
-            elif op == "delete":
-                sheet.insert(INSERT, " ".join(old_text.split()[i1:i2]) + " ", "deleted")
-            elif op == "replace":
-                sheet.insert(INSERT, " ".join(old_text.split()[i1:i2]) + " ", "deleted")
-                sheet.insert(INSERT, " ".join(new_text.split()[j1:j2]) + " ", "added")
-
-
 if __name__ == "__main__":
     text = """Titel: A
 Beschreibung: B

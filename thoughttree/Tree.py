@@ -92,14 +92,15 @@ class Tree(tk.Frame):
         def on_configure(event):
             self.tree.column("#0", width=event.width)
         self.tree.bind("<Configure>", on_configure)
-        self.tree.bind("<FocusOut>", lambda event: self.tree.selection_set([]))
-        self.tree.bind("<FocusIn>", lambda event: self.tree.selection_set(self.tree.focus()))
 
         self.tree.insert("", END, text="Examples", iid="Examples", open=False)
         self.tree.insert("", END, text="Prompts", iid="Prompts", open=False)
         self.tree.insert("", END, text="Changes", iid="Changes", open=True)
         self.tree.insert("", END, text="Differences", iid="Differences", open=True)
+
         self.tree.focus("Examples")
+        self.tree.selection_set(self.tree.focus())
+
         self.tree.pack(side=LEFT, fill=BOTH, expand=True)
 
         self.load_dir(conf.examples_dir, "Examples")
@@ -118,8 +119,6 @@ class Tree(tk.Frame):
         if file:
             with open(file) as f:
                 text = f.read()
-                print(f"show_details: {file}")
-                # state = DISABLED
                 self.ui.detail.insert("1.0", text)
         self.ui.detail.configure(state=DISABLED)
         return "break"

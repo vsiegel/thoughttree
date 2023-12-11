@@ -2,10 +2,10 @@ import tkinter as tk
 
 
 class Tooltip:
-    def __init__(self, widget: tk.Widget, text) :
+    def __init__(self, widget: tk.Widget, text, font=("sans-serif", 11)) :
         self.widget = widget
         self.root = widget.winfo_toplevel()
-
+        self.font = font
         self.text = text
         self.tip = None
         self.label = None
@@ -37,7 +37,7 @@ class Tooltip:
             self.tip = tk.Toplevel(self.root)
             self.tip.wm_overrideredirect(True)
             self.label = tk.Label(self.tip, text="", background="#FFFFE0", relief="solid",
-                                  borderwidth=1, justify=tk.LEFT, padx=6, pady=5, font=("sans-serif", 11))
+                                  borderwidth=1, justify=tk.LEFT, padx=6, pady=5, font=self.font)
             self.label.pack()
             self.tip.bind("<Leave>", self.hide, add=True)
             self.tip.bind("<Button-1>", self.hide, add=True)

@@ -7,16 +7,16 @@ Toplevel tree node
 
 
 tree_help = {
-    "Examples":
+    "Tree.Examples":
 """
 Help text for:
 Toplevel tree node
 "Examples" 
 """,
-    "Prompts":
+    "Tree.Prompts":
     toplevel_node_template.format("Prompts"),
-    "Changes":
+    "Tree.Changes":
     toplevel_node_template.format("Prompts"),
-    "Differences":
+    "Tree.Differences":
     toplevel_node_template.format("Prompts"),
 }

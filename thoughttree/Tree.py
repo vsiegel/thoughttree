@@ -30,9 +30,10 @@ class TreeTooltip(Tooltip):
         max_lines = 40
         max_columns = 100
         iid = self.tree.tree.identify('item', event.x, event.y)
+        text = ""
         toplevel_node = "Tree." + iid
         if toplevel_node in tree_help:
-            self.label.configure(text=tree_help[toplevel_node].strip())
+            text = tree_help[toplevel_node].strip()
         else:
             values = self.tree.tree.item(iid)["values"]
             item = values and values[0]
@@ -43,8 +44,8 @@ class TreeTooltip(Tooltip):
                     lines = lines[:max_lines]
                     lines = [line[:max_columns] for line in lines]
                     text = "\n".join(lines)
-                    self.label.configure(text=text)
-        # self.label.configure(text=self.tree.focussed_file())
+        if text.strip():
+            self.label.configure(text=text)
 
     # def bind_tip(self):
     #     self.tree.tree.bind("<Leave>", self.hide, add=True)

@@ -24,7 +24,7 @@ NODE_CLOSED = '|'
 class TreeTooltip(Tooltip):
     def __init__(self, tree):
         self.tree = tree
-        super().__init__(tree, None,("monospace", 8))
+        super().__init__(tree, None,("monospace", 9))
 
     def refresh_tooltip_text(self, event=None):
         max_lines = 40

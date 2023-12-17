@@ -110,7 +110,7 @@ class ForkableSheet(Sheet):
         leading_text = bool(self.get("1.0", index).strip())
 
 
-        def move_trailing_text(from_sheet, to_sheet, starting):
+        def copy_trailing_text(from_sheet, to_sheet, starting):
             trailing_text = from_sheet.get(starting, END).rstrip()
             to_sheet.insert("1.0", trailing_text)
             from_sheet.delete(starting, END)
@@ -119,14 +119,14 @@ class ForkableSheet(Sheet):
         if not self.child_notebook:
             if leading_text:
                 sheet = self.create_child_notebook()
-                move_trailing_text(self, sheet, index)
+                copy_trailing_text(self, sheet, index)
                 notebook = self.child_notebook
             else:
                 if self.parent_notebook:
                     notebook = self.parent_notebook
                 else:
                     sheet = self.create_child_notebook()
-                    move_trailing_text(self, sheet, index)
+                    copy_trailing_text(self, sheet, index)
                     notebook = self.child_notebook
         else:
             notebook = self.child_notebook

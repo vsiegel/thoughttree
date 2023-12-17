@@ -59,7 +59,7 @@ class Thoughttree(Ui):
     generation_model_name = 'gpt-3.5-turbo'
 
 
-    def __init__(self):
+    def __init__(self, argv=None):
         Ui.__init__(self, title="Thoughttree", name="tt", icon_path=WINDOW_ICON, closeable=False)
         self.show_hidden_prompts = None
         self.current_sheet: ForkableSheet|None = None
@@ -80,7 +80,14 @@ class Thoughttree(Ui):
         #     print(f"Event: {event}: {event.widget} {event.x},{event.y} {event.width}x{event.height}")
         # self.bind_all('<Configure>', on_configure)
 
-        self.root.geometry(Thoughttree.ROOT_GEOMETRY)
+        if argv and "-geometry" in argv:
+            geometry = argv[argv.index("-geometry") + 1]
+            if geometry.startswith('+'):
+                geometry = Thoughttree.ROOT_GEOMETRY + geometry
+        else:
+            geometry = Thoughttree.ROOT_GEOMETRY
+        print(f"{geometry=}")
+        self.root.geometry(geometry)
         self.root.minsize(*Thoughttree.MIN_SIZE)
         try:
             self.set_icon(self.WINDOW_ICON)
@@ -610,5 +617,5 @@ class Thoughttree(Ui):
             sheet.tag_config("hidden_prompt", elide=not hidden)
 
 if __name__ == "__main__":
-    Thoughttree()
+    Thoughttree(sys.argv)
 

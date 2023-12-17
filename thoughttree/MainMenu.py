@@ -278,6 +278,7 @@ class MainMenu(MenuBar):
         chat.add_item("Next Line", "<Shift-Return>", lambda e=None: ui.chat(1, "\n", "\n\n"))
         chat.add_item("Next Paragraph", "<Control-Return>", lambda e=None: ui.chat(1, "", "\n"))
         chat.add_item("Fork Conversation", "<Control-Alt-F>", lambda e=None: self.it.fork())
+        chat.add_item("Duplicate Conversation", "<Control-Shift-D>", lambda e=None: self.it.fork(duplicate=True))
         chat.add_item("Complete in Branch", "<Control-Shift-Return>", lambda e=None: branch())
         chat.add_separator()
         chat.add_item("Complete Alternatives", "<Alt-Shift-Return>", lambda e=None: ui.chat(-1, "\n"))

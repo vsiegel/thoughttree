@@ -103,7 +103,7 @@ class ForkableSheet(Sheet):
             # self.child_notebook.bind("<<NotebookTabChanged>>", self.grow_to_displaylines)
             return self.child_notebook.add_sheet(first_child, parent_sheet=self)
 
-    def fork(self, index=INSERT):
+    def fork(self, index=INSERT, duplicate=False):
         index = self.index(index)
         self.initially_modified = True
 

@@ -135,7 +135,8 @@ class ForkableSheet(Sheet):
             parent = self.parent_sheet
         else:
             parent = self
-        notebook.add_sheet(sibling, parent)
+        sheet = notebook.add_sheet(sibling, parent)
+        copy_trailing_text(self, sheet, index)
         return "break"
 
 

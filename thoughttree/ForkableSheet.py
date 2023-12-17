@@ -113,7 +113,6 @@ class ForkableSheet(Sheet):
         def copy_trailing_text(from_sheet, to_sheet, starting):
             trailing_text = from_sheet.get(starting, END).rstrip()
             to_sheet.insert("1.0", trailing_text)
-            from_sheet.delete(starting, END)
 
 
         if not self.child_notebook:

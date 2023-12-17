@@ -12,6 +12,7 @@ import TextDifference
 from Config import conf
 from Fonts import Fonts
 from TextChange import TextChange
+from TooltipableMenu import TooltipableMenu
 from TreeTooltip import TreeTooltip
 
 #NODE_OPEN = '\u25B6'
@@ -76,6 +77,13 @@ class Tree(tk.Frame):
         self.load_dir(conf.prompts_dir, "Prompts")
 
         TreeTooltip(self)
+        context = TooltipableMenu(None, "(tree context menu)")
+        context.add_item("Insert System", "<Shift-Return>", lambda e=None: self.ui.replace_system_prompt())
+        context.add_item("Replace System", "<Shift-Alt-Return>", lambda e=None: self.ui.replace_system_prompt())
+        context.add_item("Insert User", "<Control-Return>", lambda e=None: self.ui.replace_system_prompt())
+        context.add_item("Replace User", "<Control-Alt-Return>", lambda e=None: self.ui.replace_system_prompt())
+
+
 
     def focussed_file(self):
         leaf = self.tree.item(self.tree.focus())

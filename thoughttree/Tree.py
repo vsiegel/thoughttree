@@ -94,7 +94,7 @@ class Tree(tk.Frame):
         self.ui.detail.configure(state=NORMAL)
         self.ui.detail.delete("1.0", "end")
         if file:
-            with open(file) as f:
+            with open(file, mode="r", encoding="utf-8") as f:
                 text = f.read()
                 self.ui.detail.insert("1.0", text)
         self.ui.detail.configure(state=DISABLED)

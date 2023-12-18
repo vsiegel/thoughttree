@@ -9,18 +9,13 @@ from AboutDialog import AboutDialog
 from Files import Files
 from Fonts import Fonts
 from ForkableSheet import ForkableSheet
-# from Imports import Menu, ModelsMenu, WindowsMenu
-from TooltipableMenu import TooltipableMenu
 from ModelsMenu import ModelsMenu
 from WindowsMenu import WindowsMenu
-from InsertionIcon import InsertionIcon
 from IterateRangeForm import IterateRangeForm
 from Keys import Keys
 from Sheet import Sheet
-from Console import Console
 from TooltipableMenu import TooltipableMenu
 from MenuBar import MenuBar
-from menu_help_texts import menu_help
 from tools import web
 
 

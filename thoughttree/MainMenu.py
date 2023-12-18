@@ -37,7 +37,7 @@ class MainMenu(MenuBar):
 
 
     def create_menu(self):
-        def insert_file(e=None):
+        def insert_file(e=None): #todo
             file, text = Files.open_file("Insert File", "chat.txt")
             self.it.insert(INSERT, text)
 
@@ -135,7 +135,7 @@ class MainMenu(MenuBar):
 
             # print_height(self.ui.chat_sheet, "chat_sheet")
 
-            sheet: ForkableSheet = self.ui.chat_sheet.forkable_sheet
+            sheet: ForkableSheet = self.ui.sheet_tree.forkable_sheet
             while sheet:
                 print_height(sheet, "sheet: " + str(sheet))
                 if sheet.child_notebook:
@@ -236,7 +236,7 @@ class MainMenu(MenuBar):
         view.add_item("Show Status Bar", "<Alt-Shift-I>", ui.status_hider.hide)
         view.add_item("Full Screen", "<F11>", ui.toggle_fullscreen)
         view.add_item("Update Window Title", "<Control-u>", ui.update_window_title)
-        view.add_item("Update Tab Title", "<Control-Shift-B>", ui.chat_sheet.generate_title, menu2=context)
+        view.add_item("Update Tab Title", "<Control-Shift-B>", ui.sheet_tree.generate_title, menu2=context)
         view.add_item("Model Usage", None, web("https://platform.openai.com/account/usage"))
         view.add_separator()
         view.add_item("Increase Font Size", "<Control-plus>", lambda e=None: font_size(1))

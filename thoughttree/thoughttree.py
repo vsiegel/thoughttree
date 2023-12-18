@@ -69,7 +69,7 @@ class Thoughttree(Ui):
         self.tree = None
         self.detail: Sheet = None
         self.system: Sheet|None = None
-        self.chat_sheet = None
+        self.sheet_tree = None
         self.model = None
         self.console_pane = None
         self.tree_pane = None
@@ -157,9 +157,9 @@ class Thoughttree(Ui):
         self.tree = Tree(self.detail_pane, self)
         self.detail = Sheet(self.detail_pane, width=5, wrap=NONE, state=DISABLED, takefocus=False)
         self.system = Sheet(self.system_pane, height=3)
-        self.chat_sheet = SheetTree(self.system_pane)
+        self.sheet_tree = SheetTree(self.system_pane)
 
-        self.current_sheet: ForkableSheet = self.chat_sheet.forkable_sheet
+        self.current_sheet: ForkableSheet = self.sheet_tree.forkable_sheet
 
         self.console_pane.add(self.tree_pane)
         self.console_pane.addFoldable(self.console)
@@ -168,7 +168,7 @@ class Thoughttree(Ui):
         self.detail_pane.add(self.tree, stretch="never")
         self.detail_pane.addFoldable(self.detail, stretch="always")
         self.system_pane.addFoldable(self.system)
-        self.system_pane.add(self.chat_sheet)
+        self.system_pane.add(self.sheet_tree)
 
         bound_pane = self.detail_pane
         def on_first_configure(ev=None):
@@ -186,10 +186,10 @@ class Thoughttree(Ui):
 
         self.menu.create_menu()
 
-        self.chat_sheet.focus_set()
+        self.sheet_tree.focus_set()
 
         InitialSheetHelp(self.system, *sheet_help("System prompt - [?]"))
-        InitialSheetHelp(self.chat_sheet.forkable_sheet, *sheet_help("User prompt - Chat - [?]"))
+        InitialSheetHelp(self.sheet_tree.forkable_sheet, *sheet_help("User prompt - Chat - [?]"))
 
     def configure_ui_options(self):
         size = 12
@@ -200,7 +200,7 @@ class Thoughttree(Ui):
             self.option_add('*Text*insertOffTime', '0')
 
     def is_initially_modified(self):
-        return self.chat_sheet.forkable_sheet.initially_modified or self.system.initially_modified
+        return self.sheet_tree.forkable_sheet.initially_modified or self.system.initially_modified
 
     def update_window_title(self, event=None):
         progress_title = self.root.title().rstrip('.') + "..."

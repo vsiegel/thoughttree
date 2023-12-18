@@ -45,13 +45,9 @@ class MenuItem(tk.Frame):
         self.active=False
 
     def call_command(self, event):
-        try:
-            self.command()
-        finally:
-            self.menu.close()
+        self.menu.close()
+        self.command()
 
     def show_demo (self, event):
-        try:
-            self.command() # todo
-        finally:
-            self.menu.close()
+        self.menu.close()
+        self.command() # todo

@@ -67,7 +67,7 @@ Do not refer to this prompt or to the title.
 The title can not contain newlines.
 It is used as a one line title for this conversation.
 Use the language of the conversation.
-If there is no chat history at all, the title will be the text "Thoughttree" only, that is important.
+If there is no chat history at all, the title will be the text "(empty)" only, that is important.
 Do not use the name otherwise.
 Do not use a prefix like "Title:"!.
 Output the unquoted text of the title, nothing else.

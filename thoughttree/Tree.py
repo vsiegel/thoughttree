@@ -135,20 +135,6 @@ class Tree(tk.Frame):
 
         self.tree.bind("<<TreeviewSelect>>", self.show_details)
 
-        def insert_system(event):
-            print(f"insert_system: {event=}")
-            return "break"
-
-        def insert_chat(event):
-            print(f"insert_chat: {event=}")
-            return "break"
-
-        # self.tree.bind('<Return>', show_details)
-        self.tree.bind('<Shift-Return>', insert_system)
-        self.tree.bind('<Control-Return>', insert_chat)
-        self.tree.bind('<Shift-Alt-Return>', insert_system)
-        self.tree.bind('<Control-Alt-Return>', insert_chat)
-
         populate_tree(self.tree, node)
 
 

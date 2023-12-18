@@ -78,10 +78,12 @@ class Tree(tk.Frame):
 
         TreeTooltip(self)
         context = TooltipableMenu(None, "(tree context menu)")
-        context.add_item("Insert System", "<Shift-Return>", lambda e=None: self.ui.replace_system_prompt())
-        context.add_item("Replace System", "<Shift-Alt-Return>", lambda e=None: self.ui.replace_system_prompt())
-        context.add_item("Insert User", "<Control-Return>", lambda e=None: self.ui.replace_system_prompt())
-        context.add_item("Replace User", "<Control-Alt-Return>", lambda e=None: self.ui.replace_system_prompt())
+        context.add_item("Replace System", "<Shift-Alt-Return>", self.ui.replace_system_prompt, to_class="Treeview")
+        context.add_item("Insert System", "<Shift-Return>", lambda e=None: self.ui.insert_system_prompt(), to_class="Treeview")
+        context.add_item("Replace User", "<Control-Alt-Return>", lambda e=None: self.ui.replace_user_prompt(), to_class="Treeview")
+        context.add_item("Insert User", "<Control-Return>", lambda e=None: self.ui.insert_user_prompt(), to_class="Treeview")
+        self.bind_class("Treeview", "<Button-3>", context.show_context_menu)
+        self.bind_class("Treeview", "<Menu>", context.show_context_menu)
 
 
 

@@ -25,15 +25,15 @@ class TooltipableMenu(tk.Frame):
         self.frame = None
 
 
-    def add_item(self, label, keystroke=None, command=None, underline=-1, menu2=None, add=False):
+    def add_item(self, label, keystroke=None, command=None, underline=-1, menu2=None, add=False, to_class="Text"):
         if conf.debug and not label in menu_help:
             print("Warning: Help missing for \"" + label + "\"")
         keystroke = self.fix_key_letter_case(keystroke)
-        self.winfo_toplevel().bind(keystroke, command, add=add)
+        self.winfo_toplevel().bind_class(to_class, keystroke, command, add=add)
         accelerator = self.accelerator_label(keystroke)
         self.items.append((label, accelerator, command, underline))
         if menu2:
-            menu2.add_item(label, None, command, underline)
+            menu2.add_item(label, None, command, underline, add=add)
 
     def add_cascade(self, label, menu, underline=-1):
         self.items.append((label, None, menu, "tooltip", underline))

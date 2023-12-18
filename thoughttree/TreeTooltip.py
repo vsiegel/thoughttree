@@ -20,7 +20,7 @@ class TreeTooltip(Tooltip):
         else:
             values = self.tree.tree.item(iid)["values"]
             item = values and values[0]
-            if exists(item):
+            if item and exists(item):
                 with open(item, encoding="utf-8") as f:
                     text = f.read()
                     lines = text.splitlines()

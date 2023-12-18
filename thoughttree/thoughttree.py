@@ -371,7 +371,7 @@ class Thoughttree(Ui):
             Do not repeat previous results if they are present in the input.
             If the location marker is after previous changes based on this prompt, assume the whole text as possible places to change.
             Propose the best change that is anywhere in the text, but not already listed. Never repeat an earlier result.
-            Allways (!) Finish the output with 2 newlines.
+            Always (!) Finish the output with 2 newlines.
             """))
 
         sheet = self.it

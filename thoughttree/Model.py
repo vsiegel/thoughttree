@@ -46,7 +46,7 @@ class Model:
 
 
 
-    def complete(self, history, on_increment, max_tokens=None, temperature=None) -> Tuple[str, str, str]:
+    def complete(self, history, on_increment=None, max_tokens=None, temperature=None) -> Tuple[str, str, str]:
         max_tokens = max_tokens or self.max_tokens.get()
         temperature = temperature or self.temperature.get()
         self.is_canceled = False
@@ -65,8 +65,7 @@ class Model:
             return self.error("", f"Error in openai.ChatCompletion.create(model={self.name}, ...)", ex) + ("",)
 
         return self.accept_response(on_increment, response)
-        # self.accept_response_async(on_increment, response)
-        # return "a", "b", "c"
+        # self.accept_response_async(on_increment, response) #todo
 
 
     def accept_response_thread(self, on_increment, response):
@@ -89,7 +88,8 @@ class Model:
                 delta = event['choices'][0]['delta']
                 if 'content' in delta:
                     text = delta["content"]
-                    on_increment(text)
+                    if on_increment:
+                        on_increment(text)
                     self.counter.observe_completion(text)
                     self.log(text)
                     texts.append(text)

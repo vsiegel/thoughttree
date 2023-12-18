@@ -101,10 +101,10 @@ class SheetTree(tk.Frame):
     def in_canvas(self, x, y):
         return str(self.canvas.winfo_containing(x, y)).startswith(str(self.canvas))
 
-    def generate_title(self, event=None):
-        focussed = self.focus_get()
-        if not str(focussed).startswith(str(self)):
-            raise Exception(f"{focussed} is not in SheetTree")
-        if not isinstance(focussed, ForkableSheet):
-            raise Exception(f"{focussed} is not a ForkableSheet")
-        focussed.generate_title()
+    def update_tab_title(self, event=None):
+        sheet = self.focus_get()
+        if not str(sheet).startswith(str(self)):
+            raise Exception(f"{sheet} is not in SheetTree")
+        if not isinstance(sheet, ForkableSheet):
+            raise Exception(f"{sheet} is not a ForkableSheet")
+        sheet.update_tab_title()

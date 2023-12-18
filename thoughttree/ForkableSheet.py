@@ -63,7 +63,7 @@ class ForkableSheet(Sheet):
             sheet.edit_modified(False)
 
 
-    def generate_title(self, event=None):
+    def update_tab_title(self, event=None):
         def get():
             return self.parent_notebook.tab(CURRENT, option="text")
         def set(title):

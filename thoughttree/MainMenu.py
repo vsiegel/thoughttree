@@ -236,7 +236,7 @@ class MainMenu(MenuBar):
         view.add_item("Show Status Bar", "<Alt-Shift-I>", ui.status_hider.hide)
         view.add_item("Full Screen", "<F11>", ui.toggle_fullscreen)
         view.add_item("Update Window Title", "<Control-u>", ui.update_window_title)
-        view.add_item("Update Tab Title", "<Control-Shift-B>", ui.sheet_tree.generate_title, menu2=context)
+        view.add_item("Update Tab Title", "<Control-Shift-B>", ui.sheet_tree.update_tab_title, menu2=context)
         view.add_item("Model Usage", None, web("https://platform.openai.com/account/usage"))
         view.add_separator()
         view.add_item("Increase Font Size", "<Control-plus>", lambda e=None: font_size(1))

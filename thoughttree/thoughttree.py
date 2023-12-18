@@ -473,7 +473,6 @@ class Thoughttree(Ui):
 
         if isinstance(focussed, Sheet):
             self.current_sheet = focussed
-            print(f'{focussed=}')
 
         return self.current_sheet
 

@@ -1,6 +1,7 @@
 import re
 import tkinter as tk
 from tkinter import INSERT
+from tkinter.ttk import Treeview
 
 from Config import conf
 from MenuBar import MenuBar
@@ -90,7 +91,11 @@ class TooltipableMenu(tk.Frame):
     def show_context_menu(self, event):
         if event.type == tk.EventType.KeyPress:
             w = event.widget
-            x, y, *_ = w.bbox(INSERT)
+            x, y = 0, 0
+            if isinstance(w, tk.Text):
+                x, y, *_ = w.bbox(INSERT)
+            elif isinstance(w, Treeview):
+                x, y, *_ = w.bbox(w.focus())
             x += w.winfo_rootx()
             y += w.winfo_rooty()
         else:

@@ -1,6 +1,7 @@
 import difflib
 import re
 import tkinter as tk
+from os.path import exists
 from tkinter import END, INSERT, SEL, WORD, SEL_FIRST, SEL_LAST, RAISED, SOLID
 from tkinter.scrolledtext import ScrolledText
 from tkinter.simpledialog import askstring
@@ -65,6 +66,12 @@ class Sheet(ScrolledText, LineHandling):
         self.old_num_display_lines = 0
         if text:
             self.insert(END, text)
+
+
+    def insert_file(self, index, file):
+        if file and exists(file):
+            with open(file, mode="r", encoding="utf-8") as f:
+                self.insert(index, f.read())
 
 
     def run_code_block(self, event=None):

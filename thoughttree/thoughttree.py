@@ -616,6 +616,24 @@ class Thoughttree(Ui):
         for sheet in [self.system, self.it]:
             sheet.tag_config("hidden_prompt", elide=not hidden)
 
+    def insert_system_prompt(self, event=None):
+        file = self.tree.focussed_file()
+        if file:
+            self.system.insert(1.0, file)
+
+    def replace_system_prompt(self, event=None):
+        self.system.delete(1.0, END)
+        self.insert_system_prompt()
+
+    def insert_user_prompt(self):
+        file = self.tree.focussed_file()
+        if file:
+            self.current_sheet.insert(1.0, file)
+
+    def replace_user_prompt(self):
+        self.current_sheet.delete(1.0, END)
+        self.insert_system_prompt()
+
 if __name__ == "__main__":
     Thoughttree(sys.argv)
 

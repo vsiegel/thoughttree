@@ -1,11 +1,4 @@
 
-toplevel_node_template = """
-Help text for:
-Toplevel tree node
-{} 
-"""
-
-
 tree_help = {
     "Tree.Examples":
 """
@@ -14,9 +7,21 @@ Toplevel tree node
 "Examples" 
 """,
     "Tree.Prompts":
-    toplevel_node_template.format("Prompts"),
+"""
+Help text for:
+Toplevel tree node
+"Prompts" 
+""",
     "Tree.Changes":
-    toplevel_node_template.format("Prompts"),
+"""
+Help text for:
+Toplevel tree node
+"Changes" 
+""",
     "Tree.Differences":
-    toplevel_node_template.format("Prompts"),
+"""
+Help text for:
+Toplevel tree node
+"Differences" 
+""",
 }

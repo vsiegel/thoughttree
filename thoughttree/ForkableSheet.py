@@ -68,10 +68,6 @@ class ForkableSheet(Sheet):
             return self.parent_notebook.tab(CURRENT, option="text")
         def set(title):
             self.parent_notebook.tab(CURRENT, text=title)
-        self.generate(get, set)
-
-
-    def generate(self, get, set):
         progress_title = get().split(" ")[0] + " ..."
         print(f"{progress_title=}")
 

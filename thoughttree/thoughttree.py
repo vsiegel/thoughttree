@@ -473,6 +473,8 @@ class Thoughttree(Ui):
 
         if isinstance(focussed, Sheet):
             self.current_sheet = focussed
+            print(f'{focussed=}')
+
         return self.current_sheet
 
 
@@ -618,8 +620,7 @@ class Thoughttree(Ui):
 
     def insert_system_prompt(self, event=None):
         file = self.tree.focussed_file()
-        if file:
-            self.system.insert(1.0, file)
+        self.system.insert_file(INSERT, file)
 
     def replace_system_prompt(self, event=None):
         self.system.delete(1.0, END)
@@ -627,8 +628,7 @@ class Thoughttree(Ui):
 
     def insert_user_prompt(self):
         file = self.tree.focussed_file()
-        if file:
-            self.current_sheet.insert(1.0, file)
+        self.current_sheet.insert(INSERT, file)
 
     def replace_user_prompt(self):
         self.current_sheet.delete(1.0, END)

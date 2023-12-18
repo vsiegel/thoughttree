@@ -93,10 +93,7 @@ class Tree(tk.Frame):
         file = self.focussed_file()
         self.ui.detail.configure(state=NORMAL)
         self.ui.detail.delete("1.0", "end")
-        if file:
-            with open(file, mode="r", encoding="utf-8") as f:
-                text = f.read()
-                self.ui.detail.insert("1.0", text)
+        self.ui.detail.insert_file("1.0", file)
         self.ui.detail.configure(state=DISABLED)
         return "break"
 

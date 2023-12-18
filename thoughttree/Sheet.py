@@ -21,7 +21,7 @@ class Sheet(ScrolledText, LineHandling):
         ScrolledText.__init__(
             self, master, undo=True, wrap=wrap, padx=padx, pady=pady, background=background,
             width=width, height=height, insertwidth=3, font=Fonts.FONT,
-            border=0, borderwidth=borderwidth, highlightthickness=0,
+            border=0, borderwidth=borderwidth, highlightthickness=0, highlightcolor="lightgray", highlightbackground="white",
             selectbackground="#66a2d4", selectforeground="white", name=name, **kw)
         self.frame.widgetName = "stf"
 

@@ -63,7 +63,8 @@ class Ui(tk.Frame):
 
         if not self.is_initially_modified() or self.closeable or askyesno("Close Window", "Are you sure you want to close this window?", parent=self):
             self.pack_forget()
-            Ui.current_open_uis.remove(self)
+            # print(f"{self=}\n{Ui.current_open_uis=}")
+            Ui.current_open_uis.remove(self) #todo self may be old, key uses bind_class
             self.is_root_destroyed = True
             self.root.destroy()
 

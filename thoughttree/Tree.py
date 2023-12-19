@@ -105,26 +105,25 @@ class Tree(tk.Frame):
             # if tree.set(node, "type") != 'directory':
             #     return
 
-            path = examples_dir
+            directory = examples_dir
             # tree.delete(*tree.get_children(node))
 
             # parent = tree.parent(node)
             # special_dirs = [] if parent else glob.glob('.') + glob.glob(examples_dir)
 
-            for p in listdir(path):
+            for file in listdir(directory):
                 ptype = None
-                p = join(path, p)
-                if isdir(p):
+                path = join(directory, file)
+                if isdir(path):
                     ptype = "directory"
-                elif isfile(p):
+                elif isfile(path):
                     ptype = "file"
-                name = split(p)[1]
-                id = tree.insert(node, "end", text=name, values=[p])
+                iid = tree.insert(node, "end", text=file, values=[path, ptype])
 
                 if ptype == 'directory':
-                    if name not in ('.', '..'):
-                        tree.insert(id, 0, text="dummy")
-                        tree.item(id, text=name)
+                    if file not in ('.', '..'):
+                        tree.insert(iid, 0, text="dummy")
+                        tree.item(iid, text=file)
 
         # def update_tree(event):
         #     tree = event.widget
@@ -198,13 +197,13 @@ class Tree(tk.Frame):
 
 
 if __name__ == '__main__':
-    def file(name):
+    def read(name):
         with open(name) as f:
             return f.read()
 
     root = tk.Tk()
     tree = Tree(root)
     tree.pack(fill=BOTH, expand=1)
-    text_change = TextChange(file("/home/siegel/manuscript/99_thoughttree.tex-make_it_better25.txt"))
+    text_change = TextChange(read("/home/siegel/manuscript/99_thoughttree.tex-make_it_better25.txt"))
     tree.add_change(text_change)
     root.mainloop()

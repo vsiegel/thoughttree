@@ -111,19 +111,13 @@ class ForkableSheet(Sheet):
             to_sheet.insert("1.0", trailing_text)
 
 
-        if not self.child_notebook:
-            if leading_text:
-                sheet = self.create_child_notebook()
-                copy_trailing_text(self, sheet, index)
-                notebook = self.child_notebook
-            else:
-                if self.parent_notebook:
-                    notebook = self.parent_notebook
-                else:
-                    sheet = self.create_child_notebook()
-                    copy_trailing_text(self, sheet, index)
-                    notebook = self.child_notebook
+        if self.child_notebook:
+            notebook = self.child_notebook
+        elif not leading_text and self.parent_notebook:
+            notebook = self.parent_notebook
         else:
+            sheet = self.create_child_notebook()
+            copy_trailing_text(self, sheet, index)
             notebook = self.child_notebook
 
         sibling = new_sibling_title(notebook)

@@ -82,13 +82,13 @@ class Tree(tk.Frame):
         self.load_dir(conf.prompts_dir, "Prompts")
 
         TreeTooltip(self)
-        context = TooltipableMenu(None, "(tree context menu)")
-        context.add_item("Replace System", "<Shift-Alt-Return>", self.ui.replace_system_prompt, to_class="Treeview")
-        context.add_item("Insert System", "<Shift-Return>", lambda e=None: self.ui.insert_system_prompt(), to_class="Treeview")
-        context.add_item("Replace User", "<Control-Alt-Return>", lambda e=None: self.ui.replace_user_prompt(), to_class="Treeview")
-        context.add_item("Insert User", "<Control-Return>", lambda e=None: self.ui.insert_user_prompt(), to_class="Treeview")
-        self.bind_class("Treeview", "<Button-3>", context.show_context_menu)
-        self.bind_class("Treeview", "<Menu>", context.show_context_menu)
+        file_context = TooltipableMenu(None, "(File context menu)")
+        file_context.add_item("Replace System", "<Shift-Alt-Return>", self.ui.replace_system_prompt, to_class="Treeview")
+        file_context.add_item("Insert System", "<Shift-Return>", lambda e=None: self.ui.insert_system_prompt(), to_class="Treeview")
+        file_context.add_item("Replace User", "<Control-Alt-Return>", lambda e=None: self.ui.replace_user_prompt(), to_class="Treeview")
+        file_context.add_item("Insert User", "<Control-Return>", lambda e=None: self.ui.insert_user_prompt(), to_class="Treeview")
+        self.bind_class("Treeview", "<Button-3>", file_context.show_context_menu)
+        self.bind_class("Treeview", "<Menu>", file_context.show_context_menu)
 
 
     def focussed(self):

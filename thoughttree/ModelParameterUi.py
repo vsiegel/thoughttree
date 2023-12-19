@@ -1,6 +1,6 @@
 from tkinter import SUNKEN
 
-from LabeledLabel import LabeledLabel
+from LabeledEntry import LabeledEntry
 
 
 class ModelParameterUi():
@@ -27,7 +27,7 @@ class TopPParameterUi(ModelParameterUi):
             return False
 
     def get_parameter_editor(self):
-        self.temperature_label = LabeledLabel(self, "Temp.:", entry_width=3, validatecommand=self.validate, **self.defaults)
+        self.temperature_label = LabeledEntry(self, "Temp.:", entry_width=3, validatecommand=self.validate, **self.defaults)
 
 
 

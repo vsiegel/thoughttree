@@ -408,6 +408,7 @@ class Thoughttree(Ui):
         location_reference_prompt = dedent(
             f"""
             When the prompt refers to a location or marker in the text, it is the position of "{conf.location_marker}".
+            References to a location could be "here", "there", "this", "that" etc.
             Do not refer to that character in the output.
             Ignore the character for all other purposes.
             For example, for a marker X and input "foo baXr baz", the word "here" is "bar" (not "baXr").

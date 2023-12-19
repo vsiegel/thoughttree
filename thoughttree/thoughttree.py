@@ -632,7 +632,7 @@ class Thoughttree(Ui):
 
     def replace_user_prompt(self):
         self.current_sheet.delete(1.0, END)
-        self.insert_system_prompt()
+        self.insert_user_prompt()
 
 if __name__ == "__main__":
     Thoughttree(sys.argv)

@@ -628,7 +628,7 @@ class Thoughttree(Ui):
 
     def insert_user_prompt(self):
         file = self.tree.focussed_file()
-        self.current_sheet.insert(INSERT, file)
+        self.current_sheet.insert_file(INSERT, file)
 
     def replace_user_prompt(self):
         self.current_sheet.delete(1.0, END)

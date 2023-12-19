@@ -187,7 +187,7 @@ class MainMenu(MenuBar):
                 if selected_text:
                     webbrowser.open_new_tab("https://www.google.com/search?q=" + selected_text)
 
-        ui = self.ui
+        ui = self.ui #fixme can not use this with bind_class()
 
         context = TooltipableMenu(None, "(sheet context menu)")
 

@@ -1,4 +1,4 @@
-from os.path import exists
+from os.path import isfile
 
 from Tooltip import Tooltip
 from tree_help_texts import tree_help
@@ -20,7 +20,7 @@ class TreeTooltip(Tooltip):
         else:
             values = self.tree.tree.item(iid)["values"]
             item = values and values[0]
-            if item and exists(item):
+            if item and isfile(item):
                 with open(item, encoding="utf-8") as f:
                     text = f.read()
                     lines = text.splitlines()

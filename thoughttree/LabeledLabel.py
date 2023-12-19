@@ -12,3 +12,4 @@ class LabeledLabel(tk.Frame):
         self.entry = tk.Entry(self, width=entry_width, # state="readonly", takefocus=False,
                               textvariable=self.textvariable, bd=0, highlightthickness=0, validatecommand=validatecommand)
         self.entry.pack(side="left")
+        self.entry.bind("<FocusOut>", lambda e: e.widget.selection_clear())

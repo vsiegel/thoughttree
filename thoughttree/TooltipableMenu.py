@@ -90,14 +90,14 @@ class TooltipableMenu(tk.Frame):
 
     def show_context_menu(self, event):
         if event.type == tk.EventType.KeyPress:
-            w = event.widget
+            widget = event.widget
             x, y = 0, 0
-            if isinstance(w, tk.Text):
-                x, y, *_ = w.bbox(INSERT)
-            elif isinstance(w, Treeview):
-                x, y, *_ = w.bbox(w.focus())
-            x += w.winfo_rootx()
-            y += w.winfo_rooty()
+            if isinstance(widget, tk.Text):
+                x, y, *_ = widget.bbox(INSERT)
+            elif isinstance(widget, Treeview):
+                x, y, *_ = widget.bbox(widget.focus())
+            x += widget.winfo_rootx()
+            y += widget.winfo_rooty()
         else:
             containing = event.widget.winfo_containing(event.x_root, event.y_root)
             if containing:

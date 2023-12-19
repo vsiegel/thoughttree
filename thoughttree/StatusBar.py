@@ -40,21 +40,22 @@ class StatusBar(tk.Frame):
         self.note_label = tk.Label(self, **defaults, width=10, text=note_text, anchor=W)
         self.note_label.pack(side=LEFT, padx=(5, 0), fill=X, expand=True)
 
-        self.max_token_label = LabeledEntry(self, "Max t.:", entry_width=5, **defaults)
-        self.max_token_label.pack(side=LEFT, padx=(5, 0))
+        self.max_token_entry = LabeledEntry(self, "Max t.:", entry_width=5, **defaults)
+        self.max_token_entry.pack(side=LEFT, padx=(5, 0))
+        # self.max_token_entry.bind("<Return>", ui.configure_max_tokens)
 
-        self.temperature_label = LabeledEntry(self, "Temp.:", entry_width=3, validatecommand=validate_temperature, **defaults)
-        self.temperature_label.pack(side=LEFT, padx=(5, 0))
+        self.temperature_entry = LabeledEntry(self, "Temp.:", entry_width=3, validatecommand=validate_temperature, **defaults)
+        self.temperature_entry.pack(side=LEFT, padx=(5, 0))
 
         self.model_label = tk.Label(self, **defaults, width=20, text=model_text, anchor=E)
         self.model_label.pack(side=LEFT, padx=(5, 0))
 
 
     def set_max_token_var(self, var: IntVar):
-        self.max_token_label.entry.config(textvariable=var)
+        self.max_token_entry.entry.config(textvariable=var)
 
     def set_temperature_var(self, var: DoubleVar):
-        self.temperature_label.entry.config(textvariable=var)
+        self.temperature_entry.entry.config(textvariable=var)
 
 
     @property

@@ -61,7 +61,7 @@ class Tree(tk.Frame):
             self.tree.column("#0", width=event.width)
         self.tree.bind("<Configure>", on_configure)
 
-        selectionbackground_focussed = lambda e=None: Style().map(style, background=[("selected", "SkyBlue4")])
+        selectionbackground_focussed = lambda e=None: Style().map(style, background=[("selected", "#4a708b")])
         selectionbackground_unfocussed = lambda e=None: Style().map(style, background=[("selected", "lightgray")])
         self.tree.bind("<FocusIn>", selectionbackground_focussed)
         self.tree.bind("<FocusOut>", selectionbackground_unfocussed)

@@ -84,10 +84,12 @@ class Tree(tk.Frame):
         self.bind_class("Treeview", "<Menu>", context.show_context_menu)
 
 
+    def focussed(self):
+        return self.tree.item(self.tree.focus())
 
     def focussed_file(self):
-        leaf = self.tree.item(self.tree.focus())
-        return leaf["values"][0] if leaf["values"] else None
+        item = self.focussed()
+        return item["values"][0] if item["values"] else None
 
     def show_details(self, event=None):
         file = self.focussed_file()

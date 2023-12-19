@@ -101,7 +101,7 @@ class Tree(tk.Frame):
 
     def load_dir(self, examples_dir, node):
 
-        def populate_tree(tree, node):
+        def populate_tree(tree: Treeview, node):
             # if tree.set(node, "type") != 'directory':
             #     return
 

@@ -92,11 +92,17 @@ class Tree(tk.Frame):
         return item["values"][0] if item["values"] else None
 
     def show_details(self, event=None):
-        file = self.focussed_file()
+        item = self.focussed_file()
         self.ui.detail.configure(state=NORMAL)
         self.ui.detail.delete("1.0", "end")
-        self.ui.detail.insert_file("1.0", file)
-        self.ui.detail.configure(state=DISABLED)
+        try:
+            if item and isfile(item):
+                self.ui.detail.insert_file("1.0", item)
+            else:
+                iid = self.tree.focus()
+                # self.ui.detail.insert("1.0", f"{iid=}\n{self.tree.item(iid)=}\n{self.tree.set(iid)=}")
+        finally:
+            self.ui.detail.configure(state=DISABLED)
         return "break"
 
     def load_dir(self, examples_dir, node):

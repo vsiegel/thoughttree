@@ -17,7 +17,7 @@ OUTPUT = "output"
 class Sheet(ScrolledText, LineHandling):
 
     def __init__(self, master=None, scrollbar=True, name="s", wrap=WORD, width=80, borderwidth=0,
-                 highlightthickness=0, highlightcolor="lightgray", padx=0, pady=0, height=0, background='white', text="", **kw):
+                 highlightthickness=1, highlightcolor="lightgray", padx=0, pady=0, height=0, background='white', text="", **kw):
         ScrolledText.__init__(
             self, master, undo=True, wrap=wrap, padx=padx, pady=pady, background=background,
             width=width, height=height, insertwidth=3, font=Fonts.FONT,

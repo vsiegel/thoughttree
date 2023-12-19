@@ -261,7 +261,7 @@ class MainMenu(MenuBar):
         navigate.add_item("Next Similar Line", "<Control-j>", lambda e=None: self.it.jump_to_similar_line(direction=1))
         navigate.add_item("Previous Similar Line", "<Control-Shift-J>", lambda e=None: self.it.jump_to_similar_line(direction=-1))
         navigate.add_item("Next Message", "<Tab>", lambda e=None: e.widget.tk_focusNext())
-        navigate.add_item("Previous Message", "<Shift-Tab>", lambda e=None: e.widget.tk_focusPrevious())
+        navigate.add_item("Previous Message", "<Shift-Tab>", lambda e=None: e.widget.tk_focusPrev())
         navigate.add_item("Next Tab", "<Control-Tab>", None)
         navigate.add_item("Previous Tab", "<Control-Shift-Tab>", None)
         navigate.add_separator()

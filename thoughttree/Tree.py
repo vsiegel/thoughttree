@@ -81,14 +81,35 @@ class Tree(tk.Frame):
         self.load_dir(conf.examples_dir, "Examples")
         self.load_dir(conf.prompts_dir, "Prompts")
 
+        self.context_menus = {}
+
+        def show_context_menu(event):
+            if event.type == tk.EventType.ButtonPress and event.num == 3:
+                widget = event.widget
+                if isinstance(widget, ttk.Treeview):
+                    print(f"{widget.identify_row(event.y)=}")
+                    widget.focus(widget.identify_row(event.y))
+                    widget.selection_set(widget.identify_row(event.y))
+                    self.show_details()
+            iid = self.tree.focus()
+            type = self.tree.set(iid, "type")
+            if type:
+                menu = self.context_menus[type]
+                if menu:
+                    menu.show_context_menu(event)
+
         TreeTooltip(self)
+
         file_context = TooltipableMenu(None, "(File context menu)")
         file_context.add_item("Replace System", "<Shift-Alt-Return>", self.ui.replace_system_prompt, to_class="Treeview")
         file_context.add_item("Insert System", "<Shift-Return>", lambda e=None: self.ui.insert_system_prompt(), to_class="Treeview")
         file_context.add_item("Replace User", "<Control-Alt-Return>", lambda e=None: self.ui.replace_user_prompt(), to_class="Treeview")
         file_context.add_item("Insert User", "<Control-Return>", lambda e=None: self.ui.insert_user_prompt(), to_class="Treeview")
-        self.bind_class("Treeview", "<Button-3>", file_context.show_context_menu)
-        self.bind_class("Treeview", "<Menu>", file_context.show_context_menu)
+
+        self.context_menus["file"] = file_context
+
+        self.bind_class("Treeview", "<Button-3>", show_context_menu)
+        self.bind_class("Treeview", "<Menu>", show_context_menu)
 
 
     def focussed(self):

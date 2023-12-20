@@ -243,17 +243,16 @@ class Sheet(ScrolledText, LineHandling):
                 added(new_words[j1:j2])
 
     def elide_other(self, elide, event):
-        elide_by_color=False
+        elide_by_color = False
+        tags = self.tag_names(tk.CURRENT)
+
+        if not ("added" in tags or "deleted" in tags):
+            return
         if elide:
-            tags = self.tag_names(tk.CURRENT)
-            if "added" in tags:
-                self.tag_config("deleted", elide_by_color and {"foreground": "white"} or {"elide": True})
-            elif "deleted" in tags:
-                self.tag_config("added", elide_by_color and {"foreground": "white"} or {"elide": True})
+            tag = "added" if "added" in tags else "deleted"
+            self.tag_config(tag, elide_by_color and {"foreground": "white"} or {"elide": True})
         else:
-            if elide_by_color:
-                self.tag_config("added", foreground="#77ee77")
-                self.tag_config("deleted", foreground="#ee7777")
-            else:
-                self.tag_config("added", elide=False)
-                self.tag_config("deleted", elide=False)
+            config = {"foreground": "#77ee77"} if elide_by_color else {"elide": False}
+            self.tag_config("added", **config)
+            config = {"foreground": "#ee7777"} if elide_by_color else {"elide": False}
+            self.tag_config("deleted", **config)

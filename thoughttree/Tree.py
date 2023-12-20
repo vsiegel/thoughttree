@@ -46,7 +46,7 @@ class Tree(tk.Frame):
         rowheight = tkfont.Font(font=font).metrics("linespace") + 1
         Style().configure(style, rowheight=rowheight, bd=2, highlightthickness=1, font=font)
 
-        self.tree = ttk.Treeview(self, columns=("type"), displaycolumns=(), style=style, *args, **kw) # show="tree", # ("C1", "C2")
+        self.tree = ttk.Treeview(self, columns=("path", "type"), displaycolumns=(), style=style, *args, **kw) # show="tree", # ("C1", "C2")
 
         y_scroll = ttk.Scrollbar(self, orient="vertical", command=self.tree.yview)
         y_scroll.pack(side='right', fill='y')

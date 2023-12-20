@@ -257,3 +257,7 @@ def escapable(widget):
 
 def code_file_relative(path):
     return join(dirname(__file__), path)
+
+def read(name):
+    with open(name, encoding="utf-8") as f:
+        return f.read()

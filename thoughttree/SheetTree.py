@@ -41,6 +41,17 @@ class SheetTree(tk.Frame):
         #     print(f"Event: {event}: {event.widget} {event.x},{event.y} {event.width}x{event.height}")
         # self.winfo_toplevel().bind_all('<Configure>', on_configure)
 
+        self.winfo_toplevel().bind("<Control-Alt-Shift-S>", self.debug)
+        self.canvas_frame = canvas_frame
+
+    def debug(self, event):
+        print(f"{event}    {event.widget}    {event.width}x{event.height}+{event.x}+{event.y}")
+        print(f"{self.winfo_geometry()=}")
+        print(f"{self.canvas.winfo_geometry()=}")
+        print(f"{self.canvas_frame.winfo_geometry()=}")
+        print(f"{self.canvas_frame.winfo_height()=}")
+        print(f"{self.canvas_frame.winfo_reqheight()=}")
+
 
     def configure_frame(self, event):
         # print(f"configure_frame:        {event.height}")

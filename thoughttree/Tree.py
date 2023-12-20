@@ -228,16 +228,3 @@ class Tree(tk.Frame):
             self.tree.insert(iid, END, text=old)
             self.tree.insert(iid, END, text=new)
             self.tree.insert(iid, END, text=diff_summary(old, new))
-
-
-if __name__ == '__main__':
-    def read(name):
-        with open(name) as f:
-            return f.read()
-
-    root = tk.Tk()
-    tree = Tree(root)
-    tree.pack(fill=BOTH, expand=1)
-    text_change = TextChange(read("/home/siegel/manuscript/99_thoughttree.tex-make_it_better25.txt"))
-    tree.add_change(text_change)
-    root.mainloop()

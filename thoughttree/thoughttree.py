@@ -469,11 +469,10 @@ class Thoughttree(Ui):
     @property
     def it(self) -> Sheet:
         focussed = self.focus_get()
-        if focussed == self.system:
-            self.system.tk_focusNext().focus()
-            focussed = self.focus_get()
-            print(f'(switched focus away from system)')
-
+        # if focussed == self.system:
+        #     self.system.tk_focusNext().focus()
+        #     focussed = self.focus_get()
+        #     print(f'(switched focus away from system)')
 
         if isinstance(focussed, Sheet):
             self.current_sheet = focussed

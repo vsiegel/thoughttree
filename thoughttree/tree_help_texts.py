@@ -2,26 +2,28 @@
 tree_help = {
     "Tree.Examples":
 """
-Help text for:
-Toplevel tree node
-"Examples" 
+Examples for prompts
+to demonstrate basic
+features (as.prt files)
+and example input data 
+files. 
 """,
     "Tree.Prompts":
 """
-Help text for:
-Toplevel tree node
-"Prompts" 
+general collection of 
+system and user prompts
+that can be used as is,
+or modified,
+or learned from.
 """,
     "Tree.Changes":
 """
-Help text for:
-Toplevel tree node
-"Changes" 
+Text changes generated
+as output.
 """,
     "Tree.Differences":
 """
-Help text for:
-Toplevel tree node
-"Differences" 
+Text differences
+generated as output.
 """,
 }

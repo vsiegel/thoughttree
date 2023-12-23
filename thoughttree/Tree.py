@@ -68,13 +68,13 @@ class Tree(tk.Frame):
         self.tree.bind("<FocusOut>", selectionbackground_unfocussed)
         selectionbackground_unfocussed()
 
-        self.tree.insert("", END, text="Examples", iid="Examples", open=False)
-        self.tree.insert("", END, text="Prompts", iid="Prompts", open=False)
-        self.tree.insert("", END, text="Changes", iid="Changes", open=True)
-        self.tree.insert("", END, text="Differences", iid="Differences", open=True)
+        self.tree.insert("", END, text="Examples", iid="Examples", open=False, values=['', "toplevel"])
+        self.tree.insert("", END, text="Prompts", iid="Prompts", open=False, values=['', "toplevel"])
+        self.tree.insert("", END, text="Changes", iid="Changes", open=True, values=['', "toplevel"])
+        self.tree.insert("", END, text="Differences", iid="Differences", open=True, values=['', "toplevel"])
 
         self.tree.focus("Examples")
-        self.tree.selection_set(self.tree.focus())
+        # self.tree.selection_set(self.tree.focus())
 
         self.tree.pack(side=LEFT, fill=BOTH, expand=True)
 

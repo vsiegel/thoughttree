@@ -30,7 +30,10 @@ class TooltipableMenu(tk.Frame):
         if conf.debug and not label in menu_help:
             print("Warning: Help missing for \"" + label + "\"")
         keystroke = self.fix_key_letter_case(keystroke)
-        self.winfo_toplevel().bind_class(to_class, keystroke, command, add=add)
+        if to_class == "all":
+            self.winfo_toplevel().bind_all(keystroke, command)
+        else:
+            self.winfo_toplevel().bind_class(to_class, keystroke, command, add=add)
         accelerator = self.accelerator_label(keystroke)
         self.items.append((label, accelerator, command, underline))
         if menu2:

@@ -205,8 +205,8 @@ class MainMenu(MenuBar):
         file.add_separator()
         file.add_item("Close Tab", "<Control-w>", close_tab, add=False)
         file.add_item("Close Empty Tab", "<BackSpace>", lambda e=None: self.it.close_empty_tab_or_backspace(e), add=False)
-        file.add_item("Close Window", "<Control-Q>", ui.close)
-        file.add_item("Quit Thoughttree", "<Control-Shift-Q>", lambda e=None: ui.quit(label="Quit Thoughttree"))
+        file.add_item("Close Window", "<Control-Q>", ui.close, to_class="all")
+        file.add_item("Quit Thoughttree", "<Control-Shift-Q>", lambda e=None: ui.quit(label="Quit Thoughttree"), to_class="all")
 
 
         edit = self.submenu("Edit")

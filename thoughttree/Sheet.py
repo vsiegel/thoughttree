@@ -256,3 +256,8 @@ class Sheet(ScrolledText, LineHandling):
             self.tag_config("added", **config)
             config = {"foreground": "#ee7777"} if elide_by_color else {"elide": False}
             self.tag_config("deleted", **config)
+
+    def backspace(self, event=None):
+        sheet = event and event.widget or self
+        sheet.delete(INSERT + "-1c")
+        return "break"

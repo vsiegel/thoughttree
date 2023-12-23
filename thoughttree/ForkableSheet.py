@@ -31,7 +31,7 @@ class ForkableSheet(Sheet):
 
         self.previous_sheet_height = None #todo
         self.unbind("<BackSpace>")
-        self.bind_class("Text", "<BackSpace>", self.close_empty_tab_or_backspace)
+        self.bind_class("Text", "<BackSpace>", self.backspace)
         # if self.parent_sheet_tree:#???
         #     self.parent_sheet_tree.bind("<Configure>", self.parent_sheet_tree.configure_scrollregion, add=True)
         self.bind('<<Modified>>', self.grow_to_displaylines, add=True)
@@ -181,7 +181,7 @@ class ForkableSheet(Sheet):
             return "break"
 
 
-    def close_empty_tab_or_backspace(self, event=None):
+    def backspace(self, event=None): # close_empty_tab_or_backspace
         sheet = event and event.widget or self
         if sheet.index(INSERT) == "1.0" and not sheet.tag_ranges(SEL):
             notebook: Notebook = sheet.parent_notebook

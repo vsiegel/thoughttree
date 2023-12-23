@@ -36,6 +36,7 @@ class SheetTree(tk.Frame):
         self.add_scrolling()
 
         self.forkable_sheet.bind("<Configure>", self.configure_scrollregion, add=True)
+        # self.forkable_sheet.bind("<Configure>", self.configure_frame, add=True)
         self.canvas.bind("<Configure>", self.configure_frame, add=True)
         # def on_configure(event):
         #     print(f"Event: {event}: {event.widget} {event.x},{event.y} {event.width}x{event.height}")
@@ -51,10 +52,12 @@ class SheetTree(tk.Frame):
         print(f"{self.canvas_frame.winfo_geometry()=}")
         print(f"{self.canvas_frame.winfo_height()=}")
         print(f"{self.canvas_frame.winfo_reqheight()=}")
+        print(f"{self.forkable_sheet.winfo_height()=}")
+        print(f"{self.forkable_sheet.winfo_reqheight()=}")
 
 
     def configure_frame(self, event):
-        # print(f"configure_frame:        {event.height}")
+        print(f"configure_frame:        {event.height}")
         self.canvas.itemconfigure(self.frame_id, width=event.width, height=event.height)
 
     def configure_scrollregion(self, event):

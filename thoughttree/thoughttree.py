@@ -191,6 +191,7 @@ class Thoughttree(Ui):
 
         InitialSheetHelp(self.system, *sheet_help("System prompt - [?]"))
         InitialSheetHelp(self.sheet_tree.forkable_sheet, *sheet_help("User prompt - Chat - [?]"))
+        InitialSheetHelp(self.detail, *sheet_help("Details - [?]"))
 
     def configure_ui_options(self):
         size = 12

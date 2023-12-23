@@ -20,7 +20,7 @@ class ForkableSheet(Sheet):
         self.fork_frame.forkable_sheet = self
         Sheet.__init__(self,  self.fork_frame, name=name, height=height, width=width, scrollbar=False, background="white", *args, **kw)
         self.pack(side=tk.TOP, fill=BOTH, expand=True)
-        self.frame.pack_propagate(False)
+        self.frame.pack_propagate(False) #todo remove all 3?
         self.fork_frame.pack_propagate(False)
         # self.pack_propagate(False)
 
@@ -58,8 +58,11 @@ class ForkableSheet(Sheet):
             # print(f"WxH: {width}x{height}")
             sheet.frame.configure(height=ypixels)
             sheet.fork_frame.configure(width=width, height=height)
+
             if sheet.parent_sheet_tree:
                 sheet.parent_sheet_tree.event_generate("<Configure>", x=0, y=0, width=width, height=height)
+            # sheet.event_generate("<Configure>", x=0, y=0, width=width, height=height)
+
             sheet.edit_modified(False)
 
 

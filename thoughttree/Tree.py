@@ -15,6 +15,7 @@ from Fonts import Fonts
 from TextChange import TextChange
 from TooltipableMenu import TooltipableMenu
 from TreeTooltip import TreeTooltip
+from tree_help_texts import tree_help
 
 #NODE_OPEN = '\u25B6'
 #NODE_CLOSED = '\u25BC'
@@ -123,13 +124,19 @@ class Tree(tk.Frame):
     def show_details(self, event=None):
         item = self.focussed_file()
         self.ui.detail.configure(state=NORMAL)
-        self.ui.detail.delete("1.0", "end")
         try:
+            if self.ui.detail.get(1.0, "end").strip():
+                self.ui.detail.delete("1.0", "end")
+
             if item and isfile(item):
                 self.ui.detail.insert_file("1.0", item)
             else:
                 iid = self.tree.focus()
+                toplevel_node = "Tree." + iid
+                if toplevel_node in tree_help:
+                    text = tree_help[toplevel_node].strip()
                 # self.ui.detail.insert("1.0", f"{iid=}\n{self.tree.item(iid)=}\n{self.tree.set(iid)=}")
+                self.ui.detail.insert("1.0", text)
         finally:
             self.ui.detail.configure(state=DISABLED)
         return "break"

@@ -12,6 +12,7 @@ class MenuBar(tk.Frame):
         self.winfo_toplevel().bind("<Configure>", lambda e: self.close_other_menus(None), add=True)
         MenuHelpTooltip(self)
 
+
     def add_menu(self, menu):
         menu.pack(side='left')
         self.menus.append(menu)

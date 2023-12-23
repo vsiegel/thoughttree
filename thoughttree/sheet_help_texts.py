@@ -15,5 +15,9 @@ sheet_help_texts = {
         " question, simply type your question here, such as 'What is the process of photosynthesis?'. Remember, the more"
         " specific and detailed your prompt, the more accurate and helpful the model's response will be. This can include"
         " setting a context, defining a role, or asking a question. Don't hesitate to experiment with different types"
-        " of prompts to see the various responses!"
+        " of prompts to see the various responses!",
+
+    "Details - [?]":
+        "Shows details for the selected item in the tree.",
+
 }

@@ -24,9 +24,6 @@ class Console(tk.scrolledtext.ScrolledText, io.TextIOBase):
         self.insert(END, message)
         self.see(END)
 
-    def cost(self, message):
-        self.tagged("cost", message)
-
 
     def tagged(self, tag, message):
         self.insert(END, message, (tag,))

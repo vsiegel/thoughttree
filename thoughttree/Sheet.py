@@ -14,6 +14,12 @@ from LineHandling import LineHandling
 
 OUTPUT = "output"
 
+# added_colors = {"foreground": "#77ee77"}
+# deleted_colors = {"foreground": "#ee7777"}
+added_colors = {"background" : "#9af1a9"}
+deleted_colors = {"background": "#f1a8ae"}
+
+
 class Sheet(ScrolledText, LineHandling):
 
     def __init__(self, master=None, scrollbar=True, name="s", wrap=WORD, width=80, borderwidth=0,
@@ -53,8 +59,9 @@ class Sheet(ScrolledText, LineHandling):
         self.tag_config('hidden_markup', elide=True, foreground="#E0E0E0")
         self.tag_config('hidden_prompt', elide=True, foreground="#E0E0E0")
         self.tag_config("mask", borderwidth=2, relief=SOLID, foreground="#D0D0D0")
-        self.tag_config("added", foreground="#9af1a9")
-        self.tag_config("deleted", foreground="#f1a8ae")
+
+        self.tag_config("added", **added_colors)
+        self.tag_config("deleted", **deleted_colors)
         for tag in ["added", "deleted"]:
             self.tag_bind(tag, "<Button-1>", lambda event: self.elide_other(True, event))
             self.tag_bind(tag, "<ButtonRelease-1>", lambda event: self.elide_other(False, event))
@@ -252,9 +259,9 @@ class Sheet(ScrolledText, LineHandling):
             tag = "added" if "added" in tags else "deleted"
             self.tag_config(tag, elide_by_color and {"foreground": "white"} or {"elide": True})
         else:
-            config = {"foreground": "#77ee77"} if elide_by_color else {"elide": False}
+            config = added_colors if elide_by_color else {"elide": False}
             self.tag_config("added", **config)
-            config = {"foreground": "#ee7777"} if elide_by_color else {"elide": False}
+            config = deleted_colors if elide_by_color else {"elide": False}
             self.tag_config("deleted", **config)
 
     def backspace(self, event=None):

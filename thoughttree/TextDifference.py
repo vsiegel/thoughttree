@@ -20,30 +20,31 @@ class TextDifference():
 
 
     def parse(self, change_spec):
-        title_pattern = r"""(?x)
-            Title:\ ?\n?
-                ((['"`]{1,3})
-                    ([\s\S]*?)
-                \2)"""
+        try:
+            # title_pattern = "Title:\ ?\n?((['\"`]{1,3})([\s\S]*?)\2)" #?
+            title_pattern = r"""(?x)
+                Title:\ ?\n?
+                    ((['"`]{1,3})
+                        ([\s\S]*?)
+                    \2)"""
 
             title_matches = re.findall(title_pattern, change_spec)
             title_matches or fail(f'No match for "{title_pattern}"'[:80])
             self.title = title_matches[0][2].strip("'"+'"')
 
-        change_pattern = r"""(?x)
-            Old:\ ?\n?
-                ((['"`]{1,3})
-                    ([\s\S]*?)
-                \2)
-            \n+
-            New:\ ?\n?
-                ((['"`]{1,3})
-                    ([\s\S]*?)
-                \5)"""
-        change_matches = re.findall(change_pattern, change_spec)
-        if not change_matches:
-            print(f'No match for "{change_pattern}"'[:120])
-            return
+            # change_pattern = "Old:\ ?\n?((['\"`]{1,3})([\s\S]*?)\2)\n+New:\ ?\n?((['\"`]{1,3})([\s\S]*?)\5)" #?
+            change_pattern = r"""(?x)
+                Old:\ ?\n?
+                    ((['"`]{1,3})
+                        ([\s\S]*?)
+                    \2)
+                \n+
+                New:\ ?\n?
+                    ((['"`]{1,3})
+                        ([\s\S]*?)
+                    \5)"""
+            change_matches = re.findall(change_pattern, change_spec)
+            change_matches or fail(f'No match for "{change_pattern}"'[:80])
 
             for groups in change_matches:
                 old = groups[2].strip("'"+'"')

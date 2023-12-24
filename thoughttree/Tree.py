@@ -161,31 +161,28 @@ class Tree(tk.Frame):
             self.ui.detail.configure(state=DISABLED)
         return "break"
 
-    def load_dir(self, examples_dir, node):
+    def load_dir(self, directory, node):
 
-        def populate_tree(tree: Treeview, node):
-            # if tree.set(node, "type") != 'directory':
-            #     return
+        # if tree.set(node, "type") != 'directory':
+        #     return
 
-            directory = examples_dir
-            # tree.delete(*tree.get_children(node))
+        # tree.delete(*tree.get_children(node))
 
-            # parent = tree.parent(node)
-            # special_dirs = [] if parent else glob.glob('.') + glob.glob(examples_dir)
+        # parent = tree.parent(node)
+        # special_dirs = [] if parent else glob.glob('.') + glob.glob(examples_dir)
 
-            for file in listdir(directory):
-                ptype = None
-                path = join(directory, file)
-                if isdir(path):
-                    ptype = "directory"
-                elif isfile(path):
-                    ptype = "file"
-                iid = tree.insert(node, "end", text=file, values=[path, ptype])
+        for file in listdir(directory):
+            ptype = None
+            path = join(directory, file)
+            if isdir(path):
+                ptype = "directory"
+            elif isfile(path):
+                ptype = "file"
+            iid = self.tree.insert(node, "end", text=file, values=[path, ptype])
 
-                if ptype == 'directory':
-                    if file not in ('.', '..'):
-                        tree.insert(iid, 0, text="dummy")
-                        tree.item(iid, text=file)
+            if ptype == 'directory':
+                if file not in ('.', '..'):
+                    self.load_dir(path, iid)
 
         # def update_tree(event):
         #     tree = event.widget

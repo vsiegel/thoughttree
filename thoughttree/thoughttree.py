@@ -322,7 +322,7 @@ class Thoughttree(Ui):
     def ask(self, event=None):
         question_box = Sheet(relief=SUNKEN, borderwidth=3, background="lightgray", width=10)
 
-        self.it.window_create(INSERT, window=question_box, stretch=1)
+        self.it.window_create(INSERT, window=question_box, stretch=1) #todo implement incomplete feature
 
 
     def comment(self, event=None):

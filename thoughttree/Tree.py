@@ -70,13 +70,13 @@ class Tree(tk.Frame):
         self.tree.bind("<FocusOut>", selectionbackground_unfocussed)
         selectionbackground_unfocussed()
 
-        self.tree.insert("", END, text="Examples", iid="Examples", open=False, values=['', "toplevel"])
-        self.tree.insert("", END, text="Prompts", iid="Prompts", open=False, values=['', "toplevel"])
-        self.tree.insert("", END, text="Changes", iid="Changes", open=True, values=['', "toplevel"])
-        self.tree.insert("", END, text="Differences", iid="Differences", open=True, values=['', "toplevel"])
+
+        self.append("", text="Examples", iid="Examples", type="toplevel")
+        self.append("", text="Prompts", iid="Prompts", type="toplevel")
+        self.append("", text="Changes", iid="Changes", open=True, type="toplevel")
+        self.append("", text="Differences", iid="Differences", open=True, type="toplevel")
 
         self.tree.focus("Examples")
-        # self.tree.selection_set(self.tree.focus())
 
         self.tree.pack(side=LEFT, fill=BOTH, expand=True)
 
@@ -84,6 +84,7 @@ class Tree(tk.Frame):
         self.load_dir(conf.prompts_dir, "Prompts")
 
         self.context_menus = {}
+
 
         def show_context_menu(event):
             if event.type == tk.EventType.ButtonPress and event.num == 3:
@@ -112,6 +113,10 @@ class Tree(tk.Frame):
 
         self.bind_class("Treeview", "<Button-3>", show_context_menu)
         self.bind_class("Treeview", "<Menu>", show_context_menu)
+
+
+    def append(self, parent, index=END, text="-", iid=None, open=False, value="", type="toplevel"):
+        return self.tree.insert(parent=parent, index=index, text=text, iid=iid, open=open, values=[value, type])
 
 
     def focussed(self):

@@ -18,6 +18,7 @@ class InsertionIcon(tk.Label):
         self.sheet.mark_gravity(self.insertion_point, tk.LEFT)
         self.sheet.window_create(self.insertion_point, window=self)
         self.sheet.mark_gravity(self.insertion_point, tk.RIGHT)
+        self.update()
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.sheet.delete(str(self), str(self) + " +1c")

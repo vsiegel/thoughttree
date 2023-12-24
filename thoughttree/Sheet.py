@@ -275,7 +275,7 @@ class Sheet(ScrolledText, LineHandling):
         if not ("added" in tags or "deleted" in tags):
             return
         if elide:
-            tag = "added" if "added" in tags else "deleted"
+            tag = "deleted" if "added" in tags else "added"
             self.tag_config(tag, elide_by_color and {"foreground": "white"} or {"elide": True})
         else:
             config = added_colors if elide_by_color else {"elide": False}

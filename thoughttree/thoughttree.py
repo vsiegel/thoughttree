@@ -508,9 +508,6 @@ class Thoughttree(Ui):
     def completions(self, sheet, history, n=1):
         reason, message, answer = 'unknown', '', ''
 
-        # sheet.mark_set(OUTPUT, inline and INSERT or "end-2c")
-        sheet.mark_set("completion_start", OUTPUT)
-
         def write_stdout(text, *args):
             if self.is_root_destroyed:
                 return
@@ -559,7 +556,6 @@ class Thoughttree(Ui):
             with InsertionIcon(sheet, OUTPUT):
                 reason, message, answer = self.model.complete(history, lambda text: write_sheet(text, sheet))
 
-        sheet.mark_set("completion_end", OUTPUT)
         if self.log_messages_to_console:
             print(f'Answer:\n"{answer}"')
 

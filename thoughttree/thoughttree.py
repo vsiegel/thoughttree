@@ -371,10 +371,10 @@ class Thoughttree(Ui):
             
             Make a replacement of minimal length, not of whole sentences. It is used as a text replacement, on character level.
             Do not repeat previous results if they are present in the input.
-            If the location marker is after previous changes based on this prompt, assume the whole text as possible places to change.
-            Propose the best change that is anywhere in the text, but not already listed. Never repeat an earlier result.
             Always (!) Finish the output with 2 newlines.
             """))
+            # If the location marker is after previous changes based on this prompt, assume the whole text as possible places to change.
+            # Propose the best change that is anywhere in the text, but not already listed. Never repeat an earlier result.
 
         sheet = self.it
         history = self.history_from_system_and_chat()

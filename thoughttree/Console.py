@@ -4,6 +4,7 @@ import tkinter.scrolledtext
 from tkinter import END
 
 from PaneUnfoldingStream import PaneUnfoldingStream
+from TaggedConsoleOut import TaggedConsoleOut
 
 
 class Console(tk.scrolledtext.ScrolledText, io.TextIOBase):
@@ -18,6 +19,7 @@ class Console(tk.scrolledtext.ScrolledText, io.TextIOBase):
         self.out = self
         self.err = PaneUnfoldingStream(self, parent)
 
+
     def write(self, message):
         self.insert(END, message)
         self.see(END)
@@ -30,10 +32,6 @@ class Console(tk.scrolledtext.ScrolledText, io.TextIOBase):
         self.insert(END, message, (tag,))
         self.see(END)
 
+
     def tagged_out(self, tag):
-        console = self
-        class TaggedConsoleOut(io.TextIOBase):
-            def write(self, message):
-                console.insert(END, message, (tag,))
-                console.see(END)
-        return TaggedConsoleOut()
+        return TaggedConsoleOut(self, tag)

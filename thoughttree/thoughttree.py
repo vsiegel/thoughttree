@@ -348,7 +348,6 @@ class Thoughttree(Ui):
             history.log()
         reason, message, answer = self.completions(sheet, history)
         difference = TextDifference(answer)
-        print(f"{str(difference)=}")
         self.tree.add_difference(difference)
 
 
@@ -384,8 +383,8 @@ class Thoughttree(Ui):
         reason, message, answer = self.model.complete(history)
 
         difference = TextDifference(answer)
-        print(f"{str(difference)=}")
-        self.tree.add_difference(difference)
+        if difference:
+            self.tree.add_difference(difference)
 
 
     def rewrite(self, event=None):
@@ -402,7 +401,6 @@ class Thoughttree(Ui):
         reason, message, answer = self.completions(sheet, history)
 
         difference = TextDifference(history[-1], answer)
-        print(f"{str(difference)=}")
         self.tree.add_difference(difference)
 
     def set_up_location_reference(self, sheet, specific=""):

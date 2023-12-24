@@ -52,8 +52,7 @@ class ForkableSheet(Sheet):
             sheet.fork_frame.configure(width=width, height=height)
 
             if sheet.parent_sheet_tree:
-                sheet.parent_sheet_tree.event_generate("<Configure>", x=0, y=0, width=width, height=height)
-            # sheet.event_generate("<Configure>", x=0, y=0, width=width, height=height)
+                sheet.parent_sheet_tree.canvas_frame.event_generate("<Configure>", x=0, y=0, width=width, height=height)
 
             sheet.edit_modified(False)
 

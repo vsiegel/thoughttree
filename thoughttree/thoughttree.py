@@ -380,7 +380,9 @@ class Thoughttree(Ui):
         self.delete_hidden_prompt(sheet)
         if self.log_messages_to_console:
             history.log()
-        reason, message, answer = self.model.complete(history)
+        with WaitCursor(sheet):
+            with InsertionIcon(sheet, OUTPUT):
+                reason, message, answer = self.model.complete(history)
 
         difference = TextDifference(answer)
         if difference:

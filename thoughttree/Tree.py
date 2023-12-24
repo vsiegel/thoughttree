@@ -15,6 +15,7 @@ from Fonts import Fonts
 from TextChange import TextChange
 from TooltipableMenu import TooltipableMenu
 from TreeTooltip import TreeTooltip
+from tools import diff_summary
 from tree_help_texts import tree_help
 
 #NODE_OPEN = '\u25B6'
@@ -238,14 +239,7 @@ class Tree(tk.Frame):
 
 
     def add_difference(self, difference: TextDifference):
-        def diff_summary(old, new):
-            diff = [li for li in difflib.ndiff(old, new) if li[0]!='']
-            result = ''
-            for key, group in itertools.groupby(diff, lambda x: x[0]):
-                result += f'{key} {"".join(item[2:] for item in group)}'
-            return result
-
-        iid = self.tree.insert("Differences", END, text=difference.title, open=True)
+        iid = self.append("Differences", text=difference.title, type="difference", open=True)
         for old, new in difference.replacements.items():
             self.tree.insert(iid, END, text=old)
             self.tree.insert(iid, END, text=new)

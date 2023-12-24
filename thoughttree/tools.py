@@ -1,3 +1,5 @@
+import difflib
+import itertools
 import re
 import sys
 import time
@@ -261,3 +263,16 @@ def code_file_relative(path):
 def read(name):
     with open(name, encoding="utf-8") as f:
         return f.read()
+
+def diff_summary(old, new):
+    diff = [li for li in difflib.ndiff(old, new) if li[0]!='']
+    result = ''
+    for key, group in itertools.groupby(diff, lambda x: x[0]):
+        result += f'{key} {"".join(item[2:] for item in group)}'
+    return result
+
+def fail(message=""):
+    class FailException(Exception):
+        def __init__(self, *args):
+            super().__init__(*args)
+    raise FailException(message)

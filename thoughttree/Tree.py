@@ -101,6 +101,16 @@ class Tree(tk.Frame):
                 if menu:
                     menu.show_context_menu(event)
 
+        def use_node(event):
+            iid = self.tree.focus()
+            type = self.tree.set(iid, "type")
+            print(f"use_node {iid=} {type=}")
+            if type == "difference":
+                old_id, new_id, diff_id = self.tree.get_children(iid)
+                old = self.tree.item(old_id, "text")
+                new = self.tree.item(new_id, "text")
+                self.ui.it.insert_diff(old, new)
+
         TreeTooltip(self)
 
         file_context = TooltipableMenu(None, "(File context menu)")
@@ -111,6 +121,7 @@ class Tree(tk.Frame):
 
         self.context_menus["file"] = file_context
 
+        self.bind_class("Treeview", "<Double-Button-1>", use_node)
         self.bind_class("Treeview", "<Button-3>", show_context_menu)
         self.bind_class("Treeview", "<Menu>", show_context_menu)
 

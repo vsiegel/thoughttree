@@ -225,22 +225,41 @@ class Sheet(ScrolledText, LineHandling):
         self.insert(index, chars, ("hidden_prompt",), *args)
 
     def insert_diff(self, old_text, new_text, pos=INSERT):
+        diff_by_char = True
+
         def added(words):
-            self.insert(INSERT, " ".join(words) + " ", "added")
+            self.insert(INSERT, diff_words_join(words), "added")
 
         def deleted(words):
-            self.insert(INSERT, " ".join(words) + " ", "deleted")
+            self.insert(INSERT, diff_words_join(words), "deleted")
+
+        def diff_words(text):
+            if diff_by_char:
+                return [c for c in text]
+            else:
+                return text.split()
+
+        def diff_words_join(diffwords):
+            if diff_by_char:
+                return "".join(diffwords)
+            else:
+                return " ".join(diffwords) + " "
+
+        old_pos = self.search(old_text, 1.0, exact=True)
+        if old_pos:
+            pos = old_pos
+
 
         self.mark_set(INSERT, pos)
         self.delete(pos, f"{pos}+{len(old_text)}c")
 
-        old_words = old_text.split()
-        new_words = new_text.split()
+        old_words = diff_words(old_text)
+        new_words = diff_words(new_text)
         matcher = difflib.SequenceMatcher(None, old_words, new_words, autojunk=False)
 
         for op, i1, i2, j1, j2 in matcher.get_opcodes():
             if op == "equal":
-                self.insert(INSERT, " ".join(old_words[i1:i2]) + " ")
+                self.insert(INSERT, diff_words_join(old_words[i1:i2]))
             elif op == "insert":
                 added(new_words[j1:j2])
             elif op == "delete":

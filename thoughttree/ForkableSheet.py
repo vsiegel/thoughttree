@@ -20,9 +20,9 @@ class ForkableSheet(Sheet):
         self.fork_frame.forkable_sheet = self
         Sheet.__init__(self,  self.fork_frame, name=name, height=height, width=width, scrollbar=False, background="white", *args, **kw)
         self.pack(side=tk.TOP, fill=BOTH, expand=True)
-        self.frame.pack_propagate(False) #todo remove all 3?
-        self.fork_frame.pack_propagate(False)
-        # self.pack_propagate(False)
+        # self.frame.pack_propagate(False) #todo remove all 3?
+        # self.fork_frame.pack_propagate(False)
+        self.pack_propagate(False)
 
         self.parent_sheet = parent_sheet
         self.parent_notebook = parent_notebook

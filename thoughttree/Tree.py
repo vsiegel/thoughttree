@@ -68,6 +68,7 @@ class Tree(tk.Frame):
         self.tree.bind("<FocusIn>", lambda e=None: self.tree.selection_set(self.tree.focus()), add=True)
         self.tree.bind("<FocusIn>", selectionbackground_focussed, add=True)
         self.tree.bind("<FocusOut>", selectionbackground_unfocussed)
+        self.tree.bind("<<TreeviewSelect>>", self.show_details)
         selectionbackground_unfocussed()
 
 
@@ -148,11 +149,13 @@ class Tree(tk.Frame):
                 self.ui.detail.insert_file("1.0", item)
             else:
                 iid = self.tree.focus()
+                text = ""
                 toplevel_node = "Tree." + iid
                 if toplevel_node in tree_help:
                     text = tree_help[toplevel_node].strip()
                 # self.ui.detail.insert("1.0", f"{iid=}\n{self.tree.item(iid)=}\n{self.tree.set(iid)=}")
-                self.ui.detail.insert("1.0", text)
+                if text:
+                    self.ui.detail.insert("1.0", text)
         finally:
             self.ui.detail.configure(state=DISABLED)
         return "break"
@@ -187,11 +190,6 @@ class Tree(tk.Frame):
         #     tree = event.widget
         #     populate_tree(tree, tree.focus())
         # self.tree.bind('<<TreeviewOpen>>', update_tree)
-
-
-        self.tree.bind("<<TreeviewSelect>>", self.show_details)
-
-        populate_tree(self.tree, node)
 
 
     def edit_tree_entry(self, event):

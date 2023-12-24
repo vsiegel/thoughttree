@@ -2,3 +2,5 @@ When showing code blocks, always propose a file name, and show it after the file
 '''python example.py
 ...
 '''
+
+When showing multiple code blocks, each of them should be able to run independent (i.e. including repeating imports).

@@ -4,13 +4,19 @@ import tkinter as tk
 from tkinter import INSERT
 
 from Sheet import Sheet
+from tools import fail
 
 
 class TextDifference():
     def __init__(self, change_spec):
+        self.valid = True
         self.title = ""
         self.replacements = {}
         self.parse(change_spec)
+
+
+    def __bool__(self):
+        return self.valid
 
 
     def parse(self, change_spec):
@@ -20,8 +26,8 @@ class TextDifference():
                     ([\s\S]*?)
                 \2)"""
 
-        title_matches = re.findall(title_pattern, change_spec)
-        if title_matches:
+            title_matches = re.findall(title_pattern, change_spec)
+            title_matches or fail(f'No match for "{title_pattern}"'[:80])
             self.title = title_matches[0][2].strip("'"+'"')
 
         change_pattern = r"""(?x)
@@ -39,10 +45,13 @@ class TextDifference():
             print(f'No match for "{change_pattern}"'[:120])
             return
 
-        for groups in change_matches:
-            old = groups[2].strip("'"+'"')
-            new = groups[5].strip("'"+'"')
-            self.replacements[old] = new
+            for groups in change_matches:
+                old = groups[2].strip("'"+'"')
+                new = groups[5].strip("'"+'"')
+                self.replacements[old] = new
+        except Exception as ex:
+            self.valid = False
+            print(f'{ex=}')
 
 
     def apply(self, sheet: Sheet):

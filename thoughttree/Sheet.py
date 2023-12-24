@@ -91,7 +91,7 @@ class Sheet(ScrolledText, LineHandling):
             if m:
                 code = m.group(2)
                 names = dict()
-                print(f'Executing code block ("{code[:30]=}"):')
+                print(f'Executing code block ("{code[:50]}"):')
                 exec(code, names, names)
                 print(f'Code block finished.')
 

@@ -126,6 +126,17 @@ class MainMenu(MenuBar):
             self.it.insert(INSERT, f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} ")
 
         def debug_info(event=None):
+            import pyautogui
+            top = self.ui.winfo_toplevel()
+            # top.update_idletasks()
+
+            def idle_screenshot():
+                im = pyautogui.screenshot(
+                    region=(top.winfo_rootx(), top.winfo_rooty(), top.winfo_width(), top.winfo_height()))
+                im.save("out.png")
+            top.after_idle(idle_screenshot)
+
+            return
             def print_height(w, name=None):
                 name = name or w
                 print()

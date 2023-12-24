@@ -42,20 +42,12 @@ class ForkableSheet(Sheet):
     def grow_to_displaylines(self, event: tk.Event):
         if self.edit_modified():
             sheet:ForkableSheet = event.widget
-            # sheet:ForkableSheet = self
-            # print(f"grow_to_displaylines:" + str(sheet))
             sheet.count("1.0", "end", "update")
             ypixels = sheet.count("1.0", "end lineend", 'ypixels')[0]
-            # print(f"{ypixels=}")
-            # print(f"{sheet.winfo_minheight()=}")
-            # sheet.frame.configure(height=ypixels)
             height = ypixels
             if sheet.child_notebook:
                 height += sheet.child_notebook.winfo_height()
-                # print(f"{sheet.child_notebook.winfo_height()=}")
-                # print(f"{sheet.child_notebook.winfo_reqheight()=}")
             width = sheet.master.winfo_width()
-            # print(f"WxH: {width}x{height}")
             sheet.frame.configure(height=ypixels)
             sheet.fork_frame.configure(width=width, height=height)
 

@@ -233,8 +233,8 @@ def bind_to_all_events(widget, on_event=None, bind_all=False, excluded="Motion",
             else:
                 widget.bind(ev, on_event, add=True)
             print(f"Bound {ev}")
-        except Exception:
-            print(f"Exception for {ev}")
+        except Exception as ex:
+            print(f"Exception {ex} for {ev}")
 
 def show_widget_under_pointer(widget):
     global last_time

@@ -5,6 +5,7 @@ import sys
 import time
 import tkinter as tk
 import webbrowser
+from datetime import datetime
 from os.path import join, dirname
 from textwrap import fill
 from math import ceil, log2, sqrt
@@ -12,6 +13,8 @@ import random
 from tkinter import EventType, ttk
 
 from pathlib import Path
+
+import pyautogui
 from pyperclip import paste
 from inspect import currentframe
 import subprocess
@@ -175,6 +178,37 @@ def get_git_describe_version():
         return git('describe', '--tags', cwd=source_dir)
     except Exception as e:
         return "(error accessing git describe version)"
+
+def screenshot_after_input(widget, name_base="gui"):
+    top = widget.winfo_toplevel()
+
+    start = datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
+    global i
+    i = 0
+
+    def screenshot():
+        global i
+        im = pyautogui.screenshot(region=(top.winfo_rootx(), top.winfo_rooty(), top.winfo_width(), top.winfo_height()))
+        file = f"{name_base}-{start}-{i:04d}.png"
+        i += 1
+        im.save(file)
+        print(f"Saved {file}")
+
+
+    def screenshot_when_idle(event: tk.Event):
+        # print(f"{event=}")
+        top.after_idle(screenshot)
+
+
+    events = ["<KeyPress>", "<ButtonPress>"]
+    # events = ["<Key>"]
+    for ev in events:
+        try:
+            widget.bind_all(ev, screenshot_when_idle, add=True)
+        except Exception as ex:
+            print(f"Exception {ex} for {ev}")
+
+
 
 def bind_to_all_events(widget, on_event=None, bind_all=False, excluded="Motion", included=None): # "Motion, Enter"):
     # invalid_events = ["Keymap", "GraphicsExpose", "NoExpose", "CirculateRequest", "SelectionClear",

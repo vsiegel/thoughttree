@@ -267,20 +267,17 @@ class Sheet(ScrolledText, LineHandling):
                 deleted(old_words[i1:i2])
                 added(new_words[j1:j2])
 
+    # def hide(self, elide, event):
     def elide_other(self, elide, event):
-        elide_by_color = False
         tags = self.tag_names(tk.CURRENT)
 
-        if not ("added" in tags or "deleted" in tags):
-            return
+        ("added" in tags or "deleted" in tags) or fail(f"Cannot elide other tags: {tags}")
+
+        tag = "deleted" if "added" in tags else "added"
         if elide:
-            tag = "deleted" if "added" in tags else "added"
-            self.tag_config(tag, elide_by_color and {"foreground": "white"} or {"elide": True})
+            self.tag_config(tag, {"elide": True})
         else:
-            config = added_colors if elide_by_color else {"elide": False}
-            self.tag_config("added", **config)
-            config = deleted_colors if elide_by_color else {"elide": False}
-            self.tag_config("deleted", **config)
+            self.tag_config(tag, {"elide": False})
 
     def backspace(self, event=None):
         sheet = event and event.widget or self

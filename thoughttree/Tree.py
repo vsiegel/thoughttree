@@ -171,7 +171,7 @@ class Tree(tk.Frame):
         # parent = tree.parent(node)
         # special_dirs = [] if parent else glob.glob('.') + glob.glob(examples_dir)
 
-        for file in listdir(directory):
+        for file in sorted(listdir(directory)):
             ptype = None
             path = join(directory, file)
             if isdir(path):

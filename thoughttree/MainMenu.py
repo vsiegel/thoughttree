@@ -91,12 +91,6 @@ class MainMenu(MenuBar):
         def copy_text(event=None) :
             self.it.event_generate("<<Copy>>")
 
-        def select_message(event=None):
-            pass
-
-        def select_code_block(event=None):
-            pass
-
         def edit_undo(event=None):
             try:
                 self.it.edit_undo()
@@ -228,8 +222,8 @@ class MainMenu(MenuBar):
         edit.add_item("Copy", "<Control-c>", lambda e=None: self.it.event_generate("<<Copy>>"), menu2=context)
         edit.add_item("Paste", "<Control-v>", lambda e=None: self.it.event_generate('<<Paste>>'), menu2=context)
         edit.add_item("Select All", "<Control-a>", lambda e=None: self.it.event_generate('<<SelectAll>>'), menu2=context)
-        edit.add_item("Select Message", "<Control-a>", select_message, menu2=context)
-        edit.add_item("Select Block", "<Control-a>", select_code_block, menu2=context)
+        edit.add_item("Select Message", "<Control-Alt-w>", None, menu2=context)
+        edit.add_item("Select Block", "<Control-Shift-w>", None, menu2=context)
         edit.add_separator()
         edit.add_item("Find", "<Control-f>", lambda e=None: self.it.find())
         edit.add_item("Find Next", "<Control-g>", lambda e=None: self.it.find_next())

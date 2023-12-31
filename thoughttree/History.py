@@ -77,10 +77,10 @@ class History(list):
                 last = messages - 1
                 self[:] = self[0:1] + self[-last:]
 
-    def log_compact(self):
-        for message in self:
-            content = message['content']
-            print(f"{message['role']}: \"{shorter(content, 120)}\" {log_len(content, 120)}")
+    # def log_compact(self):
+    #     for message in self:
+    #         content = message['content']
+    #         print(f"{message['role']}: \"{shorter(content, 120)}\" {log_len(content, 120)}")
 
 
     def log(self):

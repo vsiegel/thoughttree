@@ -179,7 +179,7 @@ class Thoughttree(Ui):
             self.console_pane.fold(set_folded=True)
             self.tree_pane.fold(set_folded=False)
             self.detail_pane.fold(set_folded=False)
-            bound_pane.unbind("<Configure>")
+            self.toTop()
         bound_pane.bind("<Configure>", on_first_configure)
 
         if type(sys.stdout) is not TextIOTee:

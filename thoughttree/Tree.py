@@ -36,8 +36,6 @@ class Tree(ttk.Treeview):
         from thoughttree import Thoughttree
         self.ui: Thoughttree = thoughttree
 
-        self.parent = parent
-
         def on_tree_click(event):
             item = self.identify('item', event.x, event.y)
             if item:
@@ -79,8 +77,6 @@ class Tree(ttk.Treeview):
         self.append("", text="Differences", iid="Differences", open=True, type="toplevel")
 
         self.focus("Examples")
-
-        # self.pack(side=LEFT, fill=BOTH, expand=True) #fixme pack?
 
         self.load_dir(conf.examples_dir, "Examples")
         self.load_dir(conf.prompts_dir, "Prompts")

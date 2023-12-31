@@ -24,52 +24,52 @@ NODE_OPEN = '*'
 NODE_CLOSED = '|'
 
 
-class Tree(tk.Frame):
+class Tree(ttk.Treeview):
     def __init__(self, parent, thoughttree, *args, **kw):
-        from thoughttree import Thoughttree
-        self.ui: Thoughttree = thoughttree
-
-        tk.Frame.__init__(self, parent, *args, **kw)
-        self.parent = parent
-
-        def on_tree_click(event):
-            item = self.tree.identify('item', event.x, event.y)
-            if item:
-                if 'closed' in self.tree.item(item, 'tags'):
-                    replaced = self.tree.item(item, 'text').replace(NODE_CLOSED, NODE_OPEN, 1)
-                    self.tree.item(item, text=replaced)
-                    self.tree.item(item, tags='opened')
-                elif 'opened' in self.tree.item(item, 'tags'):
-                    self.tree.item(item, text=self.tree.item(item, 'text').replace(NODE_OPEN, NODE_CLOSED, 1))
-                    self.tree.item(item, tags='closed')
 
         style = "Treeview.Treeview"
         font = Fonts.FONT
         rowheight = tkfont.Font(font=font).metrics("linespace") + 1
         Style().configure(style, rowheight=rowheight, bd=2, highlightthickness=1, font=font)
 
-        self.tree = ttk.Treeview(self, columns=("path", "type"), displaycolumns=(), style=style, *args, **kw) # show="tree", # ("C1", "C2")
+        super().__init__(parent, columns=("path", "type"), displaycolumns=(), style=style, *args, **kw)
+        from thoughttree import Thoughttree
+        self.ui: Thoughttree = thoughttree
 
-        y_scroll = ttk.Scrollbar(self, orient="vertical", command=self.tree.yview)
+        self.parent = parent
+
+        def on_tree_click(event):
+            item = self.identify('item', event.x, event.y)
+            if item:
+                if 'closed' in self.item(item, 'tags'):
+                    replaced = self.item(item, 'text').replace(NODE_CLOSED, NODE_OPEN, 1)
+                    self.item(item, text=replaced)
+                    self.item(item, tags='opened')
+                elif 'opened' in self.item(item, 'tags'):
+                    self.item(item, text=self.item(item, 'text').replace(NODE_OPEN, NODE_CLOSED, 1))
+                    self.item(item, tags='closed')
+
+
+        y_scroll = ttk.Scrollbar(self, orient="vertical", command=self.yview)
         y_scroll.pack(side='right', fill='y')
-        self.tree.configure(yscrollcommand=y_scroll.set)
+        self.configure(yscrollcommand=y_scroll.set)
 
-        self.tree.column("#0", width=200, minwidth=10, anchor=W, stretch=NO)
-        # self.tree.column("#1", width=50, minwidth=10, anchor=W, stretch=NO)
-        # self.tree.heading("C1", text="")
-        self.tree.bind('<Button-1>', on_tree_click)
-        # self.tree.bind("<Double-Button-1>", self.edit_tree_entry)
-        # self.tree.bind("<Return>", self.edit_tree_entry)
+        self.column("#0", width=200, minwidth=100, anchor=W, stretch=NO)
+        # self.column("#1", width=50, minwidth=10, anchor=W, stretch=NO)
+        # self.heading("C1", text="")
+        self.bind('<Button-1>', on_tree_click)
+        # self.bind("<Double-Button-1>", self.edit_tree_entry)
+        # self.bind("<Return>", self.edit_tree_entry)
         def on_configure(event):
-            self.tree.column("#0", width=event.width)
-        self.tree.bind("<Configure>", on_configure)
+            self.column("#0", width=event.width)
+        self.bind("<Configure>", on_configure)
 
         selectionbackground_focussed = lambda e=None: Style().map(style, background=[("selected", Colors.highlight)])
         selectionbackground_unfocussed = lambda e=None: Style().map(style, background=[("selected", "lightgray")])
-        self.tree.bind("<FocusIn>", lambda e=None: self.tree.selection_set(self.tree.focus()), add=True)
-        self.tree.bind("<FocusIn>", selectionbackground_focussed, add=True)
-        self.tree.bind("<FocusOut>", selectionbackground_unfocussed)
-        self.tree.bind("<<TreeviewSelect>>", self.show_details)
+        self.bind("<FocusIn>", lambda e=None: self.selection_set(self.focus()), add=True)
+        self.bind("<FocusIn>", selectionbackground_focussed, add=True)
+        self.bind("<FocusOut>", selectionbackground_unfocussed)
+        self.bind("<<TreeviewSelect>>", self.show_details)
         selectionbackground_unfocussed()
 
 
@@ -78,9 +78,9 @@ class Tree(tk.Frame):
         self.append("", text="Changes", iid="Changes", open=True, type="toplevel")
         self.append("", text="Differences", iid="Differences", open=True, type="toplevel")
 
-        self.tree.focus("Examples")
+        self.focus("Examples")
 
-        self.tree.pack(side=LEFT, fill=BOTH, expand=True)
+        # self.pack(side=LEFT, fill=BOTH, expand=True) #fixme pack?
 
         self.load_dir(conf.examples_dir, "Examples")
         self.load_dir(conf.prompts_dir, "Prompts")
@@ -96,8 +96,8 @@ class Tree(tk.Frame):
                     widget.focus(widget.identify_row(event.y))
                     widget.selection_set(widget.identify_row(event.y))
                     self.show_details()
-            iid = self.tree.focus()
-            type = self.tree.set(iid, "type")
+            iid = self.focus()
+            type = self.set(iid, "type")
             if type:
                 menu = self.context_menus[type]
                 if menu:
@@ -119,19 +119,19 @@ class Tree(tk.Frame):
 
 
     def append(self, parent, index=END, text="-", iid=None, open=False, value="", type="toplevel"):
-        return self.tree.insert(parent=parent, index=index, text=text, iid=iid, open=open, values=[value, type])
+        return self.insert(parent=parent, index=index, text=text, iid=iid, open=open, values=[value, type])
 
 
     def focussed(self):
-        return self.tree.item(self.tree.focus())
+        return self.item(self.focus())
 
     def focussed_file(self):
         item = self.focussed()
         return item["values"][0] if item["values"] else None
 
     def use_node(self, event):
-        iid = self.tree.focus()
-        type = self.tree.set(iid, "type")
+        iid = self.focus()
+        type = self.set(iid, "type")
         print(f"use_node {iid=} {type=}")
 
         if type.startswith("difference"):
@@ -139,9 +139,9 @@ class Tree(tk.Frame):
 
 
     def use_difference(self, iid, type):
-        old_id, new_id, diff_id = self.tree.get_children(iid)
-        old = self.tree.item(old_id, "text")
-        new = self.tree.item(new_id, "text")
+        old_id, new_id, diff_id = self.get_children(iid)
+        old = self.item(old_id, "text")
+        new = self.item(new_id, "text")
         if type == "difference":
             self.ui.it.insert_diff(old, new)
         elif type == "difference.old":
@@ -162,12 +162,12 @@ class Tree(tk.Frame):
             if item and isfile(item):
                 self.ui.detail.insert_file("1.0", item)
             else:
-                iid = self.tree.focus()
+                iid = self.focus()
                 text = ""
                 toplevel_node = "Tree." + iid
                 if toplevel_node in tree_help:
                     text = tree_help[toplevel_node].strip()
-                # self.ui.detail.insert("1.0", f"{iid=}\n{self.tree.item(iid)=}\n{self.tree.set(iid)=}")
+                # self.ui.detail.insert("1.0", f"{iid=}\n{self.item(iid)=}\n{self.set(iid)=}")
                 if text:
                     self.ui.detail.insert("1.0", text)
         finally:
@@ -191,7 +191,7 @@ class Tree(tk.Frame):
                 ptype = "directory"
             elif isfile(path):
                 ptype = "file"
-            iid = self.tree.insert(node, "end", text=file, values=[path, ptype])
+            iid = self.insert(node, "end", text=file, values=[path, ptype])
 
             if ptype == 'directory':
                 if file not in ('.', '..'):
@@ -200,26 +200,26 @@ class Tree(tk.Frame):
         # def update_tree(event):
         #     tree = event.widget
         #     populate_tree(tree, tree.focus())
-        # self.tree.bind('<<TreeviewOpen>>', update_tree)
+        # self.bind('<<TreeviewOpen>>', update_tree)
 
 
     def edit_tree_entry(self, event):
-        row_id = self.tree.focus()
+        row_id = self.focus()
         if not row_id:
             return
-        column = self.tree.identify_column(event.x)
+        column = self.identify_column(event.x)
         if column != "#1":  # Only allow editing the "Messages" column
             return
-        x, y, width, height = self.tree.bbox(row_id, column)
+        x, y, width, height = self.bbox(row_id, column)
         char_width = tkfont.Font(font=Fonts.FONT).measure('0')
         line_height = tkfont.Font(font=Fonts.FONT).metrics("linespace")
-        width = max(self.tree.column(column)["width"], width)
+        width = max(self.column(column)["width"], width)
         height = max(line_height, height)
 
-        cur_text = self.tree.item(row_id, "values")[0]
+        cur_text = self.item(row_id, "values")[0]
         w = width // char_width
         h = height // line_height
-        cell_editor = tk.Text(self.tree, wrap=WORD, width=w, height=h, font=Fonts.FONT,
+        cell_editor = tk.Text(self, wrap=WORD, width=w, height=h, font=Fonts.FONT,
                       highlightthickness=0, highlightbackground="black", padx=4, pady=0)
         cell_editor.insert(END, cur_text)
         cell_editor.place(x=x, y=y)
@@ -229,7 +229,7 @@ class Tree(tk.Frame):
             print(event.type)
             if event.type == tk.EventType.FocusOut or int(event.state) & 0x4 == 0 :  # Check if Control key is not pressed
                 text = cell_editor.get(1.0, END).strip()
-                self.tree.set(row_id, column, text)
+                self.set(row_id, column, text)
                 cell_editor.destroy()
 
         # cell_editor.bind("<FocusOut>", save_text)
@@ -239,13 +239,13 @@ class Tree(tk.Frame):
         # cell_editor.bind("<Control_L>", lambda e : "break")
 
     def add_change(self, change: TextChange):
-        title = self.tree.insert("Changes", END, text=change.title, open=True)
-        iid = self.tree.insert(title, END, text=change.description, open=True)
+        title = self.insert("Changes", END, text=change.title, open=True)
+        iid = self.insert(title, END, text=change.description, open=True)
         for attribute, value in change.attributes.items():
-            self.tree.insert(title, END, text=attribute, values=[value])
+            self.insert(title, END, text=attribute, values=[value])
         for old, new in change.replacements.items():
-            self.tree.insert(title, END, text=old)
-            self.tree.insert(title, END, text=new)
+            self.insert(title, END, text=old)
+            self.insert(title, END, text=new)
 
 
     def add_difference(self, difference: TextDifference):

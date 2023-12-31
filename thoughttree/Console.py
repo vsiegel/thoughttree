@@ -34,7 +34,7 @@ class Console(tk.scrolledtext.ScrolledText, io.TextIOBase):
 
 
     def tagged(self, tag, message):
-        self.insert(END, message, (tag,))
+        self.insert(END, message + "\n", (tag,))
         self.see(END)
 
 

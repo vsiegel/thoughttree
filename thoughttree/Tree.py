@@ -236,6 +236,8 @@ class Tree(tk.Frame):
 
 
     def add_difference(self, difference: TextDifference):
+        if not difference:
+            return
         iid = self.append("Differences", text=difference.title, type="difference", open=True)
         for old, new in difference.replacements.items():
             self.append(iid, text=old, type="difference.old")

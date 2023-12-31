@@ -112,6 +112,13 @@ class Tree(tk.Frame):
                 old = self.tree.item(old_id, "text")
                 new = self.tree.item(new_id, "text")
                 self.ui.it.insert_diff(old, new)
+            elif type == "difference.old":
+                pass
+            elif type == "difference.new":
+                pass
+            elif type == "difference.diff_summary":
+                pass
+
 
         TreeTooltip(self)
 

@@ -4,17 +4,17 @@ tree_help = {
 """
 Examples for prompts
 to demonstrate basic
-features (as.prt files)
+features (as .prt files)
 and example input data 
 files. 
 """,
     "Tree.Prompts":
 """
-general collection of 
-system and user prompts
+General collection of 
+system prompts and user prompts
 that can be used as is,
 or modified,
-or learned from.
+or be used as examples to learn from.
 """,
     "Tree.Changes":
 """

@@ -14,8 +14,16 @@ class Console(tk.scrolledtext.ScrolledText, io.TextIOBase):
         io.TextIOBase.__init__(self)
         self.vbar.config(width=18, takefocus=False, borderwidth=2)
         self.insert(END, "Console:\n")
-        self.tag_config("cost", foreground="gray60")
 
+        self.tag_config("system", foreground="orchid", font=("Helvetica", 12))
+        self.tag_config("user", foreground="steel blue", font=("Helvetica", 12))
+        self.tag_config("assistant", foreground="medium purple", font=("Helvetica", 12))
+        self.tag_config("debug", foreground="gray40", font=("Helvetica", 9))
+        self.tag_config("info", foreground="black", font=("Helvetica", 12))
+        self.tag_config("warn", foreground="tomato", font=("Helvetica", 12, "bold"))
+        self.tag_config("error", foreground="firebrick", font=("Helvetica", 12, "bold"))
+        self.tag_config("critical", foreground="firebrick", background="light yellow", font=("Helvetica", 12, "bold"))
+        self.tag_config("cost", foreground="gray60", font=("Helvetica", 12))
         self.out = self
         self.err = PaneUnfoldingStream(self, parent)
 

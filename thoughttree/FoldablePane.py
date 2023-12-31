@@ -58,6 +58,7 @@ class FoldablePane(tk.PanedWindow):
             size = 0
         else:
             self.foldable_child.configure(takefocus=self.takefocus)
+            self.takefocus and self.foldable_child.focus_set()
             size = self.fold_size
 
         sash = self.fold_last and pane_size - size or size

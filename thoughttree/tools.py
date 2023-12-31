@@ -302,7 +302,7 @@ def diff_summary(old, new):
     diff = [li for li in difflib.ndiff(old, new) if li[0]!='']
     result = ''
     for key, group in itertools.groupby(diff, lambda x: x[0]):
-        result += f'{key} {"".join(item[2:] for item in group)}'
+        result += f'{key.strip()}{"".join(item[2:] for item in group)} '
     return result
 
 def fail(message=""):

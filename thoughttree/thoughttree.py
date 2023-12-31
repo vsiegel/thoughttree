@@ -157,7 +157,7 @@ class Thoughttree(Ui):
         #     self.console = Console(self.console_pane)
         self.console = Console(self.console_pane)
         self.tree = Tree(self.detail_pane, self)
-        self.detail = Sheet(self.detail_pane, width=5, wrap=NONE, state=DISABLED, takefocus=False)
+        self.detail = Sheet(self.detail_pane, width=25, wrap=NONE, state=DISABLED, takefocus=False)
         self.system = Sheet(self.system_pane, height=3, highlightthickness=2, highlightcolor=Colors.highlight)
         self.sheet_tree = SheetTree(self.system_pane)
 

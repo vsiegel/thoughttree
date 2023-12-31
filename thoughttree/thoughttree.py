@@ -33,7 +33,7 @@ from Ui import Ui
 from WaitCursor import WaitCursor
 from finish_reasons import finish_reasons
 from sheet_help_texts import sheet_help
-from tools import log_motion_on_ctrl_alt
+from tools import log_motion_on_ctrl_alt, screenshot_after_input
 
 WINDOW_ICON = "chatgpt-icon.png"
 
@@ -116,6 +116,7 @@ class Thoughttree(Ui):
                 w: tk.Widget = e.widget
                 print(f"{e.height=} {w.winfo_height()=} {w.winfo_reqheight()=} {w.cget('height')=} {e.widget}")
             log_motion_on_ctrl_alt(self, log_heights)
+            # screenshot_after_input(self, "thoughttree")
 
         if self.main_window:
             self.root.mainloop()

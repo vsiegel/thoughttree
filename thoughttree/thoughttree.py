@@ -349,8 +349,8 @@ class Thoughttree(Ui):
         if self.log_messages_to_console:
             history.log()
         reason, message, answer = self.completions(sheet, history)
-        difference = TextDifference(answer)
-        self.tree.add_difference(difference)
+        self.tree.add_difference(TextDifference(answer))
+
 
 
     def improve(self, event=None):
@@ -386,9 +386,7 @@ class Thoughttree(Ui):
             with InsertionIcon(sheet, OUTPUT):
                 reason, message, answer = self.model.complete(history)
 
-        difference = TextDifference(answer)
-        if difference:
-            self.tree.add_difference(difference)
+        self.tree.add_difference(TextDifference(answer))
 
 
     def rewrite(self, event=None):

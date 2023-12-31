@@ -1,0 +1,12 @@
+Categorize the text into multiple categories that are suitable for this document.
+First,  list the categories with description,
+
+Then, repeat the text with added category markers, like so:
+
+[Cat1] Fooo
+....
+[Numbers]
+1234
+....
+
+The document is ...

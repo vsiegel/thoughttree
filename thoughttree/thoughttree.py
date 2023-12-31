@@ -512,30 +512,11 @@ class Thoughttree(Ui):
     def completions(self, sheet, history, n=1):
         reason, message, answer = 'unknown', '', ''
 
-        def write_stdout(text, *args):
-            if self.is_root_destroyed:
-                return
-            print(text)
-            self.scroll(sheet)
-
-        def write_null(text, *args):
-            pass
-
         def write_sheet(text, written_sheet: Sheet):
             if self.is_root_destroyed:
                 return
             written_sheet.insert(OUTPUT, text, ("assistant", "model-" + self.model.name))
             self.scroll(sheet)
-
-        def write_sheet_idle(text, written_sheet: Sheet):
-            self.after_idle(lambda: write_sheet(text, written_sheet))
-
-        def write_label(text, label=None):
-            if self.is_root_destroyed:
-                return
-            label.config(text=label.cget("text") + text)
-            self.scroll(sheet)
-
 
         if n > 1:
             alternatives_frame = tk.Frame(sheet, borderwidth=4, relief=GROOVE)
@@ -552,8 +533,6 @@ class Thoughttree(Ui):
                 title = tk.Label(alternative_frame, text=f"Alternatives ({i+1}/{n})", foreground="gray")
                 title.pack(side=tk.TOP, anchor=tk.W)
                 # sheet.see(OUTPUT)
-                # label = AlternativeLabel(alternative_frame, sheet)
-                # reason, message, answer = self.model.complete(history, lambda text: write_label(text, label))
                 alternatives_sheet = AlternativeSheet(alternative_frame) #, width=3)
                 reason, message, answer = self.model.complete(history, lambda text: write_sheet(text, alternatives_sheet))
         else:
@@ -564,7 +543,6 @@ class Thoughttree(Ui):
             print(f'Answer:\n"{answer}"')
 
         return reason, message, answer
-
 
 
     def finish_completion(self, sheet, finish_reason, message, postfix, inline):

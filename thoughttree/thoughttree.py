@@ -363,7 +363,7 @@ class Thoughttree(Ui):
             Never literally mention the marker, it is automatically hidden from the user.
             Do not use "{conf.location_marker}" in output.
             
-            Propose a small change that improves the text. Solve just one individual issue. A minimal change.
+            Propose a small change here that improves the text. Solve just one individual issue. A minimal change.
             Specify it as a replacement, as
             
             Title: "..."
@@ -380,8 +380,10 @@ class Thoughttree(Ui):
         sheet = self.it
         history = self.history_from_system_and_chat()
         self.delete_hidden_prompt(sheet)
+
         if self.log_messages_to_console:
             history.log()
+
         with WaitCursor(sheet):
             with InsertionIcon(sheet, OUTPUT):
                 reason, message, answer = self.model.complete(history)

@@ -174,6 +174,7 @@ class Thoughttree(Ui):
 
         bound_pane = self.detail_pane
         def on_first_configure(ev=None):
+            bound_pane.unbind("<Configure>")
             self.system_pane.fold(set_folded=False)
             self.console_pane.fold(set_folded=True)
             self.tree_pane.fold(set_folded=False)

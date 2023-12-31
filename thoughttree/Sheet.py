@@ -11,6 +11,7 @@ from FinishReasonIcon import FinishReasonIcon
 from Fonts import Fonts
 from Keys import Keys
 from LineHandling import LineHandling
+from tools import fail
 
 OUTPUT = "output"
 
@@ -245,10 +246,8 @@ class Sheet(ScrolledText, LineHandling):
             else:
                 return " ".join(diffwords) + " "
 
-        old_pos = self.search(old_text, 1.0, exact=True)
-        if old_pos:
-            pos = old_pos
-
+        pos = self.search(old_text, 1.0, exact=True)
+        pos or fail(f"Old text not found: {old_text}")
 
         self.mark_set(INSERT, pos)
         self.delete(pos, f"{pos}+{len(old_text)}c")

@@ -114,8 +114,8 @@ class Tree(ttk.Treeview):
         self.bind_class("Treeview", "<Menu>", show_context_menu)
 
 
-    def append(self, parent, index=END, text="-", iid=None, open=False, value="", type="toplevel"):
-        return self.insert(parent=parent, index=index, text=text, iid=iid, open=open, values=[value, type])
+    def append(self, parent, index=END, text="-", iid=None, open=False, value="", type="toplevel", tags=()):
+        return self.insert(parent=parent, index=index, text=text, iid=iid, open=open, values=[value, type], tags=tags)
 
 
     def focussed(self):

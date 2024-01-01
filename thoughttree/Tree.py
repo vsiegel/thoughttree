@@ -9,7 +9,6 @@ from os.path import isdir, isfile, join, split
 from tkinter.ttk import Style, Treeview
 
 import Colors
-import TextDifference
 from Config import conf
 from Fonts import Fonts
 from Improvement import Improvement

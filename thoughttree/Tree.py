@@ -143,12 +143,13 @@ class Tree(ttk.Treeview):
 
 
     def use_difference(self, iid, type):
-        old_id, new_id, diff_id = self.get_children(iid)
-        old = self.item(old_id, "text")
-        new = self.item(new_id, "text")
         if type == "difference":
+            old_id, new_id, diff_id = self.get_children(iid)
+            old = self.item(old_id, "text")
+            new = self.item(new_id, "text")
             self.ui.it.insert_diff(old, new)
         elif type == "difference.old":
+            old_id, new_id, diff_id = self.get_children(iid)
             pass
         elif type == "difference.new":
             pass

@@ -263,6 +263,6 @@ class Tree(ttk.Treeview):
             return
         iid = self.append("Differences", text=difference.title, type="difference", open=True)
         for old, new in difference.replacements.items():
-            self.append(iid, text=old, type="difference.old")
-            self.append(iid, text=new, type="difference.new")
+            self.append(iid, text=old, type="difference.old", tags=("old",))
+            self.append(iid, text=new, type="difference.new", tags=("new",))
             self.append(iid, text=diff_summary(old, new), type="difference.diff_summary")

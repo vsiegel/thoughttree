@@ -1,0 +1,6 @@
+# Lines starting with "#" are comments for the user.
+
+Foo!
+
+# Press Control-Return to send the prompt to the GPT server.
+# (see bottom right for the GPT model used.)

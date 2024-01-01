@@ -115,6 +115,7 @@ class Tree(ttk.Treeview):
         self.context_menus["file"] = file_context
 
         self.bind_class("Treeview", "<Double-Button-1>", self.use_node)
+        self.bind_class("Treeview", "<Return>", self.use_node)
         self.bind_class("Treeview", "<Button-3>", show_context_menu)
         self.bind_class("Treeview", "<Menu>", show_context_menu)
 

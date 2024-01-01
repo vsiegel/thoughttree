@@ -12,6 +12,7 @@ import Colors
 import TextDifference
 from Config import conf
 from Fonts import Fonts
+from Improvement import Improvement
 from TextChange import TextChange
 from TooltipableMenu import TooltipableMenu
 from TreeTooltip import TreeTooltip
@@ -136,24 +137,24 @@ class Tree(ttk.Treeview):
         type = self.set(iid, "type")
         print(f"use_node {iid=} {type=}")
 
-        if type.startswith("difference"):
-            self.use_difference(iid, type)
+        if type.startswith("improvement"):
+            self.use_improvement(iid, type)
         elif type == "default":
             self.ui.use_default()
 
 
-    def use_difference(self, iid, type):
-        if type == "difference":
+    def use_improvement(self, iid, type):
+        if type == "improvement":
             old_id, new_id, diff_id = self.get_children(iid)
             old = self.item(old_id, "text")
             new = self.item(new_id, "text")
             self.ui.it.insert_diff(old, new)
-        elif type == "difference.old":
+        elif type == "improvement.old":
             old_id, new_id, diff_id = self.get_children(iid)
             pass
-        elif type == "difference.new":
+        elif type == "improvement.new":
             pass
-        elif type == "difference.diff_summary":
+        elif type == "improvement.diff_summary":
             pass
 
 
@@ -261,11 +262,11 @@ class Tree(ttk.Treeview):
             self.insert(title, END, text=new)
 
 
-    def add_difference(self, difference: TextDifference):
-        if not difference:
+    def add_improvement(self, improvement: Improvement):
+        if not improvement:
             return
-        iid = self.append("Differences", text=difference.title, type="difference", open=True)
-        for old, new in difference.replacements.items():
-            self.append(iid, text=old, type="difference.old", tags=("old",))
-            self.append(iid, text=new, type="difference.new", tags=("new",))
-            self.append(iid, text=diff_summary(old, new), type="difference.diff_summary")
+        iid = self.append("Differences", text=improvement.title, type="improvement", open=True)
+        for old, new in improvement.replacements.items():
+            self.append(iid, text=old, type="improvement.old", tags=("old",))
+            self.append(iid, text=new, type="improvement.new", tags=("new",))
+            self.append(iid, text=diff_summary(old, new), type="improvement.diff_summary")

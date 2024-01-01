@@ -19,7 +19,7 @@ from InsertionIcon import InsertionIcon
 from Keys import Keys
 from SheetTree import SheetTree
 from InitialSheetHelp import InitialSheetHelp
-from TextDifference import TextDifference
+from Improvement import Improvement
 from TextIOTee import TextIOTee
 from Title import Title
 from HidableFrame import HidableFrame
@@ -349,7 +349,7 @@ class Thoughttree(Ui):
         if self.log_messages_to_console:
             history.log()
         reason, message, answer = self.completions(sheet, history)
-        self.tree.add_difference(TextDifference(answer))
+        self.tree.add_improvement(Improvement(answer))
 
 
 
@@ -388,7 +388,7 @@ class Thoughttree(Ui):
             with InsertionIcon(sheet, OUTPUT):
                 reason, message, answer = self.model.complete(history)
 
-        self.tree.add_difference(TextDifference(answer))
+        self.tree.add_improvement(Improvement(answer))
 
 
     def rewrite(self, event=None):
@@ -404,8 +404,7 @@ class Thoughttree(Ui):
             history.log()
         reason, message, answer = self.completions(sheet, history)
 
-        difference = TextDifference(history[-1], answer)
-        self.tree.add_difference(difference)
+        self.tree.add_improvement(Improvement(history[-1], answer))
 
     def set_up_location_reference(self, sheet, specific=""):
         location_reference_prompt = dedent(

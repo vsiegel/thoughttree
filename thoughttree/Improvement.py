@@ -7,7 +7,7 @@ from Sheet import Sheet
 from tools import fail
 
 
-class TextDifference():
+class Improvement():
     def __init__(self, change_spec):
         self.valid = True
         self.title = ""
@@ -98,7 +98,7 @@ New: 'f'
 Old: 'g'
 New: 'h'
 """
-    change = TextDifference(text)
+    change = Improvement(text)
     root = tk.Tk()
     root.geometry("500x500")
     s = Sheet(root)

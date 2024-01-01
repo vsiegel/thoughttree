@@ -32,7 +32,7 @@ class Tree(ttk.Treeview):
         rowheight = tkfont.Font(font=font).metrics("linespace") + 1
         Style().configure(style, rowheight=rowheight, bd=2, highlightthickness=1, font=font)
 
-        super().__init__(parent, columns=("path", "type"), displaycolumns=(), style=style, *args, **kw)
+        super().__init__(parent, columns=("path", "type"), displaycolumns=(), style=style, show="tree", *args, **kw)
         from thoughttree import Thoughttree
         self.ui: Thoughttree = thoughttree
 
@@ -54,7 +54,7 @@ class Tree(ttk.Treeview):
 
         self.column("#0", width=200, minwidth=100, anchor=W, stretch=NO)
         # self.column("#1", width=50, minwidth=10, anchor=W, stretch=NO)
-        # self.heading("C1", text="")
+        # self.heading("#0", text="Thoughttree")
         self.bind('<Button-1>', on_tree_click)
         # self.bind("<Double-Button-1>", self.edit_tree_entry)
         # self.bind("<Return>", self.edit_tree_entry)

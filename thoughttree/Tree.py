@@ -58,6 +58,10 @@ class Tree(ttk.Treeview):
         self.bind('<Button-1>', on_tree_click)
         # self.bind("<Double-Button-1>", self.edit_tree_entry)
         # self.bind("<Return>", self.edit_tree_entry)
+
+        self.tag_configure("old", foreground="#f1a8ae")
+        self.tag_configure("new", foreground="#9af1a9")
+
         def on_configure(event):
             self.column("#0", width=event.width)
         self.bind("<Configure>", on_configure)

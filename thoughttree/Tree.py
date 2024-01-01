@@ -76,7 +76,7 @@ class Tree(ttk.Treeview):
         selectionbackground_unfocussed()
 
 
-        self.append_file("", conf.examples_dir, "Default.txt", iid="Default", typ="default")# , text="Default", iid="Default")
+        self.append_file("", conf.examples_dir, "Default.txt", iid="Default", typ="default")
         self.append("", text="Examples", iid="Examples", type="toplevel")
         self.append("", text="Prompts", iid="Prompts", type="toplevel")
         self.append("", text="Changes", iid="Changes", open=True, type="toplevel")

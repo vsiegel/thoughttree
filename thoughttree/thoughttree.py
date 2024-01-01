@@ -612,6 +612,11 @@ class Thoughttree(Ui):
         self.current_sheet.delete(1.0, END)
         self.insert_user_prompt()
 
+    def use_default(self):
+        print(f"{self.current_sheet.get(1.0, 'end-1c')=}")
+        if not self.current_sheet.get(1.0, "end-1c"):
+            self.insert_user_prompt()
+
 if __name__ == "__main__":
     Thoughttree(sys.argv)
 

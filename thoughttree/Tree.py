@@ -138,6 +138,8 @@ class Tree(ttk.Treeview):
 
         if type.startswith("difference"):
             self.use_difference(iid, type)
+        elif type == "default":
+            self.ui.use_default()
 
 
     def use_difference(self, iid, type):

@@ -85,9 +85,9 @@ class Thoughttree(Ui):
             geometry = argv[argv.index("-geometry") + 1]
             if geometry.startswith('+'):
                 geometry = Thoughttree.ROOT_GEOMETRY + geometry
+            print(f"{geometry=}")
         else:
             geometry = Thoughttree.ROOT_GEOMETRY
-        print(f"{geometry=}")
         self.root.geometry(geometry)
         self.root.minsize(*Thoughttree.MIN_SIZE)
         try:

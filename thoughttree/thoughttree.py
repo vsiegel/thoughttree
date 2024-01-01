@@ -615,6 +615,7 @@ class Thoughttree(Ui):
         print(f"{self.current_sheet.get(1.0, 'end-1c')=}")
         if not self.current_sheet.get(1.0, "end-1c"):
             self.insert_user_prompt()
+            self.it.focus_set()
 
 if __name__ == "__main__":
     Thoughttree(sys.argv)

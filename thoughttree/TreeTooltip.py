@@ -12,13 +12,13 @@ class TreeTooltip(Tooltip):
     def refresh_tooltip_text(self, event=None):
         max_lines = 40
         max_columns = 100
-        iid = self.tree.tree.identify('item', event.x, event.y)
+        iid = self.tree.identify('item', event.x, event.y)
         text = ""
         toplevel_node = "Tree." + iid
         if toplevel_node in tree_help:
             text = tree_help[toplevel_node].strip()
         else:
-            values = self.tree.tree.item(iid)["values"]
+            values = self.tree.item(iid)["values"]
             item = values and values[0]
             if item and isfile(item):
                 with open(item, encoding="utf-8") as f:
@@ -31,5 +31,5 @@ class TreeTooltip(Tooltip):
             self.label.configure(text=text)
 
     # def bind_tip(self):
-    #     self.tree.tree.bind("<Leave>", self.hide, add=True)
-    #     self.tree.tree.bind("<Motion>", self.update, add=True)
+    #     self.tree.bind("<Leave>", self.hide, add=True)
+    #     self.tree.bind("<Motion>", self.update, add=True)

@@ -196,9 +196,9 @@ class Tree(ttk.Treeview):
         # special_dirs = [] if parent else glob.glob('.') + glob.glob(examples_dir)
 
         for file in sorted(listdir(directory)):
-            iid, ptype = self.append_file(node, directory, file)
+            iid, typ = self.append_file(node, directory, file)
 
-            if ptype == 'directory':
+            if typ == 'directory':
                 if file not in ('.', '..'):
                     path = join(directory, file)
                     self.load_dir(path, iid)
@@ -210,16 +210,16 @@ class Tree(ttk.Treeview):
 
 
     def append_file(self, node, directory, file, iid=None, typ=None):
-        ptype = None
+        typ = None
         path = join(directory, file)
         if typ:
-            ptype = typ
+            typ = typ
         elif isdir(path):
-            ptype = "directory"
+            typ = "directory"
         elif isfile(path):
-            ptype = "file"
-        iid = self.insert(node, "end", text=file, values=[path, ptype], iid=iid)
-        return iid, ptype
+            typ = "file"
+        iid = self.insert(node, "end", text=file, values=[path, typ], iid=iid)
+        return iid, typ
 
 
     def edit_tree_entry(self, event):

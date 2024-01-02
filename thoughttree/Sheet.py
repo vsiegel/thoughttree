@@ -180,23 +180,18 @@ class Sheet(ScrolledText, LineHandling):
             self.edit_undo()
 
     def toggle_tag(self, tag):
-        def min_index(i1, i2):
-            if self.compare(i1, '<=', i2):
-                return i1
-            else:
-                return i2
 
-        def max_index(i1, i2):
-            if self.compare(i1, '>=', i2):
-                return i1
-            else:
-                return i2
+        def first(i1, i2):
+            return self.compare(i1, '<=', i2) and i1 or i2
 
-        def range_intersection(ranges, single_range):
+        def last(i1, i2):
+            return self.compare(i1, '>=', i2) and i1 or i2
+
+        def intersection(ranges, range):
             intersections = []
-            for index_range in ranges:
-                if  self.compare(max_index(index_range[0], single_range[0]), "<", min_index(index_range[1], single_range[1])):
-                    intersections.append((max_index(index_range[0], single_range[0]), min_index(index_range[1], single_range[1])))
+            for r in ranges:
+                if  self.compare(last(r[0], range[0]), "<", first(r[1], range[1])):
+                    intersections.append((last(r[0], range[0]), first(r[1], range[1])))
             return intersections
 
 
@@ -206,7 +201,7 @@ class Sheet(ScrolledText, LineHandling):
         iters = [iter(tag_ranges)] * 2
         ranges = list(zip(*iters))
         sel = (self.index(SEL_FIRST), self.index(SEL_LAST))
-        tag_in_selection = range_intersection(ranges, sel)
+        tag_in_selection = intersection(ranges, sel)
 
         if tag_in_selection:
             self.tag_remove(tag, *sel)

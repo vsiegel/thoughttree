@@ -109,7 +109,7 @@ class Thoughttree(Ui):
         self.status.note = "Loading available models..."
         self.update_idletasks()
         n = self.menu.models_menu.load_available_models()
-        self.status.note = f"{n} models found."
+        self.status.note = f"OpenAI: {n} models found."
 
         if conf.debug:
             def log_heights(e):

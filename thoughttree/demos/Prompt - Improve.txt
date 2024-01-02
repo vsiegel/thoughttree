@@ -1,0 +1,9 @@
+# Lines starting with "#" are comments for the user.
+
+Warning: Help missing for "Introduction"
+Warning: Help missing for "ChatGPT gpt-3.5-turbo-1106"
+Warning: Help mussing for "gpt-4-1106-preview"
+Warning: Help missing for "gpt-4-vision-preview"
+
+# Press Control-Return to send the prompt to the GPT server.
+# (see bottom right for the GPT model used.)

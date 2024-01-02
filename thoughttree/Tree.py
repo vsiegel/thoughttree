@@ -5,7 +5,7 @@ from tkinter import font as tkfont
 from tkinter import ttk
 import itertools
 from os import listdir
-from os.path import isdir, isfile, join, split
+from os.path import isdir, isfile, join, split, exists
 from tkinter.ttk import Style, Treeview
 
 import Colors
@@ -15,7 +15,7 @@ from Improvement import Improvement
 from TextChange import TextChange
 from TooltipableMenu import TooltipableMenu
 from TreeTooltip import TreeTooltip
-from tools import diff_summary
+from tools import diff_summary, code_file_relative
 from tree_help_texts import tree_help
 
 #NODE_OPEN = '\u25B6'
@@ -55,7 +55,7 @@ class Tree(ttk.Treeview):
         self.column("#0", width=200, minwidth=100, anchor=W, stretch=NO)
         # self.column("#1", width=50, minwidth=10, anchor=W, stretch=NO)
         # self.heading("#0", text="Thoughttree")
-        self.bind('<Button-1>', on_tree_click)
+        # self.bind('<Button-1>', on_tree_click)
         # self.bind("<Double-Button-1>", self.edit_tree_entry)
         # self.bind("<Return>", self.edit_tree_entry)
 
@@ -143,7 +143,10 @@ class Tree(ttk.Treeview):
             self.use_improvement(iid, type)
         elif type == "default":
             self.ui.use_default()
-
+        elif type in ["directory", "toplevel"]:
+            self.item(iid, open=not self.item(iid, 'open'))
+        else:
+            print(f"use_node {iid=} {type=}")
 
     def use_improvement(self, iid, type):
         if type == "improvement":

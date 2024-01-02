@@ -104,24 +104,10 @@ class MainMenu(MenuBar):
             except tk.TclError:
                 pass # nothing to redo
 
-        def font_size(delta=0):
-            sheet = self.it
-            if not sheet:
-                return
-            if not delta:
-                name, size = Fonts.FONT
-            else:
-                name, size = sheet.cget("font").rsplit(None, 1)
-            size = int(size)
-            sign = int(size/abs(size))
-            size = abs(size)
-            sheet.config(font=(name, sign * (size + delta)))
-
         def insert_current_time(event=None):
             self.it.insert(INSERT, f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} ")
 
         def debug_info(event=None):
-
 
             import pyautogui
             top = self.ui.winfo_toplevel()
@@ -247,9 +233,9 @@ class MainMenu(MenuBar):
         view.add_item("Update Tab Title", "<Control-Shift-B>", ui.sheet_tree.update_tab_title, menu2=context)
         view.add_item("Model Usage", None, web("https://platform.openai.com/account/usage"))
         view.add_separator()
-        view.add_item("Increase Font Size", "<Control-plus>", lambda e=None: font_size(1))
-        view.add_item("Decrease Font Size", "<Control-minus>", lambda e=None: font_size(-1))
-        view.add_item("Reset Font Size", "<Control-period>", lambda e=None: font_size(0))
+        view.add_item("Increase Font Size", "<Control-plus>", lambda e=None: Sheet.font_size_all(1))
+        view.add_item("Decrease Font Size", "<Control-minus>", lambda e=None: Sheet.font_size_all(-1))
+        view.add_item("Reset Font Size", "<Control-period>", lambda e=None: Sheet.font_size_all(0))
         view.add_item("Toggle Monospace", "<Control-Shift-O>", toggle_font_mono)
         view.add_separator()
         view.add_item("Toggle Scrolling Output", "<Control-e>", toggle_scroll_output)
@@ -263,7 +249,7 @@ class MainMenu(MenuBar):
         mask.add_item("All", None, None)
         mask.add_item("None", None, None)
         mask.add_item("Invert", None, None)
-        mask.add_item("Selection", "<Alt-Shift-S>", lambda e=None: self.it.toggle_tag("mask"))
+        mask.add_item("Selection", "<Alt-Shift-M>", lambda e=None: self.it.toggle_tag("mask"))
 
         navigate = self.submenu("Navigate")
         navigate.add_item("Next Similar Line", "<Control-j>", lambda e=None: self.it.jump_to_similar_line(direction=1))
@@ -360,8 +346,8 @@ class MainMenu(MenuBar):
         help_menu.add_item("Debug Info", "<Control-Alt-Shift-I>", debug_info)
         help_menu.add_item("About", "<Control-F1>", lambda e=None: AboutDialog(self.ui))
 
-        ui.bind_class("Text", "<Control-Button-4>", lambda e=None: font_size(1))
-        ui.bind_class("Text", "<Control-Button-5>", lambda e=None: font_size(-1))
+        ui.bind_class("Text", "<Control-Button-4>", lambda e=None: Sheet.font_size_all(1))
+        ui.bind_class("Text", "<Control-Button-5>", lambda e=None: Sheet.font_size_all(-1))
 
         ui.bind_class("Text", "<Button-3>", context.show_context_menu)
         ui.bind_class("Text", "<Menu>", context.show_context_menu)

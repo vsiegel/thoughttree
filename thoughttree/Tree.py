@@ -96,7 +96,7 @@ class Tree(ttk.Treeview):
                     self.show_details()
             iid = self.focus()
             type = self.set(iid, "type")
-            if type:
+            if type in self.context_menus:
                 menu = self.context_menus[type]
                 if menu:
                     menu.show_context_menu(event)

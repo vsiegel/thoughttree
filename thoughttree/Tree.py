@@ -76,15 +76,13 @@ class Tree(ttk.Treeview):
 
 
         self.append_file("", conf.examples_dir, "Default.txt", iid="Default", typ="default")
-        self.append("", text="Examples", iid="Examples", type="toplevel")
-        self.append("", text="Prompts", iid="Prompts", type="toplevel")
-        self.append("", text="Changes", iid="Changes", open=True, type="toplevel")
-        self.append("", text="Differences", iid="Differences", open=True, type="toplevel")
+        self.append_toplevel("Demos")
+        self.append_toplevel("Examples")
+        self.append_toplevel("Prompts")
+        self.append_toplevel("Changes")
+        self.append_toplevel("Differences")
 
         self.focus("Default")
-
-        self.load_dir(conf.examples_dir, "Examples")
-        self.load_dir(conf.prompts_dir, "Prompts")
 
         self.context_menus = {}
 
@@ -93,7 +91,6 @@ class Tree(ttk.Treeview):
             if event.type == tk.EventType.ButtonPress and event.num == 3:
                 widget = event.widget
                 if isinstance(widget, ttk.Treeview):
-                    print(f"{widget.identify_row(event.y)=}")
                     widget.focus(widget.identify_row(event.y))
                     widget.selection_set(widget.identify_row(event.y))
                     self.show_details()
@@ -124,6 +121,13 @@ class Tree(ttk.Treeview):
         return self.insert(parent=parent, index=index, text=text, iid=iid, open=open, values=[value, type], tags=tags)
 
 
+    def append_toplevel(self, name):
+        self.append("", text=name, iid=name, type="toplevel")
+        directory = code_file_relative(name.lower())
+        if exists(directory):
+            self.load_dir(directory, name)
+
+
     def focussed(self):
         return self.item(self.focus())
 
@@ -134,7 +138,6 @@ class Tree(ttk.Treeview):
     def use_node(self, event):
         iid = self.focus()
         type = self.set(iid, "type")
-        print(f"use_node {iid=} {type=}")
 
         if type.startswith("improvement"):
             self.use_improvement(iid, type)

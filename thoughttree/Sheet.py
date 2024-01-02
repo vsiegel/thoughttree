@@ -19,6 +19,8 @@ OUTPUT = "output"
 
 class Sheet(ScrolledText, LineHandling):
 
+    instances = []
+
     def __init__(self, master=None, scrollbar=True, name="s", wrap=WORD, width=80, borderwidth=0,
                  highlightthickness=1, highlightcolor="lightgray", padx=0, pady=0, height=0, background='white', text="", **kw):
         ScrolledText.__init__(
@@ -27,6 +29,8 @@ class Sheet(ScrolledText, LineHandling):
             border=0, borderwidth=borderwidth, highlightthickness=highlightthickness, highlightcolor=highlightcolor, highlightbackground="white",
             selectbackground="#66a2d4", selectforeground="white", name=name, **kw)
         self.frame.widgetName = "stf"
+
+        self.register_instance()
 
         if scrollbar:
             self.vbar.config(width=18, takefocus=False, borderwidth=2)

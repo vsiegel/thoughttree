@@ -155,7 +155,7 @@ class Thoughttree(Ui):
 
         # if self.main_window:
         #     self.console = Console(self.console_pane)
-        self.console = Console(self.console_pane)
+        self.console = Console(self.console_pane, highlightthickness=2, highlightcolor=Colors.highlight)
         self.tree = Tree(self.detail_pane, self)
         self.detail = Sheet(self.detail_pane, width=25, wrap=NONE, state=DISABLED, takefocus=False)
         self.system = Sheet(self.system_pane, height=3, highlightthickness=2, highlightcolor=Colors.highlight)
@@ -612,7 +612,6 @@ class Thoughttree(Ui):
         self.insert_user_prompt()
 
     def use_default(self):
-        print(f"{self.current_sheet.get(1.0, 'end-1c')=}")
         if not self.current_sheet.get(1.0, "end-1c"):
             self.insert_user_prompt()
             self.it.focus_set()

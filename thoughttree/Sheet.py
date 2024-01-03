@@ -48,7 +48,7 @@ class Sheet(ScrolledText, LineHandling):
         self.bind('<Next>', self.jump_to_limit)
         # self.pack(padx=0, pady=0, fill=X, expand=True)
 
-        name, size = self.cget("font").rsplit(None, 1)
+        name, size = self.cget("font").rsplit(None, 1) # fixme value
         self.tag_config("assistant", background="#e8e8e8", selectbackground="#4682b4", selectforeground="white")
         self.cursorline = Cursorline(self)
         self.tag_config('bold', font=(name, int(size), "bold"))
@@ -207,6 +207,9 @@ class Sheet(ScrolledText, LineHandling):
             self.tag_remove(tag, *sel)
         else:
             self.tag_add(tag, *sel)
+
+    def invert_tag(self, tag):
+        print(f"{self.tag_ranges('mask')=}")
 
 
     def unbind(self, seq: str, funcid: str=None):

@@ -138,8 +138,8 @@ class Tree(ttk.Treeview):
         return self.item(self.focus())
 
     def focussed_file(self):
-        item = self.focussed()
-        return item["values"][0] if item["values"] else None
+        values = self.set(self.focus())
+        return values.get("path", None)
 
     def use_node(self, event):
         iid = self.focus()

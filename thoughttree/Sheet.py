@@ -279,3 +279,23 @@ class Sheet(ScrolledText, LineHandling):
         sheet = event and event.widget or self
         sheet.delete(INSERT + "-1c")
         return "break"
+
+
+    def register_instance(self):
+        Sheet.instances.append(self)
+
+    @staticmethod
+    def font_size_all(delta=0):
+        for sheet in Sheet.instances:
+            if sheet.winfo_exists():
+                sheet.font_size(delta)
+
+    def font_size(self, delta=0):
+        name, size = self.cget("font").rsplit(None, 1)
+        if not delta:
+            size = Fonts.FONT[1]
+        size = int(size)
+        sign = int(size/abs(size))
+        size = abs(size)
+        self.config(font=(name, sign * (size + delta)))
+

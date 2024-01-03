@@ -152,7 +152,7 @@ class Tree(ttk.Treeview):
         elif type in ["directory", "toplevel"]:
             self.item(iid, open=not self.item(iid, 'open'))
         else:
-            print(f"use_node {iid=} {type=}")
+            self.print(iid)
 
     def use_improvement(self, iid, type):
         if type == "improvement":
@@ -190,6 +190,9 @@ class Tree(ttk.Treeview):
         finally:
             self.ui.detail.configure(state=DISABLED)
         return "break"
+
+    def print(self, iid):
+        print(f"{iid=}\n{self.item(iid)=}\n{self.set(iid)=}\n")
 
     def load_dir(self, directory, node):
 

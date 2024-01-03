@@ -227,6 +227,7 @@ class Tree(ttk.Treeview):
             typ = "directory"
         elif isfile(path):
             typ = "file"
+        iid = iid or path
         iid = self.insert(node, "end", text=file, values=[path, typ], iid=iid)
         return iid, typ
 

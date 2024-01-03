@@ -545,7 +545,7 @@ class Thoughttree(Ui):
         return reason, message, answer
 
 
-    def finish_completion(self, sheet, finish_reason, message, postfix, inline):
+    def finish_completion(self, sheet, finish_reason, message, postfix, inline, start_time):
         if self.is_root_destroyed:
             return
         if conf.show_finish_reason:
@@ -557,6 +557,13 @@ class Thoughttree(Ui):
                 sheet.mark_set(OUTPUT, END)
             sheet.see(OUTPUT)
         sheet.undo_separator()
+
+        if self.ring_bell_after_completion:
+            if datetime.now().timestamp() - start_time.timestamp() > conf.ring_bell_only_after:
+                self.bell()
+
+        if conf.update_title_after_completion and not self.model.is_canceled:
+            self.update_window_title()
 
 
     def show_finish_reason_icon(self, sheet, finish_reason, message):
@@ -570,14 +577,6 @@ class Thoughttree(Ui):
 
             sheet.window_create(OUTPUT, window=FinishReasonIcon(sheet, symbol, tooltip=tooltip))
 
-
-    def post_completion_tasks(self, start_time):
-        if self.ring_bell_after_completion:
-            if datetime.now().timestamp() - start_time.timestamp() > conf.ring_bell_only_after:
-                self.bell()
-
-        if conf.update_title_after_completion and not self.model.is_canceled:
-            self.update_window_title()
 
 
     def history_from_system_and_chat(self, additional_message=None, additional_system=None, max_messages=0, max_size=None) :

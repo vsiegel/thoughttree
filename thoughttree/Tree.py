@@ -7,6 +7,7 @@ import itertools
 from os import listdir
 from os.path import isdir, isfile, join, split, exists
 from tkinter.ttk import Style, Treeview
+from startfile import startfile
 
 import Colors
 from Config import conf
@@ -108,6 +109,7 @@ class Tree(ttk.Treeview):
         file_context.add_item("Insert System", "<Shift-Return>", lambda e=None: self.ui.insert_system_prompt(), to_class="Treeview")
         file_context.add_item("Replace User", "<Control-Alt-Return>", lambda e=None: self.ui.replace_user_prompt(), to_class="Treeview")
         file_context.add_item("Insert User", "<Control-Return>", lambda e=None: self.ui.insert_user_prompt(), to_class="Treeview")
+        file_context.add_item("Open", "<Control-Shift-O>", lambda e=None: self.open_file(), to_class="Treeview")
 
         self.context_menus["file"] = file_context
 
@@ -116,6 +118,10 @@ class Tree(ttk.Treeview):
         self.bind_class("Treeview", "<Button-3>", show_context_menu)
         self.bind_class("Treeview", "<Menu>", show_context_menu)
 
+    def open_file(self):
+        path = self.focussed_file()
+        if path:
+            startfile(path)
 
     def append(self, parent, index=END, text="-", iid=None, open=False, value="", type="toplevel", tags=()):
         return self.insert(parent=parent, index=index, text=text, iid=iid, open=open, values=[value, type], tags=tags)

@@ -17,6 +17,7 @@ from ForkableSheet import ForkableSheet
 from History import History
 from InsertionIcon import InsertionIcon
 from Keys import Keys
+from Log import Log
 from SheetTree import SheetTree
 from InitialSheetHelp import InitialSheetHelp
 from Improvement import Improvement
@@ -67,6 +68,7 @@ class Thoughttree(Ui):
         self.status_hider = None
         self.status = None
         self.console = None
+        self.log = None
         self.tree = None
         self.detail: Sheet = None
         self.system: Sheet|None = None
@@ -153,9 +155,8 @@ class Thoughttree(Ui):
         self.system_pane = FoldablePane(self.tree_pane, orient=VERTICAL, name="sp")
         self.console_pane.pack(side=TOP, fill=BOTH, expand=True)
 
-        # if self.main_window:
-        #     self.console = Console(self.console_pane)
         self.console = Console(self.console_pane, highlightthickness=2, highlightcolor=Colors.highlight)
+        self.log = Log(self.console)
         self.tree = Tree(self.detail_pane, self)
         self.detail = Sheet(self.detail_pane, width=25, wrap=NONE, state=DISABLED, takefocus=False)
         self.system = Sheet(self.system_pane, height=3, highlightthickness=2, highlightcolor=Colors.highlight)
@@ -315,10 +316,10 @@ class Thoughttree(Ui):
             self.model.counter.go()
 
             reason, message, answer = self.completions(sheet, history, n)
-            self.model.counter.summarize("Completion cost:", self.console.tagged_out("cost"))
 
-            self.finish_completion(sheet, reason, message, postfix, inline)
-            self.post_completion_tasks(start_time)
+            self.log.cost("Completion cost:\n" + self.model.counter.summary())
+
+            self.finish_completion(sheet, reason, message, postfix, inline, start_time)
         return "break"
 
     def ask(self, event=None):

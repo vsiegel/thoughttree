@@ -5,3 +5,4 @@ pyperclip~=1.8.2
 ConfigArgParse~=1.7
 tiktoken~=0.5.1
 pyautogui~=0.9.53
+universal-startfile~=0.2

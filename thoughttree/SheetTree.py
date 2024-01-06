@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk, BOTH, LEFT, RIGHT, VERTICAL, NW, Y, X, INSERT, CURRENT, TOP
 
 import Colors
+import tools
 from ForkableSheet import ForkableSheet
 from Sheet import Sheet
 from tools import on_event, bind_tree, iterate_tree
@@ -10,25 +11,22 @@ from tools import on_event, bind_tree, iterate_tree
 class SheetTree(tk.Frame):
     def __init__(self, parent, *args, **kw):
         super().__init__(parent, name="st", highlightthickness=3, highlightcolor=Colors.highlight, *args, **kw)
+        # tk.Button(self, text="Add", command=lambda: tk.Label(self.canvas_frame, text="New Label\na\n3").pack(anchor="w", side="bottom")).pack(side="top")
 
         self.canvas = tk.Canvas(self, name="c")# background="lightcyan")
         self.scrollbar = tk.Scrollbar(self, orient=VERTICAL, command=self.canvas.yview, width=18, takefocus=False, borderwidth=2)
-        # def scrollbar_set(*args):
-        #     print(f"{args}")
-            # self.scrollbar.set(*args)
         self.canvas.configure(yscrollcommand=self.scrollbar.set)
-
         self.scrollbar.pack(side=RIGHT, fill=Y)
+
         self.canvas.pack(side=LEFT, fill=BOTH, expand=True)
 
-        canvas_frame = tk.Frame(self.canvas, bd=0, background="#eeeeff", name="cf")
+        self.canvas_frame = tk.Frame(self.canvas, bd=0, background="#eeeeff", name="cf")
+        self.canvas_frame.bind("<Configure>", self.configure_scrollregion, add=True)
 
-        canvas_frame.bind("<Configure>", self.configure_scrollregion, add=True)
+        self.frame_id = self.canvas.create_window((0, 0), window=self.canvas_frame, anchor=NW)
 
-        # canvas_frame.pack_propagate(False)
-        self.frame_id = self.canvas.create_window((0, 0), window=canvas_frame, anchor=NW)
 
-        self.forkable_sheet = ForkableSheet(parent_frame=canvas_frame, )
+        self.forkable_sheet = ForkableSheet(parent_frame=self.canvas_frame, )
         self.forkable_sheet.pack(side=TOP, expand=True, fill=BOTH)
 
         self.add_scrolling()
@@ -41,18 +39,14 @@ class SheetTree(tk.Frame):
         # self.winfo_toplevel().bind_all('<Configure>', on_configure)
 
         self.winfo_toplevel().bind("<Control-Alt-Shift-S>", self.debug)
-        self.canvas_frame = canvas_frame
 
-    def debug(self, event):
-        print(f"{event.widget}    {event.width}x{event.height}+{event.x}+{event.y}")
-        print(f"{self.canvas_frame.winfo_height()   =}")
-        print(f"{self.canvas_frame.winfo_reqheight()=}")
-
+        # tools.bind_tree(self, "<Configure>")
 
     def configure_frame(self, event):
         self.canvas.itemconfigure(self.frame_id, width=event.width, height=event.height)
 
     def configure_scrollregion(self, event):
+        print(f"configure_scrollregion: {self} {self.canvas.bbox('all')=}")
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))
 
     def configure_scrollregionX(self, event):

@@ -32,7 +32,9 @@ class Sheet(ScrolledText, LineHandling):
             border=0, borderwidth=borderwidth, highlightthickness=highlightthickness, highlightcolor=highlightcolor, highlightbackground="white",
             selectbackground="#66a2d4", selectforeground="white", name=name, **kw)
         self.frame.widgetName = "stf"
-
+        # self.text_frame.pack(side=TOP, fill=BOTH, expand=True)
+        # self.text_frame.pack_propagate(False)
+        # self.frame.pack_propagate(False)
         self.register_instance()
 
         if scrollbar:
@@ -78,6 +80,21 @@ class Sheet(ScrolledText, LineHandling):
         self.old_num_display_lines = 0
         if text:
             self.insert(END, text)
+
+        # self.bind('<<Modified>>', self.grow_to_displaylines, add=True)
+
+    # def grow_to_displaylines(self, event: tk.Event):
+    #     print(f"grow_to_displaylines")
+    #     if self.edit_modified():
+    #         print(f"modified")
+    #         sheet:Sheet = event.widget
+    #         sheet.count("1.0", "end", "update")
+    #         ypixels = sheet.count("1.0", "end lineend", 'ypixels')[0]
+    #
+    #         print(f"{ypixels=}")
+    #         # sheet.frame.configure(height=ypixels)
+    #         sheet.frame.configure(height=ypixels, width=sheet.winfo_width())
+    #         sheet.edit_modified(False)
 
 
     def insert_file(self, index, file):

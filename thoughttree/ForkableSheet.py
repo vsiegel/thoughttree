@@ -40,7 +40,9 @@ class ForkableSheet(Sheet):
         # self.bind("<KeyRelease>", on_key, add=True)
 
     def grow_to_displaylines(self, event: tk.Event):
+        print(f"grow_to_displaylines")
         if self.edit_modified():
+            print(f"modified")
             sheet:ForkableSheet = event.widget
             sheet.count("1.0", "end", "update")
             ypixels = sheet.count("1.0", "end lineend", 'ypixels')[0]
@@ -48,14 +50,20 @@ class ForkableSheet(Sheet):
             if sheet.child_notebook:
                 height += sheet.child_notebook.winfo_height()
             width = sheet.master.winfo_width()
+            print(f"{self.winfo_reqheight()=}")
+            print(f"{ypixels=}")
             sheet.frame.configure(height=ypixels)
+            print(f"{height=}")
             sheet.fork_frame.configure(width=width, height=height)
 
             if sheet.parent_sheet_tree:
+                print(f"sheet.parent_sheet_tree.canvas_frame.event_generate('<Configure>'...")
                 sheet.parent_sheet_tree.canvas_frame.event_generate("<Configure>", x=0, y=0, width=width, height=height)
 
             sheet.edit_modified(False)
 
+    # def winfo_reqheight(self):
+    #     return self.winfo_height()
 
     def update_tab_title(self, event=None):
         def get():

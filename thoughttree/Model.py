@@ -29,8 +29,9 @@ DEFAULT_API_KEY_FILE = "OPENAI_API_KEY.txt"
 class Model:
     MODEL_PATTERN = "gpt"
 
-    def __init__(self, model_name):
+    def __init__(self, model_name, descriptive_name=None):
         self.name = model_name
+        self.descriptive_name = descriptive_name
         self.counter = TokenCounter(model_name)
         self.max_tokens = tk.IntVar(value=1500)
         self.temperature = tk.DoubleVar(value=0.5)
@@ -62,7 +63,9 @@ class Model:
                 request_timeout=5 # undocumented #todo
             )
         except Exception as ex:
-            return self.error("", f"Error in openai.ChatCompletion.create(model={self.name}, ...)", ex) + ("",)
+            if self.descriptive_name:
+                error_title = self.descriptive_name or "completion"
+            return self.error("", f"Error in {error_title}: {self.name}", ex) + ("",)
 
         return self.accept_response(on_increment, response)
         # self.accept_response_async(on_increment, response) #todo

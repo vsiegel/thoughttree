@@ -19,6 +19,7 @@ class ForkableSheet(Sheet):
         self.fork_frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
         self.fork_frame.forkable_sheet = self
         Sheet.__init__(self,  self.fork_frame, name=name, height=height, width=width, scrollbar=False, background="white", *args, **kw)
+        self.fork_frame.pack_propagate(False)
         self.pack(side=tk.TOP, fill=BOTH, expand=True)
         # self.frame.pack_propagate(False) #todo remove all 3?
         # self.fork_frame.pack_propagate(False)

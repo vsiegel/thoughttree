@@ -2,7 +2,7 @@ import difflib
 import re
 import tkinter as tk
 from os.path import exists
-from tkinter import END, INSERT, SEL, WORD, SEL_FIRST, SEL_LAST, RAISED, SOLID
+from tkinter import END, INSERT, SEL, WORD, SEL_FIRST, SEL_LAST, RAISED, SOLID, BOTH, LEFT, TOP
 from tkinter.scrolledtext import ScrolledText
 from tkinter.simpledialog import askstring
 
@@ -20,10 +20,13 @@ OUTPUT = "output"
 class Sheet(ScrolledText, LineHandling):
 
     instances = []
+    common_font_size = Fonts.FONT[1]
 
     def __init__(self, master=None, scrollbar=True, name="s", wrap=WORD, width=80, borderwidth=0,
                  highlightthickness=1, highlightcolor="lightgray", padx=0, pady=0, height=0, background='white', text="", **kw):
+        # self.text_frame = tk.Frame(master, name="tf")
         ScrolledText.__init__(
+            # self, self.text_frame, undo=True, wrap=wrap, padx=padx, pady=pady, background=background,
             self, master, undo=True, wrap=wrap, padx=padx, pady=pady, background=background,
             width=width, height=height, insertwidth=3, font=Fonts.FONT,
             border=0, borderwidth=borderwidth, highlightthickness=highlightthickness, highlightcolor=highlightcolor, highlightbackground="white",
@@ -289,9 +292,22 @@ class Sheet(ScrolledText, LineHandling):
 
     @staticmethod
     def font_size_all(delta=0):
+        if not delta:
+            size = Fonts.FONT[1]
+        else:
+            size = Sheet.common_font_size
+        size = int(size)
+        sign = int(size/abs(size))
+        size = abs(size)
+        new_size = size + delta
+
+
         for sheet in Sheet.instances:
-            if sheet.winfo_exists():
-                sheet.font_size(delta)
+            try:
+                if sheet.winfo_exists():
+                    sheet.font_size(delta)
+            except Exception as ex:
+                print(f"{ex=}")
 
     def font_size(self, delta=0):
         name, size = self.cget("font").rsplit(None, 1)
@@ -300,5 +316,7 @@ class Sheet(ScrolledText, LineHandling):
         size = int(size)
         sign = int(size/abs(size))
         size = abs(size)
-        self.config(font=(name, sign * (size + delta)))
+        new_size = size + delta
+        if new_size:
+            self.config(font=(name, sign * new_size))
 

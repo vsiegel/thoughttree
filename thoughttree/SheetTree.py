@@ -72,6 +72,11 @@ class SheetTree(tk.Frame):
         self.canvas.configure(scrollregion=(x, y, width, height), width=width, height=height)
         # self.canvas.itemconfigure(self.frame_id, width=event.width, height=event.height)
 
+    def debug(self, event):
+        print(f"{event.widget}    {event.width}x{event.height}+{event.x}+{event.y}")
+        print(f"{self.canvas_frame.winfo_height()   =}")
+        print(f"{self.canvas_frame.winfo_reqheight()=}")
+
 
     def add_scrolling(self):
         def on_mousewheel(event):

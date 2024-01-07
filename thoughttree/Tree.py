@@ -67,14 +67,7 @@ class Tree(ttk.Treeview):
             self.column("#0", width=event.width)
         self.bind("<Configure>", on_configure)
 
-        selectionbackground_focussed = lambda e=None: Style().map(style, background=[("selected", Colors.highlight)])
-        selectionbackground_unfocussed = lambda e=None: Style().map(style, background=[("selected", "lightgray")])
-        self.bind("<FocusIn>", lambda e=None: self.selection_set(self.focus()), add=True)
-        self.bind("<FocusIn>", selectionbackground_focussed, add=True)
-        # self.bind("<FocusOut>", selectionbackground_unfocussed)
         self.bind("<<TreeviewSelect>>", self.show_details)
-        # selectionbackground_unfocussed()
-
 
         self.append_file("", conf.examples_dir, "Default.txt", iid="Default", typ="default")
         self.append_toplevel("Demos")
@@ -84,6 +77,7 @@ class Tree(ttk.Treeview):
         self.append_toplevel("Differences")
 
         self.focus("Default")
+        self.selection_set(self.focus())
 
         self.context_menus = {}
 

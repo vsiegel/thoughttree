@@ -71,9 +71,9 @@ class Tree(ttk.Treeview):
         selectionbackground_unfocussed = lambda e=None: Style().map(style, background=[("selected", "lightgray")])
         self.bind("<FocusIn>", lambda e=None: self.selection_set(self.focus()), add=True)
         self.bind("<FocusIn>", selectionbackground_focussed, add=True)
-        self.bind("<FocusOut>", selectionbackground_unfocussed)
+        # self.bind("<FocusOut>", selectionbackground_unfocussed)
         self.bind("<<TreeviewSelect>>", self.show_details)
-        selectionbackground_unfocussed()
+        # selectionbackground_unfocussed()
 
 
         self.append_file("", conf.examples_dir, "Default.txt", iid="Default", typ="default")

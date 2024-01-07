@@ -8,6 +8,7 @@ class Cursorline:
         self.sheet.bind_class("cursorline_last", '<Button-1>',   self.show)
         self.sheet.bind_class("cursorline_last", "<FocusIn>",    self.show)
         self.sheet.bind_class("cursorline_last", "<FocusOut>",   self.clear)
+        # self.sheet.bind("<Destroy>")
 
     def show(self, e=None, add=True):
         if not e.widget.winfo_exists():
@@ -19,5 +20,10 @@ class Cursorline:
             e.widget.tag_add('cursorline', 'insert display linestart', 'insert display lineend+1c')
 
     def clear(self, e=None):
-        self.show(e, add=False)
+        from ForkableSheet import ForkableSheet
+        try:
+            if not isinstance(e.widget, ForkableSheet) or isinstance(e.widget.focus_get(), ForkableSheet):
+                self.show(e, add=False)
+        except KeyError:
+            pass
 

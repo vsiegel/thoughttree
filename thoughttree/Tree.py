@@ -31,7 +31,7 @@ class Tree(ttk.Treeview):
         style = "Treeview.Treeview"
         font = Fonts.FONT
         rowheight = tkfont.Font(font=font).metrics("linespace") + 1
-        Style().configure(style, rowheight=rowheight, bd=2, highlightthickness=1, font=font)
+        Style().configure(style, rowheight=rowheight, font=font)
 
         super().__init__(parent, columns=("path", "type"), displaycolumns=(), style=style, show="tree", *args, **kw)
         from thoughttree import Thoughttree

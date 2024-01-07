@@ -1,7 +1,7 @@
 class Cursorline:
     def __init__(self, sheet):
         self.sheet = sheet
-        self.sheet.tag_config('cursorline', background='#FCFAED', selectbackground="#4682b4", selectforeground="white")
+        self.sheet.tag_config('cursorline', background='#fcfaed', borderwidth=1, relief="raised", selectbackground="#4682b4", selectforeground="white")
         # self.sheet.tag_config('cursorline', borderwidth=1, relief="solid", selectbackground="#4682b4", selectforeground="white")
         self.sheet.bindtags(self.sheet.bindtags() + ("cursorline_last",))
         self.sheet.bind_class("cursorline_last", '<KeyRelease>', self.show)

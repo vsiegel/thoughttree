@@ -129,7 +129,8 @@ class ForkableSheet(Sheet):
         else:
             parent = self
         sheet = notebook.add_sheet(sibling, parent)
-        copy_trailing_text(self, sheet, index)
+        # copy_trailing_text(self, sheet, index)
+        self.delete(index, END)
         return "break"
 
 

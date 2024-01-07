@@ -54,6 +54,8 @@ class ForkableSheet(Sheet):
             print(f"{self.winfo_reqheight()=}")
             print(f"{ypixels=}")
             sheet.frame.configure(height=ypixels)
+            sheet.frame.configure(height=ypixels , width=sheet.winfo_width())
+            # sheet.fork_frame.configure(height=ypixels , width=sheet.winfo_width())
             print(f"{height=}")
             # sheet.fork_frame.configure(width=width, height=height)
 

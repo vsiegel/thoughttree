@@ -11,7 +11,6 @@ from tools import on_event, bind_tree, iterate_tree
 class SheetTree(tk.Frame):
     def __init__(self, parent, *args, **kw):
         super().__init__(parent, name="st", highlightthickness=3, highlightcolor=Colors.highlight, *args, **kw)
-        # tk.Button(self, text="Add", command=lambda: tk.Label(self.canvas_frame, text="New Label\na\n3").pack(anchor="w", side="bottom")).pack(side="top")
 
         self.canvas = tk.Canvas(self, name="c")# background="lightcyan")
         self.scrollbar = tk.Scrollbar(self, orient=VERTICAL, command=self.canvas.yview, width=18, takefocus=False, borderwidth=2)
@@ -31,16 +30,10 @@ class SheetTree(tk.Frame):
 
         self.add_scrolling()
 
-        # self.forkable_sheet.bind("<Configure>", self.configure_scrollregion, add=True)
-        # self.forkable_sheet.bind("<Configure>", self.configure_frame, add=True)
         self.canvas.bind("<Configure>", self.configure_frame, add=True)
-        # def on_configure(event):
-        #     print(f"Event: {event}: {event.widget} {event.x},{event.y} {event.width}x{event.height}")
-        # self.winfo_toplevel().bind_all('<Configure>', on_configure)
 
         self.winfo_toplevel().bind("<Control-Alt-Shift-S>", self.debug)
 
-        # tools.bind_tree(self, "<Configure>")
 
     def configure_frame(self, event):
         self.canvas.itemconfigure(self.frame_id, width=event.width, height=event.height)

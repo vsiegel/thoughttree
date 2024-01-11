@@ -23,13 +23,14 @@ class Sheet(ScrolledText, LineHandling):
     common_font_size = Fonts.FONT[1]
 
     def __init__(self, master=None, scrollbar=True, name="s", wrap=WORD, width=80, borderwidth=0,
-                 highlightthickness=1, highlightcolor="lightgray", padx=0, pady=0, height=0, background='white', text="", **kw):
-        # self.text_frame = tk.Frame(master, name="tf")
+                 highlightthickness=1, highlightcolor="lightgray",
+                 insertwidth=3, insertunfocussed="hollow", #"solid","hollow",
+                 padx=0, pady=0, height=0, background='white', text="", **kw):
         ScrolledText.__init__(
             self, master, undo=True, wrap=wrap, padx=padx, pady=pady, background=background,
-            width=width, height=height, insertwidth=3, font=Fonts.FONT,
-            border=0, borderwidth=borderwidth, highlightthickness=highlightthickness, highlightcolor=highlightcolor, highlightbackground="white",
-            selectbackground="#66a2d4", selectforeground="white", name=name, **kw)
+            width=width, height=height, insertwidth=insertwidth, insertunfocussed=insertunfocussed, font=Fonts.FONT,
+            border=0, borderwidth=borderwidth, highlightthickness=highlightthickness, highlightcolor=highlightcolor,
+            highlightbackground="white", selectbackground="#66a2d4", selectforeground="white", name=name, **kw)
         self.frame.widgetName = "stf"
         self.register_instance()
 

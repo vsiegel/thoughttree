@@ -26,15 +26,11 @@ class Sheet(ScrolledText, LineHandling):
                  highlightthickness=1, highlightcolor="lightgray", padx=0, pady=0, height=0, background='white', text="", **kw):
         # self.text_frame = tk.Frame(master, name="tf")
         ScrolledText.__init__(
-            # self, self.text_frame, undo=True, wrap=wrap, padx=padx, pady=pady, background=background,
             self, master, undo=True, wrap=wrap, padx=padx, pady=pady, background=background,
             width=width, height=height, insertwidth=3, font=Fonts.FONT,
             border=0, borderwidth=borderwidth, highlightthickness=highlightthickness, highlightcolor=highlightcolor, highlightbackground="white",
             selectbackground="#66a2d4", selectforeground="white", name=name, **kw)
         self.frame.widgetName = "stf"
-        # self.text_frame.pack(side=TOP, fill=BOTH, expand=True)
-        # self.text_frame.pack_propagate(False)
-        # self.frame.pack_propagate(False)
         self.register_instance()
 
         if scrollbar:
@@ -64,7 +60,7 @@ class Sheet(ScrolledText, LineHandling):
         self.tag_config('semi_highlight', background="#c8e7ff")
         self.tag_config('hidden_markup', elide=True, foreground="#E0E0E0")
         self.tag_config('hidden_prompt', elide=True, foreground="#E0E0E0")
-        self.tag_config("mask", borderwidth=2, relief=SOLID, foreground="#D0D0D0")
+        self.tag_config("mask", borderwidth=2, relief=SOLID, foreground="#D0D0D0", selectforeground="#5cacee")
 
         # self.tag_bind("added", "<Enter>", on_event)
         self.tag_config("added", background="#9af1a9")

@@ -164,7 +164,7 @@ class Thoughttree(Ui):
         self.system = Sheet(self.system_pane, height=3, highlightthickness=2, highlightcolor=Colors.highlight)
         self.sheet_tree = SheetTree(self.system_pane)
 
-        self.current_sheet: ForkableSheet = self.sheet_tree.forkable_sheet
+        self.current_sheet: ForkableSheet = self.sheet_tree.sheet
 
         self.console_pane.add(self.tree_pane)
         self.console_pane.addFoldable(self.console)
@@ -195,7 +195,7 @@ class Thoughttree(Ui):
         self.sheet_tree.focus_set()
 
         InitialSheetHelp(self.system, *sheet_help("System prompt - [?]"))
-        InitialSheetHelp(self.sheet_tree.forkable_sheet, *sheet_help("User prompt - Chat - [?]"))
+        InitialSheetHelp(self.sheet_tree.sheet, *sheet_help("User prompt - Chat - [?]"))
         InitialSheetHelp(self.detail, *sheet_help("Details - [?]"))
 
     def configure_ui_options(self):
@@ -207,7 +207,7 @@ class Thoughttree(Ui):
             self.option_add('*Text*insertOffTime', '0')
 
     def is_initially_modified(self):
-        return self.sheet_tree.forkable_sheet.initially_modified or self.system.initially_modified
+        return self.sheet_tree.sheet.initially_modified or self.system.initially_modified
 
     def update_window_title(self, event=None):
         progress_title = self.root.title().rstrip('.') + "..."

@@ -129,7 +129,7 @@ class MainMenu(MenuBar):
 
             # print_height(self.ui.chat_sheet, "chat_sheet")
 
-            sheet: ForkableSheet = self.ui.sheet_tree.forkable_sheet
+            sheet: ForkableSheet = self.ui.sheet_tree.sheet
             while sheet:
                 print_height(sheet, "sheet: " + str(sheet))
                 if sheet.child_notebook:

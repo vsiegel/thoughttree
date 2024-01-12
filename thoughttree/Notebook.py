@@ -39,10 +39,10 @@ class Notebook(ttk.Notebook):
     def selected_sheet(self):
         if not self.select():
             return None
-        sheet = self.nametowidget(self.select()).forkable_sheet
+        sheet = self.nametowidget(self.select()).sheet
         return sheet
 
     def child_sheets(self):
         frames = map(self.nametowidget, self.tabs())
-        return [f.forkable_sheet for f in frames]
+        return [f.sheet for f in frames]
 

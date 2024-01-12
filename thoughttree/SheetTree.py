@@ -20,14 +20,14 @@ class SheetTree(tk.Frame):
 
         self.canvas.pack(side=LEFT, fill=BOTH, expand=True)
 
-        self.canvas_frame = tk.Frame(self.canvas, bd=0, background="#eeeeff", name="cf")
-        self.canvas_frame.bind("<Configure>", self.configure_scrollregion, add=True)
+        self.frame = tk.Frame(self.canvas, bd=0, background="#eeeeff", name="cf")
+        self.frame.bind("<Configure>", self.configure_scrollregion, add=True)
 
-        self.frame_id = self.canvas.create_window((0, 0), window=self.canvas_frame, anchor=NW)
+        self.frame_id = self.canvas.create_window((0, 0), window=self.frame, anchor=NW)
 
 
-        self.forkable_sheet = ForkableSheet(parent_frame=self.canvas_frame, )
-        self.forkable_sheet.pack(side=TOP, expand=True, fill=BOTH)
+        self.sheet = ForkableSheet(parent_frame=self.frame, )
+        self.sheet.pack(side=TOP, expand=True, fill=BOTH)
 
         self.add_scrolling()
 
@@ -58,10 +58,10 @@ class SheetTree(tk.Frame):
         self.winfo_toplevel().bind("<Button-5>", on_mousewheel)
 
     def winfo_reqheight(self):
-        return self.forkable_sheet.winfo_reqheight()
+        return self.sheet.winfo_reqheight()
 
     def focus_set(self):
-        self.forkable_sheet.focus_set()
+        self.sheet.focus_set()
 
     def in_canvas(self, x, y):
         return str(self.canvas.winfo_containing(x, y)).startswith(str(self.canvas))
@@ -76,8 +76,8 @@ class SheetTree(tk.Frame):
 
     def debug(self, event):
         print(f"{event.widget}    {event.width}x{event.height}+{event.x}+{event.y}")
-        print(f"{self.canvas_frame.winfo_height()   =}")
-        print(f"{self.canvas_frame.winfo_reqheight()=}")
+        print(f"{self.frame.winfo_height()   =}")
+        print(f"{self.frame.winfo_reqheight()=}")
 
 
 if __name__ == "__main__":

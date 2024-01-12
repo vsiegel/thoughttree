@@ -1,13 +1,13 @@
-import sys
 import tkinter as tk
-from tkinter import X, BOTH, Y, INSERT, END, CURRENT, SEL
+from tkinter import X, BOTH, Y, INSERT, END, CURRENT, SEL, LEFT
 
+import tools
 from History import History
 from Notebook import Notebook
 from Sheet import Sheet
 from Title import new_child_title, new_sibling_title, Title
 
-
+# deprecated by TreeSheet
 class ForkableSheet(Sheet):
     def __init__(self, parent_frame, parent_sheet=None,  height=1, width=250, parent_notebook=None, parent_sheet_tree=None, name="fs", *args, **kw):
         class FF(tk.Frame):
@@ -36,33 +36,21 @@ class ForkableSheet(Sheet):
         # if self.parent_sheet_tree:#???
         #     self.parent_sheet_tree.bind("<Configure>", self.parent_sheet_tree.configure_scrollregion, add=True)
         self.bind('<<Modified>>', self.grow_to_displaylines, add=True)
+        self.edit_modified(True)
+
         # def on_key(e):
         #     print(f"on_key: {self.bbox(INSERT)=}")
         # self.bind("<KeyRelease>", on_key, add=True)
 
     def grow_to_displaylines(self, event: tk.Event):
-        print(f"grow_to_displaylines")
         if self.edit_modified():
-            print(f"modified")
             sheet:ForkableSheet = event.widget
             sheet.count("1.0", "end", "update")
             ypixels = sheet.count("1.0", "end lineend", 'ypixels')[0]
             height = ypixels
             if sheet.child_notebook:
                 height += sheet.child_notebook.winfo_height()
-            width = sheet.master.winfo_width()
-            print(f"{self.winfo_reqheight()=}")
-            print(f"{ypixels=}")
-            sheet.frame.configure(height=ypixels)
-            sheet.frame.configure(height=ypixels , width=sheet.winfo_width())
-            # sheet.fork_frame.configure(height=ypixels , width=sheet.winfo_width())
-            print(f"{height=}")
-            # sheet.fork_frame.configure(width=width, height=height)
-
-            # if sheet.parent_sheet_tree:
-            #     print(f"sheet.parent_sheet_tree.canvas_frame.event_generate('<Configure>'...")
-            #     sheet.parent_sheet_tree.canvas_frame.event_generate("<Configure>", x=0, y=0, width=width, height=height)
-
+            sheet.frame.configure(height=ypixels, width=sheet.winfo_reqwidth())
             sheet.edit_modified(False)
 
     # def winfo_reqheight(self):
@@ -104,7 +92,7 @@ class ForkableSheet(Sheet):
             # self.child_notebook.bind("<<NotebookTabChanged>>", self.grow_to_displaylines)
             return self.child_notebook.add_sheet(first_child, parent_sheet=self)
 
-    def fork(self, index=INSERT, duplicate=False):
+    def fork(self, index=INSERT):
         index = self.index(index)
         self.initially_modified = True
 
@@ -195,3 +183,13 @@ class ForkableSheet(Sheet):
         else:
             sheet.delete(INSERT + "-1c")
         return "break"
+
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    tools.escapable(root)
+    widget = ForkableSheet(root)
+    widget.pack(side=LEFT, fill=BOTH, expand=True)
+    widget.pack_propagate(False)
+    widget.focus_set()
+    root.mainloop()

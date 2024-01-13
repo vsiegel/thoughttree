@@ -15,14 +15,24 @@ class Notebook(ttk.Notebook):
         self.enable_traversal()
 
 
+    def on_empty_background(self, event):
+        print(f"on_empty_background {self=} {self.identify(event.x, event.y)=}")
+        frame: tk.Frame = self.nametowidget(self.select())
+        print(f"{frame=} {type(frame)=}")
+        sheet = frame.pack_slaves()[0]
+        print(f"{sheet=} {type(sheet)=}")
+        sheet.focus_set()
+
+
     def add_sheet(self, title, parent_sheet=None):
         class NAF(tk.Frame):  # NotebookAdapterFrame - the name appears in widget names, making them longer.
             def __init__(self, parent, **kw):
                 tk.Frame.__init__(self, parent)  # Warning: Naming the frame causes errors (name="...").
         NotebookAdapterFrame = NAF
 
-        print(f"add_sheet start {title=} {len(self.tabs())=}")
-        adapter_frame = NotebookAdapterFrame(self)
+        self.bind("<Button-1>", self.on_empty_background, add=True)
+        # print(f"add_sheet start {title=} {len(self.tabs())=}")
+        adapter_frame = NotebookAdapterFrame(self, background="f0e5f2")
         # adapter_frame.pack_propagate(False)
         # print(f"add_sheet 2 {title=} {len(self.tabs())=}")
         from TreeSheet import TreeSheet

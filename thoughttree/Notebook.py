@@ -19,7 +19,6 @@ class Notebook(ttk.Notebook):
         class NAF(tk.Frame):  # NotebookAdapterFrame - the name appears in widget names, making them longer.
             def __init__(self, parent):
                 tk.Frame.__init__(self, parent)  # Warning: Naming the frame causes errors (name="...").
-                self.forkable_sheet = None
         NotebookAdapterFrame = NAF
 
         print(f"add_sheet start {title=} {len(self.tabs())=}")
@@ -29,7 +28,6 @@ class Notebook(ttk.Notebook):
         from ForkableSheet import ForkableSheet
         sheet = ForkableSheet(parent_frame=adapter_frame, parent_sheet=parent_sheet, parent_notebook=self, name=title.replace(".", "_"))
         sheet.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-        adapter_frame.forkable_sheet = sheet
         self.insert(END, adapter_frame, text=title)
         self.select(adapter_frame)
         sheet.focus_set()

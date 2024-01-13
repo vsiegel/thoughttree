@@ -24,9 +24,9 @@ class Notebook(ttk.Notebook):
         print(f"add_sheet start {title=} {len(self.tabs())=}")
         adapter_frame = NotebookAdapterFrame(self)
         # adapter_frame.pack_propagate(False)
-        print(f"add_sheet 2 {title=} {len(self.tabs())=}")
-        from ForkableSheet import ForkableSheet
-        sheet = ForkableSheet(parent_frame=adapter_frame, parent_sheet=parent_sheet, parent_notebook=self, name=title.replace(".", "_"))
+        # print(f"add_sheet 2 {title=} {len(self.tabs())=}")
+        from TreeSheet import TreeSheet
+        sheet = TreeSheet(adapter_frame, parent_sheet=parent_sheet, parent_notebook=self, name=title.replace(".", "_"))
         sheet.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
         self.insert(END, adapter_frame, text=title)
         self.select(adapter_frame)

@@ -17,7 +17,7 @@ class Notebook(ttk.Notebook):
 
     def add_sheet(self, title, parent_sheet=None):
         class NAF(tk.Frame):  # NotebookAdapterFrame - the name appears in widget names, making them longer.
-            def __init__(self, parent):
+            def __init__(self, parent, **kw):
                 tk.Frame.__init__(self, parent)  # Warning: Naming the frame causes errors (name="...").
         NotebookAdapterFrame = NAF
 

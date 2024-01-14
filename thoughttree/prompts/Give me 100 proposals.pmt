@@ -1,0 +1,130 @@
+### Description:
+Creating a large number of proposals
+### User prompt:
+What is a good name for this python method?
+Give me 100 proposals!
+
+### Example input:
+
+    def a_name(self, text="") -> Notebook:
+        if not self.notebook:
+            self.notebook = Notebook(self.tree_frame)
+            self.notebook.pack(side=tk.TOP, fill=Y, expand=False, anchor=tk.N)
+        return self.notebook
+
+
+### Example output:
+
+1. create_notebook
+2. initialize_notebook
+3. setup_notebook
+4. generate_notebook
+5. build_notebook
+6. produce_notebook
+7. construct_notebook
+8. fabricate_notebook
+9. establish_notebook
+10. form_notebook
+11. assemble_notebook
+12. prepare_notebook
+13. develop_notebook
+14. devise_notebook
+15. design_notebook
+16. compose_notebook
+17. forge_notebook
+18. shape_notebook
+19. mold_notebook
+20. configure_notebook
+21. arrange_notebook
+22. organize_notebook
+23. structure_notebook
+24. craft_notebook
+25. create_notebook_instance
+26. manufacture_notebook
+27. synthesize_notebook
+28. instantiate_notebook
+29. fashion_notebook
+30. tailor_notebook
+31. engineer_notebook
+32. make_notebook
+33. draw_notebook
+34. model_notebook
+35. cast_notebook
+36. frame_notebook
+37. sculpt_notebook
+38. carve_notebook
+39. construct_notebook_object
+40. implement_notebook
+41. draft_notebook
+42. sketch_notebook
+43. blueprint_notebook
+44. project_notebook
+45. plan_notebook
+46. plot_notebook
+47. outline_notebook
+48. map_notebook
+49. chart_notebook
+50. diagram_notebook
+51. trace_notebook
+52. mark_notebook
+53. etch_notebook
+54. inscribe_notebook
+55. doodle_notebook
+56. scribble_notebook
+57. jot_notebook
+58. hatch_notebook
+59. detail_notebook
+60. depict_notebook
+61. portray_notebook
+62. render_notebook
+63. illustrate_notebook
+64. present_notebook
+65. exhibit_notebook
+66. display_notebook
+67. show_notebook
+68. reveal_notebook
+69. expose_notebook
+70. unmask_notebook
+71. unveil_notebook
+72. uncover_notebook
+73. disclose_notebook
+74. divulge_notebook
+75. broadcast_notebook
+76. publish_notebook
+77. publicize_notebook
+78. proclaim_notebook
+79. declare_notebook
+80. announce_notebook
+81. report_notebook
+82. notify_notebook
+83. inform_notebook
+84. enlighten_notebook
+85. instruct_notebook
+86. teach_notebook
+87. guide_notebook
+88. lead_notebook
+89. direct_notebook
+90. command_notebook
+91. order_notebook
+92. charge_notebook
+93. mandate_notebook
+94. decree_notebook
+95. ordain_notebook
+96. legislate_notebook
+97. prescribe_notebook
+98. dictate_notebook
+99. pronounce_notebook
+100. enunciate_notebook
+
+### Example input:
+
+Why not get_notebook?
+
+### Example output:
+
+"get_notebook" is indeed a good and suitable name for the method. The reason it wasn't suggested initially is because the method not only retrieves the notebook object but also creates it if it doesn't exist. So, names like "create_notebook" or "initialize_notebook" might better convey this functionality. However, "get_notebook" is definitely a valid option and ultimately, the choice of method name depends on the specific coding style and naming conventions you follow.
+
+And have_notebook?
+
+"have_notebook" could potentially be misleading. In programming, a method named "have_notebook" would typically be expected to return a boolean value - true if the notebook exists, and false if it doesn't. However, your method is actually returning the notebook object itself (or creating it if it doesn't exist). Therefore, a name like "get_notebook" or "create_or_get_notebook" would be more descriptive of its actual functionality.
+

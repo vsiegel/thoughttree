@@ -192,45 +192,6 @@ class TreeSheet(ResizingSheet, tk.Frame):
         return "break"
 
 
-
-class TreeSheetTree(tk.Frame):
-    def __init__(self, parent, *args, **kw):
-        super().__init__(parent, name="st", highlightthickness=3, highlightcolor=Colors.highlight, background="#d5d6aa", *args, **kw)
-
-        self.canvas = tk.Canvas(self, name="c", background="lightcyan")
-        self.scrollbar = tk.Scrollbar(self, orient=VERTICAL, command=self.canvas.yview, width=18, takefocus=False, borderwidth=2)
-        self.canvas.configure(yscrollcommand=self.scrollbar.set)
-        self.scrollbar.pack(side=RIGHT, fill=Y)
-
-        self.canvas.pack(side=LEFT, fill=BOTH, expand=True)
-
-        self.frame = tk.Frame(self.canvas, bd=0, background="#eeeeff", name="cf")
-
-        self.frame_id = self.canvas.create_window((0, 0), window=self.frame, anchor="nw")
-
-        # self.height_spacer = tk.Frame(self.frame, width=0, height=0)
-        # self.height_spacer.pack(side=RIGHT, fill=Y)
-
-        self.sheet = TreeSheet(self.frame)
-        self.sheet.branch()
-        self.sheet.branch()
-        self.sheet.pack(side=TOP, expand=True, fill=BOTH)
-        # self.add_scrolling()
-
-        self.canvas.bind("<Configure>", self.configure_frame, add=True)
-        self.frame.bind("<Configure>", self.configure_scrollregion, add=True)
-
-        # self.winfo_toplevel().bind("<Control-Alt-Shift-S>", self.debug)
-
-    def configure_frame(self, event):
-        self.canvas.itemconfigure(self.frame_id, width=event.width)
-        # self.height_spacer.configure(height=event.height)
-
-    def configure_scrollregion(self, event):
-        self.canvas.configure(scrollregion=self.canvas.bbox("all"))
-
-
-
 if __name__ == "__main__":
     root = tk.Tk()
     tools.escapable(root)

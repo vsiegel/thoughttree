@@ -25,6 +25,11 @@ class TreeSheet(ResizingSheet, tk.Frame):
 
         self.copy_packing(self.tree_frame, ResizingSheet)
 
+    def get_notebook(self) -> Notebook:
+        if not self.notebook:
+            self.notebook = Notebook(self.tree_frame, self, self.parent_notebook)
+            self.notebook.pack(side=tk.TOP, fill=Y, expand=False, anchor=tk.N)
+        return self.notebook
 
     def create_child_notebook(self): # make sure we have a notebook
         from Notebook import Notebook
@@ -35,6 +40,13 @@ class TreeSheet(ResizingSheet, tk.Frame):
             # self.child_notebook.bind("<<NotebookTabChanged>>", self.grow_to_displaylines)
             return self.notebook.add_sheet(first_child, parent_sheet=self)
 
+    def add(self, text=""):
+        notebook = self.get_notebook()
+        frame = tk.Frame(notebook, background="#a5d6ba", borderwidth=1)
+        sheet = TreeSheet(frame, parent_sheet=self, parent_notebook=notebook, name="title")
+        sheet.pack(side=tk.TOP, fill=BOTH, expand=True)
+        frame.pack(side=tk.TOP, fill=BOTH, expand=True)
+        notebook.add(frame, text=text, sticky=NSEW)
 
         # self.fork_frame.pack_propagate(False)
         # self.pack(side=tk.TOP, fill=BOTH, expand=True)

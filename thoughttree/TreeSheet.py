@@ -196,7 +196,7 @@ if __name__ == "__main__":
     root = tk.Tk()
     tools.escapable(root)
     # widget = TreeSheet(root)
-    widget = TreeSheetTree(root)
+    widget = TreeSheet(root)
     widget.pack(side=LEFT, fill=BOTH, expand=True)
     # widget.branch()
     # widget.notebook.add(TreeSheet(widget.notebook))

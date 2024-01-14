@@ -26,7 +26,14 @@ class TreeSheet(ResizingSheet, tk.Frame):
         self.copy_packing(self.tree_frame, ResizingSheet)
 
 
-        # self.bind("<FocusIn>", lambda event: self.sheet.focus_set(), add=True)
+    def create_child_notebook(self): # make sure we have a notebook
+        from Notebook import Notebook
+        if not self.notebook:
+            self.notebook = self.get_notebook()
+            self.pack_configure(expand=False) #fixme
+            first_child = new_child_title(self.parent_notebook)
+            # self.child_notebook.bind("<<NotebookTabChanged>>", self.grow_to_displaylines)
+            return self.notebook.add_sheet(first_child, parent_sheet=self)
 
 
         # self.fork_frame.pack_propagate(False)
@@ -81,15 +88,6 @@ class TreeSheet(ResizingSheet, tk.Frame):
         Title.model.complete(history, write_title, max_tokens=30, temperature=0.3)
         Title.model.counter.summarize("Title cost:")
 
-    def create_child_notebook(self): # make sure we have a notebook
-        if not self.notebook:
-            self.notebook = Notebook(self.frame, self, self.parent_notebook)
-            self.notebook.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
-            self.pack_configure(expand=False)
-            first_child = new_child_title(self.parent_notebook)
-            # self.child_notebook.bind("<<NotebookTabChanged>>", self.grow_to_displaylines)
-            return self.notebook.add_sheet(first_child, parent_sheet=self)
-
     def fork(self, index=INSERT, duplicate=False):
         index = self.index(index)
         self.initially_modified = True
@@ -117,7 +115,7 @@ class TreeSheet(ResizingSheet, tk.Frame):
         else:
             parent = self
         sheet = notebook.add_sheet(sibling, parent)
-        # copy_trailing_text(self, sheet, index)
+        # self.split_sheet(sheet, index)
         self.delete(index, END)
         return "break"
 
@@ -128,7 +126,7 @@ class TreeSheet(ResizingSheet, tk.Frame):
         return self.notebook.selected_sheet()
 
 
-    def child_sheets(self)->['ForkableSheet']:
+    def child_sheets(self)->['TreeSheet']:
         if not self.notebook:
             return []
         return self.notebook.child_sheets()
@@ -144,7 +142,6 @@ class TreeSheet(ResizingSheet, tk.Frame):
 
 
     def close_tab(self):
-
         notebook: Notebook = self.parent_notebook
         if notebook and notebook.tabs():
             print(f"{self.focus_get()    =}")

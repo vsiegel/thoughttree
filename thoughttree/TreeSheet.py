@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import X, BOTH, Y, INSERT, END, CURRENT, SEL, LEFT, TOP, RIGHT, VERTICAL, NW
+from tkinter import X, BOTH, Y, INSERT, END, CURRENT, SEL, LEFT, TOP, RIGHT, VERTICAL, NW, ttk, NSEW
 
 import Colors
 import tools
@@ -9,23 +9,21 @@ from ResizingSheet import ResizingSheet
 from Sheet import Sheet
 from Title import new_child_title, new_sibling_title, Title
 
-class TreeSheet(tk.Frame):
-    def __init__(self, *args, **kw):
-        tk.Frame.__init__(self, background="#daa6ea", *args, **kw)
+class TreeSheet(ResizingSheet, tk.Frame):
+    # def __init__(self, parent, name="ts", **kw):
+    def __init__(self, parent, parent_sheet=None,  height=1, width=250, parent_notebook=None, parent_sheet_tree=None, name="ts", *args, **kw):
+        self.tree_frame = tk.Frame(parent, background="#e8eaff", name=name + "f")
+        ResizingSheet.__init__(self, self.tree_frame, scrollbar=False, name=name, **kw)
+        self.pack(side=tk.TOP, fill=X, expand=False, anchor=tk.N)
 
-        self.sheet = ResizingSheet(self, background="#a5d6ea")
-        self.sheet.sheet.insert("1.0", "A\n\nZ")
+        self.initially_modified = False
+        self.parent_sheet = parent_sheet
+        self.parent_notebook = parent_notebook
+        self.notebook = None
 
-        # self.sheet.pack_propagate(False)
-        # self.pack_propagate(False)
+        self.tree_frame.bind("<Button-1>", self.on_empty_background, add=True)
 
-        self.notebook = Notebook(self, background="#eed6ea")
-        self.sheet.pack(side=tk.TOP, fill=X, expand=False, anchor=tk.N)
-        self.notebook.pack(side=tk.TOP, fill=BOTH, expand=True)
-
-        # self.sheet2 = ResizingSheet(self.notebook, background="#dee5d7")
-        # self.notebook.add(self.sheet2)
-        # self.notebook.add(ResizingSheet(self.notebook, background="#dee5d7"))
+        self.copy_packing(self.tree_frame, ResizingSheet)
 
 
         # self.bind("<FocusIn>", lambda event: self.sheet.focus_set(), add=True)

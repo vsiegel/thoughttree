@@ -28,9 +28,6 @@ class SheetTree(tk.Frame):
         self.sheet = TreeSheet(self.frame)
         self.sheet.pack(side=TOP, expand=True, fill=BOTH)
 
-        self.add("1. Abc")
-        self.add("2. Def")
-
         self.add_wheel_scrolling()
 
         self.canvas.bind("<Configure>", self.configure_frame, add=True)
@@ -38,6 +35,12 @@ class SheetTree(tk.Frame):
 
         self.winfo_toplevel().bind("<Control-Alt-Shift-S>", self.debug)
 
+        self.add("1. Abc")
+        self.add("2. Def")
+
+
+    def add(self, text=""):
+        self.sheet.add(text)
 
     def configure_frame(self, event):
         self.canvas.itemconfigure(self.frame_id, width=event.width)

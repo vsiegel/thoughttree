@@ -73,8 +73,8 @@ class Tree(ttk.Treeview):
         self.append_toplevel("Demos")
         self.append_toplevel("Examples")
         self.append_toplevel("Prompts")
-        self.append_toplevel("Changes")
-        self.append_toplevel("Differences")
+        self.append_toplevel("Changes", open=True)
+        self.append_toplevel("Differences", open=True)
 
         self.focus("Default")
         self.selection_set(self.focus())

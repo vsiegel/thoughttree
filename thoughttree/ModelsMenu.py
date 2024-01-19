@@ -32,7 +32,7 @@ class ModelsMenu(TooltipableMenu):
             if name.find("gpt-3.5") != -1:
                 name = "ChatGPT " + name
             command = lambda e=None, model=name: self.selected_model.set(model)
-            self.add_item(name, key, command)#, variable=self.selected_model, to=self.ui.root)
+            self.item(name, key, command)#, variable=self.selected_model, to=self.ui.root)
         self.add_separator()
-        self.add_item("Reload Available Models", None, self.load_available_models)
+        self.item("Reload Available Models", None, self.load_available_models)
         return len(models)

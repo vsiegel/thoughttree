@@ -79,19 +79,8 @@ class Thoughttree(Ui):
         self.detail_pane = None
         self.system_pane = None
 
-        # def on_configure(event):
-        #     print(f"Event: {event}: {event.widget} {event.x},{event.y} {event.width}x{event.height}")
-        # self.bind_all('<Configure>', on_configure)
+        self.configure_geometry(argv, Thoughttree.ROOT_GEOMETRY, Thoughttree.MIN_SIZE)
 
-        if argv and "-geometry" in argv:
-            geometry = argv[argv.index("-geometry") + 1]
-            if geometry.startswith('+'):
-                geometry = Thoughttree.ROOT_GEOMETRY + geometry
-            print(f"{geometry=}")
-        else:
-            geometry = Thoughttree.ROOT_GEOMETRY
-        self.root.geometry(geometry)
-        self.root.minsize(*Thoughttree.MIN_SIZE)
         try:
             self.set_icon(self.WINDOW_ICON)
         except:

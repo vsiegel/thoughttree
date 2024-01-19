@@ -94,14 +94,15 @@ def random_pastel_color():
     return "#{:02x}{:02x}{:02x}".format(r, g, b)
 
 def pastel(widget: tk.Widget) -> tk.Widget:
-    widget.config(bg=next_pastel_rainbow_color())
+    widget.config(bg=next_color())
     return widget
 
 import colorsys
 
 color_index = 0
 
-def next_pastel_rainbow_color():
+# def next_pastel_rainbow_color():
+def next_color():
     global color_index
 
     # HSL color format: (hue, saturation, lightness)

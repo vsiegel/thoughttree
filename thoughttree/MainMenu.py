@@ -112,7 +112,6 @@ class MainMenu(MenuBar):
         #     browse(self.ui)
         #
         def debug_info(event=None):
-
             import pyautogui
             top = self.ui.winfo_toplevel()
             # top.update_idletasks()
@@ -203,8 +202,8 @@ class MainMenu(MenuBar):
         file.add_separator()
         file.add_item("Close Tab", "<Control-w>", close_tab, add=False)
         file.add_item("Close Empty Tab", "<BackSpace>", lambda e=None: self.it.backspace(e), add=False)
-        file.add_item("Close Window", "<Control-Q>", ui.close, to_class="all")
-        file.add_item("Quit Thoughttree", "<Control-Shift-Q>", lambda e=None: ui.quit(label="Quit Thoughttree"), to_class="all")
+        file.add_item("Close Window", "<Control-Q>", ui.close)
+        file.add_item("Quit Thoughttree", "<Control-Shift-Q>", lambda e=None: ui.quit(label="Quit Thoughttree"))
 
 
         edit = self.submenu("Edit")

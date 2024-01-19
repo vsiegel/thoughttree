@@ -118,6 +118,10 @@ def next_pastel_rainbow_color():
     return f"#{int(r * 255):02x}{int(g * 255):02x}{int(b * 255):02x}"
 
 
+def debug_color():
+    #toto switch widget backgrounds black/white based on debug flag
+    return next_color()
+
 def shorter(text, n=60):
     text = text.strip().replace('\n','\\n')
     if len(text) <= n:

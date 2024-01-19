@@ -121,8 +121,8 @@ class Tree(ttk.Treeview):
         return self.insert(parent=parent, index=index, text=text, iid=iid, open=open, values=[value, type], tags=tags)
 
 
-    def append_toplevel(self, name):
-        self.append("", text=name, iid=name, type="toplevel")
+    def append_toplevel(self, name, **kv):
+        self.append("", text=name, iid=name, type="toplevel", **kv)
         directory = code_file_relative(name.lower())
         if exists(directory):
             self.load_dir(directory, name)

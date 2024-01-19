@@ -50,7 +50,7 @@ class Keys:
     ]
 
     @staticmethod
-    def configure_text_keys(text: tk.Text):
+    def configure_sheet_keys(text: tk.Text):
         for virtual, (key, explanation, key_name) in list(Keys.text_keys.items()):
             text.event_delete(virtual)
             text.event_add(virtual, key)

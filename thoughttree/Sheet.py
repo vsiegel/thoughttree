@@ -45,11 +45,12 @@ class Sheet(ScrolledText, LineHandling):
         self.found = None
         self.initially_modified = False
 
-        Keys.configure_text_keys(self)
+        self.configure_sheet_keys_once()
 
         self.bind('<Prior>', self.jump_to_limit)
         self.bind('<Next>', self.jump_to_limit)
         # self.pack(padx=0, pady=0, fill=X, expand=True)
+
 
         name, size = self.cget("font").rsplit(None, 1) # fixme value
         self.tag_config("assistant", background="#e8e8e8", selectbackground="#4682b4", selectforeground="white")
@@ -78,6 +79,15 @@ class Sheet(ScrolledText, LineHandling):
         self.old_num_display_lines = 0
         if text:
             self.insert(END, text)
+
+
+    configure_sheet_keys_done = False
+
+    def configure_sheet_keys_once(self):
+        if not Sheet.configure_sheet_keys_done:
+            Keys.configure_sheet_keys(self)
+            Sheet.configure_sheet_keys_done = True
+
 
     def split_sheet(self, to_sheet,  starting):
         trailing_text = self.get(starting, END)#.lstrip("\n")

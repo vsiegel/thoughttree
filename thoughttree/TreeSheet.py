@@ -39,7 +39,7 @@ class TreeSheet(ResizingSheet, tk.Frame):
         return self.notebook
 
     def create_child_notebook(self): # make sure we have a notebook
-        from Notebook import Notebook
+        print(f"create_child_notebook {self=}")
         if not self.notebook:
             self.notebook = self.get_notebook()
             self.pack_configure(expand=False) #fixme
@@ -85,24 +85,13 @@ class TreeSheet(ResizingSheet, tk.Frame):
         # list(frame.children.values())[0].focus_set()
         print(f"add: {list(frame.children.values())[0]=}")
 
-        # self.fork_frame.pack_propagate(False)
-        # self.pack(side=tk.TOP, fill=BOTH, expand=True)
-        #
-        # self.parent_sheet = parent_sheet
-        # self.parent_notebook = parent_notebook
-        # self.parent_sheet_tree = parent_sheet_tree
-        # self.child_notebook = None
-        #
-        # self.previous_sheet_height = None #todo
-        # self.unbind("<BackSpace>")
-        # self.bind_class("Text", "<BackSpace>", self.backspace)
 
-    def branch(self):
-        # frame = tk.Frame(self.notebook, background="#a5d6ba", borderwidth=3)
-        sheet = TreeSheet(self.notebook)
-        # sheet.pack(side=tk.TOP, fill=BOTH, expand=True)
-        # sheet.pack(fill=BOTH, expand=True)
-        self.notebook.add(sheet)
+    def on_empty_background(self, event):
+        # Tab out of SheetTree, tab back in backwards to the last TreeSheet.
+        focus = event.widget.tk_focusNext()
+        while isinstance(focus, TreeSheet):
+            focus = focus.tk_focusNext()
+        focus.tk_focusPrev().focus_set()
 
     def __str__(self):
         return str(self.tree_frame)

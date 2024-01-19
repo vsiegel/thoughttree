@@ -75,12 +75,15 @@ class TreeSheet(ResizingSheet, tk.Frame):
         return "break"
 
     def add(self, text=""):
+
         notebook = self.get_notebook()
-        frame = tk.Frame(notebook, background="#a5d6ba", borderwidth=1)
+        frame = NF(notebook)
         sheet = TreeSheet(frame, parent_sheet=self, parent_notebook=notebook, name="title")
+        frame.sheet = sheet
         sheet.pack(side=tk.TOP, fill=BOTH, expand=True)
-        frame.pack(side=tk.TOP, fill=BOTH, expand=True)
         notebook.add(frame, text=text, sticky=NSEW)
+        # list(frame.children.values())[0].focus_set()
+        print(f"add: {list(frame.children.values())[0]=}")
 
         # self.fork_frame.pack_propagate(False)
         # self.pack(side=tk.TOP, fill=BOTH, expand=True)

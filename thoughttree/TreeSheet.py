@@ -43,9 +43,36 @@ class TreeSheet(ResizingSheet, tk.Frame):
         if not self.notebook:
             self.notebook = self.get_notebook()
             self.pack_configure(expand=False) #fixme
-            first_child = new_child_title(self.parent_notebook)
+            first_child_title = new_child_title(self.parent_notebook)
             # self.child_notebook.bind("<<NotebookTabChanged>>", self.grow_to_displaylines)
-            return self.notebook.add_sheet(first_child, parent_sheet=self)
+            return self.notebook.add_sheet(first_child_title, parent_sheet=self)
+
+    def fork(self, index=INSERT, duplicate=False):
+        index = self.index(index)
+        self.initially_modified = True
+
+        has_leading_text = bool(self.get("1.0", index).strip())
+
+        if self.notebook:
+            print(f"fork: {self.notebook=}")
+            notebook = self.notebook
+        elif not has_leading_text and self.parent_notebook:
+            notebook = self.parent_notebook
+        else:
+            sheet = self.create_child_notebook()
+            self.split_sheet(to_sheet=sheet, starting=index)
+            notebook = self.notebook
+
+        sibling = new_sibling_title(notebook)
+        if notebook == self.parent_notebook:
+            parent = self.parent_sheet
+        else:
+            parent = self
+        sheet = notebook.add_sheet(sibling, parent)
+        # sheet = self.add()
+        # self.split_sheet(sheet, index)
+        # self.delete(index, END)
+        return "break"
 
     def add(self, text=""):
         notebook = self.get_notebook()
@@ -106,37 +133,6 @@ class TreeSheet(ResizingSheet, tk.Frame):
 
         Title.model.complete(history, write_title, max_tokens=30, temperature=0.3)
         Title.model.counter.summarize("Title cost:")
-
-    def fork(self, index=INSERT, duplicate=False):
-        index = self.index(index)
-        self.initially_modified = True
-
-        leading_text = bool(self.get("1.0", index).strip())
-
-
-        def copy_trailing_text(from_sheet, to_sheet, starting):
-            trailing_text = from_sheet.get(starting, END).rstrip()
-            to_sheet.insert("1.0", trailing_text)
-
-
-        if self.notebook:
-            notebook = self.notebook
-        elif not leading_text and self.parent_notebook:
-            notebook = self.parent_notebook
-        else:
-            sheet = self.create_child_notebook()
-            copy_trailing_text(self, sheet, index)
-            notebook = self.notebook
-
-        sibling = new_sibling_title(notebook)
-        if notebook == self.parent_notebook:
-            parent = self.parent_sheet
-        else:
-            parent = self
-        sheet = notebook.add_sheet(sibling, parent)
-        # self.split_sheet(sheet, index)
-        self.delete(index, END)
-        return "break"
 
 
     def selected_sheet(self):

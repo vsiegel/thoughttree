@@ -1,19 +1,18 @@
 import tkinter as tk
-from tkinter import ttk, BOTH, LEFT, RIGHT, VERTICAL, NW, Y, X, INSERT, CURRENT, TOP
+from tkinter import ttk, BOTH, LEFT, RIGHT, VERTICAL, NW, Y, X, INSERT, CURRENT, TOP, NSEW
 
 import Colors
 import tools
-from ForkableSheet import ForkableSheet
 from Sheet import Sheet
 from TreeSheet import TreeSheet
 from tools import on_event, bind_tree, iterate_tree
 
 
 class SheetTree(tk.Frame):
-    def __init__(self, parent, *args, **kw):
-        super().__init__(parent, name="st", highlightthickness=3, highlightcolor=Colors.highlight, *args, **kw)
+    def __init__(self, parent, name="st", **kw):
+        super().__init__(parent, highlightthickness=3, highlightcolor=Colors.highlight, name=name, **kw)
 
-        self.canvas = tk.Canvas(self, name="c")# background="lightcyan")
+        self.canvas = tk.Canvas(self, name="c", background="#f5fff0")
         self.scrollbar = tk.Scrollbar(self, orient=VERTICAL, command=self.canvas.yview, width=18, takefocus=False, borderwidth=2)
         self.canvas.configure(yscrollcommand=self.scrollbar.set)
         self.scrollbar.pack(side=RIGHT, fill=Y)

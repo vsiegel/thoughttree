@@ -109,6 +109,12 @@ class Thoughttree(Ui):
             log_motion_on_ctrl_alt(self, log_heights)
             # screenshot_after_input(self, "thoughttree")
 
+        self.update()
+        InitialSheetHelp(self.system, *sheet_help("System prompt - [?]"))
+        InitialSheetHelp(self.sheet_tree.sheet , *sheet_help("User prompt - Chat - [?]"))
+        InitialSheetHelp(self.detail, *sheet_help("Details - [?]"))
+
+
         if self.main_window:
             self.root.mainloop()
 
@@ -171,11 +177,8 @@ class Thoughttree(Ui):
             self.console_pane.fold(set_folded=True)
             self.tree_pane.fold(set_folded=False)
             self.detail_pane.fold(set_folded=False)
-            self.toTop()
-            InitialSheetHelp(self.system, *sheet_help("System prompt - [?]"))
-            InitialSheetHelp(self.sheet_tree.sheet , *sheet_help("User prompt - Chat - [?]"))
-            InitialSheetHelp(self.detail, *sheet_help("Details - [?]"))
         bound_pane.bind("<Configure>", on_first_configure)
+        self.toTop()
 
         if type(sys.stdout) is not TextIOTee:
             sys.stdout = TextIOTee(sys.stdout, self.console.out)

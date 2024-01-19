@@ -123,7 +123,8 @@ class TooltipableMenu(tk.Frame):
 
     def close(self, event=None) -> bool:
         if self.popup:
-            self.old_focus.focus_set()
+            if self.old_focus:
+                 self.old_focus.focus_set()
             self.popup.destroy()
             self.popup = None
             if isinstance(self.parent, MenuBar):

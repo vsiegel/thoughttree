@@ -13,15 +13,7 @@ class Notebook(ttk.Notebook):
             style.configure(style_name, bd=0, highlightthickness=0, background=background)
         super().__init__(parent_frame, style=style_name, takefocus=takefocus, name="nb", **kw)
         self.enable_traversal()
-
-
-    def on_empty_background(self, event):
-        print(f"on_empty_background {self=} {self.identify(event.x, event.y)=}")
-        frame: tk.Frame = self.nametowidget(self.select())
-        print(f"{frame=} {type(frame)=}")
-        sheet = frame.pack_slaves()[0]
-        print(f"{sheet=} {type(sheet)=}")
-        sheet.focus_set()
+        self.bind("<Button>", self.on_empty_tabbar, add=True)
 
 
     def add_sheet(self, title, parent_sheet=None):
@@ -30,11 +22,9 @@ class Notebook(ttk.Notebook):
                 tk.Frame.__init__(self, parent)  # Warning: Naming the frame causes errors (name="...").
         NotebookAdapterFrame = NAF
 
-        self.bind("<Button-1>", self.on_empty_background, add=True)
-        # print(f"add_sheet start {title=} {len(self.tabs())=}")
-        adapter_frame = NotebookAdapterFrame(self, background="f0e5f2")
-        # adapter_frame.pack_propagate(False)
-        # print(f"add_sheet 2 {title=} {len(self.tabs())=}")
+        # NotebookAdapterFrame = NAF
+
+        adapter_frame = NotebookAdapterFrame(self, background="#f0e5f2", borderwidth=0, highlightthickness=0)
         from TreeSheet import TreeSheet
         sheet = TreeSheet(adapter_frame, parent_sheet=parent_sheet, parent_notebook=self, name=title.replace(".", "_"))
         sheet.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
@@ -44,10 +34,17 @@ class Notebook(ttk.Notebook):
         return sheet
 
 
+    def on_empty_tabbar(self, event):
+        if not event.widget.identify(event.x, event.y):
+            event.widget.tk_focusPrev().focus_set()
+
+
     def selected_sheet(self):
         if not self.select():
             return None
-        sheet = self.nametowidget(self.select()).sheet
+        frame = self.nametowidget(self.select())
+        print(f"{frame=}")
+        sheet = frame.sheet
         return sheet
 
     def child_sheets(self):

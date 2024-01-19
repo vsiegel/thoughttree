@@ -63,12 +63,12 @@ class TreeSheet(ResizingSheet, tk.Frame):
             self.split_sheet(to_sheet=sheet, starting=index)
             notebook = self.notebook
 
-        sibling = new_sibling_title(notebook)
+        sibling_title = new_sibling_title(notebook)
         if notebook == self.parent_notebook:
             parent = self.parent_sheet
         else:
             parent = self
-        sheet = notebook.add_sheet(sibling, parent)
+        sheet = notebook.add_sheet(title=sibling_title, parent_sheet=parent)
         # sheet = self.add()
         # self.split_sheet(sheet, index)
         # self.delete(index, END)

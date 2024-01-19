@@ -3,9 +3,7 @@ from tkinter import INSERT, END
 
 
 
-# class LineHandling(ScrolledText):
-class LineHandling:
-
+class LineHandling(tk.Text):
     def jump_to_similar_line(self, event=None, direction=1):
 
         def find_similar_line(target, line_nr_1, lines, direction):

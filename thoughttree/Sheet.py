@@ -90,7 +90,7 @@ class Sheet(ScrolledText, LineHandling):
 
 
     def split_sheet(self, to_sheet,  starting):
-        trailing_text = self.get(starting, END)#.lstrip("\n")
+        trailing_text = self.get(starting, END)
         if self.get(starting) == "\n":
             trailing_text = trailing_text[1:]
         print(repr(self.get(starting)))

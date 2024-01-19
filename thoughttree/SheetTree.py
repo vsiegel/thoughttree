@@ -35,10 +35,6 @@ class SheetTree(tk.Frame):
 
         self.winfo_toplevel().bind("<Control-Alt-Shift-S>", self.debug)
 
-        self.sheet.insert(INSERT, "\n\n")
-        self.add("1. Abc")
-        self.add("2. Def")
-
 
     def add(self, text=""):
         self.sheet.add(text)

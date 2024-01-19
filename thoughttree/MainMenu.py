@@ -107,6 +107,10 @@ class MainMenu(MenuBar):
         def insert_current_time(event=None):
             self.it.insert(INSERT, f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} ")
 
+        # def inspect_application(event=None):
+        #     from objbrowser import browse
+        #     browse(self.ui)
+        #
         def debug_info(event=None):
 
             import pyautogui
@@ -343,6 +347,7 @@ class MainMenu(MenuBar):
         help_menu.add_item("GPT Models", None, web("https://platform.openai.com/docs/models"))
         help_menu.add_item("OpenAI Pricing", None, web("https://openai.com/pricing"))
         help_menu.add_item("Debug Info", "<Control-Alt-Shift-I>", debug_info)
+        # help_menu.add_item("Inspect Application", "<Control-Alt-Shift-B>", inspect_application)
         help_menu.add_item("About", "<Control-F1>", lambda e=None: AboutDialog(self.ui))
 
         ui.bind_class("Text", "<Control-Button-4>", lambda e=None: Sheet.font_size_all(1))

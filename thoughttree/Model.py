@@ -63,8 +63,7 @@ class Model:
                 request_timeout=5 # undocumented #todo
             )
         except Exception as ex:
-            if self.descriptive_name:
-                error_title = self.descriptive_name or "completion"
+            error_title = self.descriptive_name or "completion"
             return self.error("", f"Error in {error_title}: {self.name}", ex) + ("",)
 
         return self.accept_response(on_increment, response)

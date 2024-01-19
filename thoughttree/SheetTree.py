@@ -20,8 +20,6 @@ class SheetTree(tk.Frame):
         self.canvas.pack(side=LEFT, fill=BOTH, expand=True)
 
         self.frame = tk.Frame(self.canvas, bd=0, background="#eeeeff", name="cf")
-        self.frame.bind("<Configure>", self.configure_scrollregion, add=True)
-
         self.frame_id = self.canvas.create_window((0, 0), window=self.frame, anchor=NW)
 
         self.y_spacer = tk.Frame(self.frame, width=0, background="#baabbc")
@@ -36,6 +34,7 @@ class SheetTree(tk.Frame):
         self.add_wheel_scrolling()
 
         self.canvas.bind("<Configure>", self.configure_frame, add=True)
+        self.frame.bind("<Configure>", self.configure_scrollregion, add=True)
 
         self.winfo_toplevel().bind("<Control-Alt-Shift-S>", self.debug)
 
@@ -45,11 +44,10 @@ class SheetTree(tk.Frame):
         self.y_spacer.configure(height=event.height)
 
     def configure_scrollregion(self, event):
-        print(f"configure_scrollregion: {self} {self.canvas.bbox('all')=}")
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))
 
 
-    def add_scrolling(self):
+    def add_wheel_scrolling(self):
         def on_mousewheel(event):
             delta = (event.num == 5 and 1 or -1)
             if self.in_canvas(event.x_root, event.y_root):
@@ -75,8 +73,8 @@ class SheetTree(tk.Frame):
         sheet = self.focus_get()
         if not str(sheet).startswith(str(self)):
             raise Exception(f"{sheet} is not in SheetTree")
-        if not isinstance(sheet, ForkableSheet):
-            raise Exception(f"{sheet} is not a ForkableSheet")
+        if not isinstance(sheet, TreeSheet):
+            raise Exception(f"{sheet} is not a TreeSheet") #fixme
         sheet.update_tab_title()
 
     def debug(self, event):
@@ -87,10 +85,10 @@ class SheetTree(tk.Frame):
 
 if __name__ == "__main__":
     root = tk.Tk()
-    root.geometry("100x200")
+    # root.geometry("100x200")
     tools.escapable(root)
-    widget = TreeSheet(root)
+    widget = SheetTree(root)
     widget.pack(side=LEFT, fill=BOTH, expand=True)
-    widget.pack_propagate(False)
+    # widget.pack_propagate(False)
     widget.focus_set()
     root.mainloop()

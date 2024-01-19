@@ -9,6 +9,13 @@ from ResizingSheet import ResizingSheet
 from Sheet import Sheet
 from Title import new_child_title, new_sibling_title, Title
 
+
+class NF(tk.Frame):  # NF short for NotebookFrame - the name appears in widget names, making them longer.
+    def __init__(self, parent, name=None):
+        tk.Frame.__init__(self, parent, name=name)
+        self.sheet = None
+
+
 class TreeSheet(ResizingSheet, tk.Frame):
     # def __init__(self, parent, name="ts", **kw):
     def __init__(self, parent, parent_sheet=None,  height=1, width=250, parent_notebook=None, parent_sheet_tree=None, name="ts", *args, **kw):

@@ -42,7 +42,6 @@ class TreeSheet(ResizingSheet, tk.Frame):
         print(f"create_child_notebook {self=}")
         if not self.notebook:
             self.notebook = self.get_notebook()
-            self.pack_configure(expand=False) #fixme
             first_child_title = new_child_title(self.parent_notebook)
             # self.child_notebook.bind("<<NotebookTabChanged>>", self.grow_to_displaylines)
             return self.notebook.add_sheet(first_child_title, parent_sheet=self)

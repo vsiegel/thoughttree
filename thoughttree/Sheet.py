@@ -24,11 +24,12 @@ class Sheet(ScrolledText, LineHandling):
 
     def __init__(self, master=None, scrollbar=True, name="s", wrap=WORD, width=80, borderwidth=0,
                  highlightthickness=1, highlightcolor="lightgray",  insertbackground="#000",
-                 insertwidth=3, insertunfocussed="hollow", #"none", "solid","hollow",
+                 insertwidth=3, insertunfocussed="none", #"none", "solid","hollow",
                  padx=0, pady=0, height=0, background='white', text="", **kw):
         ScrolledText.__init__(
             self, master, undo=True, wrap=wrap, padx=padx, pady=pady, background=background,
-            width=width, height=height, insertwidth=insertwidth, insertunfocussed=insertunfocussed,  insertbackground=insertbackground, font=Fonts.FONT, insertborderwidth=1,
+            width=width, height=height, insertwidth=insertwidth, insertunfocussed=insertunfocussed,  insertbackground=insertbackground,
+            font=Fonts.FONT, insertborderwidth=1,
             border=0, borderwidth=borderwidth, highlightthickness=highlightthickness, highlightcolor=highlightcolor,
             highlightbackground="white", selectbackground="#66a2d4", selectforeground="white", name=name, **kw)
         self.frame.widgetName = "stf"
@@ -78,20 +79,13 @@ class Sheet(ScrolledText, LineHandling):
         if text:
             self.insert(END, text)
 
-        # self.bind('<<Modified>>', self.grow_to_displaylines, add=True)
-
-    # def grow_to_displaylines(self, event: tk.Event):
-    #     print(f"grow_to_displaylines")
-    #     if self.edit_modified():
-    #         print(f"modified")
-    #         sheet:Sheet = event.widget
-    #         sheet.count("1.0", "end", "update")
-    #         ypixels = sheet.count("1.0", "end lineend", 'ypixels')[0]
-    #
-    #         print(f"{ypixels=}")
-    #         # sheet.frame.configure(height=ypixels)
-    #         sheet.frame.configure(height=ypixels, width=sheet.winfo_width())
-    #         sheet.edit_modified(False)
+    def split_sheet(self, to_sheet,  starting):
+        trailing_text = self.get(starting, END)#.lstrip("\n")
+        if self.get(starting) == "\n":
+            trailing_text = trailing_text[1:]
+        print(repr(self.get(starting)))
+        to_sheet.insert("1.0", trailing_text)
+        self.delete(starting, END)
 
 
     def insert_file(self, index, file):

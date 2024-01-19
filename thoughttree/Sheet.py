@@ -22,7 +22,7 @@ class Sheet(ScrolledText, LineHandling):
     instances = []
     common_font_size = Fonts.FONT[1]
 
-    def __init__(self, master=None, scrollbar=True, name="s", wrap=WORD, width=80, borderwidth=0,
+    def __init__(self, master=None, scrollbar=True, name="s", wrap=WORD, width=40, borderwidth=0,
                  highlightthickness=1, highlightcolor="lightgray",  insertbackground="#000",
                  insertwidth=3, insertunfocussed="none", #"none", "solid","hollow",
                  padx=0, pady=0, height=0, background='white', text="", **kw):

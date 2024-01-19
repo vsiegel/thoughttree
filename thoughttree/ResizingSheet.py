@@ -6,10 +6,10 @@ from Sheet import Sheet
 
 
 class ResizingSheet(Sheet):
-    def __init__(self, parent=None, scrollbar=False, name="rs", **kw):
+    def __init__(self, parent=None, scrollbar=False, name="rs", width=1000, **kw):
         self.resizing_frame = tk.Frame(parent, name=name + "f")
-        Sheet.__init__(self, self.resizing_frame, scrollbar=scrollbar, name=name, **kw)
-        self.pack(side=LEFT, fill=BOTH, expand=False)
+        Sheet.__init__(self, self.resizing_frame, scrollbar=scrollbar, name=name, width=width, **kw)
+        self.pack(side=LEFT, fill=BOTH, expand=True)
         self.copy_packing(self.resizing_frame, Sheet)
         self.parent = parent
         self.bind('<<Modified>>', self.resize_to_content, add=True)

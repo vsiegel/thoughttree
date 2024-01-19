@@ -24,11 +24,16 @@ class SheetTree(tk.Frame):
 
         self.frame_id = self.canvas.create_window((0, 0), window=self.frame, anchor=NW)
 
+        self.y_spacer = tk.Frame(self.frame, width=0, background="#baabbc")
+        self.y_spacer.pack(side=LEFT, fill=Y)
 
-        self.sheet = ForkableSheet(parent_frame=self.frame, )
+        self.sheet = TreeSheet(self.frame)
         self.sheet.pack(side=TOP, expand=True, fill=BOTH)
 
-        self.add_scrolling()
+        self.add("1. Abc")
+        self.add("2. Def")
+
+        self.add_wheel_scrolling()
 
         self.canvas.bind("<Configure>", self.configure_frame, add=True)
 
@@ -36,7 +41,8 @@ class SheetTree(tk.Frame):
 
 
     def configure_frame(self, event):
-        self.canvas.itemconfigure(self.frame_id, width=event.width, height=event.height)
+        self.canvas.itemconfigure(self.frame_id, width=event.width)
+        self.y_spacer.configure(height=event.height)
 
     def configure_scrollregion(self, event):
         print(f"configure_scrollregion: {self} {self.canvas.bbox('all')=}")

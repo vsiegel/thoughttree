@@ -64,7 +64,6 @@ class TooltipableMenu(tk.Frame):
         if not self.popup:
             self.popup = tk.Toplevel(self, bd=3, relief='raised', bg='lightgray')
             self.popup.wm_overrideredirect(True)
-            self.popup.bind("<Enter>", self.keep_open, add=True)
             self.frame = tk.Frame(self.popup, takefocus=True, bg='lightgray')
             self.frame.pack()
             self.old_focus = self.focus_get()
@@ -75,7 +74,9 @@ class TooltipableMenu(tk.Frame):
                 self.close()
 
             self.frame.bind("<Enter>", lambda e: self.frame.grab_set(), add=True)
+            self.frame.bind("<Escape>", self.close, add=True)
             self.frame.bind("<Button>", on_button, add=True)
+            self.popup.bind("<Enter>", self.keep_open, add=True)
             self.popup.bind("<Escape>", self.close, add=True)
             MenuHelpTooltip(self.frame)
             self.populate_menu()

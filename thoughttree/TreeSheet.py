@@ -104,11 +104,8 @@ class TreeSheet(ResizingSheet, tk.Frame):
         # sheet.pack(fill=BOTH, expand=True)
         self.notebook.add(sheet)
 
-    def sheet_configure(self, event):
-        print(f"sheet_configure: {event=} on {event.widget=} rh: {event.widget.winfo_reqheight()}")
-
-    def notebook_configure(self, event):
-        print(f"notebook_configure: {event=} on {event.widget=} rh: {event.widget.winfo_reqheight()}")
+    def __str__(self):
+        return str(self.tree_frame)
 
     def update_tab_title(self, event=None):
         def get():

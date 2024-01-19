@@ -13,4 +13,6 @@ pmt_prompt_file_format = """
 ...
 ### Explanation:
 ...
+### Example input:
+### Example output:
 """ # All sections are optional

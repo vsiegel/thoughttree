@@ -183,6 +183,9 @@ class Thoughttree(Ui):
             self.tree_pane.fold(set_folded=False)
             self.detail_pane.fold(set_folded=False)
             self.toTop()
+            InitialSheetHelp(self.system, *sheet_help("System prompt - [?]"))
+            InitialSheetHelp(self.sheet_tree.sheet , *sheet_help("User prompt - Chat - [?]"))
+            InitialSheetHelp(self.detail, *sheet_help("Details - [?]"))
         bound_pane.bind("<Configure>", on_first_configure)
 
         if type(sys.stdout) is not TextIOTee:
@@ -194,9 +197,6 @@ class Thoughttree(Ui):
 
         self.sheet_tree.focus_set()
 
-        InitialSheetHelp(self.system, *sheet_help("System prompt - [?]"))
-        InitialSheetHelp(self.sheet_tree.sheet, *sheet_help("User prompt - Chat - [?]"))
-        InitialSheetHelp(self.detail, *sheet_help("Details - [?]"))
 
     def configure_ui_options(self):
         size = 12

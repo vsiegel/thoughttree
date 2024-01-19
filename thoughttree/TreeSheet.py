@@ -28,7 +28,7 @@ class TreeSheet(ResizingSheet, tk.Frame):
         self.parent_notebook = parent_notebook
         self.notebook = None
 
-        self.tree_frame.bind("<Button-1>", self.on_empty_background, add=True)
+        self.tree_frame.bind("<Button>", self.on_empty_background, add=True)
 
         self.copy_packing(self.tree_frame, ResizingSheet)
 

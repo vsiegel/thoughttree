@@ -8,9 +8,9 @@ from tkinter.messagebox import askokcancel
 from AboutDialog import AboutDialog
 from Files import Files
 from Fonts import Fonts
-from ForkableSheet import ForkableSheet
 from Log import Log
 from ModelsMenu import ModelsMenu
+from TreeSheet import TreeSheet
 from WindowsMenu import WindowsMenu
 from IterateRangeForm import IterateRangeForm
 from Keys import Keys
@@ -33,7 +33,7 @@ class MainMenu(MenuBar):
 
 
     @property
-    def it(self) -> ForkableSheet:
+    def it(self) -> TreeSheet:
         return self.ui.it
 
 
@@ -129,7 +129,7 @@ class MainMenu(MenuBar):
 
             # print_height(self.ui.chat_sheet, "chat_sheet")
 
-            sheet: ForkableSheet = self.ui.sheet_tree.sheet
+            sheet: TreeSheet = self.ui.sheet_tree.sheet
             while sheet:
                 print_height(sheet, "sheet: " + str(sheet))
                 if sheet.child_notebook:

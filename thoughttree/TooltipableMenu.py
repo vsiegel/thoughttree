@@ -76,7 +76,7 @@ class TooltipableMenu(tk.Frame):
 
             self.frame.bind("<Enter>", lambda e: self.frame.grab_set(), add=True)
             self.frame.bind("<Button>", on_button, add=True)
-            # self.frame.bind("<Leave>", self.close, add=True)
+            self.popup.bind("<Escape>", self.close, add=True)
             MenuHelpTooltip(self.frame)
             self.populate_menu()
             if isinstance(self.parent, MenuBar):

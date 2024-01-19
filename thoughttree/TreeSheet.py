@@ -154,28 +154,27 @@ class TreeSheet(ResizingSheet, tk.Frame):
 
 
     def close_tab(self):
-        notebook: Notebook = self.parent_notebook
-        if notebook and notebook.tabs():
-            print(f"{self.focus_get()    =}")
-            selected = notebook.index(CURRENT)
-            # sheet = selected_sheet(notebook)
-            sheet = notebook.selected_sheet()
-            notebook.forget(selected)
+        parent: Notebook = self.parent_notebook
+        if parent and parent.tabs():
+            selected = parent.index(CURRENT)
+            sheet = parent.selected_sheet()
+            parent.forget(selected)
+            print(f"      {selected=}")
 
-            if notebook.tabs():
-                notebook.select(max(selected - 1, 0))
-                print(f"{sheet           =}")
-                notebook.selected_sheet().focus_set()
-                print(f"{self.focus_get()=}")
-                sheet.insert(END, "c")
+            if parent.tabs():
+                print(f"tabs: ")
+                parent.select(max(selected - 1, 0))
+                parent.selected_sheet().focus_set()
             else:
+                print(f"not tabs: ")
                 tab_text = sheet.get('1.0', 'end-1c')
                 self.parent_sheet.insert(END, tab_text)
                 self.parent_sheet.mark_set(INSERT, 'end-1c')
                 self.parent_sheet.focus_set()
-                self.parent_notebook.pack_forget()
-                self.parent_notebook = None
+                # self.parent_notebook.pack_forget()
+                # self.parent_notebook = None
                 self.pack_configure(expand=True)
+                # self.parent = None
             return "break"
 
 

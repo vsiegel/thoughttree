@@ -7,7 +7,7 @@ def split_title(hierarchical_id):
         hierarchical_id_and_title = hierarchical_id.split(' ', 1)
         hierarchical_id = hierarchical_id_and_title[0]
         title = len(hierarchical_id_and_title) == 2 and hierarchical_id_and_title[1] or ""
-        levels = hierarchical_id.split('.')
+        levels = hierarchical_id.strip('.').split('.')
     else:
         title = ''
         levels = []
@@ -24,6 +24,7 @@ def next_level(hierarchical_id):
 
 
 def next_equal(hierarchical_id):
+    print(f"{hierarchical_id=}")
     hierarchical_id, levels, title = split_title(hierarchical_id)
     levels = levels or ['0']
     levels = levels[:-1] + [str(int(levels[-1]) + 1)]
@@ -39,9 +40,9 @@ def short(widget_names):
 
 def new_sibling_title(sibling_notebook):
     previous_tab_label = sibling_notebook and sibling_notebook.tabs() and sibling_notebook.tab(len(sibling_notebook.tabs()) - 1, "text") or ""
-    print(f"{previous_tab_label=}")
+    # print(f"{previous_tab_label=}")
     next_tab_label = next_equal(previous_tab_label)
-    print(f"{next_tab_label=}")
+    # print(f"{next_tab_label=}")
     return next_tab_label
 
 def new_child_title(parent: Notebook):

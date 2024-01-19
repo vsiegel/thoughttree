@@ -18,9 +18,9 @@ class NF(tk.Frame):  # NF short for NotebookFrame - the name appears in widget n
 
 class TreeSheet(ResizingSheet, tk.Frame):
     # def __init__(self, parent, name="ts", **kw):
-    def __init__(self, parent, parent_sheet=None,  height=1, width=250, parent_notebook=None, parent_sheet_tree=None, name="ts", *args, **kw):
-        self.tree_frame = tk.Frame(parent, background="#e8eaff", name=name + "f")
-        ResizingSheet.__init__(self, self.tree_frame, scrollbar=False, name=name, **kw)
+    def __init__(self, parent, parent_sheet=None,  height=1, width=250, parent_notebook=None, parent_sheet_tree=None, name="ts", **kw):
+        self.tree_frame = tk.Frame(parent, name=name + "f", borderwidth=0, highlightthickness=0, background="#fff")
+        ResizingSheet.__init__(self, self.tree_frame, scrollbar=False, name=name, borderwidth=0, highlightthickness=0, **kw)
         self.pack(side=tk.TOP, fill=X, expand=False, anchor=tk.N)
 
         self.initially_modified = False

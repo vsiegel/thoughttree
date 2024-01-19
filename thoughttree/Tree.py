@@ -183,6 +183,7 @@ class Tree(ttk.Treeview):
                     self.ui.detail.insert("1.0", text)
         finally:
             self.ui.detail.configure(state=DISABLED)
+        self.ui.detail.edit_modified(False)
         return "break"
 
     def print(self, iid):

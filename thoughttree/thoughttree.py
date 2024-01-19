@@ -13,7 +13,6 @@ import Colors
 from Console import Console
 from FinishReasonIcon import FinishReasonIcon
 from FoldablePane import FoldablePane
-from ForkableSheet import ForkableSheet
 from History import History
 from InsertionIcon import InsertionIcon
 from Keys import Keys
@@ -30,6 +29,7 @@ from StatusBar import StatusBar
 from Sheet import Sheet, OUTPUT
 from MainMenu import MainMenu
 from Tree import Tree
+from TreeSheet import TreeSheet
 from Ui import Ui
 from WaitCursor import WaitCursor
 from finish_reasons import finish_reasons
@@ -64,7 +64,7 @@ class Thoughttree(Ui):
     def __init__(self, argv=None):
         Ui.__init__(self, title="Thoughttree", name="tt", icon_path=WINDOW_ICON, closeable=False)
         self.show_hidden_prompts = None
-        self.current_sheet: ForkableSheet|None = None
+        self.current_sheet: TreeSheet|None = None
         self.status_hider = None
         self.status = None
         self.console = None
@@ -164,7 +164,7 @@ class Thoughttree(Ui):
         self.system = Sheet(self.system_pane, height=3, highlightthickness=2, highlightcolor=Colors.highlight)
         self.sheet_tree = SheetTree(self.system_pane)
 
-        self.current_sheet: ForkableSheet = self.sheet_tree.sheet
+        self.current_sheet: TreeSheet = self.sheet_tree.sheet
 
         self.console_pane.add(self.tree_pane)
         self.console_pane.addFoldable(self.console)
@@ -473,6 +473,7 @@ class Thoughttree(Ui):
     @property
     def it(self) -> Sheet:
         focussed = self.focus_get()
+        # print(f'{type(focussed)=}')
         # if focussed == self.system:
         #     self.system.tk_focusNext().focus()
         #     focussed = self.focus_get()

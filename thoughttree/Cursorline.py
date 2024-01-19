@@ -18,9 +18,9 @@ class Cursorline:
             e.widget.tag_add('cursorline', 'insert display linestart', 'insert display lineend+1c')
 
     def clear(self, e=None):
-        from ForkableSheet import ForkableSheet
+        from TreeSheet import TreeSheet
         try:
-            if not isinstance(e.widget, ForkableSheet) or isinstance(e.widget.focus_get(), ForkableSheet):
+            if not isinstance(e.widget, TreeSheet) or isinstance(e.widget.focus_get(), TreeSheet):
                 self.show(e, add=False)
         except KeyError:
             pass

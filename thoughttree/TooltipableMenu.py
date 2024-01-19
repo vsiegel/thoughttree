@@ -63,15 +63,12 @@ class TooltipableMenu(tk.Frame):
     def create_popup(self, event, x=None, y=None):
         if not self.popup:
             self.popup = tk.Toplevel(self, bd=3, relief='raised', bg='lightgray')
-            # self.popup.grab_set() # todo
             self.popup.wm_overrideredirect(True)
             self.popup.bind("<Enter>", self.keep_open, add=True)
-            self.popup.bind("<Escape>", self.close, add=True)
             self.frame = tk.Frame(self.popup, takefocus=True, bg='lightgray')
             self.frame.pack()
             self.old_focus = self.focus_get()
             self.frame.focus_set()
-            # self.frame.wait_visibility()
 
             def on_button(e):
                 self.frame.grab_release()
@@ -89,6 +86,7 @@ class TooltipableMenu(tk.Frame):
             y = self.winfo_rooty() + self.winfo_height()
         self.popup.wm_geometry(f"+{x}+{y}")
 
+
     def populate_menu(self):
         for text, keystroke, command, underline in self.items:
             if text == '-':
@@ -98,6 +96,7 @@ class TooltipableMenu(tk.Frame):
                 item = MenuItem(self.frame, self, text, keystroke, command, underline)
                 item.pack(fill='x')
                 self.menu_items.append(item)
+
 
     def show_context_menu(self, event):
         if event.type == tk.EventType.KeyPress:

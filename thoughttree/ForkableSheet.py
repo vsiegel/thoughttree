@@ -119,7 +119,6 @@ class ForkableSheet(Sheet):
         else:
             parent = self
         sheet = notebook.add_sheet(sibling, parent)
-        # copy_trailing_text(self, sheet, index)
         self.delete(index, END)
         return "break"
 
@@ -146,7 +145,6 @@ class ForkableSheet(Sheet):
 
 
     def close_tab(self):
-
         notebook: Notebook = self.parent_notebook
         if notebook and notebook.tabs():
             print(f"{self.focus_get()    =}")

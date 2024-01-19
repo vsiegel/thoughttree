@@ -86,6 +86,7 @@ class Thoughttree(Ui):
         except:
             print("Error loading icon.")
 
+
         self.scroll_output = conf.scroll_output
         self.ring_bell_after_completion = conf.ring_bell_after_completion
         self.log_messages_to_console = conf.log_messages_to_console

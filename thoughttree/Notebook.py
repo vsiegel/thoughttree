@@ -17,10 +17,12 @@ class Notebook(ttk.Notebook):
 
 
     def add_sheet(self, title, parent_sheet=None):
-        class NAF(tk.Frame):  # NotebookAdapterFrame - the name appears in widget names, making them longer.
+        print(f"Nb.add_sheet: {title=}")
+        # class NAF(tk.Frame):  # NotebookAdapterFrame - the name appears in widget names, making them longer.
+        class NotebookAdapterFrame(tk.Frame):
             def __init__(self, parent, **kw):
-                tk.Frame.__init__(self, parent)  # Warning: Naming the frame causes errors (name="...").
-        NotebookAdapterFrame = NAF
+                tk.Frame.__init__(self, parent, **kw)  # Warning: Naming the frame causes errors (name="...").
+                self.sheet = None
 
         # NotebookAdapterFrame = NAF
 
@@ -28,6 +30,7 @@ class Notebook(ttk.Notebook):
         from TreeSheet import TreeSheet
         sheet = TreeSheet(adapter_frame, parent_sheet=parent_sheet, parent_notebook=self, name=title.replace(".", "_"))
         sheet.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+        adapter_frame.sheet = sheet
         self.insert(END, adapter_frame, text=title)
         self.select(adapter_frame)
         sheet.focus_set()

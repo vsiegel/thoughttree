@@ -32,6 +32,17 @@ class Ui(tk.Frame):
         title = f"{title}{number}"
         self.window_setup(title, icon_path)
 
+    def configure_geometry(self, argv, root_geometry="800x600", min_size=(200, 200)):
+        if argv and "-geometry" in argv:
+            geometry = argv[argv.index("-geometry") + 1]
+            if geometry.startswith('+'):
+                geometry = root_geometry + geometry
+            print(f"{geometry=}")
+        else:
+            geometry = root_geometry
+        self.root.geometry(geometry)
+        self.root.minsize(*min_size)
+
     def window_setup(self, name, icon_path):
         self.root.title(name)
         self.root.wm_title(name)

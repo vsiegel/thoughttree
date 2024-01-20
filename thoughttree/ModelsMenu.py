@@ -33,6 +33,6 @@ class ModelsMenu(TooltipableMenu):
                 name = "ChatGPT " + name
             command = lambda e=None, model=name: self.selected_model.set(model)
             self.item(name, key, command)#, variable=self.selected_model, to=self.ui.root)
-        self.add_separator()
+        self.separator()
         self.item("Reload Available Models", None, self.load_available_models)
         return len(models)

@@ -39,10 +39,10 @@ class TooltipableMenu(tk.Frame):
         if menu2:
             menu2.item(label, None, command, underline, add=add)
 
-    def add_cascade(self, label, menu, underline=-1):
+    def cascade(self, label, menu, underline=-1):
         self.items.append((label, None, menu, "tooltip", underline))
 
-    def add_separator(self):
+    def separator(self):
         self.items.append(('-', '-', '-', -1))
 
     def insert_command(self, index, label, underline=-1, accelerator=None, state=tk.NORMAL, command=None):

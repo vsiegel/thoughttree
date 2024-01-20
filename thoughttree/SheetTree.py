@@ -13,9 +13,13 @@ class SheetTree(tk.Frame):
         super().__init__(parent, highlightthickness=3, highlightcolor=Colors.highlight, name=name, **kw)
 
         self.canvas = tk.Canvas(self, name="c", background="#f5fff0")
+        def log_call(*args):
+            # print(f"log_call " + str(args))
+            self.scrollbar.set(*args)
         self.scrollbar = tk.Scrollbar(self, orient=VERTICAL, command=self.canvas.yview, width=18, takefocus=False, borderwidth=2)
-        self.canvas.configure(yscrollcommand=self.scrollbar.set)
+        self.canvas.configure(yscrollcommand=log_call)
         self.scrollbar.pack(side=RIGHT, fill=Y)
+
 
         self.canvas.pack(side=LEFT, fill=BOTH, expand=True)
 

@@ -11,8 +11,8 @@ from Title import new_child_title, new_sibling_title, Title
 
 
 class NF(tk.Frame):  # NF short for NotebookFrame - the name appears in widget names, making them longer.
-    def __init__(self, parent, name=None):
-        tk.Frame.__init__(self, parent, name=name)
+    def __init__(self, parent, name=None, **kw):
+        tk.Frame.__init__(self, parent, name=name, **kw)
         self.sheet = None
 
 

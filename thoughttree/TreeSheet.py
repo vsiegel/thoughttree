@@ -27,10 +27,57 @@ class TreeSheet(ResizingSheet, tk.Frame):
         self.parent_sheet = parent_sheet
         self.parent_notebook = parent_notebook
         self.notebook = None
+        self.sheet_tree = sheet_tree
+
+        self.copy_packing(self.tree_frame, ResizingSheet)
 
         self.tree_frame.bind("<Button>", self.on_empty_background, add=True)
 
-        self.copy_packing(self.tree_frame, ResizingSheet)
+        def on_up(event):
+            sheet = event.widget
+            if sheet.at_first_line() and self.parent_sheet:
+                self.parent_sheet.focus_set()
+
+        def on_down(event):
+            sheet = event.widget
+            if sheet.at_first_line and self.notebook:
+                self.notebook.selected_sheet().focus_set()
+
+        def on_key(event):
+            # print(f"on_key {event.keysym}")
+            sheet = event.widget
+            # sheet.update()
+            # sheet.see(INSERT)
+            # print(f"I: {sheet.bbox(INSERT)} E: {sheet.bbox('end')} A: {sheet.bbox('all')}")
+            # print(f" 1: {sheet.bbox('1.0')} E-1: {sheet.bbox('end-1c')}")
+            # print(f" x: {sheet.winfo_rootx()=} x: {sheet.winfo_rooty()=}")
+            # print(f"{sheet.winfo_=}")
+        self.bind("<Key>", on_key, add=True)
+        self.bind("<Up>", on_up, add=True)
+        self.bind("<Down>", on_down, add=True)
+
+
+    def focusNextSheet(self):
+        self.tk_focusNext().focus_set()
+
+    def focusPrevSheet(self):
+        self.tk_focusPrev().focus_set()
+
+    def tk_focusNext(self):
+        if self.sheet_tree:
+            print(f"{self.sheet_tree.tk_focusNext()=}")
+            widget = self.sheet_tree.tk_focusNext()
+        else:
+            widget = super().tk_focusNext()
+        widget.focus_set()
+
+    def tk_focusPrev(self):
+        if self.sheet_tree:
+            print(f"{self.sheet_tree.tk_focusPrev()=}")
+            widget = self.sheet_tree.tk_focusPrev()
+        else:
+            widget = super().tk_focusPrev()
+        widget.focus_set()
 
     def get_notebook(self) -> Notebook:
         if not self.notebook:
@@ -39,7 +86,6 @@ class TreeSheet(ResizingSheet, tk.Frame):
         return self.notebook
 
     def create_child_notebook(self): # make sure we have a notebook
-        print(f"create_child_notebook {self=}")
         if not self.notebook:
             self.notebook = self.get_notebook()
             first_child_title = new_child_title(self.parent_notebook)
@@ -74,10 +120,9 @@ class TreeSheet(ResizingSheet, tk.Frame):
         return "break"
 
     def add(self, text=""):
-
         notebook = self.get_notebook()
         frame = NF(notebook)
-        sheet = TreeSheet(frame, parent_sheet=self, parent_notebook=notebook, name="title")
+        sheet = TreeSheet(frame, parent_sheet=self, parent_notebook=notebook, sheet_tree=self.sheet_tree, name="title")
         frame.sheet = sheet
         sheet.pack(side=tk.TOP, fill=BOTH, expand=True)
         notebook.add(frame, text=text, sticky=NSEW)

@@ -21,6 +21,7 @@ from SheetTree import SheetTree
 from InitialSheetHelp import InitialSheetHelp
 from Improvement import Improvement
 from TextIOTee import TextIOTee
+from ExceptionBlockedIO import ExceptionBlockedIO
 from Title import Title
 from HidableFrame import HidableFrame
 from Model import Model
@@ -182,9 +183,9 @@ class Thoughttree(Ui):
         self.toTop()
 
         if type(sys.stdout) is not TextIOTee:
-            sys.stdout = TextIOTee(sys.stdout, self.console.out)
+            sys.stdout = TextIOTee(ExceptionBlockedIO(sys.stdout), self.console.out)
         if type(sys.stderr) is not TextIOTee:
-            sys.stderr = TextIOTee(sys.stderr, self.console.err)
+            sys.stderr = TextIOTee(ExceptionBlockedIO(sys.stderr), self.console.err)
 
         self.menu.create_menu()
 

@@ -53,3 +53,16 @@ class LineHandling(tk.Text):
 
         self.mark_set(tk.INSERT, limit)
         self.see(tk.INSERT)
+
+
+    def line(self, index):
+        return self.index(index).split(".")[0]
+
+
+    def at_first_line(self):
+        return self.line(INSERT) == self.line('1.0')
+
+
+    def at_last_line(self):
+        return self.line(INSERT) == self.line('end-1c')
+

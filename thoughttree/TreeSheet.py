@@ -57,8 +57,14 @@ class TreeSheet(ResizingSheet, tk.Frame):
         self.bind("<FocusIn>", on_focus_in, add=True)
 
 
-    def focusNextSheet(self):
-        self.tk_focusNext().focus_set()
+    def scroll(self, event=None, to=INSERT):
+        # print(f"> ts.scroll {event=} {id(event)=}")
+        if event:
+            sheet = event.widget
+        else:
+            sheet = self
+        if sheet.sheet_tree:
+            sheet.sheet_tree.scroll(sheet, to=to)
 
     def focusPrevSheet(self):
         self.tk_focusPrev().focus_set()

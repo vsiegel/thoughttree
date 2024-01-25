@@ -11,15 +11,15 @@ from Title import new_child_title, new_sibling_title, Title
 
 
 class NF(tk.Frame):  # NF short for NotebookFrame - the name appears in widget names, making them longer.
-    def __init__(self, parent, name=None, **kw):
+    def __init__(self, parent, name=None, sheet=None, **kw):
         tk.Frame.__init__(self, parent, name=name, **kw)
-        self.sheet = None
+        self.sheet = sheet
 
 
 class TreeSheet(ResizingSheet, tk.Frame):
     # def __init__(self, parent, name="ts", **kw):
-    def __init__(self, parent, parent_sheet=None,  height=1, width=250, parent_notebook=None, parent_sheet_tree=None, name="ts", **kw):
-        self.tree_frame = tk.Frame(parent, name=name + "f", borderwidth=0, highlightthickness=0, background="#fff")
+    def __init__(self, parent, parent_sheet=None, height=1, width=250, parent_notebook=None, sheet_tree=None, name="ts", **kw):
+        self.tree_frame = NF(parent, name=name + "f", borderwidth=0, highlightthickness=0, background="#ffffff", sheet=self)
         ResizingSheet.__init__(self, self.tree_frame, scrollbar=False, name=name, borderwidth=0, highlightthickness=0, **kw)
         self.pack(side=tk.TOP, fill=X, expand=False, anchor=tk.N)
 
@@ -27,7 +27,7 @@ class TreeSheet(ResizingSheet, tk.Frame):
         self.parent_sheet = parent_sheet
         self.parent_notebook = parent_notebook
         self.notebook = None
-        self.sheet_tree = sheet_tree
+        self.sheet_tree = sheet_tree or parent_sheet.sheet_tree
 
         self.copy_packing(self.tree_frame, ResizingSheet)
 

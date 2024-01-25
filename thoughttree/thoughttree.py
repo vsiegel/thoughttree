@@ -481,8 +481,10 @@ class Thoughttree(Ui):
 
     def scroll(self, sheet, to=OUTPUT):
         if self.scroll_output:
-            sheet.see(to)
+            sheet.scroll(to=to)
+            # sheet.see(to)
         sheet.update()
+        # sheet.update_idletasks()
 
 
     def find_number_of_completions(self, n):

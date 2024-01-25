@@ -10,6 +10,7 @@ from MenuItem import MenuItem
 from menu_help_texts import menu_help
 
 
+
 class TooltipableMenu(tk.Frame):
     # Replacing tk.Menu, because tooltips on menu items do not work under MS Windows.
     def __init__(self, parent, text, **kw):
@@ -55,7 +56,7 @@ class TooltipableMenu(tk.Frame):
                 self.create_popup(event)
 
     def toggle_open(self, event):
-        if self.popup:
+        if self.popup and self.popup.state() == "normal":
             self.close()
         else:
             self.create_popup(event)
@@ -64,10 +65,13 @@ class TooltipableMenu(tk.Frame):
         if not self.popup:
             self.popup = tk.Toplevel(self, bd=3, relief='raised', bg='lightgray')
             self.popup.wm_overrideredirect(True)
+            # self.popup.wm_attributes("-topmost", True)
+            self.popup.transient(self.winfo_toplevel())
+
             self.frame = tk.Frame(self.popup, takefocus=True, bg='lightgray')
             self.frame.pack()
             self.old_focus = self.focus_get()
-            self.frame.focus_set()
+            # self.frame.focus_set()
 
             def on_button(e):
                 self.frame.grab_release()
@@ -82,6 +86,14 @@ class TooltipableMenu(tk.Frame):
             self.populate_menu()
             if isinstance(self.parent, MenuBar):
                 self.parent.open_popup = self.popup
+        # elif not self.popup.state() == 'normal':
+        else:
+            # print(f"{self.popup.state()}")
+            self.popup.deiconify()
+            self.popup.focus_set()
+            self.popup.update()
+        # print(f"{self.popup.state()}")
+
         if x is None:
             x = self.winfo_rootx()
             y = self.winfo_rooty() + self.winfo_height()
@@ -123,11 +135,12 @@ class TooltipableMenu(tk.Frame):
         return None
 
     def close(self, event=None) -> bool:
-        if self.popup:
+        if self.popup and self.popup.state() == 'normal':
             if self.old_focus:
                  self.old_focus.focus_set()
-            self.popup.destroy()
-            self.popup = None
+            # self.popup.destroy()
+            # self.popup = None
+            self.popup.withdraw()
             if isinstance(self.parent, MenuBar):
                 self.parent.open_popup = None
             return True

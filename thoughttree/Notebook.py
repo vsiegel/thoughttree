@@ -1,6 +1,12 @@
 import tkinter as tk
 from tkinter import ttk, END
 
+#copy:
+class NF(tk.Frame):  # NF short for NotebookFrame - the name appears in widget names, making them longer.
+    def __init__(self, parent, name=None, **kw):
+        tk.Frame.__init__(self, parent, name=name, **kw)
+        self.sheet = None
+
 
 class Notebook(ttk.Notebook):
     def __init__(self, parent_frame, parent_sheet=None, parent_notebook=None, style_name=None, takefocus=False, background="white", **kw):
@@ -17,38 +23,37 @@ class Notebook(ttk.Notebook):
 
 
     def add_sheet(self, title, parent_sheet=None):
-        print(f"Nb.add_sheet: {title=}")
+        from TreeSheet import TreeSheet
+        from Title import outline
         # class NAF(tk.Frame):  # NotebookAdapterFrame - the name appears in widget names, making them longer.
-        class NotebookAdapterFrame(tk.Frame):
-            def __init__(self, parent, **kw):
-                tk.Frame.__init__(self, parent, **kw)  # Warning: Naming the frame causes errors (name="...").
-                self.sheet = None
+        # class NotebookAdapterFrame(tk.Frame):
+        #     def __init__(self, parent, **kw):
+        #         tk.Frame.__init__(self, parent, **kw)  # Warning: Naming the frame causes errors (name="...").
+        #         self.sheet = None
 
         # NotebookAdapterFrame = NAF
 
-        adapter_frame = NotebookAdapterFrame(self, background="#f0e5f2", borderwidth=0, highlightthickness=0)
-        from TreeSheet import TreeSheet
-        sheet = TreeSheet(adapter_frame, parent_sheet=parent_sheet, parent_notebook=self, name=title.replace(".", "_"))
+        frame = NF(self, background="#f0e5f2", borderwidth=0, highlightthickness=0)
+        sheet = TreeSheet(frame, parent_sheet=parent_sheet, parent_notebook=self, name=outline(title), takefocus=False)
         sheet.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-        adapter_frame.sheet = sheet
-        self.insert(END, adapter_frame, text=title)
-        self.select(adapter_frame)
+        frame.sheet = sheet
+        self.insert(END, frame, text=title)
+        self.select(frame)
         sheet.focus_set()
         return sheet
 
 
     def on_empty_tabbar(self, event):
         if not event.widget.identify(event.x, event.y):
-            event.widget.tk_focusPrev().focus_set()
+            # event.widget.tk_focusPrev().focus_set()
+            event.widget.parent_sheet.focus_set()
 
 
     def selected_sheet(self):
         if not self.select():
             return None
         frame = self.nametowidget(self.select())
-        print(f"{frame=}")
-        sheet = frame.sheet
-        return sheet
+        return frame.sheet
 
     def child_sheets(self):
         frames = map(self.nametowidget, self.tabs())

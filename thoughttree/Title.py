@@ -54,6 +54,9 @@ def new_child_title(parent: Notebook):
     child_tab_label = next_level(parent_tab_label)
     return child_tab_label
 
+def outline(title: str):
+    # Create a widget name for a title starting with an outline id "1.2 Foo Bar" -> "1-2"
+    return title.split(maxsplit=1)[0].rstrip(".,:;").replace(" ", "-").replace(".", "-")
 
 class Title():
     model_name = 'gpt-3.5-turbo'

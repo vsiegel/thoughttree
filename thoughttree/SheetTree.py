@@ -10,7 +10,7 @@ from tools import on_event, bind_tree, iterate_tree
 
 class SheetTree(tk.Frame):
     def __init__(self, parent, name="st", **kw):
-        super().__init__(parent, highlightthickness=3, highlightcolor=Colors.highlight, name=name, **kw)
+        super().__init__(parent, highlightthickness=3, highlightcolor=Colors.highlight, name=name, takefocus=True, **kw)
 
         self.canvas = tk.Canvas(self, name="c", background="#f5fff0")
         def log_call(*args):
@@ -19,7 +19,7 @@ class SheetTree(tk.Frame):
         self.scrollbar = tk.Scrollbar(self, orient=VERTICAL, command=self.canvas.yview, width=18, takefocus=False, borderwidth=2)
         self.canvas.configure(yscrollcommand=log_call)
         self.scrollbar.pack(side=RIGHT, fill=Y)
-
+        self.last_inner_focus = None
 
         self.canvas.pack(side=LEFT, fill=BOTH, expand=True)
 
@@ -29,10 +29,20 @@ class SheetTree(tk.Frame):
         self.y_spacer = tk.Frame(self.frame, width=0, background="#baabbc")
         self.y_spacer.pack(side=LEFT, fill=Y)
 
-        self.sheet = TreeSheet(self.frame)
+        self.sheet = TreeSheet(self.frame, sheet_tree=self, name="0", takefocus=False)
         self.sheet.pack(side=TOP, expand=True, fill=BOTH)
 
         self.add_wheel_scrolling()
+
+        def on_focus_in(event):
+            if self.last_inner_focus:
+                # print(f">+++ st on_focus_in {self} {event} {str(self.last_inner_focus)=}")
+                self.last_inner_focus.focus_set()
+        self.bind("<FocusIn>", on_focus_in, add=True)
+        # def on_focus_out(event):
+        #     if self.last_inner_focus:
+        #         print(f"<+++ st on_focus_out {self} {event} {str(self.last_inner_focus)=}")
+        # self.bind("<FocusOut>", on_focus_out, add=True)
 
         self.canvas.bind("<Configure>", self.configure_frame, add=True)
         self.frame.bind("<Configure>", self.configure_scrollregion, add=True)

@@ -1,5 +1,4 @@
 import io
-import sys
 
 
 class TextIOTee(io.TextIOBase):

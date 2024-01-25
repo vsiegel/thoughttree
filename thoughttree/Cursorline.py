@@ -12,8 +12,8 @@ class Cursorline:
     def show(self, e=None, add=True):
         if not e.widget.winfo_exists():
             return
-        if e.widget.cget("takefocus") == "0":
-            return
+        # if e.widget.cget("takefocus") == "0":
+        #     return
         e.widget.tag_remove('cursorline', 1.0, "end")
         if add:
             e.widget.tag_add('cursorline', 'insert display linestart', 'insert display lineend+1c')

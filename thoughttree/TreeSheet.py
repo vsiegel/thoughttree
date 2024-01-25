@@ -66,12 +66,18 @@ class TreeSheet(ResizingSheet, tk.Frame):
         if sheet.sheet_tree:
             sheet.sheet_tree.scroll(sheet, to=to)
 
-    def focusPrevSheet(self):
-        self.tk_focusPrev().focus_set()
+    def on_empty_background(self, event):
+        frame = event.widget
+        sheet = frame.sheet
+        # print(f"on_empty_background: {str(sheet)=}")
+        # print(f"{str(sheet)=}")
+        while sheet.notebook and sheet.notebook.selected_sheet():
+            sheet = sheet.notebook.selected_sheet()
+        sheet.focus_set()
 
     def tk_focusNext(self):
         if self.sheet_tree:
-            print(f"{self.sheet_tree.tk_focusNext()=}")
+            # print(f"{self.sheet_tree.tk_focusNext()=}")
             widget = self.sheet_tree.tk_focusNext()
         else:
             widget = super().tk_focusNext()
@@ -79,7 +85,7 @@ class TreeSheet(ResizingSheet, tk.Frame):
 
     def tk_focusPrev(self):
         if self.sheet_tree:
-            print(f"{self.sheet_tree.tk_focusPrev()=}")
+            # print(f"{self.sheet_tree.tk_focusPrev()=}")
             widget = self.sheet_tree.tk_focusPrev()
         else:
             widget = super().tk_focusPrev()
@@ -95,7 +101,7 @@ class TreeSheet(ResizingSheet, tk.Frame):
         if not self.notebook:
             self.notebook = self.get_notebook()
             first_child_title = new_child_title(self.parent_notebook)
-            # self.child_notebook.bind("<<NotebookTabChanged>>", self.grow_to_displaylines)
+            # self0.child_notebook.bind("<<NotebookTabChanged>>", self.grow_to_displaylines)
             return self.notebook.add_sheet(first_child_title, parent_sheet=self)
 
     def fork(self, index=INSERT, duplicate=False):
@@ -135,13 +141,6 @@ class TreeSheet(ResizingSheet, tk.Frame):
         # list(frame.children.values())[0].focus_set()
         print(f"add: {list(frame.children.values())[0]=}")
 
-
-    def on_empty_background(self, event):
-        # Tab out of SheetTree, tab back in backwards to the last TreeSheet.
-        focus = event.widget.tk_focusNext()
-        while isinstance(focus, TreeSheet):
-            focus = focus.tk_focusNext()
-        focus.tk_focusPrev().focus_set()
 
     def __str__(self):
         return str(self.tree_frame)
@@ -236,7 +235,6 @@ class TreeSheet(ResizingSheet, tk.Frame):
 if __name__ == "__main__":
     root = tk.Tk()
     tools.escapable(root)
-    # widget = TreeSheet(root)
     widget = TreeSheet(root)
     widget.pack(side=LEFT, fill=BOTH, expand=True)
     # widget.branch()

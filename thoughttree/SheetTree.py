@@ -50,6 +50,36 @@ class SheetTree(tk.Frame):
         self.winfo_toplevel().bind("<Control-Alt-Shift-S>", self.debug)
 
 
+        # def on_key(event):
+        #     # print(f"on_key {event.keysym}")
+        #     sheet = event.widget
+        #     sheet.update()
+        #     # print(f" 1: {sheet.bbox('1.0')} E-1: {sheet.bbox('end-1c')}")
+        #     # print(f" x: {sheet.winfo_rootx()} x: {sheet.winfo_rooty()} x: {sheet.winfo_x()} y: {sheet.winfo_y()}")
+        #     print(f"{self.sheet.dlineinfo('insert') and self.sheet.dlineinfo('insert')[0:2]}")
+        # self.sheet.bind("<Key>", on_key, add=True)
+
+    def scroll(self, sheet: TreeSheet, to=INSERT):
+        # print(f">> scroll {sheet=} {id(sheet)=}")
+        sheet_y = sheet.winfo_rooty()
+        frame_y = self.frame.winfo_rooty()
+        frame_h = self.frame.winfo_height()
+        info = sheet.dlineinfo(to)
+        if info:
+            see_top_sheet = info[1]
+            height = info[3]
+            see_top = see_top_sheet + sheet_y - frame_y
+            see_bottom = see_top + height
+            move_to_top = see_top / frame_h
+            move_to_bottom = see_bottom / frame_h
+            top, bottom = self.canvas.yview()
+            # print(f"{sheet} {(see_top, see_bottom)=} {move_to_top=:.3f} {move_to_bottom=:.3f} { (top, bottom)=}")
+            if move_to_top < top:
+                self.canvas.yview_moveto(move_to_top)
+            elif move_to_bottom > bottom:
+                self.canvas.yview_moveto(top + move_to_bottom - move_to_top)
+
+
     def add(self, text=""):
         self.sheet.add(text)
 

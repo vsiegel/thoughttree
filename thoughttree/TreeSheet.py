@@ -52,15 +52,9 @@ class TreeSheet(ResizingSheet, tk.Frame):
 
         def on_focus_in(event):
             sheet = event.widget
-            # sheet.update()
-            # sheet.see(INSERT)
-            # print(f"I: {sheet.bbox(INSERT)} E: {sheet.bbox('end')} A: {sheet.bbox('all')}")
-            # print(f" 1: {sheet.bbox('1.0')} E-1: {sheet.bbox('end-1c')}")
-            # print(f" x: {sheet.winfo_rootx()=} x: {sheet.winfo_rooty()=}")
-            # print(f"{sheet.winfo_=}")
-        self.bind("<Key>", on_key, add=True)
-        self.bind("<Up>", on_up, add=True)
-        self.bind("<Down>", on_down, add=True)
+            if sheet.sheet_tree:
+                sheet.sheet_tree.last_inner_focus = sheet
+        self.bind("<FocusIn>", on_focus_in, add=True)
 
 
     def focusNextSheet(self):

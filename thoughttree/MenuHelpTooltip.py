@@ -45,6 +45,4 @@ class MenuHelpTooltip(Tooltip):
                         self.previous_missing_item = menu_label
                 self.label.configure(text=text)
         except Exception as ex: # Menu separators have no "label"
-            print("ERROR: " + str(ex))
             pass # leave text unchanged
-            # self.label.configure(text="-")

@@ -338,3 +338,8 @@ class Sheet(ScrolledText, LineHandling):
         if new_size:
             self.config(font=(name, sign * new_size))
 
+    def focusNextSheet(self):
+        self.tk_focusNext().focus_set()
+
+    def focusPrevSheet(self):
+        self.tk_focusPrev().focus_set()

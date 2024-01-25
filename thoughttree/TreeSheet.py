@@ -45,8 +45,12 @@ class TreeSheet(ResizingSheet, tk.Frame):
                 self.notebook.selected_sheet().focus_set()
         self.bind("<Down>", on_down, add=True)
 
-        def on_key(event):
-            # print(f"on_key {event.keysym}")
+        tag = "TreeSheet-last"
+        self.bindtags(self.bindtags() + (tag,))
+        if not self.bind_class(tag):
+            self.bind_class(tag, '<KeyRelease>', self.scroll) # , add=True)
+
+        def on_focus_in(event):
             sheet = event.widget
             # sheet.update()
             # sheet.see(INSERT)

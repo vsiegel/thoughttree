@@ -51,7 +51,7 @@ conf.location_marker = "@"
 conf.debug = True
 
 class Thoughttree(Ui):
-    MIN_SIZE = (600, 300)
+    MIN_SIZE = (600, 150)
     ROOT_GEOMETRY = "1300x750"
     icon = None
     multi_completions = 5

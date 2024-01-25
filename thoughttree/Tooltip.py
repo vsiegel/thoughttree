@@ -20,7 +20,7 @@ class Tooltip:
     def bind_tip(self):
         self.widget.bind("<Enter>", self.show_later, add=True)
         self.widget.bind("<Leave>", self.hide, add=True)
-        self.root.bind("<Motion>", self.update, add=True)
+        self.root.bind("<Motion>", self.refresh, add=True)
 
 
     def show_later(self, event):
@@ -42,22 +42,15 @@ class Tooltip:
             self.tip.bind("<Leave>", self.hide, add=True)
             self.tip.bind("<Button-1>", self.hide, add=True)
             self.label.bind("<Escape>", self.hide, add=True)
-            self.update(event)
+            self.refresh(event)
 
 
-    def update(self, event=None):
+    def refresh(self, event=None):
         if self.tip:
             x = self.root.winfo_pointerx() + 75
             y = self.root.winfo_pointery() + 25
             self.tip.wm_geometry(f"+{x}+{y}")
             self.tip.wm_attributes("-topmost", True)
-            # self.tip.wm_attributes("-topmost", False)
-
-            # from MenuBar import MenuBar
-            # if isinstance(self.widget, MenuBar) and self.widget.open_popup:
-                # self.tip.lift(self.widget.open_popup)
-                # self.widget.open_popup.lower(self.tip)
-                # print("lift etc. "+str(self.widget.open_popup))
             self.refresh_tooltip_text(event)
 
 

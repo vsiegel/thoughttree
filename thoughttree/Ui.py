@@ -68,16 +68,19 @@ class Ui(tk.Frame):
             self.root.attributes("-fullscreen", True)
 
     def close(self, event=None):
-        if self.main_window and len(Ui.current_open_uis) > 1:
-            showwarning("Can not Close Main Window", "The main window that opened first can not be closed individually.", parent=self)
-            return
+        try:
+            if self.main_window and len(Ui.current_open_uis) > 1:
+                showwarning("Can not Close Main Window", "The main window that opened first can not be closed individually.", parent=self)
+                return
 
-        if not self.is_initially_modified() or self.closeable or askyesno("Close Window", "Are you sure you want to close this window?", parent=self):
-            self.pack_forget()
-            # print(f"{self=}\n{Ui.current_open_uis=}")
-            Ui.current_open_uis.remove(self) #todo self may be old, key uses bind_class
-            self.is_root_destroyed = True
-            self.root.destroy()
+            if not self.is_initially_modified() or self.closeable or askyesno("Close Window", "Are you sure you want to close this window?", parent=self):
+                self.pack_forget()
+                if self in Ui.current_open_uis:
+                    Ui.current_open_uis.remove(self) #todo self may be old, key uses bind_class
+                self.is_root_destroyed = True
+                self.root.destroy()
+        except Exception as e:
+            print(f"{e=}")
 
     def quit(self, event=None, label="Quit"):
         if not self.is_initially_modified() or askyesno(label, "Are you sure you want to close all windows and quit?", parent=self):

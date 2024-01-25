@@ -37,11 +37,13 @@ class TreeSheet(ResizingSheet, tk.Frame):
             sheet = event.widget
             if sheet.at_first_line() and self.parent_sheet:
                 self.parent_sheet.focus_set()
+        self.bind("<Up>", on_up, add=True)
 
         def on_down(event):
             sheet = event.widget
             if sheet.at_first_line and self.notebook:
                 self.notebook.selected_sheet().focus_set()
+        self.bind("<Down>", on_down, add=True)
 
         def on_key(event):
             # print(f"on_key {event.keysym}")

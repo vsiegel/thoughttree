@@ -41,7 +41,7 @@ class TreeSheet(ResizingSheet, tk.Frame):
 
         def on_down(event):
             sheet = event.widget
-            if sheet.at_first_line and self.notebook:
+            if sheet.at_last_line() and self.notebook:
                 self.notebook.selected_sheet().focus_set()
         self.bind("<Down>", on_down, add=True)
 

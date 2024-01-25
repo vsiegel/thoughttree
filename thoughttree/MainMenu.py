@@ -356,7 +356,6 @@ class MainMenu(MenuBar):
 
         ui.bind_class("Text", "<Button-3>", context.show_context_menu)
         ui.bind_class("Text", "<Menu>", context.show_context_menu)
-        ui.bind_class("Text", "<Tab>", lambda e=None: e.widget.tk_focusNext())
 
 
 

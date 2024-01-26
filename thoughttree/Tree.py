@@ -11,6 +11,7 @@ from startfile import startfile
 
 import Colors
 from Config import conf
+from ExploreOutline import ExploreOutline
 from Fonts import Fonts
 from Improvement import Improvement
 from TextChange import TextChange
@@ -75,6 +76,7 @@ class Tree(ttk.Treeview):
         self.append_toplevel("Prompts")
         self.append_toplevel("Changes", open=True)
         self.append_toplevel("Differences", open=True)
+        self.append_toplevel("Outlines", open=True)
 
         self.focus("Default")
         self.selection_set(self.focus())
@@ -280,3 +282,16 @@ class Tree(ttk.Treeview):
             self.append(iid, text=old, type="improvement.old", tags=("old",))
             self.append(iid, text=new, type="improvement.new", tags=("new",))
             self.append(iid, text=diff_summary(old, new), type="improvement.diff_summary")
+
+
+    def add_explore_outline(self, explore_outline: ExploreOutline):
+        if not explore_outline:
+            return
+        iid = explore_outline.iid
+        if self.exists(iid):
+            root = self.item(iid)
+        else:
+            print(f"{explore_outline=}\n{explore_outline.title=}")
+            root = self.append("Outlines", text=explore_outline.title, iid=iid, type="explore_outline", open=True)
+        for outline_id, outline_title in explore_outline.outline_level_items:
+            self.append(root, text=outline_id + " " + outline_title, type="explore_outline")

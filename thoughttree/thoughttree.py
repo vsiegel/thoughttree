@@ -11,6 +11,7 @@ from tkinter.messagebox import showinfo
 from configargparse import Namespace
 import Colors
 from Console import Console
+from ExploreOutline import ExploreOutline
 from FinishReasonIcon import FinishReasonIcon
 from FoldablePane import FoldablePane
 from History import History
@@ -388,6 +389,60 @@ class Thoughttree(Ui):
         self.tree.add_improvement(Improvement(answer))
 
 
+    def explore_outline(self, event=None):
+        self.system.hide(END, dedent(
+            f"""
+wv vLines starting with "#" are comments or disabled parts of the prompt and should be ignored.
+
+Explore an outline drilling down in the information by incrementally extending an outline locally, directed by the user input that specifies what the user is interested in.  Analyse the text and express the relevant data incrementally in an outline structure that is most suitable for this specific text.
+Use a decimal outline (1.1.1...)
+The structure of the outline should not be based on the document structure. 
+The outline structure can be of any usual or unusual kind, abstract or concrete or both - the important point is that it is custom build for the document at hand, it does not need to fit any other purpose. 
+The purpose of the outline is not to describe the content of the document, it should provide information about the document.
+For example high level descriptions, conclusions that can be drawn, political or other implications, criticism...
+
+Except if a subitem is specified, produce the first level of the structure, each item as detailed as appropriate - the token budget to used is high.
+
+If a subitem is given, and the higher levels are already generated, generate a level from there.
+
+So for the first prompt that contains only the input text,  generate only one outline level of items .
+1. ...
+2. ...
+...
+
+In a second run, generate the sub items for one of the existing items. For example, if the new prompt specifies "2.":
+2.1. ...
+2.2. ...
+...
+
+Each item consists of a one line title.
+Use as many items as make sense from the content. More detailed output is preferred.
+There is no requirement for symmetry or balance, always focus on the sub-itemthe user is interested in.
+
+The output for a prompt contains only one level. The user then can select items according to his interest, to generate further details.
+
+# Disabled propmpt part:
+#Start the output with a description of the reasoning that lead to choosing #the speciffic outline.
+#Use the format:
+#Description: ...
+            """))
+
+        sheet = self.it
+        history = self.history_from_system_and_chat()
+        self.delete_hidden_prompt(sheet)
+
+        if self.log_messages_to_console:
+            history.log()
+
+        with WaitCursor(sheet):
+            with InsertionIcon(sheet, OUTPUT):
+                reason, message, answer = self.model.complete(history, lambda text: self.write_sheet(text, sheet))
+
+        explore_outline = ExploreOutline(answer)
+        sheet.explore_outline = explore_outline
+        self.tree.add_explore_outline(explore_outline)
+
+
     def rewrite(self, event=None):
         self.system.hide(END, dedent(
             f"""
@@ -466,6 +521,7 @@ class Thoughttree(Ui):
 
     @property
     def it(self) -> Sheet:
+        # return self.sheet_tree.last_sheet
         focussed = self.focus_get()
         # print(f'{type(focussed)=}')
         # if focussed == self.system:

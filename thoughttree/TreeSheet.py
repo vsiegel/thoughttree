@@ -31,6 +31,9 @@ class TreeSheet(ResizingSheet, tk.Frame):
 
         self.copy_packing(self.tree_frame, ResizingSheet)
 
+        bindtags = list(self.bindtags())
+        bindtags.insert(1, "TreeSheet")
+        self.bindtags(bindtags)
         self.tree_frame.bind("<Button>", self.on_empty_background, add=True)
 
         def on_up(event):

@@ -84,15 +84,16 @@ class TreeSheet(ResizingSheet, tk.Frame):
             widget = self.sheet_tree.tk_focusNext()
         else:
             widget = super().tk_focusNext()
-        widget.focus_set()
+        return widget
 
     def tk_focusPrev(self):
         if self.sheet_tree:
             # print(f"{self.sheet_tree.tk_focusPrev()=}")
+            # print(f"{self.sheet_tree.tk_focusPrev().tk_focusPrev()=}")
             widget = self.sheet_tree.tk_focusPrev()
         else:
             widget = super().tk_focusPrev()
-        widget.focus_set()
+        return widget
 
     def get_notebook(self) -> Notebook:
         if not self.notebook:

@@ -297,6 +297,7 @@ class MainMenu(MenuBar):
         prompt.item("Solve this Problem", "<Alt-Return>", None, menu2=context)
         prompt.item("Ask About This", "<Control-Shift-A>", ui.ask, menu2=context)
         prompt.item("Improve", "<Control-I>", ui.improve, menu2=context)
+        prompt.item("Drill Down", "<Control-D>", ui.drill_down, menu2=context)
         prompt.item("Remove from Text")
         prompt.item("Select Text")
         prompt.item("Change Text")

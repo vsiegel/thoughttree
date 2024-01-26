@@ -10,7 +10,7 @@ from tools import on_event, bind_tree, iterate_tree
 
 class SheetTree(tk.Frame):
     def __init__(self, parent, name="st", **kw):
-        super().__init__(parent, highlightthickness=3, highlightcolor=Colors.highlight, name=name, takefocus=True, **kw)
+        super().__init__(parent, highlightthickness=3, highlightcolor=Colors.highlight, name=name, takefocus=False, **kw)
 
         self.canvas = tk.Canvas(self, name="c", background="#f5fff0")
         def log_call(*args):
@@ -41,10 +41,9 @@ class SheetTree(tk.Frame):
                 self.configure(takefocus=False)
                 # self.scrollbar.configure(takefocus=False)
         self.bind("<FocusIn>", on_focus_in, add=True)
-        # def on_focus_out(event):
-        #     if self.last_inner_focus:
-        #         print(f"<+++ st on_focus_out {self} {event} {str(self.last_inner_focus)=}")
-        # self.bind("<FocusOut>", on_focus_out, add=True)
+        def on_focus_out(event):
+            self.configure(takefocus=True)
+        self.bind("<FocusOut>", on_focus_out, add=True)
 
         self.canvas.bind("<Configure>", self.configure_frame, add=True)
         self.frame.bind("<Configure>", self.configure_scrollregion, add=True)

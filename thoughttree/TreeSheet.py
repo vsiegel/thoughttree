@@ -150,12 +150,14 @@ class TreeSheet(ResizingSheet, tk.Frame):
         return str(self.tree_frame)
 
     def update_tab_title(self, event=None):
+        if not self.parent_notebook:
+            return
         def get():
             return self.parent_notebook.tab(CURRENT, option="text")
         def set(title):
             self.parent_notebook.tab(CURRENT, text=title)
         progress_title = get().split(" ")[0] + " ..."
-        print(f"{progress_title=}")
+        # print(f"{progress_title=}")
 
         def write_title(delta):
             # if self.is_root_destroyed or self.model.is_canceled:

@@ -19,7 +19,32 @@ class Notebook(ttk.Notebook):
             style.configure(style_name, bd=0, highlightthickness=0, background=background)
         super().__init__(parent_frame, style=style_name, takefocus=takefocus, name="nb", **kw)
         self.enable_traversal()
-        self.bind("<Button>", self.on_empty_tabbar, add=True)
+
+        # def on_empty_tab_bar(event):
+        #     if not event.widget.identify(event.x, event.y):
+        #         # event.widget.tk_focusPrev().focus_set()
+        #         event.widget.parent_sheet.focus_set()
+        # self.bind("<Button>", on_empty_tab_bar, add=True)
+        #
+        # def on_notebook_tab(event):
+        #     if not event.widget.identify(event.x, event.y):
+        #         # event.widget.tk_focusPrev().focus_set()
+        #         event.widget.parent_sheet.focus_set()
+        # self.bind("<Up>", on_notebook_tab, add=True)
+
+        def on_up(event):
+            notebook = event.widget
+            print(f"{notebook.parent_sheet=}")
+            if notebook.parent_sheet:
+                notebook.parent_sheet.focus_set()
+        self.bind("<Up>", on_up, add=True)
+
+        def on_down(event):
+            notebook = event.widget
+            print(f"{notebook.selected_sheet()=}")
+            notebook.selected_sheet().focus_set()
+        self.bind("<Down>", on_down, add=True)
+
 
 
     def add_sheet(self, title, parent_sheet=None):
@@ -41,12 +66,6 @@ class Notebook(ttk.Notebook):
         self.select(frame)
         sheet.focus_set()
         return sheet
-
-
-    def on_empty_tabbar(self, event):
-        if not event.widget.identify(event.x, event.y):
-            # event.widget.tk_focusPrev().focus_set()
-            event.widget.parent_sheet.focus_set()
 
 
     def selected_sheet(self):

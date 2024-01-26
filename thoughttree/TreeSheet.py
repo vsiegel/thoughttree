@@ -27,6 +27,7 @@ class TreeSheet(ResizingSheet, tk.Frame):
         self.parent_sheet = parent_sheet
         self.parent_notebook = parent_notebook
         self.notebook = None
+        self.explore_outline = None
         self.sheet_tree = sheet_tree or parent_sheet.sheet_tree
 
         self.copy_packing(self.tree_frame, ResizingSheet)

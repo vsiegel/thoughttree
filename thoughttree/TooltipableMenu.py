@@ -27,14 +27,14 @@ class TooltipableMenu(tk.Frame):
         self.frame = None
 
 
-    def item(self, label, keystroke=None, command=None, underline=-1, menu2=None, add=False, to_class="Text"):
+    def item(self, label, keystroke=None, command=None, underline=-1, menu2=None, add=False, to="Text"):
         if conf.debug and not label in menu_help:
             print("Warning: Help missing for \"" + label + "\"")
         keystroke = self.fix_key_letter_case(keystroke)
-        if to_class == "all":
+        if to == "all":
             self.winfo_toplevel().bind_all(keystroke, command)
         else:
-            self.winfo_toplevel().bind_class(to_class, keystroke, command, add=add)
+            self.winfo_toplevel().bind_class(to, keystroke, command, add=add)
         accelerator = self.accelerator_label(keystroke)
         self.items.append((label, accelerator, command, underline))
         if menu2:
@@ -195,8 +195,8 @@ class CommandDisplayingMenu(TooltipableMenu):
         return show_call
 
 
-    def item(self, label, keystroke=None, command=None, underline=-1, menu2=None, add=False, to_class="Text"):
+    def item(self, label, keystroke=None, command=None, underline=-1, menu2=None, add=False, to="Text"):
         command = self.command_status(command, label, keystroke)
-        super().item(label, keystroke, command, underline, menu2, add, to_class)
+        super().item(label, keystroke, command, underline, menu2, add, to)
 
 

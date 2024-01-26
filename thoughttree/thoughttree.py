@@ -566,6 +566,12 @@ The output for a prompt contains only one level. The user then can select items 
             sheet.insert(OUTPUT, prefix)
             self.scroll(sheet)
 
+    def write_sheet(self, text, written_sheet: Sheet):
+        if self.is_root_destroyed:
+            return
+        written_sheet.insert(OUTPUT, text, ("assistant", "model-" + self.model.name))
+        self.scroll(written_sheet)
+
 
     def completions(self, sheet, history, n=1):
         reason, message, answer = 'unknown', '', ''
@@ -592,10 +598,10 @@ The output for a prompt contains only one level. The user then can select items 
                 title.pack(side=tk.TOP, anchor=tk.W)
                 # sheet.see(OUTPUT)
                 alternatives_sheet = AlternativeSheet(alternative_frame) #, width=3)
-                reason, message, answer = self.model.complete(history, lambda text: write_sheet(text, alternatives_sheet))
+                reason, message, answer = self.model.complete(history, lambda text: self.write_sheet(text, alternatives_sheet))
         else:
             with InsertionIcon(sheet, OUTPUT):
-                reason, message, answer = self.model.complete(history, lambda text: write_sheet(text, sheet))
+                reason, message, answer = self.model.complete(history, lambda text: self.write_sheet(text, sheet))
 
         if self.log_messages_to_console:
             print(f'Answer:\n"{answer}"')

@@ -342,4 +342,5 @@ class Sheet(ScrolledText, LineHandling):
         self.tk_focusNext().focus_set()
 
     def focusPrevSheet(self):
+        # print(f"{self.tk_focusPrev()=}")
         self.tk_focusPrev().focus_set()

@@ -2,11 +2,13 @@ import tkinter as tk
 
 
 class Tooltip:
-    def __init__(self, widget: tk.Widget, text, font=("sans-serif", 11)) :
+    def __init__(self, widget: tk.Widget, text, font=("sans-serif", 11), above=False) :
         self.widget = widget
         self.root = widget.winfo_toplevel()
         self.font = font
         self.text = text
+        self.above = above
+
         self.tip = None
         self.label = None
         self.show_timer = None
@@ -47,8 +49,13 @@ class Tooltip:
 
     def refresh(self, event=None):
         if self.tip:
-            x = self.root.winfo_pointerx() + 75
-            y = self.root.winfo_pointery() + 25
+            pointer_x = self.root.winfo_pointerx()
+            pointer_y = self.root.winfo_pointery()
+            x = pointer_x + 75
+            if not self.above:
+                y = pointer_y + 25
+            else:
+                y = pointer_y - self.tip.winfo_height() - 25
             self.tip.wm_geometry(f"+{x}+{y}")
             self.tip.wm_attributes("-topmost", True)
             self.refresh_tooltip_text(event)

@@ -10,7 +10,7 @@ class MenuBar(tk.Frame):
         self.menus = []
         self.open_popup = None
         self.winfo_toplevel().bind("<Configure>", lambda e: self.close_other_menus(None), add=True)
-        MenuHelpTooltip(self)
+        MenuHelpTooltip(self, above=True)
 
 
     def add_menu(self, menu):

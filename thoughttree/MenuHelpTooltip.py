@@ -5,8 +5,8 @@ from tools import text_block
 from menu_help_texts import menu_help
 
 class MenuHelpTooltip(Tooltip):
-    def __init__(self, widget):
-        Tooltip.__init__(self, widget, None)
+    def __init__(self, widget, above=False):
+        Tooltip.__init__(self, widget, None, above=above)
         self.delay_ms = 750
         self.previous_missing_item = None
 

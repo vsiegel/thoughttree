@@ -246,7 +246,7 @@ class MainMenu(MenuBar):
         view.item("Toggle Monospace", "<Control-Shift-O>", toggle_font_mono)
         view.separator()
         view.item("Toggle Scrolling Output", "<Control-e>", toggle_scroll_output)
-        view.item("Ring Bell When Finished", "<Control-Alt-o>", toggle_ring_bell)
+        view.item("Ring Bell When Finished", "<Control-Alt-b>", toggle_ring_bell)
         view.item("Toggle Wrap Lines", "<Control-l>", lambda e=None: self.it.configure(wrap=(NONE if self.it.cget("wrap") != NONE else WORD)))
         view.item("Calculate Cost", None, None)
         view.item("Show Hidden Prompts", "<Control-Shift-H>", ui.toggle_show_hidden_prompts)
@@ -339,7 +339,7 @@ class MainMenu(MenuBar):
 
         format_menu = self.submenu("Format")
         format_menu.item("Bold", "<Control-b>", lambda e=None: self.it.toggle_tag("bold"))
-        format_menu.item("Strikethrough", "<Control-d>", lambda e=None: self.it.toggle_tag("strikethrough"))
+        format_menu.item("Strikethrough", "<Control-Alt-d>", lambda e=None: self.it.toggle_tag("strikethrough"))
 
         self.models_menu = self.add_menu(ModelsMenu(self, ui, "Models"))
 

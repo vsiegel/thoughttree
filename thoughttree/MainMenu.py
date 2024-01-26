@@ -113,6 +113,9 @@ class MainMenu(MenuBar):
         #     browse(self.ui)
         #
         def debug_info(event=None):
+            print(f"{self.focus_get()}")
+            return
+
             import pyautogui
             top = self.ui.winfo_toplevel()
             # top.update_idletasks()
@@ -123,7 +126,6 @@ class MainMenu(MenuBar):
                 im.save(datetime.now().strftime('%Y-%m-%d-%H-%M-%S') + "-out.png")
             top.after_idle(screenshot)
 
-            return
             def print_height(w, name=None):
                 name = name or w
                 print()
@@ -190,8 +192,8 @@ class MainMenu(MenuBar):
         context = TooltipableMenu(None, "(sheet context menu)")
 
         file = self.submenu("File")
-        file.item("New Window", "<Control-n>", new_window)
-        file.item("New Tab", "<Control-t>", lambda e=None: self.it.fork("1.0"))
+        file.item("New Window", "<Control-n>", new_window, to="all")
+        file.item("New Tab", "<Control-t>", lambda e=None: self.it.fork("1.0"))#, to=TreeSheet)
         file.item("Import Shared Chat", None, None) # , "<Control-....>", import_shared_chat
         file.item("Insert File", "<Control-Shift-e>", insert_file)
         file.item("Open File", "<Control-o>", open_file)
@@ -201,11 +203,11 @@ class MainMenu(MenuBar):
         file.item("Save Selection", "<Alt-S>", save_selection)
         file.item("Save Code Block", "<Control-Alt-s>", save_code_block, menu2=context)
         file.separator()
-        file.item("Close Tab", "<Control-w>", close_tab, add=False)
+        file.item("Close Tab", "<Control-w>", close_tab, add=False, to=TreeSheet)
         file.item("Close Empty Tab", "<BackSpace>", lambda e=None: self.it.backspace(e), add=False)
-        file.item("Close Window", "<Control-Q>", ui.close)
-        file.item("Quit Thoughttree", "<Control-Shift-Q>", lambda e=None: ui.quit(label="Quit Thoughttree"))
-        file.item("Quit Without Confirmation", "<Control-Alt-Shift-Q>", lambda e=None: sys.exit(0))
+        file.item("Close Window", "<Control-Q>", ui.close, to="all")
+        file.item("Quit Thoughttree", "<Control-Shift-Q>", lambda e=None: ui.quit(label="Quit Thoughttree"), to="all")
+        file.item("Quit Without Confirmation", "<Control-Alt-Shift-Q>", lambda e=None: sys.exit(0), to="all")
 
 
         edit = self.submenu("Edit")
@@ -261,8 +263,8 @@ class MainMenu(MenuBar):
         navigate.item("Previous Panel", "<Control-Shift-Tab>", lambda e=None: self.tk_focusPrev().focus_set())
         navigate.item("Next Sheet", "<Tab>", lambda e=None: e.widget.focusNextSheet())
         navigate.item("Previous Sheet", "<Shift-Tab>", lambda e=None: e.widget.focusPrevSheet())
-        # navigate.item("Next Tab", "<Control-Next>", lambda e=None: e.widget.focusNextTab())#  .widget.sheet_tree.tk_focusPrev() or e.widget.tk_focusPrev())
-        # navigate.item("Previous Tab", "<Control-Prior>", lambda e=None: e.widget.focusPrevTab())
+        navigate.item("Next Tab", "<Control-Next>", lambda e=None: e.widget.focusNextTab(), to=TreeSheet)#  .widget.sheet_tree.tk_focusPrev() or e.widget.tk_focusPrev())
+        navigate.item("Previous Tab", "<Control-Prior>", lambda e=None: e.widget.focusPrevTab(), to=TreeSheet)
         navigate.item("Next Similar Line", "<Control-j>", lambda e=None: self.it.jump_to_similar_line(direction=1))
         navigate.item("Previous Similar Line", "<Control-Shift-J>", lambda e=None: self.it.jump_to_similar_line(direction=-1))
         navigate.separator()
@@ -349,7 +351,7 @@ class MainMenu(MenuBar):
         help_menu.item("OpenAI Chat API", None, web("https://platform.openai.com/docs/api-reference/chat"))
         help_menu.item("GPT Models", None, web("https://platform.openai.com/docs/models"))
         help_menu.item("OpenAI Pricing", None, web("https://openai.com/pricing"))
-        help_menu.item("Debug Info", "<Control-Alt-Shift-I>", debug_info)
+        help_menu.item("Debug Info", "<Control-Alt-Shift-I>", debug_info, to="all")
         # help_menu.item("Inspect Application", "<Control-Alt-Shift-B>", inspect_application)
         help_menu.item("About", "<Control-F1>", lambda e=None: AboutDialog(self.ui))
 

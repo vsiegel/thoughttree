@@ -24,7 +24,6 @@ def next_level(hierarchical_id):
 
 
 def next_equal(hierarchical_id):
-    print(f"{hierarchical_id=}")
     hierarchical_id, levels, title = split_title(hierarchical_id)
     levels = levels or ['0']
     levels = levels[:-1] + [str(int(levels[-1]) + 1)]

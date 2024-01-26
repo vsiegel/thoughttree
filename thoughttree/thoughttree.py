@@ -287,6 +287,9 @@ class Thoughttree(Ui):
         inline = inline or insert or replace
         self.model.is_canceled = False
 
+        if self.focus_get() == self.system:
+            self.sheet_tree.focus_set()
+
         sheet = self.it
 
         n = self.find_number_of_completions(n)

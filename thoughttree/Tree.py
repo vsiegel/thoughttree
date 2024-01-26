@@ -99,11 +99,11 @@ class Tree(ttk.Treeview):
         TreeTooltip(self)
 
         file_context = TooltipableMenu(None, "(File context menu)")
-        file_context.item("Replace System", "<Shift-Alt-Return>", self.ui.replace_system_prompt, to_class="Treeview")
-        file_context.item("Insert System", "<Shift-Return>", lambda e=None: self.ui.insert_system_prompt(), to_class="Treeview")
-        file_context.item("Replace User", "<Control-Alt-Return>", lambda e=None: self.ui.replace_user_prompt(), to_class="Treeview")
-        file_context.item("Insert User", "<Control-Return>", lambda e=None: self.ui.insert_user_prompt(), to_class="Treeview")
-        file_context.item("Open", "<Control-Shift-O>", lambda e=None: self.open_file(), to_class="Treeview")
+        file_context.item("Replace System", "<Shift-Alt-Return>", self.ui.replace_system_prompt, to="Treeview")
+        file_context.item("Insert System", "<Shift-Return>", lambda e=None: self.ui.insert_system_prompt(), to="Treeview")
+        file_context.item("Replace User", "<Control-Alt-Return>", lambda e=None: self.ui.replace_user_prompt(), to="Treeview")
+        file_context.item("Insert User", "<Control-Return>", lambda e=None: self.ui.insert_user_prompt(), to="Treeview")
+        file_context.item("Open", "<Control-Shift-O>", lambda e=None: self.open_file(), to="Treeview")
 
         self.context_menus["file"] = file_context
 

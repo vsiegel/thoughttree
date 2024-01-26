@@ -580,7 +580,7 @@ The output for a prompt contains only one level. The user then can select items 
             if self.is_root_destroyed:
                 return
             written_sheet.insert(OUTPUT, text, ("assistant", "model-" + self.model.name))
-            self.scroll(sheet)
+            self.scroll(written_sheet)
 
         if n > 1:
             alternatives_frame = tk.Frame(sheet, borderwidth=4, relief=GROOVE)

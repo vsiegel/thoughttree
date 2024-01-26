@@ -539,7 +539,7 @@ The output for a prompt contains only one level. The user then can select items 
 
 
     def scroll(self, sheet, to=OUTPUT):
-        if self.scroll_output:
+        if self.scroll_output and isinstance(sheet, TreeSheet):
             sheet.scroll(to=to)
             # sheet.see(to)
         sheet.update()

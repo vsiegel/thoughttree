@@ -8,8 +8,11 @@ class Cursorline:
             self.sheet.bind_class("cursorline_last", '<Button-1>',   self.show)
             self.sheet.bind_class("cursorline_last", "<FocusIn>",    self.show)
             self.sheet.bind_class("cursorline_last", "<FocusOut>",   self.clear)
+        # print(f"new {self.sheet.bind_class('cursorline_last')=}")
+
 
     def show(self, e=None, add=True):
+        # print(f"show {self=} {e=}")
         if not e.widget.winfo_exists():
             return
         # if e.widget.cget("takefocus") == "0":
@@ -19,10 +22,11 @@ class Cursorline:
             e.widget.tag_add('cursorline', 'insert display linestart', 'insert display lineend+1c')
 
     def clear(self, e=None):
+        # print(f"clear {self=} {e=}")
         from TreeSheet import TreeSheet
         try:
             if not isinstance(e.widget, TreeSheet) or isinstance(e.widget.focus_get(), TreeSheet):
-                self.show(e, add=False)
+                e.widget.tag_remove('cursorline', 1.0, "end")
         except KeyError:
             pass
 

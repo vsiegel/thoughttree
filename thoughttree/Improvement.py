@@ -53,6 +53,7 @@ class Improvement():
         except Exception as ex:
             self.valid = False
             print(f'{ex=}')
+            print(f'{change_spec}')
 
 
     def apply(self, sheet: Sheet):
@@ -109,4 +110,3 @@ New: 'h'
     change.apply(s)
 
     root.mainloop()
-

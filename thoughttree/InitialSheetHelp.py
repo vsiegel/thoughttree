@@ -22,7 +22,6 @@ class InitialSheetHelp(tk.Label):
             self.activate()
 
     def dismiss(self, e=None):
-        print(e)
         self.sheet.initially_modified = True
         if self.bind_modified:
             self.sheet.unbind('<<Modified>>', self.bind_modified)

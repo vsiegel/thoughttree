@@ -647,7 +647,8 @@ The output for a prompt contains only one level. The user then can select items 
         system = self.system.get(1.0, 'end-1c')
         history = History(system)
 
-        history = self.it.history_from_path(history)
+        # history = self.it.history_from_path(history)
+        history = self.sheet_tree.last_sheet.history_from_path(history)
 
         history.system(additional_system)
         history.user(additional_message)

@@ -19,7 +19,7 @@ class SheetTree(tk.Frame):
         self.scrollbar = tk.Scrollbar(self, orient=VERTICAL, command=self.canvas.yview, width=18, takefocus=False, borderwidth=2)
         self.canvas.configure(yscrollcommand=log_call)
         self.scrollbar.pack(side=RIGHT, fill=Y)
-        self.last_inner_focus = None
+        self.last_sheet = None
 
         self.canvas.pack(side=LEFT, fill=BOTH, expand=True)
 
@@ -35,9 +35,11 @@ class SheetTree(tk.Frame):
         self.add_wheel_scrolling()
 
         def on_focus_in(event):
-            if self.last_inner_focus:
+            if self.last_sheet:
                 # print(f">+++ st on_focus_in {self} {event} {str(self.last_inner_focus)=}")
-                self.last_inner_focus.focus_set()
+                self.last_sheet.focus_set()
+                self.configure(takefocus=False)
+                # self.scrollbar.configure(takefocus=False)
         self.bind("<FocusIn>", on_focus_in, add=True)
         # def on_focus_out(event):
         #     if self.last_inner_focus:
@@ -120,6 +122,10 @@ class SheetTree(tk.Frame):
         if not isinstance(sheet, TreeSheet):
             raise Exception(f"{sheet} is not a TreeSheet") #fixme
         sheet.update_tab_title()
+
+    # def tk_focusPrev(self):
+    #     return super().tk_focusPrev().tk_focusPrev()
+    #     return self.sheet.tk_focusPrev().tk_focusPrev()
 
     def debug(self, event):
         print(f"{event.widget}    {event.width}x{event.height}+{event.x}+{event.y}")

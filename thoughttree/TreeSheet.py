@@ -56,7 +56,7 @@ class TreeSheet(ResizingSheet, tk.Frame):
         def on_focus_in(event):
             sheet = event.widget
             if sheet.sheet_tree:
-                sheet.sheet_tree.last_inner_focus = sheet
+                sheet.sheet_tree.last_sheet = sheet
         self.bind("<FocusIn>", on_focus_in, add=True)
 
 

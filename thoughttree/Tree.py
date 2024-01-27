@@ -143,6 +143,8 @@ class Tree(ttk.Treeview):
 
         if type.startswith("improvement"):
             self.use_improvement(iid, type)
+        elif type.startswith("explore_outline"):
+            self.use_explore_outline(iid, type)
         elif type == "default":
             self.ui.use_default()
         elif type in ["directory", "toplevel"]:
@@ -163,6 +165,13 @@ class Tree(ttk.Treeview):
             pass
         elif type == "improvement.diff_summary":
             pass
+
+
+    def use_explore_outline(self, iid, type):
+        if type == "explore_outline.root":
+            pass
+        elif type == "explore_outline.item":
+            old_id, new_id, diff_id = self.get_children(iid)
 
 
     def show_details(self, event=None):
@@ -291,7 +300,7 @@ class Tree(ttk.Treeview):
         if self.exists(iid):
             root = self.item(iid)
         else:
-            print(f"{explore_outline=}\n{explore_outline.title=}")
-            root = self.append("Outlines", text=explore_outline.title, iid=iid, type="explore_outline", open=True)
+            print(f"{explore_outline=} {explore_outline.title=}")
+            root = self.append("Outlines", text=explore_outline.title, iid=iid, type="explore_outline.root", open=True)
         for outline_id, outline_title in explore_outline.outline_level_items:
-            self.append(root, text=outline_id + " " + outline_title, type="explore_outline")
+            self.append(root, text=outline_id + " " + outline_title, type="explore_outline.item")

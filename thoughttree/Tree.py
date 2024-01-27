@@ -11,7 +11,7 @@ from startfile import startfile
 
 import Colors
 from Config import conf
-from ExploreOutline import ExploreOutline
+from OutlineExploration import OutlineExploration
 from Fonts import Fonts
 from Improvement import Improvement
 from TextChange import TextChange
@@ -143,8 +143,8 @@ class Tree(ttk.Treeview):
 
         if type.startswith("improvement"):
             self.use_improvement(iid, type)
-        elif type.startswith("explore_outline"):
-            self.use_explore_outline(iid, type)
+        elif type.startswith("outline_exploration"):
+            self.use_outline_exploration(iid, type)
         elif type == "default":
             self.ui.use_default()
         elif type in ["directory", "toplevel"]:
@@ -167,10 +167,10 @@ class Tree(ttk.Treeview):
             pass
 
 
-    def use_explore_outline(self, iid, type):
-        if type == "explore_outline.root":
+    def use_outline_exploration(self, iid, type):
+        if type == "outline_exploration.root":
             pass
-        elif type == "explore_outline.item":
+        elif type == "outline_exploration.item":
             text = self.item(iid, "text")
             outline_id, outline_title = text.split(" ", maxsplit=1)
             print(f"{outline_id=} {outline_title=}")
@@ -296,14 +296,14 @@ class Tree(ttk.Treeview):
             self.append(iid, text=diff_summary(old, new), type="improvement.diff_summary")
 
 
-    def add_explore_outline(self, explore_outline: ExploreOutline):
-        if not explore_outline:
+    def add_outline_exploration(self, outline_exploration: OutlineExploration):
+        if not outline_exploration:
             return
-        iid = explore_outline.iid
+        iid = outline_exploration.iid
         if self.exists(iid):
             root = self.item(iid)
         else:
-            print(f"{explore_outline=} {explore_outline.title=}")
-            root = self.append("Outlines", text=explore_outline.title, iid=iid, type="explore_outline.root", open=True)
-        for outline_id, outline_title in explore_outline.outline_level_items:
-            self.append(root, text=outline_id + " " + outline_title, type="explore_outline.item")
+            print(f"{outline_exploration=} {outline_exploration.title=}")
+            root = self.append("Outlines", text=outline_exploration.title, iid=iid, type="outline_exploration.root", open=True)
+        for outline_id, outline_title in outline_exploration.outline_level_items:
+            self.append(root, text=outline_id + " " + outline_title, type="outline_exploration.item")

@@ -7,7 +7,7 @@ from Sheet import Sheet
 from tools import fail
 
 
-class ExploreOutline():
+class OutlineExploration():
     def __init__(self, outline_level_spec, title=None, iid=None):
         self.iid = iid or id(self)
         self.title = title or self.iid

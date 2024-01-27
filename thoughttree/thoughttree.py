@@ -11,7 +11,7 @@ from tkinter.messagebox import showinfo
 from configargparse import Namespace
 import Colors
 from Console import Console
-from ExploreOutline import ExploreOutline
+from OutlineExploration import OutlineExploration
 from FinishReasonIcon import FinishReasonIcon
 from FoldablePane import FoldablePane
 from History import History
@@ -447,9 +447,9 @@ The output for a prompt contains only one level. The user then can select items 
             with InsertionIcon(sheet, OUTPUT):
                 reason, message, answer = self.model.complete(history, lambda text: self.write_sheet(text, sheet))
 
-        explore_outline = ExploreOutline(answer)
-        sheet.explore_outline = explore_outline
-        self.tree.add_explore_outline(explore_outline)
+        outline_exploration = OutlineExploration(answer)
+        sheet.outline_exploration = outline_exploration
+        self.tree.add_outline_exploration(outline_exploration)
 
 
     def rewrite(self, event=None):

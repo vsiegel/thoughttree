@@ -395,7 +395,7 @@ class Thoughttree(Ui):
     def explore_outline(self, event=None):
         self.system.hide(END, dedent(
             f"""
-wv vLines starting with "#" are comments or disabled parts of the prompt and should be ignored.
+Lines starting with "#" are comments or disabled parts of the prompt and should be ignored.
 
 Explore an outline drilling down in the information by incrementally extending an outline locally, directed by the user input that specifies what the user is interested in.  Analyse the text and express the relevant data incrementally in an outline structure that is most suitable for this specific text.
 Use a decimal outline (1.1.1...)
@@ -428,7 +428,13 @@ The output for a prompt contains only one level. The user then can select items 
 #Start the output with a description of the reasoning that lead to choosing #the speciffic outline.
 #Use the format:
 #Description: ...
-            """))
+"""))
+        # Stelle der Outline folgende Felder voran:
+        #
+        # Input_Title: ...
+        # Input_Summary: ...
+        # Outline_Title: ...
+        # Outline_Abstract: ...
 
         sheet = self.it
         history = self.history_from_system_and_chat()
@@ -660,6 +666,7 @@ The output for a prompt contains only one level. The user then can select items 
         for sheet in [self.system, self.it]:
             sheet.tag_config("hidden_prompt", elide=not hidden)
 
+
     def insert_system_prompt(self, event=None):
         file = self.tree.focussed_file()
         self.system.insert_file(INSERT, file)
@@ -675,6 +682,7 @@ The output for a prompt contains only one level. The user then can select items 
     def replace_user_prompt(self):
         self.current_sheet.delete(1.0, END)
         self.insert_user_prompt()
+
 
     def use_default(self):
         if not self.current_sheet.get(1.0, "end-1c"):

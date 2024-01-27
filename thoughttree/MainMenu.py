@@ -19,6 +19,7 @@ from Sheet import Sheet
 from TooltipableMenu import TooltipableMenu
 from MenuBar import MenuBar
 from tools import web
+import pyperclip
 
 
 class MainMenu(MenuBar):
@@ -87,11 +88,9 @@ class MainMenu(MenuBar):
             from thoughttree import Thoughttree
             Thoughttree()
 
-        def cut_text(event=None) :
-            self.it.event_generate("<<Cut>>")
-
-        def copy_text(event=None) :
-            self.it.event_generate("<<Copy>>")
+        def paste(event=None) :
+            pasted = pyperclip.paste()
+            self.it.insert(INSERT, pasted)
 
         def edit_undo(event=None):
             try:
@@ -216,7 +215,7 @@ class MainMenu(MenuBar):
         edit.separator()
         edit.item("Cut", "<Control-x>", lambda e=None: self.it.event_generate("<<Cut>>"), menu2=context)
         edit.item("Copy", "<Control-c>", lambda e=None: self.it.event_generate("<<Copy>>"), menu2=context)
-        edit.item("Paste", "<Control-v>", lambda e=None: self.it.event_generate('<<Paste>>'), menu2=context)
+        edit.item("Paste", "<Control-v>", paste, menu2=context)
         edit.item("Select All", "<Control-a>", lambda e=None: self.it.event_generate('<<SelectAll>>'), menu2=context)
         edit.item("Select Message", "<Control-Alt-w>", None, menu2=context)
         edit.item("Select Block", "<Control-Shift-w>", None, menu2=context)

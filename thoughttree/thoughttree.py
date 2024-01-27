@@ -670,6 +670,7 @@ The output for a prompt contains only one level. The user then can select items 
     def insert_system_prompt(self, event=None):
         file = self.tree.focussed_file()
         self.system.insert_file(INSERT, file)
+        self.system.focus_set()
 
     def replace_system_prompt(self, event=None):
         self.system.delete(1.0, END)
@@ -678,6 +679,7 @@ The output for a prompt contains only one level. The user then can select items 
     def insert_user_prompt(self):
         file = self.tree.focussed_file()
         self.current_sheet.insert_file(INSERT, file)
+        self.current_sheet.focus_set()
 
     def replace_user_prompt(self):
         self.current_sheet.delete(1.0, END)

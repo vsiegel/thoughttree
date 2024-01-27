@@ -171,11 +171,14 @@ class Tree(ttk.Treeview):
         if type == "explore_outline.root":
             pass
         elif type == "explore_outline.item":
-            old_id, new_id, diff_id = self.get_children(iid)
+            text = self.item(iid, "text")
+            outline_id, outline_title = text.split(" ", maxsplit=1)
+            print(f"{outline_id=} {outline_title=}")
 
 
     def show_details(self, event=None):
         item = self.focussed_file()
+        print(f"{self.focussed_file()=}")
         self.ui.detail.configure(state=NORMAL)
         try:
             if self.ui.detail.get(1.0, "end").strip():

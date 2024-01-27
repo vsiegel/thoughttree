@@ -20,8 +20,9 @@ class ExploreOutline():
 
 
     def parse(self, outline_level_spec):
+        LABELED_LINE_PATTERN = "(?m)^([A-Z]\w+): (.*)$"
         try:
-            pattern = "(?m)^\s*([0-9]+\.[0-9.]*)\s+(.*)$"
+            pattern = "(?m)^ *([0-9]+\.[0-9.]*)\s+(.*)$"
             matches = re.findall(pattern, outline_level_spec)
             matches or fail(f'No match for "{pattern}"')
 

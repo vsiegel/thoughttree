@@ -46,8 +46,8 @@ class MenuItem(tk.Frame):
 
     def call_command(self, event):
         self.menu.close()
-        self.command()
+        self.command and self.command()
 
     def show_demo (self, event):
         self.menu.close()
-        self.command() # todo
+        self.command and self.command() # todo

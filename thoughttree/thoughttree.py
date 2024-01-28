@@ -447,6 +447,9 @@ The output for a prompt contains only one level. The user then can select items 
             with InsertionIcon(sheet, OUTPUT):
                 reason, message, answer = self.model.complete(history, lambda text: self.write_sheet(text, sheet))
 
+        if self.log_messages_to_console:
+            self.log.print(f'Answer:\n"{answer}"')
+
         outline_exploration = OutlineExploration(answer)
         sheet.outline_exploration = outline_exploration
         self.tree.add_outline_exploration(outline_exploration)
@@ -610,7 +613,7 @@ The output for a prompt contains only one level. The user then can select items 
                 reason, message, answer = self.model.complete(history, lambda text: self.write_sheet(text, sheet))
 
         if self.log_messages_to_console:
-            print(f'Answer:\n"{answer}"')
+            self.log.print(f'Answer:\n"{answer}"')
 
         return reason, message, answer
 

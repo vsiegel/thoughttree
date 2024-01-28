@@ -5,7 +5,7 @@ class Log:
     def __init__(self, console: Console):
         self.console = console
 
-    def plain(self, message):
+    def print(self, message):
         self.console.write(message)
 
     def system(self, message):

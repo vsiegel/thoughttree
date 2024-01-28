@@ -57,7 +57,7 @@ class TooltipableMenu(tk.Frame):
 
     def toggle_open(self, event):
         if self.popup and self.popup.state() == "normal":
-            self.close()
+            self.close(event)
         else:
             self.create_popup(event)
 
@@ -75,7 +75,7 @@ class TooltipableMenu(tk.Frame):
 
             def on_button(e):
                 self.frame.grab_release()
-                self.close()
+                self.close(e)
 
             self.frame.bind("<Escape>", self.close, add=True)
             self.frame.bind("<Button>", on_button, add=True)

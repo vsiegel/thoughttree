@@ -135,12 +135,13 @@ class TooltipableMenu(tk.Frame):
         return None
 
     def close(self, event=None) -> bool:
+        # print(f"close {event=} {self.label.cget('text')=} {self.popup.state()=}")
         if self.popup and self.popup.state() == 'normal':
+            self.popup.withdraw()
             if self.old_focus:
                  self.old_focus.focus_set()
             # self.popup.destroy()
             # self.popup = None
-            self.popup.withdraw()
             if isinstance(self.parent, MenuBar):
                 self.parent.open_popup = None
             return True

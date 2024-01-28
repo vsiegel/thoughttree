@@ -22,7 +22,7 @@ class ResizingSheet(Sheet):
     def resize_to_content(self, event: tk.Event):
         if self.edit_modified():
             self.count("1.0", "end lineend", "update")
-            ypixels = self.count("1.0", "end lineend", 'ypixels')[0]
+            ypixels = self.count("1.0", "end lineend", 'displaylines', 'ypixels')[1]
             self.resizing_frame.configure(height=ypixels, width=self.winfo_reqwidth())
             self.edit_modified(False)
 

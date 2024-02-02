@@ -21,7 +21,7 @@ class FoldablePane(tk.PanedWindow):
 
         self.bind("<Double-Button-1>", self.fold)
         if panel and key:
-            key_help = f"Open or close {panel} with {key} or from View menu.\n"
+            key_help = f"Open or close {panel} with {key} or from View menu.\n\n"
         else:
             key_help = ""
         self.tooltip = FoldablePaneTooltip(self, key_help + tools.text_block(

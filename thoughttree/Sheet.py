@@ -101,7 +101,9 @@ class Sheet(ScrolledText, LineHandling):
     def insert_file(self, index, file):
         if file and exists(file):
             with open(file, mode="r", encoding="utf-8") as f:
+                previous_index = self.index(index)
                 self.insert(index, f.read())
+                self.mark_set(INSERT, previous_index)
 
 
     def run_code_block(self, event=None):

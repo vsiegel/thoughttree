@@ -22,11 +22,13 @@ class Cursorline:
             e.widget.tag_add('cursorline', 'insert display linestart', 'insert display lineend+1c')
 
     def clear(self, e=None):
-        # print(f"clear {self=} {e=}")
+        # print(f"clear {self=} {e=} {e.widget=} {self.sheet=}")
         from TreeSheet import TreeSheet
         try:
             if not isinstance(e.widget, TreeSheet) or isinstance(e.widget.focus_get(), TreeSheet):
                 e.widget.tag_remove('cursorline', 1.0, "end")
+            # self.sheet.tag_remove('cursorline', 1.0, "end")
+            e.widget.tag_remove('cursorline', 1.0, "end")
         except KeyError:
             pass
 

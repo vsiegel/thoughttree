@@ -5,8 +5,7 @@ from InlineForm import InlineForm
 
 
 class IterateRangeForm(InlineForm):
-    def __init__(self, sheet=None, index=INSERT,
-                 command=None):
+    def __init__(self, sheet=None, index=INSERT, command=None):
         super().__init__(sheet, index)
         sheet.undo_separator()
         def on_ok():
@@ -35,6 +34,7 @@ class IterateRangeForm(InlineForm):
         entry.pack(side=TOP, fill='x')
         entry.focus_set()
         entry.bind("<Control-Return>", on_ok)
+
         label, entry = labeled_entry('Placeholder:')
         entry.pack(side=RIGHT)
         entry.insert(0, "@")

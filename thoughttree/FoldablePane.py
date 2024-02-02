@@ -84,7 +84,6 @@ class FoldablePaneTooltip(Tooltip):
         self.widget = widget
 
         self.show_delay_ms = 300
-        self.hide_timer = None
         self.hide_delay_ms = 1000
 
         self.widget.bind("<Enter>", self.show)
@@ -99,9 +98,6 @@ class FoldablePaneTooltip(Tooltip):
 
     def refresh(self, event=None):
         if self.tip:
-            if self.hide_timer:
-                self.root.after_cancel(self.hide_timer)
-            self.hide_timer = self.root.after(self.hide_delay_ms, self.hide)
             super().refresh(event)
         else:
             self.show_later(event)

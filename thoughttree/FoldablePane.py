@@ -80,9 +80,9 @@ class FoldablePane(tk.PanedWindow):
 
 
 class FoldablePaneTooltip(Tooltip):
-    def __init__(self, widget: FoldablePane, text):
-        super().__init__(widget, text)
-        self.widget = widget
+    def __init__(self, pane: FoldablePane, text):
+        super().__init__(pane, text)
+        self.widget = pane
 
         self.show_delay_ms = 300
         self.hide_delay_ms = 1000

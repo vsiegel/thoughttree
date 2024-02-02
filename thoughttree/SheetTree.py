@@ -12,7 +12,7 @@ class SheetTree(tk.Frame):
     def __init__(self, parent, name="st", **kw):
         super().__init__(parent, highlightthickness=3, highlightcolor=Colors.highlight, name=name, takefocus=False, **kw)
 
-        self.canvas = tk.Canvas(self, name="c", background="#f5fff0")
+        self.canvas = tk.Canvas(self, name="c", background="#ffffff")
         def log_call(*args):
             # print(f"log_call " + str(args))
             self.scrollbar.set(*args)

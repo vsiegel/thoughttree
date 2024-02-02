@@ -9,7 +9,7 @@ from Tooltip import Tooltip
 class FoldablePane(tk.PanedWindow):
 
     MIN_SIZE = 20
-    def __init__(self, parent=None, folded=False, fold_size=100, name="fp", **kw):
+    def __init__(self, parent=None, folded=False, fold_size=100, name="fp", panel=None, key=None, **kw):
         super().__init__(parent, borderwidth=0, sashwidth=12, sashrelief=tk.RIDGE, name=name, **kw)
 
         self.fold_size = fold_size
@@ -20,8 +20,12 @@ class FoldablePane(tk.PanedWindow):
         self.folded = folded
 
         self.bind("<Double-Button-1>", self.fold)
-        FoldablePaneTooltip(self, tools.text_block("This is a movable separator between panes. It can be used to resize both sides"
-                      " by dragging the this separating line, or collapsing omne of it, (...), by a double click."
+        if panel and key:
+            key_help = f"Open or close {panel} with {key} or from View menu.\n"
+        else:
+            key_help = ""
+        FoldablePaneTooltip(self, key_help + tools.text_block("This is a movable separator between panes. It can be used to resize both sides"
+                      " by dragging the this separating line, or collapsing one of it, by a double click."
                       "The separating line stays visible and restores the hidden pane on double click."
                       "Alternatively, the command '...' in menu View or the keystroke '...' can be used to toggle the visibility of '...'"))
 

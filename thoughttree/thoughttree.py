@@ -36,7 +36,7 @@ from Ui import Ui
 from WaitCursor import WaitCursor
 from finish_reasons import finish_reasons
 from sheet_help_texts import sheet_help
-from tools import log_motion_on_ctrl_alt, screenshot_after_input
+from tools import log_motion_on_ctrl_alt
 
 WINDOW_ICON = "chatgpt-icon.png"
 
@@ -392,7 +392,9 @@ class Thoughttree(Ui):
         self.tree.add_improvement(Improvement(answer))
 
 
-    def explore_outline(self, event=None):
+    def explore_outline(self, event=None, hidden_command=None, outline_id=None):
+        outline_id = outline_id or random.randint(1000000, 9999999)
+
         self.system.hide(END, dedent(
             f"""
 Lines starting with "#" are comments or disabled parts of the prompt and should be ignored.

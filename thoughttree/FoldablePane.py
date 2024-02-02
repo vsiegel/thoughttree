@@ -24,19 +24,20 @@ class FoldablePane(tk.PanedWindow):
             key_help = f"Open or close {panel} with {key} or from View menu.\n"
         else:
             key_help = ""
-        FoldablePaneTooltip(self, key_help + tools.text_block("This is a movable separator between panes. It can be used to resize both sides"
-                      " by dragging the this separating line, or collapsing one of it, by a double click."
-                      "The separating line stays visible and restores the hidden pane on double click."
-                      "Alternatively, the command '...' in menu View or the keystroke '...' can be used to toggle the visibility of '...'"))
+        self.tooltip = FoldablePaneTooltip(self, key_help + tools.text_block(
+            "This is a movable separator between panes. It can be used to resize both sides"
+            " by dragging the this separating line, or collapsing one of it, by a double click."
+            "The separating line stays visible and restores the hidden pane on double click."))
 
 
     def add(self, child, stretch="always", **kw) -> None:
+        self.tooltip and self.tooltip.bind_panel(child)
         super().add(child, stretch=stretch, **kw)
 
     def addFoldable(self, child, stretch="never", **kw):
+        self.foldable_child = child
         self.fold_last =  bool(self.panes())
         self.add(child, stretch=stretch, **kw)
-        self.foldable_child = child
 
 
     def fold(self, event=None, set_folded=None):
@@ -88,6 +89,9 @@ class FoldablePaneTooltip(Tooltip):
 
         self.widget.bind("<Enter>", self.show)
         self.widget.bind("<Leave>", self.hide)
+
+    def bind_panel(self, child):
+        child.bind("<Enter>", self.hide)
 
 
     def on_sash(self, event=None):

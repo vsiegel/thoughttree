@@ -60,25 +60,29 @@ class SheetTree(tk.Frame):
         #     print(f"{self.sheet.dlineinfo('insert') and self.sheet.dlineinfo('insert')[0:2]}")
         # self.sheet.bind("<Key>", on_key, add=True)
 
-    def scroll(self, sheet: TreeSheet, to=INSERT):
+    def see_in_tree(self, sheet: TreeSheet, to=INSERT):
         # print(f">> scroll {sheet=} {id(sheet)=}")
+        y = self.frame.winfo_rooty()
+        h = self.frame.winfo_height()
         sheet_y = sheet.winfo_rooty()
-        frame_y = self.frame.winfo_rooty()
-        frame_h = self.frame.winfo_height()
+        sheet_h = sheet.winfo_height()
+        win_h = self.canvas.winfo_height()
         info = sheet.dlineinfo(to)
+        print(f"{sheet_y=} {y=} {sheet_h=} {sheet_y - y=}")
         if info:
-            see_top_sheet = info[1]
-            height = info[3]
-            see_top = see_top_sheet + sheet_y - frame_y
-            see_bottom = see_top + height
-            move_to_top = see_top / frame_h
-            move_to_bottom = see_bottom / frame_h
+            line_top = info[1]
+            line_h = info[3]
+            line_bottom = line_top + line_h
+
+            sheet_top = line_top + sheet_y - y
+            sheet_bot = sheet_top + sheet_h
+            # sheet_bot = sheet_top + line_h # fixme
             top, bottom = self.canvas.yview()
-            # print(f"{sheet} {(see_top, see_bottom)=} {move_to_top=:.3f} {move_to_bottom=:.3f} { (top, bottom)=}")
-            if move_to_top < top:
-                self.canvas.yview_moveto(move_to_top)
-            elif move_to_bottom > bottom:
-                self.canvas.yview_moveto(top + move_to_bottom - move_to_top)
+            # print(f"{h=} {win_h=} {line_top=} {line_h=} {line_top_rel=:.3f} {line_h_rel=:.3f} (sh_t, sh_b)={(sheet_top, sheet_bot)} {sheet_top_rel=:.3f} {sheet_bot_rel=:.3f} {top=:.3f}, {bottom=:.3f}")
+            if sheet_top/h < top:
+                self.canvas.yview_moveto(sheet_top/h)
+            elif sheet_bot/h > bottom:
+                self.canvas.yview_moveto((line_top + line_h - win_h)/ h)
 
 
     def add(self, text=""):

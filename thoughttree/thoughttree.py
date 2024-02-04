@@ -488,7 +488,7 @@ The Id of this outline is: {outline_id} (equal for all levels of this outline.)
         if self.log_messages_to_console:
             self.log.print(f'Answer:\n"{answer}"')
 
-        outline_exploration = OutlineExploration(answer)
+        outline_exploration = OutlineExploration(answer, outline_id=outline_id)
         sheet.outline_exploration = outline_exploration
         self.tree.add_outline_exploration(outline_exploration)
 

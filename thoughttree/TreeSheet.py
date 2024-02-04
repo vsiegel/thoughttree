@@ -52,7 +52,7 @@ class TreeSheet(ResizingSheet, tk.Frame):
         tag = "TreeSheet-last"
         self.bindtags(self.bindtags() + (tag,))
         if not self.bind_class(tag):
-            self.bind_class(tag, '<KeyRelease>', self.scroll) # , add=True)
+            self.bind_class(tag, '<KeyRelease>', self.see_in_tree) # , add=True)
 
         def on_focus_in(event):
             sheet = event.widget
@@ -61,14 +61,14 @@ class TreeSheet(ResizingSheet, tk.Frame):
         self.bind("<FocusIn>", on_focus_in, add=True)
 
 
-    def scroll(self, event=None, to=INSERT):
+    def see_in_tree(self, event=None, to=INSERT):
         # print(f"> ts.scroll {event=} {id(event)=}")
         if event:
             sheet = event.widget
         else:
             sheet = self
         if sheet.sheet_tree:
-            sheet.sheet_tree.scroll(sheet, to=to)
+            sheet.sheet_tree.see_in_tree(sheet, to=to)
 
     def on_empty_background(self, event):
         frame = event.widget

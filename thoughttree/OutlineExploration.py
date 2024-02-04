@@ -1,16 +1,22 @@
 import difflib
+import random
 import re
 import tkinter as tk
-from tkinter import INSERT
+from textwrap import dedent
+from tkinter import INSERT, END
 
-from Sheet import Sheet
+from InsertionIcon import InsertionIcon
+from Sheet import Sheet, OUTPUT
+from StructuredInteraction import StructuredInteraction
+from WaitCursor import WaitCursor
 from tools import fail
 
 
-class OutlineExploration():
-    def __init__(self, outline_level_spec, title=None, iid=None):
-        self.iid = iid or id(self)
-        self.title = title or self.iid
+class OutlineExploration(StructuredInteraction):
+    def __init__(self, outline_level_spec, title=None, outline_id=None):
+        super().__init__()
+        self.outline_id = outline_id or random.randint(1000000, 9999999)
+        self.title = title or self.outline_id
         self.valid = True
         self.outline_level_items = []
         self.parse(outline_level_spec)

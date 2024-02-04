@@ -96,7 +96,8 @@ class FoldablePaneTooltip(Tooltip):
 
     def on_sash(self, event=None):
         # identification = self.widget.identify(event.x, event.y)
-        identification = self.widget.identify(self.widget.winfo_pointerx() - self.widget.winfo_rootx(), self.widget.winfo_pointery() - self.widget.winfo_rooty())
+        w = self.widget
+        identification = w.identify(w.winfo_pointerx() - w.winfo_rootx(), w.winfo_pointery() - w.winfo_rooty())
         return bool(identification and identification[1] == "sash")
 
 

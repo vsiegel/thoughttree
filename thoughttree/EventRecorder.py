@@ -12,7 +12,7 @@ class EventRecorder:
         def on_key(event):
             print(f"{event}")
             self.events.append(event)
-        self.widget.bind_all("<Key>", self.record)
+        self.widget.bind_all("<Key>", self.record, add=True)
 
 
     def record(self, event):

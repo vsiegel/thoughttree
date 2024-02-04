@@ -1,5 +1,6 @@
 import tkinter as tk
-from tkinter import ttk, END
+from tkinter import ttk, END, INSERT
+
 
 #copy:
 class NF(tk.Frame):  # NF short for NotebookFrame - the name appears in widget names, making them longer.
@@ -34,17 +35,13 @@ class Notebook(ttk.Notebook):
 
         def on_up(event):
             notebook = event.widget
-            print(f"{notebook.parent_sheet=}")
             if notebook.parent_sheet:
-                notebook.parent_sheet.focus_set()
+                notebook.parent_sheet.focus_bottom()
         self.bind("<Up>", on_up, add=True)
 
         def on_down(event):
-            notebook = event.widget
-            print(f"{notebook.selected_sheet()=}")
-            notebook.selected_sheet().focus_set()
+            event.widget.selected_sheet().focus_top()
         self.bind("<Down>", on_down, add=True)
-
 
 
     def add_sheet(self, title, parent_sheet=None):

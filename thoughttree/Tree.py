@@ -101,10 +101,10 @@ class Tree(ttk.Treeview):
         TreeTooltip(self)
 
         file_context = TooltipableMenu(None, "(File context menu)")
-        file_context.item("Replace System", "<Shift-Alt-Return>", self.ui.replace_system_prompt, to="Treeview")
-        file_context.item("Insert System", "<Shift-Return>", lambda e=None: self.ui.insert_system_prompt(), to="Treeview")
-        file_context.item("Replace User", "<Control-Alt-Return>", lambda e=None: self.ui.replace_user_prompt(), to="Treeview")
-        file_context.item("Insert User", "<Control-Return>", lambda e=None: self.ui.insert_user_prompt(), to="Treeview")
+        file_context.item("Replace System", "<Shift-Alt-Return>", lambda e=None: self.to_sheet(self.ui.system, delete=True), to="Treeview")
+        file_context.item("Insert System", "<Shift-Return>", lambda e=None: self.to_sheet(self.ui.system, delete=False), to="Treeview")
+        file_context.item("Replace User", "<Control-Alt-Return>", lambda e=None: self.to_sheet(self.ui.current_sheet, delete=True), to="Treeview")
+        file_context.item("Insert User", "<Control-Return>", lambda e=None: self.to_sheet(self.ui.current_sheet, delete=False), to="Treeview")
         file_context.item("Open", "<Control-Shift-O>", lambda e=None: self.open_file(), to="Treeview")
 
         self.context_menus["file"] = file_context
@@ -113,6 +113,13 @@ class Tree(ttk.Treeview):
         self.bind_class("Treeview", "<Return>", self.use_node)
         self.bind_class("Treeview", "<Button-3>", show_context_menu)
         self.bind_class("Treeview", "<Menu>", show_context_menu)
+
+    def to_sheet(self, sheet, delete=False):
+        if delete:
+            sheet.delete(1.0, END)
+        file = self.focussed_file()
+        sheet.insert_file(INSERT, file)
+
 
     def open_file(self):
         path = self.focussed_file()

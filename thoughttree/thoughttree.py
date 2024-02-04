@@ -426,15 +426,36 @@ In a second run, generate the sub items for one of the existing items. For examp
 ...
 
 Each item consists of a one line title.
+Section names need to match exactly when used in multiple places. 
+
+For example, for this outline level as first output:
+1. Foo
+2. Bar
+3. Baz
+
+and a next prompt:
+
+2.
+
+the answer needs to start exactly with:
+
+Id: ...
+Title: Bar
+2.1. ...
+
+If an item is not directly based on the document, but on background knowledge, prepend it with a "*", like so:
+1.1 *Foo 
 Use as many items as make sense from the content. More detailed output is preferred.
-There is no requirement for symmetry or balance, always focus on the sub-itemthe user is interested in.
+There is no requirement for symmetry or balance, always focus on the sub-item the user is interested in.
+Start the output with a newline.
 
 The output for a prompt contains only one level. The user then can select items according to his interest, to generate further details.
+Prepend the output with the following fields:
 
-# Disabled propmpt part:
-#Start the output with a description of the reasoning that lead to choosing #the speciffic outline.
-#Use the format:
-#Description: ...
+Id: ...
+Title: ...
+
+The Id of this outline is: {outline_id} (equal for all levels of this outline.)
 """))
         # Prepend the outline with the following fields:
         #
@@ -442,6 +463,10 @@ The output for a prompt contains only one level. The user then can select items 
         # Input_Summary: ...
         # Outline_Title: ...
         # Outline_Abstract: ...
+        # Disabled propmpt part:
+        # Start the output with a description of the reasoning that lead to choosing #the speciffic outline.
+        # Use the format:
+        # Description: ...
 
         sheet = self.it
         history = self.history_from_system_and_chat()

@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import random
 import sys
 import tkinter as tk
 from datetime import datetime
@@ -11,12 +12,13 @@ from tkinter.messagebox import showinfo
 from configargparse import Namespace
 import Colors
 from Console import Console
+from EventPlayer import EventPlayer
+from EventRecorder import EventRecorder
 from OutlineExploration import OutlineExploration
 from FinishReasonIcon import FinishReasonIcon
 from FoldablePane import FoldablePane
 from History import History
 from InsertionIcon import InsertionIcon
-from Keys import Keys
 from Log import Log
 from SheetTree import SheetTree
 from InitialSheetHelp import InitialSheetHelp
@@ -81,7 +83,10 @@ class Thoughttree(Ui):
         self.detail_pane = None
         self.system_pane = None
 
-        self.configure_geometry(argv, Thoughttree.ROOT_GEOMETRY, Thoughttree.MIN_SIZE)
+        geometry = Thoughttree.ROOT_GEOMETRY
+        if conf.debug:
+            geometry += "+700+100"
+        self.configure_geometry(argv, geometry, Thoughttree.MIN_SIZE)
 
         try:
             self.set_icon(self.WINDOW_ICON)

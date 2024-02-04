@@ -26,7 +26,7 @@ class ResizingSheet(Sheet):
             self.resizing_frame.configure(height=ypixels, width=self.winfo_reqwidth())
             self.edit_modified(False)
 
-    def scroll(self, event=None):
+    def see_in_tree(self, event=None):
             pass
 
     def copy_packing(self, frame, superclass):

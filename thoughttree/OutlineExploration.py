@@ -13,9 +13,11 @@ from tools import fail
 
 
 class OutlineExploration(StructuredInteraction):
-    def __init__(self, outline_level_spec, title=None, outline_id=None):
+    def __init__(self, outline_level_spec, title=None, outline_id=None, parent_id=None):
         super().__init__()
         self.outline_id = outline_id or random.randint(1000000, 9999999)
+        self.parent_id = parent_id or outline_id
+
         self.title = title or self.outline_id
         self.valid = True
         self.outline_level_items = []

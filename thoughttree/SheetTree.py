@@ -3,6 +3,7 @@ from tkinter import ttk, BOTH, LEFT, RIGHT, VERTICAL, NW, Y, X, INSERT, CURRENT,
 
 import Colors
 import tools
+from Ruler import Ruler
 from Sheet import Sheet
 from TreeSheet import TreeSheet
 from tools import on_event, bind_tree, iterate_tree
@@ -50,6 +51,7 @@ class SheetTree(tk.Frame):
 
         self.winfo_toplevel().bind("<Control-Alt-Shift-S>", self.debug)
 
+        self.ruler = None
 
         # def on_key(event):
         #     # print(f"on_key {event.keysym}")
@@ -61,28 +63,61 @@ class SheetTree(tk.Frame):
         # self.sheet.bind("<Key>", on_key, add=True)
 
     def see_in_tree(self, sheet: TreeSheet, to=INSERT):
-        # print(f">> scroll {sheet=} {id(sheet)=}")
-        y = self.frame.winfo_rooty()
-        h = self.frame.winfo_height()
-        sheet_y = sheet.winfo_rooty()
-        sheet_h = sheet.winfo_height()
-        win_h = self.canvas.winfo_height()
-        info = sheet.dlineinfo(to)
-        print(f"{sheet_y=} {y=} {sheet_h=} {sheet_y - y=}")
-        if info:
-            line_top = info[1]
-            line_h = info[3]
-            line_bottom = line_top + line_h
+        # self.ruler = self.ruler and self.ruler.cleared() or Ruler(self, offset=0)
+        line_info = sheet.dlineinfo(to)
+        if not line_info:
+            return
 
-            sheet_top = line_top + sheet_y - y
-            sheet_bot = sheet_top + sheet_h
-            # sheet_bot = sheet_top + line_h # fixme
-            top, bottom = self.canvas.yview()
-            # print(f"{h=} {win_h=} {line_top=} {line_h=} {line_top_rel=:.3f} {line_h_rel=:.3f} (sh_t, sh_b)={(sheet_top, sheet_bot)} {sheet_top_rel=:.3f} {sheet_bot_rel=:.3f} {top=:.3f}, {bottom=:.3f}")
-            if sheet_top/h < top:
-                self.canvas.yview_moveto(sheet_top/h)
-            elif sheet_bot/h > bottom:
-                self.canvas.yview_moveto((line_top + line_h - win_h)/ h)
+        y0 = self.frame.winfo_rooty()
+        # self.ruler.offset = y0
+        h = self.frame.winfo_height()
+        y = y0 - y0
+        y2 = y0 + h - y0
+
+        view_y = self.canvas.winfo_rooty() - y0
+        view_h = self.canvas.winfo_height()
+        view_y2 = view_y + view_h
+
+        sheet_y = sheet.winfo_rooty() - y0
+
+        line_y = sheet_y + int(line_info[1])
+        line_h = int(line_info[3])
+        line_y2 = line_y + line_h
+
+        margin_y = line_y - line_h
+        margin_y2 = line_y2 + line_h
+
+        top, bottom = self.canvas.yview()
+
+        # self.ruler.ticks(
+        #     (y, "y", "#c00"),
+        #     # (h, "h", "#a1a5dd"),
+        #     (y2, "y2", "#f4f6ae"),
+        #     (view_y, "view_y", "#7a9"),
+        #     # (view_h, "view_h", "#a89"),
+        #     (view_y2, "view_y2", "#1714ff"),
+        #     (sheet_y, "sheet_y", "#4a1"),
+        #     (line_y, "line_y", "#a8f"),
+        #     # (line_h, "line_h", "#af9"),
+        #     (line_y2, "line_y2", "#a19"),
+        #     (margin_y, "margin_y", "#f89"),
+        #     # (margin_h, "margin_h", "#a81"),
+        #     (margin_y2, "margin_y2", "#08f")
+        # )
+        if margin_y < view_y:
+            to_y = margin_y
+            to_top = to_y / h
+            # print(f"^^^^^ {to_top=:.3f} {to_y=} {view_y=} {line_y=} {y=}")
+            if view_y > 0:
+                self.canvas.yview_moveto(to_top)
+        elif margin_y2 > view_y2:
+            to_y = margin_y2 - view_h
+            to_top = to_y / h
+            # print(f"vvvvv {to_top=:.3f} {to_y=} {view_y2=} {line_y2=} {y2=}")
+            if view_y2 < line_y2:
+                self.canvas.yview_moveto(to_top)
+        else:
+            return
 
 
     def add(self, text=""):

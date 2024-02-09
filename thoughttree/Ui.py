@@ -27,7 +27,7 @@ class Ui(tk.Frame):
         self.closeable = closeable
         self.is_root_destroyed = False
 
-        Ui.current_open_uis.append(self)
+        Ui.current_open_uis.append(self.root)
         number = len(Ui.current_open_uis) > 1 and " " + str(len(Ui.current_open_uis)) or ""
         title = f"{title}{number}"
         self.window_setup(title, icon_path)
@@ -75,12 +75,14 @@ class Ui(tk.Frame):
 
             if not self.is_initially_modified() or self.closeable or askyesno("Close Window", "Are you sure you want to close this window?", parent=self):
                 self.pack_forget()
-                if self in Ui.current_open_uis:
-                    Ui.current_open_uis.remove(self) #todo self may be old, key uses bind_class
+
+                if self.root in Ui.current_open_uis:
+                    Ui.current_open_uis.remove(self.root) #todo self may be old, key uses bind_class
                 self.is_root_destroyed = True
                 self.root.destroy()
         except Exception as e:
             print(f"{e=}")
+
 
     def quit(self, event=None, label="Quit"):
         if not self.is_initially_modified() or askyesno(label, "Are you sure you want to close all windows and quit?", parent=self):

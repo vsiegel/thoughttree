@@ -73,12 +73,14 @@ class TooltipableMenu(tk.Frame):
             self.frame = tk.Frame(self.popup, takefocus=True, bg='lightgray')
             self.old_focus = self.focus_get()
 
-            def on_button(e):
-                self.close(e)
+
+            def on_map(e):
+                self.frame.grab_set()
+            self.frame.bind("<Map>", on_map)
 
             self.frame.bind("<Escape>", self.close, add=True)
             self.frame.bind("<FocusOut>", self.close, add=True)
-            self.frame.bind("<Button>", on_button, add=True)
+            self.frame.bind("<Button>", self.close, add=True)
             self.popup.bind("<Enter>", self.keep_open, add=True)
             self.popup.bind("<Escape>", self.close, add=True)
             MenuHelpTooltip(self.frame)
@@ -86,7 +88,7 @@ class TooltipableMenu(tk.Frame):
             if isinstance(self.parent, MenuBar):
                 self.parent.open_popup = self.popup
             self.frame.pack()
-            # self.popup.bind("<Map>", lambda e: self.popup.grab_set())
+            # self.frame.bind("<Map>", lambda e: self.frame.grab_set())
         # elif not self.popup.state() == 'normal':
         else:
             self.popup.deiconify()

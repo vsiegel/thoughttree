@@ -587,7 +587,7 @@ The Id of this outline is: {outline_id} (equal for all levels of this outline.)
 
     def scroll(self, sheet, to=OUTPUT):
         if self.scroll_output and isinstance(sheet, TreeSheet):
-            sheet.scroll(to=to)
+            sheet.see_in_tree(to=to)
             # sheet.see(to)
         sheet.update()
         # sheet.update_idletasks()

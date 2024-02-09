@@ -219,7 +219,8 @@ def bind_to_all_events(widget, on_event=None, bind_all=False, excluded="Motion",
     # invalid_events = ["Keymap", "GraphicsExpose", "NoExpose", "CirculateRequest", "SelectionClear",
     #           "SelectionRequest", "Selection", "ClientMessage", "Mapping", "VirtualEvent"]
     def print_event(event):
-        print(f"{event} on {event.widget}", flush=True)
+        print(f": {event.widget}: {event}", flush=True)
+    on_event = on_event or print_event
 
     excluded = excluded or ""
     excluded = excluded.split(", ")
@@ -230,7 +231,6 @@ def bind_to_all_events(widget, on_event=None, bind_all=False, excluded="Motion",
         included = []
     included = included or [e.name for e in tk.EventType if e.name not in excluded]
 
-    on_event = on_event or print_event
     for ev in [f"<{name}>" for name in included]:
         try:
             if bind_all:
@@ -315,3 +315,7 @@ def fail(message=""):
         def __init__(self, *args):
             super().__init__(*args)
     raise FailException(message)
+
+def lines(n: int) -> str:
+    """:return: str - n lines with the numbers to str 0 to (n-1) with newlines between"""
+    return "\n".join(list(map(str, range(n))))

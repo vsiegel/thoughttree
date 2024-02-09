@@ -25,9 +25,6 @@ class Ruler(tk.Toplevel):
         #     print(event.x, event.y)
         # self.bind('<Button-3>', on_button3, add=True)
 
-    def move_home(self):
-        self.geometry("200x1600+2000+0")
-
     def ticks(self, *values_and_labels):
         for v, label, *color in values_and_labels:
             if color:
@@ -35,14 +32,19 @@ class Ruler(tk.Toplevel):
             self.tick(v, label, color=color)
 
     def tick(self, v, label="", color=None):
-        # print(f"{label + ':':15s} {v}")
+        print(f"{label + ':':15s} {v}")
         color = color or "black"
+        s = v + self.offset
         for i, shift in enumerate([3, 0, 3], -1):
-            self.canvas.create_line(0 + shift, v + self.offset + i, 15, v + self.offset + i, fill=color, tags=("clearable",))
-        self.canvas.create_text(20, v + self.offset - 12, text=str(v) + " " + label, anchor=tk.NW, fill=color, tags=("clearable",))
+            self.canvas.create_line(0 + shift, s + i, 15, s + i, fill=color, tags=("clearable",))
+        self.canvas.create_text(20, s - 12, text=str(v) + " " + label, anchor=tk.NW, fill=color, tags=("clearable",))
 
     def clear(self):
         self.canvas.delete("clearable")
+
+    def cleared(self):
+        self.clear()
+        return self
 
 
 if __name__ == "__main__":

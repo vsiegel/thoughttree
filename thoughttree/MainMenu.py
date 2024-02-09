@@ -90,7 +90,13 @@ class MainMenu(MenuBar):
 
         def paste(event=None) :
             pasted = pyperclip.paste()
-            self.it.insert(INSERT, pasted)
+            it = self.it
+            it.update()
+            print(f"+insert", flush=True)
+            it.insert(INSERT, pasted)
+            it.update()
+            print(f"-insert", flush=True)
+            print(f"{len(pasted)=}")
 
         def edit_undo(event=None):
             try:
@@ -312,7 +318,6 @@ class MainMenu(MenuBar):
         prompt.separator()
         prompt.item("Automatically continue")
         prompt.item("Continue until...")
-
 
 
         query = self.submenu("Query")

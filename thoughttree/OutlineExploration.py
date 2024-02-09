@@ -27,16 +27,19 @@ class OutlineExploration(StructuredInteraction):
 
     def parse(self, outline_level_spec):
         LABELED_LINE_PATTERN = "(?m)^([A-Z]\w+): (.*)$"
+        OUTLINE_ITEM_PATTERN = "(?m)^ *([0-9]+\.[0-9.]*)\s+(.*)$"
         try:
-            pattern = "(?m)^ *([0-9]+\.[0-9.]*)\s+(.*)$"
-            matches = re.findall(pattern, outline_level_spec)
-            matches or fail(f'No match for "{pattern}"')
+            match = re.match(LABELED_LINE_PATTERN, outline_level_spec)
+            if match:
+                self.title = match.group(2)
+
+            matches = re.findall(OUTLINE_ITEM_PATTERN, outline_level_spec)
+            matches or fail(f'No match for "{OUTLINE_ITEM_PATTERN}"')
 
             for groups in matches:
                 outline_id = groups[0]
                 outline_title = groups[1]
                 self.outline_level_items.append((outline_id, outline_title))
-            # print(f'{self.outline_level_items=}')
         except Exception as ex:
             self.valid = False
             print(f'{ex=}')

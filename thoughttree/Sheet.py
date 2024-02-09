@@ -247,7 +247,8 @@ class Sheet(ScrolledText, LineHandling):
             super().unbind(seq)
 
     def hide(self, index, chars, *args):
-        self.insert(index, chars, ("hidden_prompt",), *args)
+        if not self.search(chars, "1.0"):
+            self.insert(index, chars, ("hidden_prompt",), *args)
 
     def insert_diff(self, old_text, new_text, pos=INSERT):
         diff_by_char = True

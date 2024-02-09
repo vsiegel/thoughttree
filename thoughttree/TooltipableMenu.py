@@ -33,6 +33,8 @@ class TooltipableMenu(tk.Frame):
         keystroke = self.fix_key_letter_case(keystroke)
         if to == "all":
             self.winfo_toplevel().bind_all(keystroke, command, add=add)
+        elif to == "this":
+            self.winfo_toplevel().bind(keystroke, command, add=add)
         else:
             self.winfo_toplevel().bind_class(to, keystroke, command, add=add)
         accelerator = self.accelerator_label(keystroke)

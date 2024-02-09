@@ -481,7 +481,8 @@ The Id of this outline is: {outline_id} (equal for all levels of this outline.)
 
         sheet = self.it
         history = self.history_from_system_and_chat(additional_message=hidden_command)
-        self.delete_hidden_prompt(sheet)
+        if not keep_hidden_command:
+            self.delete_hidden_prompt(sheet)
 
         if self.log_messages_to_console:
             history.log()

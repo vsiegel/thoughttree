@@ -64,14 +64,17 @@ class TooltipableMenu(tk.Frame):
             self.create_popup(event)
 
     def create_popup(self, event, x=None, y=None):
+        focus = self.focus_get()
+        if focus:
+            self.old_focus = focus
+
         if not self.popup:
-            self.popup = tk.Toplevel(self, bd=3, relief='raised', bg='lightgray')
+            self.popup = tk.Toplevel(self, bd=3, relief='raised', takefocus=True, bg='lightgray')
             self.popup.wm_overrideredirect(True)
             # self.popup.wm_attributes("-topmost", True)
             self.popup.transient(self.winfo_toplevel())
 
             self.frame = tk.Frame(self.popup, takefocus=True, bg='lightgray')
-            self.old_focus = self.focus_get()
 
 
             def on_map(e):
@@ -136,7 +139,6 @@ class TooltipableMenu(tk.Frame):
         return None
 
     def close(self, event=None) -> bool:
-        # print(f"close {event=} {self.label.cget('text')=} {self.popup.state()=}")
         if self.popup and self.popup.state() == 'normal':
             self.frame.grab_release()
             self.popup.withdraw()

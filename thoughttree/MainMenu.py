@@ -210,7 +210,7 @@ class MainMenu(MenuBar):
         file.separator()
         file.item("Close Tab", "<Control-w>", close_tab, add=False, to=TreeSheet)
         file.item("Close Empty Tab", "<BackSpace>", lambda e=None: self.it.backspace(e), add=False)
-        file.item("Close Window", "<Control-Q>", ui.close, to="all")
+        file.item("Close Window", "<Control-Q>", ui.close, to="this")
         file.item("Quit Thoughttree", "<Control-Shift-Q>", lambda e=None: ui.quit(label="Quit Thoughttree"), to="all")
         file.item("Quit Without Confirmation", "<Control-Alt-Shift-Q>", lambda e=None: sys.exit(0), to="all")
 

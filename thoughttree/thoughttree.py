@@ -461,6 +461,10 @@ Prepend the output with the following fields:
 Id: ...
 Title: ...
 
+Start the output with two newlines. Add two newlines after the output.
+If the prompt is a section id, continue with that section.
+If it is "Text: [id]", output the text of the section as Text: [id] "..."
+If it is "Ref: [id]", output a substring of the text this item is referring to as Ref: [id] "..."
 The Id of this outline is: {outline_id} (equal for all levels of this outline.)
 """))
         # Prepend the outline with the following fields:

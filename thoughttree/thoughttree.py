@@ -449,8 +449,8 @@ Id: ...
 Title: Bar
 2.1. ...
 
-If an item is not directly based on the document, but on background knowledge, prepend it with a "*", like so:
-1.1 *Foo 
+If an item is not directly based on the document, but on background knowledge, set it in "()", like so:
+1.1 (Foo) 
 Use as many items as make sense from the content. More detailed output is preferred.
 There is no requirement for symmetry or balance, always focus on the sub-item the user is interested in.
 Start the output with a newline.

@@ -71,30 +71,27 @@ class TooltipableMenu(tk.Frame):
             self.popup.transient(self.winfo_toplevel())
 
             self.frame = tk.Frame(self.popup, takefocus=True, bg='lightgray')
-            self.frame.pack()
             self.old_focus = self.focus_get()
-            # self.frame.focus_set()
 
             def on_button(e):
-                self.frame.grab_release()
                 self.close(e)
 
             self.frame.bind("<Escape>", self.close, add=True)
+            self.frame.bind("<FocusOut>", self.close, add=True)
             self.frame.bind("<Button>", on_button, add=True)
-            self.popup.bind("<Enter>", lambda e: self.frame.grab_set(), add=True)
             self.popup.bind("<Enter>", self.keep_open, add=True)
             self.popup.bind("<Escape>", self.close, add=True)
             MenuHelpTooltip(self.frame)
             self.populate_menu()
             if isinstance(self.parent, MenuBar):
                 self.parent.open_popup = self.popup
+            self.frame.pack()
+            # self.popup.bind("<Map>", lambda e: self.popup.grab_set())
         # elif not self.popup.state() == 'normal':
         else:
-            # print(f"{self.popup.state()}")
             self.popup.deiconify()
             self.popup.focus_set()
             self.popup.update()
-        # print(f"{self.popup.state()}")
 
         if x is None:
             x = self.winfo_rootx()
@@ -139,6 +136,7 @@ class TooltipableMenu(tk.Frame):
     def close(self, event=None) -> bool:
         # print(f"close {event=} {self.label.cget('text')=} {self.popup.state()=}")
         if self.popup and self.popup.state() == 'normal':
+            self.frame.grab_release()
             self.popup.withdraw()
             if self.old_focus:
                  self.old_focus.focus_set()

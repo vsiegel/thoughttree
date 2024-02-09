@@ -102,9 +102,9 @@ class Tree(ttk.Treeview):
 
         file_context = TooltipableMenu(None, "(File context menu)")
         file_context.item("Replace System", "<Shift-Alt-Return>", lambda e=None: self.to_sheet(self.ui.system, delete=True), to="Treeview")
-        file_context.item("Insert System", "<Shift-Return>", lambda e=None: self.to_sheet(self.ui.system, delete=False), to="Treeview")
+        file_context.item("Insert System", "<Shift-Return>", lambda e=None: self.to_sheet(self.ui.system), to="Treeview")
         file_context.item("Replace User", "<Control-Alt-Return>", lambda e=None: self.to_sheet(self.ui.current_sheet, delete=True), to="Treeview")
-        file_context.item("Insert User", "<Control-Return>", lambda e=None: self.to_sheet(self.ui.current_sheet, delete=False), to="Treeview")
+        file_context.item("Insert User", "<Control-Return>", lambda e=None: self.to_sheet(self.ui.current_sheet), to="Treeview")
         file_context.item("Open", "<Control-Shift-O>", lambda e=None: self.open_file(), to="Treeview")
 
         self.context_menus["file"] = file_context
@@ -127,6 +127,7 @@ class Tree(ttk.Treeview):
             startfile(path)
 
     def append(self, parent, index=END, text="-", iid=None, open=False, value="", type="toplevel", tags=()):
+        # print(f"Parent: {parent}, Index: {index}, Text: {text}, Iid: {iid}, Open: {open}, Value: {value}, Type: {type}, Tags: {tags}")
         return self.insert(parent=parent, index=index, text=text, iid=iid, open=open, values=[value, type], tags=tags)
 
 
@@ -153,7 +154,7 @@ class Tree(ttk.Treeview):
         elif type.startswith("outline_exploration"):
             self.use_outline_exploration(iid, type)
         elif type == "default":
-            self.ui.use_default()
+            self.to_sheet(self.ui.current_sheet)
         elif type in ["directory", "toplevel"]:
             self.item(iid, open=not self.item(iid, 'open'))
         else:
@@ -174,18 +175,58 @@ class Tree(ttk.Treeview):
             pass
 
 
+    def outline_id(self, iid):
+        while self.set(iid, "type") == "outline_exploration.item":
+            iid = self.parent(iid)
+        return iid
+
     def use_outline_exploration(self, iid, type):
         if type == "outline_exploration.root":
             pass
         elif type == "outline_exploration.item":
             text = self.item(iid, "text")
-            outline_id, outline_title = text.split(" ", maxsplit=1)
-            print(f"{outline_id=} {outline_title=}")
+            item, title = text.split(" ", maxsplit=1)
+            outline_id = self.outline_id(iid)
+            print(f"{iid=} {outline_id} {item=} {title=}")
+            self.ui.explore_outline(hidden_command=item, outline_id=outline_id, parent_id=iid)
+            # self.ui.chat(1, "\n\n", "\n\n", hidden_command=item)
+
+    def add_outline_exploration(self, outline_exploration: OutlineExploration):
+        if not outline_exploration:
+            return
+        iid = outline_exploration.parent_id
+        if self.exists(iid):
+            parent = iid
+        else:
+            print(f"{outline_exploration=} outline_id: {outline_exploration.outline_id} parent_id: {outline_exploration.parent_id} {outline_exploration.title=}")
+            parent = self.append("Outlines", text=outline_exploration.title, iid=iid, type="outline_exploration.root", open=True)
+        for outline_id, outline_title in outline_exploration.outline_level_items:
+            self.append(parent, text=outline_id + " " + outline_title, type="outline_exploration.item", open=True)
+
+
+    def add_change(self, change: TextChange):
+        title = self.insert("Changes", END, text=change.title, open=True)
+        iid = self.insert(title, END, text=change.description, open=True)
+        for attribute, value in change.attributes.items():
+            self.insert(title, END, text=attribute, values=[value])
+        for old, new in change.replacements.items():
+            self.insert(title, END, text=old)
+            self.insert(title, END, text=new)
+
+
+    def add_improvement(self, improvement: Improvement):
+        if not improvement:
+            return
+        iid = self.append("Differences", text=improvement.title, type="improvement", open=True)
+        for old, new in improvement.replacements.items():
+            self.append(iid, text=old, type="improvement.old", tags=("old",))
+            self.append(iid, text=new, type="improvement.new", tags=("new",))
+            self.append(iid, text=diff_summary(old, new), type="improvement.diff_summary")
+
 
 
     def show_details(self, event=None):
         item = self.focussed_file()
-        print(f"{self.focussed_file()=}")
         self.ui.detail.configure(state=NORMAL)
         try:
             if self.ui.detail.get(1.0, "end").strip():
@@ -235,7 +276,6 @@ class Tree(ttk.Treeview):
 
 
     def append_file(self, node, directory, file, iid=None, typ=None):
-        typ = None
         path = join(directory, file)
         if typ:
             typ = typ
@@ -282,35 +322,3 @@ class Tree(ttk.Treeview):
         cell_editor.bind("<Control-Return>", lambda e: cell_editor.insert(INSERT, "\n") or "break")
         # cell_editor.bind("<Control-Key>", lambda e : "break")
         # cell_editor.bind("<Control_L>", lambda e : "break")
-
-    def add_change(self, change: TextChange):
-        title = self.insert("Changes", END, text=change.title, open=True)
-        iid = self.insert(title, END, text=change.description, open=True)
-        for attribute, value in change.attributes.items():
-            self.insert(title, END, text=attribute, values=[value])
-        for old, new in change.replacements.items():
-            self.insert(title, END, text=old)
-            self.insert(title, END, text=new)
-
-
-    def add_improvement(self, improvement: Improvement):
-        if not improvement:
-            return
-        iid = self.append("Differences", text=improvement.title, type="improvement", open=True)
-        for old, new in improvement.replacements.items():
-            self.append(iid, text=old, type="improvement.old", tags=("old",))
-            self.append(iid, text=new, type="improvement.new", tags=("new",))
-            self.append(iid, text=diff_summary(old, new), type="improvement.diff_summary")
-
-
-    def add_outline_exploration(self, outline_exploration: OutlineExploration):
-        if not outline_exploration:
-            return
-        iid = outline_exploration.iid
-        if self.exists(iid):
-            root = self.item(iid)
-        else:
-            print(f"{outline_exploration=} {outline_exploration.title=}")
-            root = self.append("Outlines", text=outline_exploration.title, iid=iid, type="outline_exploration.root", open=True)
-        for outline_id, outline_title in outline_exploration.outline_level_items:
-            self.append(root, text=outline_id + " " + outline_title, type="outline_exploration.item")

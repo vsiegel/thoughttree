@@ -143,9 +143,7 @@ class TooltipableMenu(tk.Frame):
             self.frame.grab_release()
             self.popup.withdraw()
             if self.old_focus:
-                 self.old_focus.focus_set()
-            # self.popup.destroy()
-            # self.popup = None
+                 self.old_focus.focus_force()
             if isinstance(self.parent, MenuBar):
                 self.parent.open_popup = None
             return True

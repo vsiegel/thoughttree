@@ -714,25 +714,6 @@ The Id of this outline is: {outline_id} (equal for all levels of this outline.)
             sheet.tag_config("hidden_prompt", elide=not hidden)
 
 
-    def insert_system_prompt(self, event=None):
-        file = self.tree.focussed_file()
-        self.system.insert_file(INSERT, file)
-        self.system.focus_set()
-
-    def replace_system_prompt(self, event=None):
-        self.system.delete(1.0, END)
-        self.insert_system_prompt()
-
-    def insert_user_prompt(self):
-        file = self.tree.focussed_file()
-        self.current_sheet.insert_file(INSERT, file)
-        self.current_sheet.focus_set()
-
-    def replace_user_prompt(self):
-        self.current_sheet.delete(1.0, END)
-        self.insert_user_prompt()
-
-
     def use_default(self):
         if not self.current_sheet.get(1.0, "end-1c"):
             self.insert_user_prompt()

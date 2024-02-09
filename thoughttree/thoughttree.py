@@ -409,6 +409,7 @@ class Thoughttree(Ui):
         self.system.hide(END, dedent(
             f"""
 Lines starting with "#" are comments or disabled parts of the prompt and should be ignored.
+# Prompt "explore_outline"
 
 Explore an outline drilling down in the information by incrementally extending an outline locally, directed by the user input that specifies what the user is interested in.  Analyse the text and express the relevant data incrementally in an outline structure that is most suitable for this specific text.
 Use a decimal outline (1.1.1...)

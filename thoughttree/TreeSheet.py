@@ -38,21 +38,19 @@ class TreeSheet(ResizingSheet, tk.Frame):
         self.tree_frame.bind("<Button>", self.on_empty_background, add=True)
 
         def on_up(event):
-            sheet = event.widget
-            if sheet.at_first_line() and self.parent_sheet:
-                self.parent_sheet.focus_set()
+            if self.at_first_line() and self.parent_sheet:
+                self.parent_sheet.focus_bottom()
         self.bind("<Up>", on_up, add=True)
 
         def on_down(event):
-            sheet = event.widget
-            if sheet.at_last_line() and self.notebook:
-                self.notebook.selected_sheet().focus_set()
+            if self.at_last_line() and self.notebook:
+                self.notebook.selected_sheet().focus_top()
         self.bind("<Down>", on_down, add=True)
 
         tag = "TreeSheet-last"
         self.bindtags(self.bindtags() + (tag,))
         if not self.bind_class(tag):
-            self.bind_class(tag, '<KeyRelease>', self.see_in_tree) # , add=True)
+            self.bind_class(tag, '<KeyRelease>', self.see_in_tree, add=True)
 
         def on_focus_in(event):
             sheet = event.widget
@@ -60,9 +58,21 @@ class TreeSheet(ResizingSheet, tk.Frame):
                 sheet.sheet_tree.last_sheet = sheet
         self.bind("<FocusIn>", on_focus_in, add=True)
 
+    def at_first_line(self):
+        return self.index(INSERT).split('.')[0] == '1'
+
+    def at_last_line(self):
+        return self.compare("insert lineend", '==', "end-1c")
+
+    def focus_top(self):
+        self.focus_set()
+        self.mark_set(INSERT, "1.0")
+
+    def focus_bottom(self):
+        self.focus_set()
+        self.mark_set(INSERT, END)
 
     def see_in_tree(self, event=None, to=INSERT):
-        # print(f"> ts.scroll {event=} {id(event)=}")
         if event:
             sheet = event.widget
         else:
@@ -116,7 +126,6 @@ class TreeSheet(ResizingSheet, tk.Frame):
         has_leading_text = bool(self.get("1.0", index).strip())
 
         if self.notebook:
-            print(f"fork: {self.notebook=}")
             notebook = self.notebook
         elif not has_leading_text and self.parent_notebook:
             notebook = self.parent_notebook

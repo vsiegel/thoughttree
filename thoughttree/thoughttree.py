@@ -402,9 +402,10 @@ class Thoughttree(Ui):
         self.tree.add_improvement(Improvement(answer))
 
 
-    def explore_outline(self, event=None, hidden_command=None, outline_id=None):
+    def explore_outline(self, event=None, hidden_command=None, outline_id=None, parent_id=None):
         outline_id = outline_id or random.randint(1000000, 9999999)
-
+        parent_id = parent_id or outline_id
+        keep_hidden_command = True
         self.system.hide(END, dedent(
             f"""
 Lines starting with "#" are comments or disabled parts of the prompt and should be ignored.
@@ -488,7 +489,7 @@ The Id of this outline is: {outline_id} (equal for all levels of this outline.)
         if self.log_messages_to_console:
             self.log.print(f'Answer:\n"{answer}"')
 
-        outline_exploration = OutlineExploration(answer, outline_id=outline_id)
+        outline_exploration = OutlineExploration(answer, outline_id=outline_id, parent_id=parent_id)
         sheet.outline_exploration = outline_exploration
         self.tree.add_outline_exploration(outline_exploration)
 

@@ -576,13 +576,12 @@ The Id of this outline is: {outline_id} (equal for all levels of this outline.)
     @property
     def it(self) -> Sheet:
         focussed = self.focus_get()
-        if isinstance(focussed, TreeSheet):
-            sheet = focussed.sheet_tree
-        elif isinstance(focussed, Sheet):
+        # if isinstance(focussed, TreeSheet):
+        #     sheet = focussed
+        if isinstance(focussed, Sheet):
             sheet = focussed
         else:
-            sheet = None
-            fail("sheet = None")
+            sheet = self.sheet_tree.current
         return sheet
 
 

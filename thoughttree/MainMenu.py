@@ -259,6 +259,8 @@ class MainMenu(MenuBar):
         navigate.item("Previous Sheet", "<Shift-Tab>", lambda e=None: e.widget.focusPrevSheet())
         navigate.item("Next Tab", "<Control-Next>", lambda e=None: e.widget.focusNextTab(), to=TreeSheet)#  .widget.sheet_tree.tk_focusPrev() or e.widget.tk_focusPrev())
         navigate.item("Previous Tab", "<Control-Prior>", lambda e=None: e.widget.focusPrevTab(), to=TreeSheet)
+        navigate.item("End of Sheet or Page Down", "<Next>", lambda e=None: e.widget.focusNextTab(), to=TreeSheet)#  .widget.sheet_tree.tk_focusPrev() or e.widget.tk_focusPrev())
+        navigate.item("Start of Sheet or Page Up", "<Prior>", lambda e=None: e.widget.focusPrevTab(), to=TreeSheet)
         navigate.item("Next Similar Line", "<Control-j>", lambda e=None: self.it.jump_to_similar_line(direction=1))
         navigate.item("Previous Similar Line", "<Control-Shift-J>", lambda e=None: self.it.jump_to_similar_line(direction=-1))
         navigate.separator()

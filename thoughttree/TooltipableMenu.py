@@ -48,8 +48,8 @@ class TooltipableMenu(tk.Frame):
     def separator(self):
         self.items.append(('-', '-', '-', -1))
 
-    def insert_command(self, index, label, underline=-1, accelerator=None, state=tk.NORMAL, command=None):
-        pass
+    # def insert_command(self, index, label, underline=-1, accelerator=None, state=tk.NORMAL, command=None):
+    #     pass
 
     def keep_open(self, event):
         if self.parent:

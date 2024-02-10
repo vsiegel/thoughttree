@@ -25,11 +25,12 @@ class Sheet(ScrolledText, LineHandling):
     def __init__(self, master=None, scrollbar=True, name="s", wrap=WORD, width=40, borderwidth=0,
                  highlightthickness=1, highlightcolor="lightgray",  insertbackground="#000",
                  insertwidth=3, insertunfocussed="none", #"none", "solid","hollow",
-                 padx=0, pady=0, height=0, background='white', text="", **kw):
+                 padx=0, pady=0, height=0, background='white', text="", font=None, **kw):
+        font = font or Fonts.FONT
         ScrolledText.__init__(
             self, master, undo=True, wrap=wrap, padx=padx, pady=pady, background=background,
-            width=width, height=height, insertwidth=insertwidth, insertunfocussed=insertunfocussed,  insertbackground=insertbackground,
-            font=Fonts.FONT, insertborderwidth=1,
+            width=width, height=height, insertwidth=insertwidth, insertunfocussed=insertunfocussed,
+            insertbackground=insertbackground, font=font, insertborderwidth=1,
             border=0, borderwidth=borderwidth, highlightthickness=highlightthickness, highlightcolor=highlightcolor,
             highlightbackground="white", selectbackground="#66a2d4", selectforeground="white", name=name, **kw)
         self.frame.widgetName = "stf"

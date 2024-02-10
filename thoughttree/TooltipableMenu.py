@@ -98,11 +98,13 @@ class TooltipableMenu(tk.Frame):
             self.popup.focus_set()
             self.popup.update()
 
+        self.update_menu(event, x, y)
+
+    def update_menu(self, event, x=None, y=None):
         if x is None:
             x = self.winfo_rootx()
             y = self.winfo_rooty() + self.winfo_height()
         self.popup.wm_geometry(f"+{x}+{y}")
-
 
     def populate_menu(self):
         for text, keystroke, command, underline in self.items:

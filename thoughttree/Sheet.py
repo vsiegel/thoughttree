@@ -252,7 +252,7 @@ class Sheet(ScrolledText, LineHandling):
             self.insert(index, chars, ("hidden_prompt",), *args)
 
     def insert_diff(self, old_text, new_text, pos=INSERT):
-        diff_by_char = True
+        diff_by_char = False # True #todo: conf
 
         def added(words):
             self.insert(INSERT, diff_words_join(words), "added")

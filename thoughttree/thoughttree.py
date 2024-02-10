@@ -707,11 +707,6 @@ The Id of this outline is: {outline_id} (equal for all levels of this outline.)
             sheet.tag_config("hidden_prompt", elide=not hidden)
 
 
-    def use_default(self):
-        if not self.current_sheet.get(1.0, "end-1c"):
-            self.insert_user_prompt()
-            self.it.focus_set()
-
 if __name__ == "__main__":
     Thoughttree(sys.argv)
 

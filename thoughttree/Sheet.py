@@ -67,8 +67,8 @@ class Sheet(ScrolledText, LineHandling):
         self.tag_config("mask", borderwidth=2, relief=SOLID, foreground="#D0D0D0", selectforeground="#5cacee")
 
         # self.tag_bind("added", "<Enter>", on_event)
-        self.tag_config("added", background="#9af1a9")
-        self.tag_config("deleted", background="#f1a8ae")
+        self.tag_config("added", background="#ccf0d2")
+        self.tag_config("deleted", background="#f0cccf")
         for tag in ["added", "deleted"]:
             self.tag_bind(tag, "<Button-1>", lambda event: self.elide_other(True, event))
             self.tag_bind(tag, "<ButtonRelease-1>", lambda event: self.elide_other(False, event))

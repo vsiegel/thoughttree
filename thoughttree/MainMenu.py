@@ -52,9 +52,12 @@ class MainMenu(MenuBar):
             if not opened:
                 return
             file, text = opened
-            self.it.delete("1.0", END)
-            self.it.insert("1.0", text)
+            start = "1.0"
+            self.it.delete(start, END)
+            self.it.insert(start, text)
             self.it.file = file
+            self.it.tag_add("sel", start, f"{start} + {len(text)} c")
+
 
         def save_file(e=None):
             if self.it.file:

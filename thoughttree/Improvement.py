@@ -6,6 +6,54 @@ from tkinter import INSERT
 from Sheet import Sheet
 from tools import fail
 
+p1 ="""
+Bring the input text in a better form for a naive reader.
+Create an outline of possible enhancements of the text, choosing and organizing the kind of enhancements based on the individual text. The outline should present kinds of changes, variants applicable to the input, concrete changes that could be applied, as text replacement in the form of 
+
+Title:
+Description:
+Reason:
+Effect of change:
+Old:
+New:
+Old:
+New:
+...
+
+Give all possible replacement pairs for each item.
+Produce a large number of items.
+Start with a decimal outline of the structure, then refine the outline, and then generate the full text including all fields of each item.
+Like:
+
+1. Reds
+    1.1 Tomatoes
+    1.2 Strawberies
+2. Greens
+...
+
+Refining to more levels, including the titles of actual items.
+"""
+p2 = """
+We want to create a detailed set of appropriate text changes for the input. They can change the text in multiple ways for multiple purposes.
+Which kinds of changes are appropriate for the input depends very much on the input. All texts may require typo fixes, but not any text can be 
+made "less formal" (for example a log file) or less aggressive (a list of ingredients). To later organize the change items, we organize the structure
+as a hierarchical outline.
+This outline is not general, it is specifically tailored to the input.
+
+The outline will be used in the following way: The outline items on the deepest levels will be items that describe possible text changes, in the following way:
+
+Title:
+Description:
+Reason:
+Effect of change:
+Old:
+New:
+Old:
+New:
+...
+
+That is not what should be generated now - currently it is only about the outline structure (Use a decimal outline, like 1.1.1.1.1).
+"""
 
 class Improvement():
     def __init__(self, change_spec):

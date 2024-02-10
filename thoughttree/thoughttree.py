@@ -73,9 +73,9 @@ class Thoughttree(Ui):
         self.console = None
         self.log = None
         self.tree = None
-        self.detail: Sheet = None
+        self.detail: Sheet|None = None
         self.system: Sheet|None = None
-        self.sheet_tree = None
+        self.sheet_tree: SheetTree|None = None
         self.model = None
         self.console_pane = None
         self.tree_pane = None

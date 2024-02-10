@@ -28,7 +28,6 @@ class MainMenu(MenuBar):
         self.previous_current_sheet = None
         from thoughttree import Thoughttree
         self.ui: Thoughttree = thoughttree
-
         self.fixed_model_menu_items = -1
         self.models_menu = None
         # self.create_menu()
@@ -187,7 +186,7 @@ class MainMenu(MenuBar):
         context = TooltipableMenu(None, "(sheet context menu)")
 
         file = self.submenu("File")
-        file.item("New Window", "<Control-n>", new_window, to="all")
+        file.item("New Window", "<Control-n>", new_window, "all")
         file.item("New Tab", "<Control-t>", lambda e=None: self.it.fork("1.0"))#, to=TreeSheet)
         file.item("Import Shared Chat", None, None) # , "<Control-....>", import_shared_chat
         file.item("Insert File", "<Control-Shift-e>", insert_file)
@@ -198,11 +197,11 @@ class MainMenu(MenuBar):
         file.item("Save Selection", "<Alt-S>", save_selection)
         file.item("Save Code Block", "<Control-Alt-s>", save_code_block, menu2=context)
         file.separator()
-        file.item("Close Tab", "<Control-w>", close_tab, add=False, to=TreeSheet)
-        file.item("Close Empty Tab", "<BackSpace>", lambda e=None: self.it.backspace(e), add=False)
-        file.item("Close Window", "<Control-Q>", ui.close, to="this")
-        file.item("Quit Thoughttree", "<Control-Shift-Q>", lambda e=None: ui.quit(label="Quit Thoughttree"), to="all")
-        file.item("Quit Without Confirmation", "<Control-Alt-Shift-Q>", lambda e=None: sys.exit(0), to="all")
+        file.item("Close Tab", "<Control-w>", close_tab, TreeSheet)
+        file.item("Close Empty Tab", "<BackSpace>", lambda e=None: self.it.backspace(e))
+        file.item("Close Window", "<Control-Q>", ui.close, "top")
+        file.item("Quit Thoughttree", "<Control-Shift-Q>", lambda e=None: ui.quit(label="Quit Thoughttree"), "all")
+        file.item("Quit Without Confirmation", "<Control-Alt-Shift-Q>", lambda e=None: sys.exit(0), "all")
 
 
         edit = self.submenu("Edit")
@@ -227,11 +226,11 @@ class MainMenu(MenuBar):
         view = self.submenu("View")
         view.item("Show System Prompt", "<Alt-Shift-S>", ui.system_pane.fold, to="all")
         view.item("Show Tree", "<Alt-Shift-T>", ui.tree_pane.fold, to="all")
-        view.item("Show Detail", "<Alt-Shift-D>", ui.detail_pane.fold, to="all")
-        view.item("Show Console", "<Alt-Shift-C>", ui.console_pane.fold, to="all")
-        view.item("Show Status Bar", "<Alt-Shift-I>", ui.status_hider.hide, to="all")
-        view.item("Full Screen", "<F11>", ui.toggle_fullscreen, to="all")
-        view.item("Update Window Title", "<Control-u>", ui.update_window_title, to="all")
+        view.item("Show Detail", "<Alt-Shift-D>", ui.detail_pane.fold, "top")
+        view.item("Show Console", "<Alt-Shift-C>", ui.console_pane.fold, "top")
+        view.item("Show Status Bar", "<Alt-Shift-I>", ui.status_hider.hide, "top")
+        view.item("Full Screen", "<F11>", ui.toggle_fullscreen, "top")
+        view.item("Update Window Title", "<Control-u>", ui.update_window_title, "top")
         view.item("Update Tab Title", "<Control-Shift-B>", ui.sheet_tree.update_tab_title, menu2=context)
         view.item("Model Usage", None, web("https://platform.openai.com/account/usage"))
         view.separator()
@@ -267,10 +266,10 @@ class MainMenu(MenuBar):
         context.separator()
 
         chat = self.submenu("Chat")
-        chat.item("Continue Line", "<Control-space>", lambda e=None: ui.chat(inline=True))
-        chat.item("Next Line", "<Shift-Return>", lambda e=None: ui.chat(1, "\n", "\n"))
-        chat.item("Next Paragraph", "<Control-Return>", lambda e=None: ui.chat(1, "\n\n", "\n\n"))
-        chat.item("Fork Conversation", "<Control-Alt-F>", lambda e=None: self.it.fork())
+        chat.item("Continue Line", "<Control-space>", lambda e=None: ui.chat(inline=True), to="top")
+        chat.item("Next Line", "<Shift-Return>", lambda e=None: ui.chat(1, "\n", "\n"), to="top")
+        chat.item("Next Paragraph", "<Control-Return>", lambda e=None: ui.chat(1, "\n\n", "\n\n"), to="top")
+        chat.item("Fork Conversation", "<Control-Alt-F>", lambda e=None: self.it.fork(), to="top")
         chat.item("Complete in Branch", "<Control-Shift-Return>", lambda e=None: branch())
         chat.separator()
         chat.item("Complete Alternatives", "<Alt-Shift-Return>", lambda e=None: ui.chat(-1, "\n"))
@@ -346,7 +345,7 @@ class MainMenu(MenuBar):
         help_menu.item("OpenAI Chat API", None, web("https://platform.openai.com/docs/api-reference/chat"))
         help_menu.item("GPT Models", None, web("https://platform.openai.com/docs/models"))
         help_menu.item("OpenAI Pricing", None, web("https://openai.com/pricing"))
-        help_menu.item("Debug Info", "<Control-Alt-Shift-I>", debug_info, to="all")
+        help_menu.item("Debug Info", "<Control-Alt-Shift-I>", debug_info, "top")
         # help_menu.item("Inspect Application", "<Control-Alt-Shift-B>", inspect_application)
         help_menu.item("About", "<Control-F1>", lambda e=None: AboutDialog(self.ui))
 

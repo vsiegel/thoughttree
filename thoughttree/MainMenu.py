@@ -25,7 +25,6 @@ import pyperclip
 class MainMenu(MenuBar):
     def __init__(self, thoughttree, **kw):
         super().__init__(thoughttree)
-        self.previous_current_sheet = None
         from thoughttree import Thoughttree
         self.ui: Thoughttree = thoughttree
         self.fixed_model_menu_items = -1

@@ -88,16 +88,6 @@ class MainMenu(MenuBar):
             from thoughttree import Thoughttree
             Thoughttree()
 
-        def paste(event=None) :
-            pasted = pyperclip.paste()
-            it = self.it
-            it.update()
-            print(f"+insert", flush=True)
-            it.insert(INSERT, pasted)
-            it.update()
-            print(f"-insert", flush=True)
-            print(f"{len(pasted)=}")
-
         def edit_undo(event=None):
             try:
                 self.it.edit_undo()
@@ -221,7 +211,7 @@ class MainMenu(MenuBar):
         edit.separator()
         edit.item("Cut", "<Control-x>", lambda e=None: self.it.event_generate("<<Cut>>"), menu2=context)
         edit.item("Copy", "<Control-c>", lambda e=None: self.it.event_generate("<<Copy>>"), menu2=context)
-        edit.item("Paste", "<Control-v>", paste, menu2=context)
+        edit.item("Paste", "<Control-v>", lambda e=None: self.it.event_generate("<<Paste>>"), menu2=context)
         edit.item("Select All", "<Control-a>", lambda e=None: self.it.event_generate('<<SelectAll>>'), menu2=context)
         edit.item("Select Message", "<Control-Alt-w>", None, menu2=context)
         edit.item("Select Block", "<Control-Shift-w>", None, menu2=context)

@@ -32,7 +32,7 @@ class Keys:
     '<<SelectNone>>': ('<Control-backslash>', 'Select None', 'Control + \\'),
     # '<<Copy>>': ('<Control-c>', 'Copy', 'Control + C'),
     # '<<Cut>>': ('<Control-x>', 'Cut', 'Control + X'),
-    # '<<Paste>>': ('<Control-v>', 'Paste', 'Control + V'),
+    '<<Paste>>': ('<Control-v>', 'Paste', 'Control + V'),
     '<<PasteSelection>>': ('<ButtonRelease-2>', 'Paste Selection', 'ButtonRelease-2'),
     '<<Undo>>': ('<Control-z>', 'Undo', 'Control + Z'),
     '<<Redo>>': ('<Control-Z>', 'Redo', 'Control + Shift + Z'),

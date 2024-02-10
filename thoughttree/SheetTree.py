@@ -17,7 +17,7 @@ class SheetTree(tk.Frame):
         self.scrollbar = tk.Scrollbar(self, orient=VERTICAL, command=self.canvas.yview, width=18, takefocus=False, borderwidth=2)
         self.canvas.configure(yscrollcommand=self.scrollbar.set)
         self.scrollbar.pack(side=RIGHT, fill=Y)
-        self.last_sheet = None
+        self.current: TreeSheet | None = None
 
         self.canvas.pack(side=LEFT, fill=BOTH, expand=True)
 
@@ -33,9 +33,9 @@ class SheetTree(tk.Frame):
         self.add_wheel_scrolling()
 
         def on_focus_in(event):
-            if self.last_sheet:
+            if self.current:
                 # print(f">+++ st on_focus_in {self} {event} {str(self.last_inner_focus)=}")
-                self.last_sheet.focus_set()
+                self.current.focus_set()
                 self.configure(takefocus=False)
                 # self.scrollbar.configure(takefocus=False)
         self.bind("<FocusIn>", on_focus_in, add=True)

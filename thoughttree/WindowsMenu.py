@@ -15,7 +15,7 @@ class WindowsMenu(TooltipableMenu):
         for old_item in self.menu_items:
             old_item.destroy()
         for open in Ui.current_open_uis:
-            item = MenuItem(self.popup, self, open.root.title(), keystroke="", command=lambda e=None, ui=open: ui.toTop())
+            item = MenuItem(self.frame, self, open.root.title(), keystroke="", command=lambda e=None, ui=open: ui.toTop())
             item.pack(fill='x')
             self.menu_items.append(item)
 

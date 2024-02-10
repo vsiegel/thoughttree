@@ -88,8 +88,6 @@ class TooltipableMenu(tk.Frame):
             self.popup.bind("<Escape>", self.close, add=True)
             MenuHelpTooltip(self.frame)
             self.populate_menu()
-            if isinstance(self.parent, MenuBar):
-                self.parent.open_popup = self.popup
             self.frame.pack()
             # self.frame.bind("<Map>", lambda e: self.frame.grab_set())
         # elif not self.popup.state() == 'normal':
@@ -146,8 +144,6 @@ class TooltipableMenu(tk.Frame):
             self.popup.withdraw()
             if self.old_focus:
                  self.old_focus.focus_force()
-            if isinstance(self.parent, MenuBar):
-                self.parent.open_popup = None
             return True
         return False
 

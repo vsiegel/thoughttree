@@ -59,8 +59,7 @@ class Ui(tk.Frame):
             self.root.bind("<Escape>", close)
 
     def toTop(self):
-        self.root.attributes("-topmost", True)
-        self.root.attributes("-topmost", False)
+        self.root.lift()
 
     def toggle_fullscreen(self, event=None):
         if self.root.attributes("-fullscreen"):

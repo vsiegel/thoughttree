@@ -20,7 +20,7 @@ from FoldablePane import FoldablePane
 from History import History
 from InsertionIcon import InsertionIcon
 from Log import Log
-from SheetTree import SheetTree
+from SheetTree import Sheets
 from InitialSheetHelp import InitialSheetHelp
 from Improvement import Improvement
 from TextIOTee import TextIOTee
@@ -75,7 +75,7 @@ class Thoughttree(Ui):
         self.tree = None
         self.detail: Sheet|None = None
         self.system: Sheet|None = None
-        self.sheets: SheetTree | None = None
+        self.sheets: Sheets | None = None
         self.model = None
         self.console_pane = None
         self.tree_pane = None
@@ -169,7 +169,7 @@ class Thoughttree(Ui):
         self.tree.pack(side=LEFT, fill=BOTH, expand=True)
         self.detail = Sheet(self.detail_pane, width=25, wrap=NONE, state=DISABLED, takefocus=False)
         self.system = Sheet(self.system_pane, height=3, highlightthickness=2, highlightcolor=Colors.highlight)
-        self.sheets = SheetTree(self.system_pane)
+        self.sheets = Sheets(self.system_pane)
 
         self.console_pane.add(self.tree_pane)
         self.console_pane.addFoldable(self.console)

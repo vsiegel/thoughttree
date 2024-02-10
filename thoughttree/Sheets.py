@@ -9,7 +9,7 @@ from TreeSheet import TreeSheet
 from tools import on_event, bind_tree, iterate_tree
 
 
-class SheetTree(tk.Frame):
+class Sheets(tk.Frame):
     def __init__(self, parent, name="st", **kw):
         super().__init__(parent, highlightthickness=3, highlightcolor=Colors.highlight, name=name, takefocus=False, **kw)
 
@@ -184,7 +184,7 @@ if __name__ == "__main__":
     root = tk.Tk()
     # root.geometry("100x200")
     tools.escapable(root)
-    widget = SheetTree(root)
+    widget = Sheets(root)
     widget.pack(side=LEFT, fill=BOTH, expand=True)
     # widget.pack_propagate(False)
     widget.focus_set()

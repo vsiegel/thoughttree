@@ -28,7 +28,7 @@ class TreeSheet(ResizingSheet, tk.Frame):
         self.parent_notebook = parent_notebook
         self.notebook = None
         self.explore_outline = None
-        self.sheet_tree = sheet_tree or parent_sheet.sheets
+        self.sheets = sheet_tree or parent_sheet.sheets
 
         self.copy_packing(self.tree_frame, ResizingSheet)
 
@@ -77,8 +77,8 @@ class TreeSheet(ResizingSheet, tk.Frame):
             sheet = event.widget
         else:
             sheet = self
-        if sheet.sheet_tree:
-            sheet.sheet_tree.see_in_tree(sheet, to=to)
+        if sheet.sheets:
+            sheet.sheets.see_in_tree(sheet, to=to)
 
     def on_empty_background(self, event):
         frame = event.widget
@@ -90,18 +90,18 @@ class TreeSheet(ResizingSheet, tk.Frame):
         sheet.focus_set()
 
     def tk_focusNext(self):
-        if self.sheet_tree:
+        if self.sheets:
             # print(f"{self.sheet_tree.tk_focusNext()=}")
-            widget = self.sheet_tree.tk_focusNext()
+            widget = self.sheets.tk_focusNext()
         else:
             widget = super().tk_focusNext()
         return widget
 
     def tk_focusPrev(self):
-        if self.sheet_tree:
+        if self.sheets:
             # print(f"{self.sheet_tree.tk_focusPrev()=}")
             # print(f"{self.sheet_tree.tk_focusPrev().tk_focusPrev()=}")
-            widget = self.sheet_tree.tk_focusPrev()
+            widget = self.sheets.tk_focusPrev()
         else:
             widget = super().tk_focusPrev()
         return widget
@@ -148,7 +148,7 @@ class TreeSheet(ResizingSheet, tk.Frame):
     def add(self, text=""):
         notebook = self.get_notebook()
         frame = NF(notebook)
-        sheet = TreeSheet(frame, parent_sheet=self, parent_notebook=notebook, sheet_tree=self.sheet_tree, name="title")
+        sheet = TreeSheet(frame, parent_sheet=self, parent_notebook=notebook, sheet_tree=self.sheets, name="title")
         frame.sheet = sheet
         sheet.pack(side=tk.TOP, fill=BOTH, expand=True)
         notebook.add(frame, text=text, sticky=NSEW)

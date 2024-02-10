@@ -165,7 +165,7 @@ class Sheets(tk.Frame):
     def update_tab_title(self, event=None):
         sheet = self.focus_get()
         if not str(sheet).startswith(str(self)):
-            raise Exception(f"{sheet} is not in SheetTree")
+            raise Exception(f"{sheet} is not in Sheets")
         if not isinstance(sheet, TreeSheet):
             raise Exception(f"{sheet} is not a TreeSheet") #fixme
         sheet.update_tab_title()

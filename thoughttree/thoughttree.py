@@ -20,7 +20,7 @@ from FoldablePane import FoldablePane
 from History import History
 from InsertionIcon import InsertionIcon
 from Log import Log
-from SheetTree import Sheets
+from Sheets import Sheets
 from InitialSheetHelp import InitialSheetHelp
 from Improvement import Improvement
 from TextIOTee import TextIOTee

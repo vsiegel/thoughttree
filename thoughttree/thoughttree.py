@@ -68,7 +68,6 @@ class Thoughttree(Ui):
     def __init__(self, argv=None):
         Ui.__init__(self, title="Thoughttree", name="tt", icon_path=WINDOW_ICON, closeable=False)
         self.show_hidden_prompts = None
-        self.current_sheet: TreeSheet|None = None
         self.status_hider = None
         self.status = None
         self.console = None
@@ -171,8 +170,6 @@ class Thoughttree(Ui):
         self.detail = Sheet(self.detail_pane, width=25, wrap=NONE, state=DISABLED, takefocus=False)
         self.system = Sheet(self.system_pane, height=3, highlightthickness=2, highlightcolor=Colors.highlight)
         self.sheet_tree = SheetTree(self.system_pane)
-
-        self.current_sheet: TreeSheet = self.sheet_tree.sheet
 
         self.console_pane.add(self.tree_pane)
         self.console_pane.addFoldable(self.console)
@@ -595,9 +592,7 @@ The Id of this outline is: {outline_id} (equal for all levels of this outline.)
     def scroll(self, sheet, to=OUTPUT):
         if self.scroll_output and isinstance(sheet, TreeSheet):
             sheet.see_in_tree(to=to)
-            # sheet.see(to)
         sheet.update()
-        # sheet.update_idletasks()
 
 
     def find_number_of_completions(self, n):
@@ -702,7 +697,7 @@ The Id of this outline is: {outline_id} (equal for all levels of this outline.)
         history = History(system)
 
         # history = self.it.history_from_path(history)
-        history = self.sheet_tree.last_sheet.history_from_path(history)
+        history = self.sheet_tree.current.history_from_path(history)
 
         history.system(additional_system)
         history.user(additional_message)

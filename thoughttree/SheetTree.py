@@ -116,6 +116,18 @@ class SheetTree(tk.Frame):
         else:
             return
 
+    def jump_to_limit(self, e: tk.Event):
+        top, bottom, *_ = self.current.vbar.get()
+        if e.keysym == 'Prior' and top == 0.0:
+            limit = "1.0"
+        elif e.keysym == 'Next' and bottom == 1.0:
+            limit = tk.END
+        else:
+            return
+
+        self.mark_set(tk.INSERT, limit)
+        self.see(tk.INSERT)
+
 
     def add(self, text=""):
         self.sheet.add(text)

@@ -4,12 +4,12 @@
 /generated-python/
 /data/
 /formated-output/
-/*.png
-/*.svg
-/*.gif
-/*.ppm
-/*.jpg
-/*.pdf
+*.png
+*.svg
+*.gif
+*.ppm
+*.jpg
+*.pdf
 
 # github defaults:
 

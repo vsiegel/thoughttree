@@ -38,7 +38,7 @@ from Ui import Ui
 from WaitCursor import WaitCursor
 from finish_reasons import finish_reasons
 from sheet_help_texts import sheet_help
-from tools import log_motion_on_ctrl_alt
+from tools import log_motion_on_ctrl_alt, fail
 
 WINDOW_ICON = "chatgpt-icon.png"
 
@@ -575,18 +575,15 @@ The Id of this outline is: {outline_id} (equal for all levels of this outline.)
 
     @property
     def it(self) -> Sheet:
-        # return self.sheet_tree.last_sheet
         focussed = self.focus_get()
-        # print(f'{type(focussed)=}')
-        # if focussed == self.system:
-        #     self.system.tk_focusNext().focus()
-        #     focussed = self.focus_get()
-        #     print(f'(switched focus away from system)')
-
-        if isinstance(focussed, Sheet):
-            self.current_sheet = focussed
-
-        return self.current_sheet
+        if isinstance(focussed, TreeSheet):
+            sheet = focussed.sheet_tree
+        elif isinstance(focussed, Sheet):
+            sheet = focussed
+        else:
+            sheet = None
+            fail("sheet = None")
+        return sheet
 
 
     def scroll(self, sheet, to=OUTPUT):

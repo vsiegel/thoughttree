@@ -75,7 +75,7 @@ class Thoughttree(Ui):
         self.tree = None
         self.detail: Sheet|None = None
         self.system: Sheet|None = None
-        self.sheet_tree: SheetTree|None = None
+        self.sheets: SheetTree | None = None
         self.model = None
         self.console_pane = None
         self.tree_pane = None
@@ -118,7 +118,7 @@ class Thoughttree(Ui):
 
         self.update()
         InitialSheetHelp(self.system, *sheet_help("System prompt - [?]"))
-        InitialSheetHelp(self.sheet_tree.sheet , *sheet_help("User prompt - Chat - [?]"))
+        InitialSheetHelp(self.sheets.sheet, *sheet_help("User prompt - Chat - [?]"))
         InitialSheetHelp(self.detail, *sheet_help("Details - [?]"))
 
 
@@ -169,7 +169,7 @@ class Thoughttree(Ui):
         self.tree.pack(side=LEFT, fill=BOTH, expand=True)
         self.detail = Sheet(self.detail_pane, width=25, wrap=NONE, state=DISABLED, takefocus=False)
         self.system = Sheet(self.system_pane, height=3, highlightthickness=2, highlightcolor=Colors.highlight)
-        self.sheet_tree = SheetTree(self.system_pane)
+        self.sheets = SheetTree(self.system_pane)
 
         self.console_pane.add(self.tree_pane)
         self.console_pane.addFoldable(self.console)
@@ -178,7 +178,7 @@ class Thoughttree(Ui):
         self.detail_pane.add(tree_highlight_frame, stretch="never")
         self.detail_pane.addFoldable(self.detail, stretch="always")
         self.system_pane.addFoldable(self.system)
-        self.system_pane.add(self.sheet_tree)
+        self.system_pane.add(self.sheets)
 
         bound_pane = self.detail_pane
         def on_first_configure(ev=None):
@@ -197,7 +197,7 @@ class Thoughttree(Ui):
 
         self.menu.create_menu()
 
-        self.sheet_tree.focus_set()
+        self.sheets.focus_set()
 
 
     def configure_ui_options(self):
@@ -209,7 +209,7 @@ class Thoughttree(Ui):
             self.option_add('*Text*insertOffTime', '0')
 
     def is_initially_modified(self):
-        return self.sheet_tree.sheet.initially_modified or self.system.initially_modified
+        return self.sheets.sheet.initially_modified or self.system.initially_modified
 
     def update_window_title(self, event=None):
         progress_title = self.root.title().rstrip('.') + "..."
@@ -295,7 +295,7 @@ class Thoughttree(Ui):
         self.model.is_canceled = False
 
         if self.focus_get() == self.system:
-            self.sheet_tree.focus_set()
+            self.sheets.focus_set()
 
         sheet = self.it
 
@@ -581,7 +581,7 @@ The Id of this outline is: {outline_id} (equal for all levels of this outline.)
         if isinstance(focussed, Sheet):
             sheet = focussed
         else:
-            sheet = self.sheet_tree.current
+            sheet = self.sheets.current
         return sheet
 
 
@@ -693,7 +693,7 @@ The Id of this outline is: {outline_id} (equal for all levels of this outline.)
         history = History(system)
 
         # history = self.it.history_from_path(history)
-        history = self.sheet_tree.current.history_from_path(history)
+        history = self.sheets.current.history_from_path(history)
 
         history.system(additional_system)
         history.user(additional_message)

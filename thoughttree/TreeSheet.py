@@ -28,7 +28,7 @@ class TreeSheet(ResizingSheet, tk.Frame):
         self.parent_notebook = parent_notebook
         self.notebook = None
         self.explore_outline = None
-        self.sheet_tree = sheet_tree or parent_sheet.sheet_tree
+        self.sheet_tree = sheet_tree or parent_sheet.sheets
 
         self.copy_packing(self.tree_frame, ResizingSheet)
 
@@ -54,8 +54,8 @@ class TreeSheet(ResizingSheet, tk.Frame):
 
         def on_focus_in(event):
             sheet = event.widget
-            if sheet.sheet_tree:
-                sheet.sheet_tree.current = sheet
+            if sheet.sheets:
+                sheet.sheets.current = sheet
         self.bind("<FocusIn>", on_focus_in, add=True)
 
     def at_first_line(self):

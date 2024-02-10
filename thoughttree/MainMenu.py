@@ -131,7 +131,7 @@ class MainMenu(MenuBar):
 
             # print_height(self.ui.chat_sheet, "chat_sheet")
 
-            sheet: TreeSheet = self.ui.sheet_tree.sheet
+            sheet: TreeSheet = self.ui.sheets.sheet
             while sheet:
                 print_height(sheet, "sheet: " + str(sheet))
                 if sheet.child_notebook:
@@ -233,7 +233,7 @@ class MainMenu(MenuBar):
         view.item("Show Status Bar", "<Alt-Shift-I>", ui.status_hider.hide, "top")
         view.item("Full Screen", "<F11>", ui.toggle_fullscreen, "top")
         view.item("Update Window Title", "<Control-u>", ui.update_window_title, "top")
-        view.item("Update Tab Title", "<Control-Shift-B>", ui.sheet_tree.update_tab_title, menu2=context)
+        view.item("Update Tab Title", "<Control-Shift-B>", ui.sheets.update_tab_title, menu2=context)
         view.item("Model Usage", None, web("https://platform.openai.com/account/usage"))
         view.separator()
         view.item("Increase Font Size", "<Control-plus>", lambda e=None: Sheet.font_size_all(1))

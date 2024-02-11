@@ -319,3 +319,9 @@ def fail(message=""):
 def lines(n: int) -> str:
     """:return: str - n lines with the numbers to str 0 to (n-1) with newlines between"""
     return "\n".join(list(map(str, range(n))))
+
+def p(f):
+    def F(*args):
+        print(args)
+        f(*args)
+    return F

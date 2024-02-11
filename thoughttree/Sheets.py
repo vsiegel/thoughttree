@@ -180,6 +180,24 @@ class Sheets(tk.Frame):
         print(f"{self.frame.winfo_reqheight()=}")
 
 
+class IterableSheets(Sheets):
+    def __init__(self, sheets: Sheets, parent, **kw):
+        super().__init__(parent, **kw)
+        self.sheets = sheets
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        return self.sheets.__next__()
+
+    def breadth_first(self):
+        yield from self.sheets.breadth_first()
+
+
+
+
+
 if __name__ == "__main__":
     root = tk.Tk()
     # root.geometry("100x200")

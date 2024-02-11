@@ -327,6 +327,8 @@ class Thoughttree(Ui):
             self.log.cost("Completion cost:\n" + self.model.counter.summary())
 
             self.finish_completion(sheet, reason, message, postfix, inline, start_time)
+
+        self.sheets.update_tab_title()
         return "break"
 
     def ask(self, event=None):

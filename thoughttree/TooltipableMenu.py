@@ -72,6 +72,7 @@ class TooltipableMenu(tk.Frame):
         if not self.popup:
             self.popup = tk.Toplevel(self, bd=3, relief='raised', takefocus=True, bg='lightgray')
             self.popup.wm_overrideredirect(True)
+            self.tooltip = None
             # self.popup.wm_attributes("-topmost", True)
             self.popup.transient(self.winfo_toplevel())
 
@@ -87,7 +88,7 @@ class TooltipableMenu(tk.Frame):
             self.frame.bind("<Button>", self.close, add=True)
             self.popup.bind("<Enter>", self.keep_open, add=True)
             self.popup.bind("<Escape>", self.close, add=True)
-            MenuHelpTooltip(self.frame)
+            self.tooltip = MenuHelpTooltip(self.frame)
             self.populate_menu()
             self.frame.pack()
             # self.frame.bind("<Map>", lambda e: self.frame.grab_set())
@@ -113,6 +114,7 @@ class TooltipableMenu(tk.Frame):
             else:
                 item = MenuItem(self.frame, self, text, keystroke, command, underline)
                 item.pack(fill='x')
+                item.bind("<Enter>", self.tooltip.refresh, add=True)
                 self.menu_items.append(item)
 
 

@@ -7,6 +7,7 @@ from Config import conf
 from MenuBar import MenuBar
 from MenuHelpTooltip import MenuHelpTooltip
 from MenuItem import MenuItem
+from Ui import Ui
 from menu_help_texts import menu_help
 
 
@@ -29,8 +30,10 @@ class TooltipableMenu(tk.Frame):
 
 
     def item(self, label, keystroke=None, command=None, to="Text", underline=-1, menu2=None, add=False):
-        if conf.debug and not label in menu_help:
-            print(f'Warning: Help missing for {self.name}->"{label}"')
+        if conf.debug:
+            if not label in menu_help:
+                Ui.log and Ui.log.debug(f'Warning: Help missing for {self.name}->"{label}"')
+                # print(f'Warning: Help missing for {self.name}->"{label}"')
         keystroke = self.fix_key_letter_case(keystroke)
         if to == "all":
             self.winfo_toplevel().bind_all(keystroke, command, add=add)

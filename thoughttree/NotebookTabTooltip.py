@@ -30,7 +30,5 @@ class NotebookTabTooltip(Tooltip):
         if identification:
             index_location = f"@{x},{y}"
             index = notebook.index(index_location)
-            print(f"{notebook.bbox=}")
-            print(f"{notebook.bbox(index)=} {index=}")
             text = notebook.tab(index, "text")
             self.label.configure(text=text)

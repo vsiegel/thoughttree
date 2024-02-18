@@ -255,6 +255,14 @@ class TreeSheet(ResizingSheet, tk.Frame):
         return "break"
 
 
+    def focusChangeTab(self, offset):
+        if self.parent_notebook:
+            self.parent_notebook.change(offset)
+
+    focusNextTab = lambda self: self.focusChangeTab(1)
+    focusPrevTab = lambda self: self.focusChangeTab(-1)
+
+
 if __name__ == "__main__":
     root = tk.Tk()
     tools.escapable(root)

@@ -102,3 +102,10 @@ class History(list):
         else:
             sum.append(other)
         return sum
+
+    def __str__(self):
+        abstract = json.loads(str(self))
+        return json.dumps(abstract, indent=4)
+
+    def __repr__(self):
+        return self.__str__()

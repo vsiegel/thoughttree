@@ -58,6 +58,13 @@ class TreeSheet(ResizingSheet, tk.Frame):
                 sheet.sheets.current = sheet
         self.bind("<FocusIn>", on_focus_in, add=True)
 
+        def on_motion(event):
+            if self.sheets:
+                self.sheets.on_motion_in_sheet(event)
+
+        self.bind('<B1-Motion>', on_motion)
+
+
     def at_first_line(self):
         return self.index(INSERT).split('.')[0] == '1'
 

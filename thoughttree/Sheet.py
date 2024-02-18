@@ -50,7 +50,6 @@ class Sheet(ScrolledText, LineHandling):
 
         self.bind('<Prior>', self.jump_to_limit)
         self.bind('<Next>', self.jump_to_limit)
-        # self.pack(padx=0, pady=0, fill=X, expand=True)
 
 
         name, size = self.cget("font").rsplit(None, 1) # fixme value

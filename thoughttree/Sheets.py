@@ -18,6 +18,7 @@ class Sheets(tk.Frame):
         self.canvas.configure(yscrollcommand=self.scrollbar.set)
         self.scrollbar.pack(side=RIGHT, fill=Y)
         self.current: TreeSheet | None = None
+        self.scroll_in_progress = False
 
         self.canvas.pack(side=LEFT, fill=BOTH, expand=True)
 
@@ -170,9 +171,34 @@ class Sheets(tk.Frame):
             raise Exception(f"{sheet} is not a TreeSheet") #fixme
         sheet.update_tab_title()
 
-    # def tk_focusPrev(self):
-    #     return super().tk_focusPrev().tk_focusPrev()
-    #     return self.sheet.tk_focusPrev().tk_focusPrev()
+
+    def on_motion_in_sheet(self, event):
+        if self.scroll_in_progress:
+            return
+
+        y = event.widget.winfo_pointery()
+        window_top = self.winfo_rooty()
+        window_bottom = window_top + self.winfo_height()
+
+        distance = 0
+        if y < window_top:
+            distance = y - window_top
+        elif y > window_bottom:
+            distance = y - window_bottom
+        scroll_speed = int(distance * 0.05)
+        if scroll_speed > 0:
+            scroll_speed = max(scroll_speed, 1)
+        elif scroll_speed < 0:
+            scroll_speed = min(scroll_speed, -1)
+
+        if scroll_speed != 0:
+            print(f"{y=} {distance=} {scroll_speed=} {self.winfo_geometry()=} {self.scrollbar.fraction(0, y)=}")
+            self.canvas.yview_scroll(scroll_speed, "units")
+            self.scroll_in_progress = True
+            self.after(150, self.reset_scroll_flag)
+
+    def reset_scroll_flag(self):
+        self.scroll_in_progress = False
 
     def debug(self, event):
         print(f"{event.widget}    {event.width}x{event.height}+{event.x}+{event.y}")

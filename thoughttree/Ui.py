@@ -12,6 +12,8 @@ class Ui(tk.Frame):
     WINDOW_ICON = None
     current_open_uis = []
     event_log = None
+    log = None
+
 
     def __init__(self, title="Thoughttree", name="ui", icon_path=None, closeable=True):
         if not tk._default_root:

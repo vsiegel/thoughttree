@@ -200,6 +200,12 @@ class Sheets(tk.Frame):
     def reset_scroll_flag(self):
         self.scroll_in_progress = False
 
+    def size(self):
+        sum = len(self.sheet.get(1.0, "end").strip())
+        if self.sheet.notebook:
+            sum += self.sheet.notebook.size()
+
+
     def debug(self, event):
         print(f"{event.widget}    {event.width}x{event.height}+{event.x}+{event.y}")
         print(f"{self.frame.winfo_height()   =}")

@@ -1,3 +1,5 @@
+import json
+
 from tools import shorter, log_len
 import tkinter as tk
 
@@ -13,10 +15,11 @@ class History(list):
     # ROLE_SYMBOLS = {"user": "", "assistant": "", "system": "", "function": ""}
 
 
-    def __init__(self, text=None, system="", assistant="", user=""):
+    def __init__(self, text=None, system="", assistant="", user="", ignore_empty=False):
         super().__init__()
         self.first_system = None
         self.last = None
+        self.ignore_empty = ignore_empty
         if system:
             self.system(system)
         if isinstance(text, tk.Text):
@@ -40,6 +43,7 @@ class History(list):
                     pass
                 else:
                     print(f"Ignored item: {item}")
+            # if not (role, content) == ("user", "\n"):
             self.message(role, content)
         elif text:
             self.user(str(text))
@@ -51,6 +55,8 @@ class History(list):
 
     def message(self, role, content):
         if content:
+            if self.ignore_empty and content.strip() == "":
+                return
             self.append({'role': role, 'content': content})
 
 

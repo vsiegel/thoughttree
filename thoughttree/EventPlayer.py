@@ -1,3 +1,4 @@
+import re
 import tkinter as tk
 from tkinter import ttk, BOTH, LEFT, RIGHT, VERTICAL, NW, Y, X, INSERT, CURRENT, TOP
 
@@ -33,19 +34,26 @@ class EventPlayer:
         # print(f"+{w.index(INSERT)} {event=}")
 
 
-    def play(self, events, start=0):
+    def play(self, events):
         # print(f"play: {start} {events=}", flush=True)
         for i, event in enumerate(events):
             if event == "\n":
                 event = "<Return>"
-            if type(event) is str and event.startswith("<") and event.endswith(">"):
+            if isinstance(event, str) and event.startswith("<") and event.endswith(">"):
                 self.generate(event)
-            elif type(event) is str:
+            elif isinstance(event, str):
                 self.word(event)
             elif type(event) is int:
                 self.widget.after(event, lambda: self.play(events[i+1:]))
             else:
                 self.generate(event)
+
+    def play_file(self, events_file):
+        with open(events_file) as f:
+            event_text = f.read()
+        keystrokes_newlines_chars_pattern = "<[A-Z][^<\s]+>|\\n|."
+        re.match(keystrokes_newlines_chars_pattern, event_text)
+        # self.play(events)
 
 
     def word(self, word: str):

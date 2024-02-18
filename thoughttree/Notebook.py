@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk, END, INSERT
+from tkinter import ttk, END, CURRENT
 
 from NotebookTabTooltip import NotebookTabTooltip
 
@@ -82,3 +82,17 @@ class Notebook(ttk.Notebook):
         frames = map(self.nametowidget, self.tabs())
         return [f.sheet for f in frames]
 
+    def change(self, offset):
+        selection = (self.index(CURRENT) + offset) % self.index(END)
+        print(f"change: {self.index(CURRENT) + offset=} {offset=} {self.index(END)=} { selection=}")
+        # self.select(selection)
+
+    next = lambda self: self.change(1)
+    prev = lambda self: self.change(-1)
+
+    def size(self):
+        sum = 0
+        for tab in self.tabs():
+            print(f"nb.size: {type(tab)=}")
+
+            sum += tab.size()

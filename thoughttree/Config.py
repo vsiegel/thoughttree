@@ -16,6 +16,7 @@ conf.blinking_caret = True
 
 conf.examples_dir = code_file_relative("examples")
 conf.prompts_dir = code_file_relative("prompts")
+conf.tests_dir = code_file_relative("tests")
 
 conf.debug = True
 

@@ -14,6 +14,7 @@ class Ui(tk.Frame):
     event_log = None
     log = None
 
+    SIGNIFICANT_CHANGE_LIMIT = 10
 
     def __init__(self, title="Thoughttree", name="ui", icon_path=None, closeable=True):
         if not tk._default_root:
@@ -75,7 +76,7 @@ class Ui(tk.Frame):
                 showwarning("Can not Close Main Window", "The main window that opened first can not be closed individually.", parent=self)
                 return
 
-            if not self.is_initially_modified() or self.closeable or askyesno("Close Window", "Are you sure you want to close this window?", parent=self):
+            if not self.significantly_changed() or self.closeable or askyesno("Close Window", "Are you sure you want to close this window?", parent=self):
                 self.pack_forget()
 
                 # if self in Ui.current_open_uis:
@@ -87,11 +88,12 @@ class Ui(tk.Frame):
 
 
     def quit(self, event=None, label="Quit"):
-        if not self.is_initially_modified() or askyesno(label, "Are you sure you want to close all windows and quit?", parent=self):
+        if not self.significantly_changed() or askyesno(label, "Are you sure you want to close all windows and quit?", parent=self):
             self.pack_forget()
             sys.exit(0)
 
-    def is_initially_modified(self):
+
+    def significantly_changed(self):
         return True
 
     def set_icon(self, window_icon):

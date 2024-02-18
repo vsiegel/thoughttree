@@ -208,8 +208,12 @@ class Thoughttree(Ui):
         if not conf.blinking_caret:
             self.option_add('*Text*insertOffTime', '0')
 
-    def is_initially_modified(self):
-        return self.sheets.sheet.initially_modified or self.system.initially_modified
+    def significantly_changed(self):
+        if self.sheets.sheet.initially_modified or self.system.initially_modified: # todo recurse sheets
+            size = self.history_from_system_and_chat().size()
+            return size >= Ui.SIGNIFICANT_CHANGE_LIMIT
+        else:
+            return False
 
     def update_window_title(self, event=None):
         progress_title = self.root.title().rstrip('.') + "..."

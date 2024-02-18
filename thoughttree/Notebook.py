@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import ttk, END, INSERT
 
+from NotebookTabTooltip import NotebookTabTooltip
+
 
 #copy:
 class NF(tk.Frame):  # NF short for NotebookFrame - the name appears in widget names, making them longer.
@@ -21,6 +23,7 @@ class Notebook(ttk.Notebook):
         super().__init__(parent_frame, style=style_name, takefocus=takefocus, name="nb", **kw)
         self.enable_traversal()
 
+        NotebookTabTooltip(self)
         # def on_empty_tab_bar(event):
         #     if not event.widget.identify(event.x, event.y):
         #         # event.widget.tk_focusPrev().focus_set()

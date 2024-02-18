@@ -163,14 +163,14 @@ class Thoughttree(Ui):
         self.console_pane.pack(side=TOP, fill=BOTH, expand=True)
 
         self.console = Console(self.console_pane, highlightthickness=2, highlightcolor=Colors.highlight)
-        self.log = Log(self.console)
+        if not Ui.log:
+            Ui.log = Log(self.console)
         tree_highlight_frame = tk.Frame(self.detail_pane, highlightthickness=2)
         self.tree = Tree(tree_highlight_frame, self)
         self.tree.pack(side=LEFT, fill=BOTH, expand=True)
         self.detail = Sheet(self.detail_pane, width=25, wrap=NONE, state=DISABLED, takefocus=False)
         self.system = Sheet(self.system_pane, height=3, highlightthickness=2, highlightcolor=Colors.highlight)
         self.sheets = Sheets(self.system_pane)
-
         self.console_pane.add(self.tree_pane)
         self.console_pane.addFoldable(self.console)
         self.tree_pane.addFoldable(self.detail_pane)
@@ -190,9 +190,9 @@ class Thoughttree(Ui):
         bound_pane.bind("<Configure>", on_first_configure)
         self.toTop()
 
-        if type(sys.stdout) is not TextIOTee:
+        if not isinstance(sys.stdout, TextIOTee):
             sys.stdout = TextIOTee(ExceptionBlockedIO(sys.stdout), self.console.out)
-        if type(sys.stderr) is not TextIOTee:
+        if not isinstance(sys.stderr, TextIOTee):
             sys.stderr = TextIOTee(ExceptionBlockedIO(sys.stderr), self.console.err)
 
         self.menu.create_menu()
@@ -318,7 +318,7 @@ class Thoughttree(Ui):
 
             history = self.history_from_system_and_chat(additional_message=hidden_command)
             if self.log_messages_to_console:
-                history.log()
+                self.log.format(history)
             self.delete_hidden_prompt(sheet)
             self.model.counter.go()
 

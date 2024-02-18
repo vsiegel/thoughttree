@@ -332,6 +332,7 @@ class MainMenu(MenuBar):
         text.item('Role "function"', None, lambda e=None: self.it.role("function"))
         text.separator()
         text.item('Duplicate Tab', None, lambda e=None: self.it.role("function"))
+        text.item("Mark as Assistant Message", "<Control-Alt-a>", lambda e=None: self.it.toggle_tag("assistant"))
 
 
         format_menu = self.submenu("Format")

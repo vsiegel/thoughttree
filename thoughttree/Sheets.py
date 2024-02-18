@@ -166,7 +166,7 @@ class Sheets(tk.Frame):
     def update_tab_title(self, event=None):
         sheet = self.focus_get()
         if not str(sheet).startswith(str(self)):
-            raise Exception(f"{sheet} is not in Sheets")
+            raise Exception(f"{str(sheet)} is not in Sheets ({str(self)})")
         if not isinstance(sheet, TreeSheet):
             raise Exception(f"{sheet} is not a TreeSheet") #fixme
         sheet.update_tab_title()
@@ -220,7 +220,17 @@ class IterableSheets(Sheets):
     def breadth_first(self):
         yield from self.sheets.breadth_first()
 
+    def depth_first(self):
+        yield from self.sheets.depth_first()
 
+    def root_to_index(self):
+        pass
+
+    def root_to_sheet(self):
+        pass
+
+    def root_to_leaf(self):
+        pass
 
 
 

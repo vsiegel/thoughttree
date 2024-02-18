@@ -186,21 +186,20 @@ class TooltipableMenu(tk.Frame):
         return keystroke
 
 
-class CommandDisplayingMenu(TooltipableMenu):
-    def __init__(self, statusbar, **kw):
-        super().__init__(None, "Command Displaying Menu", **kw)
-        self.statusbar = statusbar
-
-    def command_status(self, command, label, keystroke):
-        def show_call():
-            message = label + " " + keystroke
-            self.statusbar.show_message(message)
-            command()
-        return show_call
-
-
-    def item(self, label, keystroke=None, command=None, underline=-1, menu2=None, add=False, to="Text"):
-        command = self.command_status(command, label, keystroke)
-        super().item(label, keystroke, command, underline, menu2, add, to)
+# class CommandDisplayingMenu(TooltipableMenu):
+#     def __init__(self, statusbar, **kw):
+#         super().__init__(None, "Command Displaying Menu", **kw)
+#         self.statusbar = statusbar
+#
+#     def command_status(self, command, label, keystroke):
+#         def show_call():
+#             message = label + " " + keystroke
+#             self.statusbar.show_message(message)
+#             command()
+#         return show_call
+#
+#     def item(self, label, keystroke=None, command=None, underline=-1, menu2=None, add=False, to="Text"):
+#         command = self.command_status(command, label, keystroke)
+#         super().item(label, keystroke, command, underline, menu2, add, to)
 
 

@@ -1,12 +1,28 @@
 from Console import Console
+from History import History
 
 
 class Log:
     def __init__(self, console: Console):
         self.console = console
 
-    def print(self, message):
-        self.console.write(message)
+    def format(self, object):
+        if isinstance(object, History):
+            for message in object:
+                role = message["role"]
+                content = message["content"]
+                print(f'{History.ROLE_SYMBOLS[role]}{role}:\n"{content}"')
+                self.print(f'{History.ROLE_SYMBOLS[role]}{role}:\n"')
+                self.print(content, role)
+                self.print('\n"')
+        else:
+            print(object)
+
+    def print(self, message, role=None):
+        if role:
+            self.console.tagged(role, message)
+        else:
+            self.console.write(message)
 
     def system(self, message):
         self.console.tagged("system", message)

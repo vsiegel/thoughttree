@@ -46,6 +46,10 @@ class Notebook(ttk.Notebook):
             event.widget.selected_sheet().focus_top()
         self.bind("<Down>", on_down, add=True)
 
+        def focus_sheet(event):
+            event.widget.selected_sheet().focus_top()
+        self.bind("<<NotebookTabChanged>>", focus_sheet)
+
 
     def add_sheet(self, title, parent_sheet=None):
         from TreeSheet import TreeSheet

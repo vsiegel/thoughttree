@@ -172,6 +172,7 @@ class TreeSheet(ResizingSheet, tk.Frame):
         def get():
             return self.parent_notebook.tab(CURRENT, option="text")
         def set(title):
+            title = title.split("\n")[0][:100]
             self.parent_notebook.tab(CURRENT, text=title)
         progress_title = get().split(" ")[0] + " ..."
         # print(f"{progress_title=}")

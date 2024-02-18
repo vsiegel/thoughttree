@@ -29,7 +29,7 @@ class TooltipableMenu(tk.Frame):
 
     def item(self, label, keystroke=None, command=None, to="Text", underline=-1, menu2=None, add=False):
         if conf.debug and not label in menu_help:
-            print("Warning: Help missing for \"" + label + "\"")
+            print(f'Warning: Help missing for {self.name}->"{label}"')
         keystroke = self.fix_key_letter_case(keystroke)
         if to == "all":
             self.winfo_toplevel().bind_all(keystroke, command, add=add)

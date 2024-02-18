@@ -13,11 +13,12 @@ from menu_help_texts import menu_help
 
 class TooltipableMenu(tk.Frame):
     # Replacing tk.Menu, because tooltips on menu items do not work under MS Windows.
-    def __init__(self, parent, text, **kw):
+    def __init__(self, parent, name, **kw):
         super().__init__(parent, bg='lightgray', borderwidth=0)
         self.parent = parent
+        self.name = name
         self.old_focus = None
-        self.label = tk.Label(self, text=text, font=("Arial", 12), bg='lightgray', padx=6, pady=5)
+        self.label = tk.Label(self, text=name, font=("Arial", 12), bg='lightgray', padx=6, pady=5)
         self.label.bind("<Enter>", self.keep_open, add=True)
         self.label.bind("<Button-1>", self.toggle_open, add=True)
         self.label.pack(side='left')

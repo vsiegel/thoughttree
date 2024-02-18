@@ -11,6 +11,7 @@ from Files import Files
 from Fonts import Fonts
 from Log import Log
 from ModelsMenu import ModelsMenu
+from Notebook import Notebook
 from TreeSheet import TreeSheet
 from WindowsMenu import WindowsMenu
 from IterateRangeForm import IterateRangeForm
@@ -217,7 +218,7 @@ class MainMenu(MenuBar):
         edit.item("Select Message", "<Control-Alt-w>", None, menu2=context)
         edit.item("Select Block", "<Control-Shift-w>", None, menu2=context)
         edit.separator()
-        edit.item("Find", "<Control-f>", lambda e=None: self.it.find())
+        edit.item("Find", "<Control-f>", lambda e=None: self.it.find(), "top")
         edit.item("Find Next", "<Control-g>", lambda e=None: self.it.find_next())
         edit.item("Find Previous", "<Control-Shift-G>", lambda e=None: self.it.find_previous())
         edit.separator()
@@ -259,10 +260,14 @@ class MainMenu(MenuBar):
         navigate.item("Previous Panel", "<Control-Shift-Tab>", lambda e=None: self.tk_focusPrev().focus_set())
         navigate.item("Next Sheet", "<Tab>", lambda e=None: e.widget.focusNextSheet())
         navigate.item("Previous Sheet", "<Shift-Tab>", lambda e=None: e.widget.focusPrevSheet())
-        navigate.item("Next Tab", "<Control-Next>", lambda e=None: e.widget.focusNextTab(), to=TreeSheet)#  .widget.sheet_tree.tk_focusPrev() or e.widget.tk_focusPrev())
-        navigate.item("Previous Tab", "<Control-Prior>", lambda e=None: e.widget.focusPrevTab(), to=TreeSheet)
-        navigate.item("End of Sheet or Page Down", "<Next>", lambda e=None: e.widget.focusNextTab(), to=TreeSheet)#  .widget.sheet_tree.tk_focusPrev() or e.widget.tk_focusPrev())
-        navigate.item("Start of Sheet or Page Up", "<Prior>", lambda e=None: e.widget.focusPrevTab(), to=TreeSheet)
+        navigate.item("Next Tab", "<Control-Next>", lambda e=None: e.widget.focusNextTab(), to=Notebook)#  .widget.sheet_tree.tk_focusPrev() or e.widget.tk_focusPrev())
+        def on_test(e):
+            print(e)
+            e.widget.focusPrevTab()
+        # navigate.item("Previous Tab", "<Control-Prior>", on_test, to=TreeSheet)
+        navigate.item("Previous Tab", "<Control-Prior>", lambda e=None: e.widget.focusPrevTab(), to=Notebook)
+        navigate.item("End of Sheet/Page Down", "<Next>", lambda e=None: e.widget.focusNextTab(), to=Notebook)#  .widget.sheet_tree.tk_focusPrev() or e.widget.tk_focusPrev())
+        navigate.item("Start of Sheet/Page Up", "<Prior>", lambda e=None: e.widget.focusPrevTab(), to=Notebook)
         navigate.item("Next Similar Line", "<Control-j>", lambda e=None: self.it.jump_to_similar_line(direction=1))
         navigate.item("Previous Similar Line", "<Control-Shift-J>", lambda e=None: self.it.jump_to_similar_line(direction=-1))
         navigate.separator()
@@ -271,9 +276,9 @@ class MainMenu(MenuBar):
 
         chat = self.submenu("Chat")
         chat.item("Continue Line", "<Control-space>", lambda e=None: ui.chat(inline=True), to="top")
-        chat.item("Next Line", "<Shift-Return>", lambda e=None: ui.chat(1, "\n", "\n"), to="top")
+        chat.item("Next Line", "<Shift-Return>", lambda e=None: ui.chat(1, "\n", "\n"), to="TreeSheet")
         chat.item("Next Paragraph", "<Control-Return>", lambda e=None: ui.chat(1, "\n\n", "\n\n"), to="top")
-        chat.item("Fork Conversation", "<Control-Alt-F>", lambda e=None: self.it.fork(), to="top")
+        chat.item("Fork Conversation", "<Control-Alt-F>", lambda e=None: self.it.fork(), "top")
         chat.item("Complete in Branch", "<Control-Shift-Return>", lambda e=None: branch())
         chat.separator()
         chat.item("Complete Alternatives", "<Alt-Shift-Return>", lambda e=None: ui.chat(-1, "\n"))
@@ -287,7 +292,6 @@ class MainMenu(MenuBar):
         chat.item("Complete Multiple...", "<Control-Shift-M>", lambda e=None: ui.chat(0))
         chat.item("Complete Multiple Again", "<Control-m>", lambda e=None: ui.chat(-1))
         chat.separator()
-        # chat.item("Mark as Assistant Message", "<Control-Alt-a>", mark_as_assistant_message)
         chat.item("Cancel", "<Escape>", ui.cancel_models)
 
 

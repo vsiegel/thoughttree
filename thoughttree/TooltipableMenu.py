@@ -35,12 +35,15 @@ class TooltipableMenu(tk.Frame):
                 Ui.log and Ui.log.debug(f'Warning: Help missing for {self.name}->"{label}"')
                 # print(f'Warning: Help missing for {self.name}->"{label}"')
         keystroke = self.fix_key_letter_case(keystroke)
+        if isinstance(to, type):
+            to = to.__name__
+
         if to == "all":
-            self.winfo_toplevel().bind_all(keystroke, command, add=add)
+            self.bind_all(keystroke, command, add=add)
         elif to == "top":
             self.winfo_toplevel().bind(keystroke, command, add=add)
         else:
-            self.winfo_toplevel().bind_class(to, keystroke, command, add=add)
+            self.bind_class(to, keystroke, command, add=add)
         accelerator = self.accelerator_label(keystroke)
         self.items.append((label, accelerator, command, underline))
         if menu2:

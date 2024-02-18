@@ -14,15 +14,15 @@ class Tooltip:
         self.show_timer = None
         self.show_delay_ms = 1000
 
-        widget.bind("<Unmap>", self.hide, add=True)
-        widget.bind("<Destroy>", self.hide, add=True)
         self.bind_tip()
 
 
     def bind_tip(self):
-        self.widget.bind("<Enter>", self.show_later, add=True)
+        self.widget.bind("<Unmap>", self.hide, add=True)
+        self.widget.bind("<Destroy>", self.hide, add=True)
         self.widget.bind("<Leave>", self.hide, add=True)
-        self.root.bind("<Motion>", self.refresh, add=True)
+        self.widget.bind("<Enter>", self.show_later, add=True)
+        # self.root.bind("<Motion>", self.refresh, add=False)
 
 
     def show_later(self, event):
@@ -44,6 +44,7 @@ class Tooltip:
             self.tip.bind("<Leave>", self.hide, add=True)
             self.tip.bind("<Button-1>", self.hide, add=True)
             self.label.bind("<Escape>", self.hide, add=True)
+
             self.refresh(event)
 
 

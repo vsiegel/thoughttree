@@ -77,6 +77,8 @@ class Tree(ttk.Treeview):
         self.append_toplevel("Changes", open=True)
         self.append_toplevel("Differences", open=True)
         self.append_toplevel("Outlines", open=True)
+        self.append_toplevel("Session", open=True)
+        self.append_toplevel("Archive", open=True)
 
         self.focus("Default")
         self.selection_set(self.focus())

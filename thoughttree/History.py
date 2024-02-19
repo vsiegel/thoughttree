@@ -93,6 +93,11 @@ class History(list):
         for message in self:
             print(f'{History.ROLE_SYMBOLS[message["role"]]}{message["role"]}:\n"{message["content"]}"')
 
+    def size(self):
+        sum = 0
+        for message in self:
+            sum += len(message['content'].strip())
+        return sum
 
     def __add__(self, other):
         sum = History()

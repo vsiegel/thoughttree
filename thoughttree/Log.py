@@ -18,6 +18,9 @@ class Log:
         else:
             print(object)
 
+    # def log(self, message, role=None):
+    log = print
+
     def print(self, message, role=None):
         if role:
             self.console.tagged(role, message)

@@ -4,13 +4,16 @@ from tkinter.simpledialog import Dialog
 from tkinter.scrolledtext import ScrolledText
 
 
-def on(event):
-    print(f"{event} {event.widget}")
-
 class ListDialog(tk.simpledialog.Dialog):
     def __init__(self, items, title=None, parent=None):
         self.items = items
         super().__init__(parent, title)
+
+    def grab_set(self):
+        pass
+
+    def wait_window(self, window = None):
+        pass
 
     def body(self, parent):
 
@@ -40,11 +43,8 @@ class ListDialog(tk.simpledialog.Dialog):
     def buttonbox(self):
         box = tk.Frame(self)
 
-        button = tk.Button(box, text="OK", width=10, command=self.ok, default=ACTIVE)
+        button = tk.Button(box, text="Close", width=10, command=self.ok, default=ACTIVE)
         button.pack(side=LEFT, padx=20, pady=20)
-        # button.bind("<FocusOut>", on)
-        button.winfo_toplevel().bind("<FocusIn>", on)
-        button.winfo_toplevel().bind("<FocusOut>", on)
 
         self.pack_slaves()[0].pack(fill=BOTH, expand=True, padx=25, pady=25) # hack to repack dialog content to expand
 

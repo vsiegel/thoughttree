@@ -22,7 +22,7 @@ class Tooltip:
         self.widget.bind("<Destroy>", self.hide, add=True)
         self.widget.bind("<Leave>", self.hide, add=True)
         self.widget.bind("<Enter>", self.show_later, add=True)
-        # self.root.bind("<Motion>", self.refresh, add=False)
+        self.widget.bind("<Motion>", self.refresh, add=False)
 
 
     def show_later(self, event):

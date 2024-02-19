@@ -71,7 +71,7 @@ class Thoughttree(Ui):
         self.status_hider = None
         self.status = None
         self.console = None
-        self.log = None
+        Ui.log = None
         self.tree = None
         self.detail: Sheet|None = None
         self.system: Sheet|None = None
@@ -322,13 +322,13 @@ class Thoughttree(Ui):
 
             history = self.history_from_system_and_chat(additional_message=hidden_command)
             if self.log_messages_to_console:
-                self.log.format(history)
+                Ui.log.format(history)
             self.delete_hidden_prompt(sheet)
             self.model.counter.go()
 
             reason, message, answer = self.completions(sheet, history, n)
 
-            self.log.cost("Completion cost:\n" + self.model.counter.summary())
+            Ui.log.cost("Completion cost:\n" + self.model.counter.summary())
 
             self.finish_completion(sheet, reason, message, postfix, inline, start_time)
 
@@ -496,7 +496,7 @@ The Id of this outline is: {outline_id} (equal for all levels of this outline.)
 
         answer += "\n\n"
         if self.log_messages_to_console:
-            self.log.print(f'Answer:\n"{answer}"')
+            Ui.log.print(f'Answer:\n"{answer}"')
 
         outline_exploration = OutlineExploration(answer, outline_id=outline_id, parent_id=parent_id)
         sheet.outline_exploration = outline_exploration
@@ -655,7 +655,7 @@ The Id of this outline is: {outline_id} (equal for all levels of this outline.)
                 reason, message, answer = self.model.complete(history, lambda text: self.write_sheet(text, sheet))
 
         if self.log_messages_to_console:
-            self.log.print(f'Answer:\n"{answer}"')
+            Ui.log.print(f'Answer:\n"{answer}"')
 
         return reason, message, answer
 

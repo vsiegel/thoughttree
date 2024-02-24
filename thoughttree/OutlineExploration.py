@@ -118,7 +118,7 @@ class OutlineExploration(StructuredInteraction):
 
         answer += "\n\n"
         if self.log_messages_to_console:
-            self.log.print(f'Answer:\n"{answer}"')
+            self.log.log(f'Answer:\n"{answer}"')
 
         outline_exploration = OutlineExploration(answer, outline_id=outline_id, parent_id=parent_id)
         sheet.outline_exploration = outline_exploration

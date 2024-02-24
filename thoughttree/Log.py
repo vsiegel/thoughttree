@@ -11,17 +11,17 @@ class Log:
             for message in object:
                 role = message["role"]
                 content = message["content"]
-                print(f'{History.ROLE_SYMBOLS[role]}{role}:\n"{content}"')
-                self.print(f'{History.ROLE_SYMBOLS[role]}{role}:\n"')
-                self.print(content, role)
-                self.print('\n"')
+                # print(f'{History.ROLE_SYMBOLS[role]}{role}:\n"{content}"')
+                self.log(f'{History.ROLE_SYMBOLS[role]}{role}:\n"')
+                self.log(content, role)
+                self.log('"')
         else:
             print(object)
 
     # def log(self, message, role=None):
-    log = print
+    # log = print
 
-    def print(self, message, role=None):
+    def log(self, message, role=None):
         if role:
             self.console.tagged(role, message)
         else:

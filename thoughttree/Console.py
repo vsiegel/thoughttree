@@ -16,8 +16,8 @@ class Console(tk.scrolledtext.ScrolledText, io.TextIOBase):
         self.insert(END, "Console:\n")
 
         self.tag_config("system", foreground="#edd4e8", font=("Helvetica", 12))
-        self.tag_config("user", foreground="#f0e4c9", font=("Helvetica", 12))
-        self.tag_config("assistant", foreground="#80d4ad", font=("Helvetica", 12))
+        self.tag_config("user", foreground="#1ccf3c", font=("Helvetica", 12))
+        self.tag_config("assistant", foreground="#5473cd", font=("Helvetica", 12))
         self.tag_config("debug", foreground="#666666", font=("Helvetica", 9))
         self.tag_config("info", foreground="black", font=("Helvetica", 12))
         self.tag_config("warn", foreground="tomato", font=("Helvetica", 12, "bold"))

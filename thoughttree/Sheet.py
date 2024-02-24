@@ -93,7 +93,6 @@ class Sheet(ScrolledText, LineHandling):
         trailing_text = self.get(starting, END)
         if self.get(starting) == "\n":
             trailing_text = trailing_text[1:]
-        print(repr(self.get(starting)))
         to_sheet.insert("1.0", trailing_text)
         self.delete(starting, END)
 

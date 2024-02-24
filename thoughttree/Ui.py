@@ -14,7 +14,7 @@ class Ui(tk.Frame):
     event_log = None
     log = None
 
-    SIGNIFICANT_CHANGE_LIMIT = 10
+    SIGNIFICANT_CHANGE_LIMIT = 20
 
     def __init__(self, title="Thoughttree", name="ui", icon_path=None, closeable=True):
         if not tk._default_root:

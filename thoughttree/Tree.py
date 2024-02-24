@@ -104,11 +104,11 @@ class Tree(ttk.Treeview):
         TreeTooltip(self)
 
         file_context = TooltipableMenu(None, "(File context menu)")
-        file_context.item("Replace System", "<Shift-Alt-Return>", lambda e=None: self.to_sheet(self.ui.system, delete=True), to="Treeview")
-        file_context.item("Insert System", "<Shift-Return>", lambda e=None: self.to_sheet(self.ui.system), to="Treeview")
-        file_context.item("Replace User", "<Control-Alt-Return>", lambda e=None: self.to_sheet(self.ui.sheets.current, delete=True), to="Treeview")
-        file_context.item("Insert User", "<Control-Return>", lambda e=None: self.to_sheet(self.ui.sheets.current), to="Treeview")
-        file_context.item("Open", "<Control-Shift-O>", lambda e=None: self.open_file(), to="Treeview")
+        file_context.item("Replace System", "<Shift-Alt-Return>", lambda e=None: self.to_sheet(self.ui.system, delete=True), to=Treeview)
+        file_context.item("Insert System", "<Shift-Return>", lambda e=None: self.to_sheet(self.ui.system), to=Treeview)
+        file_context.item("Replace User", "<Control-Alt-Return>", lambda e=None: self.to_sheet(self.ui.sheets.current, delete=True), to=Treeview)
+        file_context.item("Insert User", "<Control-Return>", lambda e=None: self.to_sheet(self.ui.sheets.current), to=Treeview)
+        file_context.item("Open", "<Control-Shift-O>", lambda e=None: self.open_file(), to=Treeview)
 
         self.context_menus["file"] = file_context
 

@@ -496,7 +496,7 @@ The Id of this outline is: {outline_id} (equal for all levels of this outline.)
 
         answer += "\n\n"
         if self.log_messages_to_console:
-            Ui.log.print(f'Answer:\n"{answer}"')
+            Ui.log.log(f'Answer:\n"{answer}"')
 
         outline_exploration = OutlineExploration(answer, outline_id=outline_id, parent_id=parent_id)
         sheet.outline_exploration = outline_exploration
@@ -655,7 +655,7 @@ The Id of this outline is: {outline_id} (equal for all levels of this outline.)
                 reason, message, answer = self.model.complete(history, lambda text: self.write_sheet(text, sheet))
 
         if self.log_messages_to_console:
-            Ui.log.print(f'Answer:\n"{answer}"')
+            Ui.log.log(f'Answer:\n"{answer}"')
 
         return reason, message, answer
 

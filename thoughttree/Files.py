@@ -1,6 +1,6 @@
 import tkinter as tk
 from textwrap import dedent
-from tkinter import SEL_FIRST, SEL_LAST
+from tkinter import SEL_FIRST, SEL_LAST, END
 from tkinter.filedialog import asksaveasfilename, askopenfilename
 from tkinter.messagebox import showerror
 import re
@@ -68,123 +68,80 @@ class Files:
     #     code_block_saver = CodeBlockSaver(sheet)
     #     code_block_saver.save()
 
+
     @staticmethod
-    def save_chat(e=None):
-
-        def text_not_found_error():
-            pass
-
-        def find_text(sheet):
-            pass
-            return "foo"
-
-        def find_filename():
-            return "bar"
-
-        def ask_filename(initial_filename):
-            return ""
-
-        def write_text(text, filename):
-            pass
-
-        text = find_text(e.widget)
-        if not text:
-            text_not_found_error()
-            return
-        initial_filename = find_filename()
-        filename = ask_filename(initial_filename)
-        if not filename:
-            return
-        write_text(text, filename)
+    def write_chat(sheet, filename, up_to=END):
+        try:
+            content = sheet.dump(1.0, up_to, text=True, tag=True)
+            with open(filename, 'w') as f:
+                drop_nl = False
+                for item in content:
+                    if item[0] == "tagon":
+                        if item[1] == "assistant":
+                            f.write(History.ROLE_SYMBOLS["assistant"])
+                    elif item[0] == "tagoff":
+                        if item[1] == "assistant":
+                            f.write("\n" + History.ROLE_SYMBOLS["user"])
+                            drop_nl = True
+                    elif item[0] == "text":
+                        if drop_nl:
+                            drop_nl = False
+                            if item[1] == "\n":
+                                continue
+                        f.write(item[1])
+        except Exception as e:
+            showerror(title="Error", message="Cannot save chat\n" + str(e), master=sheet)
 
 
+    @staticmethod
+    def write_section(sheet: tk.Text, filename, index=tk.INSERT):
+        try:
+            text_range = sheet.tag_prevrange("assistant", index)
+            if not text_range:
+                raise Exception("No section found")
+            section = sheet.get(*text_range)
 
-        print(e)
-        print(e.widget)
-        print(type(e.widget))
-        # name = save(Files.save_chat_dialog, "Chat saved to ")
-        # self.tt.title(name)
-
-
-        # def save(save_dialog, status_bar_label):
-        #     file_name = save_dialog(self.tt.chat)
-        #     if not file_name:
-        #         return
-        #     base_name = file_name.split("/")[-1]
-        #     self.tt.status_bar.note = status_bar_label + base_name
-        #     return base_name
+            with open(filename, 'w') as f:
+                f.write(section)
+        except Exception as e:
+            showerror(title="Error", message="Cannot save section\n" + str(e), master=sheet)
 
 
     @staticmethod
     def save_chat_dialog(sheet):
-
-        def write_chat(sheet, filename) :
-            try:
-                content = sheet.dump(1.0, tk.END, text=True, tag=True)
-                with open(filename, 'w') as f :
-                    drop_nl = False
-                    for item in content :
-                        if item[0] == "tagon" :
-                            if item[1] == "assistant" :
-                                f.write(History.ROLE_SYMBOLS["assistant"])
-                        elif item[0] == "tagoff" :
-                            if item[1] == "assistant" :
-                                f.write("\n" + History.ROLE_SYMBOLS["user"])
-                                drop_nl = True
-                        elif item[0] == "text" :
-                            if drop_nl :
-                                drop_nl = False
-                                if item[1] == "\n" :
-                                    continue
-                            f.write(item[1])
-            except Exception as e:
-                showerror(title="Error", message="Cannot save chat\n" + str(e), master=sheet)
-
-        file = asksaveasfilename(defaultextension=".txt",
-                initialfile="chat.txt", title="Save Chat", parent=sheet)
+        file = asksaveasfilename(defaultextension=".txt", initialfile="chat.txt", title="Save Chat", parent=sheet)
         if file:
-            write_chat(sheet, file)
+            Files.write_chat(sheet, file)
         return file
 
 
     @staticmethod
     def save_section_dialog(sheet):
-
-        def write_section(sheet: tk.Text, filename, index=tk.INSERT):
-            try:
-                text_range = sheet.tag_prevrange("assistant", index)
-                if not text_range:
-                    raise Exception("No section found")
-                section = sheet.get(*text_range)
-
-                with open(filename, 'w') as f:
-                    f.write(section)
-            except Exception as e:
-                showerror(title="Error", message="Cannot save section\n" + str(e), master=sheet)
-
         file = asksaveasfilename(
             defaultextension=".txt", initialfile="section.txt", title="Save Section", parent=sheet)
         if file:
-            write_section(sheet, file)
+            Files.write_section(sheet, file)
         return file
+
+
+    @staticmethod
+    def write_selection(sheet: tk.Text, filename, index=tk.INSERT):
+        try:
+            string = sheet.get(SEL_FIRST, SEL_LAST)
+
+            with open(filename, 'w') as f:
+                f.write(string)
+        except Exception as e:
+            showerror(title="Error", message="Cannot save section\n" + str(e), master=sheet)
 
 
     @staticmethod
     def save_selection_dialog(sheet):
 
-        def write_section(sheet: tk.Text, filename, index=tk.INSERT):
-            try:
-                string = sheet.get(SEL_FIRST, SEL_LAST)
-
-                with open(filename, 'w') as f:
-                    f.write(string)
-            except Exception as e:
-                showerror(title="Error", message="Cannot save section\n" + str(e), master=sheet)
-
         file = asksaveasfilename(
             defaultextension=".txt", initialfile="selection.txt", title="Save Selection", parent=sheet)
         if file:
-            write_section(sheet, file)
+            Files.write_selection(sheet, file)
         return file
 
     @staticmethod
@@ -221,8 +178,7 @@ class Files:
             code_block = find_code_block(sheet)
 
             ext = ".py"
-            filename = asksaveasfilename(
-                    defaultextension=ext, initialfile="code_block.py", title="Save Code Block", parent=sheet)
+            filename = asksaveasfilename(defaultextension=ext, initialfile="code_block.py", title="Save Code Block", parent=sheet)
             if filename:
                 if not re.match(".*\..{1,5}$", filename):
                     filename = filename + ext

@@ -11,6 +11,7 @@ from startfile import startfile
 
 import Colors
 from Config import conf
+from EventPlayer import EventPlayer
 from OutlineExploration import OutlineExploration
 from Fonts import Fonts
 from Improvement import Improvement
@@ -160,6 +161,10 @@ class Tree(ttk.Treeview):
             self.to_sheet(self.ui.sheets.current)
         elif type in ["directory", "toplevel"]:
             self.item(iid, open=not self.item(iid, 'open'))
+        elif type == "file":
+            events_path = self.set(iid, "path")
+            if events_path.endswith(".events") and exists(events_path):
+                EventPlayer(self, file=events_path)
         else:
             self.print(iid)
 

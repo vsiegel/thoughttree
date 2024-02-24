@@ -52,8 +52,8 @@ class EventPlayer:
         with open(events_file) as f:
             event_text = f.read()
         keystrokes_newlines_chars_pattern = "<[A-Z][^<\s]+>|\\n|."
-        re.match(keystrokes_newlines_chars_pattern, event_text)
-        # self.play(events)
+        events = re.findall(keystrokes_newlines_chars_pattern, event_text)
+        self.play(events)
 
 
     def word(self, word: str):

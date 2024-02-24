@@ -125,9 +125,9 @@ class Thoughttree(Ui):
         if self.main_window:
             # EventRecorder(self)
             # events = (["a", "b", "c", "\n", "a", "<b>", "c", "\n", "foo", "bar", 500, "a", "bbbb", ])
-            events = None # (["a", "a", "a", "b", "c", "d", "e", "a", "a", "a",])
-            events = None # (["a", "a", "a", "b", "c", "d", "e", "a", "a", "a",])
-            EventPlayer(self, events)
+            # events = None # (["a", "a", "a", "b", "c", "d", "e", "a", "a", "a",])
+            # events = None # (["a", "a", "a", "b", "c", "d", "e", "a", "a", "a",])
+            # EventPlayer(self, events)
             self.root.mainloop()
 
 

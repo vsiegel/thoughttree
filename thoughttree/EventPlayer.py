@@ -6,8 +6,8 @@ import tools
 
 
 class EventPlayer:
-    def __init__(self, w: tk.Widget, events=None, start=True):
-        self.widget = w
+    def __init__(self, widget: tk.Widget, events=None, file=None):
+        self.widget = widget
 
         # events = "\n".join([chr(i) for i in range(50, 70)])
         # events = [chr(i) for i in range(65, 85)]

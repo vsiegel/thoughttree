@@ -67,7 +67,7 @@ class Notebook(ttk.Notebook):
 
     def selected_sheet(self):
         if not self.select():
-            return None
+            return self.parent_sheet
         frame = self.nametowidget(self.select())
         return frame.sheet
 

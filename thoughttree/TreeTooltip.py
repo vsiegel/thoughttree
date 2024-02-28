@@ -35,9 +35,9 @@ class TreeTooltip(Tooltip):
             self.label.configure(text="(hidden)")
             self.tip.withdraw()
 
-    def update(self, event):
-        self.refresh_tooltip_text(event)
-        super().update(event)
+    # def update(self, event):
+    #     self.refresh_tooltip_text(event)
+    #     super().update(event)
 
     # def bind_tip(self):
     #     self.tree.bind("<Leave>", self.hide, add=True)

@@ -224,22 +224,16 @@ class TreeSheet(ResizingSheet, tk.Frame):
             selected = parent.index(CURRENT)
             sheet = parent.selected_sheet()
             parent.forget(selected)
-            print(f"      {selected=}")
 
             if parent.tabs():
-                print(f"tabs: ")
                 parent.select(max(selected - 1, 0))
                 parent.selected_sheet().focus_set()
             else:
-                print(f"not tabs: ")
                 tab_text = sheet.get('1.0', 'end-1c')
                 self.parent_sheet.insert(END, tab_text)
                 self.parent_sheet.mark_set(INSERT, 'end-1c')
                 self.parent_sheet.focus_set()
-                # self.parent_notebook.pack_forget()
-                # self.parent_notebook = None
                 self.pack_configure(expand=True)
-                # self.parent = None
             return "break"
 
 
@@ -262,6 +256,17 @@ class TreeSheet(ResizingSheet, tk.Frame):
 
     focusNextTab = lambda self: self.focusChangeTab(1)
     focusPrevTab = lambda self: self.focusChangeTab(-1)
+
+
+    def depth_first(self):
+
+        plain_text_depth_fist_parts = []
+        plain_text_depth_fist_parts.append(self.get(1.0, END))
+
+        if self.notebook:
+            for child in self.child_sheets():
+                plain_text_depth_fist_parts.extend(child.depth_first())
+        return plain_text_depth_fist_parts
 
 
 if __name__ == "__main__":

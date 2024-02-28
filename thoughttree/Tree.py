@@ -332,3 +332,17 @@ class Tree(ttk.Treeview):
         cell_editor.bind("<Control-Return>", lambda e: cell_editor.insert(INSERT, "\n") or "break")
         # cell_editor.bind("<Control-Key>", lambda e : "break")
         # cell_editor.bind("<Control_L>", lambda e : "break")
+
+    def font_size(self, delta=0):
+        name, size = Style().configure("Treeview.Treeview", "font").rsplit(None, 1)
+        if not delta:
+            size = Fonts.FONT[1]
+        size = int(size)
+        sign = int(size/abs(size))
+        size = abs(size)
+        new_size = size + delta
+
+        if new_size:
+            font = (name, sign * new_size)
+            rowheight = tkfont.Font(font=font).metrics("linespace") + 1
+            Style().configure("Treeview.Treeview", rowheight=rowheight, font=font)

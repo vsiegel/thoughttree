@@ -30,12 +30,12 @@ NODE_CLOSED = '|'
 class Tree(ttk.Treeview):
     def __init__(self, parent, thoughttree, *args, **kw):
 
-        style = "Treeview.Treeview"
+
         font = Fonts.FONT
         rowheight = tkfont.Font(font=font).metrics("linespace") + 1
-        Style().configure(style, rowheight=rowheight, font=font)
+        Style().configure("Treeview.Treeview", rowheight=rowheight, font=font)
 
-        super().__init__(parent, columns=("path", "type"), displaycolumns=(), style=style, show="tree", *args, **kw)
+        super().__init__(parent, columns=("path", "type"), displaycolumns=(), style="Treeview.Treeview", show="tree", *args, **kw)
         from thoughttree import Thoughttree
         self.ui: Thoughttree = thoughttree
 

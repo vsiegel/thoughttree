@@ -1,0 +1,14 @@
+Give a different answer that is as different as possible from the previous answer. It should be different on all possible levels. Seriously, be bold.
+Use an id that is derived from the previous by adding .1, .2 etc to the end of the id.
+Use a different "Title:" Use decimal outline as before.
+Organize the items of this outline as children of a toplevel item that has the title of the answer. Like, with n 1, 2, etc:
+n. ... title
+n.1 item1
+n.2 item2
+...
+Use the first item n.1 for a description of what is special about this answer.
+An empty user input means continue with another answer, as a new toplevel item.
+Remember, avoid any repetition! Give a wide spectrum of different answers, so the user can choose what helps him best.
+Previous answers are often shortened to the name and the first, describing items, as basis to create new answers that do not repeat them.
+Always create answers with 10 or more items. The previous outputs have been edited to save tokens.
+Always continue with further items, like in 1....

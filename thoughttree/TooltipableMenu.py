@@ -43,7 +43,7 @@ class TooltipableMenu(tk.Frame):
         elif to == "top":
             self.winfo_toplevel().bind(keystroke, command, add=add)
         else:
-            self.bind_class(to, keystroke, command, add=add)
+            self.winfo_toplevel().bind_class(to, keystroke, command, add=add)
         accelerator = self.accelerator_label(keystroke)
         self.items.append((label, accelerator, command, underline))
         if menu2:

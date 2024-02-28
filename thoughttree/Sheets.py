@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk, BOTH, LEFT, RIGHT, VERTICAL, NW, Y, X, INSERT, CURRENT, TOP, NSEW
+from tkinter import ttk, BOTH, LEFT, RIGHT, VERTICAL, NW, Y, X, INSERT, CURRENT, TOP, NSEW, END
 
 import Colors
 import tools
@@ -205,6 +205,9 @@ class Sheets(tk.Frame):
         if self.sheet.notebook:
             sum += self.sheet.notebook.size()
 
+    def depth_first(self):
+        return "depth_first: " + "".join(self.sheet.depth_first())
+
 
     def debug(self, event):
         print(f"{event.widget}    {event.width}x{event.height}+{event.x}+{event.y}")
@@ -223,8 +226,8 @@ class IterableSheets(Sheets):
     def __next__(self):
         return self.sheets.__next__()
 
-    def breadth_first(self):
-        yield from self.sheets.breadth_first()
+    # def breadth_first(self):
+    #     yield from self.sheets.breadth_first()
 
     def depth_first(self):
         yield from self.sheets.depth_first()

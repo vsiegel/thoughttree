@@ -17,11 +17,11 @@ class Console(Sheet, io.TextIOBase):
         self.insert(END, "Console:\n")
 
         self.tag_config("system", foreground="#edd4e8", font=("Helvetica", 12))
-        self.tag_config("user", foreground="#1ccf3c", font=("Helvetica", 12))
+        self.tag_config("user", foreground="#4e8054", font=("Helvetica", 12))
         self.tag_config("assistant", foreground="#5473cd", font=("Helvetica", 12))
         self.tag_config("debug", foreground="#666666", font=("Helvetica", 9))
         self.tag_config("info", foreground="black", font=("Helvetica", 12))
-        self.tag_config("warn", foreground="tomato", font=("Helvetica", 12, "bold"))
+        self.tag_config("warn", foreground="#d95740", font=("Helvetica", 12, "bold"))
         self.tag_config("error", foreground="firebrick", font=("Helvetica", 12, "bold"))
         self.tag_config("critical", foreground="firebrick", background="light yellow", font=("Helvetica", 12, "bold"))
         self.tag_config("cost", foreground="#999999", font=("Helvetica", 12))

@@ -10,7 +10,7 @@ from TaggedConsoleOut import TaggedConsoleOut
 class Console(tk.scrolledtext.ScrolledText, io.TextIOBase):
     def __init__(self, parent, width=100, height=5, **kw):
         tk.scrolledtext.ScrolledText.__init__(self, parent, undo=True, wrap=tk.WORD, width=width, height=height,
-                                              takefocus=False, font=("monospace", 10), background="#f0f0f0", **kw)
+                                              takefocus=False, font=("monospace", 10), background="#f6f6f6", **kw)
         io.TextIOBase.__init__(self)
         self.vbar.config(width=18, takefocus=False, borderwidth=2)
         self.insert(END, "Console:\n")

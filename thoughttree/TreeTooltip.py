@@ -13,6 +13,7 @@ class TreeTooltip(Tooltip):
         max_lines = 40
         max_columns = 100
         iid = self.tree.identify('item', event.x, event.y)
+        # bbox = self.tree.bbox(iid)
         text = ""
         toplevel_node = "Tree." + iid
         if toplevel_node in tree_help:
@@ -28,7 +29,15 @@ class TreeTooltip(Tooltip):
                     lines = [line[:max_columns] for line in lines]
                     text = "\n".join(lines)
         if text.strip():
+            self.tip.deiconify()
             self.label.configure(text=text)
+        else:
+            self.label.configure(text="(hidden)")
+            self.tip.withdraw()
+
+    def update(self, event):
+        self.refresh_tooltip_text(event)
+        super().update(event)
 
     # def bind_tip(self):
     #     self.tree.bind("<Leave>", self.hide, add=True)

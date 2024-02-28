@@ -64,6 +64,7 @@ class Tree(ttk.Treeview):
 
         self.tag_configure("old", foreground="#b34750")
         self.tag_configure("new", foreground="#47b359")
+        self.tag_configure("outline", background="#f6f6f6", )
 
         def on_configure(event):
             self.column("#0", width=event.width)
@@ -195,7 +196,7 @@ class Tree(ttk.Treeview):
             text = self.item(iid, "text")
             item, title = text.split(" ", maxsplit=1)
             outline_id = self.outline_id(iid)
-            print(f"{iid=} {outline_id} {item=} {title=}")
+            # print(f"{iid=} {outline_id} {item=} {title=}")
             self.ui.explore_outline(hidden_command=item, outline_id=outline_id, parent_id=iid)
             # self.ui.chat(1, "\n\n", "\n\n", hidden_command=item)
 
@@ -206,10 +207,9 @@ class Tree(ttk.Treeview):
         if self.exists(iid):
             parent = iid
         else:
-            print(f"{outline_exploration=} outline_id: {outline_exploration.outline_id} parent_id: {outline_exploration.parent_id} {outline_exploration.title=}")
-            parent = self.append("Outlines", text=outline_exploration.title, iid=iid, type="outline_exploration.root", open=True)
+            parent = self.append("Outlines", text=outline_exploration.title, iid=iid, type="outline_exploration.root", tags=("outline",), open=True)
         for outline_id, outline_title in outline_exploration.outline_level_items:
-            self.append(parent, text=outline_id + " " + outline_title, type="outline_exploration.item", open=True)
+            self.append(parent, text=outline_id + " " + outline_title, type="outline_exploration.item", tags=("outline",), open=True)
 
 
     def add_change(self, change: TextChange):

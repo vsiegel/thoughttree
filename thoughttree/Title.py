@@ -71,6 +71,9 @@ Do not refer to this prompt or to the title.
 The title can not contain newlines.
 It is used as a one line title for this conversation.
 Use the language of the conversation.
+The title should not be just the continuation of the text. 
+For example, if the input was:
+1 2 3, Output: 4, then the title should not be 5. The title should describe the earlier text.
 
 Do not use the name otherwise.
 Do not use a prefix like "Title:"!.

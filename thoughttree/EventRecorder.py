@@ -21,3 +21,26 @@ class EventRecorder:
         else:
             print(f"record: {event}", flush=True)
 
+
+if __name__ == "__main__":
+
+    root = tk.Tk()
+    f = tk.Frame(root)
+    f.pack(fill="both", expand=True)
+    t = tk.Text(f, undo=True)
+    t.pack(fill="both", expand=True)
+    t.focus_set()
+
+    top = tk.Toplevel(root)
+    t = tk.Text(top, undo=True)
+    t.pack(fill="both", expand=True)
+
+    # print(t.event_info())
+
+    EventRecorder(t)
+    def on_first_configure(e):
+        t.event_generate("<Control-Alt-Shift-P>")
+        t.unbind("<Configure>")
+    # t.bind("<Configure>", on_first_configure)
+    tools.escapable(root)
+    root.mainloop()

@@ -54,13 +54,6 @@ class Notebook(ttk.Notebook):
     def add_sheet(self, title, parent_sheet=None):
         from TreeSheet import TreeSheet
         from Title import outline
-        # class NAF(tk.Frame):  # NotebookAdapterFrame - the name appears in widget names, making them longer.
-        # class NotebookAdapterFrame(tk.Frame):
-        #     def __init__(self, parent, **kw):
-        #         tk.Frame.__init__(self, parent, **kw)  # Warning: Naming the frame causes errors (name="...").
-        #         self.sheet = None
-
-        # NotebookAdapterFrame = NAF
 
         frame = NF(self, background="#f0e5f2", borderwidth=0, highlightthickness=0)
         sheet = TreeSheet(frame, parent_sheet=parent_sheet, parent_notebook=self, name=outline(title), takefocus=False)

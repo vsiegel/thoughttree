@@ -55,7 +55,7 @@ def new_child_title(parent: Notebook):
 
 def outline(title: str):
     # Create a widget name for a title starting with an outline id "1.2 Foo Bar" -> "1-2"
-    return title.split(maxsplit=1)[0].rstrip(".,:;").replace(" ", "-").replace(".", "-")
+    return title.split(maxsplit=1)[0].rstrip(".,:;").replace(" ", "_").replace(".", "_")
 
 class Title():
     model_name = 'gpt-3.5-turbo'

@@ -133,7 +133,9 @@ class Tree(ttk.Treeview):
 
     def append(self, parent, index=END, text="-", iid=None, open=False, value="", type="toplevel", tags=()):
         # print(f"Parent: {parent}, Index: {index}, Text: {text}, Iid: {iid}, Open: {open}, Value: {value}, Type: {type}, Tags: {tags}")
-        return self.insert(parent=parent, index=index, text=text, iid=iid, open=open, values=[value, type], tags=tags)
+        inserted = self.insert(parent=parent, index=index, text=text, iid=iid, open=open, values=[value, type], tags=tags)
+        self.selection_add(inserted)
+        return inserted
 
 
     def toplevel(self, name, **kv):

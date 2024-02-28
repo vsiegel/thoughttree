@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import X, BOTH, Y, INSERT, END, CURRENT, SEL, LEFT
 
+from docutils.nodes import section
+
 import tools
 from Sheet import Sheet
 
@@ -19,7 +21,7 @@ class ResizingSheet(Sheet):
     def __str__(self):
         return str(self.resizing_frame)
 
-    def resize_to_content(self, event: tk.Event):
+    def resize_to_content(self, event: tk.Event=None):
         if self.edit_modified():
             self.count("1.0", "end lineend", "update")
             ypixels = self.count("1.0", "end lineend", 'displaylines', 'ypixels')[1]
@@ -37,6 +39,10 @@ class ResizingSheet(Sheet):
             if m[0] != '_' and m != 'config' and m != 'configure':
                 setattr(self, m, getattr(frame, m))
 
+    def font_size(self, delta=0):
+        super().font_size(delta)
+        self.resize_to_content()
+
 
 if __name__ == "__main__":
     root = tk.Tk()
@@ -49,4 +55,3 @@ if __name__ == "__main__":
     # widget.pack_propagate(False)
     widget.focus_set()
     root.mainloop()
-

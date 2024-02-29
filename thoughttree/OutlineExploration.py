@@ -49,3 +49,12 @@ class OutlineExploration(StructuredInteraction):
             self.valid = False
             print(f'{ex=}')
             print(f'{outline_level_spec}')
+
+    def add_to_tree(self, tree):
+        iid = self.parent_id
+        if tree.exists(iid):
+            parent = iid
+        else:
+            parent = tree.append("Outlines", text=self.title, iid=iid, type="outline_exploration.root", tags=("outline",), open=True)
+        for outline_id, outline_title in self.outline_level_items:
+            tree.append(parent, text=outline_id + " " + outline_title, type="outline_exploration.item", tags=("outline",), open=True)

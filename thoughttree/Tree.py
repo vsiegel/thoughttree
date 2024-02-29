@@ -202,17 +202,6 @@ class Tree(ttk.Treeview):
             self.ui.explore_outline(hidden_command=item, outline_id=outline_id, parent_id=iid)
             # self.ui.chat(1, "\n\n", "\n\n", hidden_command=item)
 
-    def add_outline_exploration(self, outline_exploration: OutlineExploration):
-        if not outline_exploration:
-            return
-        iid = outline_exploration.parent_id
-        if self.exists(iid):
-            parent = iid
-        else:
-            parent = self.append("Outlines", text=outline_exploration.title, iid=iid, type="outline_exploration.root", tags=("outline",), open=True)
-        for outline_id, outline_title in outline_exploration.outline_level_items:
-            self.append(parent, text=outline_id + " " + outline_title, type="outline_exploration.item", tags=("outline",), open=True)
-
 
     def add_change(self, change: TextChange):
         title = self.insert("Changes", END, text=change.title, open=True)

@@ -189,6 +189,11 @@ class MainMenu(MenuBar):
 
         ui = self.ui #fixme can not use this with bind_class()
 
+        def font_size_all(delta):
+            Sheet.font_size_all(delta)
+            self.ui.tree.font_size(delta)
+
+
         context = TooltipableMenu(None, "(sheet context menu)")
 
         file = self.submenu("File")

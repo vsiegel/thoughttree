@@ -258,7 +258,7 @@ class MainMenu(MenuBar):
         view.item("Ring Bell When Finished", "<Control-Alt-b>", toggle_ring_bell)
         view.item("Toggle Wrap Lines", "<Control-l>", lambda e=None: self.it.configure(wrap=(NONE if self.it.cget("wrap") != NONE else WORD)))
         view.item("Calculate Cost", None, None)
-        view.item("Show Hidden Prompts", "<Control-Shift-H>", ui.toggle_show_hidden_prompts)
+        view.item("Show Hidden Prompts", "<Control-Shift-H>", ui.toggle_show_internal_prompts)
         view.item("Show Messages", None, toggle_log_messages_to_console)
 
         mask = self.submenu("Mask")

@@ -200,7 +200,7 @@ class Tree(ttk.Treeview):
             item, title = text.split(" ", maxsplit=1)
             outline_id = self.outline_id(iid)
             # print(f"{iid=} {outline_id} {item=} {title=}")
-            self.ui.explore_outline(hidden_command=item, outline_id=outline_id, parent_id=iid)
+            self.ui.explore_outline(prompt_arg=item, outline_id=outline_id, parent_id=iid)
             # self.ui.chat(1, "\n\n", "\n\n", hidden_command=item)
 
 

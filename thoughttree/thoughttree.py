@@ -82,7 +82,7 @@ class Thoughttree(Ui):
         #         return self.func(*args)
         # tk.CallWrapper = TkExceptionHandler()
 
-        self.show_hidden_prompts = None
+        self.show_internal_prompts = None
         self.status_hider = None
         self.status = None
         self.console = None
@@ -339,7 +339,7 @@ class Thoughttree(Ui):
             history = self.history_from_system_and_chat(additional_message=hidden_command)
             if self.log_messages_to_console:
                 Ui.log.format(history)
-            self.delete_hidden_prompt(sheet)
+            self.delete_internal_prompt(sheet)
             self.model.counter.go()
 
             reason, message, answer = self.completions(sheet, history, n)
@@ -374,7 +374,7 @@ class Thoughttree(Ui):
             """))
 
         history = self.history_from_system_and_chat()
-        self.delete_hidden_prompt(sheet)
+        self.delete_internal_prompt(sheet)
         if self.log_messages_to_console:
             history.log()
         reason, message, answer = self.completions(sheet, history)
@@ -408,7 +408,7 @@ class Thoughttree(Ui):
 
         sheet = self.it
         history = self.history_from_system_and_chat()
-        self.delete_hidden_prompt(sheet)
+        self.delete_internal_prompt(sheet)
 
         if self.log_messages_to_console:
             history.log()
@@ -420,10 +420,9 @@ class Thoughttree(Ui):
         self.tree.add_improvement(Improvement(answer))
 
 
-    def explore_outline(self, event=None, hidden_command=None, outline_id=None, parent_id=None):
+    def explore_outline(self, event=None, prompt_arg=None, outline_id=None, parent_id=None):
         outline_id = outline_id or random.randint(1000000, 9999999)
         parent_id = parent_id or outline_id
-        keep_hidden_command = True
         self.system.hide(END, dedent(
             f"""
 Lines starting with "#" are comments or disabled parts of the prompt and should be ignored.
@@ -503,9 +502,8 @@ The Id of this outline is: {outline_id} (equal for all levels of this outline.)
         # Description: ...
 
         sheet = self.it
-        history = self.history_from_system_and_chat(additional_message=hidden_command)
-        if not keep_hidden_command:
-            self.delete_hidden_prompt(sheet)
+        history = self.history_from_system_and_chat(additional_message=prompt_arg)
+        # self.delete_internal_prompt(sheet)
 
         if self.log_messages_to_console:
             Ui.log.assistant(history)
@@ -532,7 +530,7 @@ The Id of this outline is: {outline_id} (equal for all levels of this outline.)
 
         sheet = self.it
         history = self.history_from_system_and_chat()
-        self.delete_hidden_prompt(sheet)
+        self.delete_internal_prompt(sheet)
         if self.log_messages_to_console:
             history.log()
         reason, message, answer = self.completions(sheet, history)
@@ -593,9 +591,9 @@ The Id of this outline is: {outline_id} (equal for all levels of this outline.)
         sheet.hide(SEL_FIRST, conf.location_marker)
         sheet.hide(SEL_LAST,  conf.location_marker)
 
-    def delete_hidden_prompt(self, sheet):
-        sheet.delete_tagged('hidden_prompt')
-        self.system.delete_tagged('hidden_prompt')
+    def delete_internal_prompt(self, sheet):
+        sheet.delete_tagged('internal_prompt')
+        self.system.delete_tagged('internal_prompt')
 
     @property
     def it(self) -> Sheet:
@@ -724,10 +722,10 @@ The Id of this outline is: {outline_id} (equal for all levels of this outline.)
         history.limit(messages=max_messages)
         return history
 
-    def toggle_show_hidden_prompts(self, event=None):
-        hidden = bool(int(self.system.tag_cget('hidden_prompt', 'elide')))
+    def toggle_show_internal_prompts(self, event=None):
+        hidden = bool(int(self.system.tag_cget('internal_prompt', 'elide')))
         for sheet in [self.system, self.it]:
-            sheet.tag_config("hidden_prompt", elide=not hidden)
+            sheet.tag_config("internal_prompt", elide=not hidden)
 
 
 if __name__ == "__main__":

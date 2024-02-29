@@ -62,7 +62,7 @@ class Sheet(ScrolledText, LineHandling):
         self.tag_config('highlight', background="#6cd8ff")
         self.tag_config('semi_highlight', background="#c8e7ff")
         self.tag_config('hidden_markup', elide=False, foreground="#E0E0E0")
-        self.tag_config('hidden_prompt', elide=False, foreground="#d0d0d0")
+        self.tag_config('internal_prompt', elide=False, foreground="#d0d0d0")
         self.tag_config("mask", borderwidth=2, relief=SOLID, foreground="#D0D0D0", selectforeground="#5cacee")
 
         # self.tag_bind("added", "<Enter>", on_event)
@@ -250,7 +250,7 @@ class Sheet(ScrolledText, LineHandling):
             self.insert(index, chars, tags, *args)
 
     def hide(self, index, chars, *args):
-        self.one_time(index, chars, ("hidden_prompt",), *args)
+        self.one_time(index, chars, ("internal_prompt",), *args)
 
     def insert_diff(self, old_text, new_text, pos=INSERT):
         diff_by_char = False # True #todo: conf

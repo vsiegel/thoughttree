@@ -67,6 +67,21 @@ class Thoughttree(Ui):
 
     def __init__(self, argv=None):
         Ui.__init__(self, title="Thoughttree", name="tt", icon_path=WINDOW_ICON, closeable=False)
+
+        # class TkExceptionHandler:
+        #     def __init__(self, func=None, subst=None, widget=None):
+        #         self.func = func
+        #         self.subst = subst
+        #         self.widget = widget
+        #
+        #
+        #     def __call__(self, *args):
+        #         print(f"TkExceptionHandler: {args=}")
+        #         if self.subst:
+        #             args = self.subst(*args)
+        #         return self.func(*args)
+        # tk.CallWrapper = TkExceptionHandler()
+
         self.show_hidden_prompts = None
         self.status_hider = None
         self.status = None
@@ -128,6 +143,7 @@ class Thoughttree(Ui):
             # events = None # (["a", "a", "a", "b", "c", "d", "e", "a", "a", "a",])
             # events = None # (["a", "a", "a", "b", "c", "d", "e", "a", "a", "a",])
             # EventPlayer(self, events)
+            EventRecorder(self)
             self.root.mainloop()
 
 

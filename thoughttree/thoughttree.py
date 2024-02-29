@@ -143,7 +143,7 @@ class Thoughttree(Ui):
             # events = None # (["a", "a", "a", "b", "c", "d", "e", "a", "a", "a",])
             # events = None # (["a", "a", "a", "b", "c", "d", "e", "a", "a", "a",])
             # EventPlayer(self, events)
-            EventRecorder(self)
+            # EventRecorder(self)
             self.root.mainloop()
 
 
@@ -486,6 +486,11 @@ If it is "Text: [id]", output the text of the section as Text: [id] "..."
 If it is "Ref: [id]", output a substring of the text this item is referring to as Ref: [id] "..."
 The Id of this outline is: {outline_id} (equal for all levels of this outline.)
 """))
+        # For each item, add a reference and a section text, like this:
+        # 2.3. Foo ...
+        #    "relevant substring"
+        #    "Text of Foo section"
+
         # Prepend the outline with the following fields:
         #
         # Input_Title: ...

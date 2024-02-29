@@ -4,10 +4,10 @@ import webbrowser
 from datetime import datetime
 from os.path import exists
 from tkinter import font as tkfont, NONE, WORD, SEL, END, INSERT, SEL_FIRST
-from tkinter.messagebox import askokcancel
+from tkinter.messagebox import askokcancel, showerror
 
 from AboutDialog import AboutDialog
-from Files import Files
+from Files import Files, SectionSaver, TreeSaver
 from Fonts import Fonts
 from Log import Log
 from ModelsMenu import ModelsMenu
@@ -60,10 +60,13 @@ class MainMenu(MenuBar):
 
 
         def save_file(e=None):
-            if self.it.file:
-                if exists(self.it.file):
-                    if askokcancel("Overwrite", "Are you sure you want to overwrite the current file?"):
-                        Files.save_file(self.it.file, self.it.get("1.0", END))
+            if not self.it.file:
+                showerror(title="Error", message="No file present", master=e.widget)
+                return
+            if exists(self.it.file):
+                if not askokcancel("Overwrite", "Are you sure you want to overwrite the current file?", master=e.widget):
+                    return
+            Files.save_file(self.it.file, self.it.get("1.0", END))
 
         def save(save_dialog, status_bar_label):
             file_name = save_dialog(self.it)

@@ -2,6 +2,8 @@ import re
 import tkinter as tk
 from tkinter import ttk, BOTH, LEFT, RIGHT, VERTICAL, NW, Y, X, INSERT, CURRENT, TOP
 
+from sqlalchemy import modifier
+
 import tools
 
 
@@ -17,18 +19,43 @@ class EventPlayer:
         # events = (["a", "b", "c", "\n", "a", "<b>", "c", "\n", "foo", "bar", 500, "a", "bbbb", ])
                   # + ["<<Undo>>"] * 5 + ["<<Redo>>"] * 5)
         events = events or []
-        self.widget.after_idle(lambda: self.play(events))
+        if file:
+            self.widget.after_idle(lambda: self.play_file(file))
+        else:
+            self.widget.after_idle(lambda: self.play(events))
 
-        self.widget.bind("<Escape>", lambda e: self.widget.winfo_toplevel().destroy())
-        self.widget.bind("<Alt-a>", lambda e: w.event_generate("<a>"))
-        self.widget.bind("<Alt-b>", lambda e: w.event_generate("<b>"))
-        self.widget.bind("<Control-Alt-Shift-P>", lambda e: self.play(events))
+        # self.widget.bind("<Escape>", lambda e: self.widget.winfo_toplevel().destroy())
+        self.widget.bind("<F12>", lambda e: self.play(events))
+        # self.widget.bind("<Alt-a>", lambda e: w.event_generate("<a>"))
+        # self.widget.bind("<Alt-b>", lambda e: w.event_generate("<b>"))
+        # self.widget.bind("<Control-Alt-Shift-P>", lambda e: self.play(events))
 
+        def on_key_press(event):
+            print(f"{event=} on {event.widget}")
+        if not widget.winfo_toplevel().bind("<Key>"):
+            widget.winfo_toplevel().bind("<Key>", on_key_press, add=True)
+            widget.winfo_toplevel().bind("<Control-Key>", on_key_press, add=True)
+            widget.winfo_toplevel().bind("<Shift-Key>", on_key_press, add=True)
+        # widget.winfo_toplevel().bind("<Key>", on_key_press, add=True)
 
     def generate(self, event):
         w = self.widget
         # print(f"-{w.index(INSERT)} {event=}")
-        w.event_generate(event, state=16, x=0, y=0)
+
+
+        Shift = 1
+        Control = 4
+        Alt = 8
+        modifiers = {"Shift": Shift, "Control": Control, "Alt": Alt}
+
+        state = 0
+        if len(event) == 1 and event.isupper() or event in "°!\"§$%&/()=?`*';:_>":
+            state |= Shift
+        for name, code in modifiers.items():
+            if event.find(name) >= 0:
+                state |= code
+
+        w.event_generate(event, state=state, x=0, y=0)
         w.update()
         w.update_idletasks()
         # print(f"+{w.index(INSERT)} {event=}")
@@ -78,7 +105,6 @@ if __name__ == "__main__":
     def on_first_configure(e):
         t.event_generate("<Control-Alt-Shift-P>")
         t.unbind("<Configure>")
-
-    t.bind("<Configure>", on_first_configure)
-
+    # t.bind("<Configure>", on_first_configure)
+    tools.escapable(root)
     root.mainloop()

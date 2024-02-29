@@ -31,9 +31,7 @@ class Tree(ttk.Treeview):
     def __init__(self, parent, thoughttree, *args, **kw):
 
 
-        font = Fonts.FONT
-        rowheight = tkfont.Font(font=font).metrics("linespace") + 1
-        Style().configure("Treeview.Treeview", rowheight=rowheight, font=font)
+        self.font_size()
 
         super().__init__(parent, columns=("path", "type"), displaycolumns=(), style="Treeview.Treeview", show="tree", *args, **kw)
         from thoughttree import Thoughttree
@@ -323,7 +321,11 @@ class Tree(ttk.Treeview):
         # cell_editor.bind("<Control_L>", lambda e : "break")
 
     def font_size(self, delta=0):
-        name, size = Style().configure("Treeview.Treeview", "font").rsplit(None, 1)
+        font = Style().configure("Treeview.Treeview", "font").rsplit(None, 1)
+        if font:
+            name, size = font
+        else:
+            name, size = Fonts.FONT[0], Fonts.FONT[1]
         if not delta:
             size = Fonts.FONT[1]
         size = int(size)

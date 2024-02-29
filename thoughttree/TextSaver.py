@@ -2,8 +2,9 @@ from abc import ABC, abstractmethod
 
 class TextSaver(ABC):
 
-    def __init__(self, widget):
-        self.widget = widget
+    def __init__(self, ui, status_bar_label):
+        self.ui = ui
+        self.status_bar_label = status_bar_label
 
     def text_not_found_error(self):
         pass

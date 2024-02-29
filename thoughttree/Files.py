@@ -19,6 +19,17 @@ class ChatLogSaver(TextSaver):
         # Implement the method to find the filename for the chat log
         return "chat.txt"
 
+class TreeSaver(TextSaver):
+    def __init__(self, ui):
+        super().__init__(ui, "Tree saved to ")
+        print("TreeSaver: " + ui.sheets.depth_first())
+
+    def find_text(self):
+        pass
+
+    def find_filename(self):
+        return "tree.txt"
+
 class SectionSaver(TextSaver):
 
     def find_text(self):
@@ -114,6 +125,22 @@ class Files:
             Files.write_chat(sheet, file)
         return file
 
+    @staticmethod
+    def write_tree(sheet, filename, up_to=END):
+        try:
+            content = sheet.dump(1.0, up_to, text=True, tag=True)
+            with open(filename, 'w') as f:
+                pass
+        except Exception as e:
+            showerror(title="Error", message="Cannot save chat\n" + str(e), master=sheet)
+
+    @staticmethod
+    def save_tree_dialog(sheet):
+        file = asksaveasfilename(defaultextension=".txt", initialfile="tree.txt", title="Save Tree", parent=sheet)
+        if file:
+            Files.write_tree(sheet, file)
+        return file
+
 
     @staticmethod
     def save_section_dialog(sheet):
@@ -128,11 +155,10 @@ class Files:
     def write_selection(sheet: tk.Text, filename, index=tk.INSERT):
         try:
             string = sheet.get(SEL_FIRST, SEL_LAST)
-
             with open(filename, 'w') as f:
                 f.write(string)
         except Exception as e:
-            showerror(title="Error", message="Cannot save section\n" + str(e), master=sheet)
+            showerror(title="Error", message="Cannot save selection\n" + str(e), master=sheet)
 
 
     @staticmethod

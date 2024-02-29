@@ -77,6 +77,9 @@ class MainMenu(MenuBar):
             name = save(Files.save_chat_dialog, "Chat saved to ")
             self.ui.root.title(name)
 
+        def save_tree(e=None):
+            TreeSaver(self.ui)
+
         def save_section(e=None):
             save(Files.save_section_dialog, "Section saved to ")
 
@@ -194,11 +197,12 @@ class MainMenu(MenuBar):
         file.item("Import Shared Chat", None, None) # , "<Control-....>", import_shared_chat
         file.item("Insert File", "<Control-Shift-e>", insert_file)
         file.item("Open File", "<Control-o>", open_file)
-        file.item("Save File", "<Control-s>", save_file)
-        file.item("Save Chat", "<Control-Shift-C>", save_chat)
-        file.item("Save Message", "<Control-Shift-S>", save_section)
-        file.item("Save Selection", "<Alt-S>", save_selection)
-        file.item("Save Code Block", "<Control-Alt-s>", save_code_block, menu2=context)
+        file.item("Save File", "<Control-s>", save_file, add=True)
+        file.item("Save Chat", "<Control-Shift-C>", save_chat, add=True)
+        file.item("Save Tree", "<Control-Shift-D>", save_tree, add=True)
+        file.item("Save Message", "<Control-Shift-S>", save_section, add=True)
+        file.item("Save Selection", "<Alt-S>", save_selection, add=True)
+        file.item("Save Code Block", "<Control-Alt-s>", save_code_block, menu2=context, add=True)
         file.separator()
         file.item("Close Tab", "<Control-w>", close_tab, TreeSheet)
         file.item("Close Empty Tab", "<BackSpace>", lambda e=None: self.it.backspace(e))

@@ -1,8 +1,5 @@
 import re
 import tkinter as tk
-from tkinter import ttk, BOTH, LEFT, RIGHT, VERTICAL, NW, Y, X, INSERT, CURRENT, TOP
-
-from sqlalchemy import modifier
 
 import tools
 

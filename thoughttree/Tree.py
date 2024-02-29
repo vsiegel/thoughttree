@@ -63,6 +63,8 @@ class Tree(ttk.Treeview):
         self.tag_configure("old", foreground="#b34750")
         self.tag_configure("new", foreground="#47b359")
         self.tag_configure("outline", background="#f6f6f6", )
+        self.tag_bind("outline", "Control-Return", self.edit_tree_entry)
+
 
         def on_configure(event):
             self.column("#0", width=event.width)
@@ -183,6 +185,7 @@ class Tree(ttk.Treeview):
         elif type == "improvement.diff_summary":
             pass
 
+# outline related:
 
     def outline_id(self, iid):
         while self.set(iid, "type") == "outline_exploration.item":

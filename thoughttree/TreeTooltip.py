@@ -9,11 +9,23 @@ class TreeTooltip(Tooltip):
         self.tree = tree
         super().__init__(tree, None,("monospace", 9))
 
+    def refresh(self, event=None):
+        # todo: this id not trivial because positioning the tooltip over the item positions it under the mouse pointer.
+        if self.tip:
+            iid = self.tree.identify('item', event.x, event.y)
+            bbox = self.tree.bbox(iid)
+            if bbox:
+                x, y, *_ = bbox
+                x += max(self.tree.winfo_rootx() + 25, self.tree.winfo_pointerx()) + 10
+                y += self.tree.winfo_rooty()
+                self.tip.wm_geometry(f"+{x}+{y}")
+                self.tip.wm_attributes("-topmost", True)
+                self.refresh_tooltip_text(event)
+
     def refresh_tooltip_text(self, event=None):
         max_lines = 40
         max_columns = 100
         iid = self.tree.identify('item', event.x, event.y)
-        # bbox = self.tree.bbox(iid)
         text = ""
         toplevel_node = "Tree." + iid
         if toplevel_node in tree_help:
@@ -34,11 +46,3 @@ class TreeTooltip(Tooltip):
         else:
             self.label.configure(text="(hidden)")
             self.tip.withdraw()
-
-    # def update(self, event):
-    #     self.refresh_tooltip_text(event)
-    #     super().update(event)
-
-    # def bind_tip(self):
-    #     self.tree.bind("<Leave>", self.hide, add=True)
-    #     self.tree.bind("<Motion>", self.update, add=True)

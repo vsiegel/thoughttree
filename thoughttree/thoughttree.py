@@ -358,7 +358,9 @@ class Thoughttree(Ui):
 
 
     def comment(self, event=None):
-        comment_prompt = dedent(
+        sheet = self.it
+        self.set_up_location_reference(sheet)
+        self.system.hide(END, dedent(
             f"""
             Propose a small change that makes the text better. Solve just one individual issue. A minimal change.
             Specify it as a replacement, as
@@ -369,10 +371,7 @@ class Thoughttree(Ui):
 
             Make a replacement of minimal length, not of whole sentences. It is used as a text replacement, on character level.
             Do not repeat previous results if they are present in the input.
-            """)
-        sheet = self.it
-        self.set_up_location_reference(sheet)
-        self.system.hide(END, comment_prompt)
+            """))
 
         history = self.history_from_system_and_chat()
         self.delete_hidden_prompt(sheet)
@@ -516,7 +515,8 @@ The Id of this outline is: {outline_id} (equal for all levels of this outline.)
 
         outline_exploration = OutlineExploration(answer, outline_id=outline_id, parent_id=parent_id)
         sheet.outline_exploration = outline_exploration
-        self.tree.add_outline_exploration(outline_exploration)
+        # self.tree.add_outline_exploration(outline_exploration)
+        outline_exploration.add_to_tree(self.tree)
 
 
     def rewrite(self, event=None):
@@ -535,7 +535,7 @@ The Id of this outline is: {outline_id} (equal for all levels of this outline.)
         self.tree.add_improvement(Improvement(history[-1], answer))
 
     def set_up_location_reference(self, sheet, specific=""):
-        location_reference_prompt = dedent(
+        self.system.hide(END, dedent(
             f"""
             When the prompt refers to a location or marker in the text, it is the position of "{conf.location_marker}".
             References to a location could be "here", "there", "this", "that" etc.
@@ -545,13 +545,12 @@ The Id of this outline is: {outline_id} (equal for all levels of this outline.)
             Never literally mention the marker, it is automatically hidden from the user.
             Do not use "{conf.location_marker}" in output, if not strictly needed.
             {specific}
-            """)
-        self.system.hide(END, location_reference_prompt)
+            """))
         sheet.hide(INSERT, conf.location_marker)
 
 
     def set_up_insert_completion(self, sheet, specific=""):
-        insertion_prompt = dedent(
+        self.system.hide(END, dedent(
             f"""
             Do an insertion completion:
             Complete assuming the insertion cursor for the text is at the character "{conf.location_marker}".
@@ -566,13 +565,12 @@ The Id of this outline is: {outline_id} (equal for all levels of this outline.)
             The completion needs to make sense before the following text, so it can not be the same normally.
             Make sure there is no repetition.The inserted text should not be the same as the text after the insertion.
             {specific}
-            """)
-        self.system.hide(END, insertion_prompt)
+            """))
         sheet.hide(INSERT, conf.location_marker)
 
 
     def set_up_replace_completion(self, sheet):
-        replacement_prompt = dedent(
+        self.system.hide(END, dedent(
             f"""
             Do an replacement completion: The output will replace the users text selection, which is 
             the part of text between the two "{conf.location_marker}". 
@@ -586,8 +584,7 @@ The Id of this outline is: {outline_id} (equal for all levels of this outline.)
             The markers themselves will be removed.
             For example, if inside of "fooBARbaz" the text to be replaced is "BAR", the output sould not be "foobarbaz", but just "bar".
             Take care to add the right amount of spaces after the start marker and before the end marker.
-            """)
-        self.system.hide(END, replacement_prompt)
+            """))
         sheet.hide(SEL_FIRST, conf.location_marker)
         sheet.hide(SEL_LAST,  conf.location_marker)
 

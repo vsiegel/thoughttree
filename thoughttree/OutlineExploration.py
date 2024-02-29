@@ -8,14 +8,15 @@ from tkinter import INSERT, END
 from InsertionIcon import InsertionIcon
 from Sheet import Sheet, OUTPUT
 from StructuredInteraction import StructuredInteraction
+from Ui import Ui
 from WaitCursor import WaitCursor
 from tools import fail
 
 
 class OutlineExploration(StructuredInteraction):
-    def __init__(self, outline_level_spec, title=None, outline_id=None, parent_id=None):
+    def __init__(self, outline_level_spec, title=None, outline_id: str=None, parent_id=None):
         super().__init__()
-        self.outline_id = outline_id or random.randint(1000000, 9999999)
+        self.outline_id: str = str(outline_id) or str(random.randint(1000000, 9999999))
         self.parent_id = parent_id or outline_id
 
         self.title = title or self.outline_id

@@ -1,8 +1,6 @@
 import tkinter as tk
 from tkinter import X, BOTH, Y, INSERT, END, CURRENT, SEL, LEFT
 
-from docutils.nodes import section
-
 import tools
 from Sheet import Sheet
 

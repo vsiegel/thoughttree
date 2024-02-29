@@ -246,9 +246,9 @@ class MainMenu(MenuBar):
         view.item("Update Tab Title", "<Control-Shift-B>", ui.sheets.update_tab_title, menu2=context)
         view.item("Model Usage", None, web("https://platform.openai.com/account/usage"))
         view.separator()
-        view.item("Increase Font Size", "<Control-plus>", lambda e=None: Sheet.font_size_all(1))
-        view.item("Decrease Font Size", "<Control-minus>", lambda e=None: Sheet.font_size_all(-1))
-        view.item("Reset Font Size", "<Control-period>", lambda e=None: Sheet.font_size_all(0))
+        view.item("Increase Font Size", "<Control-plus>", lambda e: font_size_all(1))
+        view.item("Decrease Font Size", "<Control-minus>", lambda e: font_size_all(-1))
+        view.item("Reset Font Size", "<Control-period>", lambda e: font_size_all(0))
         view.item("Toggle Monospace", "<Control-Shift-O>", toggle_font_mono)
         view.separator()
         view.item("Toggle Scrolling Output", "<Control-e>", toggle_scroll_output)
@@ -363,8 +363,8 @@ class MainMenu(MenuBar):
         # help_menu.item("Inspect Application", "<Control-Alt-Shift-B>", inspect_application)
         help_menu.item("About", "<Control-F1>", lambda e=None: AboutDialog(self.ui))
 
-        ui.bind_class("Text", "<Control-Button-4>", lambda e=None: Sheet.font_size_all(1))
-        ui.bind_class("Text", "<Control-Button-5>", lambda e=None: Sheet.font_size_all(-1))
+        ui.bind_all("<Control-Button-4>", lambda e: font_size_all(1))
+        ui.bind_all("<Control-Button-5>", lambda e: font_size_all(-1))
 
         ui.bind_class("Text", "<Button-3>", context.show_context_menu)
         ui.bind_class("Text", "<Menu>", context.show_context_menu)

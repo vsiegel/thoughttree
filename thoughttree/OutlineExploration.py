@@ -30,9 +30,13 @@ class OutlineExploration(StructuredInteraction):
         LABELED_LINE_PATTERN = "(?m)^([A-Z]\w+): (.*)$"
         OUTLINE_ITEM_PATTERN = "(?m)^ *([0-9]+\.[0-9.]*)\s+(.*)$"
         try:
-            match = re.match(LABELED_LINE_PATTERN, outline_level_spec)
-            if match:
-                self.title = match.group(2)
+            matches = re.findall(LABELED_LINE_PATTERN, outline_level_spec)
+            if matches:
+                labled_lines = {key: value for key, value in matches}
+                id = labled_lines["Id"].strip("'" + '"')
+                # print(f'{id=} {type(id)=} {len(id)=} {type(self.outline_id)=}')
+                id == self.outline_id or fail(f'Id mismatch: {id=} != {self.outline_id=}')
+                self.title = labled_lines["Title"]
 
             matches = re.findall(OUTLINE_ITEM_PATTERN, outline_level_spec)
             matches or fail(f'No match for "{OUTLINE_ITEM_PATTERN}"')

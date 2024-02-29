@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, BOTH, LEFT, RIGHT, VERTICAL, NW, Y, X, INSERT, CURRENT, TOP
 
+
 import tools
 
 
@@ -10,14 +11,20 @@ class EventRecorder:
         self.events = []
 
         def on_key(event):
-            print(f"{event}")
+            print(f"{event=}")
             self.events.append(event)
-        self.widget.bind_all("<Key>", self.record, add=True)
+
+        # toplevel = self.widget.winfo_toplevel()
+        # bindtags = list(toplevel.bindtags())
+        # bindtags.insert(0, "EventRecorder")
+        # toplevel.bindtags(bindtags)
+        # toplevel.bind_class("EventRecorder", "<Key>", self.record, add=True)
+        self.widget.bind("<Key>", self.record, add=True)
 
 
-    def record(self, event):
+    def record(self, event: tk.EventType.KeyPress):
         if event.type == tk.EventType.KeyPress:
-            print(f"record: <KeyPress-{event.keysym}>", flush=True)
+            print(f"record: {event.state} {event.keysym} {event.keycode}   {event}", flush=True)
         else:
             print(f"record: {event}", flush=True)
 

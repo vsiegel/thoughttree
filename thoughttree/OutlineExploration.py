@@ -33,11 +33,11 @@ class OutlineExploration(StructuredInteraction):
         try:
             matches = re.findall(LABELED_LINE_PATTERN, outline_level_spec)
             if matches:
-                labled_lines = {key: value for key, value in matches}
-                id = labled_lines["Id"].strip("'" + '"')
+                map = {key: value for key, value in matches}
+                id = map.get("Id", "").strip("'" + '"')
                 # print(f'{id=} {type(id)=} {len(id)=} {type(self.outline_id)=}')
                 id == self.outline_id or fail(f'Id mismatch: {id=} != {self.outline_id=}')
-                self.title = labled_lines["Title"]
+                self.title = map.get("Title", "")
 
             matches = re.findall(OUTLINE_ITEM_PATTERN, outline_level_spec)
             matches or fail(f'No match for "{OUTLINE_ITEM_PATTERN}"')

@@ -1,0 +1,8 @@
+An in depth detailed discussion of a general text,
+based on an analysis of what is relevant in the context of the text.
+For each individual input text or document, a method to analyse a document - optimized for the specific input with no need to be generalizable.
+The methods used may vary widely for different input.
+The method is represented in the structure of a decimal outline, with or without section texts.
+The method set up in the first step is then applied to the input text/document.
+In th second step, a decimal outline is used, independent of the first.
+Both parts are very detailed and are not limited by conservative use of tokens.

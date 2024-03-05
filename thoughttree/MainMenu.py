@@ -323,6 +323,9 @@ class MainMenu(MenuBar):
         prompt.separator()
         prompt.item("Automatically continue")
         prompt.item("Continue until...")
+        prompt.separator()
+        prompt.item("Prompt History Previous")
+        prompt.item("Prompt History Next")
 
 
         query = self.submenu("Query")

@@ -171,7 +171,6 @@ class Sheets(tk.Frame):
             raise Exception(f"{sheet} is not a TreeSheet") #fixme
         sheet.update_tab_title()
 
-
     def on_motion_in_sheet(self, event):
         if self.scroll_in_progress:
             return

@@ -64,7 +64,7 @@ class Title():
     model = None
 
     PROMPT = '''\
-A title for this conversation, about 20 characters. 
+Generate a short title for this conversation, about 3 to 4 words. 
 Style does not matter, it is about the information.
 Ignore the system prompt.
 Do not refer to this prompt or to the title.
@@ -74,10 +74,12 @@ Use the language of the conversation.
 The title should not be just the continuation of the text. 
 For example, if the input was:
 1 2 3, Output: 4, then the title should not be 5. The title should describe the earlier text.
+The title must not be the start of the input or a continuation of the input. It can only be one line. It needs to be short.
 
 Do not use the name otherwise.
 Do not use a prefix like "Title:"!.
 Output the unquoted text of the title, nothing else.
+The title needs to be short. It is used as a window title, or a tab title that may have limited space so that only the first couple of characters are shown.
 '''
 # If there is no chat history at all, the title will be the text "(empty)" only, that is important.
 

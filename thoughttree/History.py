@@ -96,7 +96,7 @@ class History(list):
     def size(self):
         sum = 0
         for message in self:
-            sum += len(message['content'].strip())
+            sum += len(message['content'])
         return sum
 
     def __add__(self, other):

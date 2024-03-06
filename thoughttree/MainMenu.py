@@ -202,7 +202,7 @@ class MainMenu(MenuBar):
         file = self.submenu("File")
         file.item("New Window", "<Control-n>", new_window, "all")
         file.item("New Tab", "<Control-t>", lambda e=None: self.it.fork("1.0"))#, to=TreeSheet)
-        file.item("Import Shared Chat", None, None) # , "<Control-....>", import_shared_chat
+        file.item("Import Shared Chat") # , "<Control-....>", import_shared_chat
         file.item("Insert File", "<Control-Shift-e>", insert_file)
         file.item("Open File", "<Control-o>", open_file)
         file.item("Save File", "<Control-s>", save_file, add=True)
@@ -234,9 +234,10 @@ class MainMenu(MenuBar):
         edit.item("Find Next", "<Control-g>", lambda e=None: self.it.find_next())
         edit.item("Find Previous", "<Control-Shift-G>", lambda e=None: self.it.find_previous())
         edit.separator()
+        edit.item("Cut History")
         edit.item("Insert Current Time", "<Control-Shift-I>", insert_current_time)
-        edit.item("Remove Incomplete", None, None)
-        edit.item("Copy Title", None, None)
+        edit.item("Remove Incomplete")
+        edit.item("Copy Title")
 
         view = self.submenu("View")
         view.item("Show System Prompt", "<Alt-Shift-S>", ui.system_pane.fold, to="all")
@@ -257,14 +258,14 @@ class MainMenu(MenuBar):
         view.item("Toggle Scrolling Output", "<Control-e>", toggle_scroll_output)
         view.item("Ring Bell When Finished", "<Control-Alt-b>", toggle_ring_bell)
         view.item("Toggle Wrap Lines", "<Control-l>", lambda e=None: self.it.configure(wrap=(NONE if self.it.cget("wrap") != NONE else WORD)))
-        view.item("Calculate Cost", None, None)
+        view.item("Calculate Cost")
         view.item("Show Hidden Prompts", "<Control-Shift-H>", ui.toggle_show_internal_prompts)
         view.item("Show Messages", None, toggle_log_messages_to_console)
 
         mask = self.submenu("Mask")
-        mask.item("All", None, None)
-        mask.item("None", None, None)
-        mask.item("Invert", None, None)
+        mask.item("All")
+        mask.item("None")
+        mask.item("Invert")
         mask.item("Selection", "<Alt-Shift-M>", lambda e=None: self.it.toggle_tag("mask"))
 
         navigate = self.submenu("Navigate")
@@ -330,11 +331,11 @@ class MainMenu(MenuBar):
 
         query = self.submenu("Query")
         query.item("Temperature...", "<Control-Shift-T>", ui.configure_temperature)
-        query.item("Increase Temperature", None, None)
-        query.item("Decrease Temperature", None, None)
-        query.item("Temperature 0.0", None, None)
+        query.item("Increase Temperature")
+        query.item("Decrease Temperature")
+        query.item("Temperature 0.0")
         query.item("Max Tokens...", "<Control-Shift-L>", ui.configure_max_tokens)
-        query.item("API Key...", None, None)
+        query.item("API Key...")
 
 
         text = self.submenu("Text")
@@ -367,7 +368,7 @@ class MainMenu(MenuBar):
         help_menu.item("GPT Models", None, web("https://platform.openai.com/docs/models"))
         help_menu.item("OpenAI Pricing", None, web("https://openai.com/pricing"))
         help_menu.separator()
-        help_menu.item("Save Error Messages", None, None)
+        help_menu.item("Save Error Messages")
         help_menu.item("Debug Info", "<Control-Alt-Shift-I>", debug_info, "top")
         # help_menu.item("Inspect Application", "<Control-Alt-Shift-B>", inspect_application)
         help_menu.item("About", "<Control-F1>", lambda e=None: AboutDialog(self.ui))

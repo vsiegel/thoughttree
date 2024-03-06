@@ -375,7 +375,12 @@ class MainMenu(MenuBar):
         ui.bind_all("<Control-Button-4>", lambda e: font_size_all(1))
         ui.bind_all("<Control-Button-5>", lambda e: font_size_all(-1))
 
-        ui.bind_class("Text", "<Button-3>", context.show_context_menu)
+        def show_context_menu_here(e: tk.Event):
+            sheet: Sheet = e.widget
+            sheet.mark_set(tk.INSERT, f"@{e.x},{e.y}")
+            context.show_context_menu(e)
+
+        ui.bind_class("Text", "<Button-3>", show_context_menu_here)
         ui.bind_class("Text", "<Menu>", context.show_context_menu)
 
 

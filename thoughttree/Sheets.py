@@ -164,7 +164,7 @@ class Sheets(tk.Frame):
         return str(self.canvas.winfo_containing(x, y)).startswith(str(self.canvas))
 
     def update_tab_title(self, event=None):
-        sheet = self.focus_get()
+        sheet = self.current
         if not str(sheet).startswith(str(self)):
             raise Exception(f"{str(sheet)} is not in Sheets ({str(self)})")
         if not isinstance(sheet, TreeSheet):

@@ -1,40 +1,47 @@
 This is the draft for a scientific book.
 
-Make proposals what could be better.
-Indicate issues where you could provode one or more solutions.
-
+Make proposals how to make the text itself better.
+Indicate issues where you could provide one or more solutions.
 
 Give me an outline of all information about the input text that could be useful for a reader.
 
 Structure the information in a decimal outline (1.2.3.4).
 For each item, additionally give a short but unique exact quoted substring refering to a related part of the text.
 
-1. Problem Name 1
+1. <Problem Name 1>
     1.1. Problem: Problem description
     1.2. Relevance: Why should it be fixed
     1.3. Priority: how urgently
     1.4. Solutions
-        1.4.1. proposed solution name
-            1.4.1.1. description
-            1.4.1.2. Advantages
-            1.4.1.3. Disadvantages
+        1.4.1. <proposed solution name>
+            1.4.1.1. <description>
+            1.4.1.2. Advantages: ...
+            1.4.1.3. Disadvantages: ...
             1.4.1.4. Changes
-                1.4.1.4.1 Changename1
-                    1.4.1.4.1.1. Old text
-                    1.4.1.4.1.1. Newtext
-                1.4.1.4.2 Changename2
-                    1.4.1.4.2.1. Old text
-                    1.4.1.4.2.1. Newtext
+                1.4.1.4.1 <Changename1>
+                    1.4.1.4.1.1. Old: <old text>
+                    1.4.1.4.1.1. New: <new text>
+                1.4.1.4.2 <Changename2>
+                    1.4.1.4.2.1. Old: <old text>
+                    1.4.1.4.2.1. New: <new text>
                 ...
-        1.4.2. alternative 1 solution name
+        1.4.2. <alternative 1 solution name>
 ...
-        1.4.6. alternative 5 solution name
     1.5. References:
         1.5.1. "<substring related to the issue>"
         1.5.2. ...
         ...
 2. ...
 
+For "...", fill in as many items as possible.
+On the top level, only use the problem name, not the prefix "problem name:"
+Do not stop generation, continue to the limit of available tokens.
 Always use all subitems.
 Give only items where changes can be proposed.
 Do not create toplevel items when not all levels can be created.
+Do not try to solve problems described in the text, solve problems with the text itself.
+Generate 50 or more problem sections.
+
+Ignore lines with #:
+ **Generate only items n. and n.1. (name and description), eg. 1. and 1.1., 2. and 2.1. etc**
+# **Generate all n.4. subsections.**

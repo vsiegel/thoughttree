@@ -27,14 +27,7 @@ def next_equal(hierarchical_id):
     hierarchical_id, levels, title = split_title(hierarchical_id)
     levels = levels or ['0']
     levels = levels[:-1] + [str(int(levels[-1]) + 1)]
-
-    result = '.'.join(levels)
-    # if title:
-    #     result += " " + title
-    return result
-
-def short(widget_names):
-    return list(map(lambda s: s[-10:], widget_names))
+    return '.'.join(levels)
 
 
 def new_sibling_title(sibling_notebook):

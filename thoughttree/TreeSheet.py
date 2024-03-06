@@ -8,6 +8,7 @@ from Notebook import Notebook
 from ResizingSheet import ResizingSheet
 from Sheet import Sheet
 from Title import new_child_title, new_sibling_title, Title
+from Ui import Ui
 
 
 class NF(tk.Frame):  # NF short for NotebookFrame - the name appears in widget names, making them longer.
@@ -195,6 +196,7 @@ class TreeSheet(ResizingSheet, tk.Frame):
 
         Title.model.complete(history, write_title, max_tokens=30, temperature=0.3)
         Title.model.counter.summarize("Title cost:")
+        Ui.log.cost("Title cost:\n" + Title.model.counter.summary())
 
 
     def selected_sheet(self):

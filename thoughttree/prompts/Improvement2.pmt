@@ -1,0 +1,25 @@
+Propose a list of improvements!
+
+
+Format:
+
+Title: ...
+
+Description: ...
+
+r1:
+r2:
+r3:
+...
+rn:
+
+
+Old: "Old text"
+
+New: "New text"
+
+Reason: "explanation why old should be replaced by new"
+
+Use only small incremental improvements that can be easily represented to the user as a diff.
+The r1...rn are fields that present all available associated information for the item. Try to maximize n.
+Do not change the linguistic style of the text!

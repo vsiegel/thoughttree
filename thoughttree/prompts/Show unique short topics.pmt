@@ -1,0 +1,6 @@
+Show unique short topics that are relevant to the input.
+Do not repeat what was shown before.
+Find many topics.
+Continue after an empty message.
+When it is not possible to continue at all,
+reorganize the previously generated items in a decimal outline.

@@ -248,8 +248,8 @@ class Thoughttree(Ui):
         history = self.history_from_system_and_chat(Title.PROMPT, max_messages=5, max_size=1000) # todo limit, do not use system for title
 
         self.generation_model.counter.go()
-        self.generation_model.complete(history, write_title, max_tokens=30, temperature=0.3)
-        self.generation_model.counter.summarize("Title cost:")
+        self.generation_model.complete(history, write_title, max_tokens=30, temperature=0.5)
+        Ui.log.cost("Title cost:\n" + self.generation_model.counter.summary())
 
 
     def configure_parameter(self, title, message, variable, minvalue, maxvalue):
@@ -642,12 +642,6 @@ The Id of this outline is: {outline_id} (equal for all levels of this outline.)
 
     def completions(self, sheet, history, n=1):
         reason, message, answer = 'unknown', '', ''
-
-        def write_sheet(text, written_sheet: Sheet):
-            if self.is_root_destroyed:
-                return
-            written_sheet.insert(OUTPUT, text, ("assistant", "model-" + self.model.name))
-            self.scroll(written_sheet)
 
         if n > 1:
             alternatives_frame = tk.Frame(sheet, borderwidth=4, relief=GROOVE)

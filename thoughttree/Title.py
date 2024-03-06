@@ -73,6 +73,7 @@ Do not use the name otherwise.
 Do not use a prefix like "Title:"!.
 Output the unquoted text of the title, nothing else.
 The title needs to be short. It is used as a window title, or a tab title that may have limited space so that only the first couple of characters are shown.
+**Never add a prefix like "Title:" or "Conversion title:"**
 '''
 # If there is no chat history at all, the title will be the text "(empty)" only, that is important.
 

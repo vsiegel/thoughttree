@@ -173,31 +173,33 @@ class Files:
     @staticmethod
     def save_code_block_dialog(sheet):
 
-        def extract_code_block(text):
-            code_blocks = re.findall(r'```(.*?)```', text, re.DOTALL)
+        def extract_code_block(before_index, after_index):
+            since_quote_start = "(?s).*```(.*)"
+            to_quote_end = "(?s)(.*?)```.*"
 
-            if not code_blocks:
-                raise ValueError('No code blocks found')
+            match = re.match(since_quote_start, before_index)
+            if not match:
+                raise ValueError('No code block start found')
+            upper_part = match.group(1)
+            match = re.match(to_quote_end, after_index)
+            if not match:
+                raise ValueError('No code block end found')
+            lower_part = match.group(1)
 
-            if len(code_blocks) > 1:
-                raise ValueError('Multiple code blocks found')
-
-            if len(code_blocks) == 1:
-                block = code_blocks[0]
-                file_type = None
-                match = re.search(r'^([a-zA-Z0-9]+)\n', block)
-                if match:
-                    file_type = match.group(1)
-                    block = re.sub(r'^[a-zA-Z0-9]+\n', '', block)
-                block = dedent(block)
-                return block, file_type
+            # code_blocks = re.findall(r'```(.*?)```', text, re.DOTALL)
+            block = upper_part + lower_part
+            file_type = None
+            match = re.search(r'^([a-zA-Z0-9]+)\n', block)
+            if match:
+                file_type = match.group(1)
+                block = re.sub(r'^[a-zA-Z0-9]+\n', '', block)
+            block = dedent(block)
+            return block, file_type
 
         def find_code_block(sheet: tk.Text, index=tk.INSERT):
-            text_range = sheet.tag_prevrange("assistant", index)
-            if not text_range:
-                raise Exception("No code block found")
-            code_block_section = sheet.get(*text_range)
-            code_block, file_type = extract_code_block(code_block_section)
+            before_index = sheet.get("1.0", index)
+            after_index = sheet.get(index, "end-1c")
+            code_block, file_type = extract_code_block(before_index, after_index)
             return code_block #, file_type
 
         try:

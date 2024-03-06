@@ -15,8 +15,8 @@ class TreeTooltip(Tooltip):
             iid = self.tree.identify('item', event.x, event.y)
             bbox = self.tree.bbox(iid)
             if bbox:
-                x, y, *_ = bbox
-                x += max(self.tree.winfo_rootx() + 25, self.tree.winfo_pointerx()) + 10
+                x, y, w, h = bbox
+                x += self.tree.winfo_rootx() + w
                 y += self.tree.winfo_rooty()
                 self.tip.wm_geometry(f"+{x}+{y}")
                 self.tip.wm_attributes("-topmost", True)

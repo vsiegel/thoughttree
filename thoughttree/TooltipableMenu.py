@@ -138,7 +138,7 @@ class TooltipableMenu(tk.Frame):
             containing = event.widget.winfo_containing(event.x_root, event.y_root)
             if containing:
                 containing.focus_set()
-            x, y = (event.x_root, event.y_root)
+            x, y = event.x_root, event.y_root
         self.create_popup(event, x, y)
 
     def active_item(self):

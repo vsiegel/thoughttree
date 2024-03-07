@@ -83,7 +83,7 @@ class Model:
         last_event = None
         answer = ""
         try:
-            texts = []
+            increments = []
             for event in response:
                 if self.is_canceled:
                     return 'canceled', "", ""
@@ -94,9 +94,9 @@ class Model:
                         on_increment(text)
                     self.counter.observe_completion(text)
                     self.log(text)
-                    texts.append(text)
+                    increments.append(text)
                 last_event = event
-            answer = "".join(texts)
+            answer = "".join(increments)
             if self.is_canceled:
                 finish_reason = 'canceled'
             else:

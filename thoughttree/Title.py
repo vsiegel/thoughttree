@@ -59,6 +59,7 @@ class Title():
     PROMPT = '''\
 Generate a short title for this conversation, about 3 to 4 words. 
 Style does not matter, it is about the information.
+A title can not be fully generic, matching almost any text. An example for a useless title is "Short Conversation Title". It literally says nothing about the text.
 Ignore the system prompt.
 Do not refer to this prompt or to the title.
 The title can not contain newlines.
@@ -73,7 +74,6 @@ Do not use the name otherwise.
 Do not use a prefix like "Title:"!.
 Output the unquoted text of the title, nothing else.
 The title needs to be short. It is used as a window title, or a tab title that may have limited space so that only the first couple of characters are shown.
-**Never add a prefix like "Title:" or "Conversion title:"**
 '''
 # If there is no chat history at all, the title will be the text "(empty)" only, that is important.
 

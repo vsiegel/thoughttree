@@ -517,7 +517,6 @@ The Id of this outline is: {outline_id} (equal for all levels of this outline.)
             Ui.log.assistant(f'"{answer}"\n')
 
         outline_exploration = OutlineExploration(answer, outline_id=outline_id, parent_id=parent_id)
-        sheet.outline_exploration = outline_exploration
         # self.tree.add_outline_exploration(outline_exploration)
         outline_exploration.add_to_tree(self.tree)
 

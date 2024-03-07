@@ -260,15 +260,18 @@ class TreeSheet(ResizingSheet, tk.Frame):
     focusPrevTab = lambda self: self.focusChangeTab(-1)
 
 
-    def depth_first(self):
+    def depth_first(self, title="", indent=""):
+        title = title and f"# {title}\n" or ""
+        lines = self.get(1.0, "end-1c").splitlines(True)
+        indented = [indent + line for line in lines]
+        seperator = indent and "\n"
+        depth_fist_parts = [seperator + indent + title + '' + "".join(indented) + '\n']
 
-        plain_text_depth_fist_parts = []
-        plain_text_depth_fist_parts.append(self.get(1.0, END))
-
-        if self.notebook:
-            for child in self.child_sheets():
-                plain_text_depth_fist_parts.extend(child.depth_first())
-        return plain_text_depth_fist_parts
+        for tab, child in enumerate(self.child_sheets()):
+            title = self.notebook.tab(tab, "text")
+            lines = child.depth_first(title=title, indent=">" + indent)
+            depth_fist_parts.extend("".join(lines))
+        return depth_fist_parts
 
 
 if __name__ == "__main__":

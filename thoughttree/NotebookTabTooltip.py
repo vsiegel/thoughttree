@@ -22,13 +22,26 @@ class NotebookTabTooltip(Tooltip):
         # self.root.bind("<Motion>", self.refresh), add=True)
 
 
-    def refresh_tooltip_text(self, event: tk.Event=None):
-        notebook = self.notebook
-        x = self.root.winfo_pointerx() - notebook.winfo_rootx()
-        y = self.root.winfo_pointery() - notebook.winfo_rooty()
-        identification = notebook.identify(x, y)
-        if identification:
-            index_location = f"@{x},{y}"
-            index = notebook.index(index_location)
-            text = notebook.tab(index, "text")
-            self.label.configure(text=text)
+    def refresh(self, event=None):
+        if self.tip:
+            local_x = self.root.winfo_pointerx() - self.notebook.winfo_rootx()
+            local_y = self.root.winfo_pointery() - self.notebook.winfo_rooty()
+            identification = self.notebook.identify(local_x, local_y)
+            print(f"{identification=}")
+
+            if identification:
+                index_location = f"@{local_x},{local_y}"
+                index = self.notebook.index(index_location)
+                text = self.notebook.tab(index, "text")
+                self.label.configure(text=text)
+
+                pointer_x = self.root.winfo_pointerx()
+                y = self.notebook.winfo_rooty() + 25
+                geometry = f"+{pointer_x}+{y}"
+                print(f"{ pointer_x=}, {y=} {geometry=}")
+                self.tip.wm_geometry(geometry)
+                self.tip.wm_attributes("-topmost", True)
+                self.tip.deiconify()
+            else:
+                self.label.configure(text="(hidden)")
+                self.tip.withdraw()

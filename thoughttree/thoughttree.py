@@ -518,7 +518,7 @@ The Id of this outline is: {outline_id} (equal for all levels of this outline.)
 
         outline_exploration = OutlineExploration(answer, outline_id=outline_id, parent_id=parent_id)
         # self.tree.add_outline_exploration(outline_exploration)
-        outline_exploration.add_to_tree(self.tree)
+        outline_exploration and outline_exploration.add_to_tree(self.tree)
 
 
     def rewrite(self, event=None):

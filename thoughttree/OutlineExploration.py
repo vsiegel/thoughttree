@@ -19,8 +19,8 @@ class OutlineExploration(StructuredInteraction):
         self.outline_id: str = str(outline_id) or str(random.randint(1000000, 9999999))
         self.parent_id = parent_id or outline_id
 
-        self.title = title or self.outline_id
-        self.valid = True
+        self.title = title
+        self.valid = False
         self.outline_level_items = []
         self.parse(outline_level_spec)
 
@@ -47,9 +47,13 @@ class OutlineExploration(StructuredInteraction):
                 outline_title = groups[1]
                 self.outline_level_items.append((outline_id, outline_title))
         except Exception as ex:
-            self.valid = False
             print(f'{ex=}')
-            print(f'{outline_level_spec}')
+            print(f'{len(outline_level_spec)=}')
+            return
+        self.valid = True
+
+    def __bool__(self):
+        return self.valid
 
     def add_to_tree(self, tree):
         iid = self.parent_id
@@ -57,5 +61,6 @@ class OutlineExploration(StructuredInteraction):
             parent = iid
         else:
             parent = tree.append("Outlines", text=self.title, iid=iid, type="outline_exploration.root", tags=("outline",), open=True)
+
         for outline_id, outline_title in self.outline_level_items:
             tree.append(parent, text=outline_id + " " + outline_title, type="outline_exploration.item", tags=("outline",), open=True)

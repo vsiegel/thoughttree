@@ -90,7 +90,7 @@ class Sheet(ScrolledText, LineHandling):
 
 
     def split_sheet(self, to_sheet,  starting):
-        trailing_text = self.get(starting, END)
+        trailing_text = self.get(starting, "end-1c")
         if self.get(starting) == "\n":
             trailing_text = trailing_text[1:]
         to_sheet.insert("1.0", trailing_text)

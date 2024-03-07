@@ -60,11 +60,6 @@ class Tree(ttk.Treeview):
         # self.bind("<Double-Button-1>", self.edit_tree_entry)
         # self.bind("<Return>", self.edit_tree_entry)
 
-        self.tag_configure("old", foreground="#b34750")
-        self.tag_configure("new", foreground="#47b359")
-        self.tag_configure("outline", background="#f6f6f6", )
-        self.tag_bind("outline", "Control-Return", self.edit_tree_entry)
-
 
         def on_configure(event):
             self.column("#0", width=event.width)
@@ -117,7 +112,20 @@ class Tree(ttk.Treeview):
         self.bind_class("Treeview", "<Double-Button-1>", self.use_node)
         self.bind_class("Treeview", "<Return>", self.use_node)
         self.bind_class("Treeview", "<Button-3>", show_context_menu)
-        self.bind_class("Treeview", "<Menu>", show_context_menu)
+        # self.bind_class("Treeview", "<Menu>", show_context_menu)
+
+        self.tag_configure("old", foreground="#b34750")
+        self.tag_configure("new", foreground="#47b359")
+        self.tag_configure("outline", background="#f6f6f6", )
+
+        # menu = TooltipableMenu()
+        # menu.item("Explore Outline", "<Control-D>", self.ui.explore_outline)
+
+        menu = TooltipableMenu()
+        menu.item("Save Outline", "<Control-Shift-S>", self.save_outline)
+        self.tag_bind("outline", "<Button-3>", menu.show_context_menu)
+        self.tag_bind("outline", "<Menu>", menu.show_context_menu)
+
 
     def to_sheet(self, sheet, delete=False):
         if delete:

@@ -512,7 +512,9 @@ The Id of this outline is: {outline_id} (equal for all levels of this outline.)
             with InsertionIcon(sheet, OUTPUT):
                 reason, message, answer = self.model.complete(history, lambda text: self.write_sheet(text, sheet))
 
-        answer += "\n\n"
+        # sheet.insert(END, "\n\n")
+        # answer += "\n\n"
+        self.write_sheet("\n\n", sheet)
         if self.log_messages_to_console:
             Ui.log.assistant(f'"{answer}"\n')
 

@@ -14,7 +14,7 @@ from menu_help_texts import menu_help
 
 class TooltipableMenu(tk.Frame):
     # Replacing tk.Menu, because tooltips on menu items do not work under MS Windows.
-    def __init__(self, parent, name, **kw):
+    def __init__(self, parent=None, name=None, **kw):
         super().__init__(parent, bg='lightgray', borderwidth=0)
         self.parent = parent
         self.name = name
@@ -34,16 +34,21 @@ class TooltipableMenu(tk.Frame):
             if not label in menu_help:
                 Ui.log and Ui.log.debug(f'Warning: Help missing for {self.name}->"{label}"')
                 # print(f'Warning: Help missing for {self.name}->"{label}"')
-        keystroke = self.fix_key_letter_case(keystroke)
-        if isinstance(to, type):
-            to = to.__name__
+        if keystroke and to:
+            keystroke = self.fix_key_letter_case(keystroke)
+            if to == "all":
+                self.bind_all(keystroke, command, add=add)
+            elif to == "top":
+                self.winfo_toplevel().bind(keystroke, command, add=add)
+            else:
+                if not isinstance(to, list):
+                    to = [to]
+                for target in to:
+                    if isinstance(target, type):
+                        target = target.__name__
+                    # print(f'{target}->"{keystroke}"')
+                    self.winfo_toplevel().bind_class(target, keystroke, command, add=add)
 
-        if to == "all":
-            self.bind_all(keystroke, command, add=add)
-        elif to == "top":
-            self.winfo_toplevel().bind(keystroke, command, add=add)
-        else:
-            self.winfo_toplevel().bind_class(to, keystroke, command, add=add)
         accelerator = self.accelerator_label(keystroke)
         self.items.append((label, accelerator, command, underline))
         if menu2:

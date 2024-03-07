@@ -204,9 +204,8 @@ class Sheets(tk.Frame):
         if self.sheet.notebook:
             sum += self.sheet.notebook.size()
 
-    def depth_first(self):
-        return "depth_first: " + "".join(self.sheet.depth_first())
-
+    def depth_first(self, title):
+        return "# Thoughttree: All tabs\n" + "".join(self.sheet.depth_first(title))
 
     def debug(self, event):
         print(f"{event.widget}    {event.width}x{event.height}+{event.x}+{event.y}")

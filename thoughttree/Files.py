@@ -21,8 +21,8 @@ class ChatLogSaver(TextSaver):
 
 class TreeSaver(TextSaver):
     def __init__(self, ui):
+        print(ui.sheets.depth_first(ui.root.title()))
         super().__init__(ui, "Tree saved to ")
-        print("TreeSaver: " + ui.sheets.depth_first())
 
     def find_text(self):
         pass

@@ -5,6 +5,7 @@ from datetime import datetime
 from os.path import exists
 from tkinter import font as tkfont, NONE, WORD, SEL, END, INSERT, SEL_FIRST
 from tkinter.messagebox import askokcancel, showerror
+from tkinter.ttk import Treeview
 
 from AboutDialog import AboutDialog
 from Files import Files, SectionSaver, TreeSaver
@@ -308,7 +309,7 @@ class MainMenu(MenuBar):
         prompt.item("Solve this Problem", "<Alt-Return>", None, menu2=context)
         prompt.item("Ask About This", "<Control-Shift-A>", ui.ask, menu2=context)
         prompt.item("Improve", "<Control-I>", ui.improve, menu2=context)
-        prompt.item("Explore Outline", "<Control-D>", ui.explore_outline, menu2=context)
+        prompt.item("Explore Outline", "<Control-D>", ui.explore_outline, to=[TreeSheet, Treeview], menu2=context)
         prompt.item("Remove from Text")
         prompt.item("Select Text")
         prompt.item("Change Text")

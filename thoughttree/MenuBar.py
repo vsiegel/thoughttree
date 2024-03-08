@@ -4,7 +4,6 @@ from MenuHelpTooltip import MenuHelpTooltip
 
 
 class MenuBar(tk.Frame):
-
     def __init__(self, parent):
         super().__init__(parent, bg='lightgray', bd=3, relief='raised')
         self.menus = []

@@ -28,7 +28,7 @@ from ExceptionBlockedIO import ExceptionBlockedIO
 from Title import Title
 from HidableFrame import HidableFrame
 from Model import Model
-from AlternativeLabel import AlternativeSheet
+from AlternativeSheet import AlternativeSheet
 from StatusBar import StatusBar
 from Sheet import Sheet, OUTPUT
 from MainMenu import MainMenu

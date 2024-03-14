@@ -120,14 +120,14 @@ class Sheet(ScrolledText, LineHandling):
                 print(f'Code block finished.')
 
     def find(self, pattern=None, start=INSERT):
-        if pattern:
-            pass
-        elif self.tag_ranges(SEL):
-            pattern = self.get(SEL_FIRST, SEL_LAST)
-        else:
-            pattern = askstring("Find", "Search for:", parent=self)
-        if pattern:
-            self.perform_search(pattern, start)
+        if not pattern:
+            if self.tag_ranges(SEL):
+                pattern = self.get(SEL_FIRST, SEL_LAST)
+            else:
+                pattern = askstring("Find", "Search for:", parent=self)
+                if not pattern:
+                    return
+        self.perform_search(pattern, start)
 
     def find_next(self):
         if self.found:

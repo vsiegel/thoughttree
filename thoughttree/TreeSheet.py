@@ -36,6 +36,7 @@ class TreeSheet(ResizingSheet, tk.Frame):
         bindtags = list(self.bindtags())
         bindtags.insert(1, "TreeSheet")
         self.bindtags(bindtags)
+
         self.tree_frame.bind("<Button>", self.on_empty_background, add=True)
 
         def on_up(event):
@@ -88,11 +89,10 @@ class TreeSheet(ResizingSheet, tk.Frame):
         if sheet.sheets:
             sheet.sheets.see_in_tree(sheet, to=to)
 
-    def on_empty_background(self, event):
+    @staticmethod
+    def on_empty_background(event):
         frame = event.widget
         sheet = frame.sheet
-        # print(f"on_empty_background: {str(sheet)=}")
-        # print(f"{str(sheet)=}")
         while sheet.notebook and sheet.notebook.selected_sheet():
             sheet = sheet.notebook.selected_sheet()
         sheet.focus_set()

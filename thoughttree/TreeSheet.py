@@ -21,7 +21,7 @@ class TreeSheet(ResizingSheet, tk.Frame):
     # def __init__(self, parent, name="ts", **kw):
     def __init__(self, parent, parent_sheet=None, height=1, width=250, parent_notebook=None, sheet_tree=None, name="ts", **kw):
         self.tree_frame = NF(parent, name=name + "f", borderwidth=0, highlightthickness=0, background="#ffffff", sheet=self)
-        ResizingSheet.__init__(self, self.tree_frame, scrollbar=False, name=name, borderwidth=0, highlightthickness=0, **kw)
+        ResizingSheet.__init__(self, self.tree_frame, scrollbar=False, name=name, highlightthickness=0, **kw)
         self.pack(side=tk.TOP, fill=X, expand=False, anchor=tk.N)
 
         self.initially_modified = False

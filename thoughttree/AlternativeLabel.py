@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import LEFT, SUNKEN, X, TOP, W
 
 from Fonts import Fonts
-from TreeSheet import TreeSheet
+from ResizingSheet import ResizingSheet
 
 
 class AlternativeLabel(tk.Label):
@@ -12,8 +12,8 @@ class AlternativeLabel(tk.Label):
                          justify=LEFT, font=Fonts.FONT, relief=SUNKEN)
         self.pack(side=TOP, fill=X, expand=True)
 
-class AlternativeSheet(TreeSheet):
-    def __init__(self, parent=None, borderwidth=4, **kw):
+class AlternativeSheet(ResizingSheet):
+    def __init__(self, parent=None, borderwidth=0, **kw):
         super().__init__(parent, borderwidth=borderwidth, relief=SUNKEN, **kw)
         self.pack(side=TOP, fill=X, expand=True)
 

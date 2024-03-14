@@ -340,7 +340,7 @@ class MainMenu(MenuBar):
 
 
         text = self.submenu("Text")
-        text.item("Count Tokens", "<Control-Alt-m>", ui.count_text_tokens)
+        text.item("Count Tokens", "<Control-Alt-m>", ui.count_text_tokens, to=TreeSheet)
         text.item("Run Code Block", "<Control-Shift-R>", lambda e=None: self.it.run_code_block(), menu2=context)
         text.separator()
         text.item('Role "system"', None, lambda e=None: self.it.role("system"))

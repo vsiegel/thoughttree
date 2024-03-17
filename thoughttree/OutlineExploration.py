@@ -48,7 +48,6 @@ class OutlineExploration(StructuredInteraction):
                 self.outline_level_items.append((outline_id, outline_title))
         except Exception as ex:
             print(f'{ex=}')
-            print(f'{len(outline_level_spec)=}')
             return
         self.valid = True
 

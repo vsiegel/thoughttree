@@ -6,9 +6,8 @@ from ResizingSheet import ResizingSheet
 
 
 class AlternativeSheet(ResizingSheet):
-    def __init__(self, parent=None, borderwidth=0, **kw):
-        super().__init__(parent, borderwidth=borderwidth, relief=SUNKEN, **kw)
-        self.pack(side=TOP, fill=X, expand=True)
+    def __init__(self, parent=None, **kw):
+        super().__init__(parent, borderwidth=0, relief=SUNKEN, name="as", **kw)
 
     def insert(self, index, chars, *args):
         super().insert("end-2c", chars, *args)

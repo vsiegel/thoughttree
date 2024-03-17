@@ -23,7 +23,7 @@ class Ui(tk.Frame):
             if not os.getenv("THOUGHTTREE_DEBUG") in ["", "0", None]:
                 Ui.event_log = EventLog(self.root, "<Key>")
         else:
-            self.root = tk.Toplevel()
+            self.root = tk.Toplevel(name="tl")
             self.main_window = False
         tk.Frame.__init__(self, self.root, name=name)
 

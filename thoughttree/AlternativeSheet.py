@@ -10,5 +10,5 @@ class AlternativeSheet(ResizingSheet):
         super().__init__(parent, borderwidth=0, relief=SUNKEN, name="as", **kw)
 
     def insert(self, index, chars, *args):
-        super().insert("end-2c", chars, *args)
+        super().insert("end-1c", chars, *args)
         self.see(index)
